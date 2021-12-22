@@ -8,7 +8,7 @@
     <app-header></app-header>
     <app-sidenav></app-sidenav>
     <div class="page-container">
-        <div class="main-content">
+        <div class="bg-white main-content pb-3" style="min-height: unset;">
             <div class="main-content-header" *ngIf="contentHeaderDisplay !== 'none'">
                 <h4 class="page-title" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].label)}}</h4>
                 <nz-breadcrumb nzSeparator=">">
@@ -20,6 +20,9 @@
                     </nz-breadcrumb-item>
                 </nz-breadcrumb>
             </div>
+            <h4 class="font-weight-semibold" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].label)}}</h4>
+        </div>
+        <div class="main-content pt-3">
             <router-outlet></router-outlet>
         </div>
         <app-footer></app-footer>

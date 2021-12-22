@@ -1,1 +1,80 @@
-<p>merchants works!</p>
+<section>
+    <div class="row mb-md-3">
+        <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
+            <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="1">All</label>
+            <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="2">Active</label>
+            <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="3">Inactive</label>
+        </nz-radio-group>
+    </div>
+    <div class="row mb-md-3">
+        <span>{{listOfData.length}} Results Found</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By">
+                        <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
+                        <nz-option nzValue="medic" nzLabel="Medicine 2"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By">
+                        <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
+                        <nz-option nzValue="medic" nzLabel="Medicine 2"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzData]="listOfData" 
+            [nzScroll]="{ x: '1500px' }">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Lender Details</th>
+                        <th>Regd. On</th>
+                        <th>PAN</th>
+                        <th>Product Type</th>
+                        <th>MDR</th>
+                        <th>KYC</th>
+                        <th>Verification</th>
+                        <th>Status</th>
+                        <th nzRight nzWidth="11rem">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of listOfData; index as i">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.regDate }}</td>
+                        <td>{{ data.pan }}
+                            <br><nz-tag [nzColor]="'#074EE8'">FETCH</nz-tag></td>
+                        <td>{{ data.type }}</td>
+                        <td>1%</td>
+                        <td>
+                            <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                        </td>
+                        <td>
+                            <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                        </td>
+                        <td>{{ data.status }}</td>
+                        <td nzRight nzWidth="11rem">
+                            <a class="mr-3"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                            <a class="mr-3"><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                            <a class="mr-3"><i nz-icon nzType="lock" nzTheme="outline"></i></a>
+                            <a class="mr-3"><i nz-icon nzType="arrow-down" nzTheme="outline"></i></a>
+                            <a><i nz-icon nzType="user" nzTheme="outline"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>
