@@ -57,13 +57,24 @@ export class CommonLayoutComponent  {
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
+                console.log(route.routeConfig)
                 label = route.routeConfig.data['title'];
                 path += route.routeConfig.path;
+                label = route.routeConfig.data['title'];
+                if (route.routeConfig.data['custom_url']) {
+                    path += route.routeConfig.data['custom_url'];
+                } else {
+                    path += route.routeConfig.path;
+                }
+                // if(route.routeConfig.data['params']){
+                //     params = route.routeConfig.data['params']
+                // }
             }
-        } else {
-            label = 'Dashboard';
-            path += 'dashboard';
-        }
+        } 
+        // else {
+        //     label = 'Dashboard';
+        //     path += 'dashboard';
+        // }
 
         const nextUrl = path && path !== '/dashboard' ? `${url}${path}` : url;
         const breadcrumb = <IBreadcrumb>{
