@@ -1,0 +1,33 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AddEditMastersComponent } from './add-edit-masters/add-edit-masters.component';
+import { MasterPartnersListComponent } from './master-partners-list/master-partners-list.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: MasterPartnersListComponent,
+    data: {
+      title: 'Masters Partners ',
+    }
+  },
+  {
+    path: '',
+    children: [
+      {
+        path: 'add',
+        component: AddEditMastersComponent,
+        data: {
+          title: 'Add Masters Partners',
+          parent: 'Masters Partners',
+        }
+      },
+    ]
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class MastersPartnersRoutingModule { }

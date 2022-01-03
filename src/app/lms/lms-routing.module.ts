@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LmsComponent } from './lms.component';
+import { LmsListComponent } from './lms-list/lms-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LmsComponent,
+    component: LmsListComponent,
     data: {
-      title: 'LMS',
+      title: 'LMS list',
     }
   },
 ];

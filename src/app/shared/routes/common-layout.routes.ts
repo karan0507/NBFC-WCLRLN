@@ -6,12 +6,28 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
     },
     {
-        path: 'products',
-        loadChildren: () => import('../../products/products.module').then(m => m.ProductsModule),
+        path: 'product-list',
+        loadChildren: () => import('../../products/product-list/product-list.module').then(m => m.ProductListModule),
     },
     {
-        path: 'users',
-        loadChildren: () => import('../../users/users.module').then(m => m.UsersModule),
+        path: 'create-product',
+        loadChildren: () => import('../../products/create-product/create-product.module').then(m => m.CreateProductModule),
+    },
+    {
+        path: 'lenders',
+        loadChildren: () => import('../../users/lenders/lenders.module').then(m => m.LendersModule),
+    },
+    {
+        path: 'masters-partners',
+        loadChildren: () => import('../../users/masters-partners/masters-partners.module').then(m => m.MastersPartnersModule),
+    },
+    {
+        path: 'merchants',
+        loadChildren: () => import('../../users/merchants/merchants.module').then(m => m.MerchantsModule),
+    },
+    {
+        path: 'partners',
+        loadChildren: () => import('../../users/partners/partners.module').then(m => m.PartnersModule),
     },
     {
         path: 'employees',

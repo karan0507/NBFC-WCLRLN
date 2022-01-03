@@ -16,7 +16,7 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'shopping',
         submenu: [
             { 
-                path: 'products/product-list',
+                path: 'product-list',
                 title: 'View Products', 
                 iconType: '', 
                 icon: '',
@@ -24,7 +24,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'products/create-product',
+                path: 'create-product',
                 title: 'Create New Product', 
                 iconType: '', 
                 icon: '',
@@ -41,7 +41,7 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'user',
         submenu: [
             { 
-                path: 'users/lenders',
+                path: 'lenders',
                 title: 'Lenders', 
                 iconType: '', 
                 icon: '',
@@ -49,7 +49,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'users/masters-partners',
+                path: 'masters-partners',
                 title: 'Master Partners', 
                 iconType: '', 
                 icon: '',
@@ -57,7 +57,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'users/partners',
+                path: 'partners',
                 title: 'Partners', 
                 iconType: '', 
                 icon: '',
@@ -65,7 +65,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'users/merchants',
+                path: 'merchants',
                 title: 'Merchants', 
                 iconType: '', 
                 icon: '',
