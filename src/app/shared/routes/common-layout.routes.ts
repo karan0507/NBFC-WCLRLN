@@ -10,7 +10,7 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../products/product-list/product-list.module').then(m => m.ProductListModule),
     },
     {
-        path: 'create-product',
+        path: 'product',
         loadChildren: () => import('../../products/create-product/create-product.module').then(m => m.CreateProductModule),
     },
     {

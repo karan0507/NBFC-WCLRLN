@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-limits',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LimitsComponent implements OnInit {
 
+  @Input() product_id: any;
+  @Input() productDetails: any;
   constructor() { }
 
   ngOnInit(): void {

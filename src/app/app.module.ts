@@ -18,6 +18,10 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 import { NgChartjsModule } from 'ng-chartjs';
 import { ThemeConstantService } from './shared/services/theme-constant.service';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { CustomHttpInterceptor } from './services/custom-http-interceptor';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -44,6 +48,11 @@ registerLocaleData(en);
             provide: LocationStrategy, 
             useClass: PathLocationStrategy
         },
+        // {
+        //     provide: HTTP_INTERCEPTORS,
+        //     useClass: CustomHttpInterceptor,
+        //     multi: true
+        // },
         ThemeConstantService
     ],
     bootstrap: [AppComponent]

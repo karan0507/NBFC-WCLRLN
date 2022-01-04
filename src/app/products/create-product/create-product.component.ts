@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-create-product',
@@ -6,10 +10,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-product.component.css']
 })
 export class CreateProductComponent implements OnInit {
+  
+  product_id: any;
+  productDetails: any;
 
-  constructor() { }
+  constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
+    private router : Router,
+    private route: ActivatedRoute,) {
+    this.route.queryParams.subscribe(params => {
+      if(params['id']){
+        this.product_id = params['id']
+        this.fetchProductDetailsbyId()
+      }
+    }); }
 
   ngOnInit(): void {
+  }
+
+  
+  fetchProductDetailsbyId() {
+    let data = {
+      id: 2
+    }
+    this.http.fetchProductDetailsbyId(data).subscribe(res => {
+      this.productDetails = res['data']
+      this.message.success(res['message'])
+    })
   }
 
 }

@@ -53,13 +53,14 @@ export class CommonLayoutComponent  {
     }
 
     private buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
-        let label = '', path = '/', display = null;
+        let label = '', path = '/', display = null, title;
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
                 console.log(route.routeConfig)
-                label = route.routeConfig.data['title'];
+                label = route.routeConfig.data['parent'] ? route.routeConfig.data['parent'] : route.routeConfig.data['title'];
                 path += route.routeConfig.path;
+                title = route.routeConfig.data['title'];
                 // label = route.routeConfig.data['title'];
                 // if (route.routeConfig.data['custom_url']) {
                 //     path += route.routeConfig.data['custom_url'];
@@ -79,7 +80,7 @@ export class CommonLayoutComponent  {
         const nextUrl = path && path !== '/dashboard' ? `${url}${path}` : url;
         console.log(nextUrl)
         const breadcrumb = <IBreadcrumb>{
-            label: label, url: nextUrl
+            label: label, url: nextUrl, title: title
         };
 
         const newBreadcrumbs = label ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];

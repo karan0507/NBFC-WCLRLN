@@ -24,7 +24,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'create-product',
+                path: 'product/create-product',
                 title: 'Create New Product', 
                 iconType: '', 
                 icon: '',

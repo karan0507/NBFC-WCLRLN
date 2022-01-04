@@ -1,1 +1,63 @@
-<p>create-product works!</p>
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            <app-product-details [product_id]="product_id" [productDetails]="productDetails"></app-product-details>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Master Partners">
+                    <app-master-partners [product_id]="product_id" [productDetails]="productDetails"></app-master-partners>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Partner">
+                    <app-partners [product_id]="product_id" [productDetails]="productDetails"></app-partners>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader=" Limit">
+                    <app-limits [product_id]="product_id" [productDetails]="productDetails"></app-limits>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="NBFC's">
+                    <app-nbfcs [product_id]="product_id" [productDetails]="productDetails"></app-nbfcs>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Underwriting">
+                    <app-underwriting [product_id]="product_id" [productDetails]="productDetails"></app-underwriting>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Onboarding">
+                    <app-onboarding [product_id]="product_id" [productDetails]="productDetails"></app-onboarding>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Fees">
+                    <app-fees [product_id]="product_id" [productDetails]="productDetails"></app-fees>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+        <div class="col-md-12 mb-3">
+            <nz-collapse>
+                <nz-collapse-panel nzHeader="Loan Agreement">
+                    <app-loan-agreement [product_id]="product_id" [productDetails]="productDetails"></app-loan-agreement>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+    </div>
+</section>

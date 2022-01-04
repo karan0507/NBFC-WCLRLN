@@ -3,13 +3,31 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateProductComponent } from './create-product.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'create-product'
+  // },
   {
-    path: '',
-    component: CreateProductComponent,
-    data: {
-      title: 'Create Product',
-    }
-  },
+    path:'',
+    children: [
+      {
+        path: 'create-product',
+        component: CreateProductComponent,
+        data: {
+          title: 'Create New Product',
+          parent: 'Product'
+        }
+      },
+      {
+        path: 'edit-product',
+        component: CreateProductComponent,
+        data: {
+          title: 'Edit Product',
+          parent: 'Product'
+        }
+      },
+    ]
+  }
 ];
 
 @NgModule({

@@ -11,13 +11,28 @@ import { UnderwritingComponent } from './underwriting/underwriting.component';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { FeesComponent } from './fees/fees.component';
 import { LoanAgreementComponent } from './loan-agreement/loan-agreement.component';
+import { CreateProductComponent } from './create-product.component';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { HttpService } from 'src/app/services/http.service';
 
 
 @NgModule({
-  declarations: [ProductDetailsComponent, MasterPartnersComponent, PartnersComponent, LimitsComponent, NbfcsComponent, UnderwritingComponent, OnboardingComponent, FeesComponent, LoanAgreementComponent],
+  declarations: [CreateProductComponent, ProductDetailsComponent, MasterPartnersComponent, PartnersComponent, LimitsComponent, NbfcsComponent, UnderwritingComponent, OnboardingComponent, FeesComponent, LoanAgreementComponent],
   imports: [
     CommonModule,
-    CreateProductRoutingModule
+    CreateProductRoutingModule,
+    NzCollapseModule,
+    NzCardModule,
+    FormsModule, ReactiveFormsModule,
+    NzFormModule,
+    DemoNgZorroAntdModule
+  ],
+  providers:[
+    HttpService
   ]
 })
 export class CreateProductModule { }
