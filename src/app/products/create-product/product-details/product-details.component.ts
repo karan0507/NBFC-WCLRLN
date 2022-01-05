@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import * as moment from "moment";
 
 @Component({
   selector: 'app-product-details',
@@ -66,16 +67,24 @@ export class ProductDetailsComponent implements OnInit {
 
   createProductDetail() {
     console.log(this.createEditForm.value)
+    this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
+    this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
     this.http.createProductDetail(this.createEditForm.value).subscribe(res => {
       this.product_id = res['data'].product_id
+      this.router.navigate([], {
+      relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
     })
   }
   
   editProductDetail() {
     console.log(this.createEditForm.value)
+    this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
+    this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
     this.http.editProductDetail(this.createEditForm.value, this.product_id).subscribe(res => {
       this.product_id = res['data'].product_id
+      this.router.navigate([], {
+      relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
     })
   }

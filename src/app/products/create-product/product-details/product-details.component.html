@@ -45,7 +45,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>Activation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Activation Date!">
-                            <nz-date-picker formControlName="activation_date"></nz-date-picker>
+                            <nz-date-picker formControlName="activation_date" [nzFormat]="'YYYY-MM-DD'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label class="ml-auto">Created by</nz-form-label>
                         <nz-form-label [nzNoColon]="true">-</nz-form-label>
@@ -55,7 +55,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="inactivation_date" class="text-left">Inactivation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Inactivation Date!">
-                            <nz-date-picker formControlName="inactivation_date"></nz-date-picker>
+                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'YYYY-MM-DD'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label class="ml-auto">Updated at</nz-form-label>
                         <nz-form-label [nzNoColon]="true">-</nz-form-label>
@@ -86,13 +86,13 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="rate_of_interest" class="text-left" nzRequired>Interest Rate(%)</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Interest Rate(%)!">
-                            <input nz-input type="number" min="0" formControlName="rate_of_interest" />
-                            <!-- <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+                            <!-- <input nz-input type="number" min="0" formControlName="rate_of_interest" /> -->
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                 <input nz-input type="number" min="0" formControlName="rate_of_interest" />
-                              </nz-input-group>
-                              <ng-template #suffixButton>
-                                <span class="px-3">in percentage</span>
-                              </ng-template> -->
+                            </nz-input-group>
+                              <ng-template #addOnAfterTemplate>
+                                <span>%</span>
+                            </ng-template>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

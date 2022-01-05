@@ -13,12 +13,14 @@ export class CreateProductComponent implements OnInit {
   
   product_id: any;
   productDetails: any;
+  is_product_id = false
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) {
     this.route.queryParams.subscribe(params => {
       if(params['id']){
+        this.is_product_id = true
         this.product_id = params['id']
         this.fetchProductDetailsbyId()
       }
@@ -30,7 +32,7 @@ export class CreateProductComponent implements OnInit {
   
   fetchProductDetailsbyId() {
     let data = {
-      id: 2
+      id: this.product_id
     }
     this.http.fetchProductDetailsbyId(data).subscribe(res => {
       this.productDetails = res['data']
