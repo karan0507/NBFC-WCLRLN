@@ -21,33 +21,41 @@ export class ProductDetailsComponent implements OnInit {
     {name: '12 Months', value: 12}
   ]
   @Input() product_id: any;
-  @Input() productDetails: any;
+  productDetails: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) {
+    http.globalProductData.subscribe(res => {
+      this.productDetails = res
+
+      this.createEditFormFuction(this.productDetails);
+    })
    }
 
   ngOnInit(): void {
     console.log(this.product_id)
-    this.createEditForm = this.fb.group({
-    name: ['', [Validators.required]],
-    product_master: ['1', [Validators.required]],
-    product_code: ['', [Validators.required]],
-    activation_date: ['', [Validators.required]],
-    inactivation_date: [''],
-    instructions: ['', [Validators.required]],
-    default_nbfc_id: ['', [Validators.required]],
-    tenure_unit: ['Months', [Validators.required]],
-    tenure: [''],
-    rate_of_interest: [''],
-    // no_of_emis: ['', [Validators.required]],
-    // emi_details: ['', [Validators.required]],
-    // buffer_days: ['', [Validators.required]],
-    // advance_emi: ['', [Validators.required]],
-    // date_of_emi: ['', [Validators.required]],
-    })
     this.fetchNBFCdata()
+    this.createEditFormFuction();
+  }
+  createEditFormFuction(productDetails?) {
+    this.createEditForm = this.fb.group({
+      name: [ this.productDetails ? this.productDetails.name : '', [Validators.required]],
+      product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
+      product_code: [ this.productDetails ? this.productDetails.product_code : '', [Validators.required]],
+      activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
+      inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
+      remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
+      default_nbfc_id: [ this.productDetails ? this.productDetails.default_nbfc : '', [Validators.required]],
+      tenure_unit: [ this.productDetails ? this.productDetails.tenure_unit : 'Months', [Validators.required]],
+      tenure: [ this.productDetails ? this.productDetails.tenure : ''],
+      rate_of_interest: [ this.productDetails ? this.productDetails.rate_of_interest : ''],
+      // no_of_emis: ['', [Validators.required]],
+      // emi_details: ['', [Validators.required]],
+      // buffer_days: ['', [Validators.required]],
+      // advance_emi: ['', [Validators.required]],
+      // date_of_emi: ['', [Validators.required]],
+      })
   }
 
   fetchNBFCdata() {

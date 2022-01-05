@@ -37,38 +37,38 @@
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Code!">
                             <input nz-input type="text" formControlName="product_code" />
                         </nz-form-control>
-                        <nz-form-label class="ml-auto">Created at</nz-form-label>
-                        <nz-form-label [nzNoColon]="true">-</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Created at</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? (productDetails.created_at | date: 'YYYY-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>Activation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Activation Date!">
-                            <nz-date-picker formControlName="activation_date" [nzFormat]="'YYYY-MM-DD'"></nz-date-picker>
+                            <nz-date-picker formControlName="activation_date" [nzFormat]="'YYYY-MM-dd'"></nz-date-picker>
                         </nz-form-control>
-                        <nz-form-label class="ml-auto">Created by</nz-form-label>
-                        <nz-form-label [nzNoColon]="true">-</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Created by</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? productDetails.created_by : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="inactivation_date" class="text-left">Inactivation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Inactivation Date!">
-                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'YYYY-MM-DD'"></nz-date-picker>
+                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'YYYY-MM-dd'"></nz-date-picker>
                         </nz-form-control>
-                        <nz-form-label class="ml-auto">Updated at</nz-form-label>
-                        <nz-form-label [nzNoColon]="true">-</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Updated at</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? (productDetails.updated_at | date: 'YYYY-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="instructions" class="text-left" nzRequired>Remarks</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left" nzRequired>Remarks</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Remarks!">
-                            <textarea nz-input formControlName="instructions"></textarea>
+                            <textarea nz-input formControlName="remarks"></textarea>
                         </nz-form-control>
-                        <nz-form-label class="ml-auto">Updated by</nz-form-label>
-                        <nz-form-label [nzNoColon]="true">-</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Updated by</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? productDetails.updated_by : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <h5 *ngIf="createEditForm.get('product_master').value == '2'">EMI Tenure</h5>

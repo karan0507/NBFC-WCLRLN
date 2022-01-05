@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class HttpService {
 	url = 'https://devadminapi.fatakpay.com'
 	token : any;
+
+  globalProductData = new ReplaySubject<any>();
 
   constructor(private _http: HttpClient, private message: NzMessageService,) { }
 
@@ -36,6 +39,12 @@ export class HttpService {
    * editProductDetail
    */
    public editProductDetail(data, id) {
-    return this._http.post((this.url +`/product/v1/create-product/` + id), data);
+    return this._http.post((this.url +`/product/v1/edit-product/` + id), data);
+  }
+
+
+  //************************ */
+  public setProductValue(data): any {
+    this.globalProductData.next(data);
   }
 }
