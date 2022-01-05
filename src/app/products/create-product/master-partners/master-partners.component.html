@@ -7,18 +7,9 @@
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner's
                             Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Master Partner's  Name!">
-                            <input nz-input type="text" formControlName="name"
-                                placeholder="Please input Master Partner's  Name!" />
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-                <div class="col-md-12">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique code
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Unique code!">
-                            <input nz-input type="text" formControlName="unique_code"
-                                placeholder="Please input Unique code!" />
+                            <nz-select formControlName="name" nzPlaceHolder="Select Master Partner's  Name!">
+                                <nz-option *ngFor="let item of masterParnerData" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -106,6 +97,16 @@
             <div class="row">
                 <nz-form-label class="w-100 text-left">At the time of activation of partners
                 </nz-form-label>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="time_period" class="text-left" nzRequired>Time Period (post acquisition)</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Time Period (post acquisition)!">
+                            <nz-select formControlName="time_period" nzPlaceHolder="Select Time Period (post acquisition)!">
+                                <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <div class="col-md-8">
                     <nz-form-label class="w-100 text-left">Commission based on Transaction Amount
                     </nz-form-label>
@@ -202,7 +203,9 @@
     <ng-template #actionSubmit>
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary"
+                    [disabled]="(createEditForm.invalid || slap_based_form.invalid || slap_based_form_Activation.invalid || slap_based_form_Acquisition_Customers.invalid)"
+                    (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

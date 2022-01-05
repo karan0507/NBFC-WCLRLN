@@ -37,7 +37,7 @@ export class CreateProductComponent implements OnInit {
     this.http.fetchProductDetailsbyId(data).subscribe(res => {
       this.productDetails = res['data'].results[0]
       this.http.setProductValue(this.productDetails)
-      this.message.success(res['message'])
+      // this.message.success(res['message'])
     })
   }
 

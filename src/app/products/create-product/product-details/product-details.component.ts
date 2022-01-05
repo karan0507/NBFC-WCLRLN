@@ -46,7 +46,7 @@ export class ProductDetailsComponent implements OnInit {
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
-      default_nbfc_id: [ this.productDetails ? this.productDetails.default_nbfc : '', [Validators.required]],
+      default_nbfc: [ this.productDetails ? this.productDetails.default_nbfc?.id : '', [Validators.required]],
       tenure_unit: [ this.productDetails ? this.productDetails.tenure_unit : 'Months', [Validators.required]],
       tenure: [ this.productDetails ? this.productDetails.tenure : ''],
       rate_of_interest: [ this.productDetails ? this.productDetails.rate_of_interest : ''],

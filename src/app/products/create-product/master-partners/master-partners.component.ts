@@ -12,35 +12,62 @@ import { HttpService } from 'src/app/services/http.service';
 export class MasterPartnersComponent implements OnInit {
   createEditForm: FormGroup;
   @Input() product_id: any;
-  @Input() productDetails: any;
+  productDetails: any;
   slap_based_form: FormGroup;
   slap_based_form_Activation: FormGroup;
   slap_based_form_Acquisition_Customers: FormGroup;
+  partnermaster_id: any;
+  masterParnerData: any
+  time_period_arr = [
+    {name: '1 Month', value: 1},
+    {name: '2 Months', value: 2},
+    {name: '3 Months', value: 3},
+    {name: '4 Months', value: 4},
+    {name: '5 Months', value: 5},
+    {name: '6 Months', value: 6},
+    {name: '7 Months', value: 7},
+    {name: '8 Months', value: 8},
+    {name: '9 Months', value: 9},
+    {name: '10 Months', value: 10},
+    {name: '11 Months', value: 11},
+    {name: '12 Months', value: 12}
+  ]
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router : Router,
-    private route: ActivatedRoute,) { 
-      // this.route.queryParams.subscribe(params => {
-      //   if(params['id']){
-      //     this.product_id = params['id']
-      //     // this.fetchProductDetailsbyId()
-      //   }
-      // });
-    }
+    private router: Router,
+    private route: ActivatedRoute,) {
+
+    http.globalProductData.subscribe(res => {
+      this.productDetails = res
+
+      this.createEditFormFuction(this.productDetails);
+    })
+  }
 
   ngOnInit(): void {
-    console.log(this.product_id)
-    this.createEditForm = this.fb.group({
-      name: ['', [Validators.required]],
-      unique_code: ['', [Validators.required]],
-      no_of_partner: ['', [Validators.required]],
-      amount_per_partner: ['', [Validators.required]],
-      master: [true, [Validators.required]],
-    })
+    this.createEditFormFuction();
     this.createSlabForm()
     this.createSlabFormActivation()
     this.createSlabFormAcquisition_Customers()
+    this.fetchMasterPartnerData()
   }
+  
+  createEditFormFuction(productDetails?) {
+    this.createEditForm = this.fb.group({
+      name: ['', [Validators.required]],
+      no_of_partner: ['', [Validators.required]],
+      amount_per_partner: ['', [Validators.required]],
+    })
+  }
+
+  fetchMasterPartnerData() {
+    let data;
+    this.http.fetchMasterPartner(data).subscribe(res => {
+      this.masterParnerData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+
   // **************** At the time of acquisition of partners Start ****************** //
   createSlabForm(slab?: any) {
     this.slap_based_form = this.fb.group({
@@ -66,12 +93,12 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [ this.product_id, [Validators.required]],
-        trigger_master: ['1', [Validators.required]],
+        partner_master: [ this.product_id],
+        trigger_master: ['1'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
-        time_period: [0, [Validators.required]],
+        time_period: [0],
       });
     }
   }  
@@ -85,6 +112,7 @@ export class MasterPartnersComponent implements OnInit {
   // **************** At the time of activation of partners Start ****************** //
   createSlabFormActivation(slab?: any) {
     this.slap_based_form_Activation = this.fb.group({
+      time_period: ['', [Validators.required]],
       slab_array_Activation: this.fb.array([])
     });
     // adding control in slab_array_Activation
@@ -107,12 +135,12 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [ this.product_id, [Validators.required]],
-        trigger_master: ['2', [Validators.required]],
+        partner_master: [ this.product_id],
+        trigger_master: ['2'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
-        time_period: ['', [Validators.required]],
+        time_period: [0],
       });
     }
   }  
@@ -148,12 +176,12 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [ this.product_id, [Validators.required]],
-        trigger_master: ['3', [Validators.required]],
+        partner_master: [ this.product_id],
+        trigger_master: ['3'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
-        time_period: [0, [Validators.required]],
+        time_period: [0],
       });
     }
   }  
@@ -166,7 +194,75 @@ export class MasterPartnersComponent implements OnInit {
   // **************** At the time of acquisition of customers End ****************** //
 
   submitForm() {
-    // this.createProductDetail();
+    // if (this.product_id) {
+    //   this.editMasterProduct()
+    // } else {
+      this.addMasterProduct()
+    // }
+    // console.log(this.slap_based_form.value)
+    // console.log(this.slap_based_form_Acquisition_Customers.value)
+    // console.log(this.slap_based_form_Activation.value)
+  }
+  addMasterProduct() {
+    let slab = []
+    this.slap_based_form.value.slab_array.forEach(element => {
+      slab.push(
+        {
+          partner_master: this.createEditForm.value.name,
+          partner: '',
+          trigger_master: element.trigger_master,
+          min_amount: element.min_amount,
+          max_amount: element.max_amount,
+          commission: element.commission,
+          time_period: element.time_period,
+        }
+      )
+    });
+    this.slap_based_form_Activation.value.slab_array_Activation.forEach(element => {
+      slab.push(
+        {
+          partner_master: this.createEditForm.value.name,
+          partner: '',
+          trigger_master: element.trigger_master,
+          min_amount: element.min_amount,
+          max_amount: element.max_amount,
+          commission: element.commission,
+          time_period: this.slap_based_form_Activation.value.time_period,
+        }
+      )
+    });
+    this.slap_based_form_Acquisition_Customers.value.slab_array_Acquisition_Customers.forEach(element => {
+      slab.push(
+        {
+          partner_master: this.createEditForm.value.name,
+          partner: '',
+          trigger_master: element.trigger_master,
+          min_amount: element.min_amount,
+          max_amount: element.max_amount,
+          commission: element.commission,
+          time_period: element.time_period,
+        }
+      )
+    });
+    let data = {
+      data : [
+        {
+          master_partner: this.createEditForm.value.name,
+          product: this.product_id,
+          no_of_partner: this.createEditForm.value.no_of_partner,
+          amount_per_partner: this.createEditForm.value.amount_per_partner,
+          slabs: slab,
+        }
+      ]
+    }
+    this.http.createPartnerPayout(data).subscribe( res => {
+      this.message.success(res['message'])
+    })
+  }
+  editMasterProduct() {
+    // this.http.editProductDetail(this.createEditForm.value, this.partnermaster_id).subscribe( res => {
+    //   this.message.success(res['message'])
+    // })
   }
 
 }

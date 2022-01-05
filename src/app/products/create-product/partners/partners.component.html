@@ -7,22 +7,24 @@
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner's
                             Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Master Partner's  Name!">
-                            <input nz-input type="text" formControlName="name"
-                                placeholder="Please input Master Partner's  Name!" />
+                            <nz-select formControlName="name" nzPlaceHolder="Select Master Partner's  Name!">
+                                <nz-option *ngFor="let item of masterParnerData" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique code
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Unique code!">
-                            <input nz-input type="text" formControlName="unique_code"
-                                placeholder="Please input Unique code!" />
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="partnersName" class="text-left" nzRequired>Partner's  Name</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Partner's  Name!">
+                            <nz-select formControlName="partnersName" nzPlaceHolder="Select Partner's  Name!">
+                                <nz-option *ngFor="let item of partnerData" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="no_of_partner" class="text-left" nzRequired>No. of
                             Partners</nz-form-label>
@@ -31,15 +33,23 @@
                                 placeholder="Please input No. of Partners!" />
                         </nz-form-control>
                     </nz-form-item>
-                </div>
+                </div> -->
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="amount_per_partner" class="text-left text-wrap"
                             nzRequired>Amt. Per Partner (at acquisition)</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Amt. Per Partner (at acquisition)!">
-                            <input nz-input type="number" min="0" formControlName="amount_per_partner"
+                            <!-- <input nz-input type="number" min="0" formControlName="amount_per_partner"
+                                placeholder="Please input Amt. Per Partner (at acquisition)!" /> -->
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                    <input nz-input type="number" min="0" formControlName="amount_per_partner"
                                 placeholder="Please input Amt. Per Partner (at acquisition)!" />
+                                </nz-input-group>
+                                
+                                <ng-template #addOnAfterTemplateforamt>
+                                    <span>excluding GST</span>
+                                </ng-template>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -55,7 +65,7 @@
                     </nz-form-label>
                     <ng-container *ngFor="let item of slab_array.controls; let i = index;" formArrayName="slab_array">
                         <div class="col-md-12 px-0" [formGroupName]="i">
-                            <nz-form-label class="w-100 text-left">Slab {{i + 1}}
+                            <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                             </nz-form-label>
                             <div class="row mx-0 d-flex align-items-center">
                                 <nz-form-control>
@@ -77,9 +87,7 @@
                                     </nz-input-group>
                                 
                                     <ng-template #addOnAfterTemplate>
-                                        <nz-select formControlName="commission_unit">
-                                            <nz-option nzLabel="%" nzValue="%"></nz-option>
-                                        </nz-select>
+                                        <span>%</span>
                                     </ng-template>
                                 </nz-form-control>
                                 <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
@@ -100,12 +108,22 @@
             <div class="row">
                 <nz-form-label class="w-100 text-left">At the time of activation of partners
                 </nz-form-label>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="time_period" class="text-left" nzRequired>Time Period (post acquisition)</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Time Period (post acquisition)!">
+                            <nz-select formControlName="time_period" nzPlaceHolder="Select Time Period (post acquisition)!">
+                                <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <div class="col-md-8">
                     <nz-form-label class="w-100 text-left">Commission based on Transaction Amount
                     </nz-form-label>
                     <ng-container *ngFor="let item of slab_array_Activation.controls; let i = index;" formArrayName="slab_array_Activation">
                         <div class="col-md-12 px-0" [formGroupName]="i">
-                            <nz-form-label class="w-100 text-left">Slab {{i + 1}}
+                            <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                             </nz-form-label>
                             <div class="row mx-0 d-flex align-items-center">
                                 <nz-form-control>
@@ -127,9 +145,7 @@
                                     </nz-input-group>
                                 
                                     <ng-template #addOnAfterTemplate>
-                                        <nz-select formControlName="commission_unit">
-                                            <nz-option nzLabel="%" nzValue="%"></nz-option>
-                                        </nz-select>
+                                        <span>%</span>
                                     </ng-template>
                                 </nz-form-control>
                                 <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
@@ -155,7 +171,7 @@
                     </nz-form-label>
                     <ng-container *ngFor="let item of slab_array_Acquisition_Customers.controls; let i = index;" formArrayName="slab_array_Acquisition_Customers">
                         <div class="col-md-12 px-0" [formGroupName]="i">
-                            <nz-form-label class="w-100 text-left">Slab {{i + 1}}
+                            <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                             </nz-form-label>
                             <div class="row mx-0 d-flex align-items-center">
                                 <nz-form-control>
@@ -177,9 +193,7 @@
                                     </nz-input-group>
                                 
                                     <ng-template #addOnAfterTemplate>
-                                        <nz-select formControlName="commission_unit">
-                                            <nz-option nzLabel="₹" nzValue="₹"></nz-option>
-                                        </nz-select>
+                                        <span>₹</span>
                                     </ng-template>
                                 </nz-form-control>
                                 <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
@@ -200,7 +214,9 @@
     <ng-template #actionSubmit>
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary"
+                    [disabled]="(createEditForm.invalid || slap_based_form.invalid || slap_based_form_Activation.invalid || slap_based_form_Acquisition_Customers.invalid)"
+                    (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

@@ -39,7 +39,49 @@ export class HttpService {
    * editProductDetail
    */
    public editProductDetail(data, id) {
-    return this._http.post((this.url +`/product/v1/edit-product/` + id), data);
+    return this._http.put((this.url +`/product/v1/edit-product/` + id), data);
+  }
+
+  /**
+   * createMasterPartner
+   */
+  public createMasterPartner(data) {
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
+  }
+
+  /**
+   * editMasterPartner
+   */
+  public editMasterPartner(data, id) {
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
+  }
+
+  /**
+   * createPartnerPayout
+   */
+   public createPartnerPayout(data) {
+    return this._http.post((this.url +`/partner/v1/create-edit-partnerpayout`), data);
+  }
+
+  /**
+   * editPartnerPayout
+   */
+  public editPartnerPayout(data, id) {
+    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
+  }
+
+  /**
+   * fetchMasterPartner
+   */
+   public fetchMasterPartner(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/PartnerMaster`),{params: data});
+  }
+
+  /**
+   * fetchMasterPartner
+   */
+   public fetchPartner(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data});
   }
 
 
