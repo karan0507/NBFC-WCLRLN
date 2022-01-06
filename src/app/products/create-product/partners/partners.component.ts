@@ -34,16 +34,11 @@ export class PartnersComponent implements OnInit {
     {name: '12 Months', value: 12}
   ]
   partnerData: any;
+  masterParnerPayout: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) {
-
-    http.globalProductData.subscribe(res => {
-      this.productDetails = res
-
-      this.createEditFormFuction(this.productDetails);
-    })
   }
 
   ngOnInit(): void {
@@ -51,14 +46,13 @@ export class PartnersComponent implements OnInit {
     this.createSlabForm()
     this.createSlabFormActivation()
     this.createSlabFormAcquisition_Customers()
-    this.fetchMasterPartnerData()
-    this.fetchPartnerData()
+    this.fetchPartnerPayout()
   }
   
   createEditFormFuction(productDetails?) {
     this.createEditForm = this.fb.group({
       name: ['', [Validators.required]],
-      partnersName: ['', [Validators.required]],
+      partnersName: [[], [Validators.required]],
       // no_of_partner: ['', [Validators.required]],
       amount_per_partner: ['', [Validators.required]],
     })
@@ -75,6 +69,18 @@ export class PartnersComponent implements OnInit {
     let data;
     this.http.fetchPartner(data).subscribe(res => {
       this.partnerData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+
+  
+  fetchPartnerPayout() {
+    let data = {
+      product: this.product_id,
+      master: 'no'
+    };
+    this.http.fetchPartnerPayout(data).subscribe(res => {
+      this.masterParnerPayout = res['data'].results
       // this.message.success(res['message'])
     })
   }
@@ -219,8 +225,9 @@ export class PartnersComponent implements OnInit {
     this.slap_based_form.value.slab_array.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
-          partner: this.createEditForm.value.partnersName,
+          partner: '',
           trigger_master: element.trigger_master,
           min_amount: element.min_amount,
           max_amount: element.max_amount,
@@ -232,8 +239,9 @@ export class PartnersComponent implements OnInit {
     this.slap_based_form_Activation.value.slab_array_Activation.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
-          partner: this.createEditForm.value.partnersName,
+          partner: '',
           trigger_master: element.trigger_master,
           min_amount: element.min_amount,
           max_amount: element.max_amount,
@@ -245,8 +253,9 @@ export class PartnersComponent implements OnInit {
     this.slap_based_form_Acquisition_Customers.value.slab_array_Acquisition_Customers.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
-          partner: this.createEditForm.value.partnersName,
+          partner: '',
           trigger_master: element.trigger_master,
           min_amount: element.min_amount,
           max_amount: element.max_amount,
@@ -260,6 +269,7 @@ export class PartnersComponent implements OnInit {
         {
           master_partner: this.createEditForm.value.name,
           product: this.product_id,
+          partners: this.createEditForm.value.partnersName,
           // no_of_partner: this.createEditForm.value.no_of_partner,
           amount_per_partner: this.createEditForm.value.amount_per_partner,
           slabs: slab,

@@ -29,16 +29,15 @@ export class ProductDetailsComponent implements OnInit {
     http.globalProductData.subscribe(res => {
       this.productDetails = res
 
-      this.createEditFormFuction(this.productDetails);
+      this.createEditFormFuction();
     })
    }
 
   ngOnInit(): void {
     console.log(this.product_id)
-    this.fetchNBFCdata()
     this.createEditFormFuction();
   }
-  createEditFormFuction(productDetails?) {
+  createEditFormFuction() {
     this.createEditForm = this.fb.group({
       name: [ this.productDetails ? this.productDetails.name : '', [Validators.required]],
       product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
@@ -56,6 +55,9 @@ export class ProductDetailsComponent implements OnInit {
       // advance_emi: ['', [Validators.required]],
       // date_of_emi: ['', [Validators.required]],
       })
+    if (this.productDetails) {
+      this.fetchNBFCdata()
+    }
   }
 
   fetchNBFCdata() {

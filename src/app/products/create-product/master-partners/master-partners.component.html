@@ -7,7 +7,8 @@
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner's
                             Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Master Partner's  Name!">
-                            <nz-select formControlName="name" nzPlaceHolder="Select Master Partner's  Name!">
+                            <nz-select formControlName="name" nzPlaceHolder="Select Master Partner's  Name!" 
+                            (nzFocus)="fetchMasterPartnerData()" nzShowSearch nzAllowClear (nzOnSearch)="searchStaticDataGlobalFunction($event)">
                                 <nz-option *ngFor="let item of masterParnerData" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
                             </nz-select>
                         </nz-form-control>

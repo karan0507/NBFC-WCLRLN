@@ -32,6 +32,8 @@ export class MasterPartnersComponent implements OnInit {
     {name: '11 Months', value: 11},
     {name: '12 Months', value: 12}
   ]
+  debounce: any;
+  masterParnerPayout: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -49,7 +51,7 @@ export class MasterPartnersComponent implements OnInit {
     this.createSlabForm()
     this.createSlabFormActivation()
     this.createSlabFormAcquisition_Customers()
-    this.fetchMasterPartnerData()
+    this.fetchPartnerPayout()
   }
   
   createEditFormFuction(productDetails?) {
@@ -64,6 +66,17 @@ export class MasterPartnersComponent implements OnInit {
     let data;
     this.http.fetchMasterPartner(data).subscribe(res => {
       this.masterParnerData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+
+  fetchPartnerPayout() {
+    let data = {
+      product: this.product_id,
+      master: 'yes'
+    };
+    this.http.fetchPartnerPayout(data).subscribe(res => {
+      this.masterParnerPayout = res['data'].results
       // this.message.success(res['message'])
     })
   }
@@ -208,6 +221,7 @@ export class MasterPartnersComponent implements OnInit {
     this.slap_based_form.value.slab_array.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
           partner: '',
           trigger_master: element.trigger_master,
@@ -221,6 +235,7 @@ export class MasterPartnersComponent implements OnInit {
     this.slap_based_form_Activation.value.slab_array_Activation.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
           partner: '',
           trigger_master: element.trigger_master,
@@ -234,6 +249,7 @@ export class MasterPartnersComponent implements OnInit {
     this.slap_based_form_Acquisition_Customers.value.slab_array_Acquisition_Customers.forEach(element => {
       slab.push(
         {
+          product: this.product_id,
           partner_master: this.createEditForm.value.name,
           partner: '',
           trigger_master: element.trigger_master,
@@ -263,6 +279,13 @@ export class MasterPartnersComponent implements OnInit {
     // this.http.editProductDetail(this.createEditForm.value, this.partnermaster_id).subscribe( res => {
     //   this.message.success(res['message'])
     // })
+  }
+
+  searchStaticDataGlobalFunction(search_param) {
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      // this.fetchMasterPartnerData(search_param);
+    }, 500);
   }
 
 }

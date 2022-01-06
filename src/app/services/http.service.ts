@@ -78,10 +78,39 @@ export class HttpService {
   }
 
   /**
-   * fetchMasterPartner
+   * fetchPartner
    */
    public fetchPartner(data) {
     return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data});
+  }
+
+  
+  /**
+   * fetchPartnerPayout
+   */
+   public fetchPartnerPayout(data) {
+    return this._http.get((this.url +`/partner/v1/create-edit-partnerpayout`),{params: data});
+  }
+
+  /**
+   * createLimits
+   */
+   public createLimits(data) {
+    return this._http.post((this.url +`/product/v1/create-product-limit`), data);
+  }
+
+  /**
+   * editLimits
+   */
+  public editLimits(data, id) {
+    return this._http.put((this.url +`/product/v1/edit-product-limit/` + id), data);
+  }
+
+  /**
+   * fetchProductLimits
+   */
+   public fetchProductLimits(data) {
+    return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data});
   }
 
 

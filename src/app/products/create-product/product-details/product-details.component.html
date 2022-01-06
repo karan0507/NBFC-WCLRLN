@@ -25,7 +25,8 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="default_nbfc" class="text-left" nzRequired>Default NBFS</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Default NBFS!">
-                            <nz-select formControlName="default_nbfc" nzPlaceHolder="Select Default NBFS">
+                            <nz-select formControlName="default_nbfc" nzPlaceHolder="Select Default NBFS"
+                            (nzFocus)="fetchNBFCdata()" nzShowSearch nzAllowClear>
                                 <nz-option *ngFor="let item of nbfcsList" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
                             </nz-select>
                         </nz-form-control>

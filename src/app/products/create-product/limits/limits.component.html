@@ -1,5 +1,111 @@
 <section>
     <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="first_txn_limit" class="text-left text-wrap"
+                            nzRequired>First Transaction Limit</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24"
+                            nzErrorTip="Please input First Transaction Limit!">
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                    <input nz-input type="number" min="0" formControlName="first_txn_limit"
+                                placeholder="Please input First Transaction Limit!" />
+                                </nz-input-group>
+                                
+                                <ng-template #addOnAfterTemplateforamt>
+                                    <span>₹</span>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="global_txn_limit" class="text-left text-wrap"
+                            nzRequired>Global Limit</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24"
+                            nzErrorTip="Please input Global Limit!">
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                    <input nz-input type="number" min="0" formControlName="global_txn_limit"
+                                placeholder="Please input Global Limit!" />
+                                </nz-input-group>
+                                
+                                <ng-template #addOnAfterTemplateforamt>
+                                    <span>₹</span>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="daily_txn_limit" class="text-left text-wrap"
+                            nzRequired>Daily Limit</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24"
+                            nzErrorTip="Please input Daily Limit!">
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                    <input nz-input type="number" min="0" formControlName="daily_txn_limit"
+                                placeholder="Please input Daily Limit!" />
+                                </nz-input-group>
+                                
+                                <ng-template #addOnAfterTemplateforamt>
+                                    <span>₹</span>
+                                </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Disbursement</nz-form-label>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" nzRequired>Minimum Amount (₹)</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
+                            <input nz-input type="number" min="0" formControlName="disbursement_min_amount"
+                                placeholder="Please input Minimum Amount (₹)!" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" nzRequired>Maximum Amount (₹)</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
+                            <input nz-input type="number" min="0" formControlName="disbursement_max_amount"
+                                placeholder="Please input Maximum Amount (₹)!" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Interest</nz-form-label>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="intrest_min_percentage" class="text-left" nzRequired>Minimum Amount (%)</nz-form-label>
+                        
+                        <nz-form-control nzErrorTip="Please input Minimum Amount (%)!">
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                <input nz-input type="number" min="0" name="intrest_min_percentage" formControlName="intrest_min_percentage"
+                                    id="intrest_min_percentage" placeHolder="Enter Minimum Amount (%)">
+                            </nz-input-group>
+                        
+                            <ng-template #addOnAfterTemplate>
+                                <span>%</span>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="intrest_max_percentage" class="text-left" nzRequired>Maximum Amount(%)</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input Maximum Amount (%)!">
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                <input nz-input type="number" min="0" name="intrest_max_percentage" formControlName="intrest_max_percentage"
+                                    id="intrest_max_percentage" placeHolder="Enter Maximum Amount(%)">
+                            </nz-input-group>
+                        
+                            <ng-template #addOnAfterTemplate>
+                                <span>%</span>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
     </nz-card>
     
     <ng-template #actionSubmit>
