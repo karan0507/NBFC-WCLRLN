@@ -38,28 +38,47 @@ export class MasterPartnersComponent implements OnInit {
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) {
-
-    http.globalProductData.subscribe(res => {
-      this.productDetails = res
-
-      this.createEditFormFuction(this.productDetails);
-    })
   }
 
   ngOnInit(): void {
     this.createEditFormFuction();
-    this.createSlabForm()
-    this.createSlabFormActivation()
-    this.createSlabFormAcquisition_Customers()
     this.fetchPartnerPayout()
   }
   
-  createEditFormFuction(productDetails?) {
+  createEditFormFuction() {
     this.createEditForm = this.fb.group({
-      name: ['', [Validators.required]],
-      no_of_partner: ['', [Validators.required]],
-      amount_per_partner: ['', [Validators.required]],
+      master_partner_arr: this.fb.array([]),
     })
+    this.addMasterPartner()
+  }
+
+  get master_partner_arr(): FormArray {
+    return <FormArray>this.createEditForm.get('master_partner_arr');
+  }
+  
+  addMasterPartner(data?) {
+    this.master_partner_arr.push(this.addSlabControlsMasterPartner(data))
+  }
+  public addSlabControlsMasterPartner(data: any): FormGroup {
+    if (data) {
+      return this.fb.group({
+        // min_amount: [data.start_amount, [Validators.required, Validators.min(1)]],
+        // max_amount: [data.end_amount, [Validators.min(1)]],
+        // commission: [data.incentive_amount > 0 ? data.incentive_amount : data.incentive_percentage, [Validators.required, Validators.min(0)]],
+        // incentive_unit: [data.incentive_amount > 0 ? '₹' : '%', [Validators.required]],
+        // id: [data.id]
+      });
+    } else {
+      return this.fb.group({
+        name: ['', [Validators.required]],
+        no_of_partner: ['', [Validators.required]],
+        amount_per_partner: ['', [Validators.required]],
+        slab_array: this.fb.array([this.addSlabControls()]),
+        time_period: ['', [Validators.required]],
+        slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
+        slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()])
+      });
+    }
   }
 
   fetchMasterPartnerData() {
@@ -82,20 +101,7 @@ export class MasterPartnersComponent implements OnInit {
   }
 
   // **************** At the time of acquisition of partners Start ****************** //
-  createSlabForm(slab?: any) {
-    this.slap_based_form = this.fb.group({
-      slab_array: this.fb.array([])
-    });
-    // adding control in slab_array
-    if (slab) {
-      slab.slab_wise_values.forEach(element => {
-        this.add(element);
-      });
-    } else {
-      this.add();
-    }
-  }
-  private addSlabControls(data?): FormGroup {
+  public addSlabControls(data?): FormGroup {
     if (data) {
       return this.fb.group({
         // min_amount: [data.start_amount, [Validators.required, Validators.min(1)]],
@@ -114,29 +120,13 @@ export class MasterPartnersComponent implements OnInit {
         time_period: [0],
       });
     }
-  }  
-  get slab_array(): FormArray {
-    return <FormArray>this.slap_based_form.get('slab_array');
   }
-  add(data?) {
-    this.slab_array.push(this.addSlabControls(data))
+  addSlabpartners(k, i) {
+    const control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][k].get('slab_array');
+    control.push(this.addSlabControls())
   }
   // **************** At the time of acquisition of partners End ****************** //
   // **************** At the time of activation of partners Start ****************** //
-  createSlabFormActivation(slab?: any) {
-    this.slap_based_form_Activation = this.fb.group({
-      time_period: ['', [Validators.required]],
-      slab_array_Activation: this.fb.array([])
-    });
-    // adding control in slab_array_Activation
-    if (slab) {
-      slab.slab_wise_values.forEach(element => {
-        this.add_Activation(element);
-      });
-    } else {
-      this.add_Activation();
-    }
-  }
   private addSlabControlsActivation(data?): FormGroup {
     if (data) {
       return this.fb.group({
@@ -156,28 +146,13 @@ export class MasterPartnersComponent implements OnInit {
         time_period: [0],
       });
     }
-  }  
-  get slab_array_Activation(): FormArray {
-    return <FormArray>this.slap_based_form_Activation.get('slab_array_Activation');
   }
-  add_Activation(data?) {
-    this.slab_array_Activation.push(this.addSlabControlsActivation(data))
+  add_Activation(k) {
+    const control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][k].get('slab_array_Activation');
+    control.push(this.addSlabControlsActivation())
   }
   // **************** At the time of activation of partners End ****************** //
   // **************** At the time of acquisition of customers Start ****************** //
-  createSlabFormAcquisition_Customers(slab?: any) {
-    this.slap_based_form_Acquisition_Customers = this.fb.group({
-      slab_array_Acquisition_Customers: this.fb.array([])
-    });
-    // adding control in slab_array_Acquisition_Customers
-    if (slab) {
-      slab.slab_wise_values.forEach(element => {
-        this.add_Acquisition_Customers(element);
-      });
-    } else {
-      this.add_Acquisition_Customers();
-    }
-  }
   private addSlabControlsAcquisition_Customers(data?): FormGroup {
     if (data) {
       return this.fb.group({
@@ -197,12 +172,10 @@ export class MasterPartnersComponent implements OnInit {
         time_period: [0],
       });
     }
-  }  
-  get slab_array_Acquisition_Customers(): FormArray {
-    return <FormArray>this.slap_based_form_Acquisition_Customers.get('slab_array_Acquisition_Customers');
-  }
-  add_Acquisition_Customers(data?) {
-    this.slab_array_Acquisition_Customers.push(this.addSlabControlsAcquisition_Customers(data))
+  } 
+  add_Acquisition_Customers(k) {
+    const control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][k].get('slab_array_Acquisition_Customers');
+    control.push(this.addSlabControlsAcquisition_Customers())
   }
   // **************** At the time of acquisition of customers End ****************** //
 
@@ -218,60 +191,65 @@ export class MasterPartnersComponent implements OnInit {
   }
   addMasterProduct() {
     let slab = []
-    this.slap_based_form.value.slab_array.forEach(element => {
-      slab.push(
+    let data = []
+    this.createEditForm.value.master_partner_arr.forEach(form => {
+      slab = []
+      form.slab_array.forEach(element => {
+        slab.push(
+          {
+            product: this.product_id,
+            partner_master: form.name,
+            partner: '',
+            trigger_master: element.trigger_master,
+            min_amount: element.min_amount,
+            max_amount: element.max_amount,
+            commission: element.commission,
+            time_period: element.time_period,
+          }
+        )
+      });
+      form.slab_array_Activation.forEach(element => {
+        slab.push(
+          {
+            product: this.product_id,
+            partner_master: form.name,
+            partner: '',
+            trigger_master: element.trigger_master,
+            min_amount: element.min_amount,
+            max_amount: element.max_amount,
+            commission: element.commission,
+            time_period: form.time_period,
+          }
+        )
+      });
+      form.slab_array_Acquisition_Customers.forEach(element => {
+        slab.push(
+          {
+            product: this.product_id,
+            partner_master: form.name,
+            partner: '',
+            trigger_master: element.trigger_master,
+            min_amount: element.min_amount,
+            max_amount: element.max_amount,
+            commission: element.commission,
+            time_period: element.time_period,
+          }
+        )
+      });
+      data.push(
         {
+          master_partner: form.name,
           product: this.product_id,
-          partner_master: this.createEditForm.value.name,
-          partner: '',
-          trigger_master: element.trigger_master,
-          min_amount: element.min_amount,
-          max_amount: element.max_amount,
-          commission: element.commission,
-          time_period: element.time_period,
-        }
-      )
-    });
-    this.slap_based_form_Activation.value.slab_array_Activation.forEach(element => {
-      slab.push(
-        {
-          product: this.product_id,
-          partner_master: this.createEditForm.value.name,
-          partner: '',
-          trigger_master: element.trigger_master,
-          min_amount: element.min_amount,
-          max_amount: element.max_amount,
-          commission: element.commission,
-          time_period: this.slap_based_form_Activation.value.time_period,
-        }
-      )
-    });
-    this.slap_based_form_Acquisition_Customers.value.slab_array_Acquisition_Customers.forEach(element => {
-      slab.push(
-        {
-          product: this.product_id,
-          partner_master: this.createEditForm.value.name,
-          partner: '',
-          trigger_master: element.trigger_master,
-          min_amount: element.min_amount,
-          max_amount: element.max_amount,
-          commission: element.commission,
-          time_period: element.time_period,
-        }
-      )
-    });
-    let data = {
-      data : [
-        {
-          master_partner: this.createEditForm.value.name,
-          product: this.product_id,
-          no_of_partner: this.createEditForm.value.no_of_partner,
-          amount_per_partner: this.createEditForm.value.amount_per_partner,
+          no_of_partner: form.no_of_partner,
+          amount_per_partner: form.amount_per_partner,
           slabs: slab,
         }
-      ]
+      )
+    });
+    let formdata = {
+      data : data
     }
-    this.http.createPartnerPayout(data).subscribe( res => {
+    this.http.createPartnerPayout(formdata).subscribe( res => {
       this.message.success(res['message'])
     })
   }
@@ -286,6 +264,21 @@ export class MasterPartnersComponent implements OnInit {
     this.debounce = setTimeout(() => {
       // this.fetchMasterPartnerData(search_param);
     }, 500);
+  }
+
+
+  get_master_partner_arr(form) {
+    return form.controls.master_partner_arr.controls;
+  }
+
+  get_slab_array(form) {
+    return form.controls.slab_array.controls;
+  }
+  get_slab_array_Activation(form) {
+    return form.controls.slab_array_Activation.controls;
+  }
+  get_slab_array_Acquisition_Customers(form) {
+    return form.controls.slab_array_Acquisition_Customers.controls;
   }
 
 }
