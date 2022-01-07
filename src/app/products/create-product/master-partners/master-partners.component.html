@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="!loading">
     <nz-card [nzActions]="[actionSubmit]">
         <form nz-form [formGroup]="createEditForm">
             <ng-container *ngFor="let item of get_master_partner_arr(createEditForm); let k = index;"
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                 </ng-container>
-                                <button nz-button nzType="link" class="mt-3" (click)="addSlabpartners(k, i)">+ Add more
+                                <button nz-button nzType="link" class="mt-3" (click)="addSlabpartners(k)">+ Add more
                                     Slabs</button>
                             </div>
                         </div>

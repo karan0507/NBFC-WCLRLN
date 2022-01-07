@@ -34,7 +34,7 @@ export class LimitsComponent implements OnInit {
     }
     this.http.fetchProductLimits(data).subscribe(res => {
       this.productlimitData = res['data'].results[0]
-      this.productlimit_id = res['data'].results[0].id
+      this.productlimit_id = res['data'].results[0]?.id
       this.createEditFormFuction();
     })
   }

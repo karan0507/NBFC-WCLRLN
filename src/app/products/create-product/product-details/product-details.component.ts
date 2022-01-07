@@ -34,7 +34,6 @@ export class ProductDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.product_id)
     this.createEditFormFuction();
   }
   createEditFormFuction() {
@@ -76,7 +75,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   createProductDetail() {
-    console.log(this.createEditForm.value)
     this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
     this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
     this.http.createProductDetail(this.createEditForm.value).subscribe(res => {
@@ -88,7 +86,6 @@ export class ProductDetailsComponent implements OnInit {
   }
   
   editProductDetail() {
-    console.log(this.createEditForm.value)
     this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
     this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
     this.http.editProductDetail(this.createEditForm.value, this.product_id).subscribe(res => {

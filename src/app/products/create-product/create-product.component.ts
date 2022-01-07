@@ -23,6 +23,10 @@ export class CreateProductComponent implements OnInit {
         this.is_product_id = true
         this.product_id = params['id']
         this.fetchProductDetailsbyId()
+      } else {
+        this.http.setProductValue(null)
+        this.product_id = null
+        this.is_product_id = false
       }
     }); }
 
