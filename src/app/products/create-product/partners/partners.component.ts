@@ -67,7 +67,7 @@ export class PartnersComponent implements OnInit {
     if (data[0]) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
-        element.slabs.forEach(slab => {
+        element.slabs?.forEach(slab => {
           if (slab.trigger_master.id == 1) {
             this.setSlabControlsFormData(slab, index)
           }
@@ -174,8 +174,6 @@ export class PartnersComponent implements OnInit {
       }
       this.createEditFormFuction();
       // this.message.success(res['message'])
-    }, (err) => {
-      this.loading = false
     })
   }
 

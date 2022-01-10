@@ -140,8 +140,6 @@ export class MasterPartnersComponent implements OnInit {
       }
       this.createEditFormFuction();
       // this.message.success(res['message'])
-    }, (err) => {
-      this.loading = false
     })
   }
 

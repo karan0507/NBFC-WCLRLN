@@ -112,6 +112,20 @@ export class HttpService {
    public fetchProductLimits(data) {
     return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data});
   }
+  
+  /**
+   * createPartnerPayout
+   */
+   public createNbfcMapping(data) {
+    return this._http.post((this.url +`/product/v1/assign-nbfc-to-product`), data);
+  }
+
+  // /**
+  //  * editPartnerPayout
+  //  */
+  // public editPartnerPayout(data, id) {
+  //   return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
+  // }
 
 
   //************************ */

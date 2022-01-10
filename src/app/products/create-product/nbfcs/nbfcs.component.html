@@ -1,10 +1,63 @@
 <section>
     <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <nz-form-label class="w-100 text-left">On the basis of Priority </nz-form-label>
+            <div class="row mb-3">
+                <ng-container *ngFor="let item of get_nbfcs_arr(createEditForm); let k = index;" formArrayName="nbfcs_arr">
+                    <div class="col-md-6" [formGroupName]="k">
+                        <nz-form-label class="w-100 text-left" nzNoColon>Priority {{k+1}}</nz-form-label>
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="nbfc" class="text-left" nzRequired>NBFC Name
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input NBFC Name!">
+                                    <nz-select formControlName="nbfc" nzPlaceHolder="Select NBFC Name!"
+                                        (nzFocus)="fetchNbfcPartner()" nzShowSearch nzAllowClear
+                                        (nzOnSearch)="searchStaticDataGlobalFunction($event)">
+                                        <nz-option *ngFor="let item of nbfcData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="interest_rate" class="text-left" nzRequired>
+                                    Interest Rate(%) (annual)</nz-form-label>
+                                <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input Interest Rate(%) (annual)!">
+                                    <input nz-input type="number" min="0" formControlName="interest_rate"
+                                        placeholder="Please input Interest Rate(%) (annual)!" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="credit_line" class="text-left text-wrap"
+                                    nzRequired>Credit Line (commitment)</nz-form-label>
+                                <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input Credit Line (commitment)!">
+                                    <input nz-input type="number" min="0" formControlName="credit_line"
+                                        placeholder="Please input Credit Line (commitment)!" />
+                                    <!-- <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                                <input nz-input type="number" min="0" formControlName="credit_line"
+                                                    placeholder="Please input Credit Line (commitment)!" />
+                                            </nz-input-group>
+            
+                                            <ng-template #addOnAfterTemplateforamt>
+                                                <span>excluding GST</span>
+                                            </ng-template> -->
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
     </nz-card>
     
     <ng-template #actionSubmit>
         <div class="row no-gutters">
-            <div class="col-12 d-flex justify-content-end px-4">
+            <div class="col-12 d-flex justify-content-between px-4">
+                <button nz-button nzType="link" (click)="addNbfcs_arr()">+Add NBFC</button>
                 <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
             </div>
         </div>
