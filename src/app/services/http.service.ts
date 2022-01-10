@@ -8,80 +8,83 @@ import { ReplaySubject } from 'rxjs';
 })
 export class HttpService {
 	url = 'https://devadminapi.fatakpay.com'
-	token : any;
+	token = '77ffd5bd55e4435a99274c5562266b1beb994b1e';
 
   globalProductData = new ReplaySubject<any>();
+  headers: HttpHeaders;
 
-  constructor(private _http: HttpClient, private message: NzMessageService,) { }
+  constructor(private _http: HttpClient, private message: NzMessageService,) { 
+    
+    this.headers = new HttpHeaders().set("Authorization" , "token " +  this.token)
+  }
 
   public fetchNBFCdata():any{
     // this.token = JSON.parse(localStorage.getItem('sbs_user_data')).token;
-    // const headers = new HttpHeaders().set("Authorization" , "token " +  this.token)
-    // return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`), {headers:headers});
-    return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`));
+    return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`), {headers: this.headers});
+    // return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`));
   }
 
   /**
    * createProductDetail
    */
   public createProductDetail(data) {
-    return this._http.post((this.url +`/product/v1/create-product`), data);
+    return this._http.post((this.url +`/product/v1/create-product`), data, {headers: this.headers});
   }
 
   /**
    * fetchProductDetailsbyId
    */
   public fetchProductDetailsbyId(data) {
-    return this._http.get((this.url +`/product/v1/create-product`),{params: data});
+    return this._http.get((this.url +`/product/v1/create-product`),{params: data, headers: this.headers});
   }
 
   /**
    * editProductDetail
    */
    public editProductDetail(data, id) {
-    return this._http.put((this.url +`/product/v1/edit-product/` + id), data);
+    return this._http.put((this.url +`/product/v1/edit-product/` + id), data, {headers: this.headers});
   }
 
   /**
    * createMasterPartner
    */
   public createMasterPartner(data) {
-    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: this.headers});
   }
 
   /**
    * editMasterPartner
    */
   public editMasterPartner(data, id) {
-    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data, {headers: this.headers});
   }
 
   /**
    * createPartnerPayout
    */
    public createPartnerPayout(data) {
-    return this._http.post((this.url +`/partner/v1/create-edit-partnerpayout`), data);
+    return this._http.post((this.url +`/partner/v1/create-edit-partnerpayout`), data, {headers: this.headers});
   }
 
   /**
    * editPartnerPayout
    */
   public editPartnerPayout(data, id) {
-    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
+    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data, {headers: this.headers});
   }
 
   /**
    * fetchMasterPartner
    */
    public fetchMasterPartner(data) {
-    return this._http.get((this.url +`/master/fetch-master-data/PartnerMaster`),{params: data});
+    return this._http.get((this.url +`/master/fetch-master-data/PartnerMaster`),{params: data, headers: this.headers});
   }
 
   /**
    * fetchPartner
    */
    public fetchPartner(data) {
-    return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data});
+    return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data, headers: this.headers});
   }
 
   
@@ -89,43 +92,43 @@ export class HttpService {
    * fetchPartnerPayout
    */
    public fetchPartnerPayout(data) {
-    return this._http.get((this.url +`/partner/v1/create-edit-partnerpayout`),{params: data});
+    return this._http.get((this.url +`/partner/v1/create-edit-partnerpayout`),{params: data, headers: this.headers});
   }
 
   /**
    * createLimits
    */
    public createLimits(data) {
-    return this._http.post((this.url +`/product/v1/create-product-limit`), data);
+    return this._http.post((this.url +`/product/v1/create-product-limit`), data, {headers: this.headers});
   }
 
   /**
    * editLimits
    */
   public editLimits(data, id) {
-    return this._http.put((this.url +`/product/v1/edit-product-limit/` + id), data);
+    return this._http.put((this.url +`/product/v1/edit-product-limit/` + id), data, {headers: this.headers});
   }
 
   /**
    * fetchProductLimits
    */
    public fetchProductLimits(data) {
-    return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data});
+    return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data, headers: this.headers});
   }
   
   /**
    * createPartnerPayout
    */
    public createNbfcMapping(data) {
-    return this._http.post((this.url +`/product/v1/assign-nbfc-to-product`), data);
+    return this._http.post((this.url +`/product/v1/assign-nbfc-to-product`), data, {headers: this.headers});
   }
 
-  // /**
-  //  * editPartnerPayout
-  //  */
-  // public editPartnerPayout(data, id) {
-  //   return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
-  // }
+  /**
+   * fetchNbfcs
+   */
+   public fetchNbfcs(data) {
+    return this._http.get((this.url +`/product/v1/get-nbfc-product-mapping/`+ data.product_id),{ headers: this.headers});
+  }
 
 
   //************************ */

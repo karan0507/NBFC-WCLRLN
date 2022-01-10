@@ -148,9 +148,6 @@ export class MasterPartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -159,7 +156,6 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [],
         trigger_master: ['1'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -178,9 +174,6 @@ export class MasterPartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -189,7 +182,6 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [''],
         trigger_master: ['2'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -208,9 +200,6 @@ export class MasterPartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -219,7 +208,6 @@ export class MasterPartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [''],
         trigger_master: ['3'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -249,9 +237,6 @@ export class MasterPartnersComponent implements OnInit {
       form.slab_array.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -263,9 +248,6 @@ export class MasterPartnersComponent implements OnInit {
       form.slab_array_Activation.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -277,9 +259,6 @@ export class MasterPartnersComponent implements OnInit {
       form.slab_array_Acquisition_Customers.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -315,9 +294,6 @@ export class MasterPartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -330,9 +306,6 @@ export class MasterPartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -345,9 +318,6 @@ export class MasterPartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,

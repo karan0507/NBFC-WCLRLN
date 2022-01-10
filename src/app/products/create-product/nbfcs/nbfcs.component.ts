@@ -16,6 +16,8 @@ export class NbfcsComponent implements OnInit {
   @Input() productDetails: any;
   nbfcData: any;
   debounce: any;
+  productNbfscData: any;
+  productNbfsc_id: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -25,26 +27,31 @@ export class NbfcsComponent implements OnInit {
       if(params['id']){
         this.product_id = params['id']
       }
-      // if (this.product_id) {
-      //   this.fetchPartnerPayout()
-      // } else {
-      //   this.createEditFormFuction()
-      // }
+      if (this.product_id) {
+        this.fetchNbfcs()
+      } 
     });
     this.createEditFormFuction()
   }
 
-  createEditFormFuction() {
+  createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
       nbfcs_arr: this.fb.array([]),
     })
-    this.setFormData()
+    this.setFormData(data)
   }
-  setFormData() {
-    this.addNbfcs_arr()
-    this.addNbfcs_arr()
-    this.addNbfcs_arr()
-    this.addNbfcs_arr()
+  setFormData(data) {
+    if (data) {
+      data.forEach(element => {
+        this.addNbfcs_arr(element)
+      });
+      this.fetchNbfcPartner()
+    } else {
+      this.addNbfcs_arr()
+      this.addNbfcs_arr()
+      this.addNbfcs_arr()
+      this.addNbfcs_arr()
+    }
   }
 
   get nbfcs_arr(): FormArray {
@@ -56,21 +63,11 @@ export class NbfcsComponent implements OnInit {
   }
 
   public addSlabControlsnbfcs(data): FormGroup {
-    if (data) {
-      return this.fb.group({
-        id: [data.id],
-        product: [this.product_id],
-        nbfc: [data.master_partner?.id, [Validators.required]],
-        interest_rate: [data.interest_rate, [Validators.required]],
-        credit_line: [data.credit_line, [Validators.required]],
-      });
-    } else {
-      return this.fb.group({
-        nbfc: ['', [Validators.required]],
-        interest_rate: ['', [Validators.required]],
-        credit_line: ['', [Validators.required]],
-      });
-    }
+    return this.fb.group({
+      nbfc: [data ? data.nbfc?.id : '', [Validators.required]],
+      interest_rate: [data ? data.interest_rate : '', [Validators.required]],
+      credit_line: [data ? data.credit_line : '', [Validators.required]],
+    });
   }
 
   get_nbfcs_arr(form) {
@@ -95,15 +92,25 @@ export class NbfcsComponent implements OnInit {
   submitForm() {
     this.createNbfcMapping();
   } 
-  createNbfcMapping() {
-    console.log(this.createEditForm.controls.nbfcs_arr.value)
 
+  createNbfcMapping() {
     let formdata = {
       product_id: this.product_id,
       nbfc_list: this.createEditForm.controls.nbfcs_arr.value
     }
     this.http.createNbfcMapping(formdata).subscribe(res => {
       this.message.success(res['message'])
+    })
+  }
+
+  fetchNbfcs() {
+    let data = {
+      product_id: this.product_id
+    }
+    this.http.fetchNbfcs(data).subscribe(res => {
+      this.productNbfscData = res['data']
+      this.createEditFormFuction(this.productNbfscData);
+    },(err) =>{
     })
   }
 

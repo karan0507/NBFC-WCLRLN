@@ -12,7 +12,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class LimitsComponent implements OnInit {
 
   createEditForm: FormGroup;
-  @Input() product_id: any;
+  product_id: any;
   @Input() productDetails: any;
   productlimit_id: any;
   productlimitData: any;
@@ -21,11 +21,16 @@ export class LimitsComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.product_id = params['id']
+      }
+      if (this.product_id) {
+        this.fetchProductLimits()
+      } else {
+      }
+    });
     this.createEditFormFuction();
-    if (this.product_id) {
-      this.fetchProductLimits()
-    } else {
-    }
   }
 
   fetchProductLimits() {
@@ -41,7 +46,7 @@ export class LimitsComponent implements OnInit {
 
   createEditFormFuction() {
     this.createEditForm = this.fb.group({
-      product: [this.product_id, [Validators.required]],
+      product: [this.product_id],
       first_txn_limit: [this.productlimitData ? this.productlimitData.first_txn_limit : '', [Validators.required]],
       global_txn_limit: [this.productlimitData ? this.productlimitData.global_txn_limit : '', [Validators.required]],
       daily_txn_limit: [this.productlimitData ? this.productlimitData.daily_txn_limit : '', [Validators.required]],

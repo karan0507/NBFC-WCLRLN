@@ -20,7 +20,9 @@ export class UnderwritingComponent implements OnInit {
 
     ngOnInit(): void {
       console.log(this.product_id)
-      this.createEditForm = this.fb.group({})
+      this.createEditForm = this.fb.group({
+        
+      })
     }
   
     submitForm() {
