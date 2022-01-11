@@ -130,6 +130,33 @@ export class HttpService {
     return this._http.get((this.url +`/product/v1/get-nbfc-product-mapping/`+ data.product_id),{ headers: this.headers});
   }
 
+  /**
+   * fetchEntity
+   */
+   public fetchEntity(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/EntityMaster`),{params: data, headers: this.headers});
+  }
+  /**
+   * fetchEmploymentType
+   */
+   public fetchEmploymentType(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/EmploymentTypeMaster`),{params: data, headers: this.headers});
+  }
+
+  
+  /**
+   * createLimits
+   */
+   public createUnderWritingRule(data) {
+    return this._http.post((this.url +`/product/v1/add-edit-underwritingrule`), data, {headers: this.headers});
+  }
+
+  /**
+   * fetchProductLimits
+   */
+   public fetchUnderWritingRule(data) {
+    return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id),{headers: this.headers});
+  }
 
   //************************ */
   public setProductValue(data): any {

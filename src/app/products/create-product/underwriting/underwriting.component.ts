@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -12,21 +12,119 @@ import { HttpService } from 'src/app/services/http.service';
 export class UnderwritingComponent implements OnInit {
 
   createEditForm: FormGroup;
-  @Input() product_id: any;
+  product_id: any;
   @Input() productDetails: any;
+  isVisible: boolean;
+  entityData: any;
+  selectedEntity: any;
+  selectedTab = 1
+  employmentTypeData: any;
+  filterArray: any
+  underWritingRuleData: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute,) { }
 
-    ngOnInit(): void {
-      console.log(this.product_id)
-      this.createEditForm = this.fb.group({
-        
-      })
+  ngOnInit(): void {
+    this.createEditFormFuction()
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.product_id = params['id']
+      }
+      if (this.product_id) {
+        this.fetchUnderWritingRule()
+      }
+    });
+
+    this.fetchEmploymentTypeData();
+    this.fetchEntityData()
+  }
+  fetchUnderWritingRule() {
+    let data = {
+      product_id: this.product_id
+    };
+    this.http.fetchUnderWritingRule(data).subscribe(res => {
+      this.underWritingRuleData = res['data']
+      this.createEditFormFuction(this.underWritingRuleData)
+    })
+  }
+  createEditFormFuction(data?) {
+    this.createEditForm = this.fb.group({
+      blacklist_pincodes: [data ? data.blacklist_pincodes : [], [Validators.required]],
+      rules: this.fb.array([]),
+    })
+    this.setFormData(data)
+  }
+  setFormData(data) {
+    if (data) {
+      data.underwriting_rules.forEach(element => {
+        this.selectedTab = element.employment_type.id
+        this.addUnderWriting(element)
+      });
     }
+  }
+  get rules(): FormArray {
+    return <FormArray>this.createEditForm.get('rules');
+  }
+
+  addUnderWriting(data: any) {
+    this.rules.push(this.addSlabControlsUnderWriting(data))
+  }
+  addSlabControlsUnderWriting(data: any): FormGroup {
+    return this.fb.group({
+      product: [this.product_id],
+      employment_type: [this.selectedTab],
+      underwriting_entity: [ data ? data.underwriting_entity.id : ''],
+      name: [ data ? data.underwriting_entity.name : ''],
+      min_label: [ data ? data.underwriting_entity.min_label : ''],
+      max_label: [ data ? data.underwriting_entity.max_label : ''],
+      min: [ data ? data?.min : '', [Validators.required]],
+      max: [ data ? data?.max : '', [Validators.required]],
+      id: [data ? data.id : '']
+    });
+  }
+
+  submitForm() {
+    this.createUnderWritingRule();
+  }
+  createUnderWritingRule() {
+    this.http.createUnderWritingRule(this.createEditForm.value).subscribe( res => {
+      this.message.success(res['message'])
+    })
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
   
-    submitForm() {
-      // this.createProductDetail();
+  fetchEntityData() {
+    let data;
+    this.http.fetchEntity(data).subscribe(res => {
+      this.entityData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+
+  fetchEmploymentTypeData() {
+    let data;
+    this.http.fetchEmploymentType(data).subscribe(res => {
+      this.employmentTypeData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+
+  addRule() {
+    if (this.entityData.includes(this.selectedEntity)) {
+      const index = this.entityData.indexOf(this.selectedEntity)
+      this.entityData.splice(index,1)
     }
+    this.addUnderWriting(this.selectedEntity)
+    this.isVisible = false
+  }
+
+  get_underwritingArr(form) {
+    return form.controls.rules.controls;
+  }
 
 }

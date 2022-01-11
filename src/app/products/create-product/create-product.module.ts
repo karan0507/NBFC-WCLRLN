@@ -18,10 +18,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { HttpService } from 'src/app/services/http.service';
+import { ArrayFilterPipe } from 'src/app/shared/pipes/arrayFilter.pipe';
 
 
 @NgModule({
-  declarations: [CreateProductComponent, ProductDetailsComponent, MasterPartnersComponent, PartnersComponent, LimitsComponent, NbfcsComponent, UnderwritingComponent, OnboardingComponent, FeesComponent, LoanAgreementComponent],
+  declarations: [
+    CreateProductComponent,
+    ArrayFilterPipe, 
+    ProductDetailsComponent, 
+    MasterPartnersComponent, 
+    PartnersComponent, 
+    LimitsComponent, 
+    NbfcsComponent, 
+    UnderwritingComponent, 
+    OnboardingComponent, 
+    FeesComponent, 
+    LoanAgreementComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,
@@ -29,7 +41,7 @@ import { HttpService } from 'src/app/services/http.service';
     NzCardModule,
     FormsModule, ReactiveFormsModule,
     NzFormModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
   ],
   providers:[
     HttpService

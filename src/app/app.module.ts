@@ -21,6 +21,7 @@ import { ThemeConstantService } from './shared/services/theme-constant.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { CustomHttpInterceptor } from './services/custom-http-interceptor';
+import { ArrayFilterPipe } from './shared/pipes/arrayFilter.pipe';
 
 registerLocaleData(en);
 
@@ -28,7 +29,7 @@ registerLocaleData(en);
     declarations: [
         AppComponent,
         CommonLayoutComponent,
-        FullLayoutComponent
+        FullLayoutComponent,
     ],
     imports: [
         BrowserModule,
