@@ -1,12 +1,69 @@
 <section>
     <nz-card [nzActions]="[actionSubmit]">
+        <div class="row mb-md-3">
+            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" *ngFor="let item of employmentTypeData"
+                    [nzValue]="item.pk">{{item.name}}</label>
+            </nz-radio-group>
+        </div>
+        <form nz-form [formGroup]="createEditForm">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="blacklist_pincodes" class="text-left" nzRequired>Negative Pincodes</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Negative Pincodes!">
+                            <nz-select formControlName="blacklist_pincodes" nzPlaceHolder="Select Negative Pincodes!" nzMode="tags"
+                                [nzTokenSeparators]="[',']" nzShowSearch nzAllowClear>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <ng-container *ngFor="let item of get_underwritingArr(createEditForm); let k = index;"
+                    formArrayName="rules">
+                    <nz-form-label class="text-left" nzNoColon>{{item.controls.name.value.toString().toUpperCase()}}</nz-form-label>
+                    <div class="col-md-12" [formGroupName]="k">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <nz-form-item>
+                                    <nz-form-label nzFor="min" class="text-left" nzRequired>{{item.controls.min_label.value}}</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please input {{item.controls.min_label.value}}!">
+                                        <input nz-input type="number" min="0" formControlName="min"
+                                            placeholder="Please input {{item.controls.min_label.value}}!" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="col-md-6">
+                                <nz-form-item>
+                                    <nz-form-label nzFor="max" class="text-left" nzRequired>{{item.controls.max_label.value}}</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please input {{item.controls.max_label.value}}!">
+                                        <input nz-input type="number" min="0" formControlName="max"
+                                            placeholder="Please input {{item.controls.max_label.value}}!" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
     </nz-card>
     
     <ng-template #actionSubmit>
         <div class="row no-gutters">
-            <div class="col-12 d-flex justify-content-end px-4">
+            <div class="col-12 d-flex justify-content-between px-4">
+                <button nz-button nzType="link" (click)="isVisible = true">+Add another Rule</button>
                 <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>
 </section>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Rule" (nzOnCancel)="handleCancel()" (nzOnOk)="addRule()">
+    <ng-container *nzModalContent>
+        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Entity</nz-form-label>
+        <nz-select [(ngModel)]="selectedEntity" nzPlaceHolder="Select Select Entity!">
+            <nz-option *ngFor="let item of entityData" [nzValue]="item" [nzLabel]="item.name">
+            </nz-option>
+        </nz-select>
+    </ng-container>
+  </nz-modal>

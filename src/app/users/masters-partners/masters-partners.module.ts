@@ -13,11 +13,15 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { AddEditMastersComponent } from './add-edit-masters/add-edit-masters.component';
 import { MasterPartnersListComponent } from './master-partners-list/master-partners-list.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 
 
 @NgModule({
   declarations: [ AddEditMastersComponent, MasterPartnersListComponent],
   imports: [
+    NzDropDownModule,
     CommonModule,
     MastersPartnersRoutingModule,
     NzRadioModule,
@@ -29,7 +33,8 @@ import { MasterPartnersListComponent } from './master-partners-list/master-partn
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
-    NzTagModule
+    NzTagModule,
+    NzPageHeaderModule,
   ]
 })
 export class MastersPartnersModule { }
