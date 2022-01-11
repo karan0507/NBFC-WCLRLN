@@ -57,7 +57,6 @@ export class CommonLayoutComponent  {
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
-                console.log(route.routeConfig)
                 label = route.routeConfig.data['parent'] ? route.routeConfig.data['parent'] : route.routeConfig.data['title'];
                 path += route.routeConfig.path;
                 title = route.routeConfig.data['title'];
@@ -78,7 +77,6 @@ export class CommonLayoutComponent  {
         // }
 
         const nextUrl = path && path !== '/dashboard' ? `${url}${path}` : url;
-        console.log(nextUrl)
         const breadcrumb = <IBreadcrumb>{
             label: label, url: nextUrl, title: title
         };

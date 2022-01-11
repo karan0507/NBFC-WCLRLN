@@ -67,7 +67,7 @@ export class PartnersComponent implements OnInit {
     if (data[0]) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
-        element.slabs.forEach(slab => {
+        element.slabs?.forEach(slab => {
           if (slab.trigger_master.id == 1) {
             this.setSlabControlsFormData(slab, index)
           }
@@ -174,8 +174,6 @@ export class PartnersComponent implements OnInit {
       }
       this.createEditFormFuction();
       // this.message.success(res['message'])
-    }, (err) => {
-      this.loading = false
     })
   }
 
@@ -184,9 +182,6 @@ export class PartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -195,7 +190,6 @@ export class PartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [],
         trigger_master: ['1'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -214,9 +208,6 @@ export class PartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -225,7 +216,6 @@ export class PartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [ this.product_id],
         trigger_master: ['2'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -244,9 +234,6 @@ export class PartnersComponent implements OnInit {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        product: [this.product_id],
-        partner_master: [data.partner_master.id],
-        partner: [''],
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
@@ -255,7 +242,6 @@ export class PartnersComponent implements OnInit {
       });
     } else {
       return this.fb.group({
-        partner_master: [ this.product_id],
         trigger_master: ['3'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
@@ -285,9 +271,6 @@ export class PartnersComponent implements OnInit {
       form.slab_array.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -299,9 +282,6 @@ export class PartnersComponent implements OnInit {
       form.slab_array_Activation.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -313,9 +293,6 @@ export class PartnersComponent implements OnInit {
       form.slab_array_Acquisition_Customers.forEach(element => {
         slab.push(
           {
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -328,7 +305,6 @@ export class PartnersComponent implements OnInit {
         {
           master_partner: form.name,
           product: this.product_id,
-          // no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           partner_ids: form.partnersName,
           slabs: slab,
@@ -354,9 +330,6 @@ export class PartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -369,9 +342,6 @@ export class PartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -384,9 +354,6 @@ export class PartnersComponent implements OnInit {
         slab.push(
           {
             id: element.id,
-            product: this.product_id,
-            partner_master: form.name,
-            partner: '',
             trigger_master: element.trigger_master,
             min_amount: element.min_amount,
             max_amount: element.max_amount,
@@ -400,7 +367,6 @@ export class PartnersComponent implements OnInit {
           id: form.id,
           master_partner: form.name,
           product: this.product_id,
-          // no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           partner_ids: form.partnersName,
           slabs: slab,
