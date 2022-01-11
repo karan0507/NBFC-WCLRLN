@@ -22,6 +22,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { CustomHttpInterceptor } from './services/custom-http-interceptor';
 import { ArrayFilterPipe } from './shared/pipes/arrayFilter.pipe';
+import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { HttpService } from './services/http.service';
+
 
 registerLocaleData(en);
 
@@ -38,7 +41,8 @@ registerLocaleData(en);
         NzBreadCrumbModule,
         TemplateModule,
         SharedModule,
-        NgChartjsModule
+        NgChartjsModule,
+        DemoNgZorroAntdModule
     ],
     providers: [
         { 
@@ -54,7 +58,8 @@ registerLocaleData(en);
         //     useClass: CustomHttpInterceptor,
         //     multi: true
         // },
-        ThemeConstantService
+        ThemeConstantService,
+        HttpService
     ],
     bootstrap: [AppComponent]
 })
