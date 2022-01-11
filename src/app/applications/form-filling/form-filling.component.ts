@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-form-filling',
@@ -12,9 +13,16 @@ export class FormFillingComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
-  constructor() { }
+  constructor(public https: HttpService) { }
 
   ngOnInit(): void {
+
+  }
+
+
+  getFormLoanData() {
+    // this.https.fetchLoanApplication().subscribe(res => {
+      // console.log(res);  })
   }
 
   expandSet = new Set<number>();
