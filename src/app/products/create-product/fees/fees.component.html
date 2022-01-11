@@ -85,8 +85,7 @@
                         </div>
                     </div>
 
-                    
-                    <div class="col-md-12">
+                    <div class="col-md-12" *ngIf="item.controls.slab_specific.value">
                         <ng-container *ngFor="let slab_item of get_slabs(item); let i = index;" formArrayName="slabs">
                             <div class="row" [formGroupName]="i">
                                 <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
@@ -151,7 +150,7 @@
                         </nz-form-item>
                     </div>
                     </div>
-                    <div class="col-md-12 px-0">
+                    <div class="col-md-12 px-0" *ngIf="item.controls.amount_include_gst.value">
                         <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_rate" class="text-left" nzRequired>GST(%)</nz-form-label>
@@ -215,9 +214,7 @@
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-between px-4">
                 <button nz-button nzType="link" (click)="addFees()">+Add Fees Type</button>
-                <!-- [disabled]="createEditForm.invalid" -->
-                <button nz-button nzType="primary" 
-                 (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

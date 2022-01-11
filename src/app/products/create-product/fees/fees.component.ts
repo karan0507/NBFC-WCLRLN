@@ -32,6 +32,8 @@ export class FeesComponent implements OnInit {
   frequencyData: any;
   triggerData: any;
   debounce: any;
+  isFeesCreated: any;
+  feesData: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -43,13 +45,29 @@ export class FeesComponent implements OnInit {
         if(params['id']){
           this.product_id = params['id']
         }
-        // if (this.product_id) {
-        //   this.fetchPartnerPayout()
-        // } else {
+        if (this.product_id) {
+          this.fetchProductFees()
+        }
+        //  else {
         //   this.createEditFormFuction()
         // }
       });
     }
+  fetchProductFees() {
+    let data = {
+      product_id: this.product_id
+    };
+    this.http.fetchProductFees(data).subscribe(res => {
+      this.feesData = res['data']
+      if (this.feesData[0]) {
+        this.isFeesCreated = true
+        this.createEditFormFuction(this.feesData);
+      } else {
+        this.isFeesCreated = false
+      }
+      // this.message.success(res['message'])
+    })
+  }
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
       fees: this.fb.array([]),
@@ -64,29 +82,57 @@ export class FeesComponent implements OnInit {
     this.fees.push(this.addSlabControlsFees(data))
   }
   public addSlabControlsFees(data): FormGroup {
-    return this.fb.group({
-      fees_type : ['', [Validators.required]],
-      frequency : ['', [Validators.required]],
-      start_month : ['', [Validators.required]],
-      buffer_months : ['', [Validators.required]],
-      trigger : ['', [Validators.required]],
-      slab_specific : [true, [Validators.required]],
-      amount_include_gst : [true, [Validators.required]],
-      gst_rate : ['', [Validators.required]],
-      active_start_month : ['', [Validators.required]],
-      active_end_month : ['', [Validators.required]],
-      threshold_min : ['', [Validators.required]],
-      threshold_max : ['', [Validators.required]],
-      slabs: this.fb.array([this.addSlabControls()]),
-    });
+    if (data) {
+      return this.fb.group({
+        fees_type : [ data ? data.fees_type.id : '', [Validators.required]],
+        frequency : [ data ? data.frequency.id : '', [Validators.required]],
+        start_month : [ data ? data.start_month : '', [Validators.required]],
+        buffer_months : [ data ? data.buffer_months : '', [Validators.required]],
+        trigger : [ data ? data.trigger.id : '', [Validators.required]],
+        slab_specific : [ data ? data.slab_specific : true, [Validators.required]],
+        amount_include_gst : [ data ? data.amount_include_gst : true, [Validators.required]],
+        gst_rate : [ data ? data.gst_rate : ''],
+        active_start_month : [ data ? data.active_start_month : '', [Validators.required]],
+        active_end_month : [ data ? data.active_end_month : '', [Validators.required]],
+        threshold_min : [ data ? data.threshold_min : '', [Validators.required]],
+        threshold_max : [ data ? data.threshold_max : '', [Validators.required]],
+        slabs: this.fb.array([]),
+        id: [data ? data.id : '']
+      });
+    } else {
+      return this.fb.group({
+        fees_type : ['', [Validators.required]],
+        frequency : ['', [Validators.required]],
+        start_month : ['', [Validators.required]],
+        buffer_months : ['', [Validators.required]],
+        trigger : ['', [Validators.required]],
+        slab_specific : [true, [Validators.required]],
+        amount_include_gst : [true, [Validators.required]],
+        gst_rate : [''],
+        active_start_month : ['', [Validators.required]],
+        active_end_month : ['', [Validators.required]],
+        threshold_min : ['', [Validators.required]],
+        threshold_max : ['', [Validators.required]],
+        slabs: this.fb.array([this.addSlabControls()]),
+      });
+    }
   }
 
   public addSlabControls(data?): FormGroup {
-    return this.fb.group({
-      minimum_charge: ['', [Validators.required]],
-      maximum_charge: ['', [Validators.required]],
-      amount: ['', [Validators.required]]
-    });
+    if (data) {
+      return this.fb.group({
+        minimum_charge: [ data ? data.minimum_charge : ''],
+        maximum_charge: [ data ? data.maximum_charge : ''],
+        amount: [ data ? data.amount : ''],
+        id: [data ? data.id : '']
+      });
+    } else {
+      return this.fb.group({
+        minimum_charge: [''],
+        maximum_charge: [''],
+        amount: [''],
+      });
+    }
   }
   
   addSlabpartners(k, data?) {
@@ -102,12 +148,48 @@ export class FeesComponent implements OnInit {
   }
 
   setFormData(data: any) {
-    this.addFees(data)
+    if (data) {
+      data.forEach((element, index) => {
+        this.addFees(element)
+        element.slabs.forEach(slab => {
+          this.addSlabpartners(index, slab)
+        });
+      });
+      this.fetchFeeTypeMaster();
+      this.fetchFrequencyMaster();
+      this.fetchTriggerMaster();
+    } else {
+      this.addFees(data)
+    }
   }
   
   submitForm() {
+    if (this.isFeesCreated) {
+      this.editProductFees()
+    } else {
+      this.createProductFees()
+    }
     console.log(this.createEditForm.value)
     // this.createProductDetail();
+  }
+  editProductFees() {
+    this.createEditForm.value.fees.forEach(element => {
+      element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
+      element.slabs = element.amount_include_gst ? element.slabs : []
+    });
+    this.http.editProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
+      this.message.success(res['message'])
+    })
+  }
+  createProductFees() {
+    this.createEditForm.value.fees.forEach(element => {
+      element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
+      element.slabs = element.amount_include_gst ? element.slabs : []
+    });
+    this.http.createProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
+      this.isFeesCreated = true
+      this.message.success(res['message'])
+    })
   }
 
   fetchFeeTypeMaster() {

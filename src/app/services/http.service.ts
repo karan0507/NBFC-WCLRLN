@@ -177,6 +177,26 @@ export class HttpService {
    public fetchFeeTypeMaster(data) {
     return this._http.get((this.url +`/master/fetch-master-data/FeeTypeMaster`),{params: data, headers: this.headers});
   }
+  /**
+   * createProductFees
+   */
+   public createProductFees(data, product_id) {
+    return this._http.post((this.url +`/product/v1/product-fees/` + product_id), data, {headers: this.headers});
+  }
+
+  /**
+   * editProductFees
+   */
+  public editProductFees(data, product_id) {
+    return this._http.put((this.url +`/product/v1/product-fees/` + product_id), data, {headers: this.headers});
+  }
+
+  /**
+   * fetchProductFees
+   */
+   public fetchProductFees(data) {
+    return this._http.get((this.url +`/product/v1/product-fees/` + data.product_id),{headers: this.headers});
+  }
 
   //************************ */
   public setProductValue(data): any {

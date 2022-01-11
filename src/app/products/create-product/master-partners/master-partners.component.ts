@@ -106,7 +106,7 @@ export class MasterPartnersComponent implements OnInit {
     if (data[0]) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
-        element.slabs.forEach(slab => {
+        element.slabs?.forEach(slab => {
           if (slab.trigger_master.id == 1) {
             this.setSlabControlsFormData(slab, index)
           }

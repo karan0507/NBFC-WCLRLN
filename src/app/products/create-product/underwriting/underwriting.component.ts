@@ -45,7 +45,9 @@ export class UnderwritingComponent implements OnInit {
     };
     this.http.fetchUnderWritingRule(data).subscribe(res => {
       this.underWritingRuleData = res['data']
-      this.createEditFormFuction(this.underWritingRuleData)
+      if (this.underWritingRuleData.underwriting_rules) {
+        this.createEditFormFuction(this.underWritingRuleData)
+      }
     })
   }
   createEditFormFuction(data?) {
@@ -57,9 +59,9 @@ export class UnderwritingComponent implements OnInit {
   }
   setFormData(data) {
     if (data) {
-      data.underwriting_rules.forEach(element => {
+      data.underwriting_rules?.forEach(element => {
         this.selectedTab = element.employment_type.id
-        this.addUnderWriting(element)
+        this.addUnderWriting(element, true)
       });
     }
   }
@@ -67,28 +69,46 @@ export class UnderwritingComponent implements OnInit {
     return <FormArray>this.createEditForm.get('rules');
   }
 
-  addUnderWriting(data: any) {
-    this.rules.push(this.addSlabControlsUnderWriting(data))
+  addUnderWriting(data: any, value) {
+    this.rules.push(this.addSlabControlsUnderWriting(data, value))
   }
-  addSlabControlsUnderWriting(data: any): FormGroup {
-    return this.fb.group({
-      product: [this.product_id],
-      employment_type: [this.selectedTab],
-      underwriting_entity: [ data ? data.underwriting_entity.id : ''],
-      name: [ data ? data.underwriting_entity.name : ''],
-      min_label: [ data ? data.underwriting_entity.min_label : ''],
-      max_label: [ data ? data.underwriting_entity.max_label : ''],
-      min: [ data ? data?.min : '', [Validators.required]],
-      max: [ data ? data?.max : '', [Validators.required]],
-      id: [data ? data.id : '']
-    });
+  addSlabControlsUnderWriting(data: any, value): FormGroup {
+    console.log(data)
+    if (data && value) {
+      return this.fb.group({
+        product: [this.product_id],
+        employment_type: [this.selectedTab],
+        underwriting_entity: [ data ? data.underwriting_entity.id : ''],
+        name: [ data ? data.underwriting_entity.name : ''],
+        min_label: [ data ? data.underwriting_entity.min_label : ''],
+        max_label: [ data ? data.underwriting_entity.max_label : ''],
+        min: [ data ? data?.min : '', [Validators.required]],
+        max: [ data ? data?.max : '', [Validators.required]],
+        id: [data ? data.id : '']
+      });
+    } else {
+      return this.fb.group({
+        product: [this.product_id],
+        employment_type: [this.selectedTab],
+        underwriting_entity: [ data ? data.pk : ''],
+        name: [ data ? data.name : ''],
+        min_label: [ data ? data.min_label : ''],
+        max_label: [ data ? data.max_label : ''],
+        min: [ data ? data?.min : '', [Validators.required]],
+        max: [ data ? data?.max : '', [Validators.required]],
+      });
+    }
   }
 
   submitForm() {
     this.createUnderWritingRule();
   }
   createUnderWritingRule() {
+    this.createEditForm.value.rules.forEach(element => {
+      element.employment_type = this.selectedTab
+    });
     this.http.createUnderWritingRule(this.createEditForm.value).subscribe( res => {
+      this.fetchUnderWritingRule()
       this.message.success(res['message'])
     })
   }
@@ -119,7 +139,7 @@ export class UnderwritingComponent implements OnInit {
       const index = this.entityData.indexOf(this.selectedEntity)
       this.entityData.splice(index,1)
     }
-    this.addUnderWriting(this.selectedEntity)
+    this.addUnderWriting(this.selectedEntity, false)
     this.isVisible = false
   }
 
