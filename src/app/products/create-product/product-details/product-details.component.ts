@@ -48,11 +48,6 @@ export class ProductDetailsComponent implements OnInit {
       tenure_unit: [ this.productDetails ? this.productDetails.tenure_unit : 'Months', [Validators.required]],
       tenure: [ this.productDetails ? this.productDetails.tenure : ''],
       rate_of_interest: [ this.productDetails ? this.productDetails.rate_of_interest : ''],
-      // no_of_emis: ['', [Validators.required]],
-      // emi_details: ['', [Validators.required]],
-      // buffer_days: ['', [Validators.required]],
-      // advance_emi: ['', [Validators.required]],
-      // date_of_emi: ['', [Validators.required]],
       })
     if (this.productDetails) {
       this.fetchNBFCdata()

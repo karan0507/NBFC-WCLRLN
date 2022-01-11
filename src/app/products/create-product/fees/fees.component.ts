@@ -44,13 +44,13 @@ export class FeesComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         if(params['id']){
           this.product_id = params['id']
+          if (this.product_id) {
+            this.fetchProductFees()
+          }
+        } else {
+          this.feesData = null
+          this.createEditFormFuction()
         }
-        if (this.product_id) {
-          this.fetchProductFees()
-        }
-        //  else {
-        //   this.createEditFormFuction()
-        // }
       });
     }
   fetchProductFees() {
