@@ -16,6 +16,7 @@ export class AddEditMastersComponent implements OnInit {
 
   ngOnInit(): void {
     this.createMasterProductForm();
+    this.getListOfDocumentRequired();
   }
 
   getListOfDocumentRequired(){
@@ -58,7 +59,7 @@ export class AddEditMastersComponent implements OnInit {
   }
 
   onClickSubmitForm(){
-    console.log(this.addEditProductForm.value);
+    console.log(this.addEditProductForm.value, 'Values');
     
   }
 }

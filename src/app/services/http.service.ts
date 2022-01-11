@@ -216,7 +216,7 @@ export class HttpService {
   }
 
   public getListOfDocumentRequired(){
-    return this._http.get((this.url +`master/fetch-master-data/DocumentMaster`),{headers: this.headers});
+    return this._http.get((this.url1 +`master/fetch-master-data/DocumentMaster`),{headers: this.headers});
 // master/fetch-master-data/DocumentMaster
   }
 }

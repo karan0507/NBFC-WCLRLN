@@ -16,6 +16,7 @@ import { MasterPartnersListComponent } from './master-partners-list/master-partn
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 
 
@@ -37,6 +38,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     NzTagModule,
     NzPageHeaderModule,
     NzFormModule,
+    NzDividerModule
   ]
 })
 export class MastersPartnersModule { }

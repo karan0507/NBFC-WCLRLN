@@ -1,6 +1,6 @@
 <section>
     <nz-card>
-        <form nz-form [formGroup]="addEditProductForm" (ngSubmit)="onClickSubmitForm()">
+        <form nz-form [formGroup]="addEditProductForm" >
             <div class="row border-bottom">
                 <div class="col-12 my-2 d-flex">
                     <div class="text-width">
@@ -77,7 +77,7 @@
                         Type
                     </div>
                     <div>
-                        <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text"
+                        <input class="input-width" nzSize="small" nz-input formControlName="business_type" type="text"
                             id="credit" placeholder="Enter Code" />
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         Nature
                     </div>
                     <div>
-                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                        <input class="input-width" nz-input nzSize="small" formControlName="business_nature" type="text"
                             id="credit" placeholder="Enter Code" />
                     </div>
                 </div>
@@ -102,8 +102,8 @@
                         Name
                     </div>
                     <div>
-                        <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text"
-                            id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nzSize="small" nz-input formControlName="contact_person_name" type="text"
+                            id="credit" placeholder="Contact Person Name" />
                     </div>
                 </div>
                 <div class="col-6 my-2 d-flex">
@@ -111,7 +111,7 @@
                         Phone No.
                     </div>
                     <div>
-                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                        <input class="input-width" nz-input nzSize="small" formControlName="contact_person_phone" type="text"
                             id="credit" placeholder="Enter Code" />
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         Email Id
                     </div>
                     <div>
-                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                        <input class="input-width" nz-input nzSize="small" formControlName="contact_person_email" type="text"
                             id="credit" placeholder="Enter Code" />
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                             IFSC Code
                         </div>
                         <div>
-                            <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                            <input class="input-width" nz-input nzSize="small" formControlName="ifsc" type="text"
                                 id="credit" placeholder="Enter Code" />
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                             Branch
                         </div>
                         <div>
-                            <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                            <input class="input-width" nz-input nzSize="small" formControlName="branch" type="text"
                                 id="credit" placeholder="Enter Code" />
                         </div>
                     </div>
@@ -201,9 +201,9 @@
                     <div>
                         <!-- <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
                         id="credit" placeholder="Enter Code" /> -->
-                        <label nz-radio ngModel>Yes</label>
-                        <label nz-radio ngModel>no</label>
-                        <label nz-radio ngModel>N/A</label>
+                        <label nz-radio >Yes</label>
+                        <label nz-radio>no</label>
+                        <label nz-radio>N/A</label>
                     </div>
                 </div>
             </div>
@@ -215,9 +215,9 @@
                     <div>
                         <!-- <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
                         id="credit" placeholder="Enter Code" /> -->
-                        <label nz-radio ngModel>Yes</label>
-                        <label nz-radio ngModel>no</label>
-                        <label nz-radio ngModel>N/A</label>
+                        <label nz-radio>Yes</label>
+                        <label nz-radio>no</label>
+                        <label nz-radio>N/A</label>
                     </div>
                 </div>
             </div>
@@ -225,6 +225,15 @@
 
         </form>
     </nz-card>
+    <div class="row my-3 justify-content-between">
+        <div class="col-3">
+            <button nz-button nzType="default">Reset</button>
+        </div>
+        <div class="col-3 text-right">
+            <button type="submit" (click)="onClickSubmitForm()" nz-button nzType="primary">Save</button>
+        </div>
+
+    </div>
 </section>
 
 <!-- <div class="col-12 my-2 d-flex">
