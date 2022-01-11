@@ -13,6 +13,25 @@ export class FeesComponent implements OnInit {
   createEditForm: FormGroup;
   product_id: any;
   @Input() productDetails: any;
+  
+  time_period_arr = [
+    { name: '1 Month', value: 1 },
+    { name: '2 Months', value: 2 },
+    { name: '3 Months', value: 3 },
+    { name: '4 Months', value: 4 },
+    { name: '5 Months', value: 5 },
+    { name: '6 Months', value: 6 },
+    { name: '7 Months', value: 7 },
+    { name: '8 Months', value: 8 },
+    { name: '9 Months', value: 9 },
+    { name: '10 Months', value: 10 },
+    { name: '11 Months', value: 11 },
+    { name: '12 Months', value: 12 }
+  ]
+  feeTypeData: any;
+  frequencyData: any;
+  triggerData: any;
+  debounce: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -51,8 +70,8 @@ export class FeesComponent implements OnInit {
       start_month : ['', [Validators.required]],
       buffer_months : ['', [Validators.required]],
       trigger : ['', [Validators.required]],
-      slab_specific : ['', [Validators.required]],
-      amount_include_gst : ['', [Validators.required]],
+      slab_specific : [true, [Validators.required]],
+      amount_include_gst : [true, [Validators.required]],
       gst_rate : ['', [Validators.required]],
       active_start_month : ['', [Validators.required]],
       active_end_month : ['', [Validators.required]],
@@ -64,8 +83,8 @@ export class FeesComponent implements OnInit {
 
   public addSlabControls(data?): FormGroup {
     return this.fb.group({
-      maximum_charge: ['', [Validators.required]],
       minimum_charge: ['', [Validators.required]],
+      maximum_charge: ['', [Validators.required]],
       amount: ['', [Validators.required]]
     });
   }
@@ -83,11 +102,41 @@ export class FeesComponent implements OnInit {
   }
 
   setFormData(data: any) {
-    
+    this.addFees(data)
   }
   
   submitForm() {
+    console.log(this.createEditForm.value)
     // this.createProductDetail();
+  }
+
+  fetchFeeTypeMaster() {
+    let data;
+    this.http.fetchFeeTypeMaster(data).subscribe(res => {
+      this.feeTypeData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+  fetchFrequencyMaster() {
+    let data;
+    this.http.fetchFrequencyMaster(data).subscribe(res => {
+      this.frequencyData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+  fetchTriggerMaster() {
+    let data;
+    this.http.fetchTriggerMaster(data).subscribe(res => {
+      this.triggerData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+  
+  searchStaticDataGlobalFunction(search_param) {
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      // this.fetchMasterPartnerData(search_param);
+    }, 500);
   }
 
 }

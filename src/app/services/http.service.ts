@@ -159,6 +159,24 @@ export class HttpService {
    public fetchUnderWritingRule(data) {
     return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id),{headers: this.headers});
   }
+  /**
+   * fetchTriggerMaster
+   */
+   public fetchTriggerMaster(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/TriggerMaster`),{params: data, headers: this.headers});
+  }
+  /**
+   * fetchFrequencyMaster
+   */
+   public fetchFrequencyMaster(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/FrequencyMaster`),{params: data, headers: this.headers});
+  }
+  /**
+   * fetchFeeTypeMaster
+   */
+   public fetchFeeTypeMaster(data) {
+    return this._http.get((this.url +`/master/fetch-master-data/FeeTypeMaster`),{params: data, headers: this.headers});
+  }
 
   //************************ */
   public setProductValue(data): any {

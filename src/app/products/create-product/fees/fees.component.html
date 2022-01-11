@@ -1,11 +1,223 @@
 <section>
     <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <ng-container *ngFor="let item of get_fees(createEditForm); let k = index;"
+                formArrayName="fees">
+                <nz-form-label class="w-100 text-left" nzNoColon>Type {{k+1}}</nz-form-label>
+                <div class="row mb-3" [formGroupName]="k">
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fees_type" class="text-left" nzRequired>Fees Type</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Fees Type!">
+                                <nz-select formControlName="fees_type" nzPlaceHolder="Select Fees Type!"
+                                    (nzFocus)="fetchFeeTypeMaster()" nzShowSearch nzAllowClear
+                                    (nzOnSearch)="searchStaticDataGlobalFunction($event)">
+                                    <nz-option *ngFor="let item of feeTypeData" [nzValue]="item.pk"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="frequency" class="text-left" nzRequired>Frequency</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Frequency!">
+                                <nz-select formControlName="frequency" nzPlaceHolder="Select Frequency!"
+                                    (nzFocus)="fetchFrequencyMaster()" nzShowSearch nzAllowClear
+                                    (nzOnSearch)="searchStaticDataGlobalFunction($event)">
+                                    <nz-option *ngFor="let item of frequencyData" [nzValue]="item.pk"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Starts from</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Starts from!">
+                                <nz-select formControlName="start_month" nzPlaceHolder="Select Starts from!" nzShowSearch nzAllowClear>
+                                    <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="buffer_months" class="text-left" nzRequired>Buffer</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Buffer!">
+                                <nz-select formControlName="buffer_months" nzPlaceHolder="Select Buffer!" nzShowSearch nzAllowClear>
+                                    <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="trigger" class="text-left" nzRequired>Trigger</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Trigger!">
+                                <nz-select formControlName="trigger" nzPlaceHolder="Select Trigger!"
+                                    (nzFocus)="fetchTriggerMaster()" nzShowSearch nzAllowClear
+                                    (nzOnSearch)="searchStaticDataGlobalFunction($event)">
+                                    <nz-option *ngFor="let item of triggerData" [nzValue]="item.pk"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <div class="col-md-6">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="slab_specific" class="text-left" nzRequired>Slab Wise</nz-form-label>
+                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please select Slab Wise!">
+                                    <nz-radio-group formControlName="slab_specific">
+                                        <label nz-radio [nzValue]="true">Yes</label>
+                                        <label nz-radio [nzValue]="false">No</label>
+                                      </nz-radio-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-md-12">
+                        <ng-container *ngFor="let slab_item of get_slabs(item); let i = index;" formArrayName="slabs">
+                            <div class="row" [formGroupName]="i">
+                                <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
+                                </nz-form-label>
+                                <div class="col-md-6">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum Amt.</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24">
+                                            <input nz-input type="number" min="1" name="minimum_charge" formControlName="minimum_charge" id="minimum_charge"
+                                                placeHolder="Minimum Amt.">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-6">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="maximum_charge" class="text-left" nzRequired>Maximum Amt.</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24">
+                                            <input nz-input type="number" min="1" name="maximum_charge" formControlName="maximum_charge" id="maximum_charge"
+                                                placeHolder="Maximum Amt.">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-6">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount (₹)</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24">
+                                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                                <input nz-input type="number" min="0" name="amount" formControlName="amount"
+                                                    id="amount" placeHolder="Amount (₹)">
+                                            </nz-input-group>
+                        
+                                            <ng-template #addOnAfterTemplate>
+                                                <span>₹</span>
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <!-- <div class="row mx-0 d-flex align-items-center"> -->
+                                    <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
+                                    <!-- <span class="font-size-24"></span></label> -->
+                                    <!-- <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
+                                    nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, i)" *ngIf="i > 0">
+                                            <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                                    </label> -->
+                                <!-- </div> -->
+                            </div>
+                        </ng-container>
+                        <button nz-button nzType="link" class="mb-3" (click)="addSlabpartners(k)">+ Add more
+                            Slabs</button>
+                    </div>
+
+                    <div class="col-md-12 px-0">
+                        <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount_include_gst" class="text-left" nzRequired>GST</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please select GST!">
+                                <nz-radio-group formControlName="amount_include_gst">
+                                    <label nz-radio [nzValue]="true">Yes</label>
+                                    <label nz-radio [nzValue]="false">No</label>
+                                  </nz-radio-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_rate" class="text-left" nzRequired>GST(%)</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input GST(%)!">
+                                <!-- <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" /> -->
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                    <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" />
+                                </nz-input-group>
+                            
+                                <ng-template #addOnAfterTemplateforamt>
+                                    <span>(excluding amount)</span>
+                                </ng-template>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    </div>
+                    <nz-form-label class="w-100 text-left" nzNoColon>Active Period</nz-form-label>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="active_start_month" class="text-left" nzRequired>Start Month</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Start Month!">
+                                <input nz-input type="number" min="0" formControlName="active_start_month"
+                                    placeholder="Please input Start Month!" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="active_end_month" class="text-left" nzRequired>End Month</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input End Month!">
+                                <input nz-input type="number" min="0" formControlName="active_end_month"
+                                    placeholder="Please input End Month!" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <nz-form-label class="w-100 text-left" nzNoColon>Threshold</nz-form-label>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="threshold_min" class="text-left" nzRequired>Minimum Amt. (₹)</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Minimum Amt. (₹)!">
+                                <input nz-input type="number" min="0" formControlName="threshold_min"
+                                    placeholder="Please input Minimum Amt. (₹)!" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="threshold_max" class="text-left" nzRequired>Maximum Amt. (₹)</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Maximum Amt. (₹)!">
+                                <input nz-input type="number" min="0" formControlName="threshold_max"
+                                    placeholder="Please input Maximum Amt. (₹)!" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
     </nz-card>
     
     <ng-template #actionSubmit>
         <div class="row no-gutters">
-            <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+            <div class="col-12 d-flex justify-content-between px-4">
+                <button nz-button nzType="link" (click)="addFees()">+Add Fees Type</button>
+                <!-- [disabled]="createEditForm.invalid" -->
+                <button nz-button nzType="primary" 
+                 (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>
