@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-master-partners-list',
@@ -95,9 +96,21 @@ export class MasterPartnersListComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private http: HttpService) { }
 
   ngOnInit(): void {
+    this.getMasterPartner();
+  }
+
+  getMasterPartner(){
+    let data = {
+      // 'user_type_id' : 2
+      // 'page': 1,
+    };
+    this.http.getMasterPartner(data).subscribe((res)=> {
+      console.log(res);
+      
+    })
   }
 
   onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {

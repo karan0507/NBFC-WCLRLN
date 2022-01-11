@@ -1,65 +1,253 @@
 <section>
     <nz-card>
         <form nz-form [formGroup]="addEditProductForm" (ngSubmit)="onClickSubmitForm()">
-            <div class="row">
-                <div class="col-12">
-                    <div>
-                        Partner’s Name
+            <div class="row border-bottom">
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
+                        Master’s Name
                     </div>
                     <div>
-                        <input width="1rem" nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nzSize="small" nz-input formControlName="name" type="text"
+                            placeholder="Enter Name" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         Address Line 1
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nz-input nzSize="small" formControlName="address_line_1" type="text"
+                            placeholder="Address" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         Address line 2
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nz-input nzSize="small" formControlName="address_line_2" type="text"
+                            placeholder="Enter Address" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         City
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nz-input nzSize="small" formControlName="city" type="text"
+                            placeholder="Enter City" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         State/Region
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nz-input nzSize="small" formControlName="state" type="text"
+                            placeholder="Enter State" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         Pin Code
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nz-input nzSize="small" formControlName="pincode" type="text"
+                            placeholder="Enter Pin Code" />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
                         Phone No
                     </div>
                     <div>
-                        <input nz-input formControlName="code" type="text" id="credit" placeholder="Enter Code" />
+                        <input class="input-width" nzSize="small" nz-input formControlName="phone" type="text"
+                            id="credit" placeholder="Enter Phone No" />
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Business Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Type
+                    </div>
+                    <div>
+                        <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text"
+                            id="credit" placeholder="Enter Code" />
+                    </div>
+                </div>
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Nature
+                    </div>
+                    <div>
+                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                            id="credit" placeholder="Enter Code" />
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Contact Personal Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Name
+                    </div>
+                    <div>
+                        <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text"
+                            id="credit" placeholder="Enter Code" />
+                    </div>
+                </div>
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Phone No.
+                    </div>
+                    <div>
+                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                            id="credit" placeholder="Enter Code" />
+                    </div>
+                </div>
+                <div class="col-12 my-2 d-flex">
+                    <div class="text-width">
+                        Email Id
+                    </div>
+                    <div>
+                        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                            id="credit" placeholder="Enter Code" />
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <h6>
+                        Banking Details
+                    </h6>
+                </div>
+                <div class="row">
+                    <div class="col-6 my-2 d-flex">
+                        <div class="text-width">
+                            Bank Name
+                        </div>
+                        <div>
+                            <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text"
+                                id="credit" placeholder="Enter Code" />
+                        </div>
+                    </div>
+                    <div class="col-6 my-2 d-flex">
+                        <div class="text-width">
+                            A/c No.
+                        </div>
+                        <div>
+                            <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                                id="credit" placeholder="Enter Code" />
+                        </div>
+                    </div>
+                    <div class="col-6 my-2 d-flex">
+                        <div class="text-width">
+                            IFSC Code
+                        </div>
+                        <div>
+                            <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                                id="credit" placeholder="Enter Code" />
+                        </div>
+                    </div>
+                    <div class="col-6 my-2 d-flex">
+                        <div class="text-width">
+                            Branch
+                        </div>
+                        <div>
+                            <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                                id="credit" placeholder="Enter Code" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    KYC Documents
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Pan
+                    </div>
+                    <div>
+                        <!-- <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text" id="credit" placeholder="Enter Code" /> -->
+                        upload & Verified
+                    </div>
+                </div>
+                <div class="col-6 my-2 d-flex">
+                    <div class="text-width">
+                        Aadhaar
+                    </div>
+                    <div>
+                        <!-- <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text" id="credit" placeholder="Enter Code" /> -->
+                        <a>+Upload</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex">
+                    <div class="text-width">
+                        Employee
+                    </div>
+                    <div>
+                        <!-- <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                        id="credit" placeholder="Enter Code" /> -->
+                        <label nz-radio ngModel>Yes</label>
+                        <label nz-radio ngModel>no</label>
+                        <label nz-radio ngModel>N/A</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex">
+                    <div class="text-width">
+                        Payout
+                    </div>
+                    <div>
+                        <!-- <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text"
+                        id="credit" placeholder="Enter Code" /> -->
+                        <label nz-radio ngModel>Yes</label>
+                        <label nz-radio ngModel>no</label>
+                        <label nz-radio ngModel>N/A</label>
                     </div>
                 </div>
             </div>
 
+
         </form>
     </nz-card>
 </section>
+
+<!-- <div class="col-12 my-2 d-flex">
+    <div class="text-width">
+        Bank No.
+    </div>
+    <div>
+        <input class="input-width" nzSize="small" nz-input formControlName="bank_name" type="text" id="credit" placeholder="Enter Code" />
+    </div>
+</div>
+<div class="col-12 my-2 d-flex">
+    <div class="text-width">
+        Account No.
+    </div>
+    <div>
+        <input class="input-width" nz-input nzSize="small" formControlName="account_no" type="text" id="credit" placeholder="Enter Code" />
+    </div>
+</div>
+<div class="col-12 my-2 d-flex">
+    <div class="text-width">
+        IFSC
+    </div>
+    <div >
+        <input class="input-width" nzSize="small" nz-input formControlName="ifsc" type="text" id="credit" placeholder="Enter Code" />
+    </div>
+</div> -->
