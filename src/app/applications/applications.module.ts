@@ -23,7 +23,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { EditFormComponent } from './edit-form/edit-form.component';
-import { HttpService } from '../services/http.service';
+// import { HttpService } from '../services/http.service';
 
 @NgModule({
   declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent],
@@ -44,7 +44,7 @@ import { HttpService } from '../services/http.service';
     NzMenuModule
   ],
   providers:[
-    HttpService
+    // HttpService
   ]
 })
 export class ApplicationsModule { }

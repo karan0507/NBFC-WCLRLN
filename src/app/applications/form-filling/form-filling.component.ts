@@ -16,13 +16,14 @@ export class FormFillingComponent implements OnInit {
   constructor(public https: HttpService) { }
 
   ngOnInit(): void {
-
+    this.getFormLoanData();
   }
 
 
   getFormLoanData() {
-    // this.https.fetchLoanApplication().subscribe(res => {
-      // console.log(res);  })
+    this.https.fetchLoanApplicationData().subscribe(res => {
+      console.log(res);
+    })
   }
 
   expandSet = new Set<number>();

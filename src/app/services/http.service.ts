@@ -10,6 +10,8 @@ export class HttpService {
 	url = 'https://devadminapi.fatakpay.com'
 	token = '77ffd5bd55e4435a99274c5562266b1beb994b1e';
 
+  url1 = 'https://devonboardingapi.fatakpay.com'
+
   globalProductData = new ReplaySubject<any>();
   headers: HttpHeaders;
 
@@ -161,5 +163,12 @@ export class HttpService {
   //************************ */
   public setProductValue(data): any {
     this.globalProductData.next(data);
+  }
+
+  /**
+   * Application Module Fetch Loan 
+   */
+  public fetchLoanApplicationData(): any {
+    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`),{headers: this.headers});
   }
 }
