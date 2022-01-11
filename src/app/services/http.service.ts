@@ -209,4 +209,14 @@ export class HttpService {
   public fetchLoanApplicationData(): any {
     return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`),{headers: this.headers});
   }
+
+  public getMasterPartner(data){
+    return this._http.get((this.url +`/partner/v1/get/master`),{headers: this.headers, params:data});
+    // /partner/v1/get/master
+  }
+
+  public getListOfDocumentRequired(){
+    return this._http.get((this.url +`master/fetch-master-data/DocumentMaster`),{headers: this.headers});
+// master/fetch-master-data/DocumentMaster
+  }
 }

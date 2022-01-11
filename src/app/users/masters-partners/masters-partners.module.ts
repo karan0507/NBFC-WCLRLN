@@ -15,7 +15,8 @@ import { AddEditMastersComponent } from './add-edit-masters/add-edit-masters.com
 import { MasterPartnersListComponent } from './master-partners-list/master-partners-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import { NzFormModule } from 'ng-zorro-antd/form';
+
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
     NzButtonModule,
     NzTagModule,
     NzPageHeaderModule,
+    NzFormModule,
   ]
 })
 export class MastersPartnersModule { }

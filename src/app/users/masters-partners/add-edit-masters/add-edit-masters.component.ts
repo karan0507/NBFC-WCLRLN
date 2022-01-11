@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import {  FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import { HttpService } from "src/app/services/http.service";
 
 
 @Component({
@@ -11,12 +12,18 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 export class AddEditMastersComponent implements OnInit {
   // masterForm
   addEditProductForm!: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpService ) {}
 
   ngOnInit(): void {
     this.createMasterProductForm();
   }
 
+  getListOfDocumentRequired(){
+    this.http.getListOfDocumentRequired().subscribe((res)=>{
+      console.log('Res ', + res );
+    })
+    
+  }
   createMasterProductForm() {
     this.addEditProductForm = this.fb.group({
       name: [null, [Validators.required]],
@@ -26,11 +33,16 @@ export class AddEditMastersComponent implements OnInit {
       state: [null, [Validators.required]],
       pincode: [null, [Validators.required]],
       phone: [null, [Validators.required]],
+
+
       bank_name: [null, [Validators.required]],
       account_no: [null, [Validators.required]],
       ifsc: [null, [Validators.required]],
       branch: [null, [Validators.required]],
+
+      // Attribute Type under business detail
       business_type: [null, [Validators.required]],
+      // Attribute Nature under business detail
       business_nature: [null, [Validators.required]],
       contact_person_name: [null, [Validators.required]],
       contact_person_phone: [null, [Validators.required]],
@@ -39,6 +51,8 @@ export class AddEditMastersComponent implements OnInit {
       payout: [null, [Validators.required]],
       document_data: [null, [Validators.required]],
       documents: [null, [Validators.required]],
+
+      // if m creating master always share the value 1  
       master: [null, [Validators.required]],
     });
   }
