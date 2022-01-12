@@ -294,4 +294,9 @@ export class HttpService {
     return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{headers: headers});
 // master/fetch-master-data/DocumentMaster
   }
+
+  public createMasterPartnerForm(data){
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: this.headers});
+    // {{url}}/partner/v1/create-partner-partnermaster
+  }
 }

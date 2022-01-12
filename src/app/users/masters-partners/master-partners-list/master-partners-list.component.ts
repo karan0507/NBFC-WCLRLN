@@ -78,6 +78,15 @@ export class MasterPartnersListComponent implements OnInit {
   listOfCurrentPageData: readonly Data[] = [];
   checked = false;
   indeterminate = false;
+  _apiLoader = {
+    list: false,
+    detailList: false,
+  };
+  globalPageSize = 30;
+  page;
+  isVisible = false;
+  total_count: any;
+  searchValue = ''
 
   expandSet = new Set<number>();
   masterPartner: any;
@@ -100,7 +109,9 @@ export class MasterPartnersListComponent implements OnInit {
   constructor(private http: HttpService) { }
 
   ngOnInit(): void {
+    this.page = 1
     this.getMasterPartner();
+    
   }
 
   onClickChangeTab(e){
@@ -108,16 +119,40 @@ export class MasterPartnersListComponent implements OnInit {
     this.getMasterPartner();
   }
 
-  getMasterPartner(){
+  getResultBasedOnSearch(){
+    this.page = 1;
+    this.getMasterPartner();
+  }
+
+  resetFilter(){
+    this.page = 1;
+    this.searchValue = ''
+    this.getMasterPartner();
+  }
+
+  getMasterPartner(e?){
+    if (this._apiLoader["list"]) { return; }
+    if(e){
+      this.page = e?.pageIndex;
+      this.globalPageSize = e?.pageSize
+    } 
     let data = {
       // 'user_type_id' : 2
-      // 'page': 1,
+      'page': this.page,
+      'name': this.searchValue,
       'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
-    
+    // if(this.searchValue){
+    //   data['']
+    // }
+    this._apiLoader["list"] = true;
     this.http.getMasterPartner(data).subscribe((res: any)=> {
       console.log(res);
       this.masterPartner = res?.data?.results
+      this.total_count = res?.data?.total_count
+      this._apiLoader["list"] = false;
+    }, erro => {
+      this._apiLoader["list"] = false;
     })
   }
 
