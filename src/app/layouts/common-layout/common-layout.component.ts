@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable } from "rxjs";
 import { distinctUntilChanged, filter, map, startWith } from "rxjs/operators";
+import { HttpService } from 'src/app/services/http.service';
 import { IBreadcrumb } from "../../shared/interfaces/breadcrumb.type";
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
 
@@ -19,7 +21,8 @@ export class CommonLayoutComponent  {
     isExpand: boolean;
     selectedHeaderColor: string;
 
-    constructor(private router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService) {
+    constructor(private router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
+        private message: NzMessageService,) {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
             map(() => {
@@ -41,6 +44,17 @@ export class CommonLayoutComponent  {
     }
 
     ngOnInit() {
+        if(localStorage.getItem('fatakpay_user_data')){
+            var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).token;
+            if(check_token_exists){
+              this.VerifyUserFunction()
+            }
+          }
+          else{
+            this.router.navigate(['/authentication/login']);
+            console.log('something')
+            this.message.error('Authorization Details Not Found, Kindly Login again');
+          }
         this.breadcrumbs$ = this.router.events.pipe(
             startWith(new NavigationEnd(0, '/', '/')),
             filter(event => event instanceof NavigationEnd),distinctUntilChanged(),
@@ -87,4 +101,25 @@ export class CommonLayoutComponent  {
         }
         return newBreadcrumbs;
     }
+
+    VerifyUserFunction(){
+        this.http.VerifyUser().subscribe((res) => {
+          if(res.success){
+            // this.http.setPermissionValue(res.data.data.permissions_slug_list)
+            localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+            // if(res.data.data.icon){
+            // //   this.http.setBrandLogoValueOnChange(res.data.data.icon)
+            // }
+          }
+          else{
+            this.router.navigate(['/authentication/login']);
+            this.message.error(res.message);
+            localStorage.removeItem('fatakpay_user_data')
+          }
+        }, (err) => {
+          this.router.navigate(['/authentication/login']);
+          this.message.error('Oops! something went wrong, Kindly Login again');
+          localStorage.removeItem('fatakpay_user_data')
+        })
+      }
 }

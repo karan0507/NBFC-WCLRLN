@@ -12,10 +12,10 @@ import { Error2Component } from './error-2/error-2.component';
 
 const routes: Routes = [
     {
-        path: 'login-1',
+        path: 'login',
         component: Login1Component,
         data: {
-            title: 'Login 1'
+            title: 'Login'
         }
     },
     {
