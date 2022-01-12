@@ -15,6 +15,7 @@ export class AddEditMastersComponent implements OnInit {
   addEditProductForm!: FormGroup;
   documentBasedForm: FormGroup;
   documentArray: any;
+  index: any;
   constructor(private fb: FormBuilder, private http: HttpService ) {}
 
   ngOnInit(): void {
@@ -48,9 +49,9 @@ export class AddEditMastersComponent implements OnInit {
       employee: [null, [Validators.required]],
       payout: [null, [Validators.required]],
       document_data:  this.fb.array([]),
-      // documents: [null, [Validators.required]],
+      documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [null, [Validators.required]],
+      master: [1, [Validators.required]],
     });
     this.getListOfDocumentRequired();
   }
@@ -63,7 +64,6 @@ export class AddEditMastersComponent implements OnInit {
         this.addSkills(element);
       });
     })
-    
   }
 
   get skills() : FormArray {
@@ -74,11 +74,29 @@ export class AddEditMastersComponent implements OnInit {
     return this.fb.group({
       document_master: [data?.pk],
       label_name: [data?.name],
-      document_name: [''],
-      documents: ['']
+      // document_name: [''],
+      documents: [''],
     })
   }
+  // this.fb.array([])
  
+  onChange(e,i){
+    // console.log(e.target.files[0])
+    console.log(e.target.files[0])
+    this.index = i;
+    let value = this.addEditProductForm.get('document_data') as FormArray;
+    value.controls?.[this.index].patchValue({documents: e.target.files[0]});
+    // value.setValue(e.target.files[0])
+    // if(value){
+    //   this.addEditProductForm.addControl('documents',e.target.files[0])
+    // }
+    // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
+
+
+
+  }
+
+
   addSkills(data?) {
     this.skills.push(this.newSkill(data));
   }
@@ -89,29 +107,58 @@ export class AddEditMastersComponent implements OnInit {
 
   onClickSubmitForm(){
     console.log('Working')
+    let data = new FormData();
+    
     console.log(this.addEditProductForm.value)
+    var sendDate = this.addEditProductForm.value
+    
+    for (var i in sendDate.document_data) {
+      data.append('documents', sendDate?.document_data[i]?.documents)
+    }
+
+    delete sendDate.document_data
+    for (var i in sendDate) {
+      data.append(i, sendDate[i])
+    }
+    this.http.createMasterPartnerForm(data).subscribe((res)=> {
+      console.log(res);
+    })
+    console.log(data);
   }
 
-  handleChange(e, index){
+  handleChange(e,index){
     // console.log('in Progress', i);
-    console.log(e);
-    
-    console.log(this.addEditProductForm.get('document_data')['controls'][index].controls.document_master.value)
+    console.log(index, 'index');
+    this.index = index
+    // console.log(this.addEditProductForm.get('document_data')['controls'][index].controls.document_master.value)
     this.addEditProductForm.get('document_data')['controls'][index].controls.documents.setValue(e.file.originFileObj)
 
     // console.log(e + '  ' + this.addEditProductForm.controls.document_data['controls'][index].document_master)
   }
-  
 
-  beforeUpload = (file: NzUploadFile): boolean => {
-    // this.newGallery.patchValue({document: file});
-    // console.log(file)
-    // this.generateBase64View(file)
-    // this.galleryDocument = file
-    // this.logoStockistObject['fileObject'] = file;
-    // this.handleChange(this.logoStockistObject['fileObject'])
-    return false;
-  };
+  // beforeUpload = (file: NzUploadFile): boolean => {
+  //   const data = []
+  //   data.push({documents: file});
+  //   let value = this.addEditProductForm.get('document_data') as FormArray;
+  //   value.controls?.[this.index].patchValue({documents:file});
+  //   console.log(file)
+  //   console.log(this.addEditProductForm.get('document_data')['controls'])
+  //   this.addEditProductForm.get('document_data')['controls'][this.index].controls.documents.setValue(file)
+    
+  //   this.addEditProductForm.get('document_data')['controls']['documents'].setValue(file)
+  //   console.log(file)
+  //   return false;
+  // };
+
+  // beforeUpload = (file: NzUploadFile): boolean => {
+  //   // this.newGallery.patchValue({document: file});
+  //   // console.log(file)
+  //   // this.generateBase64View(file)
+  //   // this.galleryDocument = file
+  //   // this.logoStockistObject['fileObject'] = file;
+  //   // this.handleChange(this.logoStockistObject['fileObject'])
+  //   return false;
+  // };
 
 
   // add(data?) {
