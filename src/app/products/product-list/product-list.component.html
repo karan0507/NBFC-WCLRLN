@@ -1,1 +1,67 @@
-<p>product-list works!</p>
+<div class="header_breadcrumb_section">
+    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['../product/create-product']">+ Create Product</button>
+</div>
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzData]="productList" 
+            [nzScroll]="{ x: '1500px' }">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Name</th>
+                        <th>Master Partners</th>
+                        <!-- <th>Partners</th> -->
+                        <th>NBFC's Mapped</th>
+                        <!-- <th>Fees Type</th> -->
+                        <!-- <th>Status</th> -->
+                        <th>Activated on</th>
+                        <th>Created at</th>
+                        <th>Created by</th>
+                        <th>Updated at</th>
+                        <th>Updated by</th>
+                        <th nzRight>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of productList; index as i">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ data.name ? data.name : '-' }}</td>
+                        <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
+                        <!-- <td>{{ data.regDate }}</td> -->
+                        <td>{{ data.default_nbfc ? data.default_nbfc.name : '-' }}</td>
+                        <!-- <td>{{ data.invest }}</td> -->
+                        <!-- <td>{{ data.status }}</td> -->
+                        <td>{{ data.activation_date | date: "mediumDate" }}</td>
+                        <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
+                        <td>{{ data.created_by ? data.created_by : '-' }}</td>
+                        <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
+                        <td>{{ data.updated_by ? data.updated_by : '-' }}</td>
+                        <td nzRight>
+                            <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
+                            <a class="mr-3"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                            <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>

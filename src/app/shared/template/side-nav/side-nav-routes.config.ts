@@ -23,14 +23,14 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: [] 
             },
-            { 
-                path: 'product/create-product',
-                title: 'Create New Product', 
-                iconType: '', 
-                icon: '',
-                iconTheme: '',
-                submenu: [] 
-            }
+            // { 
+            //     path: 'product/create-product',
+            //     title: 'Create New Product', 
+            //     iconType: '', 
+            //     icon: '',
+            //     iconTheme: '',
+            //     submenu: [] 
+            // }
         ]
     },
     {

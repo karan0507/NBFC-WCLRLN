@@ -5,13 +5,16 @@ import { ProductListRoutingModule } from './product-list-routing.module';
 import { FatakPayDetailComponent } from './fatak-pay-detail/fatak-pay-detail.component';
 import { FatakPayEmiDetailComponent } from './fatak-pay-emi-detail/fatak-pay-emi-detail.component';
 import { FatakPayDraftComponent } from './fatak-pay-draft/fatak-pay-draft.component';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { ProductListComponent } from './product-list.component';
 
 
 @NgModule({
-  declarations: [FatakPayDetailComponent, FatakPayEmiDetailComponent, FatakPayDraftComponent],
+  declarations: [FatakPayDetailComponent, FatakPayEmiDetailComponent, FatakPayDraftComponent, ProductListComponent],
   imports: [
     CommonModule,
-    ProductListRoutingModule
+    ProductListRoutingModule,
+    DemoNgZorroAntdModule
   ]
 })
 export class ProductListModule { }
