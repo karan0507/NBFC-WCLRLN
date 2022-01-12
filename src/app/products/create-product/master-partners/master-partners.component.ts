@@ -46,10 +46,11 @@ export class MasterPartnersComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if(params['id']){
         this.product_id = params['id']
-      }
-      if (this.product_id) {
-        this.fetchPartnerPayout()
+        if (this.product_id) {
+          this.fetchPartnerPayout()
+        }
       } else {
+        this.masterParnerPayout = null
         this.createEditFormFuction()
       }
     });
@@ -103,7 +104,7 @@ export class MasterPartnersComponent implements OnInit {
     })
   }
   setFormData(data?) {
-    if (data[0]) {
+    if (data) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
         element.slabs?.forEach(slab => {
@@ -134,11 +135,11 @@ export class MasterPartnersComponent implements OnInit {
       this.loading = false
       this.masterParnerPayout = res['data'].results
       if (this.masterParnerPayout[0]) {
+        this.createEditFormFuction();
         this.isMasterCreated = true
       } else {
         this.isMasterCreated = false
       }
-      this.createEditFormFuction();
       // this.message.success(res['message'])
     })
   }

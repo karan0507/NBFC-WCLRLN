@@ -24,10 +24,13 @@ export class LimitsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.product_id = params['id']
-      }
-      if (this.product_id) {
-        this.fetchProductLimits()
+        if (this.product_id) {
+          this.fetchProductLimits()
+        }
       } else {
+        this.productlimitData = null
+        this.productlimit_id = null
+        this.createEditFormFuction();
       }
     });
     this.createEditFormFuction();

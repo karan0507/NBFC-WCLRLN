@@ -26,10 +26,12 @@ export class NbfcsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if(params['id']){
         this.product_id = params['id']
+        if (this.product_id) {
+          this.fetchNbfcs()
+        } 
+      } else {
+        this.productNbfscData = null
       }
-      if (this.product_id) {
-        this.fetchNbfcs()
-      } 
     });
     this.createEditFormFuction()
   }
@@ -109,7 +111,9 @@ export class NbfcsComponent implements OnInit {
     }
     this.http.fetchNbfcs(data).subscribe(res => {
       this.productNbfscData = res['data']
-      this.createEditFormFuction(this.productNbfscData);
+      if (this.productNbfscData[0]) {
+        this.createEditFormFuction(this.productNbfscData);
+      }
     },(err) =>{
     })
   }

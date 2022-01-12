@@ -30,9 +30,12 @@ export class UnderwritingComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.product_id = params['id']
-      }
-      if (this.product_id) {
-        this.fetchUnderWritingRule()
+        if (this.product_id) {
+          this.fetchUnderWritingRule()
+        }
+      } else {
+        this.underWritingRuleData = null
+        this.createEditFormFuction()
       }
     });
 
@@ -44,8 +47,8 @@ export class UnderwritingComponent implements OnInit {
       product_id: this.product_id
     };
     this.http.fetchUnderWritingRule(data).subscribe(res => {
-      this.underWritingRuleData = res['data']
-      if (this.underWritingRuleData.underwriting_rules) {
+      if (res['data'].underwriting_rules) {
+        this.underWritingRuleData = res['data']
         this.createEditFormFuction(this.underWritingRuleData)
       }
     })
