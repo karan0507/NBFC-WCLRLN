@@ -282,7 +282,7 @@ export class HttpService {
   public getListOfDocumentRequired(){
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     this.headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`master/fetch-master-data/DocumentMaster`),{headers: this.headers});
+    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{headers: this.headers});
 // master/fetch-master-data/DocumentMaster
   }
 }

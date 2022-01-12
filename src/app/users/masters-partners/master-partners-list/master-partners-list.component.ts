@@ -8,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./master-partners-list.component.css']
 })
 export class MasterPartnersListComponent implements OnInit {
-  selectedTab = '1'
+  selectedTab = 'all'
   listOfData = [
     {
       id: 1,
@@ -80,6 +80,7 @@ export class MasterPartnersListComponent implements OnInit {
   indeterminate = false;
 
   expandSet = new Set<number>();
+  masterPartner: any;
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
       this.expandSet.add(id);
@@ -102,14 +103,21 @@ export class MasterPartnersListComponent implements OnInit {
     this.getMasterPartner();
   }
 
+  onClickChangeTab(e){
+    this.selectedTab = e;
+    this.getMasterPartner();
+  }
+
   getMasterPartner(){
     let data = {
       // 'user_type_id' : 2
       // 'page': 1,
+      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
-    this.http.getMasterPartner(data).subscribe((res)=> {
+    
+    this.http.getMasterPartner(data).subscribe((res: any)=> {
       console.log(res);
-      
+      this.masterPartner = res?.data?.results
     })
   }
 

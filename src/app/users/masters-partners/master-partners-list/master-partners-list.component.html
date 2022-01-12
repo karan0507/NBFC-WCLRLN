@@ -1,16 +1,15 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-6 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
-                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="1">All</label>
-                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="2">Active</label>
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
-                    nzValue="3">Inactive</label>
+                    nzValue="inactive">Inactive</label>
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
-            <button  nz-button class='text-primary'
-                 [routerLink]="['/masters-partners/add']">+ Create Scheme</button>
+            <button nz-button class='text-primary' [routerLink]="['/masters-partners/add']">+ Create Scheme</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -45,35 +44,45 @@
                     <tr>
                         <th nzWidth="100px">#</th>
                         <th>Master Partner Details</th>
-                        <th>No. of Partners</th>
-                        <th>Reference Id</th>
-                        <th>Regd. On</th>
-                        <th>PAN</th>
-                        <th>Verification</th>
-                        <th>KYC</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Type</th>
+                        <th>Nature</th>
+                        <th>No. Of Partners
+                    <!-- <tr>
+                        <th>Total <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
+                        </th>
+                        <th>0-24 Days <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
+                        </th>
+                        <th>25-45 Days <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
+                        </th>
+                        <th> >45 Days </th>
+                    </tr> -->
+                    </th>
+                    <th>Regd. On</th>
+                    <th>Registration</th>
+                    <th>Transaction Type</th>
+                    <th>System Status</th>
+                    <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let data of listOfData; index as i">
+                    <ng-container *ngFor="let data of masterPartner; index as i">
                         <tr>
                             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)">
                                 {{ i + 1 }}</td>
                             <td>{{ data.name }}</td>
-                            <td>70</td>
-                            <td>Corp-124</td>
-                            <td>{{ data.regDate }}</td>
-                            <td>{{ data.pan }}
-                                <br>
-                                <nz-tag [nzColor]="'#074EE8'">FETCH</nz-tag>
+                            <td>{{data?.business_type}}</td>
+                            <td>{{data?.business_nature}}</td>
+                            <td>{{ data.no_of_partner }}</td>
+                            <td>{{ data.created_at | date: 'dd MMM yyyy' }}
+                                <!-- <br>
+                                <nz-tag [nzColor]="'#074EE8'">FETCH</nz-tag> -->
                             </td>
                             <td>
-                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                <a *ngIf="data?.is_deleted == false"><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                <!-- <i nz-icon nzType="close-circle" nzTheme="outline"></i> -->
+                                <a *ngIf="data?.is_deleted == true"><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
-                            <td>
-                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
-                            </td>
+                            <td>{{ data.transaction_type }}</td>
                             <td>{{ data.status }}</td>
                             <td>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
