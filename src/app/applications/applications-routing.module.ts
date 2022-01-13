@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DisbursementComponent } from './disbursement/disbursement.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { ENachSigningComponent } from './e-nach-signing/e-nach-signing.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 import { FormFillingComponent } from './form-filling/form-filling.component';
 import { OfferAcceptanceComponent } from './offer-acceptance/offer-acceptance.component';
 import { OfferProposedComponent } from './offer-proposed/offer-proposed.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
         data: {
           title: 'Form Filling',
           parent: 'applications',
+          custom_url:'/applications/form-filling'
         }
       },
       {
@@ -89,6 +91,35 @@ const routes: Routes = [
       },
     ]
   },
+
+  {
+      path: '',
+      // component: ProductsComponent,
+      children: [
+        {
+          path: 'form-filling',
+          // component: FormFillingComponent,
+          // redirectTo:'/applications/form-filling',
+          data: {
+            title: 'Form Filling',
+            parent: 'applications',
+            custom_url:'/applications/form-filling'
+          },
+          children:[
+            {
+             path: 'edit-form',
+             component: EditFormComponent,
+             data: {
+               title: 'Edit Form',
+               parent: 'applications',
+             },
+            } 
+           ]
+        },
+      ]
+  }
+  ,
+       
 ];
 
 @NgModule({

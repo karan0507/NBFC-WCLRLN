@@ -23,10 +23,15 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { EditFormComponent } from './edit-form/edit-form.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { TrackStatusComponent } from './track-status/track-status.component';
+import { RejectedComponent } from './rejected/rejected.component';
+import { DormantComponent } from './dormant/dormant.component';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
@@ -41,7 +46,9 @@ import { EditFormComponent } from './edit-form/edit-form.component';
     NzUploadModule,
     NzIconModule,
     NzDropDownModule,
-    NzMenuModule
+    NzMenuModule,
+    NzDatePickerModule,
+    NzFormModule
   ],
   providers:[
     // HttpService
