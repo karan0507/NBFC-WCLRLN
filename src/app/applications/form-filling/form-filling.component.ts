@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -13,6 +14,16 @@ export class FormFillingComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
+  loanApplicationData : any = [];
+  total_count:any;
+  _currentDate:any;
+  today = new Date();
+  
+  disabledDate = (current: Date): boolean => {
+        // Can not select days before today and today
+        return differenceInCalendarDays(current, this.today) > 0;
+      };
+
   constructor(public https: HttpService) { }
 
   ngOnInit(): void {
@@ -21,8 +32,10 @@ export class FormFillingComponent implements OnInit {
 
 
   getFormLoanData() {
+    // let data = (pk:1)
     this.https.fetchLoanApplicationData().subscribe(res => {
-      console.log(res);
+      this.loanApplicationData = res?.data?.results;
+      this.total_count = res?.total_count;
     })
   }
 
@@ -90,5 +103,9 @@ export class FormFillingComponent implements OnInit {
     const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
     this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
+  }
+
+  onMonthChange(event){
+
   }
 }

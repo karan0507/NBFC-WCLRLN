@@ -1,1 +1,81 @@
-<p>edit-form works!</p>
+<!--Edit Personal Details -->
+<section>
+      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="personal"></nz-page-header>
+<ng-template #personal>
+      <div class="d-flex justify-content-between">
+            <div> <span class="font-weight-normal">Personal Details</span></div>
+      </div>
+</ng-template>
+<nz-card>
+      <form nz-form [formGroup]="personalDetails" [nzLayout]="'vertical'">
+            <div class="row">
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Email</nz-form-label>
+                              <nz-form-control nzErrorTip="Please input your Email!">
+                                    <input nz-input formControlName="email" placeholder="Enter your Email" />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>D.O.B</nz-form-label>
+                              <nz-form-control nzErrorTip="Please select your Date Of Birth!">
+                                    <nz-date-picker formControlName="date_of_birth" nzFormat="yyyy-MM-dd"
+                                        (ngModelChange)="onChange($event)">
+                                    </nz-date-picker>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Monthly Income</nz-form-label>
+                              <nz-form-control nzErrorTip="Please select your Monthly Income!">
+                                    <nz-select class="w-100" style=" width: 8rem;" formControlName="income" nzAllowClear
+                                    nzPlaceHolder="Select Amount">
+                                    <nz-option nzValue="medicine" nzLabel="1,000 < 1,00000"></nz-option>
+                                    <nz-option nzValue="medic" nzLabel="1,00000 > 1,000000"></nz-option>
+                              </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+            </div>
+      </form>
+</nz-card>
+</section>
+
+<!--Edit Employement Details -->
+<section>
+      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="employement"></nz-page-header>
+<ng-template #employement>
+      <div class="d-flex justify-content-between">
+            <div> <span class="font-weight-normal">Employement Details</span></div>
+      </div>
+</ng-template>
+<nz-card>
+      <form nz-form [formGroup]="employementDetails" [nzLayout]="'vertical'">
+            <div class="row">
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Company Name</nz-form-label>
+                              <nz-form-control nzErrorTip="Please enter your Company Name!">
+                                    <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name" nzAllowClear
+                                    nzPlaceHolder="Company Name">
+                                    <nz-option nzValue="medicine" nzLabel="Infosys"></nz-option>
+                              </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-8">
+                        <nz-form-item>
+                              <nz-form-label>Address</nz-form-label>
+                              <nz-form-control nzErrorTip="Please enter your company address">
+                                    <input  nz-input placeholder="Enter your Company Address"  formControlName="address" nzFormat="yyyy-MM-dd">
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+            </div>
+      </form>
+</nz-card>
+<button nz-button nzType="primary" (click)="submitForm()">Submit</button>
+</section>
