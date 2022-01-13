@@ -14,7 +14,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Master Product!">
-                            <nz-radio-group formControlName="product_master">
+                            <nz-radio-group formControlName="product_master" (ngModelChange)="changeProductMaster($event)">
                                 <label nz-radio nzValue="1">Fatak Pay</label>
                                 <label nz-radio nzValue="2">Fatak Pay EMI</label>
                               </nz-radio-group>
@@ -74,29 +74,58 @@
                 </div>
                 <h5 *ngIf="createEditForm.get('product_master').value == '2'">EMI Tenure</h5>
                 <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="tenure" class="text-left" nzRequired>Select Tenure</nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Tenure!">
-                            <nz-select formControlName="tenure" nzPlaceHolder="Select Tenure">
-                                <nz-option *ngFor="let item of tenureList" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
-                            </nz-select>
-                        </nz-form-control>
-                    </nz-form-item>
+                    <ng-container *ngFor="let item of get_tenures(createEditForm); let k = index;" formArrayName="tenures">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="tenure" class="text-left" nzRequired>Select Tenure
+                                    </nz-form-label>
+                                    <nz-form-control [nzSm]="4" [nzXs]="24" nzErrorTip="Please select Tenure Unit!">
+                                        <nz-select formControlName="tenure_unit" nzPlaceHolder="Select Tenure Unit">
+                                            <nz-option *ngFor="let item of tenureList" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                    <nz-form-control [nzSm]="4" [nzXs]="24" nzErrorTip="Please enter Tenure!" class="ml-3">
+                                        <input nz-input type="number" min="0" formControlName="tenure" placeholder="Please enter Tenure" (keyup)="setNoOfEmisValue(k)"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="rate_of_interest" class="text-left" nzRequired>Interest Rate(%)
+                                    </nz-form-label>
+                                    <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Interest Rate(%)!">
+                                        <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                            <input nz-input type="number" min="0" formControlName="rate_of_interest" />
+                                        </nz-input-group>
+                                        <ng-template #addOnAfterTemplate>
+                                            <span>%</span>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_details" class="text-left" nzRequired>EMI Details</nz-form-label>
+                                    <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Details!">
+                                        <textarea nz-input formControlName="emi_details" placeholder="Please input EMI Details"></textarea>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="advance_emi" class="text-left" nzRequired>Advance EMI</nz-form-label>
+                                    <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Advance EMI!">
+                                        <input nz-input type="number" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    
+                    </ng-container>
                 </div>
-                <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="rate_of_interest" class="text-left" nzRequired>Interest Rate(%)</nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Interest Rate(%)!">
-                            <!-- <input nz-input type="number" min="0" formControlName="rate_of_interest" /> -->
-                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                <input nz-input type="number" min="0" formControlName="rate_of_interest" />
-                            </nz-input-group>
-                              <ng-template #addOnAfterTemplate>
-                                <span>%</span>
-                            </ng-template>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
+                <button *ngIf="createEditForm.get('product_master').value == '2'" nz-button nzType="link" (click)="addTenure()">+Add Tenure</button>
+                
             </div>
         </form>
     </nz-card>

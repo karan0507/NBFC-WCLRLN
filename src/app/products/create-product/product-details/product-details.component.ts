@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -15,10 +15,9 @@ export class ProductDetailsComponent implements OnInit {
   createEditForm: FormGroup;
   nbfcsList: any;
   tenureList = [
-    {name: '3 Months', value: 3},
-    {name: '6 Months', value: 6},
-    {name: '9 Months', value: 9},
-    {name: '12 Months', value: 12}
+    {name: 'Days', value: 'Days'},
+    {name: 'Months', value: 'Months'},
+    {name: 'Years', value: 'Years'},
   ]
   @Input() product_id: any;
   productDetails: any;
@@ -30,6 +29,9 @@ export class ProductDetailsComponent implements OnInit {
       this.productDetails = res
 
       this.createEditFormFuction();
+      this.productDetails.tenures.forEach(element => {
+        this.addTenure(element)  
+      });
     })
    }
 
@@ -45,13 +47,45 @@ export class ProductDetailsComponent implements OnInit {
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
       default_nbfc: [ this.productDetails ? this.productDetails.default_nbfc?.id : '', [Validators.required]],
-      tenure_unit: [ this.productDetails ? this.productDetails.tenure_unit : 'Months', [Validators.required]],
-      tenure: [ this.productDetails ? this.productDetails.tenure : ''],
-      rate_of_interest: [ this.productDetails ? this.productDetails.rate_of_interest : ''],
+      tenures: this.fb.array([]),
       })
     if (this.productDetails) {
       this.fetchNBFCdata()
     }
+  }
+
+  get tenures(): FormArray {
+    return <FormArray>this.createEditForm.get('tenures');
+  }
+
+  addTenure(data?) {
+    this.tenures.push(this.addSlabControlsTenure(data))
+  }
+  public addSlabControlsTenure(data): FormGroup {
+    if (data) {
+      return this.fb.group({
+        id: [data.id],
+        tenure_unit: [ data ? data.tenure_unit : 'Months', [Validators.required]],
+        tenure: [ data ? data.tenure : ''],
+        no_of_emis: [ data ? data.no_of_emis : ''],
+        rate_of_interest: [ data ? data.rate_of_interest : ''],
+        emi_details: [ data ? data.emi_details : ''],
+        advance_emi: [ data ? data.advance_emi : ''],
+      });
+    } else {
+      return this.fb.group({
+        tenure_unit: ['Months', [Validators.required]],
+        tenure: [''],
+        no_of_emis: [''],
+        rate_of_interest: [''],
+        emi_details: [''],
+        advance_emi: [''],
+      });
+    }
+  }
+
+  get_tenures(form) {
+    return form.controls.tenures.controls;
   }
 
   fetchNBFCdata() {
@@ -89,6 +123,24 @@ export class ProductDetailsComponent implements OnInit {
       relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
     })
+  }
+
+  changeProductMaster(e) {
+    if (e==2) {
+      this.addTenure()
+    } else {
+      this.removeTenure()
+    }
+  }
+  removeTenure() {
+    this.createEditForm.controls.tenures['controls'].forEach((element, index) => {
+      this.tenures.removeAt(index)
+    });
+  }
+
+  setNoOfEmisValue(index) {
+    this.createEditForm.controls.tenures['controls'][index].controls.no_of_emis.setValue(this.createEditForm.controls.tenures['controls'][index].controls.tenure.value)
+    console.log(this.createEditForm.controls.tenures['controls'][index].controls.no_of_emis.value)
   }
 
 }

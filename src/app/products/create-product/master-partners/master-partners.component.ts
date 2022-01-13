@@ -43,6 +43,7 @@ export class MasterPartnersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createEditFormFuction()
     this.route.queryParams.subscribe(params => {
       if(params['id']){
         this.product_id = params['id']
