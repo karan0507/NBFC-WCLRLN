@@ -197,6 +197,15 @@ export class HttpService {
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
     return this._http.get((this.url +`/master/fetch-master-data/EmploymentTypeMaster`),{params: data, headers: headers});
   }
+  
+  /**
+   * fetchDocumentMaster
+   */
+   public fetchDocumentMaster(data) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{params: data, headers: headers});
+  }
 
   
   /**
@@ -265,6 +274,34 @@ export class HttpService {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
     return this._http.get((this.url +`/product/v1/product-fees/` + data.product_id),{headers: headers});
+  }
+
+  
+  /**
+   * createOnboardingRules
+   */
+   public createOnboardingRules(data, product_id) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.post((this.url +`/product/v1/onboarding-rules/` + product_id), data, {headers: headers});
+  }
+
+  /**
+   * editOnboardingRules
+   */
+  public editOnboardingRules(data, product_id) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.put((this.url +`/product/v1/onboarding-rules/` + product_id), data, {headers: headers});
+  }
+
+  /**
+   * fetchOnboardingRules
+   */
+   public fetchOnboardingRules(data) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/product/v1/onboarding-rules/` + data.product_id),{headers: headers});
   }
 
   //************************ */
