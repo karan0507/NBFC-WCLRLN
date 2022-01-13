@@ -7,6 +7,8 @@ import { FatakPayEmiDetailComponent } from './fatak-pay-emi-detail/fatak-pay-emi
 import { FatakPayDraftComponent } from './fatak-pay-draft/fatak-pay-draft.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { ProductListComponent } from './product-list.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { ProductListComponent } from './product-list.component';
   imports: [
     CommonModule,
     ProductListRoutingModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ProductListModule { }

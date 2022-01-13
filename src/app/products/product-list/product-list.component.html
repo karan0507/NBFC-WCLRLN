@@ -7,22 +7,24 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text" />
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchProductList()"/>
                     </nz-input-group>
                     <ng-template #suffixIconButton>
-                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchProductList()"><i nz-icon nzType="search"></i></button>
                     </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="productList" 
-            [nzScroll]="{ x: '1500px' }">
+            <nz-table [nzData]="productList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"[nzPageSize]="20">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
