@@ -312,6 +312,15 @@ export class HttpService {
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
     return this._http.get((this.url +`/product/v1/onboarding-rules/` + data.product_id),{headers: headers});
   }
+  
+  /**
+   * fetchRoles
+   */
+   public fetchRoles(data) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data, headers: headers});
+  }
 
   //************************ */
   public setProductValue(data): any {

@@ -15,6 +15,8 @@ export class EmployeeListComponent implements OnInit {
   total_count: any;
   employeeList: any;
   deactivated: any = '';
+  roleData: any;
+  roles = ''
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -28,8 +30,8 @@ export class EmployeeListComponent implements OnInit {
     let data = {
       page: this.page,
       deactivated: this.deactivated,
-      name: this.search_params
-      // id: this.product_id
+      name: this.search_params,
+      role: this.roles
     }
     this.api_calling_loader = true
     this.http.fetchEmployeeList(data).subscribe(res => {
@@ -43,9 +45,18 @@ export class EmployeeListComponent implements OnInit {
   }
 
   
+  fetchRoles() {
+    let data;
+    this.http.fetchRoles(data).subscribe(res => {
+      this.roleData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+  
   resetFilters() {
     this.search_params = ''
     this.deactivated = ''
+    this.roles = ''
     this.fetchEmployeeList();
   }
 }
