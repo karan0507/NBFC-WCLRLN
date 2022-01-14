@@ -12,7 +12,7 @@
                     <ng-template #suffixIconButton>
                         <button nz-button nzType="secondary" nzSearch (click)="fetchProductList()"><i nz-icon nzType="search"></i></button>
                     </ng-template>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2" (click)="resetFilters()">
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
@@ -29,11 +29,12 @@
                     <tr>
                         <th nzWidth="3rem">#</th>
                         <th>Name</th>
+                        <th>Product Master</th>
                         <th>Master Partners</th>
-                        <!-- <th>Partners</th> -->
+                        <th>Partners</th>
                         <th>NBFC's Mapped</th>
-                        <!-- <th>Fees Type</th> -->
-                        <!-- <th>Status</th> -->
+                        <th>Fees Type</th>
+                        <th>Status</th>
                         <th>Activated on</th>
                         <th>Created at</th>
                         <th>Created by</th>
@@ -47,10 +48,11 @@
                         <td>{{ i+1 }}</td>
                         <td>{{ data.name ? data.name : '-' }}</td>
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
-                        <!-- <td>{{ data.regDate }}</td> -->
+                        <td>{{ 'NA' }}</td>
+                        <td>{{ 'NA' }}</td>
                         <td>{{ data.default_nbfc ? data.default_nbfc.name : '-' }}</td>
-                        <!-- <td>{{ data.invest }}</td> -->
-                        <!-- <td>{{ data.status }}</td> -->
+                        <td>{{ 'NA' }}</td>
+                        <td>{{ 'NA' }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
                         <td>{{ data.created_by ? data.created_by : '-' }}</td>
