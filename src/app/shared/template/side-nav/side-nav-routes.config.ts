@@ -9,20 +9,20 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
-        path: 'products',
+        path: 'product-list',
         title: 'Products',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'shopping',
         submenu: [
-            { 
-                path: 'product-list',
-                title: 'View Products', 
-                iconType: '', 
-                icon: '',
-                iconTheme: '',
-                submenu: [] 
-            },
+            // { 
+            //     path: 'product-list',
+            //     title: 'View Products', 
+            //     iconType: '', 
+            //     icon: '',
+            //     iconTheme: '',
+            //     submenu: [] 
+            // },
             // { 
             //     path: 'product/create-product',
             //     title: 'Create New Product', 
