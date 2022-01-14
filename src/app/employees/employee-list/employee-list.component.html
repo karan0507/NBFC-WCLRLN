@@ -14,20 +14,21 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
-                <!-- <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchEmployeeList()"
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
                         nzPlaceHolder="Filter By">
-                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option nzValue="0" nzLabel="Active"></nz-option>
+                        <nz-option nzValue="1" nzLabel="Inactive"></nz-option>
                     </nz-select>
-                </div> -->
+                </div>
             </div>
-            <nz-table [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="20">
+            <nz-table [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="30">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
                         <th>Employee Name</th>
                         <th>Employee Code</th>
+                        <th>User Type</th>
                         <th>Mobile No.</th>
                         <th>Email-ID</th>
                         <th>Regd. On</th>
@@ -40,6 +41,7 @@
                         <td>{{ i+1 }}</td>
                         <td>{{ data.first_name ? data.first_name + ' ' + data.last_name : '-' }}</td>
                         <td>{{ data.employee_code ? data.employee_code : '-' }}</td>
+                        <td>{{ data.role ? data.role.role_name : '-' }}</td>
                         <td>{{ data.mobile ? data.mobile : '-' }}</td>
                         <td>{{ data.email ? data.email : '' }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>

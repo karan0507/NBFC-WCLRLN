@@ -96,17 +96,38 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.product_id) {
-      this.editProductDetail();
+    let data;
+    if (this.createEditForm.value.tenures[0]) {
+      data = {
+        activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
+        default_nbfc: this.createEditForm.value.default_nbfc,
+        inactivation_date: moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"),
+        name: this.createEditForm.value.name,
+        product_code: this.createEditForm.value.product_code,
+        product_master: this.createEditForm.value.product_master,
+        remarks: this.createEditForm.value.remarks,
+        tenures: this.createEditForm.value.tenures
+      }          
     } else {
-      this.createProductDetail();
+      data = {
+        activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
+        default_nbfc: this.createEditForm.value.default_nbfc,
+        inactivation_date: moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"),
+        name: this.createEditForm.value.name,
+        product_code: this.createEditForm.value.product_code,
+        product_master: this.createEditForm.value.product_master,
+        remarks: this.createEditForm.value.remarks
+      }        
+    }
+    if (this.product_id) {
+      this.editProductDetail(data);
+    } else {
+      this.createProductDetail(data);
     }
   }
 
-  createProductDetail() {
-    this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
-    this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
-    this.http.createProductDetail(this.createEditForm.value).subscribe(res => {
+  createProductDetail(data) {
+    this.http.createProductDetail(data).subscribe(res => {
       this.product_id = res['data'].product_id
       this.router.navigate([], {
       relativeTo: this.route, queryParams: {id: this.product_id}});
@@ -114,10 +135,8 @@ export class ProductDetailsComponent implements OnInit {
     })
   }
   
-  editProductDetail() {
-    this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
-    this.createEditForm.get('inactivation_date').setValue(moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"))
-    this.http.editProductDetail(this.createEditForm.value, this.product_id).subscribe(res => {
+  editProductDetail(data) {
+    this.http.editProductDetail(data, this.product_id).subscribe(res => {
       this.product_id = res['data'].product_id
       this.router.navigate([], {
       relativeTo: this.route, queryParams: {id: this.product_id}});

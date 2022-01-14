@@ -14,6 +14,7 @@ export class EmployeeListComponent implements OnInit {
   api_calling_loader: boolean;
   total_count: any;
   employeeList: any;
+  deactivated: any = '';
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -26,7 +27,7 @@ export class EmployeeListComponent implements OnInit {
   fetchEmployeeList() {
     let data = {
       page: this.page,
-      // product_master: this.product_master,
+      deactivated: this.deactivated,
       name: this.search_params
       // id: this.product_id
     }
@@ -44,6 +45,7 @@ export class EmployeeListComponent implements OnInit {
   
   resetFilters() {
     this.search_params = ''
+    this.deactivated = ''
     this.fetchEmployeeList();
   }
 }
