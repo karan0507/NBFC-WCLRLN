@@ -53,11 +53,11 @@ registerLocaleData(en);
             provide: LocationStrategy, 
             useClass: PathLocationStrategy
         },
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: CustomHttpInterceptor,
-        //     multi: true
-        // },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: CustomHttpInterceptor,
+            multi: true
+        },
         ThemeConstantService,
         HttpService
     ],
