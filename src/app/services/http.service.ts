@@ -11,14 +11,10 @@ export class HttpService {
 	token = '';
 
   url1 = 'https://devonboardingapi.fatakpay.com'
-  token1 = 'e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9';
-  // 7236fee5b0094dc5976f95d4df61324e8ddd1705
 
   globalProductData = new ReplaySubject<any>();
-  headers1:HttpHeaders;
 
   constructor(private _http: HttpClient, private message: NzMessageService,) { 
-    this.headers1 = new HttpHeaders().set("Authorization" , "token " +  this.token1)
   }
 
   public UserLogin(data):any {
@@ -319,7 +315,7 @@ export class HttpService {
   public fetchLoanApplicationData(data?): any {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`),{headers: this.headers1});
+    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`),{headers: headers});
   }
 
   public getMasterPartner(data){
