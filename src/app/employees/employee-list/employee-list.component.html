@@ -1,1 +1,90 @@
-<p>employee-list works!</p>
+
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchEmployeeList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchEmployeeList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <!-- <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchEmployeeList()"
+                        nzPlaceHolder="Filter By">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                </div> -->
+            </div>
+            <nz-table [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="20">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Employee Name</th>
+                        <th>Employee Code</th>
+                        <th>Mobile No.</th>
+                        <th>Email-ID</th>
+                        <th>Regd. On</th>
+                        <th>Status</th>
+                        <th nzRight>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of employeeList; index as i">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ data.first_name ? data.first_name + ' ' + data.last_name : '-' }}</td>
+                        <td>{{ data.employee_code ? data.employee_code : '-' }}</td>
+                        <td>{{ data.mobile ? data.mobile : '-' }}</td>
+                        <td>{{ data.email ? data.email : '' }}</td>
+                        <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
+                        <td>{{ data.is_active ? 'Active' : 'Inactive' }}</td>
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Change Password</span>
+                                        </li>
+    
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Edit</span>
+                                        </li>
+
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Delete</span>
+                                        </li>
+                                        
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Edit Permissions</span>
+                                        </li>
+    
+                                        <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                            nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                            (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                            <i nz-icon nzType="delete" theme="outline"></i>
+                                            <span class="m-l-5">Delete</span>
+                                        </li> -->
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>

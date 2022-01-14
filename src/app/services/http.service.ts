@@ -64,6 +64,15 @@ export class HttpService {
   }
 
   /**
+   * fetchProductList
+   */
+   public fetchEmployeeList(data) {
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/user/get-users`),{params: data, headers: headers});
+  }
+
+  /**
    * editProductDetail
    */
    public editProductDetail(data, id) {

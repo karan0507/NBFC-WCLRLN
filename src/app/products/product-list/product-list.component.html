@@ -24,7 +24,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="productList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"[nzPageSize]="20">
+            <nz-table [nzData]="productList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="20">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -58,7 +58,7 @@
                         <td>{{ data.updated_by ? data.updated_by : '-' }}</td>
                         <td nzRight>
                             <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
-                            <a class="mr-3"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                            <a class="mr-3" [routerLink]="['../product/create-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
                             <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
                         </td>
                     </tr>
