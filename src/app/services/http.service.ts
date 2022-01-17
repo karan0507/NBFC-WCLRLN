@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -354,6 +354,15 @@ export class HttpService {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
+  }
+
+  // Application Module => End point 
+  public fetchLoanApplicationList(data):Observable <any> {
+    console.log('api call catched');
+    
+    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    // const headers = new HttpHeaders().set("Authorization" , "Token " +  'd00f1124b084a2f49b1817da77663c68f8ebca40')
+    return this._http.get((this.url +`/central-api/v1/call-api`), {params: data});
   }
 
   /**
