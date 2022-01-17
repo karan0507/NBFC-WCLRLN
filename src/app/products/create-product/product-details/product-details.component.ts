@@ -29,7 +29,7 @@ export class ProductDetailsComponent implements OnInit {
       this.productDetails = res
 
       this.createEditFormFuction();
-      this.productDetails.tenures.forEach(element => {
+      this.productDetails.tenures?.forEach(element => {
         this.addTenure(element)  
       });
     })

@@ -42,7 +42,7 @@ export class HttpService {
   public createProductDetail(data) {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/create-product`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/product`), data, {headers: headers});
   }
 
   /**
@@ -51,7 +51,7 @@ export class HttpService {
   public fetchProductDetailsbyId(data) {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/create-product`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/product`),{params: data, headers: headers});
   }
 
   /**
@@ -60,7 +60,7 @@ export class HttpService {
    public fetchProductList(data) {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/create-product`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/product`),{params: data, headers: headers});
   }
 
   /**
@@ -105,7 +105,7 @@ export class HttpService {
    public createPartnerPayout(data) {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/partner/v1/create-edit-partnerpayout`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/create-edit-partnerpayout`), data, {headers: headers});
   }
 
   /**
@@ -142,7 +142,7 @@ export class HttpService {
    public fetchPartnerPayout(data) {
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/partner/v1/create-edit-partnerpayout`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/create-edit-partnerpayout`),{params: data, headers: headers});
   }
 
   /**
