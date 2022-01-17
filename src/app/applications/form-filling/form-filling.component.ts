@@ -17,6 +17,8 @@ export class FormFillingComponent implements OnInit {
   loanApplicationData : any = [];
   total_count:any;
   _currentDate:any;
+  _currentId :any;
+  _activeLoans: any = [];
   today = new Date();
   
   disabledDate = (current: Date): boolean => {
@@ -31,11 +33,20 @@ export class FormFillingComponent implements OnInit {
   }
 
 
-  getFormLoanData() {
-    // let data = (pk:1)
-    this.https.fetchLoanApplicationData().subscribe(res => {
-      this.loanApplicationData = res?.data?.results;
-      this.total_count = res?.total_count;
+  getFormLoanData(id?) {
+    console.log('call api');
+    
+    var data;
+    if(this._currentId){
+      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=1', 'id':this._currentId}
+    }else{
+      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=1'}
+    }
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
+      console.log('api called', res);
+      this.loanApplicationData = res?.data?.results
+      // this.loanApplicationData = res;
+      // this.total_count = res?.total_count;
     })
   }
 
@@ -43,36 +54,16 @@ export class FormFillingComponent implements OnInit {
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
       this.expandSet.add(id);
+      this._activeLoans.push({'id':id});
+      this.getFormLoanData(this._currentId = id)
+      console.log(this._activeLoans);
     } else {
       this.expandSet.delete(id);
+      this._activeLoans.filter(res=> res.id == id);
+      console.log('Deleted array of active ids', this._activeLoans);
+      
     }
   }
-  listOfData = [
-    {
-      id: 1,
-      name: 'John Brown',
-      age: 32,
-      expand: false,
-      address: '9th Jan',
-      description: '--'
-    },
-    {
-      id: 2,
-      name: 'Jim Green',
-      age: 42,
-      expand: false,
-      address: '12th Dec',
-      description: '--'
-    },
-    {
-      id: 3,
-      name: 'Joe Black',
-      age: 32,
-      expand: false,
-      address: '21th Jan',
-      description: '--'
-    }
-  ];
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
