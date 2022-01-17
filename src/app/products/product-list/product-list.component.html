@@ -24,7 +24,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="productList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="30">
+            <nz-table [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="30">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -55,9 +55,9 @@
                         <td>{{ data.is_deleted ? 'Inactive' : 'Active' }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
-                        <td>{{ data.created_by ? data.created_by : '-' }}</td>
+                        <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
                         <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
-                        <td>{{ data.updated_by ? data.updated_by : '-' }}</td>
+                        <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
                         <td nzRight>
                             <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
                             <a class="mr-3" [routerLink]="['../product/create-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
@@ -66,6 +66,9 @@
                     </tr>
                 </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
         </nz-card>
     </div>
 </section>
