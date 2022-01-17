@@ -52,7 +52,6 @@ export class CommonLayoutComponent  {
           }
           else{
             this.router.navigate(['/authentication/login']);
-            console.log('something')
             this.message.error('Authorization Details Not Found, Kindly Login again');
           }
         this.breadcrumbs$ = this.router.events.pipe(

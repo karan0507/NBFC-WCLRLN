@@ -48,11 +48,11 @@
                         <td>{{ i+1 }}</td>
                         <td>{{ data.name ? data.name : '-' }}</td>
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
-                        <td>{{ 'NA' }}</td>
-                        <td>{{ 'NA' }}</td>
+                        <td>{{ data.master_partners >= 0 ? data.master_partners : '-' }}</td>
+                        <td>{{ data.partners >= 0 ? data.partners : '-' }}</td>
                         <td>{{ data.default_nbfc ? data.default_nbfc.name : '-' }}</td>
-                        <td>{{ 'NA' }}</td>
-                        <td>{{ 'NA' }}</td>
+                        <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
+                        <td>{{ data.is_deleted ? 'Inactive' : 'Active' }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
                         <td>{{ data.created_by ? data.created_by : '-' }}</td>

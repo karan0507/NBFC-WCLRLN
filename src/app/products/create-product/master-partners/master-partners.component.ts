@@ -85,6 +85,7 @@ export class MasterPartnersComponent implements OnInit {
         slab_array_Acquisition_Customers: this.fb.array([])
       });
     } else {
+      
       return this.fb.group({
         name: ['', [Validators.required]],
         no_of_partner: ['', [Validators.required]],
@@ -105,7 +106,7 @@ export class MasterPartnersComponent implements OnInit {
     })
   }
   setFormData(data?) {
-    if (data) {
+    if (data.length > 0) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
         element.slabs?.forEach(slab => {
@@ -342,7 +343,6 @@ export class MasterPartnersComponent implements OnInit {
     let formdata = {
       data: data
     }
-    console.log(formdata)
     this.http.createPartnerPayout(formdata).subscribe(res => {
       this.message.success(res['message'])
     })

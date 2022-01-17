@@ -211,7 +211,6 @@ export class OnboardingComponent implements OnInit {
       field_rules : this.createEditForm.value.field_rules,
       document_rules: this.createEditForm.value.document_rules
     }
-    console.log(data)
     
     if (this.isRuledAdded) {
       this.editOnboardingRules(data);

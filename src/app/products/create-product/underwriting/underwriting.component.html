@@ -20,7 +20,7 @@
                 </div>
                 <ng-container *ngFor="let item of get_underwritingArr(createEditForm); let k = index;"
                     formArrayName="rules">
-                    <nz-form-label class="text-left" nzNoColon>{{item.controls.name.value.toString().toUpperCase()}}</nz-form-label>
+                    <nz-form-label class="text-left" nzNoColon>{{item.controls.name.value?.toString().toUpperCase()}}</nz-form-label>
                     <div class="col-md-12" [formGroupName]="k">
                         <div class="row">
                             <div class="col-md-6">
