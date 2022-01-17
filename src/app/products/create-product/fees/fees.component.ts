@@ -169,8 +169,6 @@ export class FeesComponent implements OnInit {
     } else {
       this.createProductFees()
     }
-    console.log(this.createEditForm.value)
-    // this.createProductDetail();
   }
   editProductFees() {
     this.createEditForm.value.fees.forEach(element => {

@@ -28,10 +28,12 @@ export class ProductDetailsComponent implements OnInit {
     http.globalProductData.subscribe(res => {
       this.productDetails = res
 
-      this.createEditFormFuction();
-      this.productDetails.tenures?.forEach(element => {
-        this.addTenure(element)  
-      });
+      if (this.productDetails) {
+        this.createEditFormFuction();
+        this.productDetails.tenures?.forEach(element => {
+          this.addTenure(element)
+        });
+      }
     })
    }
 
@@ -101,7 +103,7 @@ export class ProductDetailsComponent implements OnInit {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         default_nbfc: this.createEditForm.value.default_nbfc,
-        inactivation_date: moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"),
+        inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_code: this.createEditForm.value.product_code,
         product_master: this.createEditForm.value.product_master,
@@ -112,7 +114,7 @@ export class ProductDetailsComponent implements OnInit {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         default_nbfc: this.createEditForm.value.default_nbfc,
-        inactivation_date: moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD"),
+        inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_code: this.createEditForm.value.product_code,
         product_master: this.createEditForm.value.product_master,
@@ -159,7 +161,6 @@ export class ProductDetailsComponent implements OnInit {
 
   setNoOfEmisValue(index) {
     this.createEditForm.controls.tenures['controls'][index].controls.no_of_emis.setValue(this.createEditForm.controls.tenures['controls'][index].controls.tenure.value)
-    console.log(this.createEditForm.controls.tenures['controls'][index].controls.no_of_emis.value)
   }
 
 }

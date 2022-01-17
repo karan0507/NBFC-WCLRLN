@@ -76,7 +76,6 @@ export class UnderwritingComponent implements OnInit {
     this.rules.push(this.addSlabControlsUnderWriting(data, value))
   }
   addSlabControlsUnderWriting(data: any, value): FormGroup {
-    console.log(data)
     if (data && value) {
       return this.fb.group({
         product: [this.product_id],
@@ -117,7 +116,6 @@ export class UnderwritingComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
   
