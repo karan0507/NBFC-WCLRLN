@@ -12,7 +12,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { PartnersListComponent } from './partners-list/partners-list.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { AddEditPartnersComponent } from './add-edit-partners/add-edit-partners.component';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 
 @NgModule({
@@ -29,7 +31,10 @@ import { AddEditPartnersComponent } from './add-edit-partners/add-edit-partners.
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
-    NzTagModule
+    NzTagModule,
+    NzDropDownModule,
+    NzPageHeaderModule
+    
   ]
 })
 export class PartnersModule { }

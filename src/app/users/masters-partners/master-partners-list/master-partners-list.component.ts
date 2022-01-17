@@ -90,9 +90,12 @@ export class MasterPartnersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   masterPartner: any;
+  masterPartnerDetailList: Object;
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
+      this.getMasterPartnerById(id)
       this.expandSet.add(id);
+      // alert('Clicked On Expand ' + id)
     } else {
       this.expandSet.delete(id);
     }
@@ -122,6 +125,18 @@ export class MasterPartnersListComponent implements OnInit {
   getResultBasedOnSearch(){
     this.page = 1;
     this.getMasterPartner();
+  }
+
+  getMasterPartnerById(id){
+    this._apiLoader["detailList"] = true;
+    this.http.getMasterPartnerById(id).subscribe((res)=> {
+      this.masterPartnerDetailList = res;
+      this._apiLoader["detailList"] = false;
+    }, err => {
+      console.log(err);
+      this._apiLoader["detailList"] = false;
+      
+    })
   }
 
   resetFilter(){

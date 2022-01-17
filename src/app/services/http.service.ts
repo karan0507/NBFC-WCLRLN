@@ -371,4 +371,31 @@ export class HttpService {
    public editLoanData(data): any {
     return this._http.get((this.url1 +`/loan-application/v1/loan-application`),data);
   }
+
+  public getMasterPartnerById(id){
+    // /partner/v1/get-detail/master/26
+    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`));
+  }
+
+  public getNBFCList(data){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/nbfc/v1/get-nbfc-list`),{headers: headers, params:data});
+  }
+
+  public getNBFCDetail(id){
+    return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`));
+  }
+
+  public getPartnerList(data){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/partner/v1/get/partner`),{headers: headers, params:data});
+  }
+
+  public getPartnerListDetail(id){
+    return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
+  }
+
+  // /nbfc/v1/get-nbfc-list
 }

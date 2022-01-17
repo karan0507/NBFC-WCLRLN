@@ -13,7 +13,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { AddEditLendersComponent } from './add-edit-lenders/add-edit-lenders.component';
 import { LendersListComponent } from './lenders-list/lenders-list.component';
-
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 @NgModule({
   declarations: [ AddEditLendersComponent, LendersListComponent],
@@ -29,7 +30,9 @@ import { LendersListComponent } from './lenders-list/lenders-list.component';
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
-    NzTagModule
+    NzTagModule,
+    NzDropDownModule,
+    NzPageHeaderModule
   ]
 })
 export class LendersModule { }

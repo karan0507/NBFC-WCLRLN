@@ -65,10 +65,11 @@
                         <th> >45 Days </th>
                     </tr> -->
                     <th rowspan="2">Regd. On</th>
+                    <th rowspan="2">Unique Code</th>
                     <th rowspan="2">Registration</th>
                     <th rowspan="2">Transaction Type</th>
                     <th rowspan="2">System Status</th>
-                    <th rowspan="2" nzRight>Action</th>
+                    <th rowspan="2">Action</th>
                     </tr>
                     <tr>
                         <th>Total
@@ -85,15 +86,15 @@
                             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)">
                                 {{ i + 1 }}</td>
                             <td>{{ data.name }}</td>
-                            <td>{{data?.business_type}}</td>
+                            <td>{{data?.type}}</td>
                             <td>{{data?.business_nature}}</td>
                             <!-- <td>{{ data.no_of_partner }}</td> -->
                             <td>Total</td>
                             <td>Active</td>
                             <td>InActive</td>
                             <td>{{ data.created_at | date: 'dd MMM yyyy' }}
-                                <!-- <br>
-                                <nz-tag [nzColor]="'#074EE8'">FETCH</nz-tag> -->
+                            </td>
+                            <td>{{ data.unique_code}}
                             </td>
                             <td>
                                 <a *ngIf="data?.is_deleted == false"><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
@@ -101,7 +102,8 @@
                                 <a *ngIf="data?.is_deleted == true"><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
                             <td>{{ data.transaction_type }}</td>
-                            <td>{{ data.status }}</td>
+                            <td *ngIf="data.is_deleted"> false</td>
+                            <td *ngIf="!data.is_deleted">true</td>
                             <td>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -204,7 +206,7 @@
                                     class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
                                     [nzTitle]="bankingDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5">
+                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -212,7 +214,7 @@
                                                     Bank Name
                                                 </h6>
                                                 <div>
-                                                    SBI
+                                                    {{masterPartnerDetailList?.bank_name}}
                                                 </div>
                                             </div>
                                         </div>
@@ -385,7 +387,7 @@
 </ng-template>
 <ng-template #bankingDetail>
     <div class="ml-md-2">
-        <h6 class="mb-0">Basic Details</h6>
+        <h6 class="mb-0">Banking Details</h6>
     </div>
 </ng-template>
 <ng-template #kycDocument>
