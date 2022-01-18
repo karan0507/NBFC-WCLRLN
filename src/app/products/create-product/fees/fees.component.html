@@ -3,6 +3,7 @@
         <form nz-form [formGroup]="createEditForm">
             <ng-container *ngFor="let item of get_fees(createEditForm); let k = index;"
                 formArrayName="fees">
+                <nz-divider *ngIf="k > 0"></nz-divider>
                 <nz-form-label class="w-100 text-left" nzNoColon>Type {{k+1}}</nz-form-label>
                 <div class="row mb-3" [formGroupName]="k">
                     <div class="col-md-6">
@@ -214,7 +215,7 @@
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-between px-4">
                 <button nz-button nzType="link" (click)="addFees()">+Add Fees Type</button>
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

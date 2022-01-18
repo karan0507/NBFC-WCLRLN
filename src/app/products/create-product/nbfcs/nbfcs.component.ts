@@ -18,6 +18,7 @@ export class NbfcsComponent implements OnInit {
   debounce: any;
   productNbfscData: any;
   productNbfsc_id: any;
+  loading: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -100,8 +101,12 @@ export class NbfcsComponent implements OnInit {
       product_id: this.product_id,
       nbfc_list: this.createEditForm.controls.nbfcs_arr.value
     }
+    this.loading = true
     this.http.createNbfcMapping(formdata).subscribe(res => {
+      this.loading = false
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
 

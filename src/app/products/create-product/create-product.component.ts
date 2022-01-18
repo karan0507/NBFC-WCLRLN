@@ -14,6 +14,7 @@ export class CreateProductComponent implements OnInit {
   product_id: any;
   productDetails: any;
   is_product_id = false
+  isLoading: boolean;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -38,10 +39,14 @@ export class CreateProductComponent implements OnInit {
     let data = {
       id: this.product_id
     }
+    this.isLoading = true
     this.http.fetchProductDetailsbyId(data).subscribe(res => {
       this.productDetails = res['data'].results[0]
       this.http.setProductValue(this.productDetails)
+      this.isLoading = false
       // this.message.success(res['message'])
+    }, (err) => {
+      this.isLoading = false
     })
   }
 

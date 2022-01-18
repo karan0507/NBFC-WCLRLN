@@ -39,10 +39,11 @@ export class Login1Component {
             this.http.UserLogin(data).subscribe((res) => {
               this.api_calling_loader = false
               if(res.success){
+                localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
                 // this.HttpService.setPermissionValue(res.data.data.permissions_slug_list)
                 this.message.success('Welcome to Fatak Pay');
                 this.router.navigate(['/dashboard/home']);
-                localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data.data));
+                
               }
               else{
                 this.message.error(res.message);

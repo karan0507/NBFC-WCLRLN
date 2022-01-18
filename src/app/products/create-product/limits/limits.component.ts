@@ -16,6 +16,7 @@ export class LimitsComponent implements OnInit {
   @Input() productDetails: any;
   productlimit_id: any;
   productlimitData: any;
+  loading: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -68,15 +69,23 @@ export class LimitsComponent implements OnInit {
     }
   }
   createLimits() {
+    this.loading = true
     this.http.createLimits(this.createEditForm.value).subscribe(res => {
+      this.loading = false
       this.productlimit_id = res['data'].productlimit_id
       this.message.success(res['message'])
+    }, (err)=> {
+      this.loading = false
     })
   }
   editLimits() {
+    this.loading = true
     this.http.editLimits(this.createEditForm.value, this.product_id).subscribe(res => {
+      this.loading = false
       this.productlimit_id = res['data'].productlimit_id
       this.message.success(res['message'])
+    },(err)=> {
+      this.loading = false
     })
   }
 

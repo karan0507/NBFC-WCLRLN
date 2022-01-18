@@ -111,7 +111,7 @@
     <ng-template #actionSubmit>
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

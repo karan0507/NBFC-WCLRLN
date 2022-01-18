@@ -19,7 +19,6 @@ export class LoanAgreementComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
     ngOnInit(): void {
-      console.log(this.product_id)
       this.createEditForm = this.fb.group({})
     }
   

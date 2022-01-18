@@ -21,6 +21,7 @@ export class UnderwritingComponent implements OnInit {
   employmentTypeData: any;
   filterArray: any
   underWritingRuleData: any;
+  loading: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -76,13 +77,12 @@ export class UnderwritingComponent implements OnInit {
     this.rules.push(this.addSlabControlsUnderWriting(data, value))
   }
   addSlabControlsUnderWriting(data: any, value): FormGroup {
-    console.log(data)
     if (data && value) {
       return this.fb.group({
         product: [this.product_id],
         employment_type: [this.selectedTab],
         underwriting_entity: [ data ? data.underwriting_entity.id : ''],
-        name: [ data ? data.underwriting_entity.name : ''],
+        name: [ data ? data.underwriting_entity.display_name : ''],
         min_label: [ data ? data.underwriting_entity.min_label : ''],
         max_label: [ data ? data.underwriting_entity.max_label : ''],
         min: [ data ? data?.min : '', [Validators.required]],
@@ -94,7 +94,7 @@ export class UnderwritingComponent implements OnInit {
         product: [this.product_id],
         employment_type: [this.selectedTab],
         underwriting_entity: [ data ? data.pk : ''],
-        name: [ data ? data.name : ''],
+        name: [ data ? data.display_name : ''],
         min_label: [ data ? data.min_label : ''],
         max_label: [ data ? data.max_label : ''],
         min: [ data ? data?.min : '', [Validators.required]],
@@ -110,14 +110,17 @@ export class UnderwritingComponent implements OnInit {
     this.createEditForm.value.rules.forEach(element => {
       element.employment_type = this.selectedTab
     });
+    this.loading = true
     this.http.createUnderWritingRule(this.createEditForm.value).subscribe( res => {
+      this.loading = false
       this.fetchUnderWritingRule()
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
   
