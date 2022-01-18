@@ -106,7 +106,7 @@ export class MasterPartnersComponent implements OnInit {
     })
   }
   setFormData(data?) {
-    if (data.length > 0) {
+    if (data?.length > 0) {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
         element.slabs?.forEach(slab => {
@@ -380,6 +380,40 @@ export class MasterPartnersComponent implements OnInit {
   setSlabControlsAcquisition_CustomersFormData(data, i) {
     if (data) {
       this.add_Acquisition_Customers(i, data)
+    }
+  }
+
+  removeSlab(control, index, slab_index) {
+    control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_delete = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_delete = false;
+      control.removeAt(slab_index)
+    }
+  }
+  removeSlabActivation(control, index, slab_index) {
+    control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Activation');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_delete = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_delete = false;
+      control.removeAt(slab_index)
+    }
+  }
+  removeSlabAcquisitionCustomers(control, index, slab_index) {
+    control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Acquisition_Customers');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_delete = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_delete = false;
+      control.removeAt(slab_index)
     }
   }
 

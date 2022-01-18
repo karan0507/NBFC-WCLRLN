@@ -151,7 +151,7 @@ export class FeesComponent implements OnInit {
     if (data) {
       data.forEach((element, index) => {
         this.addFees(element)
-        element.slabs.forEach(slab => {
+        element.slabs?.forEach(slab => {
           this.addSlabpartners(index, slab)
         });
       });

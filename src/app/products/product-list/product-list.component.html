@@ -60,7 +60,7 @@
                         <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
                         <td nzRight>
                             <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
-                            <a class="mr-3" [routerLink]="['../product/create-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                            <a class="mr-3" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
                             <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
                         </td>
                     </tr>

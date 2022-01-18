@@ -70,8 +70,8 @@ export class OnboardingComponent implements OnInit {
 
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
-      primary_product: [data ? data?.product_priority[0]?.primary_product.product_master.id: '', [Validators.required]],
-      secondary_product: [data ? data?.product_priority[0]?.secondary_product.product_master.id: '', [Validators.required]],
+      primary_product: [data ? data?.product_priority[0]?.primary_product?.product_master?.id: '', [Validators.required]],
+      secondary_product: [data ? data?.product_priority[0]?.secondary_product?.product_master?.id: '', [Validators.required]],
       field_rules: this.fb.array([]),
       document_rules: this.fb.array([])
     })
