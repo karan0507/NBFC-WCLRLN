@@ -281,8 +281,7 @@ export class HttpService {
   }
 
   public getMerchantList(data){
-    const headers = new HttpHeaders()
-    return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{headers: headers, params:data});
+    return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{params:data});
   }
 
   public getListOfDocumentRequired(){
@@ -295,15 +294,11 @@ export class HttpService {
   }
 
   public createNBFCForm(data){
-    const headers = new HttpHeaders()
-    return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data, {headers: headers});
+    return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data);
   }
 
   public createPartnerForm(data){
-    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    // const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    const headers = new HttpHeaders();
-    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
   // /partner/v1/create-partner-partnermaster
@@ -321,8 +316,7 @@ export class HttpService {
   }
 
   public getMasterPartnerById(id){
-    const headers = new HttpHeaders()
-    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`), {headers: headers});
+    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`));
   }
   
   public getNBFCList(data){
@@ -330,16 +324,11 @@ export class HttpService {
   }
 
   public getNBFCDetail(id){
-    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders();
-    return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`), {headers: headers});
+    return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`));
   }
 
   public getMerchantDetail(id){
-    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    // const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    const headers = new HttpHeaders()
-    return this._http.get((this.url +`/merchant/v1/get-merchant-details/${id}`), {headers: headers});
+    return this._http.get((this.url +`/merchant/v1/get-merchant-details/${id}`));
   }
 
   // 
@@ -351,6 +340,4 @@ export class HttpService {
   public getPartnerListDetail(id){
     return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
   }
-
-  // /nbfc/v1/get-nbfc-list
 }
