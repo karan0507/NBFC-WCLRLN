@@ -7,6 +7,7 @@ import { EditFormComponent } from './edit-form/edit-form.component';
 import { FormFillingComponent } from './form-filling/form-filling.component';
 import { OfferAcceptanceComponent } from './offer-acceptance/offer-acceptance.component';
 import { OfferProposedComponent } from './offer-proposed/offer-proposed.component';
+import { PerApprovedComponent } from './per-approved/per-approved.component';
 import { StageTriggersComponent } from './stage-triggers/stage-triggers.component';
 import { UnderwritingComponent } from './underwriting/underwriting.component';
 import { VerificationComponent } from './verification/verification.component';
@@ -23,6 +24,14 @@ const routes: Routes = [
           title: 'Form Filling',
           parent: 'applications',
           custom_url:'/applications/form-filling'
+        }
+      },
+      {
+        path: 'pre-approved',
+        component: PerApprovedComponent,
+        data: {
+          title: 'Pre Approved Offer',
+          parent: 'applications',
         }
       },
       {
