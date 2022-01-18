@@ -94,7 +94,7 @@ export class UnderwritingComponent implements OnInit {
         product: [this.product_id],
         employment_type: [this.selectedTab],
         underwriting_entity: [ data ? data.pk : ''],
-        name: [ data ? data.name : ''],
+        name: [ data ? data.display_name : ''],
         min_label: [ data ? data.min_label : ''],
         max_label: [ data ? data.max_label : ''],
         min: [ data ? data?.min : '', [Validators.required]],
