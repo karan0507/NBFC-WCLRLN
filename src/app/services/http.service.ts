@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, ReplaySubject } from 'rxjs';
+import { fromEvent, merge, Observable, Observer, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 	url = 'https://devadminapi.fatakpay.com'
-	token = '';
 
   url1 = 'https://devonboardingapi.fatakpay.com'
 
@@ -18,121 +18,104 @@ export class HttpService {
   }
 
   public UserLogin(data):any {
-    const headers = new HttpHeaders()
-    return this._http.post((this.url + `/user/auth/`), data, {headers:headers});
+    return this._http.post((this.url + `/user/auth/`), data);
   }
 
   /// Verify API 
   public VerifyUser():any{
     let data;
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "token " +  this.token)
-    return this._http.post((this.url +`/user/verify-admin-user/`), data, {headers: headers});
+    return this._http.post((this.url +`/user/verify-admin-user/`), data);
+  }
+
+  public createOnline$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      }));
   }
 
   public fetchNBFCdata():any{
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`), {headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/NbfcMaster`));
   }
 
   /**
    * createProductDetail
    */
   public createProductDetail(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/product`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/product`), data);
   }
 
   /**
    * fetchProductDetailsbyId
    */
   public fetchProductDetailsbyId(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/product`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/product`),{params: data});
   }
 
   /**
    * fetchProductList
    */
    public fetchProductList(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/product`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/product`),{params: data});
   }
 
   /**
    * fetchProductList
    */
    public fetchEmployeeList(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/user/get-users`),{params: data, headers: headers});
+    return this._http.get((this.url +`/user/get-users`),{params: data});
   }
 
   /**
    * editProductDetail
    */
    public editProductDetail(data, id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.put((this.url +`/product/v1/edit-product/` + id), data, {headers: headers});
+    return this._http.put((this.url +`/product/v1/edit-product/` + id), data);
   }
 
   /**
    * createMasterPartner
    */
   public createMasterPartner(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
   /**
    * editMasterPartner
    */
   public editMasterPartner(data, id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data, {headers: headers});
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
   }
 
   /**
    * createPartnerPayout
    */
    public createPartnerPayout(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/create-edit-partnerpayout`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/create-edit-partnerpayout`), data);
   }
 
   /**
    * editPartnerPayout
    */
   public editPartnerPayout(data, id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data, {headers: headers});
+    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/` + id), data);
   }
 
   /**
    * fetchMasterPartner
    */
    public fetchMasterPartner(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/PartnerMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/PartnerMaster`),{params: data});
   }
 
   /**
    * fetchPartner
    */
    public fetchPartner(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/Partner`),{params: data});
   }
 
   
@@ -140,80 +123,62 @@ export class HttpService {
    * fetchPartnerPayout
    */
    public fetchPartnerPayout(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/create-edit-partnerpayout`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/create-edit-partnerpayout`),{params: data});
   }
 
   /**
    * createLimits
    */
    public createLimits(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/create-product-limit`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/create-product-limit`), data);
   }
 
   /**
    * editLimits
    */
   public editLimits(data, id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.put((this.url +`/product/v1/edit-product-limit/` + id), data, {headers: headers});
+    return this._http.put((this.url +`/product/v1/edit-product-limit/` + id), data);
   }
 
   /**
    * fetchProductLimits
    */
    public fetchProductLimits(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data, headers: headers});
+    return this._http.get((this.url +`/product/v1/create-product-limit`),{params: data});
   }
   
   /**
    * createPartnerPayout
    */
    public createNbfcMapping(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/assign-nbfc-to-product`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/assign-nbfc-to-product`), data);
   }
 
   /**
    * fetchNbfcs
    */
    public fetchNbfcs(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/get-nbfc-product-mapping/`+ data.product_id),{ headers: headers});
+    return this._http.get((this.url +`/product/v1/get-nbfc-product-mapping/`+ data.product_id));
   }
 
   /**
    * fetchEntity
    */
    public fetchEntity(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/EntityMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/EntityMaster`),{params: data});
   }
   /**
    * fetchEmploymentType
    */
    public fetchEmploymentType(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/EmploymentTypeMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/EmploymentTypeMaster`),{params: data});
   }
   
   /**
    * fetchDocumentMaster
    */
    public fetchDocumentMaster(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{params: data});
   }
 
   
@@ -221,68 +186,52 @@ export class HttpService {
    * createLimits
    */
    public createUnderWritingRule(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/add-edit-underwritingrule`), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/add-edit-underwritingrule`), data);
   }
 
   /**
    * fetchProductLimits
    */
    public fetchUnderWritingRule(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id),{headers: headers});
+    return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id));
   }
   /**
    * fetchTriggerMaster
    */
    public fetchTriggerMaster(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/TriggerMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/TriggerMaster`),{params: data});
   }
   /**
    * fetchFrequencyMaster
    */
    public fetchFrequencyMaster(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/FrequencyMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/FrequencyMaster`),{params: data});
   }
   /**
    * fetchFeeTypeMaster
    */
    public fetchFeeTypeMaster(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/FeeTypeMaster`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/FeeTypeMaster`),{params: data});
   }
   /**
    * createProductFees
    */
    public createProductFees(data, product_id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/product-fees/` + product_id), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/product-fees/` + product_id), data);
   }
 
   /**
    * editProductFees
    */
   public editProductFees(data, product_id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.put((this.url +`/product/v1/product-fees/` + product_id), data, {headers: headers});
+    return this._http.put((this.url +`/product/v1/product-fees/` + product_id), data);
   }
 
   /**
    * fetchProductFees
    */
    public fetchProductFees(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/product-fees/` + data.product_id),{headers: headers});
+    return this._http.get((this.url +`/product/v1/product-fees/` + data.product_id));
   }
 
   
@@ -290,36 +239,28 @@ export class HttpService {
    * createOnboardingRules
    */
    public createOnboardingRules(data, product_id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/product/v1/onboarding-rules/` + product_id), data, {headers: headers});
+    return this._http.post((this.url +`/product/v1/onboarding-rules/` + product_id), data);
   }
 
   /**
    * editOnboardingRules
    */
   public editOnboardingRules(data, product_id) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.put((this.url +`/product/v1/onboarding-rules/` + product_id), data, {headers: headers});
+    return this._http.put((this.url +`/product/v1/onboarding-rules/` + product_id), data);
   }
 
   /**
    * fetchOnboardingRules
    */
    public fetchOnboardingRules(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/product/v1/onboarding-rules/` + data.product_id),{headers: headers});
+    return this._http.get((this.url +`/product/v1/onboarding-rules/` + data.product_id));
   }
   
   /**
    * fetchRoles
    */
    public fetchRoles(data) {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data, headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data});
   }
 
   //************************ */
@@ -331,46 +272,37 @@ export class HttpService {
    * Application Module Fetch Loan 
    */
   public fetchLoanApplicationData(data?): any {
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`),{headers: headers});
+    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`));
   }
 
   public getMasterPartner(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/partner/v1/get/master`),{headers: headers, params:data});
+    return this._http.get((this.url +`/partner/v1/get/master`),{params:data});
     // /partner/v1/get/master
   }
 
   public getMerchantList(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    const headers = new HttpHeaders()
     return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{headers: headers, params:data});
   }
 
   public getListOfDocumentRequired(){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`),{headers: headers});
+    return this._http.get((this.url +`/master/fetch-master-data/DocumentMaster`));
 // master/fetch-master-data/DocumentMaster
   }
 
   public createMasterPartnerForm(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
   public createNBFCForm(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    const headers = new HttpHeaders()
     return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data, {headers: headers});
   }
 
   public createPartnerForm(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    // const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    const headers = new HttpHeaders();
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
   }
 
@@ -378,10 +310,6 @@ export class HttpService {
 
   // Application Module => End point 
   public fetchLoanApplicationList(data):Observable <any> {
-    console.log('api call catched');
-    
-    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    // const headers = new HttpHeaders().set("Authorization" , "Token " +  'd00f1124b084a2f49b1817da77663c68f8ebca40')
     return this._http.get((this.url +`/central-api/v1/call-api`), {params: data});
   }
 
@@ -393,36 +321,31 @@ export class HttpService {
   }
 
   public getMasterPartnerById(id){
-    // /partner/v1/get-detail/master/26
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/partner/v1/get-detail/master/${id}`), {headers: headers});
+    const headers = new HttpHeaders()
+    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`), {headers: headers});
   }
-
+  
   public getNBFCList(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/nbfc/v1/get-nbfc-list`),{headers: headers, params:data});
+    return this._http.get((this.url +`/nbfc/v1/get-nbfc-list`),{params:data});
   }
 
   public getNBFCDetail(id){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders();
     return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`), {headers: headers});
   }
 
   public getMerchantDetail(id){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    // this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    // const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    const headers = new HttpHeaders()
     return this._http.get((this.url +`/merchant/v1/get-merchant-details/${id}`), {headers: headers});
   }
 
   // 
 
   public getPartnerList(data){
-    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
-    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
-    return this._http.get((this.url +`/partner/v1/get/partner`),{headers: headers, params:data});
+    return this._http.get((this.url +`/partner/v1/get/partner`),{params:data});
   }
 
   public getPartnerListDetail(id){

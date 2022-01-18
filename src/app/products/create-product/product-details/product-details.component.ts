@@ -50,7 +50,6 @@ export class ProductDetailsComponent implements OnInit {
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
-      default_nbfc: [ this.productDetails ? this.productDetails.default_nbfc?.id : '', [Validators.required]],
       tenures: this.fb.array([]),
       })
     if (this.productDetails) {
@@ -104,7 +103,6 @@ export class ProductDetailsComponent implements OnInit {
     if (this.createEditForm.value.tenures[0]) {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
-        default_nbfc: this.createEditForm.value.default_nbfc,
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_code: this.createEditForm.value.product_code,
@@ -115,7 +113,6 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
-        default_nbfc: this.createEditForm.value.default_nbfc,
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_code: this.createEditForm.value.product_code,
@@ -131,7 +128,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   createProductDetail(data) {
+    this.isLoading = true
     this.http.createProductDetail(data).subscribe(res => {
+      this.isLoading = false
       this.product_id = res['data'].product_id
       this.router.navigate([], {
       relativeTo: this.route, queryParams: {id: this.product_id}});
@@ -140,7 +139,9 @@ export class ProductDetailsComponent implements OnInit {
   }
   
   editProductDetail(data) {
+    this.isLoading = true
     this.http.editProductDetail(data, this.product_id).subscribe(res => {
+      this.isLoading = false
       this.product_id = res['data'].product_id
       this.router.navigate([], {
       relativeTo: this.route, queryParams: {id: this.product_id}});

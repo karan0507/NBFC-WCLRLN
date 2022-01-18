@@ -21,7 +21,7 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="default_nbfc" class="text-left" nzRequired>Default NBFS</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Default NBFS!">
@@ -31,7 +31,7 @@
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>
-                </div>
+                </div> -->
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_code" class="text-left" nzRequired>Product Code</nz-form-label>
@@ -132,7 +132,7 @@
     <ng-template #actionSubmit>
         <div class="row no-gutters">
             <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="isLoading" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>

@@ -64,34 +64,34 @@
                                         <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                                         </nz-form-label>
                                         <div class="row mx-0 d-flex align-items-center">
-                                            <nz-form-control>
-                                                <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
-                                                    id="min_amount" placeHolder="Start Range">
-                                                <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
-                                            </nz-form-control>
-                                            <label class="text-left d-flex mx-2">To</label>
-                                            <nz-form-control>
-                                                <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
-                                                    id="max_amount" placeHolder="End Range">
-                                                <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
-                                            </nz-form-control>
-                                            <label class="text-left d-flex mx-2">&</label>
-                                            <nz-form-control>
-                                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                    <input nz-input type="number" min="0" name="commission" formControlName="commission"
-                                                        id="commission" placeHolder="commission %">
-                                                </nz-input-group>
-                    
-                                                <ng-template #addOnAfterTemplate>
-                                                    <span>%</span>
-                                                </ng-template>
-                                            </nz-form-control>
-                                            <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
-                                            <!-- <span class="font-size-24"></span></label> -->
-                                            <!-- <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
-                                                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, i)" *ngIf="i > 0">
-                                                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
-                                                        </label> -->
+                                            <div class="col-md-11 d-flex align-items-center">
+                                                <nz-form-control>
+                                                    <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
+                                                        id="min_amount" placeHolder="Start Range">
+                                                    <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
+                                                </nz-form-control>
+                                                <label class="text-left d-flex mx-2">To</label>
+                                                <nz-form-control>
+                                                    <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
+                                                        id="max_amount" placeHolder="End Range">
+                                                    <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
+                                                </nz-form-control>
+                                                <label class="text-left d-flex mx-2">&</label>
+                                                <nz-form-control>
+                                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                                        <input nz-input type="number" min="0" name="commission" formControlName="commission"
+                                                            id="commission" placeHolder="commission %">
+                                                    </nz-input-group>
+                        
+                                                    <ng-template #addOnAfterTemplate>
+                                                        <span>%</span>
+                                                    </ng-template>
+                                                </nz-form-control>
+                                            </div>
+                                            <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
+                                                nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(slab_item, k, i)" *ngIf="i > 0">
+                                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                                            </label>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -126,34 +126,34 @@
                                         <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                                         </nz-form-label>
                                         <div class="row mx-0 d-flex align-items-center">
-                                            <nz-form-control>
-                                                <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
-                                                    id="min_amount" placeHolder="Start Range">
-                                                <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
-                                            </nz-form-control>
-                                            <label class="text-left d-flex mx-2">To</label>
-                                            <nz-form-control>
-                                                <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
-                                                    id="max_amount" placeHolder="End Range">
-                                                <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
-                                            </nz-form-control>
-                                            <label class="text-left d-flex mx-2">&</label>
-                                            <nz-form-control>
-                                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                    <input nz-input type="number" min="0" name="commission" formControlName="commission"
-                                                        id="commission" placeHolder="commission %">
-                                                </nz-input-group>
-                    
-                                                <ng-template #addOnAfterTemplate>
-                                                    <span>%</span>
-                                                </ng-template>
-                                            </nz-form-control>
-                                            <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
-                                            <!-- <span class="font-size-24"></span></label> -->
-                                            <!-- <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
-                                                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, i)" *ngIf="i > 0">
-                                                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
-                                                        </label> -->
+                                            <div class="col-md-11 d-flex align-items-center">
+                                                <nz-form-control>
+                                                    <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
+                                                        id="min_amount" placeHolder="Start Range">
+                                                    <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
+                                                </nz-form-control>
+                                                <label class="text-left d-flex mx-2">To</label>
+                                                <nz-form-control>
+                                                    <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
+                                                        id="max_amount" placeHolder="End Range">
+                                                    <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
+                                                </nz-form-control>
+                                                <label class="text-left d-flex mx-2">&</label>
+                                                <nz-form-control>
+                                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                                        <input nz-input type="number" min="0" name="commission" formControlName="commission"
+                                                            id="commission" placeHolder="commission %">
+                                                    </nz-input-group>
+                        
+                                                    <ng-template #addOnAfterTemplate>
+                                                        <span>%</span>
+                                                    </ng-template>
+                                                </nz-form-control>
+                                            </div>
+                                            <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
+                                                nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlabActivation(slab_item, k, i)" *ngIf="i > 0">
+                                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                                            </label>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -178,37 +178,39 @@
                                             <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
                                             </nz-form-label>
                                             <div class="row mx-0 d-flex align-items-center">
-                                                <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="min_amount"
-                                                        formControlName="min_amount" id="min_amount"
-                                                        placeHolder="Start Range">
-                                                    <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
-                                                </nz-form-control>
-                                                <label class="text-left d-flex mx-2">To</label>
-                                                <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="max_amount"
-                                                        formControlName="max_amount" id="max_amount"
-                                                        placeHolder="End Range">
-                                                    <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
-                                                </nz-form-control>
-                                                <label class="text-left d-flex mx-2">&</label>
-                                                <nz-form-control>
-                                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                        <input nz-input type="number" min="0" name="commission"
-                                                            formControlName="commission" id="commission"
-                                                            placeHolder="commission ₹">
-                                                    </nz-input-group>
-
-                                                    <ng-template #addOnAfterTemplate>
-                                                        <span>₹</span>
-                                                    </ng-template>
-                                                </nz-form-control>
+                                                <div class="col-md-11 d-flex align-items-center">
+                                                    <nz-form-control>
+                                                        <input nz-input type="number" min="1" name="min_amount"
+                                                            formControlName="min_amount" id="min_amount"
+                                                            placeHolder="Start Range">
+                                                        <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
+                                                    </nz-form-control>
+                                                    <label class="text-left d-flex mx-2">To</label>
+                                                    <nz-form-control>
+                                                        <input nz-input type="number" min="1" name="max_amount"
+                                                            formControlName="max_amount" id="max_amount"
+                                                            placeHolder="End Range">
+                                                        <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
+                                                    </nz-form-control>
+                                                    <label class="text-left d-flex mx-2">&</label>
+                                                    <nz-form-control>
+                                                        <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                                            <input nz-input type="number" min="0" name="commission"
+                                                                formControlName="commission" id="commission"
+                                                                placeHolder="commission ₹">
+                                                        </nz-input-group>
+    
+                                                        <ng-template #addOnAfterTemplate>
+                                                            <span>₹</span>
+                                                        </ng-template>
+                                                    </nz-form-control>
+                                                </div>
                                                 <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
                                                 <!-- <span class="font-size-24"></span></label> -->
-                                                <!-- <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
-                                    nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, i)" *ngIf="i > 0">
-                                            <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
-                                    </label> -->
+                                                <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
+                                                    nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlabAcquisitionCustomers(slab_item, k, i)" *ngIf="i > 0">
+                                                    <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                                                </label>
                                             </div>
                                         </div>
                                     </ng-container>
@@ -230,7 +232,7 @@
             <div class="col-12 d-flex justify-content-between px-4">
                 <button nz-button nzType="link" (click)="addMasterPartner()">+Add another Master Partner</button>
                 <button nz-button nzType="primary"
-                    [disabled]="(createEditForm.invalid)"
+                    [disabled]="(createEditForm.invalid)" [nzLoading]="isloading"
                     (click)="submitForm()">Submit</button>
             </div>
         </div>

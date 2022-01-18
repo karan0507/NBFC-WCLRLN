@@ -26,6 +26,7 @@ export class OnboardingComponent implements OnInit {
   onboardingRuleData: any;
   product_priority_id: any;
   api_calling_loader: boolean;
+  loading: boolean;
 
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
@@ -70,8 +71,8 @@ export class OnboardingComponent implements OnInit {
 
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
-      primary_product: [data ? data?.product_priority[0]?.primary_product.product_master.id: '', [Validators.required]],
-      secondary_product: [data ? data?.product_priority[0]?.secondary_product.product_master.id: '', [Validators.required]],
+      primary_product: [data ? data?.product_priority[0]?.primary_product?.product_master?.id: '', [Validators.required]],
+      secondary_product: [data ? data?.product_priority[0]?.secondary_product?.product_master?.id: '', [Validators.required]],
       field_rules: this.fb.array([]),
       document_rules: this.fb.array([])
     })
@@ -220,15 +221,23 @@ export class OnboardingComponent implements OnInit {
     // this.createProductDetail();
   }
   editOnboardingRules(data) {
+    this.loading = true
     this.http.editOnboardingRules(data, this.product_id).subscribe(res => {
+      this.loading = false
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
   createOnboardingRules(data) {
+    this.loading = true
     this.http.createOnboardingRules(data, this.product_id).subscribe(res => {
+      this.loading = false
       this.isRuledAdded = true;
       this.fetchOnboardingRules()
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
   

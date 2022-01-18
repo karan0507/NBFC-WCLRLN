@@ -3,26 +3,46 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, retry } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpService } from './http.service';
 
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
-  constructor( private message: NzMessageService,) { }
+  token = ''
+  constructor( private message: NzMessageService, private httpService: HttpService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  return next.handle(req)
-    .pipe(
-      // Handle errors
-      catchError((error: HttpErrorResponse) => {
-        if(error.status == 400){
-          this.message.error('Bad Request');
-        } else if (error.status == 403){
-          this.message.error("You don't have permission to access this");
-        } else{
-          this.message.error('Something Went Wrong');
+    let check_status;
+    this.httpService.createOnline$().subscribe((isOnline) => {
+      check_status = isOnline
+    })
+    if (check_status) {
+      if (!(req.url.includes("user/auth/"))) {
+        this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token
+        if (this.token) {
+          req = req.clone({
+            setHeaders: {
+              Authorization: `Token ${this.token}`
+            }
+          });
         }
-        return throwError(error);
-      }),
-    );
+      }
+      return next.handle(req)
+      .pipe(
+        // Handle errors
+        catchError((error: HttpErrorResponse) => {
+          if (error.status == 400) {
+            this.message.error('Bad Request');
+          } else if (error.status == 403) {
+            this.message.error("You don't have permission to access this");
+          } else {
+            this.message.error('Something Went Wrong');
+          }
+          return throwError(error);
+        }),
+      );
+    } else {
+      this.message.error('Kindly check your network');  
+    }
   }
 }
