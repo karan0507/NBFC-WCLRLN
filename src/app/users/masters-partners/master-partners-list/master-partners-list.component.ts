@@ -9,71 +9,6 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class MasterPartnersListComponent implements OnInit {
   selectedTab = 'all'
-  listOfData = [
-    {
-      id: 1,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 2,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 3,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 4,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 5,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 6,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 7,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    }
-  ];
   setOfCheckedId = new Set<number>();
   listOfCurrentPageData: readonly Data[] = [];
   checked = false;
@@ -92,6 +27,8 @@ export class MasterPartnersListComponent implements OnInit {
   masterPartner: any;
   masterPartnerDetailList: Object;
   onExpandChange(id: number, checked: boolean): void {
+    console.log(checked);
+    
     if (checked) {
       this.getMasterPartnerById(id)
       this.expandSet.add(id);
@@ -129,8 +66,8 @@ export class MasterPartnersListComponent implements OnInit {
 
   getMasterPartnerById(id){
     this._apiLoader["detailList"] = true;
-    this.http.getMasterPartnerById(id).subscribe((res)=> {
-      this.masterPartnerDetailList = res;
+    this.http.getMasterPartnerById(id).subscribe((res: any)=> {
+      this.masterPartnerDetailList = res?.data;
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);

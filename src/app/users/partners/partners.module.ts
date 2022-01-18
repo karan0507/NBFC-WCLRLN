@@ -15,6 +15,10 @@ import { PartnersListComponent } from './partners-list/partners-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { AddEditPartnersComponent } from './add-edit-partners/add-edit-partners.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 
 @NgModule({
@@ -33,8 +37,11 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     NzButtonModule,
     NzTagModule,
     NzDropDownModule,
-    NzPageHeaderModule
-    
+    NzPageHeaderModule,
+    NzModalModule,
+    NzFormModule,
+    NzDividerModule,
+    NzUploadModule,
   ]
 })
 export class PartnersModule { }

@@ -13,6 +13,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { MerchantsListComponent } from './merchants-list/merchants-list.component';
 import { AddEditMerchantsComponent } from './add-edit-merchants/add-edit-merchants.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 
 @NgModule({
@@ -29,7 +34,12 @@ import { AddEditMerchantsComponent } from './add-edit-merchants/add-edit-merchan
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
-    NzTagModule
+    NzTagModule,
+    NzModalModule,
+    NzFormModule,
+    NzDividerModule,
+    NzUploadModule,
+    NzDropDownModule
   ]
 })
 export class MerchantsModule { }

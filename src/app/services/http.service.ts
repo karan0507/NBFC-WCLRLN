@@ -343,6 +343,12 @@ export class HttpService {
     // /partner/v1/get/master
   }
 
+  public getMerchantList(data){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{headers: headers, params:data});
+  }
+
   public getListOfDocumentRequired(){
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
@@ -355,6 +361,20 @@ export class HttpService {
     const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
   }
+
+  public createNBFCForm(data){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data, {headers: headers});
+  }
+
+  public createPartnerForm(data){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data, {headers: headers});
+  }
+
+  // /partner/v1/create-partner-partnermaster
 
   // Application Module => End point 
   public fetchLoanApplicationList(data):Observable <any> {
@@ -374,7 +394,9 @@ export class HttpService {
 
   public getMasterPartnerById(id){
     // /partner/v1/get-detail/master/26
-    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`));
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/partner/v1/get-detail/master/${id}`), {headers: headers});
   }
 
   public getNBFCList(data){
@@ -384,8 +406,18 @@ export class HttpService {
   }
 
   public getNBFCDetail(id){
-    return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`));
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/nbfc/v1/get-nbfc-detail/${id}`), {headers: headers});
   }
+
+  public getMerchantDetail(id){
+    this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;
+    const headers = new HttpHeaders().set("Authorization" , "Token " +  this.token)
+    return this._http.get((this.url +`/merchant/v1/get-merchant-details/${id}`), {headers: headers});
+  }
+
+  // 
 
   public getPartnerList(data){
     this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token;

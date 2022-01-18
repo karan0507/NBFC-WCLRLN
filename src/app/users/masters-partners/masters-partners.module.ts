@@ -18,6 +18,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 
@@ -42,7 +43,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzPageHeaderModule,
     NzFormModule,
     NzDividerModule,
-    NzUploadModule
+    NzUploadModule,
+    NzModalModule
   ]
 })
 export class MastersPartnersModule { }

@@ -10,11 +10,11 @@
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
-            <button nz-button class='text-primary' [routerLink]="['/masters-partners/add']">+ Add Lender/NBFC</button>
+            <button nz-button class='text-primary' [routerLink]="['/lenders/add']">+ Add Lender/NBFC</button>
         </div>
     </div>
     <div class="row mb-md-3">
-        <span>{{listOfData.length}} Results Found</span>
+        <span>{{masterPartner?.length}} Results Found</span>
     </div>
     <div class="row">
         <nz-card class="w-100">
@@ -38,23 +38,14 @@
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
-            [nzPageIndex]="page" (nzQueryParams)="getNBFCList($event)" [nzShowSizeChanger]="true" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
+            [nzPageIndex]="page" (nzQueryParams)="getNBFCList($event)" [nzShowSizeChanger]="true" [nzData]="masterPartner" [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
-                        <th rowspan="2" nzWidth="100px">#</th>
-                        <th >Lenders Detail</th>
-                        <th >Regd. On</th>
-                        <th >NBFC Line Given</th>
-                        <th> Amt. Recd. in Escrow A/C</th>
-                    <!-- <tr>
-                        <th>Total <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
-                        </th>
-                        <th>0-24 Days <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
-                        </th>
-                        <th>25-45 Days <nz-divider nzDashed="true" nzType="vertical"></nz-divider>
-                        </th>
-                        <th> >45 Days </th>
-                    </tr> -->
+                    <th rowspan="2" nzWidth="100px">#</th>
+                    <th >Lenders Detail</th>
+                    <th >Regd. On</th>
+                    <th >NBFC Line Given</th>
+                    <th> Amt. Recd. in Escrow A/C</th>
                     <th rowspan="2">Wallet Bal.</th>
                     <th rowspan="2">Master Partner associated</th>
                     <th rowspan="2">Registered</th>
@@ -62,28 +53,20 @@
                     <th rowspan="2">System Status</th>
                     <th rowspan="2">Action</th>
                     </tr>
-                    <!-- <tr>
-                        <th>Total
-                        </th>
-                        <th>Active
-                        </th>
-                        <th>In Active 
-                        </th>
-                    </tr> -->
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let data of masterPartner; index as i">
                         <tr>
                             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)">
                                 {{ i + 1 }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.created_at | date: 'dd MMM yyyy' }}
-                                <td>Life Given</td>
-                                <td>Escrow</td>
+                            <td>{{ data?.name }}</td>
+                            <td>{{ data?.created_at | date: 'dd MMM yyyy' }}
+                                <td>{{ data?.nbfc_line_given }}</td>
+                                <td>{{ data?.amount_received}}</td>
                             <td>{{data?.wallet_balance}}</td>
-                            <td>Association</td>
-                            <td>Registered</td>
-                            <td>Transaction</td>
+                            <td>{{ data?.master_partner_associated}}</td>
+                            <td>{{ data?.registered}}</td>
+                            <td>{{ data?.transaction_status}}</td>
                             <td *ngIf="data?.is_deleted">False</td>
                             <td *ngIf="!data?.is_deleted">False</td>
                             
@@ -113,7 +96,7 @@
                                                     NBFC's Address
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.address_line_1}}
+                                                    {{(masterPartnerDetailList?.address_line_1 + ' ' + masterPartnerDetailList?.address_line_1)}}
                                                 </div>
                                             </div>
                                         </div>
@@ -129,11 +112,6 @@
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #basicDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Basic Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div>
@@ -175,11 +153,6 @@
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #contactPersonDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Contact Person Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div>
@@ -231,11 +204,6 @@
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #contactPersonDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Banking Detail</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div class="justify-content-center">
@@ -245,33 +213,18 @@
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" *ngFor="let data of masterPartnerDetailList?.documents">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    PAN
+                                                    {{data?.document_master?.name}}
                                                 </h6>
                                                 <div>
                                                     Submitted & Verified
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Aadhaar
-                                                </h6>
-                                                <div class="d-flex">
-                                                    Submitted But not verified <a>View & Verify</a>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #kycDocument>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">KYC Documents</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div class="justify-content-center">
@@ -313,11 +266,6 @@
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #otherDetails>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Other Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
 
@@ -373,7 +321,7 @@
 </ng-template>
 <ng-template #contactPersonDetail>
     <div class="ml-md-2">
-        <h6 class="mb-0">Banking Detail</h6>
+        <h6 class="mb-0">Contact Personal Detail</h6>
     </div>
 </ng-template>
 <ng-template #bankingDetail>
@@ -383,12 +331,12 @@
 </ng-template>
 <ng-template #kycDocument>
     <div class="ml-md-2">
-        <h6 class="mb-0">Basic Details</h6>
+        <h6 class="mb-0">KYC Documents</h6>
     </div>
 </ng-template>
 <ng-template #otherDetails>
     <div class="ml-md-2">
-        <h6 class="mb-0">Basic Details</h6>
+        <h6 class="mb-0">Other Details</h6>
     </div>
 </ng-template>
 

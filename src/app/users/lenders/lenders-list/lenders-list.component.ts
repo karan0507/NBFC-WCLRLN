@@ -9,65 +9,6 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class LendersListComponent implements OnInit {
   selectedTab = 'all'
-  listOfData = [
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    }
-  ];
-
 
   setOfCheckedId = new Set<number>();
   listOfCurrentPageData: readonly Data[] = [];
@@ -124,8 +65,8 @@ export class LendersListComponent implements OnInit {
 
   getNBFCDetail(id){
     this._apiLoader["detailList"] = true;
-    this.http.getNBFCDetail(id).subscribe((res)=> {
-      this.masterPartnerDetailList = res;
+    this.http.getNBFCDetail(id).subscribe((res: any)=> {
+      this.masterPartnerDetailList = res?.data;
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);

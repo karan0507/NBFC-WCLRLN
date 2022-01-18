@@ -128,8 +128,8 @@ export class PartnersListComponent implements OnInit {
 
   getPartnerListDetail(id){
     this._apiLoader["detailList"] = true;
-    this.http.getPartnerListDetail(id).subscribe((res)=> {
-      this.masterPartnerDetailList = res;
+    this.http.getPartnerListDetail(id).subscribe((res: any)=> {
+      this.masterPartnerDetailList = res?.data;
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
