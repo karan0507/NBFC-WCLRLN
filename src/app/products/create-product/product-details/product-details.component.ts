@@ -19,21 +19,23 @@ export class ProductDetailsComponent implements OnInit {
     {name: 'Months', value: 'Months'},
     {name: 'Years', value: 'Years'},
   ]
-  @Input() product_id: any;
+  product_id: any;
+  @Input() isLoading: any;
   productDetails: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) {
     http.globalProductData.subscribe(res => {
+      this.isLoading = true
       this.productDetails = res
-
       if (this.productDetails) {
         this.createEditFormFuction();
         this.productDetails.tenures?.forEach(element => {
           this.addTenure(element)
         });
       }
+      this.isLoading = false
     })
    }
 
