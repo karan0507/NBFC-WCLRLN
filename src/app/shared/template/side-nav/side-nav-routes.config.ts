@@ -98,6 +98,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'applications/pre-approved',
+                title: 'Pre Approved', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'applications/document-upload',
                 title: 'Document Upload', 
                 iconType: '', 
