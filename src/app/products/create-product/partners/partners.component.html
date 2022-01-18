@@ -234,7 +234,7 @@
             <div class="col-12 d-flex justify-content-between px-4">
                 <button nz-button nzType="link" (click)="addMasterPartner()">+Add another Partner</button>
                 <button nz-button nzType="primary"
-                    [disabled]="(createEditForm.invalid)"
+                    [disabled]="(createEditForm.invalid)" [nzLoading]="isloading"
                     (click)="submitForm()">Submit</button>
             </div>
         </div>

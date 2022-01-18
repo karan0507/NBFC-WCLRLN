@@ -36,6 +36,7 @@ export class MasterPartnersComponent implements OnInit {
   masterParnerPayout: any = [];
   loading: boolean = true;
   isMasterCreated: boolean;
+  isloading: boolean;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -273,7 +274,7 @@ export class MasterPartnersComponent implements OnInit {
       data.push(
         {
           master_partner: form.name,
-          product: this.product_id,
+          product: Number(this.product_id),
           no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           slabs: slab,
@@ -283,9 +284,13 @@ export class MasterPartnersComponent implements OnInit {
     let formdata = {
       data: data
     }
+    this.isloading = true
     this.http.createPartnerPayout(formdata).subscribe(res => {
+      this.isloading = false
       this.isMasterCreated = true
       this.message.success(res['message'])
+    }, (err)=> {
+      this.isloading = false
     })
   }
   editMasterProduct() {
@@ -302,6 +307,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: element.time_period,
+            is_deleted: element.is_deleted,
           }
         )
       });
@@ -314,6 +320,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: form.time_period,
+            is_deleted: element.is_deleted,
           }
         )
       });
@@ -326,6 +333,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: element.time_period,
+            is_deleted: element.is_deleted,
           }
         )
       });
@@ -333,7 +341,7 @@ export class MasterPartnersComponent implements OnInit {
         {
           id: form.id,
           master_partner: form.name,
-          product: this.product_id,
+          product: Number(this.product_id),
           no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           slabs: slab,
@@ -343,8 +351,12 @@ export class MasterPartnersComponent implements OnInit {
     let formdata = {
       data: data
     }
+    this.isloading = true
     this.http.createPartnerPayout(formdata).subscribe(res => {
+      this.isloading = false
       this.message.success(res['message'])
+    }, (err)=> {
+      this.isloading = false
     })
   }
 
@@ -387,10 +399,10 @@ export class MasterPartnersComponent implements OnInit {
     control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array');
     console.log(control);
     if (control.value[slab_index].id) {
-      control.value[slab_index].is_delete = true;
+      control.value[slab_index].is_deleted = true;
       control.controls.splice(slab_index, 1)
     } else {
-      control.value[slab_index].is_delete = false;
+      control.value[slab_index].is_deleted = false;
       control.removeAt(slab_index)
     }
   }
@@ -398,10 +410,10 @@ export class MasterPartnersComponent implements OnInit {
     control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Activation');
     console.log(control);
     if (control.value[slab_index].id) {
-      control.value[slab_index].is_delete = true;
+      control.value[slab_index].is_deleted = true;
       control.controls.splice(slab_index, 1)
     } else {
-      control.value[slab_index].is_delete = false;
+      control.value[slab_index].is_deleted = false;
       control.removeAt(slab_index)
     }
   }
@@ -409,10 +421,10 @@ export class MasterPartnersComponent implements OnInit {
     control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Acquisition_Customers');
     console.log(control);
     if (control.value[slab_index].id) {
-      control.value[slab_index].is_delete = true;
+      control.value[slab_index].is_deleted = true;
       control.controls.splice(slab_index, 1)
     } else {
-      control.value[slab_index].is_delete = false;
+      control.value[slab_index].is_deleted = false;
       control.removeAt(slab_index)
     }
   }

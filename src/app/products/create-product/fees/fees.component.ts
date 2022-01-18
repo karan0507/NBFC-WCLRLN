@@ -34,6 +34,7 @@ export class FeesComponent implements OnInit {
   debounce: any;
   isFeesCreated: any;
   feesData: any;
+  loading: boolean;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -175,8 +176,12 @@ export class FeesComponent implements OnInit {
       element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
       element.slabs = element.amount_include_gst ? element.slabs : []
     });
+    this.loading = true
     this.http.editProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
+      this.loading = false
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
   createProductFees() {
@@ -184,9 +189,13 @@ export class FeesComponent implements OnInit {
       element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
       element.slabs = element.amount_include_gst ? element.slabs : []
     });
+    this.loading = true
     this.http.createProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
+      this.loading = false
       this.isFeesCreated = true
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
 

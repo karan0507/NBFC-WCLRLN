@@ -21,6 +21,7 @@ export class UnderwritingComponent implements OnInit {
   employmentTypeData: any;
   filterArray: any
   underWritingRuleData: any;
+  loading: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -109,9 +110,13 @@ export class UnderwritingComponent implements OnInit {
     this.createEditForm.value.rules.forEach(element => {
       element.employment_type = this.selectedTab
     });
+    this.loading = true
     this.http.createUnderWritingRule(this.createEditForm.value).subscribe( res => {
+      this.loading = false
       this.fetchUnderWritingRule()
       this.message.success(res['message'])
+    }, (err) => {
+      this.loading = false
     })
   }
 
