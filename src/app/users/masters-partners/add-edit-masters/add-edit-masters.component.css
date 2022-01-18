@@ -1,7 +1,5 @@
-.text-width{
-    min-width: 10rem;
-    align-self: center;
-}
-.input-width{
-    width: 21rem;
+
+/* ng-tns-c378-4 ant-upload-list-text-container ng-star-inserted */
+:host ::ng-deep .ant-upload-list-text-container{
+display: none !important;
 }
