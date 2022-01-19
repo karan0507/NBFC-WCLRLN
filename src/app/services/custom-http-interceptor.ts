@@ -31,7 +31,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       .pipe(
         // Handle errors
         catchError((error: HttpErrorResponse) => {
-          console.log(error)
           if (error.status == 400) {
             if (error.error.message[0]) {
               this.message.error(error.error.message[0]);
