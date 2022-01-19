@@ -1,0 +1,110 @@
+import { Component, OnInit } from '@angular/core';
+import { Data } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
+import { HttpService } from 'src/app/services/http.service';
+
+@Component({
+  selector: 'app-per-approved',
+  templateUrl: './per-approved.component.html',
+  styleUrls: ['./per-approved.component.css']
+})
+export class PerApprovedComponent implements OnInit {
+
+  checked = false;
+  loading = false;
+  indeterminate = false;
+  listOfCurrentPageData: readonly Data[] = [];
+  setOfCheckedId = new Set<number>();
+  loanApplicationData : any = [];
+  total_count:any;
+  _currentDate:any;
+  _currentId :any;
+  _activeLoans: any = [];
+  today = new Date();
+  
+  disabledDate = (current: Date): boolean => {
+        // Can not select days before today and today
+        return differenceInCalendarDays(current, this.today) > 0;
+      };
+
+  constructor(public https: HttpService) { }
+
+  ngOnInit(): void {
+    this.getFormLoanData();
+  }
+
+
+  getFormLoanData(id?) {
+    console.log('call api');
+    
+    var data;
+    if(this._currentId){
+     this.getIdWiseData();
+     return ;      
+    }else{
+      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1'}
+    }
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
+      console.log('api called', res);
+      this.loanApplicationData = res?.data?.results
+      // this.loanApplicationData = res;
+      // this.total_count = res?.total_count;
+    })
+  }
+
+  getIdWiseData(){
+   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ this._currentId};
+   this.https.fetchLoanApplicationList(data).subscribe(res=>{
+     this._activeLoans.push(res?.data?.results[0])
+     console.log(this._activeLoans);
+     
+   })
+  }
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+      this.getFormLoanData(this._currentId = id)
+    } else {
+      this.expandSet.delete(id);
+      console.log('Deleted array of active ids', this._activeLoans);
+    }
+  }
+
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+    this.refreshCheckedStatus();
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+
+  onAllChecked(checked: boolean): void {
+    this.listOfCurrentPageData
+      .filter(({ disabled }) => !disabled)
+      .forEach(({ id }) => this.updateCheckedSet(id, checked));
+    this.refreshCheckedStatus();
+  }
+
+  refreshCheckedStatus(): void {
+    const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
+    this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
+    this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
+  }
+
+  onMonthChange(event){
+
+  }
+
+}

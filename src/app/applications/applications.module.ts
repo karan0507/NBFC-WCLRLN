@@ -28,10 +28,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { TrackStatusComponent } from './track-status/track-status.component';
 import { RejectedComponent } from './rejected/rejected.component';
 import { DormantComponent } from './dormant/dormant.component';
+import { PerApprovedComponent } from './per-approved/per-approved.component';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,

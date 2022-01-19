@@ -98,6 +98,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'applications/pre-approved',
+                title: 'Pre Approved', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'applications/document-upload',
                 title: 'Document Upload', 
                 iconType: '', 
@@ -169,14 +177,55 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'file',
-        submenu: []
+        submenu: [
+            { 
+                path: 'lms/borrowers',
+                title: 'Borrowers', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
+                path: 'lms/transactions',
+                title: 'Transactions', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
+                path: 'lms/authorization-policy',
+                title: 'Authorization Policy', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
+                path: 'lms/risk-policy',
+                title: 'Risk Policy', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
+                path: 'lms/lender-management',
+                title: 'Lender Management', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+        ]
     },
-    {
-        path: 'transactions',
-        title: 'Transactions',
-        iconType: 'nzIcon',
-        iconTheme: 'outline',
-        icon: 'ng-zorro:indian_rupee',
-        submenu: []
-    }
+    // {
+    //     path: 'transactions',
+    //     title: 'Transactions',
+    //     iconType: 'nzIcon',
+    //     iconTheme: 'outline',
+    //     icon: 'ng-zorro:indian_rupee',
+    //     submenu: []
+    // }
 ]    

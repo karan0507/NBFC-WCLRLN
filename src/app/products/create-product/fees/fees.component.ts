@@ -173,12 +173,13 @@ export class FeesComponent implements OnInit {
   }
   editProductFees() {
     this.createEditForm.value.fees.forEach(element => {
-      element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
-      element.slabs = element.amount_include_gst ? element.slabs : []
+      element.gst_rate = element.amount_include_gst ? element.gst_rate : ''
+      element.slabs = element.slab_specific ? element.slabs : []
     });
     this.loading = true
     this.http.editProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
       this.loading = false
+      this.fetchProductFees()
       this.message.success(res['message'])
     }, (err) => {
       this.loading = false
@@ -186,13 +187,14 @@ export class FeesComponent implements OnInit {
   }
   createProductFees() {
     this.createEditForm.value.fees.forEach(element => {
-      element.gst_rate = element.slab_specific.value ? element.gst_rate : ''
-      element.slabs = element.amount_include_gst ? element.slabs : []
+      element.gst_rate = element.amount_include_gst ? element.gst_rate : ''
+      element.slabs = element.slab_specific ? element.slabs : []
     });
     this.loading = true
     this.http.createProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
       this.loading = false
       this.isFeesCreated = true
+      this.fetchProductFees()
       this.message.success(res['message'])
     }, (err) => {
       this.loading = false

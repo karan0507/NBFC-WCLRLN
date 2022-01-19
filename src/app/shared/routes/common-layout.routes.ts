@@ -42,11 +42,23 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../applications/applications.module').then(m => m.ApplicationsModule),
     },
     {
-        path: 'lms',
-        loadChildren: () => import('../../lms/lms.module').then(m => m.LmsModule),
+        path: 'lms/borrowers',
+        loadChildren: () => import('../../lms/borrowers/borrowers.module').then(m => m.BorrowersModule),
     },
     {
-        path: 'transactions',
-        loadChildren: () => import('../../transactions/transactions.module').then(m => m.TransactionsModule),
-    }
+        path: 'lms/transactions',
+        loadChildren: () => import('../../lms/transactions/transactions.module').then(m => m.TransactionsModule),
+    },
+    {
+        path: 'lms/authorization-policy',
+        loadChildren: () => import('../../lms/authorization/authorization.module').then(m => m.AuthorizationModule),
+    },
+    {
+        path: 'lms/risk-policy',
+        loadChildren: () => import('../../lms/risk-policy/risk-policy.module').then(m => m.RiskPolicyModule),
+    },
+    {
+        path: 'lms/lender-management',
+        loadChildren: () => import('../../lms/lender-management/lender-management.module').then(m => m.LenderManagementModule),
+    },
 ];

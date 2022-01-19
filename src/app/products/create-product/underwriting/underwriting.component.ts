@@ -27,6 +27,8 @@ export class UnderwritingComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.fetchEmploymentTypeData();
+    this.fetchEntityData()
     this.createEditFormFuction()
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
@@ -40,8 +42,6 @@ export class UnderwritingComponent implements OnInit {
       }
     });
 
-    this.fetchEmploymentTypeData();
-    this.fetchEntityData()
   }
   fetchUnderWritingRule() {
     let data = {
@@ -51,6 +51,14 @@ export class UnderwritingComponent implements OnInit {
       if (res['data'].underwriting_rules) {
         this.underWritingRuleData = res['data']
         this.createEditFormFuction(this.underWritingRuleData)
+        this.underWritingRuleData?.underwriting_rules.forEach(element => {
+          this.entityData?.forEach(( entity, index) => {
+            if (entity.pk == element.underwriting_entity.id) {
+              // const index = this.entityData.indexOf(element.underwriting_entity)
+              this.entityData.splice(index,1)
+            }
+          });
+        });
       }
     })
   }
@@ -94,7 +102,7 @@ export class UnderwritingComponent implements OnInit {
         product: [this.product_id],
         employment_type: [this.selectedTab],
         underwriting_entity: [ data ? data.pk : ''],
-        name: [ data ? data.name : ''],
+        name: [ data ? data.display_name : ''],
         min_label: [ data ? data.min_label : ''],
         max_label: [ data ? data.max_label : ''],
         min: [ data ? data?.min : '', [Validators.required]],

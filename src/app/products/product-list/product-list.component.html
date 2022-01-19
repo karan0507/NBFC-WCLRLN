@@ -24,7 +24,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="30">
+            <nz-table [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -50,7 +50,7 @@
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
                         <td>{{ data.master_partners >= 0 ? data.master_partners : '-' }}</td>
                         <td>{{ data.partners >= 0 ? data.partners : '-' }}</td>
-                        <td>{{ data.default_nbfc ? data.default_nbfc.name : '-' }}</td>
+                        <td>{{ data.nbfcs >= 0 ? data.nbfcs : '-' }}</td>
                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                         <td>{{ data.is_deleted ? 'Inactive' : 'Active' }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>

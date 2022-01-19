@@ -73,6 +73,7 @@ export class LimitsComponent implements OnInit {
     this.http.createLimits(this.createEditForm.value).subscribe(res => {
       this.loading = false
       this.productlimit_id = res['data'].productlimit_id
+      this.fetchProductLimits()
       this.message.success(res['message'])
     }, (err)=> {
       this.loading = false
@@ -83,6 +84,7 @@ export class LimitsComponent implements OnInit {
     this.http.editLimits(this.createEditForm.value, this.product_id).subscribe(res => {
       this.loading = false
       this.productlimit_id = res['data'].productlimit_id
+      this.fetchProductLimits()
       this.message.success(res['message'])
     },(err)=> {
       this.loading = false

@@ -322,6 +322,7 @@ export class PartnersComponent implements OnInit {
     this.http.createPartnerPayout(formdata).subscribe( res => {
       this.isloading = false
       this.isMasterCreated = true
+      this.fetchPartnerPayout()
       this.message.success(res['message'])
     }, (err) => {
       this.isloading = false
@@ -390,6 +391,7 @@ export class PartnersComponent implements OnInit {
     this.isloading = true
     this.http.createPartnerPayout(formdata).subscribe( res => {
       this.isloading = false
+      this.fetchMasterPartnerData()
       this.message.success(res['message'])
     }, (err)=> {
       this.isloading = false

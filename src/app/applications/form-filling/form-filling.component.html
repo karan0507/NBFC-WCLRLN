@@ -64,7 +64,7 @@
                         <ng-container *ngFor="let data of loanApplicationData; index as i">
                               <tr>
                                     <td nzWidth="2rem" [nzExpand]="expandSet.has(data.id)"
-                                    (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+                                    (nzExpandChange)="onExpandChange(data.id, $event, i)"></td>
                                     <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                                           (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                     <td>{{i+1}}</td>
@@ -165,7 +165,7 @@
                                                                         Company Name
                                                                   </h6>
                                                                   <div>
-                                                                        Infosys
+                                                                        {{data?.income_details?.results[0]?.employment_type_id?.name == 'Salaried' ? data?.income_details?.results?.employer_id?.name : '--' }}  
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -175,7 +175,7 @@
                                                                       Address
                                                                   </h6>
                                                                   <div>
-                                                                        GCC2+46M, Block A, Sector 85, Noida, Uttar Pradesh 201305
+                                                                        {{data?.income_details?.results?.employment_type_id?.name ? data?.income_details?.results?.employment_type_id?.name : '--'}}
                                                                   </div>
                                                             </div>
                                                       </div>
