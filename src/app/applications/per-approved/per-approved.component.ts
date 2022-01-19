@@ -34,38 +34,43 @@ export class PerApprovedComponent implements OnInit {
   }
 
 
+
   getFormLoanData(id?) {
     console.log('call api');
-    
-    var data;
-    if(this._currentId){
-     this.getIdWiseData();
-     return ;      
-    }else{
-      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1'}
-    }
+    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1'}
     this.https.fetchLoanApplicationList(data).subscribe(res => {
       console.log('api called', res);
-      this.loanApplicationData = res?.data?.results
-      // this.loanApplicationData = res;
-      // this.total_count = res?.total_count;
+      this.loanApplicationData = res?.data?.results;
     })
   }
 
-  getIdWiseData(){
-   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ this._currentId};
-   this.https.fetchLoanApplicationList(data).subscribe(res=>{
-     this._activeLoans.push(res?.data?.results[0])
-     console.log(this._activeLoans);
+
+  getIdWiseData(id?, index?){
+   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id};
+   this.https.fetchLoanApplicationList(data).subscribe(res=> {
+     this._activeLoans.push(res?.data?.results[0]);
+     this.loanApplicationData[index].expanddata = res?.data?.results[0];
+     console.log(this.loanApplicationData[index].expanddata );
+    //  let index = parseInt(this._activeLoans.map(element => element.id = id));
+      // console.log('id wise called', this._activeLoans, index);
+      // return index;
+      //  this.loanApplicationData[index].expandSet = ;
+      //  console.log(this.loanApplicationData[index].expandSet);
+
+   
+    // 1. Loan ID find the index
+    //  console.log(this._activeLoans);
      
    })
   }
 
   expandSet = new Set<number>();
-  onExpandChange(id: number, checked: boolean): void {
+  onExpandChange(id: number, checked: boolean, index?): void {
     if (checked) {
       this.expandSet.add(id);
-      this.getFormLoanData(this._currentId = id)
+      this.getIdWiseData(this._currentId = id, index);
+      // console.log();
+      
     } else {
       this.expandSet.delete(id);
       console.log('Deleted array of active ids', this._activeLoans);
