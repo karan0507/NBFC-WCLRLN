@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./borrowers-list.component.css']
 })
 export class BorrowersListComponent implements OnInit {
+  borrowertList = []
 
   constructor() { }
 
