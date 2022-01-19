@@ -16,6 +16,7 @@ export class ProductListComponent implements OnInit {
   total_count = 0;
   product_master = '';
   search_params = '';
+  globalPageSize: number;
 
 
   constructor(public http: HttpService, private message: NzMessageService,
@@ -24,6 +25,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
+    this.globalPageSize = 30
     this.fetchProductList()
   }
 

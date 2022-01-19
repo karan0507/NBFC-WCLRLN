@@ -9,71 +9,6 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class MasterPartnersListComponent implements OnInit {
   selectedTab = 'all'
-  listOfData = [
-    {
-      id: 1,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 2,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 3,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 4,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 5,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 6,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      id: 7,
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    }
-  ];
   setOfCheckedId = new Set<number>();
   listOfCurrentPageData: readonly Data[] = [];
   checked = false;
@@ -90,9 +25,14 @@ export class MasterPartnersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   masterPartner: any;
+  masterPartnerDetailList: Object;
   onExpandChange(id: number, checked: boolean): void {
+    console.log(checked);
+    
     if (checked) {
+      this.getMasterPartnerById(id)
       this.expandSet.add(id);
+      // alert('Clicked On Expand ' + id)
     } else {
       this.expandSet.delete(id);
     }
@@ -122,6 +62,18 @@ export class MasterPartnersListComponent implements OnInit {
   getResultBasedOnSearch(){
     this.page = 1;
     this.getMasterPartner();
+  }
+
+  getMasterPartnerById(id){
+    this._apiLoader["detailList"] = true;
+    this.http.getMasterPartnerById(id).subscribe((res: any)=> {
+      this.masterPartnerDetailList = res?.data;
+      this._apiLoader["detailList"] = false;
+    }, err => {
+      console.log(err);
+      this._apiLoader["detailList"] = false;
+      
+    })
   }
 
   resetFilter(){
