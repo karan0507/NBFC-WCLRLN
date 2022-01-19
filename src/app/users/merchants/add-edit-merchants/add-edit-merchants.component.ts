@@ -29,7 +29,7 @@ export class AddEditMerchantsComponent implements OnInit {
       if(params['id']){
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.fetchMasterPartner()
+          this.getMerchantDetailById()
         }
       } else {
         // this.masterParnerPayout = null
@@ -40,9 +40,9 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
 
-  fetchMasterPartner(){
+  getMerchantDetailById(){
 
-    this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
+    this.http.getMerchantDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
@@ -50,15 +50,22 @@ export class AddEditMerchantsComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name
+
         }
-        this.addSkills(element)
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        this.addSkills(documents)
       });
     }
   }
@@ -96,33 +103,19 @@ export class AddEditMerchantsComponent implements OnInit {
       contact_person_name: [data ? data?.name : null, [Validators.required]],
       contact_person_phone: [data ? data?.name : null, [Validators.required]],
       contact_person_email: [data ? data?.name : null, [Validators.required]],
-      // employee: [data ? data?.name : null, [Validators.required]],
-      // payout: [data ? data?.name : null, [Validators.required]],
       document_data:  this.fb.array([]),
-      // documents: [null, [Validators.required]],
-      // if m creating master always share the value 1  
-      // master: [data ? data?.name : 1, [Validators.required]],
     });
     if(data){
       this.setFormData(data);
     }
-    // this.getListOfDocumentRequired();
   }
   
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
-
-  // addUnderWriting(data: any, value) {
-  //   this.rules.push(this.addSlabControlsUnderWriting(data, value))
-  // }
 
   addRule() {
     if (this.documentArray.includes(this.selectedDocument)) {
@@ -139,21 +132,12 @@ export class AddEditMerchantsComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
-    // if(data){
-    //   return this.fb.group({
-    //     document_master: [data?.document_master?.id],
-    //     label_name: [data?.document_master?.name],
-    //     documents: [data?.document_file],
-    //     id:[data?.id]
-    //   })
-    // } else{
-      return this.fb.group({
-        document_master: [data?.pk],
-        label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
-      })
-    // }
+    return this.fb.group({
+      document_master: [data?.pk],
+      label_name: [data?.name],
+      documents: [data?.documents],
+      document_name:[data?.document_name]
+    })
   }
 
   get_underwritingArr(form) {
@@ -167,8 +151,6 @@ export class AddEditMerchantsComponent implements OnInit {
   // this.fb.array([])
  
   onUpload(e,i){
-    console.log(e)
-    console.log(e?.file?.originFileObj)
     // this.index = i;
     let fileName = this.addEditProductForm.get('document_data') as FormArray;
     fileName.controls?.[i].patchValue({document_name: e?.file?.name});
@@ -179,9 +161,6 @@ export class AddEditMerchantsComponent implements OnInit {
     //   this.addEditProductForm.addControl('documents',e.target.files[0])
     // }
     // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
-
-
-
   }
 
 
@@ -198,10 +177,10 @@ export class AddEditMerchantsComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
-      let data = new FormData();
+    let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+    if(this.addEditProductForm.valid && !this.masterPartnerId){
       
       for (var i in sendDate.document_data) {
         data.append('documents', sendDate?.document_data[i]?.documents)
@@ -223,7 +202,28 @@ export class AddEditMerchantsComponent implements OnInit {
       this.http.createMerchantForm(data).subscribe((res)=> {
         console.log(res);
       })
-    } 
+    } else {
+      for (var i in sendDate.document_data) {
+        if(sendDate?.document_data[i]?.documents?.includes('/')){
+        break;  
+        }
+        data.append('documents', sendDate?.document_data[i]?.documents)
+        delete sendDate?.document_data[i]?.documents
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.http.updateMerchantForm(this.masterPartnerId, data) 
+      url.subscribe((res)=> {
+        console.log(res);
+      })
+    }
+    
     
     // console.log(data);
   }

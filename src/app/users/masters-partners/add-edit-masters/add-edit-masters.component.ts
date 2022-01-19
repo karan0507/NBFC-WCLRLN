@@ -52,16 +52,22 @@ export class AddEditMastersComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        console.log('Document MAster ID', element?.document_master);
-        if (this.documentArray.includes(element?.document_master)) {
-            const index = this.documentArray.indexOf(element?.document_master)
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name
+
         }
-        this.addSkills(element?.document_master, 'fetchedDocument')
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        this.addSkills(documents)
       });
     }
   }
@@ -100,64 +106,36 @@ export class AddEditMastersComponent implements OnInit {
     if(data){
       this.setFormData(data);
     }
-    // this.getListOfDocumentRequired();
   }
   
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
-
-  // addUnderWriting(data: any, value) {
-  //   this.rules.push(this.addSlabControlsUnderWriting(data, value))
-  // }
 
   addRule() {
     if (this.documentArray.includes(this.selectedDocument)) {
       const index = this.documentArray.indexOf(this.selectedDocument)
       this.documentArray.splice(index,1)
     }
-    // this.addUnderWriting(this.selectedDocument, false)
-      this.addSkills(this.selectedDocument, 'addDocument');
-    this.isVisible = false
+      this.addSkills(this.selectedDocument);
+      this.isVisible = false
   }
 
   get skills() : FormArray {
     return this.addEditProductForm.get("document_data") as FormArray
   }
  
-  newSkill(data?,action?): FormGroup {
-    console.log(data);
-    if(action === 'fetchedDocument'){
-        return this.fb.group({
-        document_master: [data?.id],
-        label_name: [data?.name],
-        documents: [''],
-        // id:[data?.id]
-      })
-    } else if(action === 'addDocument'){
+  newSkill(data?): FormGroup {
       return this.fb.group({
         document_master: [data?.pk],
         label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
+        documents: [data?.documents],
+        document_name:[data?.document_name]
       })
-    }
   }
-  // if(data){
-    //   return this.fb.group({
-    //     document_master: [data?.document_master?.id],
-    //     label_name: [data?.document_master?.name],
-    //     documents: [data?.document_file],
-    //     id:[data?.id]
-    //   })
-    // } else{
 
   get_underwritingArr(form) {
     return form.controls.document_data.controls;
@@ -170,7 +148,6 @@ export class AddEditMastersComponent implements OnInit {
   // this.fb.array([])
  
   onUpload(e,i){
-    console.log(e)
     console.log(e?.file?.originFileObj)
     // this.index = i;
     let fileName = this.addEditProductForm.get('document_data') as FormArray;
@@ -182,14 +159,11 @@ export class AddEditMastersComponent implements OnInit {
     //   this.addEditProductForm.addControl('documents',e.target.files[0])
     // }
     // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
-
-
-
   }
 
 
-  addSkills(data?, action?) {
-    this.skills.push(this.newSkill(data,action));
+  addSkills(data?) {
+    this.skills.push(this.newSkill(data));
   }
  
   removeSkill(i:number) {
@@ -201,12 +175,15 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid && !this.masterPartnerId){
-      let data = new FormData();
+    let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+    if(this.addEditProductForm.valid && !this.masterPartnerId) {
       
       for (var i in sendDate.document_data) {
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
       }
@@ -214,16 +191,36 @@ export class AddEditMastersComponent implements OnInit {
       for (var i in sendDate) {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
-        }  else {
+        } else {
           data.append(i, sendDate[i])
         }
       }
-      this.http.createMasterPartnerForm(data).subscribe((res)=> {
+      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      url.subscribe((res)=> {
         console.log(res);
       })
     } else {
-      console.log('Working', this.addEditProductForm.value)
+      for (var i in sendDate.document_data) {
+        if(sendDate?.document_data[i]?.documents?.includes('/')){
+        break;  
+        }
+        data.append('documents', sendDate?.document_data[i]?.documents)
+        delete sendDate?.document_data[i]?.documents
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      url.subscribe((res)=> {
+        console.log(res);
+      })
     }
+
     
     // console.log(data);
   }

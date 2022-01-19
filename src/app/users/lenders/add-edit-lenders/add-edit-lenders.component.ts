@@ -29,7 +29,7 @@ export class AddEditLendersComponent implements OnInit {
       if(params['id']){
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.fetchMasterPartner()
+          this.getNBFCDetail()
         }
       } else {
         // this.masterParnerPayout = null
@@ -40,9 +40,9 @@ export class AddEditLendersComponent implements OnInit {
   }
 
 
-  fetchMasterPartner(){
+  getNBFCDetail(){
 
-    this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
+    this.http.getNBFCDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
@@ -50,15 +50,23 @@ export class AddEditLendersComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name
+
         }
-        this.addSkills(element)
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        console.log(element?.document_file, 'to check the value')
+        this.addSkills(documents)
       });
     }
   }
@@ -67,32 +75,32 @@ export class AddEditLendersComponent implements OnInit {
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({
       name: [data ? data?.name : null, [Validators.required]],
-      address_line_1: [data ? data?.name : null, [Validators.required]],
-      address_line_2: [data ? data?.name : null, [Validators.required]],
-      city: [data ? data?.name : null, [Validators.required]],
-      state: [data ? data?.name : null, [Validators.required]],
-      pincode: [data ? data?.name : null, [Validators.required]],
-      phone: [data ? data?.name : null, [Validators.required]],
+      address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
+      address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
+      city: [data ? data?.city : null, [Validators.required]],
+      state: [data ? data?.state : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required]],
+      phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
       // Attribute Nature under business detail
       // business_nature: [data ? data?.name : null, [Validators.required]],
 
-      total_commitment: [data ? data?.name : null, [Validators.required]],
-      roi: [data ? data?.name : null, [Validators.required]],
-      fldg: [data ? data?.name : null, [Validators.required]],
+      total_commitment: [data ? data?.total_commitment : null, [Validators.required]],
+      roi: [data ? data?.roi : null, [Validators.required]],
+      fldg: [data ? data?.fldg : null, [Validators.required]],
 
 
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
       // employee: [data ? data?.name : null, [Validators.required]],
       // payout: [data ? data?.name : null, [Validators.required]],
       document_data:  this.fb.array([]),
@@ -110,10 +118,6 @@ export class AddEditLendersComponent implements OnInit {
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
 
@@ -126,8 +130,7 @@ export class AddEditLendersComponent implements OnInit {
       const index = this.documentArray.indexOf(this.selectedDocument)
       this.documentArray.splice(index,1)
     }
-    // this.addUnderWriting(this.selectedDocument, false)
-      this.addSkills(this.selectedDocument);
+    this.addSkills(this.selectedDocument);
     this.isVisible = false
   }
 
@@ -147,8 +150,8 @@ export class AddEditLendersComponent implements OnInit {
       return this.fb.group({
         document_master: [data?.pk],
         label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
+        documents: [data?.documents],
+        document_name:[data?.document_name]
       })
     // }
   }
@@ -195,10 +198,11 @@ export class AddEditLendersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
-      let data = new FormData();
+    let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+
+    if(this.addEditProductForm.valid && !this.masterPartnerId){
       
       for (var i in sendDate.document_data) {
         data.append('documents', sendDate?.document_data[i]?.documents)
@@ -220,7 +224,27 @@ export class AddEditLendersComponent implements OnInit {
       this.http.createNBFCForm(data).subscribe((res)=> {
         console.log(res);
       })
-    } 
+    } else {
+      for (var i in sendDate.document_data) {
+        if(sendDate?.document_data[i]?.documents?.includes('/')){
+        break;  
+        }
+        data.append('documents', sendDate?.document_data[i]?.documents)
+        delete sendDate?.document_data[i]?.documents
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.http.updateNBFCForm(this.masterPartnerId, data)
+      url.subscribe((res)=> {
+        console.log(res);
+      })
+    }
     
     // console.log(data);
   }

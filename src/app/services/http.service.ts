@@ -293,14 +293,27 @@ export class HttpService {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
+  public updateMasterPartnerForm(id, data){
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/${id}`), data);
+  }
+  
+
   public createMerchantForm(data){
     return this._http.post((this.url +`/merchant/v1/add-merchant`), data);
+  }
+
+  public updateMerchantForm(id, data){
+    return this._http.post((this.url +`/merchant/v1/edit-merchant/${id}`), data);
   }
 
   // 
 
   public createNBFCForm(data){
     return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data);
+  }
+
+  public updateNBFCForm(id,data){
+    return this._http.put((this.url +`/nbfc/v1/edit-nbfc/${id}`), data);
   }
 
   public createPartnerForm(data){
