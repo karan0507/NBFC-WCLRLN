@@ -59,8 +59,8 @@ export class MerchantsListComponent implements OnInit {
 
   getMerchantDetail(id){
     this._apiLoader["detailList"] = true;
-    this.http.getMerchantDetail(id).subscribe((res)=> {
-      this.merchantDetailList = res;
+    this.http.getMerchantDetail(id).subscribe((res: any)=> {
+      this.merchantDetailList = res?.data;
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);

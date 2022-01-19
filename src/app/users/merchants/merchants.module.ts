@@ -18,6 +18,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
+    NzPageHeaderModule,
     NzTagModule,
     NzModalModule,
     NzFormModule,

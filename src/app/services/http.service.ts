@@ -293,6 +293,12 @@ export class HttpService {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
+  public createMerchantForm(data){
+    return this._http.post((this.url +`/merchant/v1/add-merchant`), data);
+  }
+
+  // 
+
   public createNBFCForm(data){
     return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data);
   }
