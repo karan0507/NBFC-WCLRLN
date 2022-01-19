@@ -27,6 +27,8 @@ export class UnderwritingComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.fetchEmploymentTypeData();
+    this.fetchEntityData()
     this.createEditFormFuction()
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
@@ -40,8 +42,6 @@ export class UnderwritingComponent implements OnInit {
       }
     });
 
-    this.fetchEmploymentTypeData();
-    this.fetchEntityData()
   }
   fetchUnderWritingRule() {
     let data = {
@@ -51,6 +51,14 @@ export class UnderwritingComponent implements OnInit {
       if (res['data'].underwriting_rules) {
         this.underWritingRuleData = res['data']
         this.createEditFormFuction(this.underWritingRuleData)
+        this.underWritingRuleData?.underwriting_rules.forEach(element => {
+          this.entityData?.forEach(( entity, index) => {
+            if (entity.pk == element.underwriting_entity.id) {
+              // const index = this.entityData.indexOf(element.underwriting_entity)
+              this.entityData.splice(index,1)
+            }
+          });
+        });
       }
     })
   }

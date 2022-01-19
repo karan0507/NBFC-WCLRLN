@@ -10,7 +10,8 @@
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
-            <button nz-button class='text-primary' [routerLink]="['/lenders/add']">+ Add Lender/NBFC</button>
+            <button nz-button class='text-primary mr-4' [routerLink]="['/merchants/add']">+ Add Merchant</button>
+            <button nz-button class='text-primary' [routerLink]="['/lenders/add']">+ Add DSA</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -63,11 +64,16 @@
                             <td>{{ data.name }}</td>
                             <td>{{ data.type }}</td>
                             <td>{{ data.created_at | date: 'dd MMM yyyy' }}
-                            <td>MDR%</td>
+                            <td>{{data?.mdr}}</td>
                             <td>{{data?.source_id}}</td>
                             <td>{{data?.unique_code}}</td>
                             <td>{{data?.refer_id}}</td>
-                            <td>{{data?.registered}}</td>
+                            <td *ngIf="data?.registered ">
+                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                            </td>
+                            <td *ngIf="!data?.registered ">
+                                <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
+                            </td>
                             <td>{{data?.transaction_status}}</td>
                             <td *ngIf="data?.is_deleted">False</td>
                             <td *ngIf="!data?.is_deleted">True</td>
@@ -98,7 +104,7 @@
                                                     NBFC's Address
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.address_line_1}}
+                                                    {{merchantDetailList?.address_line_1}}
                                                 </div>
                                             </div>
                                         </div>
@@ -108,17 +114,12 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.phone}}
+                                                    {{merchantDetailList?.phone}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #basicDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Basic Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div>
@@ -134,7 +135,7 @@
                                                     Name
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.nbfc_user_name}}
+                                                    {{merchantDetailList?.nbfc_user_name}}
                                                 </div>
                                             </div>
                                         </div>
@@ -144,7 +145,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.nbfc_user_mobile}}
+                                                    {{merchantDetailList?.nbfc_user_mobile}}
                                                 </div>
                                             </div>
                                         </div>
@@ -154,17 +155,12 @@
                                                     Email-Id
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.nbfc_user_email}}
+                                                    {{merchantDetailList?.nbfc_user_email}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #contactPersonDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Contact Person Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div>
@@ -180,7 +176,7 @@
                                                     Bank Name
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.bank_name}}
+                                                    {{merchantDetailList?.bank_name}}
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +186,7 @@
                                                     IFSC
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.ifsc}}
+                                                    {{merchantDetailList?.ifsc}}
                                                 </div>
                                             </div>
                                         </div>
@@ -200,7 +196,7 @@
                                                     A/c No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.account_no}}
+                                                    {{merchantDetailList?.account_no}}
                                                 </div>
                                             </div>
                                         </div>
@@ -210,17 +206,12 @@
                                                     Branch.
                                                 </h6>
                                                 <div>
-                                                    -
+                                                    {{merchantDetailList?.branch}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #contactPersonDetail>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Banking Detail</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div class="justify-content-center">
@@ -230,33 +221,18 @@
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" *ngFor="let data of merchantDetailList?.documents">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    PAN
+                                                    {{data?.document_master?.name}}
                                                 </h6>
                                                 <div>
                                                     Submitted & Verified
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Aadhaar
-                                                </h6>
-                                                <div class="d-flex">
-                                                    Submitted But not verified <a>View & Verify</a>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #kycDocument>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">KYC Documents</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
                             <div class="justify-content-center">
@@ -272,7 +248,7 @@
                                                     Total Commitment
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.total_commitment}}
+                                                    {{merchantDetailList?.total_commitment}}
                                                 </div>
                                             </div>
                                         </div>
@@ -282,7 +258,7 @@
                                                     Roi
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{masterPartnerDetailList?.roi}}
+                                                    {{merchantDetailList?.roi}}
                                                 </div>
                                             </div>
                                         </div>
@@ -292,17 +268,12 @@
                                                     FLDG
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{masterPartnerDetailList?.fldg}}
+                                                    {{merchantDetailList?.fldg}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </nz-card>
-                                <ng-template #otherDetails>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0">Other Details</h6>
-                                    </div>
-                                </ng-template>
                             </div>
 
 
@@ -351,6 +322,7 @@
     </ul>
 </nz-dropdown-menu>
 
+
 <ng-template #basicDetail>
     <div class="ml-md-2">
         <h6 class="mb-0">Basic Details</h6>
@@ -358,7 +330,7 @@
 </ng-template>
 <ng-template #contactPersonDetail>
     <div class="ml-md-2">
-        <h6 class="mb-0">Banking Detail</h6>
+        <h6 class="mb-0">Contact Personal Detail</h6>
     </div>
 </ng-template>
 <ng-template #bankingDetail>
@@ -368,12 +340,12 @@
 </ng-template>
 <ng-template #kycDocument>
     <div class="ml-md-2">
-        <h6 class="mb-0">Basic Details</h6>
+        <h6 class="mb-0">KYC Documents</h6>
     </div>
 </ng-template>
 <ng-template #otherDetails>
     <div class="ml-md-2">
-        <h6 class="mb-0">Basic Details</h6>
+        <h6 class="mb-0">Other Details</h6>
     </div>
 </ng-template>
 

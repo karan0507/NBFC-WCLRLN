@@ -87,10 +87,10 @@
                             </td>
                             <td>{{ data.unique_code}}
                             </td>
-                            <td *ngIf="data?.is_deleted ">
+                            <td *ngIf="data?.registered ">
                                 <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
                             </td>
-                            <td *ngIf="!data?.is_deleted ">
+                            <td *ngIf="!data?.registered ">
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
                             <td>{{ data.transaction_type }}</td>
