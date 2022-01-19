@@ -56,11 +56,12 @@ export class AddEditMastersComponent implements OnInit {
         // alert('Id '+ element?.document_master['id'])
         // this.selectedTab = element.employment_type.id
         // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
+        console.log('Document MAster ID', element?.document_master);
+        if (this.documentArray.includes(element?.document_master)) {
+            const index = this.documentArray.indexOf(element?.document_master)
             this.documentArray.splice(index,1)
         }
-        this.addSkills(element)
+        this.addSkills(element?.document_master, 'fetchedDocument')
       });
     }
   }
@@ -69,32 +70,32 @@ export class AddEditMastersComponent implements OnInit {
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({
       name: [data ? data?.name : null, [Validators.required]],
-      address_line_1: [data ? data?.name : null, [Validators.required]],
-      address_line_2: [data ? data?.name : null, [Validators.required]],
-      city: [data ? data?.name : null, [Validators.required]],
-      state: [data ? data?.name : null, [Validators.required]],
-      pincode: [data ? data?.name : null, [Validators.required]],
-      phone: [data ? data?.name : null, [Validators.required]],
+      address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
+      address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
+      city: [data ? data?.city : null, [Validators.required]],
+      state: [data ? data?.state : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required]],
+      phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
 
       // Attribute Type under business detail
-      business_type: [data ? data?.name : null, [Validators.required]],
+      business_type: [data ? data?.business_type : null, [Validators.required]],
       // Attribute Nature under business detail
-      business_nature: [data ? data?.name : null, [Validators.required]],
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
-      employee: [data ? data?.name : null, [Validators.required]],
-      payout: [data ? data?.name : null, [Validators.required]],
+      business_nature: [data ? data?.business_nature : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      employee: [data ? data?.employee : null, [Validators.required]],
+      payout: [data ? data?.payout : null, [Validators.required]],
       document_data:  this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [data ? data?.name : 1, [Validators.required]],
+      master: [data ? 1 : 1, [Validators.required]],
     });
     if(data){
       this.setFormData(data);
@@ -123,7 +124,7 @@ export class AddEditMastersComponent implements OnInit {
       this.documentArray.splice(index,1)
     }
     // this.addUnderWriting(this.selectedDocument, false)
-      this.addSkills(this.selectedDocument);
+      this.addSkills(this.selectedDocument, 'addDocument');
     this.isVisible = false
   }
 
@@ -131,8 +132,25 @@ export class AddEditMastersComponent implements OnInit {
     return this.addEditProductForm.get("document_data") as FormArray
   }
  
-  newSkill(data?): FormGroup {
-    // if(data){
+  newSkill(data?,action?): FormGroup {
+    console.log(data);
+    if(action === 'fetchedDocument'){
+        return this.fb.group({
+        document_master: [data?.id],
+        label_name: [data?.name],
+        documents: [''],
+        // id:[data?.id]
+      })
+    } else if(action === 'addDocument'){
+      return this.fb.group({
+        document_master: [data?.pk],
+        label_name: [data?.name],
+        documents: [''],
+        document_name:[null]
+      })
+    }
+  }
+  // if(data){
     //   return this.fb.group({
     //     document_master: [data?.document_master?.id],
     //     label_name: [data?.document_master?.name],
@@ -140,14 +158,6 @@ export class AddEditMastersComponent implements OnInit {
     //     id:[data?.id]
     //   })
     // } else{
-      return this.fb.group({
-        document_master: [data?.pk],
-        label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
-      })
-    // }
-  }
 
   get_underwritingArr(form) {
     return form.controls.document_data.controls;
@@ -178,8 +188,8 @@ export class AddEditMastersComponent implements OnInit {
   }
 
 
-  addSkills(data?) {
-    this.skills.push(this.newSkill(data));
+  addSkills(data?, action?) {
+    this.skills.push(this.newSkill(data,action));
   }
  
   removeSkill(i:number) {
@@ -191,7 +201,7 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
+    if(this.addEditProductForm.valid && !this.masterPartnerId){
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
@@ -211,7 +221,9 @@ export class AddEditMastersComponent implements OnInit {
       this.http.createMasterPartnerForm(data).subscribe((res)=> {
         console.log(res);
       })
-    } 
+    } else {
+      console.log('Working', this.addEditProductForm.value)
+    }
     
     // console.log(data);
   }

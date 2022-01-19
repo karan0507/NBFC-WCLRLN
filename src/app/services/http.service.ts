@@ -328,7 +328,7 @@ export class HttpService {
 
   public getMasterPartnerById(id){
     const headers = new HttpHeaders()
-    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`), {headers: headers});
+    return this._http.get((this.url +`/partner/v1/get-detail/master/${id}`), {headers: headers});
   }
   
   public getNBFCList(data){
