@@ -31,8 +31,13 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       .pipe(
         // Handle errors
         catchError((error: HttpErrorResponse) => {
+          console.log(error)
           if (error.status == 400) {
-            this.message.error('Bad Request');
+            if (error.error.message[0]) {
+              this.message.error(error.error.message[0]);
+            } else {
+              this.message.error('Bad Request');
+            }
           } else if (error.status == 403) {
             this.message.error("You don't have permission to access this");
           } else {

@@ -225,6 +225,7 @@ export class OnboardingComponent implements OnInit {
     this.http.editOnboardingRules(data, this.product_id).subscribe(res => {
       this.loading = false
       this.message.success(res['message'])
+      this.fetchOnboardingRules()
     }, (err) => {
       this.loading = false
     })
