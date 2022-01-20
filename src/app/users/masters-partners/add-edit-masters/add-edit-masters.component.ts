@@ -52,15 +52,22 @@ export class AddEditMastersComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name
+
         }
-        this.addSkills(element)
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        this.addSkills(documents)
       });
     }
   }
@@ -69,62 +76,52 @@ export class AddEditMastersComponent implements OnInit {
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({
       name: [data ? data?.name : null, [Validators.required]],
-      address_line_1: [data ? data?.name : null, [Validators.required]],
-      address_line_2: [data ? data?.name : null, [Validators.required]],
-      city: [data ? data?.name : null, [Validators.required]],
-      state: [data ? data?.name : null, [Validators.required]],
-      pincode: [data ? data?.name : null, [Validators.required]],
-      phone: [data ? data?.name : null, [Validators.required]],
+      address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
+      address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
+      city: [data ? data?.city : null, [Validators.required]],
+      state: [data ? data?.state : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required]],
+      phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
 
       // Attribute Type under business detail
-      business_type: [data ? data?.name : null, [Validators.required]],
+      business_type: [data ? data?.business_type : null, [Validators.required]],
       // Attribute Nature under business detail
-      business_nature: [data ? data?.name : null, [Validators.required]],
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
-      employee: [data ? data?.name : null, [Validators.required]],
-      payout: [data ? data?.name : null, [Validators.required]],
+      business_nature: [data ? data?.business_nature : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      employee: [data ? data?.employee : null, [Validators.required]],
+      payout: [data ? data?.payout : null, [Validators.required]],
       document_data:  this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [data ? data?.name : 1, [Validators.required]],
+      master: [data ? 1 : 1, [Validators.required]],
     });
     if(data){
       this.setFormData(data);
     }
-    // this.getListOfDocumentRequired();
   }
   
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
-
-  // addUnderWriting(data: any, value) {
-  //   this.rules.push(this.addSlabControlsUnderWriting(data, value))
-  // }
 
   addRule() {
     if (this.documentArray.includes(this.selectedDocument)) {
       const index = this.documentArray.indexOf(this.selectedDocument)
       this.documentArray.splice(index,1)
     }
-    // this.addUnderWriting(this.selectedDocument, false)
       this.addSkills(this.selectedDocument);
-    this.isVisible = false
+      this.isVisible = false
   }
 
   get skills() : FormArray {
@@ -132,21 +129,12 @@ export class AddEditMastersComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
-    // if(data){
-    //   return this.fb.group({
-    //     document_master: [data?.document_master?.id],
-    //     label_name: [data?.document_master?.name],
-    //     documents: [data?.document_file],
-    //     id:[data?.id]
-    //   })
-    // } else{
       return this.fb.group({
         document_master: [data?.pk],
         label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
+        documents: [data?.documents],
+        document_name:[data?.document_name]
       })
-    // }
   }
 
   get_underwritingArr(form) {
@@ -160,7 +148,6 @@ export class AddEditMastersComponent implements OnInit {
   // this.fb.array([])
  
   onUpload(e,i){
-    console.log(e)
     console.log(e?.file?.originFileObj)
     // this.index = i;
     let fileName = this.addEditProductForm.get('document_data') as FormArray;
@@ -172,9 +159,6 @@ export class AddEditMastersComponent implements OnInit {
     //   this.addEditProductForm.addControl('documents',e.target.files[0])
     // }
     // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
-
-
-
   }
 
 
@@ -191,12 +175,15 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
-      let data = new FormData();
+    let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+    if(this.addEditProductForm.valid && !this.masterPartnerId) {
       
       for (var i in sendDate.document_data) {
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
       }
@@ -204,14 +191,36 @@ export class AddEditMastersComponent implements OnInit {
       for (var i in sendDate) {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
-        }  else {
+        } else {
           data.append(i, sendDate[i])
         }
       }
-      this.http.createMasterPartnerForm(data).subscribe((res)=> {
+      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      url.subscribe((res)=> {
         console.log(res);
       })
-    } 
+    } else {
+      for (var i in sendDate.document_data) {
+        if(sendDate?.document_data[i]?.documents?.includes('/')){
+        break;  
+        }
+        data.append('documents', sendDate?.document_data[i]?.documents)
+        delete sendDate?.document_data[i]?.documents
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      url.subscribe((res)=> {
+        console.log(res);
+      })
+    }
+
     
     // console.log(data);
   }
