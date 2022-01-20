@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-offer-acceptance',
@@ -12,19 +14,52 @@ export class OfferAcceptanceComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
-  constructor() { }
+  loanApplicationData : any = [];
+  total_count:any;
+  _currentDate:any;
+  _currentId :any;
+  _activeLoans: any = [];
+  today = new Date();
+  
+  disabledDate = (current: Date): boolean => {
+        // Can not select days before today and today
+        return differenceInCalendarDays(current, this.today) > 0;
+      };
+
+  constructor(public https:HttpService) { }
 
   ngOnInit(): void {
   }
 
-  expandSet = new Set<number>();
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
-    }
+  getFormLoanData(id?) {
+    console.log('call api');
+    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1'}
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
+      console.log('api called', res);
+      this.loanApplicationData = res?.data?.results;
+    })
   }
+
+
+  getIdWiseData(id?, index?){
+   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id};
+   this.https.fetchLoanApplicationList(data).subscribe(res=> {
+     this._activeLoans.push(res?.data?.results[0]);
+     this.loanApplicationData[index].expanddata = res?.data?.results[0];
+     console.log(this.loanApplicationData[index].expanddata );
+    //  let index = parseInt(this._activeLoans.map(element => element.id = id));
+      // console.log('id wise called', this._activeLoans, index);
+      // return index;
+      //  this.loanApplicationData[index].expandSet = ;
+      //  console.log(this.loanApplicationData[index].expandSet);
+
+   
+    // 1. Loan ID find the index
+    //  console.log(this._activeLoans);
+     
+   })
+  }
+
   listOfData = [
     {
       id: 1,
@@ -51,6 +86,19 @@ export class OfferAcceptanceComponent implements OnInit {
       description: '--'
     }
   ];
+  
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean, index?): void {
+    if (checked) {
+      this.expandSet.add(id);
+      this.getIdWiseData(this._currentId = id, index);
+      // console.log();
+      
+    } else {
+      this.expandSet.delete(id);
+      console.log('Deleted array of active ids', this._activeLoans);
+    }
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -83,5 +131,7 @@ export class OfferAcceptanceComponent implements OnInit {
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
+  onMonthChange(event){
 
+  }
 }
