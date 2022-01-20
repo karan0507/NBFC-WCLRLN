@@ -178,6 +178,8 @@ export class AddEditMastersComponent implements OnInit {
     let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+      
+      
     if(this.addEditProductForm.valid && !this.masterPartnerId) {
       
       for (var i in sendDate.document_data) {
@@ -201,12 +203,23 @@ export class AddEditMastersComponent implements OnInit {
       })
     } else {
       for (var i in sendDate.document_data) {
-        if(sendDate?.document_data[i]?.documents?.includes('/')){
-        break;  
+        // console.log(sendDate.document_data[i]?.documents);
+        console.log(sendDate.document_data[i].documents?.['uid']);
+        // console.log('working' + sendDate.document_data +  ' ' +  i);
+        if(sendDate.document_data[i].documents?.['uid']){
+          data.append('documents', sendDate?.document_data[i]?.documents)  
+          delete sendDate?.document_data[i]?.documents
+        } else {
+          delete sendDate?.document_data[i]?.documents
         }
-        data.append('documents', sendDate?.document_data[i]?.documents)
-        delete sendDate?.document_data[i]?.documents
       }
+      // for (var i in sendDate.document_data) {
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
+        // data.append('documents', sendDate?.document_data[i]?.documents)
+        // delete sendDate?.document_data[i]?.documents
+      // }
   
       for (var i in sendDate) {
         if(i == 'document_data'){
