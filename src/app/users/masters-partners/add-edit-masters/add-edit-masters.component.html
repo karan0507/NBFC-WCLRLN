@@ -177,7 +177,7 @@
                 </nz-form-label> -->
                 <div class="col-md-12" [formGroupName]="k">
                     <div class="row">
-                        <div class="col-md-6 pl-0">
+                        <div class="col-md-12 pl-0">
                             <nz-form-item>
                                 <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
                                     {{item.controls.label_name.value}}</nz-form-label>
@@ -290,7 +290,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" (nzOnOk)="addRule()">
     <ng-container *nzModalContent>
         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
-        <nz-select [(ngModel)]="selectedDocument" nzPlaceHolder="Select Select Entity!">
+        <nz-select [(ngModel)]="selectedDocument" nzPlaceHolder="Select Select Entity!" style="min-width: 13rem;">
             <nz-option *ngFor="let item of documentArray" [nzValue]="item" [nzLabel]="item.name">
             </nz-option>
         </nz-select>
