@@ -11,6 +11,8 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class AddEditMerchantsComponent implements OnInit {
 
+  isVerified: any;
+  isEdit: boolean;
   addEditProductForm!: FormGroup;
   documentBasedForm: FormGroup;
   documentArray: any;
@@ -27,12 +29,14 @@ export class AddEditMerchantsComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       if(params['id']){
+        this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
           this.getMerchantDetailById()
         }
       } else {
         // this.masterParnerPayout = null
+        this.isEdit = false
         this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
@@ -56,7 +60,9 @@ export class AddEditMerchantsComponent implements OnInit {
           pk: element?.document_master['id'],
           documents: element?.document_file,
           name: element?.document_master['name'],
-          document_name: element?.file_name
+          document_name: element?.file_name,
+          id: element?.id,
+          is_verified: element?.is_verified,
 
         }
         documentArray.push(documents);
@@ -82,15 +88,15 @@ export class AddEditMerchantsComponent implements OnInit {
       phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
       primary_upi: [data ? data?.primary_upi : null, [Validators.required]],
       secondary_upi: [data ? data?.secondary_upi : null, [Validators.required]],
       mdr: [data ? data?.mdr : null, [Validators.required]],
       interest_subvention: [data ? data?.interest_subvention : null, [Validators.required]],
-      payout: [data ? data?.primary_upi : null, [Validators.required]],
+      payout: [data ? data?.payout : null, [Validators.required]],
       unique_code: [data ? data?.unique_code : null, [Validators.required]],
 
       // Attribute Type under business detail
@@ -100,9 +106,9 @@ export class AddEditMerchantsComponent implements OnInit {
 
 
 
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
       document_data:  this.fb.array([]),
     });
     if(data){
@@ -133,10 +139,12 @@ export class AddEditMerchantsComponent implements OnInit {
  
   newSkill(data?): FormGroup {
     return this.fb.group({
+      id: [data ? data?.id : null],
       document_master: [data?.pk],
       label_name: [data?.name],
       documents: [data?.documents],
-      document_name:[data?.document_name]
+      document_name:[data?.document_name],
+      is_verified:[ data?.is_verified ? data?.is_verified : false]
     })
   }
 
@@ -173,39 +181,24 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   onClickSubmitForm(){
+
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    let data = new FormData();
+
+    if(this.addEditProductForm.valid) {
+      if(!this.isEdit) {
+      let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
-    if(this.addEditProductForm.valid && !this.masterPartnerId){
       
       for (var i in sendDate.document_data) {
-        data.append('documents', sendDate?.document_data[i]?.documents)
-        delete sendDate?.document_data[i]?.documents
-      }
-  
-      for (var i in sendDate) {
-        // if(sendDate?.document_data.length >= 1){  }
-        if(i == 'document_data'){
-          data.append(i, JSON.stringify(sendDate[i]))
-        } 
-          else {
-          data.append(i, sendDate[i])
-        }
-
-      }
-
-
-      this.http.createMerchantForm(data).subscribe((res)=> {
-        console.log(res);
-      })
-    } else {
-      for (var i in sendDate.document_data) {
-        if(sendDate?.document_data[i]?.documents?.includes('/')){
-        break;  
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
         }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
@@ -218,14 +211,47 @@ export class AddEditMerchantsComponent implements OnInit {
           data.append(i, sendDate[i])
         }
       }
-      const  url = this.http.updateMerchantForm(this.masterPartnerId, data) 
+      const  url = this.http.createMerchantForm(data);
       url.subscribe((res)=> {
         console.log(res);
       })
     }
+     else  {
+      let data = new FormData();
     
-    
-    // console.log(data);
+      var sendDate = this.addEditProductForm.value
+      for (var i in sendDate.document_data) {
+        // console.log(sendDate.document_data[i]?.documents);
+        console.log(sendDate.document_data[i].documents?.['uid']);
+        console.log(sendDate.document_data[i].id);
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        // console.log('working' + sendDate.document_data +  ' ' +  i);
+        if(sendDate.document_data[i].documents?.['uid']){
+          data.append('documents', sendDate?.document_data[i]?.documents)  
+          delete sendDate?.document_data[i]?.documents
+        } else {
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url =  this.http.updateMerchantForm(this.masterPartnerId, data) 
+      url.subscribe((res)=> {
+        console.log(res);
+      })
+    }
+  }
+
+  
+
   }
 
   handleChange(e,index){

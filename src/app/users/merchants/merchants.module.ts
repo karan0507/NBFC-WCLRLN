@@ -19,6 +19,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     NzFormModule,
     NzDividerModule,
     NzUploadModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzCheckboxModule
   ]
 })
 export class MerchantsModule { }

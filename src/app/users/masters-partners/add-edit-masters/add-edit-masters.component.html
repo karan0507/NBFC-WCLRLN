@@ -100,7 +100,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_phone" class="text-left" nzRequired>Phone No.</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact person Name!">
-                            <input nz-input type="text" formControlName="contact_person_phone"  placeholder="person Phone No."/>
+                            <input nz-input type="number" formControlName="contact_person_phone"  placeholder="person Phone No."/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -182,16 +182,19 @@
                                 <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
                                     {{item.controls.label_name.value}}</nz-form-label>
                                 <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                    <div class="d-flex">
                                         <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                         [nzCustomRequest]="customUpload"
-                                        (nzChange)="onUpload($event, k)"
+                                        (nzChange)="onUpload($event, k, 'upload')"
                                         >
                                         <button nz-button>
                                             <i nz-icon nzType="upload"></i>
                                             Click to Upload
                                         </button>
                                         </nz-upload>
+                                        <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
+                                    </div>
                                     <!-- (nzChange)="onUpload($event)"[nzBeforeUpload]="beforeUpload" [nzBeforeUpload]="beforeUpload" <input type="file" formControlName="documents" > -->
                                     <!-- <input nz-input type="number" min="0" formControlName="label_name"
                                             placeholder="Please input {{item.controls.label_name.value}}!" /> -->

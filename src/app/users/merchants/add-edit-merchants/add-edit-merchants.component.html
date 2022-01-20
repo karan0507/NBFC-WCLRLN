@@ -162,7 +162,8 @@
                                 <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
                                     {{item.controls.label_name.value}}</nz-form-label>
                                 <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
-                                        <nz-upload
+                                    <div class="d-flex">
+                                    <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k)"
@@ -172,6 +173,8 @@
                                             Click to Upload
                                         </button>
                                         </nz-upload>
+                                        <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
+                                    </div>    
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
