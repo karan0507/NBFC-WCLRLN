@@ -64,9 +64,27 @@
                         <td></td>
                         <td></td>
                         <td nzRight>
-                            <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
-                            <a class="mr-3" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
-                            <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>    
+                                        <li nz-menu-item [routerLink]="['details']">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">View Details</span>
+                                        </li>
+    
+                                        <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                            nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                            (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                            <i nz-icon nzType="delete" theme="outline"></i>
+                                            <span class="m-l-5">Delete</span>
+                                        </li> -->
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

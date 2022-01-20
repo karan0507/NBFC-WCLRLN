@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BorrowersDetailsComponent } from './borrowers-details/borrowers-details.component';
 import { BorrowersListComponent } from './borrowers-list/borrowers-list.component';
 import { BorrowersComponent } from './borrowers.component';
 
@@ -10,6 +11,15 @@ const routes: Routes = [
     data: {
       title: 'Borrowers',
       parent: 'LMS'
+    }
+  },
+  {
+    path: 'details',
+    component: BorrowersDetailsComponent,
+    data: {
+      title: 'View Details',
+      parent: 'LMS',
+      hideTitle: true
     }
   },
 ];

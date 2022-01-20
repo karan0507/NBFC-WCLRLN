@@ -1,1 +1,332 @@
-<p>borrowers-details works!</p>
+<section>
+    <nz-card>
+        <div class="row">
+            <div class="mr-3"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></div>
+            <div class="col d-flex justify-contents-between px-0">
+                <div>
+                    <h4 class="h4">Samyak</h4>
+                    <span class="mr-3">Loan ID - #F-EMI4567</span>
+                    <span class="mr-3">Card Status - Active</span>
+                    <span class="mr-3">A/c Status - Active</span>
+                    <span class="mr-3">Contact - 8475645678</span>
+                    <span class="mr-3">Email ID - samyak@gmail.com</span>
+                </div>
+                <div class="col d-flex align-items-center" *ngIf="selectedTab == '1'">
+                    <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3">
+                        Download/View
+                        <i nz-icon nzType="down"></i>
+                    </button>
+                    <nz-dropdown-menu #menu1="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item>
+                                <a>Transaction Statement</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>Outstanding Calculation</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>Bill Statement</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>Closure Letter</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>View Cal. Summary</a>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                    <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu">
+                        Actions
+                        <i nz-icon nzType="down"></i>
+                    </button>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item>
+                                <a>1st item</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>2nd item</a>
+                            </li>
+                            <li nz-menu-item>
+                                <a>3rd item</a>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-6 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="1">Product - FatakPay</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="2">Product - FatakPayEMI</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                    nzValue="3">App Downloads</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'">
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th>Credit Line Assigned</th>
+                <th>Commenced on</th>
+                <th>Credit Utilised</th>
+                <th>Principal Amt.</th>
+                <th>Outstanding</th>
+                <th>Total Fees Due</th>
+                <th>Outstanding</th>
+                <th>Total Interest</th>
+                <th>Calculated</th>
+                <th>Calculated</th>
+                <th>Next Billing Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹8,500</td>
+                <td>01/11/2021</td>
+                <td>₹1,860</td>
+                <td>₹1,000</td>
+                <td>₹6,640</td>
+                <td><i nz-icon nzType="info-circle" nzTheme="outline" class="mr-1"></i>₹1,000</td>
+                <td>2%</td>
+                <td>₹500</td>
+                <td>Daily</td>
+                <td>15 Days</td>
+                <td>30/11/2021</td>
+              </tr>
+            </tbody>
+          </nz-table>
+    </nz-card>
+    <nz-card *ngIf="selectedTab == '2'" nzTitle="EMI Scheduler">
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
+            <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Monthly EMI</th>
+                    <th>Balance</th>
+                    <th>Charges</th>
+                    <th>Billing Date</th>
+                    <th>Paid On</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Transactions & Repayments" [nzExtra]="extraTemplate">
+        <div class="row">
+            <div class="col-md-4 mb-3 d-flex">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text"nz-input placeholder="Search text"/>
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+                <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2">
+                    <i nz-icon nzType="undo"></i>
+                </button>
+            </div>
+            <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                    nzPlaceHolder="Filter By">
+                    <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                    <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
+            <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th nzRight>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td nzRight>
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <!-- <li nz-menu-item> -->
+                                        <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <!-- <span class="m-l-5">Change Password</span>
+                                    </li> -->
+
+                                    <li nz-menu-item>
+                                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                        <span class="m-l-5">Edit</span>
+                                    </li>
+
+                                    <li nz-menu-item>
+                                        <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <span class="m-l-5">Delete</span>
+                                    </li>
+                                    
+                                    <!-- <li nz-menu-item> -->
+                                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                        <!-- <span class="m-l-5">Edit Permissions</span>
+                                    </li> -->
+
+                                    <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                        nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                        (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                        <i nz-icon nzType="delete" theme="outline"></i>
+                                        <span class="m-l-5">Delete</span>
+                                    </li> -->
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+    <ng-template #extraTemplate>
+        Spend Status :  Active
+    </ng-template>
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Fees and Charges">
+        <div class="row">
+            <div class="col-md-4 mb-3 d-flex">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text"nz-input placeholder="Search text"/>
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+                <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2">
+                    <i nz-icon nzType="undo"></i>
+                </button>
+            </div>
+            <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                    nzPlaceHolder="Filter By">
+                    <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                    <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
+            <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Fees applied on</th>
+                    <th>Fees paid on</th>
+                    <th>Method</th>
+                    <th nzRight>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td nzRight>
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <!-- <li nz-menu-item> -->
+                                        <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <!-- <span class="m-l-5">Change Password</span>
+                                    </li> -->
+
+                                    <li nz-menu-item>
+                                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                        <span class="m-l-5">Edit</span>
+                                    </li>
+
+                                    <li nz-menu-item>
+                                        <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <span class="m-l-5">Delete</span>
+                                    </li>
+                                    
+                                    <!-- <li nz-menu-item> -->
+                                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                        <!-- <span class="m-l-5">Edit Permissions</span>
+                                    </li> -->
+
+                                    <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                        nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                        (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                        <i nz-icon nzType="delete" theme="outline"></i>
+                                        <span class="m-l-5">Delete</span>
+                                    </li> -->
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+    <nz-card *ngIf="selectedTab == '3'">
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
+            <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>App Name</th>
+                    <th>Installed on</th>
+                    <th>Un-installed on</th>
+                    <th>Re- installed on</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td>{{i+1}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</section>
