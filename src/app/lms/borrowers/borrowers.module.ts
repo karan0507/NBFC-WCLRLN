@@ -6,13 +6,15 @@ import { BorrowersComponent } from './borrowers.component';
 import { BorrowersListComponent } from './borrowers-list/borrowers-list.component';
 import { BorrowersDetailsComponent } from './borrowers-details/borrowers-details.component';
 import { AppDownloadsComponent } from './app-downloads/app-downloads.component';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 
 
 @NgModule({
   declarations: [BorrowersComponent, BorrowersListComponent, BorrowersDetailsComponent, AppDownloadsComponent],
   imports: [
     CommonModule,
-    BorrowersRoutingModule
+    BorrowersRoutingModule,
+    DemoNgZorroAntdModule
   ]
 })
 export class BorrowersModule { }
