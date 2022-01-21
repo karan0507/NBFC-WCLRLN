@@ -63,10 +63,16 @@ export class HttpService {
   }
 
   /**
-   * fetchProductList
+   * fetchEmployeeList
    */
    public fetchEmployeeList(data) {
     return this._http.get((this.url +`/user/get-users`),{params: data});
+  }
+  /**
+   * fetchEmployeeManagerList
+   */
+   public fetchEmployeeManagerList(data) {
+    return this._http.get((this.url +`/user/get-managers/`),{params: data});
   }
 
   /**
@@ -81,6 +87,13 @@ export class HttpService {
    */
   public createMasterPartner(data) {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
+  }
+
+  /**
+   * addEditEmployee
+   */
+   public addEditEmployee(data) {
+    return this._http.patch((this.url +`/user/admin-user/`), data);
   }
 
   /**

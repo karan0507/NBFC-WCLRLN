@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -17,13 +18,52 @@ export class EmployeeListComponent implements OnInit {
   deactivated: any = '';
   roleData: any;
   roles = ''
+  isDelete = false;
+  isEdit = false
+  isChangePassword = false
+  createEditForm: any;
+  teamName = [
+    {name: 'Admin'},
+    {name: 'Leads'},
+    {name: 'Operations'},
+    {name: 'Collection'},
+    {name: 'Marketing'},
+    {name: 'Sales'},
+  ]
+  formLoading: boolean;
+  idForDeleteEmployee: any;
+  employeeManagerList: any;
+  changePasswordForm: any;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,private fb: FormBuilder,) { }
 
   ngOnInit(): void {
     this.fetchEmployeeList()
+  }
+  createEditFormFunction(data?) {
+    this.createEditForm = this.fb.group({
+      id: [data ? data.id : ''],
+      first_name: [data ? data.first_name : ''],
+      last_name: [data ? data.last_name : ''],
+      unique_code: [data ? data.unique_code : ''],
+      role: [data ? data.role?.id : ''],
+      associated_team: [data ? data.associated_team : ''],
+      reporting_manager: [data ? data.reporting_manager?.id : ''],
+      mobile: [data ? data.mobile : ''],
+      email: [data ? data.email : ''],
+      is_active: [data ? data.is_active : '']
+    })
+  }
+
+  
+  changePasswordFormFunction(data?) {
+    this.changePasswordForm = this.fb.group({
+      id: [data ? data.id : ''],
+      new_password: [data ? data.first_name : ''],
+      confirm_password: [data ? data.last_name : ''],
+    })
   }
   
   fetchEmployeeList() {
@@ -31,7 +71,7 @@ export class EmployeeListComponent implements OnInit {
       page: this.page,
       deactivated: this.deactivated,
       name: this.search_params,
-      role: this.roles
+      role: this.roles,
     }
     this.api_calling_loader = true
     this.http.fetchEmployeeList(data).subscribe(res => {
@@ -58,5 +98,44 @@ export class EmployeeListComponent implements OnInit {
     this.deactivated = ''
     this.roles = ''
     this.fetchEmployeeList();
+  }
+
+  editEmployee(data) {
+    this.formLoading = true
+    this.http.addEditEmployee(data).subscribe(res => {
+      this.formLoading = false
+      this.isEdit = false
+      this.isDelete = false
+      this.message.success(res['message'])
+      this.fetchEmployeeList()
+    })
+  }
+
+  editEmployeeFunction(data) {
+    this.isEdit = true;
+    this.fetchEmployeeManagerList()
+    this.fetchRoles()
+    this.createEditFormFunction(data)
+  }
+  deleteEmployeeFunction(id) {
+    this.isDelete = true
+    this.idForDeleteEmployee = id
+  }
+  deleteEmployee() {
+    var data = {id: this.idForDeleteEmployee, is_deleted: true}
+    this.editEmployee(data)
+  }
+
+  fetchEmployeeManagerList() {
+    let data;
+    // this.api_calling_loader = true
+    this.http.fetchEmployeeManagerList(data).subscribe(res => {
+      // this.api_calling_loader = false
+      this.employeeManagerList = res['data'].results
+      // this.total_count = res['data'].total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      // this.api_calling_loader = false
+    })
   }
 }

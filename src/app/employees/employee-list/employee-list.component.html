@@ -47,7 +47,7 @@
                     <tr *ngFor="let data of employeeList; index as i">
                         <td>{{ i+1 }}</td>
                         <td>{{ data.first_name ? data.first_name + ' ' + data.last_name : '-' }}</td>
-                        <td>{{ data.employee_code ? data.employee_code : '-' }}</td>
+                        <td>{{ data.unique_code ? data.unique_code : '-' }}</td>
                         <td>{{ data.role ? data.role.role_name : '-' }}</td>
                         <td>{{ data.mobile ? data.mobile : '-' }}</td>
                         <td>{{ data.email ? data.email : '' }}</td>
@@ -61,32 +61,21 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item>
-                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <li nz-menu-item (click)="isChangePassword = true">
                                             <span class="m-l-5">Change Password</span>
                                         </li>
     
-                                        <li nz-menu-item>
-                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                        <li nz-menu-item (click)="editEmployeeFunction(data)">
                                             <span class="m-l-5">Edit</span>
                                         </li>
 
-                                        <li nz-menu-item>
-                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                        <li nz-menu-item (click)="deleteEmployeeFunction(data.id)">
                                             <span class="m-l-5">Delete</span>
                                         </li>
                                         
                                         <li nz-menu-item>
-                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Edit Permissions</span>
                                         </li>
-    
-                                        <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
-                                            nzPopconfirmTitle="Are you sure delete this IPD Admission?"
-                                            (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
-                                            <i nz-icon nzType="delete" theme="outline"></i>
-                                            <span class="m-l-5">Delete</span>
-                                        </li> -->
                                     </ul>
                                 </nz-dropdown-menu>
                             </div>
@@ -100,3 +89,170 @@
         </nz-card>
     </div>
 </section>
+<nz-modal [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <div class="row p-3">
+            <div class="col-md-12 d-flex justify-content-center mb-3">
+                <span class="wh-5 p-2">
+                    <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#55268E'"></i>
+                </span>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center mb-3">
+                <h4 class="h4 text-center">You are about to delete an employee detail</h4>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center mb-5">
+                <p>This action will delete the details permanently.
+                    Are You Sure?
+                </p>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center">
+                <button nz-button nzType="default" (click)="isDelete = false; idForDeleteEmployee = ''" class="mr-3">Cancel</button>
+                <button nz-button nzType="primary" (click)="deleteEmployee()">OK</button>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isEdit" nzTitle="Edit Employee" (nzOnCancel)="isEdit = false" (nzOnOk)="editEmployee(createEditForm.value)"
+    nzOkText="Save">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <form [formGroup]="createEditForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="first_name" class="text-left" nzRequired>Employee
+                                First Name</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee First Name!">
+                                <input nz-input type="text" formControlName="first_name" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="last_name" class="text-left" nzRequired>Employee Last
+                                Name</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Last Name!">
+                                <input nz-input type="text" formControlName="last_name" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Employee
+                                Code</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Code!">
+                                <input nz-input type="text" formControlName="unique_code" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="role" class="text-left" nzRequired>Designation
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Designation!">
+                                <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Designation"
+                                    (nzFocus)="fetchRoles()">
+                                    <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="associated_team" class="text-left" nzRequired>
+                                Associated Team</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Associated Team!">
+                                <nz-select nzAllowClear formControlName="associated_team"
+                                    nzPlaceHolder="Please select Associated Team" (nzFocus)="fetchRoles()">
+                                    <nz-option *ngFor="let item of teamName" [nzValue]="item.name" [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="reporting_manager" class="text-left" nzRequired>
+                                Reporting Manager</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Reporting Manager!">
+                                <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Reporting Manager"
+                                    (nzFocus)="fetchEmployeeManagerList()">
+                                    <nz-option *ngFor="let item of employeeManagerList" [nzValue]="item.id"
+                                        [nzLabel]="item.first_name + ' ' + item.last_name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="mobile" class="text-left" nzRequired>Mobile No.
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Mobile No.!">
+                                <input nz-input type="text" formControlName="mobile" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="email" class="text-left" nzRequired>Email ID
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Email ID!">
+                                <input nz-input type="text" formControlName="email" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="is_active" class="text-left" nzRequired>Status
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Status!">
+                                <nz-select nzAllowClear formControlName="is_active" nzPlaceHolder="Please select Status">
+                                    <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
+                                    <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false" (nzOnOk)="editEmployee('')"
+    nzOkText="Update">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <form [formGroup]="changePasswordForm">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="mr-3">Name : Shubham</span>
+                        <span>Employee Code - Emp-889
+                        </span>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="new_password" class="text-left" nzRequired>New Password
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input New Password!">
+                                <input nz-input type="text" formControlName="new_password" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="confirm_password" class="text-left" nzRequired>Confirm new Password
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Confirm new Password!">
+                                <input nz-input type="text" formControlName="confirm_password" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>
