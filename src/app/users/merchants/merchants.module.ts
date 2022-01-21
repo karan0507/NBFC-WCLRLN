@@ -20,10 +20,12 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
-  declarations: [MerchantsListComponent, AddEditMerchantsComponent],
+  declarations: [MerchantsListComponent, AddEditMerchantsComponent, AddEditDsaComponent],
   imports: [
     CommonModule,
     MerchantsRoutingModule,
@@ -43,7 +45,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzDividerModule,
     NzUploadModule,
     NzDropDownModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    DragDropModule
   ]
 })
 export class MerchantsModule { }
