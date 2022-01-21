@@ -1,1 +1,73 @@
-<p>authorization-mcc-code works!</p>
+<section>
+    <div class="row mb-md-3">
+        <span>{{listOfData?.length}} Results Found</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input placeholder="Search text" />
+                      </nz-input-group>
+                    <!-- <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template> -->
+                    <ng-template #suffixIconButton>
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                      </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                      </button>
+                </div>
+            </div>
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="false"
+            [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
+                <thead>
+                    <tr>
+                    <th rowspan="2" nzWidth="100px">#</th>
+                    <th >UPI ID</th>
+                    <th >Remarks</th>
+                    <th >Status</th>
+                    <th> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of listOfData; index as i">
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ data?.name }}</td>
+                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.status  }}</td>
+                            <td>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <!-- [routerLink]="['edit-employee', data.id]" -->
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Edit</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                            <span class="m-l-5">Active</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Inactive</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>

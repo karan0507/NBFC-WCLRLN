@@ -1,1 +1,32 @@
-<p>authorization works!</p>
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="upi">UPI ID</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="mcc">MCC Code</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"
+                    nzValue="pincode">Pincode</label>
+                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="failed">Failed Transactions</label>
+                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="rule">Authorization Rules</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <section *ngIf="selectedTab == 'upi'">
+        <app-authorization-upi-id ></app-authorization-upi-id>
+    </section>
+    <section *ngIf="selectedTab == 'mcc'">
+         <app-authorization-mcc-code></app-authorization-mcc-code>
+    </section>
+    <section *ngIf="selectedTab == 'pincode'">
+         <app-authorization-pin-code></app-authorization-pin-code>
+    </section>
+    <section *ngIf="selectedTab == 'failed'">
+        <app-failed-transactions></app-failed-transactions>
+    </section>
+    <section *ngIf="selectedTab == 'rule'">
+        <app-authorization-rules></app-authorization-rules>
+    </section>
+
+</section>
