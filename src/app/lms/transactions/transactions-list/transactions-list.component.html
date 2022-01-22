@@ -1,1 +1,110 @@
-<p>transactions-list works!</p>
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit">Credit</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Debit</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row mb-md-3">
+        <span>{{listOfData?.length}} Results Found</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Date">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Type">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzTotal]="total_count" [nzLoading]="_apiLoader['list']" [nzFrontPagination]="true" [nzPageIndex]="page"
+                (nzQueryParams)="getAuthorizationList($event)" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
+                <thead>
+                    <tr>
+                        <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th rowspan="2" nzWidth="100px">#</th>
+                        <th>User Details</th>
+                        <th>User Code</th>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Details</th>
+                        <th>Date & Time</th>
+                        <th>Amount (₹)</th>
+                        <th>GST Amount</th>
+                        <th>Total Amount (₹)</th>
+                        <th nzRight> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of listOfData; index as i">
+                        <tr>
+                            <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ data?.name }}</td>
+                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.status }}</td>
+                            <td>{{ data?.name }}</td>
+                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.status }}</td>
+                            <td>{{ data?.name }}</td>
+                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.status }}</td>
+                            <td nzRight>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <!-- [routerLink]="['edit-employee', data.id]" -->
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Reverse Charges</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>
