@@ -316,7 +316,7 @@ export class HttpService {
   }
 
   public updateMerchantForm(id, data){
-    return this._http.post((this.url +`/merchant/v1/edit-merchant/${id}`), data);
+    return this._http.put((this.url +`/merchant/v1/edit-merchant/${id}`), data);
   }
 
   // 

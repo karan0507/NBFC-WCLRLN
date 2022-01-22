@@ -20,6 +20,8 @@ export class AddEditMastersComponent implements OnInit {
   isVisible;
   selectedDocument;
   masterPartnerId: any;
+  isVerified: any;
+  isEdit: boolean;
   constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute ) {
     this.getListOfDocumentRequired();
   }
@@ -29,11 +31,13 @@ export class AddEditMastersComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       if(params['id']){
+        this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
           this.fetchMasterPartner()
         }
       } else {
+        this.isEdit = false
         // this.masterParnerPayout = null
         this.createMasterProductForm();
         // this.getListOfDocumentRequired();
@@ -58,8 +62,9 @@ export class AddEditMastersComponent implements OnInit {
           pk: element?.document_master['id'],
           documents: element?.document_file,
           name: element?.document_master['name'],
-          document_name: element?.file_name
-
+          document_name: element?.file_name,
+          id: element?.id,
+          is_verified: element?.is_verified,
         }
         documentArray.push(documents);
         this.documentArray?.forEach(( entity, index) => {
@@ -130,10 +135,12 @@ export class AddEditMastersComponent implements OnInit {
  
   newSkill(data?): FormGroup {
       return this.fb.group({
+        id: [data ? data?.id : null],
         document_master: [data?.pk],
         label_name: [data?.name],
         documents: [data?.documents],
-        document_name:[data?.document_name]
+        document_name:[data?.document_name],
+        is_verified:[ data?.is_verified ? data?.is_verified : false]
       })
   }
 
@@ -147,13 +154,26 @@ export class AddEditMastersComponent implements OnInit {
   }
   // this.fb.array([])
  
-  onUpload(e,i){
+  onUpload(e,i, action){
+    if(action == 'upload'){
     console.log(e?.file?.originFileObj)
     // this.index = i;
     let fileName = this.addEditProductForm.get('document_data') as FormArray;
     fileName.controls?.[i].patchValue({document_name: e?.file?.name});
     let value = this.addEditProductForm.get('document_data') as FormArray;
     value.controls?.[i].patchValue({documents: e?.file?.originFileObj});
+  }
+  //  else {
+  //   let checked; 
+  //   if(!e){
+  //     checked = 0;
+  //   } else {
+  //     checked = 1;
+  //   }
+
+  //   let value = this.addEditProductForm.get('document_data') as FormArray;
+  //   value.controls?.[i].patchValue({is_verified: checked});
+  // }
     // value.setValue(e.target.files[0])
     // if(value){
     //   this.addEditProductForm.addControl('documents',e.target.files[0])
@@ -171,21 +191,27 @@ export class AddEditMastersComponent implements OnInit {
   }
 
   onClickSubmitForm(){
+
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    let data = new FormData();
+
+    console.log('Working',this.addEditProductForm.value);
+      
+    if(this.addEditProductForm.valid) {
+      if(!this.isEdit) {
+      let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
-      
-      
-    if(this.addEditProductForm.valid && !this.masterPartnerId) {
       
       for (var i in sendDate.document_data) {
         // if(sendDate?.document_data[i]?.documents?.includes('/')){
         // break;  
         // }
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
       }
@@ -197,15 +223,22 @@ export class AddEditMastersComponent implements OnInit {
           data.append(i, sendDate[i])
         }
       }
-      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      const  url = this.http.createMasterPartnerForm(data);
       url.subscribe((res)=> {
         console.log(res);
       })
-    } else {
+    }
+     else  {
+      let data = new FormData();
+    
+      var sendDate = this.addEditProductForm.value
       for (var i in sendDate.document_data) {
         // console.log(sendDate.document_data[i]?.documents);
         console.log(sendDate.document_data[i].documents?.['uid']);
         // console.log('working' + sendDate.document_data +  ' ' +  i);
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
         if(sendDate.document_data[i].documents?.['uid']){
           data.append('documents', sendDate?.document_data[i]?.documents)  
           delete sendDate?.document_data[i]?.documents
@@ -228,14 +261,13 @@ export class AddEditMastersComponent implements OnInit {
           data.append(i, sendDate[i])
         }
       }
-      const  url = this.masterPartnerId ? this.http.updateMasterPartnerForm(this.masterPartnerId, data) : this.http.createMasterPartnerForm(data)
+      const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
       url.subscribe((res)=> {
         console.log(res);
       })
     }
+  }
 
-    
-    // console.log(data);
   }
 
   handleChange(e,index){
