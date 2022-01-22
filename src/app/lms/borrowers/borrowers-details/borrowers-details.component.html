@@ -307,26 +307,6 @@
         </nz-table>
     </nz-card>
     <nz-card *ngIf="selectedTab == '3'">
-        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
-            <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>App Name</th>
-                    <th>Installed on</th>
-                    <th>Un-installed on</th>
-                    <th>Re- installed on</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of dataSet; index as i">
-                    <td>{{i+1}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </nz-table>
+        <app-app-downloads></app-app-downloads>
     </nz-card>
 </section>

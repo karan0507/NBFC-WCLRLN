@@ -276,6 +276,29 @@ export class HttpService {
     return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data});
   }
 
+  // LMS 
+
+  /**
+   * fetchBorrowerList
+   */
+  public fetchBorrowerList(data) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-list`),{params: data});
+  }
+
+  /**
+   * fetchBorrowerDetail
+   */
+   public fetchBorrowerDetail(id) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-detail/` + id));
+  }
+
+  /**
+   * changePasswordByAdmin
+   */
+   public changePasswordByAdmin(data) {
+    return this._http.post((this.url +`/user/change-password-by-admin/`), data);
+  }
+
   //************************ */
   public setProductValue(data): any {
     this.globalProductData.next(data);

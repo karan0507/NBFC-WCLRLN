@@ -56,13 +56,14 @@ export class EmployeeListComponent implements OnInit {
       is_active: [data ? data.is_active : '']
     })
   }
-
-  
   changePasswordFormFunction(data?) {
     this.changePasswordForm = this.fb.group({
       id: [data ? data.id : ''],
-      new_password: [data ? data.first_name : ''],
-      confirm_password: [data ? data.last_name : ''],
+      name: [data? data.first_name : ''],
+      code: [data ? data.unique_code : ''],
+      mobile: [data ? data.mobile : ''],
+      new_password: [''],
+      retype_password: [''],
     })
   }
   
@@ -128,14 +129,37 @@ export class EmployeeListComponent implements OnInit {
 
   fetchEmployeeManagerList() {
     let data;
-    // this.api_calling_loader = true
     this.http.fetchEmployeeManagerList(data).subscribe(res => {
-      // this.api_calling_loader = false
       this.employeeManagerList = res['data'].results
-      // this.total_count = res['data'].total_count
-      // this.message.success(res['message'])
-    }, (err) => {
-      // this.api_calling_loader = false
     })
+  }
+
+  changePasswordFunction(data) {
+    this.isChangePassword = true;
+    this.changePasswordFormFunction(data)
+  }
+
+  changePassword() {
+    if (!this.changePasswordForm.value.new_password) {
+      this.message.error('Please fill new Password')
+      return;
+    }
+    if (!this.changePasswordForm.value.retype_password) {
+      this.message.error('Please fill confirm Password')
+      return;
+    }
+    if (this.changePasswordForm.value.new_password !== this.changePasswordForm.value.retype_password) {
+      this.message.error('should New password and confirm Password both are same')
+      return;
+    }
+    if (this.changePasswordForm.value.new_password && this.changePasswordForm.value.retype_password) {
+      delete this.changePasswordForm.value.code
+      delete this.changePasswordForm.value.name
+      this.http.changePasswordByAdmin(this.changePasswordForm.value).subscribe(res => {
+        this.isChangePassword = false
+        this.message.success(res['message'])
+        this.fetchEmployeeList()
+      })
+    }
   }
 }

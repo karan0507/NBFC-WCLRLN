@@ -61,7 +61,7 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="isChangePassword = true">
+                                        <li nz-menu-item (click)="changePasswordFunction(data)">
                                             <span class="m-l-5">Change Password</span>
                                         </li>
     
@@ -222,15 +222,15 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false" (nzOnOk)="editEmployee('')"
+<nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false" (nzOnOk)="changePassword()"
     nzOkText="Update">
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
             <form [formGroup]="changePasswordForm">
                 <div class="row">
                     <div class="col-md-12">
-                        <span class="mr-3">Name : Shubham</span>
-                        <span>Employee Code - Emp-889
+                        <span class="mr-3">Name : {{changePasswordForm.value.name}}</span>
+                        <span>Employee Code - {{changePasswordForm.value.code}}
                         </span>
                     </div>
                     <div class="col-md-12">
@@ -244,10 +244,10 @@
                     </div>
                     <div class="col-md-12">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="confirm_password" class="text-left" nzRequired>Confirm new Password
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="retype_password" class="text-left" nzRequired>Confirm new Password
                             </nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Confirm new Password!">
-                                <input nz-input type="text" formControlName="confirm_password" />
+                                <input nz-input type="text" formControlName="retype_password" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
