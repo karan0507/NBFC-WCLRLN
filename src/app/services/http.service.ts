@@ -311,7 +311,8 @@ export class HttpService {
 
   // Application Module => End point 
   public fetchLoanApplicationList(data):Observable <any> {
-    return this._http.get((this.url +`/central-api/v1/call-api`), {params: data});
+    const headers = new HttpHeaders().set('Authorization','Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+    return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
   }
 
   /**

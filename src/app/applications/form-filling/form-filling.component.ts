@@ -18,6 +18,7 @@ export class FormFillingComponent implements OnInit {
   total_count:any;
   _currentDate:any;
   _currentId :any;
+  console = console;
   _activeLoans: any = [];
   today = new Date();
   
@@ -34,31 +35,20 @@ export class FormFillingComponent implements OnInit {
 
 
   getFormLoanData(id?) {
-    console.log('call api');
-    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1'}
+    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
     this.https.fetchLoanApplicationList(data).subscribe(res => {
-      console.log('api called', res);
       this.loanApplicationData = res?.data?.results;
+      this.total_count = res?.data?.total_count;
     })
   }
 
 
   getIdWiseData(id?, index?){
-   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id};
+   let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id, 'source':'Onboarding'};
    this.https.fetchLoanApplicationList(data).subscribe(res=> {
      this._activeLoans.push(res?.data?.results[0]);
      this.loanApplicationData[index].expanddata = res?.data?.results[0];
-     console.log(this.loanApplicationData[index].expanddata );
-    //  let index = parseInt(this._activeLoans.map(element => element.id = id));
-      // console.log('id wise called', this._activeLoans, index);
-      // return index;
-      //  this.loanApplicationData[index].expandSet = ;
-      //  console.log(this.loanApplicationData[index].expandSet);
-
-   
-    // 1. Loan ID find the index
-    //  console.log(this._activeLoans);
-     
+     console.log(this.loanApplicationData[index].expanddata)
    })
   }
 
