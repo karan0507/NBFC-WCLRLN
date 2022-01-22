@@ -1,1 +1,95 @@
-<p>borrowers-list works!</p>
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Card Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th nzWidth="15rem">User Name</th>
+                        <th>Loan ID</th>
+                        <th>Applied on</th>
+                        <th>Credit Line Assigned</th>
+                        <th>Credit Utilised</th>
+                        <th>Outstanding</th>
+                        <th>Fees/Charges</th>
+                        <th>Card Status</th>
+                        <th>A/c Status</th>
+                        <th nzRight>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of borrowertList; index as i">
+                        <td>{{ i + 1}}</td>
+                        <td>
+                            <h5>{{data.user ? data.user.first_name + ' ' + data.user.last_name : '-'}}</h5>
+                            <span>Contact No: {{data.user ? data.user.mobile : '-'}}</span>
+                            <p>{{data.user ? data.user.email : '-'}}</p>
+                        </td>
+                        <td>{{data.loan_unique_id}}</td>
+                        <td>{{data.activation_date | date: "medium"}}</td>
+                        <td>{{data.loan_amount_provided}}</td>
+                        <td>{{data.credit_utilization_amount}}</td>
+                        <td>{{data.loan_amount_provided - data.credit_utilization_amount}}</td>
+                        <td>{{data.fees_or_charges_amount}}</td>
+                        <td>{{data.is_activated}}</td>
+                        <td>-</td>
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>    
+                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">View Details</span>
+                                        </li>
+    
+                                        <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                            nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                            (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                            <i nz-icon nzType="delete" theme="outline"></i>
+                                            <span class="m-l-5">Delete</span>
+                                        </li> -->
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>

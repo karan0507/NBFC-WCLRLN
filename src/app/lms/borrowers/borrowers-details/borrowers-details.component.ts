@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BorrowersDetailsComponent implements OnInit {
 
+  selectedTab = '1'
+  dataSet = [{},{}]
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onClickChangeTab(e) {
+
   }
 
 }

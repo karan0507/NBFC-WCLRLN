@@ -11,6 +11,8 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class AddEditLendersComponent implements OnInit {
 
+  isVerified: any;
+  isEdit: boolean;
   addEditProductForm!: FormGroup;
   documentBasedForm: FormGroup;
   documentArray: any;
@@ -27,11 +29,13 @@ export class AddEditLendersComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       if(params['id']){
+        this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.fetchMasterPartner()
+          this.getNBFCDetail()
         }
       } else {
+        this.isEdit = false
         // this.masterParnerPayout = null
         this.createMasterProductForm();
         // this.getListOfDocumentRequired();
@@ -40,9 +44,9 @@ export class AddEditLendersComponent implements OnInit {
   }
 
 
-  fetchMasterPartner(){
+  getNBFCDetail(){
 
-    this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
+    this.http.getNBFCDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
@@ -50,15 +54,24 @@ export class AddEditLendersComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name,
+          id: element?.id,
+          is_verified: element?.is_verified,
         }
-        this.addSkills(element)
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        console.log(element?.document_file, 'to check the value')
+        this.addSkills(documents)
       });
     }
   }
@@ -67,32 +80,32 @@ export class AddEditLendersComponent implements OnInit {
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({
       name: [data ? data?.name : null, [Validators.required]],
-      address_line_1: [data ? data?.name : null, [Validators.required]],
-      address_line_2: [data ? data?.name : null, [Validators.required]],
-      city: [data ? data?.name : null, [Validators.required]],
-      state: [data ? data?.name : null, [Validators.required]],
-      pincode: [data ? data?.name : null, [Validators.required]],
-      phone: [data ? data?.name : null, [Validators.required]],
+      address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
+      address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
+      city: [data ? data?.city : null, [Validators.required]],
+      state: [data ? data?.state : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required]],
+      phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
       // Attribute Nature under business detail
       // business_nature: [data ? data?.name : null, [Validators.required]],
 
-      total_commitment: [data ? data?.name : null, [Validators.required]],
-      roi: [data ? data?.name : null, [Validators.required]],
-      fldg: [data ? data?.name : null, [Validators.required]],
+      total_commitment: [data ? data?.total_commitment : null, [Validators.required]],
+      roi: [data ? data?.roi : null, [Validators.required]],
+      fldg: [data ? data?.fldg : null, [Validators.required]],
 
 
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
+      nbfc_user_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      nbfc_user_mobile: [data ? data?.contact_person_phone : null, [Validators.required]],
+      nbfc_user_email: [data ? data?.contact_person_email : null, [Validators.required]],
       // employee: [data ? data?.name : null, [Validators.required]],
       // payout: [data ? data?.name : null, [Validators.required]],
       document_data:  this.fb.array([]),
@@ -110,10 +123,6 @@ export class AddEditLendersComponent implements OnInit {
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
 
@@ -126,8 +135,7 @@ export class AddEditLendersComponent implements OnInit {
       const index = this.documentArray.indexOf(this.selectedDocument)
       this.documentArray.splice(index,1)
     }
-    // this.addUnderWriting(this.selectedDocument, false)
-      this.addSkills(this.selectedDocument);
+    this.addSkills(this.selectedDocument);
     this.isVisible = false
   }
 
@@ -136,19 +144,13 @@ export class AddEditLendersComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
-    // if(data){
-    //   return this.fb.group({
-    //     document_master: [data?.document_master?.id],
-    //     label_name: [data?.document_master?.name],
-    //     documents: [data?.document_file],
-    //     id:[data?.id]
-    //   })
-    // } else{
       return this.fb.group({
+        id: [data ? data?.id : null],
         document_master: [data?.pk],
         label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
+        documents: [data?.documents],
+        document_name:[data?.document_name],
+        is_verified:[ data?.is_verified ? data?.is_verified : false]
       })
     // }
   }
@@ -191,39 +193,136 @@ export class AddEditLendersComponent implements OnInit {
   }
 
   onClickSubmitForm(){
+
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
+
+    if(this.addEditProductForm.valid) {
+      if(!this.isEdit) {
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
       
       for (var i in sendDate.document_data) {
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
       }
   
       for (var i in sendDate) {
-        if(sendDate?.document_data.length >= 1){
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
-        } }
-          // else {
+        } else {
           data.append(i, sendDate[i])
-        // }
-
+        }
       }
-
-
-      this.http.createNBFCForm(data).subscribe((res)=> {
+      const  url = this.http.createNBFCForm(data);
+      url.subscribe((res)=> {
         console.log(res);
       })
-    } 
+    }
+     else  {
+      let data = new FormData();
     
-    // console.log(data);
+      var sendDate = this.addEditProductForm.value
+      for (var i in sendDate.document_data) {
+        // console.log(sendDate.document_data[i]?.documents);
+        console.log(sendDate.document_data[i].documents?.['uid']);
+        console.log(sendDate.document_data[i].id);
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        // console.log('working' + sendDate.document_data +  ' ' +  i);
+        if(sendDate.document_data[i].documents?.['uid']){
+          data.append('documents', sendDate?.document_data[i]?.documents)  
+          delete sendDate?.document_data[i]?.documents
+        } else {
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url =  this.http.updateNBFCForm(this.masterPartnerId, data) 
+      url.subscribe((res)=> {
+        console.log(res);
+      })
+    }
   }
+
+  
+
+  }
+
+  // onClickSubmitForm(){
+  //   for (const i in this.addEditProductForm.controls) {
+  //     this.addEditProductForm.controls[ i ].markAsDirty();
+  //     this.addEditProductForm.controls[ i ].updateValueAndValidity();
+  //   }
+
+    
+  //   let data = new FormData();
+    
+  //     var sendDate = this.addEditProductForm.value
+
+  //   if(this.addEditProductForm.valid && !this.masterPartnerId){
+      
+  //     for (var i in sendDate.document_data) {
+  //       data.append('documents', sendDate?.document_data[i]?.documents)
+  //       delete sendDate?.document_data[i]?.documents
+  //     }
+  
+  //     for (var i in sendDate) {
+  //       if(sendDate?.document_data.length >= 1){
+  //       if(i == 'document_data'){
+  //         data.append(i, JSON.stringify(sendDate[i]))
+  //       } }
+  //         // else {
+  //         data.append(i, sendDate[i])
+  //       // }
+
+  //     }
+
+
+  //     this.http.createNBFCForm(data).subscribe((res)=> {
+  //       console.log(res);
+  //     })
+  //   } else {
+  //     for (var i in sendDate.document_data) {
+  //       if(sendDate?.document_data[i]?.documents?.includes('/')){
+  //       break;  
+  //       }
+  //       data.append('documents', sendDate?.document_data[i]?.documents)
+  //       delete sendDate?.document_data[i]?.documents
+  //     }
+  
+  //     for (var i in sendDate) {
+  //       if(i == 'document_data'){
+  //         data.append(i, JSON.stringify(sendDate[i]))
+  //       } else {
+  //         data.append(i, sendDate[i])
+  //       }
+  //     }
+  //     const  url = this.http.updateNBFCForm(this.masterPartnerId, data)
+  //     url.subscribe((res)=> {
+  //       console.log(res);
+  //     })
+  //   }
+    
+  //   // console.log(data);
+  // }
 
   handleChange(e,index){
     // console.log('in Progress', i);

@@ -20,6 +20,7 @@ export class CommonLayoutComponent  {
     isSideNavDark : boolean;
     isExpand: boolean;
     selectedHeaderColor: string;
+    hideTitle: boolean;
 
     constructor(private router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
         private message: NzMessageService,) {
@@ -70,9 +71,15 @@ export class CommonLayoutComponent  {
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
+                console.log(route.routeConfig.data)
                 label = route.routeConfig.data['parent'] ? route.routeConfig.data['parent'] : route.routeConfig.data['title'];
                 path += route.routeConfig.path;
                 title = route.routeConfig.data['title'];
+                if (route.routeConfig.data['hideTitle']) {
+                    this.hideTitle = true;
+                } else {
+                    this.hideTitle = false;
+                }
                 // label = route.routeConfig.data['title'];
                 // if (route.routeConfig.data['custom_url']) {
                 //     path += route.routeConfig.data['custom_url'];

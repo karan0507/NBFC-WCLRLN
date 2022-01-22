@@ -56,8 +56,8 @@ export class LimitsComponent implements OnInit {
       daily_txn_limit: [this.productlimitData ? this.productlimitData.daily_txn_limit : '', [Validators.required]],
       disbursement_min_amount: [this.productlimitData ? this.productlimitData.disbursement_min_amount : '', [Validators.required]],
       disbursement_max_amount: [this.productlimitData ? this.productlimitData.disbursement_max_amount : '', [Validators.required]],
-      intrest_min_percentage: [this.productlimitData ? this.productlimitData.intrest_min_percentage : '', [Validators.required]],
-      intrest_max_percentage: [this.productlimitData ? this.productlimitData.intrest_max_percentage : '', [Validators.required]],
+      interest_min_percentage: [this.productlimitData ? this.productlimitData.interest_min_percentage : '', [Validators.required]],
+      interest_max_percentage: [this.productlimitData ? this.productlimitData.interest_max_percentage : '', [Validators.required]],
     })
   }
 

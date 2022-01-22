@@ -63,10 +63,16 @@ export class HttpService {
   }
 
   /**
-   * fetchProductList
+   * fetchEmployeeList
    */
    public fetchEmployeeList(data) {
     return this._http.get((this.url +`/user/get-users`),{params: data});
+  }
+  /**
+   * fetchEmployeeManagerList
+   */
+   public fetchEmployeeManagerList(data) {
+    return this._http.get((this.url +`/user/get-managers/`),{params: data});
   }
 
   /**
@@ -81,6 +87,13 @@ export class HttpService {
    */
   public createMasterPartner(data) {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
+  }
+
+  /**
+   * addEditEmployee
+   */
+   public addEditEmployee(data) {
+    return this._http.patch((this.url +`/user/admin-user/`), data);
   }
 
   /**
@@ -263,6 +276,29 @@ export class HttpService {
     return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data});
   }
 
+  // LMS 
+
+  /**
+   * fetchBorrowerList
+   */
+  public fetchBorrowerList(data) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-list`),{params: data});
+  }
+
+  /**
+   * fetchBorrowerDetail
+   */
+   public fetchBorrowerDetail(id) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-detail/` + id));
+  }
+
+  /**
+   * changePasswordByAdmin
+   */
+   public changePasswordByAdmin(data) {
+    return this._http.post((this.url +`/user/change-password-by-admin/`), data);
+  }
+
   //************************ */
   public setProductValue(data): any {
     this.globalProductData.next(data);
@@ -293,14 +329,27 @@ export class HttpService {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
+  public updateMasterPartnerForm(id, data){
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/${id}`), data);
+  }
+  
+
   public createMerchantForm(data){
     return this._http.post((this.url +`/merchant/v1/add-merchant`), data);
+  }
+
+  public updateMerchantForm(id, data){
+    return this._http.put((this.url +`/merchant/v1/edit-merchant/${id}`), data);
   }
 
   // 
 
   public createNBFCForm(data){
     return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data);
+  }
+
+  public updateNBFCForm(id,data){
+    return this._http.put((this.url +`/nbfc/v1/edit-nbfc/${id}`), data);
   }
 
   public createPartnerForm(data){
@@ -323,7 +372,8 @@ export class HttpService {
   }
 
   public getMasterPartnerById(id){
-    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`));
+    const headers = new HttpHeaders()
+    return this._http.get((this.url +`/partner/v1/get-detail/master/${id}`), {headers: headers});
   }
   
   public getNBFCList(data){

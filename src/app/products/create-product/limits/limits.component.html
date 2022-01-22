@@ -75,12 +75,12 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Interest</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="intrest_min_percentage" class="text-left" nzRequired>Minimum Amount (%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_min_percentage" class="text-left" nzRequired>Minimum Amount (%)</nz-form-label>
                         
                         <nz-form-control nzErrorTip="Please input Minimum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                <input nz-input type="number" min="0" name="intrest_min_percentage" formControlName="intrest_min_percentage"
-                                    id="intrest_min_percentage" placeHolder="Enter Minimum Amount (%)">
+                                <input nz-input type="number" min="0" name="interest_min_percentage" formControlName="interest_min_percentage"
+                                    id="interest_min_percentage" placeHolder="Enter Minimum Amount (%)">
                             </nz-input-group>
                         
                             <ng-template #addOnAfterTemplate>
@@ -91,11 +91,11 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="intrest_max_percentage" class="text-left" nzRequired>Maximum Amount(%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" nzRequired>Maximum Amount(%)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                <input nz-input type="number" min="0" name="intrest_max_percentage" formControlName="intrest_max_percentage"
-                                    id="intrest_max_percentage" placeHolder="Enter Maximum Amount(%)">
+                                <input nz-input type="number" min="0" name="interest_max_percentage" formControlName="interest_max_percentage"
+                                    id="interest_max_percentage" placeHolder="Enter Maximum Amount(%)">
                             </nz-input-group>
                         
                             <ng-template #addOnAfterTemplate>
