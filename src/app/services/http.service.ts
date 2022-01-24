@@ -320,8 +320,23 @@ export class HttpService {
     // /partner/v1/get/master
   }
 
+  public getPartnerDSAList(data){
+    return this._http.get((this.url +`/partner/v1/get/partner`),{params:data});
+    // /partner/v1/get/master
+  }
+
+  public getPartnerDSAListById(id){
+    return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
+  }
+  
+  // /partner/v1/get-detail/partner/21
+
+
+
+  // /partner/v1/get/partner?partner_nature=DSA
+
   public getMerchantList(data){
-    return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{params:data});
+    return this._http.get((this.url +`/partner/v1/get/partner`),{params:data});
   }
 
   public getListOfDocumentRequired(){
@@ -373,6 +388,20 @@ export class HttpService {
    */
    public editLoanData(data): any {
     return this._http.get((this.url1 +`/loan-application/v1/loan-application`),data);
+  }
+
+  public deleteUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-user/partner/${id}`));
+  }
+
+  public deleteMasterUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-user/master/${id}`));
+  }
+  public deleteNBFCUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/nbfc/v1/delete-nbfc/${id}`));
   }
 
   public getMasterPartnerById(id){

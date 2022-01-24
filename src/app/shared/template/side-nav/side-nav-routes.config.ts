@@ -70,7 +70,24 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                submenu: [] 
+                submenu: [
+                    { 
+                        path: 'merchants',
+                        title: 'Merchants', 
+                        iconType: '', 
+                        icon: '',
+                        iconTheme: '',
+                        submenu: [] 
+                    },
+                    { 
+                        path: 'merchants/DSA',
+                        title: 'Partner DSA', 
+                        iconType: '', 
+                        icon: '',
+                        iconTheme: '',
+                        submenu: [] 
+                    },
+                ] 
             }
         ]
     },

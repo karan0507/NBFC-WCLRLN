@@ -111,6 +111,8 @@ export class AddEditMerchantsComponent implements OnInit {
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
+      partner_nature: ['merchant', [Validators.required]],
+      
     });
     if(data){
       this.setFormData(data);
@@ -223,8 +225,8 @@ export class AddEditMerchantsComponent implements OnInit {
       var sendDate = this.addEditProductForm.value
       for (var i in sendDate.document_data) {
         // console.log(sendDate.document_data[i]?.documents);
-        console.log(sendDate.document_data[i].documents?.['uid']);
-        console.log(sendDate.document_data[i].id);
+        // console.log(sendDate.document_data[i].documents?.['uid']);
+        // console.log(sendDate.document_data[i].id);
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
