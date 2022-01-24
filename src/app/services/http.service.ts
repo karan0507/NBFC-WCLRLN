@@ -89,6 +89,10 @@ export class HttpService {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
+  public updateMasterPartner(id,data) {
+    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/${id}`), data);
+  }
+
   /**
    * addEditEmployee
    */

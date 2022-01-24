@@ -1,0 +1,3 @@
+:host ::ng-deep  .ant-upload-list-text .ant-upload-text-icon .anticon {
+    display: none;
+}

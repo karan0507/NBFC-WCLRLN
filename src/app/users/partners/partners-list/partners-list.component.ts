@@ -8,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./partners-list.component.css']
 })
 export class PartnersListComponent implements OnInit {
-  selectedTab = '1'
+  selectedTab = 'all'
   listOfData = [
     {
       name: 'Bajaj Finance Ltd.',
@@ -154,7 +154,7 @@ export class PartnersListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
-      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
+      'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']

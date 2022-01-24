@@ -109,6 +109,7 @@ export class AddEditMerchantsComponent implements OnInit {
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
     });
     if(data){
