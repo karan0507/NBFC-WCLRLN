@@ -106,7 +106,7 @@ export class AddEditMastersComponent implements OnInit {
       document_data:  this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [data ? 1 : 1, [Validators.required]],
+      master: [1, [Validators.required]],
     });
     if(data){
       this.setFormData(data);
