@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-upload-transactions-preview',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadTransactionsPreviewComponent implements OnInit {
 
+  @Input() listOfData: any;
   constructor() { }
 
   ngOnInit(): void {

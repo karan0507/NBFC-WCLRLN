@@ -1,1 +1,40 @@
-<p>upload-transactions-preview works!</p>
+
+<section>
+    <div class="row">
+        <nz-table [nzFrontPagination]="false" [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th nzWidth="3rem">#</th>
+                    <th>User Details</th>
+                    <th>Loan ID</th>
+                    <th>Transaction Type</th>
+                    <th>Details</th>
+                    <th>Date & Time</th>
+                    <th>Amount (₹)</th>
+                    <th>GST Amount</th>
+                    <th>Total Amount (₹)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of listOfData; index as i">
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <h5>{{data?.name}}</h5>
+                            <span>Contact No: {{data.pan}}</span>
+                        </td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.status }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </nz-table>
+    </div>
+</section>

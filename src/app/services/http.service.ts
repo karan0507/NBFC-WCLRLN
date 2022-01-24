@@ -290,6 +290,13 @@ export class HttpService {
   }
 
   /**
+   * fetchTransactionList
+   */
+   public fetchTransactionList(data) {
+    return this._http.get((this.url +`/loan-application/v1/transactions-list`),{params: data});
+  }
+
+  /**
    * fetchBorrowerDetail
    */
    public fetchBorrowerDetail(id) {
