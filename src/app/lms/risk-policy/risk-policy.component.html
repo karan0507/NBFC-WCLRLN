@@ -1,1 +1,25 @@
-<p>risk-policy works!</p>
+
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="1">User Terminate/Unblock</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="2">Line Block/Unblock</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="3">A/c Block/Unblock</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="4">Credit Line Inc./Dec.</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section *ngIf="selectedTab == '1'">
+    <app-user-terminate-unblock></app-user-terminate-unblock>
+</section>
+<section *ngIf="selectedTab == '2'">
+    <app-line-block-unblock></app-line-block-unblock>
+</section>
+<section *ngIf="selectedTab == '3'">
+    <app-account-block-unblock></app-account-block-unblock>
+</section>
+<section *ngIf="selectedTab == '4'">
+    <app-credit-line-inc-dec></app-credit-line-inc-dec>
+</section>

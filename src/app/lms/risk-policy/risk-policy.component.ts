@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RiskPolicyComponent implements OnInit {
 
+  selectedTab = '1'
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onClickChangeTab(e) {
+
+  }
 }
