@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -20,7 +21,7 @@ export class AddEditMerchantsComponent implements OnInit {
   isVisible;
   selectedDocument;
   masterPartnerId: any;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute ) {
+  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService  ) {
     this.getListOfDocumentRequired();
   }
 
@@ -46,7 +47,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
   getMerchantDetailById(){
 
-    this.http.getMerchantDetail(this.masterPartnerId).subscribe((res: any)=> {
+    this.http.getPartnerListDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
@@ -111,11 +112,37 @@ export class AddEditMerchantsComponent implements OnInit {
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
-      partner_nature: ['merchant', [Validators.required]],
+      partner_nature: ['Merchant', [Validators.required]],
       
     });
     if(data){
       this.setFormData(data);
+    }
+  }
+
+  deleteDocumentByDocumentId(i) {
+    let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    const selectedFile = fileName.controls?.[i].value;
+    if (!fileName.controls?.[i].value?.id) {
+      const document = {
+        name: selectedFile?.label_name,
+        pk: selectedFile?.document_master,
+      };
+      this.documentArray.push(document);
+      this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+      fileName.removeAt(i);
+    } else {
+      this.http
+        .deletePartnerDocumentByDocumentId(selectedFile?.id)
+        .subscribe((res) => {
+          const document = {
+            name: selectedFile?.label_name,
+            pk: selectedFile?.document_master,
+          };
+          this.documentArray.push(document);
+          this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+          fileName.removeAt(i);
+        });
     }
   }
   
@@ -214,8 +241,9 @@ export class AddEditMerchantsComponent implements OnInit {
           data.append(i, sendDate[i])
         }
       }
-      const  url = this.http.createMerchantForm(data);
+      const  url = this.http.createPartnerForm(data);
       url.subscribe((res)=> {
+        this.message.success(" User Created...");
         console.log(res);
       })
     }
@@ -246,8 +274,9 @@ export class AddEditMerchantsComponent implements OnInit {
           data.append(i, sendDate[i])
         }
       }
-      const  url =  this.http.updateMerchantForm(this.masterPartnerId, data) 
+      const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
       url.subscribe((res)=> {
+        this.message.success(" User Updated...");
         console.log(res);
       })
     }
