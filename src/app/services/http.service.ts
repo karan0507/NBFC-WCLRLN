@@ -412,6 +412,11 @@ export class HttpService {
     return this._http.delete((this.url +`/partner/v1/delete-doc/partner/${id}`));
   }
 
+  public deleteMasterDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-doc/master/${id}`));
+  }
+
   public deleteMasterUserByUserId(id){
     // /partner/v1/delete-user/partner/23
     return this._http.delete((this.url +`/partner/v1/delete-user/master/${id}`));
