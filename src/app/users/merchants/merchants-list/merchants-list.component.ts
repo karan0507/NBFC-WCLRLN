@@ -21,6 +21,7 @@ export class MerchantsListComponent implements OnInit {
   globalPageSize = 30;
   page;
   isVisible = false;
+  isDelete = false;
   total_count: any;
   searchValue = ''
 
@@ -28,7 +29,8 @@ export class MerchantsListComponent implements OnInit {
   masterPartner: any;
   masterPartnerDetailList: Object;
   merchantList: any;
-  merchantDetailList: Object;
+  merchantDetailList: any = [];
+  selectedUserId: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -57,10 +59,16 @@ export class MerchantsListComponent implements OnInit {
     this.getMerchantList();
   }
 
-  getMerchantDetail(id){
+  getMerchantDetail(id, i?){
     this._apiLoader["detailList"] = true;
     this.http.getMerchantDetail(id).subscribe((res: any)=> {
-      this.merchantDetailList = res?.data;
+      this.merchantDetailList.push(res?.data);
+      this.merchantList[i].expandSet = res?.data;
+      console.log('this.merchantList', this.merchantList)
+
+    //   this._activeLoans.push(res?.data?.results[0]);
+    //  this.loanApplicationData[index].expanddata = res?.data?.results[0];
+    //  console.log(this.loanApplicationData[index].expanddata)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -85,7 +93,8 @@ export class MerchantsListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
-      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
+      'partner_nature': 'merchant',
+      'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']
@@ -101,16 +110,44 @@ export class MerchantsListComponent implements OnInit {
     })
   }
 
-  onExpandChange(id: number, checked: boolean): void {
+  onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getMerchantDetail(id)
+      this.getMerchantDetail(id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
+      alert('id '+ id + checked)
       this.expandSet.delete(id);
     }
   }
 
-  
+  handleCancel(){
+    this.isDelete = false;
+  }
+
+  confirmationTrigger(value: any) {
+    // if(value){
+    //   value = this.section_id
+    // }
+    console.log(value);
+    if(value){
+      this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
+        console.log(res);
+        this.getMerchantList();
+        this.isDelete = false
+      })
+    }
+    // this.confirmationEvent.emit(value);
+  }
+
+  deleteUserByUserId(id){
+    this.selectedUserId = id
+    this.isDelete = true;
+  }
+
+  // handleCancel(){
+  //   this.isVisible = false
+  //   this.confirmationTrigger(false)
+  // }
 
 }

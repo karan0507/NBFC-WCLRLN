@@ -3,11 +3,13 @@ import { Data } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-lenders-list',
-  templateUrl: './lenders-list.component.html',
-  styleUrls: ['./lenders-list.component.css']
+  selector: 'app-dsa-list',
+  templateUrl: './dsa-list.component.html',
+  styleUrls: ['./dsa-list.component.css']
 })
-export class LendersListComponent implements OnInit {
+// getPartnerDSAList
+export class DsaListComponent implements OnInit {
+
   selectedTab = 'all'
 
   setOfCheckedId = new Set<number>();
@@ -26,18 +28,12 @@ export class LendersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   masterPartner: any;
-  masterPartnerDetailList: any = [];
-  isDelete: boolean = false;
+  masterPartnerDetailList: Object;
+  merchantList: any;
+  merchantDetailList: any = [];
+  isDelete: boolean;
   selectedUserId: any;
-  onExpandChange(id: number, checked: boolean, i): void {
-    if (checked) {
-      this.getNBFCDetail(id, i)
-      this.expandSet.add(id);
-      // alert('Clicked On Expand ' + id)
-    } else {
-      this.expandSet.delete(id);
-    }
-  }
+  
   
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -51,26 +47,27 @@ export class LendersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1
-    this.getNBFCList();
+    this.getPartnerDSAList();
     
   }
 
   onClickChangeTab(e){
     this.selectedTab = e;
-    this.getNBFCList();
+    this.getPartnerDSAList();
   }
 
   getResultBasedOnSearch(){
     this.page = 1;
-    this.getNBFCList();
+    this.getPartnerDSAList();
   }
 
-  getNBFCDetail(id, i?){
+  getMerchantDetail(id, i?){
     this._apiLoader["detailList"] = true;
-    this.http.getNBFCDetail(id).subscribe((res: any)=> {
-      // this.masterPartnerDetailList = res?.data;
-      this.masterPartnerDetailList.push(res?.data);
-      this.masterPartner[i].expandSet = res?.data;
+    this.http.getPartnerDSAListById(id).subscribe((res: any)=> {
+      // this.merchantDetailList = res?.data;
+      this.merchantDetailList.push(res?.data);
+      this.merchantList[i].expandSet = res?.data;
+      console.log('this.merchantList', this.merchantList)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -82,10 +79,10 @@ export class LendersListComponent implements OnInit {
   resetFilter(){
     this.page = 1;
     this.searchValue = ''
-    this.getNBFCList();
+    this.getPartnerDSAList();
   }
 
-  getNBFCList(e?){
+  getPartnerDSAList(e?){
     if (this._apiLoader["list"]) { return; }
     if(e){
       this.page = e?.pageIndex;
@@ -95,15 +92,16 @@ export class LendersListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
+      'partner_nature': 'DSA',
       'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']
     // }
     this._apiLoader["list"] = true;
-    this.http.getNBFCList(data).subscribe((res: any)=> {
+    this.http.getPartnerDSAList(data).subscribe((res: any)=> {
       console.log(res);
-      this.masterPartner = res?.data?.results
+      this.merchantList = res?.data?.results
       this.total_count = res?.data?.total_count
       this._apiLoader["list"] = false;
     }, erro => {
@@ -111,27 +109,14 @@ export class LendersListComponent implements OnInit {
     })
   }
 
-  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-    this.listOfCurrentPageData = listOfCurrentPageData;
-    this.refreshCheckedStatus();
-  }
-
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(checked: boolean): void {
-    this.listOfCurrentPageData
-      .filter(({ disabled }) => !disabled)
-      .forEach(({ id }) => this.updateCheckedSet(id, checked));
-    this.refreshCheckedStatus();
-  }
-
-  refreshCheckedStatus(): void {
-    const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
-    this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
-    this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
+  onExpandChange(id: number, checked: boolean, i): void {
+    if (checked) {
+      this.getMerchantDetail(id, i)
+      this.expandSet.add(id);
+      // alert('Clicked On Expand ' + id)
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 
   handleCancel(){
@@ -146,7 +131,7 @@ export class LendersListComponent implements OnInit {
     if(value){
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         console.log(res);
-        this.getNBFCList();
+        this.getPartnerDSAList();
         this.isDelete = false
       })
     }
@@ -157,5 +142,7 @@ export class LendersListComponent implements OnInit {
     this.selectedUserId = id
     this.isDelete = true;
   }
+
+  
 
 }

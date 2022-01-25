@@ -156,6 +156,7 @@
                                         <label class="mr-3 mt-2 d-flex" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                         <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                        [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'upload')"
                                         >
                                         <button nz-button>

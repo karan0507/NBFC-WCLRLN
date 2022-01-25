@@ -22,10 +22,11 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DsaListComponent } from './dsa-list/dsa-list.component';
 
 
 @NgModule({
-  declarations: [MerchantsListComponent, AddEditMerchantsComponent, AddEditDsaComponent],
+  declarations: [MerchantsListComponent, AddEditMerchantsComponent, AddEditDsaComponent, DsaListComponent],
   imports: [
     CommonModule,
     MerchantsRoutingModule,

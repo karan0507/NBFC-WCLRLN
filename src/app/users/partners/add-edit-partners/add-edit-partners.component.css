@@ -1,3 +1,7 @@
-:host ::ng-deep  .ant-upload-list-text .ant-upload-text-icon .anticon {
+/* :host ::ng-deep  .ant-upload-list-text .ant-upload-text-icon .anticon {
     display: none;
+} */
+
+:host ::ng-deep .ant-upload-list-text-container{
+    display: none !important;
 }
