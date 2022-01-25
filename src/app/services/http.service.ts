@@ -437,4 +437,9 @@ export class HttpService {
   public getPartnerListDetail(id){
     return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
   }
+
+  // Lender Management API
+  public getLenderManagementList(){
+    return this._http.get(this.url + `/loan-application/v1/lender-management-dashboard`);
+  }
 }
