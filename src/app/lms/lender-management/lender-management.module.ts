@@ -3,13 +3,25 @@ import { CommonModule } from '@angular/common';
 
 import { LenderManagementRoutingModule } from './lender-management-routing.module';
 import { LenderManagementComponent } from './lender-management.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 
 @NgModule({
   declarations: [LenderManagementComponent],
   imports: [
     CommonModule,
-    LenderManagementRoutingModule
+    LenderManagementRoutingModule,
+    NzCardModule,
+    NzButtonModule,
+    NzPageHeaderModule,
+    NzIconModule,
+    NzDropDownModule,
+    NzTableModule
   ]
 })
 export class LenderManagementModule { }
