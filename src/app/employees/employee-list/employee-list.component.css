@@ -1,0 +1,10 @@
+.wh-5 {
+    width: 7rem;
+    height: 7rem;
+    font-size: 5rem;
+    background-color: #F9F9F9;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

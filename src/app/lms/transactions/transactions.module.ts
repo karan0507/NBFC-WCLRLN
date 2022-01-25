@@ -6,13 +6,18 @@ import { TransactionsComponent } from './transactions.component';
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { UploadTransactionsListComponent } from './upload-transactions-list/upload-transactions-list.component';
 import { UploadTransactionsPreviewComponent } from './upload-transactions-preview/upload-transactions-preview.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 
 
 @NgModule({
   declarations: [TransactionsComponent, TransactionsListComponent, UploadTransactionsListComponent, UploadTransactionsPreviewComponent],
   imports: [
     CommonModule,
-    TransactionsRoutingModule
+    TransactionsRoutingModule,
+    DemoNgZorroAntdModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TransactionsModule { }

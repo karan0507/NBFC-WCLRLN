@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -11,6 +12,8 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class AddEditMerchantsComponent implements OnInit {
 
+  isVerified: any;
+  isEdit: boolean;
   addEditProductForm!: FormGroup;
   documentBasedForm: FormGroup;
   documentArray: any;
@@ -18,7 +21,7 @@ export class AddEditMerchantsComponent implements OnInit {
   isVisible;
   selectedDocument;
   masterPartnerId: any;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute ) {
+  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService  ) {
     this.getListOfDocumentRequired();
   }
 
@@ -27,12 +30,14 @@ export class AddEditMerchantsComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       if(params['id']){
+        this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.fetchMasterPartner()
+          this.getMerchantDetailById()
         }
       } else {
         // this.masterParnerPayout = null
+        this.isEdit = false
         this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
@@ -40,9 +45,9 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
 
-  fetchMasterPartner(){
+  getMerchantDetailById(){
 
-    this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
+    this.http.getPartnerListDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
@@ -50,15 +55,24 @@ export class AddEditMerchantsComponent implements OnInit {
 
   setFormData(data) {
     if (data) {
+      const documentArray = [];
       data.documents?.forEach(element => {
-        // alert('Id '+ element?.document_master['id'])
-        // this.selectedTab = element.employment_type.id
-        // this.addUnderWriting(element, true)
-        if (this.documentArray.includes(element?.document_master['id'])) {
-            const index = this.documentArray.indexOf(element?.document_master['id'])
-            this.documentArray.splice(index,1)
+        const documents = {
+          pk: element?.document_master['id'],
+          documents: element?.document_file,
+          name: element?.document_master['name'],
+          document_name: element?.file_name,
+          id: element?.id,
+          is_verified: element?.is_verified,
+
         }
-        this.addSkills(element)
+        documentArray.push(documents);
+        this.documentArray?.forEach(( entity, index) => {
+          if (entity.pk == element?.document_master['id']) {
+            this.documentArray.splice(index,1)
+          }
+        });
+        this.addSkills(documents)
       });
     }
   }
@@ -75,15 +89,15 @@ export class AddEditMerchantsComponent implements OnInit {
       phone: [data ? data?.phone : null, [Validators.required]],
 
 
-      bank_name: [data ? data?.name : null, [Validators.required]],
-      account_no: [data ? data?.name : null, [Validators.required]],
-      ifsc: [data ? data?.name : null, [Validators.required]],
-      branch: [data ? data?.name : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null, [Validators.required]],
+      account_no: [data ? data?.account_no : null, [Validators.required]],
+      ifsc: [data ? data?.ifsc : null, [Validators.required]],
+      branch: [data ? data?.branch : null, [Validators.required]],
       primary_upi: [data ? data?.primary_upi : null, [Validators.required]],
       secondary_upi: [data ? data?.secondary_upi : null, [Validators.required]],
       mdr: [data ? data?.mdr : null, [Validators.required]],
       interest_subvention: [data ? data?.interest_subvention : null, [Validators.required]],
-      payout: [data ? data?.primary_upi : null, [Validators.required]],
+      payout: [data ? data?.payout : null, [Validators.required]],
       unique_code: [data ? data?.unique_code : null, [Validators.required]],
 
       // Attribute Type under business detail
@@ -93,36 +107,51 @@ export class AddEditMerchantsComponent implements OnInit {
 
 
 
-      contact_person_name: [data ? data?.name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.name : null, [Validators.required]],
-      contact_person_email: [data ? data?.name : null, [Validators.required]],
-      // employee: [data ? data?.name : null, [Validators.required]],
-      // payout: [data ? data?.name : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
-      // documents: [null, [Validators.required]],
-      // if m creating master always share the value 1  
-      // master: [data ? data?.name : 1, [Validators.required]],
+      partner_nature: ['Merchant', [Validators.required]],
+      
     });
     if(data){
       this.setFormData(data);
     }
-    // this.getListOfDocumentRequired();
+  }
+
+  deleteDocumentByDocumentId(i) {
+    let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    const selectedFile = fileName.controls?.[i].value;
+    if (!fileName.controls?.[i].value?.id) {
+      const document = {
+        name: selectedFile?.label_name,
+        pk: selectedFile?.document_master,
+      };
+      this.documentArray.push(document);
+      this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+      fileName.removeAt(i);
+    } else {
+      this.http
+        .deletePartnerDocumentByDocumentId(selectedFile?.id)
+        .subscribe((res) => {
+          const document = {
+            name: selectedFile?.label_name,
+            pk: selectedFile?.document_master,
+          };
+          this.documentArray.push(document);
+          this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+          fileName.removeAt(i);
+        });
+    }
   }
   
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
       this.documentArray = res?.data?.results;
-      // this.addSkills(this.documentArray);
-      // this.documentArray.forEach(element => {
-      //   this.addSkills(element);
-      // });
     })
   }
-
-  // addUnderWriting(data: any, value) {
-  //   this.rules.push(this.addSlabControlsUnderWriting(data, value))
-  // }
 
   addRule() {
     if (this.documentArray.includes(this.selectedDocument)) {
@@ -139,21 +168,14 @@ export class AddEditMerchantsComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
-    // if(data){
-    //   return this.fb.group({
-    //     document_master: [data?.document_master?.id],
-    //     label_name: [data?.document_master?.name],
-    //     documents: [data?.document_file],
-    //     id:[data?.id]
-    //   })
-    // } else{
-      return this.fb.group({
-        document_master: [data?.pk],
-        label_name: [data?.name],
-        documents: [''],
-        document_name:[null]
-      })
-    // }
+    return this.fb.group({
+      id: [data ? data?.id : null],
+      document_master: [data?.pk],
+      label_name: [data?.name],
+      documents: [data?.documents],
+      document_name:[data?.document_name],
+      is_verified:[ data?.is_verified ? data?.is_verified : false]
+    })
   }
 
   get_underwritingArr(form) {
@@ -167,8 +189,6 @@ export class AddEditMerchantsComponent implements OnInit {
   // this.fb.array([])
  
   onUpload(e,i){
-    console.log(e)
-    console.log(e?.file?.originFileObj)
     // this.index = i;
     let fileName = this.addEditProductForm.get('document_data') as FormArray;
     fileName.controls?.[i].patchValue({document_name: e?.file?.name});
@@ -179,9 +199,6 @@ export class AddEditMerchantsComponent implements OnInit {
     //   this.addEditProductForm.addControl('documents',e.target.files[0])
     // }
     // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
-
-
-
   }
 
 
@@ -194,38 +211,79 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   onClickSubmitForm(){
+
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-    if(this.addEditProductForm.valid){
+
+    if(this.addEditProductForm.valid) {
+      if(!this.isEdit) {
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
       
       for (var i in sendDate.document_data) {
+        // if(sendDate?.document_data[i]?.documents?.includes('/')){
+        // break;  
+        // }
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
         data.append('documents', sendDate?.document_data[i]?.documents)
         delete sendDate?.document_data[i]?.documents
       }
   
       for (var i in sendDate) {
-        // if(sendDate?.document_data.length >= 1){  }
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
-        } 
-          else {
+        } else {
           data.append(i, sendDate[i])
         }
-
       }
-
-
-      this.http.createMerchantForm(data).subscribe((res)=> {
+      const  url = this.http.createPartnerForm(data);
+      url.subscribe((res)=> {
+        this.message.success(" User Created...");
         console.log(res);
       })
-    } 
+    }
+     else  {
+      let data = new FormData();
     
-    // console.log(data);
+      var sendDate = this.addEditProductForm.value
+      for (var i in sendDate.document_data) {
+        // console.log(sendDate.document_data[i]?.documents);
+        // console.log(sendDate.document_data[i].documents?.['uid']);
+        // console.log(sendDate.document_data[i].id);
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        // console.log('working' + sendDate.document_data +  ' ' +  i);
+        if(sendDate.document_data[i].documents?.['uid']){
+          data.append('documents', sendDate?.document_data[i]?.documents)  
+          delete sendDate?.document_data[i]?.documents
+        } else {
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
+      url.subscribe((res)=> {
+        this.message.success(" User Updated...");
+        console.log(res);
+      })
+    }
+  }
+
+  
+
   }
 
   handleChange(e,index){

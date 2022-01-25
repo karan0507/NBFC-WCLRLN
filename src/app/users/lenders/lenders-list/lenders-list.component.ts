@@ -26,10 +26,12 @@ export class LendersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   masterPartner: any;
-  masterPartnerDetailList: Object;
-  onExpandChange(id: number, checked: boolean): void {
+  masterPartnerDetailList: any = [];
+  isDelete: boolean = false;
+  selectedUserId: any;
+  onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getNBFCDetail(id)
+      this.getNBFCDetail(id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
@@ -63,10 +65,12 @@ export class LendersListComponent implements OnInit {
     this.getNBFCList();
   }
 
-  getNBFCDetail(id){
+  getNBFCDetail(id, i?){
     this._apiLoader["detailList"] = true;
     this.http.getNBFCDetail(id).subscribe((res: any)=> {
-      this.masterPartnerDetailList = res?.data;
+      // this.masterPartnerDetailList = res?.data;
+      this.masterPartnerDetailList.push(res?.data);
+      this.masterPartner[i].expandSet = res?.data;
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -130,5 +134,28 @@ export class LendersListComponent implements OnInit {
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
+  handleCancel(){
+    this.isDelete = false;
+  }
+
+  confirmationTrigger(value: any) {
+    // if(value){
+    //   value = this.section_id
+    // }
+    console.log(value);
+    if(value){
+      this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
+        console.log(res);
+        this.getNBFCList();
+        this.isDelete = false
+      })
+    }
+    // this.confirmationEvent.emit(value);
+  }
+
+  deleteUserByUserId(id){
+    this.selectedUserId = id
+    this.isDelete = true;
+  }
 
 }

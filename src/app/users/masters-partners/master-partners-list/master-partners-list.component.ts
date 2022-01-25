@@ -25,12 +25,14 @@ export class MasterPartnersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   masterPartner: any;
-  masterPartnerDetailList: Object;
-  onExpandChange(id: number, checked: boolean): void {
+  masterPartnerDetailList: any = [];
+  isDelete: boolean;
+  selectedUserId: any;
+  onExpandChange(id: number, checked: boolean, i): void {
     console.log(checked);
     
     if (checked) {
-      this.getMasterPartnerById(id)
+      this.getMasterPartnerById(id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
@@ -64,10 +66,12 @@ export class MasterPartnersListComponent implements OnInit {
     this.getMasterPartner();
   }
 
-  getMasterPartnerById(id){
+  getMasterPartnerById(id, i?){
     this._apiLoader["detailList"] = true;
     this.http.getMasterPartnerById(id).subscribe((res: any)=> {
-      this.masterPartnerDetailList = res?.data;
+      this.masterPartnerDetailList.push(res?.data);
+      this.masterPartner[i].expandSet = res?.data;
+      console.log('this.merchantList', this.masterPartner)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -92,6 +96,7 @@ export class MasterPartnersListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
+      'partner_nature': 'master',
       'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
@@ -130,5 +135,30 @@ export class MasterPartnersListComponent implements OnInit {
     this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
+
+  handleCancel(){
+    this.isDelete = false;
+  }
+
+  confirmationTrigger(value: any) {
+    // if(value){
+    //   value = this.section_id
+    // }
+    console.log(value);
+    if(value){
+      this.http.deleteMasterUserByUserId(this.selectedUserId).subscribe((res :any)=> {
+        console.log(res);
+        this.getMasterPartner();
+        this.isDelete = false
+      })
+    }
+    // this.confirmationEvent.emit(value);
+  }
+
+  deleteUserByUserId(id){
+    this.selectedUserId = id
+    this.isDelete = true;
+  }
+
 
 }

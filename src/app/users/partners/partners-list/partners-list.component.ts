@@ -8,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./partners-list.component.css']
 })
 export class PartnersListComponent implements OnInit {
-  selectedTab = '1'
+  selectedTab = 'all'
   listOfData = [
     {
       name: 'Bajaj Finance Ltd.',
@@ -86,7 +86,9 @@ export class PartnersListComponent implements OnInit {
 
   expandSet = new Set<number>();
   partnerList: any;
-  masterPartnerDetailList: any;
+  masterPartnerDetailList: any = [];
+  isDelete: boolean = false;
+  selectedUserId: any;
 
   constructor(private http: HttpService) { }
 
@@ -97,9 +99,9 @@ export class PartnersListComponent implements OnInit {
     
   }
 
-  onExpandChange(id: number, checked: boolean): void {
+  onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getPartnerListDetail(id)
+      this.getPartnerListDetail(id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
@@ -126,10 +128,12 @@ export class PartnersListComponent implements OnInit {
     this.getPartnerList();
   }
 
-  getPartnerListDetail(id){
+  getPartnerListDetail(id, i?){
     this._apiLoader["detailList"] = true;
     this.http.getPartnerListDetail(id).subscribe((res: any)=> {
-      this.masterPartnerDetailList = res?.data;
+      this.masterPartnerDetailList.push(res?.data);
+      this.partnerList[i].expandSet = res?.data;
+      // console.log('this.merchantList', this.merchantList)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -154,7 +158,8 @@ export class PartnersListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
-      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
+      'partner_nature': 'Partner',
+      'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']
@@ -192,4 +197,29 @@ export class PartnersListComponent implements OnInit {
   //   this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
   //   this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   // }
+
+  handleCancel(){
+    this.isDelete = false;
+  }
+
+  confirmationTrigger(value: any) {
+    // if(value){
+    //   value = this.section_id
+    // }
+    console.log(value);
+    if(value){
+      this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
+        console.log(res);
+        this.getPartnerList();
+        this.isDelete = false
+      })
+    }
+    // this.confirmationEvent.emit(value);
+  }
+
+  deleteUserByUserId(id){
+    this.selectedUserId = id
+    this.isDelete = true;
+  }
+
 }

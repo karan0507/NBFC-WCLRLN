@@ -67,26 +67,26 @@
             <div class="row border-bottom">
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_name" class="text-left" nzRequired>Name</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact Person Name!">
-                            <input nz-input type="text" formControlName="contact_person_name"  placeholder="Person Name" />
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_name" class="text-left" nzRequired>Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add NBFC Contact Person Name!">
+                            <input nz-input type="text" formControlName="nbfc_user_name"  placeholder="Person Name" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_phone" class="text-left" nzRequired>Phone No.</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact person Name!">
-                            <input nz-input type="text" formControlName="contact_person_phone"  placeholder="person Phone No."/>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_mobile" class="text-left" nzRequired>Phone No.</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add NBFC person Mobile N0.!">
+                            <input nz-input type="number" formControlName="nbfc_user_mobile"  placeholder="person Phone No."/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
 
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_email" class="text-left" nzRequired>Email Id</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact Person Email!">
-                            <input nz-input type="text" formControlName="contact_person_email"  placeholder="Person Email"/>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_email" class="text-left" nzRequired>Email Id</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add NBFC Person Email!">
+                            <input nz-input type="text" formControlName="nbfc_user_email"  placeholder="Person Email"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -152,23 +152,30 @@
                 </nz-form-label> -->
                 <div class="col-md-12" [formGroupName]="k">
                     <div class="row">
-                        <div class="col-md-12 pl-0">
+                        <div class="col-md-7 pl-0">
                             <nz-form-item>
-                                <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
                                     {{item.controls.label_name.value}}</nz-form-label>
-                                <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                    <div class="d-flex">
                                         <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k)"
                                         >
-                                        <button nz-button>
+                                        <!-- <button nz-button>
                                             <i nz-icon nzType="upload"></i>
                                             Click to Upload
-                                        </button>
+                                        </button> -->
+                                        <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                         </nz-upload>
+                                        <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
+                                    </div>
                                 </nz-form-control>
                             </nz-form-item>
+                        </div>
+                        <div class="col-md-2 pl-0 mt-2" >
+                            <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.document_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
                         </div>
                     </div>
                 </div>

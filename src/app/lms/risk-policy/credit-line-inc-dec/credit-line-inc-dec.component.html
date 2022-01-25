@@ -1,0 +1,91 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By Card Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }">
+                <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>User Name</th>
+                        <th>Loan ID</th>
+                        <th>Applied on</th>
+                        <th>Credit Line Assigned</th>
+                        <th>Credit Utilised</th>
+                        <th>Outstanding</th>
+                        <th>Fees/Charges</th>
+                        <th>Card Status</th>
+                        <th>A/c Status</th>
+                        <th nzRight>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of borrowertList; index as i">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td nzRight>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <!-- [routerLink]="['edit-employee', data.id]" -->
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Increase Credit Line</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                            <span class="m-l-5">Decrease Credit Line</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</section>

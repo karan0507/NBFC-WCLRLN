@@ -31,36 +31,6 @@ export class DocumentUploadComponent implements OnInit {
     this.getFormLoanData();
   }
   
-
-  getFormLoanData(id?) {
-    console.log('call api');
-    
-    var data;
-    if(this._currentId){
-      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=2', 'id':this._currentId}
-    }else{
-      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=2'}
-    }
-    this.https.fetchLoanApplicationList(data).subscribe(res => {
-      console.log('api called', res);
-      this.loanApplicationData = res?.data?.results
-      // this.loanApplicationData = res;
-      // this.total_count = res?.total_count;
-    })
-  }
-
-  onMonthChange(event){
-
-  }
-  
-  expandSet = new Set<number>();
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
-    }
-  }
   listOfData = [
     {
       id: 1,
@@ -87,6 +57,39 @@ export class DocumentUploadComponent implements OnInit {
       description: '--'
     }
   ];
+
+ 
+  getFormLoanData(id?) {
+    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
+      this.loanApplicationData = res?.data?.results;
+      this.total_count = res?.data?.total_count;
+    })
+  }
+
+
+
+  getIdWiseData(id?, index?){
+    let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id, 'source':'Onboarding'};
+    this.https.fetchLoanApplicationList(data).subscribe(res=> {
+      this._activeLoans.push(res?.data?.results[0]);
+      this.loanApplicationData[index].expanddata = res?.data?.results[0];
+      console.log(this.loanApplicationData[index].expanddata)
+    })
+   }
+ 
+   expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean, index?): void {
+    if (checked) {
+      this.expandSet.add(id);
+      this.getIdWiseData(this._currentId = id, index);
+      // console.log();
+      
+    } else {
+      this.expandSet.delete(id);
+      console.log('Deleted array of active ids', this._activeLoans);
+    }
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -119,4 +122,7 @@ export class DocumentUploadComponent implements OnInit {
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
+  onMonthChange(event){
+
+  }
 }

@@ -24,7 +24,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader">
+            <nz-table #basicTable [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>

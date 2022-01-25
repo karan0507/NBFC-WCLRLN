@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
 import { AddEditMerchantsComponent } from './add-edit-merchants/add-edit-merchants.component';
+import { DsaListComponent } from './dsa-list/dsa-list.component';
 import { MerchantsListComponent } from './merchants-list/merchants-list.component';
 
 const routes: Routes = [
@@ -15,8 +17,24 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'add',
+        path: 'add-merchant',
         component: AddEditMerchantsComponent,
+        data: {
+          title: 'Add Merchants',
+          parent: 'Merchants',
+        }
+      },
+      {
+        path: 'add-dsa',
+        component: AddEditDsaComponent,
+        data: {
+          title: 'Add Merchants',
+          parent: 'Merchants',
+        }
+      },
+      {
+        path: 'DSA',
+        component: DsaListComponent,
         data: {
           title: 'Add Merchants',
           parent: 'Merchants',

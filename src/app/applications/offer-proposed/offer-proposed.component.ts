@@ -32,58 +32,35 @@ export class OfferProposedComponent implements OnInit {
     this.getFormLoanData();
   }
 
-  expandSet = new Set<number>();
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
-    }
-  }
-  listOfData = [
-    {
-      id: 1,
-      name: 'John Brown',
-      age: 32,
-      expand: false,
-      address: '9th Jan',
-      description: '--'
-    },
-    {
-      id: 2,
-      name: 'Jim Green',
-      age: 42,
-      expand: false,
-      address: '12th Dec',
-      description: '--'
-    },
-    {
-      id: 3,
-      name: 'Joe Black',
-      age: 32,
-      expand: false,
-      address: '21th Jan',
-      description: '--'
-    }
-  ];
-
   getFormLoanData(id?) {
-    console.log('call api');
-    
-    var data;
-    if(this._currentId){
-      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=1', 'id':this._currentId}
-    }else{
-      data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_master=1'}
-    }
+    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
     this.https.fetchLoanApplicationList(data).subscribe(res => {
-      console.log('api called', res);
-      this.loanApplicationData = res?.data?.results
-      // this.loanApplicationData = res;
-      // this.total_count = res?.total_count;
+      this.loanApplicationData = res?.data?.results;
+      this.total_count = res?.data?.total_count;
     })
   }
 
+  getIdWiseData(id?, index?){
+    let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id, 'source':'Onboarding'};
+    this.https.fetchLoanApplicationList(data).subscribe(res=> {
+      this._activeLoans.push(res?.data?.results[0]);
+      this.loanApplicationData[index].expanddata = res?.data?.results[0];
+      console.log(this.loanApplicationData[index].expanddata)
+    })
+   }
+ 
+   expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean, index?): void {
+    if (checked) {
+      this.expandSet.add(id);
+      this.getIdWiseData(this._currentId = id, index);
+      // console.log();
+      
+    } else {
+      this.expandSet.delete(id);
+      console.log('Deleted array of active ids', this._activeLoans);
+    }
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {

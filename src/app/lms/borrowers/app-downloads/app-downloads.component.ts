@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-downloads.component.css']
 })
 export class AppDownloadsComponent implements OnInit {
+  dataSet = [{},{}]
 
   constructor() { }
 

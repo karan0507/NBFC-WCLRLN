@@ -63,10 +63,16 @@ export class HttpService {
   }
 
   /**
-   * fetchProductList
+   * fetchEmployeeList
    */
    public fetchEmployeeList(data) {
     return this._http.get((this.url +`/user/get-users`),{params: data});
+  }
+  /**
+   * fetchEmployeeManagerList
+   */
+   public fetchEmployeeManagerList(data) {
+    return this._http.get((this.url +`/user/get-managers/`),{params: data});
   }
 
   /**
@@ -81,6 +87,17 @@ export class HttpService {
    */
   public createMasterPartner(data) {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
+  }
+
+  public updateMasterPartner(id,data) {
+    return this._http.post((this.url +`/partner/v1/edit-partner-partnermaster/${id}`), data);
+  }
+
+  /**
+   * addEditEmployee
+   */
+   public addEditEmployee(data) {
+    return this._http.patch((this.url +`/user/admin-user/`), data);
   }
 
   /**
@@ -263,6 +280,36 @@ export class HttpService {
     return this._http.get((this.url +`/master/fetch-master-data/Roles`),{params: data});
   }
 
+  // LMS 
+
+  /**
+   * fetchBorrowerList
+   */
+  public fetchBorrowerList(data) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-list`),{params: data});
+  }
+
+  /**
+   * fetchTransactionList
+   */
+   public fetchTransactionList(data) {
+    return this._http.get((this.url +`/loan-application/v1/transactions-list`),{params: data});
+  }
+
+  /**
+   * fetchBorrowerDetail
+   */
+   public fetchBorrowerDetail(id) {
+    return this._http.get((this.url +`/loan-application/v1/borrowers-detail/` + id));
+  }
+
+  /**
+   * changePasswordByAdmin
+   */
+   public changePasswordByAdmin(data) {
+    return this._http.post((this.url +`/user/change-password-by-admin/`), data);
+  }
+
   //************************ */
   public setProductValue(data): any {
     this.globalProductData.next(data);
@@ -280,8 +327,23 @@ export class HttpService {
     // /partner/v1/get/master
   }
 
+  public getPartnerDSAList(data){
+    return this._http.get((this.url +`/partner/v1/get/partner`),{params:data});
+    // /partner/v1/get/master
+  }
+
+  public getPartnerDSAListById(id){
+    return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
+  }
+  
+  // /partner/v1/get-detail/partner/21
+
+
+
+  // /partner/v1/get/partner?partner_nature=DSA
+
   public getMerchantList(data){
-    return this._http.get((this.url +`/merchant/v1/get-merchant-list`),{params:data});
+    return this._http.get((this.url +`/partner/v1/get/partner`),{params:data});
   }
 
   public getListOfDocumentRequired(){
@@ -293,14 +355,27 @@ export class HttpService {
     return this._http.post((this.url +`/partner/v1/create-partner-partnermaster`), data);
   }
 
+  public updateMasterPartnerForm(id, data){
+    return this._http.put((this.url +`/partner/v1/edit-partner-partnermaster/${id}`), data);
+  }
+  
+
   public createMerchantForm(data){
     return this._http.post((this.url +`/merchant/v1/add-merchant`), data);
+  }
+
+  public updateMerchantForm(id, data){
+    return this._http.put((this.url +`/merchant/v1/edit-merchant/${id}`), data);
   }
 
   // 
 
   public createNBFCForm(data){
     return this._http.post((this.url +`/nbfc/v1/add-nbfc`), data);
+  }
+
+  public updateNBFCForm(id,data){
+    return this._http.put((this.url +`/nbfc/v1/edit-nbfc/${id}`), data);
   }
 
   public createPartnerForm(data){
@@ -311,7 +386,8 @@ export class HttpService {
 
   // Application Module => End point 
   public fetchLoanApplicationList(data):Observable <any> {
-    return this._http.get((this.url +`/central-api/v1/call-api`), {params: data});
+    const headers = new HttpHeaders().set('Authorization','Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+    return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
   }
 
   /**
@@ -321,8 +397,33 @@ export class HttpService {
     return this._http.get((this.url1 +`/loan-application/v1/loan-application`),data);
   }
 
+  public deleteUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-user/partner/${id}`));
+  }
+
+  public deleteNBFCDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/nbfc/v1/delete-nbfc-doc/${id}`));
+  }
+
+  public deletePartnerDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-doc/partner/${id}`));
+  }
+
+  public deleteMasterUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-user/master/${id}`));
+  }
+  public deleteNBFCUserByUserId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/nbfc/v1/delete-nbfc/${id}`));
+  }
+
   public getMasterPartnerById(id){
-    return this._http.get((this.url1 +`/partner/v1/get-detail/master/${id}`));
+    const headers = new HttpHeaders()
+    return this._http.get((this.url +`/partner/v1/get-detail/master/${id}`), {headers: headers});
   }
   
   public getNBFCList(data){
@@ -345,5 +446,10 @@ export class HttpService {
 
   public getPartnerListDetail(id){
     return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
+  }
+
+  // Lender Management API
+  public getLenderManagementList(){
+    return this._http.get(this.url + `/loan-application/v1/lender-management-dashboard`);
   }
 }

@@ -67,7 +67,7 @@
                 <tbody>
                     <ng-container *ngFor="let data of partnerList; index as i">
                         <tr>
-                            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)">
+                            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                 {{ i + 1 }}</td>
                             <td>{{ data?.name }}</td>
                             <td>{{ data?.dob }}</td>
@@ -94,6 +94,41 @@
                                     [nzDropdownMenu]="latestUploadDropDown">
                                     <i nz-icon nzType="ellipsis" theme="outline"></i>
                                 </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <!-- [routerLink]="['edit-employee', data.id]" -->
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Change Password</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                            <span class="m-l-5" [routerLink]="['../partners/add']" [queryParams]="{id: data.id}">Edit</span>
+                                        </li>
+                                        <!-- nz-popconfirm
+                                          nzPopconfirmTitle="Are you sure delete Employee?"
+                                          nzPopconfirmPlacement="topLeft"
+                                          (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
+                                        <li nz-menu-item>
+                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Upgrade Dashboard</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Upgrade Agreement</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Upload Agreement</span>
+                                        </li>
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Show Agreement</span>
+                                        </li>
+                                
+                                
+                                    </ul>
+                                </nz-dropdown-menu>
                             </td>
                         </tr>
 
@@ -113,7 +148,7 @@
                                                     Partner's Address
                                                 </h6>
                                                 <div>
-                                                    {{(masterPartnerDetailList?.address_line_1 + ' ' + masterPartnerDetailList?.address_line_2)}}
+                                                    {{(data?.expandSet?.address_line_1 + ' ' + data?.expandSet?.address_line_2)}}
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +158,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.phone}}
+                                                    {{data?.expandSet?.phone}}
                                                 </div>
                                             </div>
                                         </div>
@@ -144,7 +179,7 @@
                                                     Name
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.contact_person_name}}
+                                                    {{data?.expandSet?.contact_person_name}}
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +189,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.contact_person_phone}}
+                                                    {{data?.expandSet?.contact_person_phone}}
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +199,7 @@
                                                     Email-Id
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.contact_person_email}}
+                                                    {{data?.expandSet?.contact_person_email}}
                                                 </div>
                                             </div>
                                         </div>
@@ -185,7 +220,7 @@
                                                     Bank Name
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.bank_name}}
+                                                    {{data?.expandSet?.bank_name}}
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +230,7 @@
                                                     IFSC
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.ifsc}}
+                                                    {{data?.expandSet?.ifsc}}
                                                 </div>
                                             </div>
                                         </div>
@@ -205,7 +240,7 @@
                                                     A/c No.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.account_no}}
+                                                    {{data?.expandSet?.account_no}}
                                                 </div>
                                             </div>
                                         </div>
@@ -215,7 +250,7 @@
                                                     Branch.
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.branch}}
+                                                    {{data?.expandSet?.branch}}
                                                 </div>
                                             </div>
                                         </div>
@@ -230,8 +265,8 @@
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
                                     <div class="row">
-                                        <div class="col-md-6" *ngFor="let data of masterPartnerDetailList?.documents">
-                                            <div class="d-flex flex-column" *ngIf="masterPartnerDetailList?.documents?.length >= 1">
+                                        <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
+                                            <div class="d-flex flex-column" *ngIf="data?.expandSet?.documents?.length >= 1">
                                                 <h6>
                                                     {{data?.document_master?.name}}
                                                 </h6>
@@ -239,7 +274,7 @@
                                                     Submitted & Verified
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-column" *ngIf="masterPartnerDetailList?.documents?.length < 1">
+                                            <div class="d-flex flex-column" *ngIf="data?.expandSet?.documents?.length < 1">
                                                 <h6>
                                                     No Documents To show
                                                 </h6>
@@ -262,7 +297,7 @@
                                                     Corp. Category
                                                 </h6>
                                                 <div>
-                                                    {{masterPartnerDetailList?.corporation_category}}
+                                                    {{data?.expandSet?.corporation_category}}
                                                 </div>
                                             </div>
                                         </div>
@@ -272,7 +307,7 @@
                                                     Payout  
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{masterPartnerDetailList?.payout}}
+                                                    {{data?.expandSet?.payout}}
                                                 </div>
                                             </div>
                                         </div>
@@ -290,41 +325,6 @@
 </section>
 
 
-<nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-    <ul nz-menu>
-        <!-- [routerLink]="['edit-employee', data.id]" -->
-        <li nz-menu-item>
-            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-            <span class="m-l-5">Change Password</span>
-        </li>
-        <li nz-menu-item>
-            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
-            <span class="m-l-5">Edit</span>
-        </li>
-        <!-- nz-popconfirm
-          nzPopconfirmTitle="Are you sure delete Employee?"
-          nzPopconfirmPlacement="topLeft"
-          (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-        <li nz-menu-item>
-            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-            <span class="m-l-5">Delete</span>
-        </li>
-        <li nz-menu-item>
-            <span class="m-l-5">Upgrade Dashboard</span>
-        </li>
-        <li nz-menu-item>
-            <span class="m-l-5">Upgrade Agreement</span>
-        </li>
-        <li nz-menu-item>
-            <span class="m-l-5">Upload Agreement</span>
-        </li>
-        <li nz-menu-item>
-            <span class="m-l-5">Show Agreement</span>
-        </li>
-
-
-    </ul>
-</nz-dropdown-menu>
 
 <ng-template #basicDetail>
     <div class="ml-md-2">
@@ -351,6 +351,28 @@
         <h6 class="mb-0">Other Details</h6>
     </div>
 </ng-template>
+
+<nz-modal [(nzVisible)]="isDelete" nzOkLoading="true" nzWidth="25rem" [nzTitle]="null" [nzClosable]="false" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+
+      <div class="py-4 text-center">
+        <!-- <img src="assets/images/icons/doubleconfirmationdelete.png"> -->
+
+        <p class="font-weight-bold text-dark mt-4">You are about to delete an User</p>
+        <p class="font-size-12 font-weight-semibold text-dark">This action will delete the user Permanently<br> Are You Sure ?</p>
+
+        <div class="row pt-4">
+          <div class="col-6">
+            <button nz-button (click)="handleCancel()" nzType="default" nzBlock>Cancel</button>
+          </div>
+          <div class="col-6">
+            <button nz-button (click)="confirmationTrigger(true)" nzType="primary" nzBlock>{{isCancel ? 'Cancel Order' : 'Delete'}}</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
+
 
 
 <!-- <section>

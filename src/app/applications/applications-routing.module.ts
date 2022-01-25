@@ -22,7 +22,7 @@ const routes: Routes = [
         component: FormFillingComponent,
         data: {
           title: 'Form Filling',
-          parent: 'applications',
+          parent: 'Application',
           custom_url:'/applications/form-filling'
         }
       },
@@ -31,7 +31,7 @@ const routes: Routes = [
         component: PerApprovedComponent,
         data: {
           title: 'Pre Approved Offer',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -39,7 +39,7 @@ const routes: Routes = [
         component: DocumentUploadComponent,
         data: {
           title: 'Document Upload',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -47,7 +47,7 @@ const routes: Routes = [
         component: UnderwritingComponent,
         data: {
           title: 'Underwriting',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -55,7 +55,7 @@ const routes: Routes = [
         component: OfferProposedComponent,
         data: {
           title: 'Offer Proposed',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -63,7 +63,7 @@ const routes: Routes = [
         component: OfferAcceptanceComponent,
         data: {
           title: 'Offer Acceptance',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -71,7 +71,7 @@ const routes: Routes = [
         component: VerificationComponent,
         data: {
           title: 'Verification',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -79,7 +79,7 @@ const routes: Routes = [
         component: ENachSigningComponent,
         data: {
           title: 'e-Signing',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -87,7 +87,7 @@ const routes: Routes = [
         component: DisbursementComponent,
         data: {
           title: 'Disbursement',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
       {
@@ -95,7 +95,7 @@ const routes: Routes = [
         component: StageTriggersComponent,
         data: {
           title: 'StageTriggers',
-          parent: 'applications',
+          parent: 'Application',
         }
       },
     ]
