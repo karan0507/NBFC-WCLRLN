@@ -402,6 +402,16 @@ export class HttpService {
     return this._http.delete((this.url +`/partner/v1/delete-user/partner/${id}`));
   }
 
+  public deleteNBFCDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/nbfc/v1/delete-nbfc-doc/${id}`));
+  }
+
+  public deletePartnerDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-doc/partner/${id}`));
+  }
+
   public deleteMasterUserByUserId(id){
     // /partner/v1/delete-user/partner/23
     return this._http.delete((this.url +`/partner/v1/delete-user/master/${id}`));
@@ -437,4 +447,5 @@ export class HttpService {
   public getPartnerListDetail(id){
     return this._http.get((this.url +`/partner/v1/get-detail/partner/${id}`));
   }
+
 }

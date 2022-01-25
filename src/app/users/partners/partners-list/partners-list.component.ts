@@ -158,6 +158,7 @@ export class PartnersListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
+      'partner_nature': 'Partner',
       'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){

@@ -61,7 +61,7 @@ export class MerchantsListComponent implements OnInit {
 
   getMerchantDetail(id, i?){
     this._apiLoader["detailList"] = true;
-    this.http.getMerchantDetail(id).subscribe((res: any)=> {
+    this.http.getPartnerListDetail(id).subscribe((res: any)=> {
       this.merchantDetailList.push(res?.data);
       this.merchantList[i].expandSet = res?.data;
       console.log('this.merchantList', this.merchantList)
@@ -93,7 +93,7 @@ export class MerchantsListComponent implements OnInit {
       // 'user_type_id' : 2
       'page': this.page,
       'name': this.searchValue,
-      'partner_nature': 'merchant',
+      'partner_nature': 'Merchant',
       'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
