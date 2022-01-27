@@ -25,9 +25,9 @@
                     </button>
                 </div>
             </div>
-            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
                 [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
-                (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="listOfData"
+                (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList"
                 [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
@@ -39,10 +39,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of listOfData; index as i">
+                    <tr *ngFor="let data of UPIList; index as i">
                         <td>{{ i + 1 }}</td>
-                        <td>{{ data?.name }}</td>
-                        <td>{{ data?.pan }}</td>
+                        <td>{{ data?.upi_id }}</td>
+                        <td>{{ data?.remarks }}</td>
                         <td>{{ data?.status }}</td>
                         <td>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
@@ -58,10 +58,10 @@
                                     </li>
                                     <li nz-menu-item>
                                         <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                        <span class="m-l-5">Active</span>
+                                        <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                     </li>
                                     <li nz-menu-item>
-                                        <span class="m-l-5">Inactive</span>
+                                        <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                     </li>
                                 </ul>
                             </nz-dropdown-menu>

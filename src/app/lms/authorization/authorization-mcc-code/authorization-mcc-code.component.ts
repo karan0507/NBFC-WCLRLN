@@ -1,3 +1,4 @@
+import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -66,29 +67,53 @@ export class AuthorizationMccCodeComponent implements OnInit {
     }
   ];
 
-  _apiLoader = {
+  apiLoader = {
     'list': false,
   }
   page = 1;
 
   total_count = 10;
+  UPIList: any;
 
-  constructor() { }
+  constructor(private http: HttpService) { }
 
   ngOnInit(): void {
     this.getAuthorizationList();
   }
 
   getResultBasedOnSearch(){
-
+    this.page =1;
+    this.getAuthorizationList();
   }
 
   resetFilter(){
-
+    this.page =1;
+    this.searchValue = '';
+    this.getAuthorizationList();
   }
 
   getAuthorizationList(e?){
-    this.listOfData;
+    // this.listOfData;
+    if(this.apiLoader['list']){return}
+    this.apiLoader['list'] = true;
+    let data = {
+      'source': 'LMS',
+      'datapoint':'authorization_get',
+      'endpoint':'Mcccodes',
+      'keyword': this.searchValue,
+      'page': 1,
+      'size': 30
+    }
+    // this.listOfData;
+    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+      this.UPIList = res?.data?.results;
+      this.total_count = res?.data?.total_count;
+      this.apiLoader['list'] = true;
+      console.log(this.UPIList, 'this.UPIList');
+    }, err => {
+      console.log(err);
+      this.apiLoader['list'] = false;
+    })
   }
 
 }

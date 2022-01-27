@@ -22,14 +22,14 @@
                       </button>
                 </div>
             </div>
-            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false"
-            [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
+            [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList" [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
                     <th rowspan="2" nzWidth="100px">#</th>
-                    <th >UPI ID</th>
-                    <th >Remarks</th>
+                    <th >MCC Code</th>
+                    <th >Type</th>
                     <th >Status</th>
                     <th> Actions</th>
                     </tr>
@@ -38,8 +38,8 @@
                     <ng-container *ngFor="let data of listOfData; index as i">
                         <tr>
                             <td>{{ i + 1 }}</td>
-                            <td>{{ data?.name }}</td>
-                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.code }}</td>
+                            <td>{{ data?.code_type }}</td>
                             <td>{{ data?.status  }}</td>
                             <td>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"

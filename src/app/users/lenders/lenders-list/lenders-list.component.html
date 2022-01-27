@@ -51,7 +51,7 @@
                     <th rowspan="2">Registered</th>
                     <th rowspan="2">Transaction Status</th>
                     <th rowspan="2">System Status</th>
-                    <th rowspan="2">Action</th>
+                    <th nzWidth="80px" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +71,7 @@
                             <td *ngIf="!data?.is_deleted">False</td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
-                            <td>
+                            <td nzRight>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
