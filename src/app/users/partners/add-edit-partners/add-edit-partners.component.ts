@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -19,7 +20,7 @@ export class AddEditPartnersComponent implements OnInit {
   partnerId: any;
   isVerified: any;
   isEdit: boolean;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute ) {
+  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
@@ -113,6 +114,31 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
   
+  deleteDocumentByDocumentId(i) {
+    let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    const selectedFile = fileName.controls?.[i].value;
+    if (!fileName.controls?.[i].value?.id) {
+      const document = {
+        name: selectedFile?.label_name,
+        pk: selectedFile?.document_master,
+      };
+      this.documentArray.push(document);
+      this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+      fileName.removeAt(i);
+    } else {
+      this.http
+        .deletePartnerDocumentByDocumentId(selectedFile?.id)
+        .subscribe((res) => {
+          const document = {
+            name: selectedFile?.label_name,
+            pk: selectedFile?.document_master,
+          };
+          this.documentArray.push(document);
+          this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+          fileName.removeAt(i);
+        });
+    }
+  }
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
@@ -229,6 +255,7 @@ export class AddEditPartnersComponent implements OnInit {
       const  url = this.http.createPartnerForm(data);
       url.subscribe((res)=> {
         console.log(res);
+        this.message.success(" User Created...");
       })
     }
      else  {
@@ -269,6 +296,7 @@ export class AddEditPartnersComponent implements OnInit {
       }
       const  url =  this.http.updateMasterPartnerForm(this.partnerId, data) 
       url.subscribe((res)=> {
+        this.message.success(" User Updated...");
         console.log(res);
       })
     }

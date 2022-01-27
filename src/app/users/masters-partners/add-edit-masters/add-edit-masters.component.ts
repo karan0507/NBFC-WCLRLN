@@ -4,6 +4,7 @@ import {  FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@an
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzUploadFile } from "ng-zorro-antd/upload";
 import { HttpService } from "src/app/services/http.service";
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class AddEditMastersComponent implements OnInit {
   masterPartnerId: any;
   isVerified: any;
   isEdit: boolean;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute ) {
+  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
@@ -113,6 +114,31 @@ export class AddEditMastersComponent implements OnInit {
     }
   }
   
+  deleteDocumentByDocumentId(i) {
+    let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    const selectedFile = fileName.controls?.[i].value;
+    if (!fileName.controls?.[i].value?.id) {
+      const document = {
+        name: selectedFile?.label_name,
+        pk: selectedFile?.document_master,
+      };
+      this.documentArray.push(document);
+      this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+      fileName.removeAt(i);
+    } else {
+      this.http
+        .deleteMasterDocumentByDocumentId(selectedFile?.id)
+        .subscribe((res) => {
+          const document = {
+            name: selectedFile?.label_name,
+            pk: selectedFile?.document_master,
+          };
+          this.documentArray.push(document);
+          this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+          fileName.removeAt(i);
+        });
+    }
+  }
 
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
