@@ -13,15 +13,15 @@
           </div>
         <!-- </div> -->
     </ng-template>
-    <div class="row border-bottom my-2 justify-content-between pb-2">
+    <div *ngFor="let data of authorizationRulesList" class="row border-bottom my-2 justify-content-between pb-2">
         <div class="col-5">
-            No. Of Transactions per day
+            {{data?.rule_text}}
         </div>
         <div class="col-5 text-right">
-            50
+            {{data?.value}}
         </div>
     </div>
-    <div class="row border-bottom my-2 justify-content-between pb-2">
+    <!-- <div class="row border-bottom my-2 justify-content-between pb-2">
         <div class="col-5">
             No. Of Transactions per month
         </div>
@@ -52,5 +52,5 @@
         <div class="col-5 text-right">
             1000
         </div>
-    </div>
+    </div> -->
 </nz-card>

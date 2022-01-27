@@ -390,6 +390,11 @@ export class HttpService {
     return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
   }
 
+  public getLMSAuthorizationList(data):Observable <any> {
+    const headers = new HttpHeaders();
+    return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
+  }
+
   /**
    * Application Module Edit Loan Form
    */
