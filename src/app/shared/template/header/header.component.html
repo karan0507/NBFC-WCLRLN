@@ -26,10 +26,17 @@
         </ul>
         <ul class="nav-right">
             <li>
-                <a (click)="quickViewToggle()">
-                    <i nz-icon nzType="appstore" theme="outline"></i>
+                <a (click)="quickViewToggle()" style="border-radius: 50%;">
+                    <i nz-icon nzType="user" nzTheme="outline"></i>
                 </a>
-                <nz-drawer [nzWidth]="280" nzTitle="Quick View" [nzClosable]="false" [nzVisible]="quickViewVisible" nzPlacement="right" (nzOnClose)="quickViewToggle()">
+                <nz-drawer [nzWidth]="480" nzTitle="" [nzClosable]="false" [nzVisible]="quickViewVisible" nzPlacement="right"
+                    (nzOnClose)="quickViewToggle()">
+                    <div class="row">
+                        <div class="d-flex align-items-center pointer" (click)="quickViewToggle()">
+                            <i nz-icon nzType="arrow-left" class="mr-3" nzTheme="outline"></i>
+                            <h5 class="h5 mb-0">Back</h5>
+                        </div>
+                    </div>
                     <app-quick-view></app-quick-view>
                 </nz-drawer>
             </li>

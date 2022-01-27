@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -23,6 +24,9 @@ export class TransactionsListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   api_calling_loader: boolean;
+  selectedType = ''
+  selectedStatus = ''
+  date = ''
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -35,14 +39,18 @@ export class TransactionsListComponent implements OnInit {
   }
   fetchTransactionList(e?) {
     let data = {
-      page: this.page,
-      // name: this.search_params
-      limit: this.globalPageSize,
-      txn_type: this.selectedTab
-      // id: this.product_id
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationTransactions',
+      source: 'LMS',
+      txn_status: this.selectedStatus,
+      txn_type: this.selectedType,
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      search_param: this.searchValue,
+      tab_filter: this.selectedTab
     }
     this.api_calling_loader = true
-    this.http.fetchTransactionList(data).subscribe(res => {
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.listOfData = res['data']
       this.total_count = res['data'].total_count
@@ -52,10 +60,11 @@ export class TransactionsListComponent implements OnInit {
     })
   }
   resetFilter(){
-
-  }
-  getResultBasedOnSearch(){
-
+    this.searchValue = ''
+    this.selectedType = ''
+    this.selectedStatus = ''
+    this.date = ''
+    this.fetchTransactionList();
   }
 
   onItemChecked(id: number, checked: boolean): void {
@@ -79,5 +88,9 @@ export class TransactionsListComponent implements OnInit {
     const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
     this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
+  }
+
+  onChange(result: Date[]): void {
+    console.log('onChange: ', this.date);
   }
 }
