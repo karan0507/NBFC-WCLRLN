@@ -390,6 +390,11 @@ export class HttpService {
     return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
   }
 
+  public getLMSAuthorizationList(data):Observable <any> {
+    const headers = new HttpHeaders();
+    return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
+  }
+
   /**
    * Application Module Edit Loan Form
    */
@@ -410,6 +415,11 @@ export class HttpService {
   public deletePartnerDocumentByDocumentId(id){
     // /partner/v1/delete-user/partner/23
     return this._http.delete((this.url +`/partner/v1/delete-doc/partner/${id}`));
+  }
+
+  public deleteMasterDocumentByDocumentId(id){
+    // /partner/v1/delete-user/partner/23
+    return this._http.delete((this.url +`/partner/v1/delete-doc/master/${id}`));
   }
 
   public deleteMasterUserByUserId(id){

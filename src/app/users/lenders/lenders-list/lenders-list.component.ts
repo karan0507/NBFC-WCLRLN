@@ -29,8 +29,10 @@ export class LendersListComponent implements OnInit {
   masterPartnerDetailList: any = [];
   isDelete: boolean = false;
   selectedUserId: any;
+  selectedId: number;
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
+      this.selectedId = id;
       this.getNBFCDetail(id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
