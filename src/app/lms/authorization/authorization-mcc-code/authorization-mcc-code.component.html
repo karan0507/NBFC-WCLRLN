@@ -35,7 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let data of listOfData; index as i">
+                    <ng-container *ngFor="let data of UPIList; index as i">
                         <tr>
                             <td>{{ i + 1 }}</td>
                             <td>{{ data?.code }}</td>
@@ -56,10 +56,10 @@
                                         </li>
                                         <li nz-menu-item>
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5">Active</span>
+                                            <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5">Inactive</span>
+                                            <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                         </li>
                                     </ul>
                                 </nz-dropdown-menu>

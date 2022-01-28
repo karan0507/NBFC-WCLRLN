@@ -1,3 +1,4 @@
+import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -66,14 +67,15 @@ export class FailedTransactionsComponent implements OnInit {
     }
   ];
 
-  _apiLoader = {
+  apiLoader = {
     'list': false,
   }
   page = 1;
 
-  total_count = 10;
+  total_count;
+  failedTransactionList: any;
 
-  constructor() { }
+  constructor(private http: HttpService) { }
 
   ngOnInit(): void {
     this.getAuthorizationList();
@@ -87,8 +89,55 @@ export class FailedTransactionsComponent implements OnInit {
 
   }
 
-  getAuthorizationList(e?){
-    this.listOfData;
+  toggleStatusBasedOnAction(id,action){
+    let data;
+    if(action == 'inactive'){
+      data = {
+        "source" : "LMS",
+        "datapoint" : "authorization_edit",
+        "endpoint" : `Pincodes/${id}` ,
+        "status" : false
+      } 
+
+    } else if (action == 'active'){
+      data = {
+        "source" : "LMS",
+        "datapoint" : "authorization_edit",
+        "endpoint" : `Pincodes/${id}` ,
+        "status" : true
+      } 
+    }
+    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+      console.log(res);
+    }, err => {
+      console.log(err);
+    })
+
   }
+
+  getAuthorizationList(e?){
+    if(this.apiLoader['list']){return}
+    this.apiLoader['list'] = true;
+    let data = {
+      'source': 'LMS',
+      'datapoint':'loan_service',
+      'endpoint':'LoanApplicationTransactions',
+      'txn_status':'Fail',
+      'keyword': this.searchValue,
+      'page': 1,
+      'size': 30
+    }
+    // this.listOfData;
+    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+      this.failedTransactionList = res?.data;
+      this.total_count = res?.total_count;
+      this.apiLoader['list'] = false;
+      console.log(this.failedTransactionList, 'this.pinCodeList');
+    }, err => {
+      console.log(err);
+      this.apiLoader['list'] = false;
+    })
+  }
+
 
 }
