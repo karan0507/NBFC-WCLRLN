@@ -97,7 +97,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
       data = {
         "source" : "LMS",
         "datapoint" : "authorization_edit",
-        "endpoint" : `Upi/${id}` ,
+        "endpoint" : `Pincodes/${id}` ,
         "status" : false
       } 
 
@@ -105,7 +105,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
       data = {
         "source" : "LMS",
         "datapoint" : "authorization_edit",
-        "endpoint" : `Upi/${id}` ,
+        "endpoint" : `Pincodes/${id}` ,
         "status" : true
       } 
     }
@@ -132,7 +132,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {
       this.pinCodeList = res?.data?.results;
       this.total_count = res?.data?.total_count;
-      this.apiLoader['list'] = true;
+      this.apiLoader['list'] = false;
       console.log(this.pinCodeList, 'this.pinCodeList');
     }, err => {
       console.log(err);

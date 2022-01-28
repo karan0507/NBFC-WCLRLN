@@ -1,11 +1,20 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="default" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button>
-    <button nz-button nzType="default" class="ml-1">Export</button>
+    <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button>
+    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost>Export</button>
 </div>
+
+<nz-dropdown-menu #fileFormate="nzDropdownMenu">
+    <ul nz-menu>
+        <li nz-menu-item (click)="exportGlobalFunction('XLXS')"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
+            Excel File</li>
+        <li nz-menu-item (click)="exportGlobalFunction('CSV')"><i nz-icon nzType="file" nzTheme="outline"></i> CSV
+            File</li>
+    </ul>
+</nz-dropdown-menu>
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchTransactionList()">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit">Credit</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Debit</label>
@@ -89,7 +98,7 @@
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
-                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>

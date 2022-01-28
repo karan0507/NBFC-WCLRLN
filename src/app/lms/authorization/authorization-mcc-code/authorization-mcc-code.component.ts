@@ -92,6 +92,32 @@ export class AuthorizationMccCodeComponent implements OnInit {
     this.getAuthorizationList();
   }
 
+  toggleStatusBasedOnAction(id,action){
+    let data;
+    if(action == 'inactive'){
+      data = {
+        "source" : "LMS",
+        "datapoint" : "authorization_edit",
+        "endpoint" : `Mcccodes/${id}` ,
+        "status" : false
+      } 
+
+    } else if (action == 'active'){
+      data = {
+        "source" : "LMS",
+        "datapoint" : "authorization_edit",
+        "endpoint" : `Mcccodes/${id}` ,
+        "status" : true
+      } 
+    }
+    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+      console.log(res);
+    }, err => {
+      console.log(err);
+    })
+
+  }
+
   getAuthorizationList(e?){
     // this.listOfData;
     if(this.apiLoader['list']){return}
@@ -108,7 +134,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {
       this.UPIList = res?.data?.results;
       this.total_count = res?.data?.total_count;
-      this.apiLoader['list'] = true;
+      this.apiLoader['list'] = false;
       console.log(this.UPIList, 'this.UPIList');
     }, err => {
       console.log(err);

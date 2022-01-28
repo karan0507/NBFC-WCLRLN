@@ -310,6 +310,17 @@ export class HttpService {
     return this._http.post((this.url +`/user/change-password-by-admin/`), data);
   }
 
+  /// export function
+  exportMasterSectionModule(res, section, file_formate, generateloader){
+    this.message.success('File Exported');
+      this.message.remove(generateloader);
+      var downloadURL = window.URL.createObjectURL(res);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = section + '.' + file_formate;
+      link.click();
+  }
+
   //************************ */
   public setProductValue(data): any {
     this.globalProductData.next(data);

@@ -2,7 +2,7 @@ import { SideNavInterface } from '../../interfaces/side-nav.type';
 export const ROUTES: SideNavInterface[] = [
     {
         path: '/dashboard/home',
-        title: 'Masters',
+        title: 'Dashboard',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'appstore',

@@ -39,7 +39,7 @@ export class MasterPartnersComponent implements OnInit {
   isloading: boolean;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,) {
   }
 
@@ -63,6 +63,10 @@ export class MasterPartnersComponent implements OnInit {
       master_partner_arr: this.fb.array([]),
     })
     this.setFormData(this.masterParnerPayout)
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
 
   get master_partner_arr(): FormArray {

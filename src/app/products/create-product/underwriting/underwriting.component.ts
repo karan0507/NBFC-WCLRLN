@@ -68,6 +68,10 @@ export class UnderwritingComponent implements OnInit {
       rules: this.fb.array([]),
     })
     this.setFormData(data)
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
   setFormData(data) {
     if (data) {

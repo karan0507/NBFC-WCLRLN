@@ -93,4 +93,18 @@ export class TransactionsListComponent implements OnInit {
   onChange(result: Date[]): void {
     console.log('onChange: ', this.date);
   }
+
+  // export function
+  exportGlobalFunction(file_formate){
+    let data = {
+      datapoint: 'lender_master_export',
+      endpoint: 'LoanApplicationTransactions',
+      source: 'LMS',
+      file_type: file_formate
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
+    })
+  }
 }

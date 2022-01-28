@@ -57,7 +57,7 @@
                             <div>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                     [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
-                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
@@ -89,27 +89,17 @@
         </nz-card>
     </div>
 </section>
-<nz-modal [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <div class="row p-3">
-            <div class="col-md-12 d-flex justify-content-center mb-3">
-                <span class="wh-5 p-2">
-                    <i nz-icon nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#55268E'"></i>
-                </span>
-            </div>
-            <div class="col-md-12 d-flex justify-content-center mb-3">
-                <h4 class="h4 text-center">You are about to delete an employee detail</h4>
-            </div>
-            <div class="col-md-12 d-flex justify-content-center mb-5">
-                <p>This action will delete the details permanently.
-                    Are You Sure?
-                </p>
-            </div>
-            <div class="col-md-12 d-flex justify-content-center">
-                <button nz-button nzType="default" (click)="isDelete = false; idForDeleteEmployee = ''" class="mr-3">Cancel</button>
-                <button nz-button nzType="primary" (click)="deleteEmployee()">OK</button>
-            </div>
-        </div>
+        <app-double-confirmation-popup 
+            [title]="'You are about to delete an employee detail'"
+            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
+            [icon]="'assets/images/delete-icon.png'"
+            (onOkCall)="deleteEmployee()"
+            (onCencelCall)="isDelete = false; idForDeleteEmployee = ''"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 

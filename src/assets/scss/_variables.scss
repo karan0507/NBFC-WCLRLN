@@ -10,7 +10,8 @@ $red:                       #de4436 !default;
 $orange:                    #fa8c16 !default;
 $gold:                      #ffc107 !default;
 $green:                     #52c41a !default;
-$blue:                      #3f87f5 !default; 
+// $blue:                      #3f87f5 !default; 
+$blue:                      #55268E !default; 
 $cyan:                      #00c9a7 !default;
 $purple:                    #886cff  !default; 
 $magenta:                   #eb2f96 !default;
@@ -490,7 +491,7 @@ $card-spacer-x:               1.5rem !default;
 $card-spacer-y:               1.5rem !default;
 $card-border-radius:          $border-radius !default;
 $card-border-color:           $border-color !default;
-$card-head-bg:                $white !default;
+$card-head-bg:                #FFFAEC !default;
 $card-bg:                     $white !default;
 $card-head-min-height:        3rem !default;
 $card-hover-shadow:           0 2px 8px rgba($black,.09) !default;
@@ -607,8 +608,8 @@ $pagination-size-sm:            1.5rem !default;
 // Collapse
 //
 // 
-$collapse-border:               $border-color !default;    
-$collapse-bg:                   #fafafa !default;
+$collapse-border:               #fff !default;    
+$collapse-bg:                   #fff !default;
 $collapse-header-spacing:       0.75rem 2.5rem 0.75rem 2.5rem !default;
 $collapse-header-color:         $gray-dark !default;
 $collapse-content-spacing:      1rem !default;
@@ -657,7 +658,7 @@ $tooltip-bg:                   #404040 !default;
 // Modal
 //
 // Padding applied to the modal body
-$modal-content-bg:             $white !default;
+$modal-content-bg:             #FFFAEC !default;
 $modal-content-shadow:         0 4px 12px rgba($black, 0.15) !default;
 $modal-header-padding:         1rem 1.5rem !default;
 $modal-border-radius:          $border-radius !default;

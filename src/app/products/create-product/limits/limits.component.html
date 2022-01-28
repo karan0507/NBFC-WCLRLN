@@ -109,7 +109,7 @@
     </nz-card>
     
     <ng-template #actionSubmit>
-        <div class="row no-gutters">
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
             <div class="col-12 d-flex justify-content-end px-4">
                 <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading" (click)="submitForm()">Submit</button>
             </div>

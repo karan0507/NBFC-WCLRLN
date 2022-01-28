@@ -55,6 +55,10 @@ export class ProductDetailsComponent implements OnInit {
     if (this.productDetails) {
       this.fetchNBFCdata()
     }
+
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
 
   get tenures(): FormArray {
