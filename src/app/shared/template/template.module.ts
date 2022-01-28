@@ -22,6 +22,8 @@ import { FooterComponent } from "./footer/footer.component";
 
 import { SideNavDirective } from "../directives/side-nav.directive";
 import { ThemeConstantService } from '../services/theme-constant.service';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { DoubleConfirmationPopupComponent } from './double-confirmation-popup/double-confirmation-popup.component';
 
 const antdModule = [
     NzAvatarModule,
@@ -33,7 +35,8 @@ const antdModule = [
     NzDividerModule,
     NzSwitchModule,
     NzInputModule,
-    NzButtonModule
+    NzButtonModule,
+    DemoNgZorroAntdModule
 ]
 
 @NgModule({

@@ -1,0 +1,35 @@
+<section>
+    <div class="row my-md-4 justify-content-center">
+        <i nz-icon nzType="user" style="font-size: 100px; border-radius: 50%;" nzTheme="outline"></i>
+    </div>
+    <h3>Profile Details</h3>
+    <nz-divider class="mt-0"></nz-divider>
+    <div class="row">
+        <div class="col-md-12">
+            <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>First Name</nz-form-label>
+            <nz-form-label nzNoColon>{{userData.user.first_name}}</nz-form-label>
+        </div>
+        <div class="col-md-12">
+            <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Last Name</nz-form-label>
+            <nz-form-label nzNoColon>{{userData.user.last_name}}</nz-form-label>
+        </div>
+        <div class="col-md-12">
+            <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Registered as</nz-form-label>
+            <nz-form-label nzNoColon>{{userData.user.role.role_name}}</nz-form-label>
+        </div>
+        <div class="col-md-12">
+            <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Mobile No.</nz-form-label>
+            <nz-form-label nzNoColon>+91- {{userData.user.mobile}}</nz-form-label>
+        </div>
+        <div class="col-md-12">
+            <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Email-ID</nz-form-label>
+            <nz-form-label nzNoColon>{{userData.user.email}}</nz-form-label>
+        </div>
+        
+    </div>
+    <nz-divider></nz-divider>
+    <a class="h4" style="color: #0b5edc;" (click)="logout()">
+        <i nz-icon nzType="logout" nzTheme="outline"></i>
+        Logout
+    </a>
+</section>
