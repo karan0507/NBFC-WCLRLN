@@ -135,7 +135,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {
       this.UPIList = res?.data?.results;
       this.total_count = res?.data?.total_count;
-      this.apiLoader['list'] = true;
+      this.apiLoader['list'] = false;
       console.log(this.UPIList, 'this.UPIList');
     }, err => {
       console.log(err);
