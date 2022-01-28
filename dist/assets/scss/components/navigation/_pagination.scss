@@ -39,7 +39,7 @@
     min-width: $pagination-size;
     height: $pagination-size;
     border: 1px solid transparent;
-    border-radius: $border-radius-circle;
+    // border-radius: $border-radius-circle;
 
     a {
         color: $gray-light;
@@ -47,7 +47,7 @@
 
     &:hover,
     &:focus {
-        border-color: transparent;
+        // border-color: transparent;
 
         a {
             color: $pagination-theme-color; 
@@ -58,17 +58,17 @@
 .ant-pagination-item-active {
     border-color: $pagination-theme-color;
     font-weight: $font-weight-normal;
-    background-color: $pagination-theme-color;
+    // background-color: $pagination-theme-color;
 
     a {
-        color: $white;
+        color: $blue;
     }
 
     &:hover,
     &:focus {
 
         a {
-            color: $white; 
+            color: $blue; 
         }
     }
 }
@@ -79,7 +79,7 @@
 
     .ant-pagination-item-link {
         border-color: $border-color; 
-        border-radius: $border-radius-circle;
+        // border-radius: $border-radius-circle;
         cursor: pointer;
     }
 
