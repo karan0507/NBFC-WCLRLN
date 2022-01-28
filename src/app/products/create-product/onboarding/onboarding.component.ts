@@ -90,6 +90,10 @@ export class OnboardingComponent implements OnInit {
     } else {
       this.fetchDocumentMaster()
     }
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
 
   get field_rules(): FormArray {

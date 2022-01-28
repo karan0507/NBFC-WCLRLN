@@ -42,6 +42,10 @@ export class NbfcsComponent implements OnInit {
       nbfcs_arr: this.fb.array([]),
     })
     this.setFormData(data)
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
   setFormData(data) {
     if (data) {
