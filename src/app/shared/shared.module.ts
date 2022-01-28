@@ -8,6 +8,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ThemeConstantService } from './services/theme-constant.service';
 import { SearchPipe } from './pipes/search.pipe';
+import { DoubleConfirmationPopupComponent } from './template/double-confirmation-popup/double-confirmation-popup.component';
+import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 
 @NgModule({
     exports: [
@@ -17,17 +19,20 @@ import { SearchPipe } from './pipes/search.pipe';
         HttpClientJsonpModule,
         NzIconModule,
         PerfectScrollbarModule,
-        SearchPipe
+        SearchPipe,
+        DoubleConfirmationPopupComponent
     ],
     imports: [
         RouterModule,
         CommonModule,
         NzIconModule,
         NzToolTipModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        DemoNgZorroAntdModule
     ],
     declarations: [
-        SearchPipe
+        SearchPipe,
+        DoubleConfirmationPopupComponent
     ],
     providers: [
         ThemeConstantService

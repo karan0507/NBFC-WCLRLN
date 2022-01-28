@@ -6,6 +6,8 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { AddEditPermissionComponent } from './add-edit-permission/add-edit-permission.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { TemplateModule } from '../shared/template/template.module';
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EmployeesRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class EmployeesModule { }
