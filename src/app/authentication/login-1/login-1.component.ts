@@ -12,6 +12,11 @@ import { HttpService } from 'src/app/services/http.service';
 export class Login1Component {
     loginForm: FormGroup;
     api_calling_loader: boolean;
+    carousel_data = [
+      "assets/images/image (3).png",
+      "assets/images/image (4).png",
+      "assets/images/image (2).png",
+    ]
 
 
     constructor(

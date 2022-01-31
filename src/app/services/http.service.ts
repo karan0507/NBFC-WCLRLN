@@ -207,10 +207,16 @@ export class HttpService {
   }
 
   /**
-   * fetchProductLimits
+   * fetchUnderWritingRule
    */
    public fetchUnderWritingRule(data) {
     return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id));
+  }
+  /**
+   * fetchUnderWritingSpecificEntity
+   */
+   public fetchUnderWritingSpecificEntity() {
+    return this._http.get((this.url +`/platform_central/v1/get-underwriting-specific-entites`));
   }
   /**
    * fetchTriggerMaster
