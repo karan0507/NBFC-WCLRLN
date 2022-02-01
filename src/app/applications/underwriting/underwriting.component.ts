@@ -9,54 +9,55 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./underwriting.component.css']
 })
 export class UnderwritingComponent implements OnInit {
-  checked = false;
-  loading = false;
-  indeterminate = false;
+  checked: boolean = false;
+  indeterminate: boolean = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
-  loanApplicationData : any = [];
-  total_count:any;
-  _currentDate:any;
-  _currentId :any;
+  loanApplicationData: any = [];
+  total_count: any;
+  _currentDate: any;
+  _currentId: any;
   _activeLoans: any = [];
   today = new Date();
-  
+  api_calling_loader: boolean;
   disabledDate = (current: Date): boolean => {
-        // Can not select days before today and today
-        return differenceInCalendarDays(current, this.today) > 0;
-      };
-  constructor(public https:HttpService) { }
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+  constructor(public https: HttpService) { }
 
   ngOnInit(): void {
     this.getFormLoanData();
   }
- 
+
   getFormLoanData(id?) {
-    var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
+    this.api_calling_loader = true
+    var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
     this.https.fetchLoanApplicationList(data).subscribe(res => {
       this.loanApplicationData = res?.data?.results;
       this.total_count = res?.data?.total_count;
+      this.api_calling_loader = false
+    }, (err) => {
+      this.api_calling_loader = false
     })
   }
 
-
-
-  getIdWiseData(id?, index?){
-    let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id, 'source':'Onboarding'};
-    this.https.fetchLoanApplicationList(data).subscribe(res=> {
+  getIdWiseData(id?, index?) {
+    let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
       this._activeLoans.push(res?.data?.results[0]);
       this.loanApplicationData[index].expanddata = res?.data?.results[0];
       console.log(this.loanApplicationData[index].expanddata)
     })
-   }
- 
-   expandSet = new Set<number>();
+  }
+
+  expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean, index?): void {
     if (checked) {
       this.expandSet.add(id);
       this.getIdWiseData(this._currentId = id, index);
       // console.log();
-      
+
     } else {
       this.expandSet.delete(id);
       console.log('Deleted array of active ids', this._activeLoans);
@@ -94,7 +95,7 @@ export class UnderwritingComponent implements OnInit {
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
-  onMonthChange(event){
+  onMonthChange(event) {
 
   }
 }
