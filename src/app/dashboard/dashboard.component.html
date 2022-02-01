@@ -1,1 +1,302 @@
-<p>Dashboard Component Works!</p>
+<div class="header_breadcrumb_section">
+    <nz-range-picker class="ml-auto"></nz-range-picker>
+</div>
+<section>
+    <div class="row">
+        <div class="col-md-6 mb-md-3">
+            <nz-card [nzTitle]="acquisition" [nzExtra]="extraTemplate" class="h-100">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="d-flex mb-md-2">
+                            <div class="media align-items-center">
+                                <nz-badge nzStatus="default" [nzColor]="cyan" class="h-100 dashboard-badge"></nz-badge>
+                                <div class="m-l-5">
+                                    <p class="m-b-0 muted">Registered through App</p>
+                                    <h4 class="m-b-0">350</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-md-2">
+                            <div class="media align-items-center">
+                                <nz-badge nzStatus="default" [nzColor]="purple" class="h-100 dashboard-badge">
+                                </nz-badge>
+                                <div class="m-l-5">
+                                    <p class="m-b-0 muted">Total Registered Users</p>
+                                    <h4 class="m-b-0">450</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-md-2">
+                            <div class="media align-items-center">
+                                <nz-badge nzStatus="default" [nzColor]="gold" class="h-100 dashboard-badge"></nz-badge>
+                                <div class="m-l-5">
+                                    <p class="m-b-0 muted">Total Corporate Users</p>
+                                    <h4 class="m-b-0">100</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
+                            [chartType]="customersChartType" [colors]="customersChartColors"
+                            [options]="customersChartOptions" [legend]="false">
+                        </canvas>
+                    </div>
+                </div>
+                <div class="row mt-md-4 ant-card-head px-0 py-3">
+                    <div class="col-md-4">
+                        <p class="m-b-0 muted">Line Assigned</p>
+                        <h5 class="m-b-0">₹ 50,00,000</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="m-b-0 muted">Approval rate</p>
+                        <h5 class="m-b-0">45%</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="m-b-0 muted">Average Line assigned</p>
+                        <h5 class="m-b-0">₹ 4,500</h5>
+                    </div>
+                </div>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <nz-radio-group [(ngModel)]="selectedTab">
+                    <label nz-radio-button nzValue="all">Today</label>
+                    <label nz-radio-button nzValue="credit">This Month</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Overall</label>
+                </nz-radio-group>
+            </ng-template>
+            <ng-template #acquisition>
+                <i nz-icon nzType="user" nzTheme="outline"></i>
+                Acquisition
+            </ng-template>
+        </div>
+        <div class="col-md-6 mb-md-3">
+            <nz-card [nzTitle]="existing" [nzExtra]="extraTemplate" class="h-100">
+                <div class="row mb-md-3">
+                    <div class="col-md-4 mb-md-3">
+                        <p class="m-b-0 muted">No. of Users</p>
+                        <h4 class="m-b-0">450</h4>
+                        <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-md-3">
+                        <p class="m-b-0 muted">Outstanding </p>
+                        <h4 class="m-b-0">450</h4>
+                        <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-md-3">
+                        <p class="m-b-0 muted">Utilised </p>
+                        <h4 class="m-b-0">450</h4>
+                        <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-md-3">
+                        <p class="m-b-0 muted">Spent</p>
+                        <h4 class="m-b-0">450</h4>
+                        <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-md-3">
+                        <p class="m-b-0 muted">Average Spent</p>
+                        <h4 class="m-b-0">450</h4>
+                        <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 d-flex mb-md-3">
+                        <nz-badge nzStatus="default" [nzColor]="'#55268E40'" class="h-100 dashboard-badge"></nz-badge>
+                        <div class="ml-md-2">
+                            <p class="m-b-0 muted">30 Day User Activity</p>
+                            <h4 class="m-b-0">500/800</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex mb-md-3">
+                        <nz-badge nzStatus="default" [nzColor]="'#55268E40'" class="h-100 dashboard-badge"></nz-badge>
+                        <div class="ml-md-2">
+                            <p class="m-b-0 muted">Total Line Used </p>
+                            <h4 class="m-b-0">₹ 5,00,000</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-8 d-flex mb-md-3">
+                        <nz-badge nzStatus="default" [nzColor]="'#55268E40'" class="h-100 dashboard-badge"></nz-badge>
+                        <div class="ml-md-2">
+                            <p class="m-b-0 muted">Activated A/C in last 30 Days </p>
+                            <h4 class="m-b-0">450</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex mb-md-3">
+                        <nz-badge nzStatus="default" [nzColor]="'#55268E40'" class="h-100 dashboard-badge"></nz-badge>
+                        <div class="ml-md-2">
+                            <p class="m-b-0 muted">Ever Active</p>
+                            <h4 class="m-b-0">80%</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-8 d-flex mb-md-3">
+                        <nz-badge nzStatus="default" [nzColor]="'#55268E40'" class="h-100 dashboard-badge"></nz-badge>
+                        <div class="ml-md-2">
+                            <p class="m-b-0 muted">Total Repayment</p>
+                            <h4 class="m-b-0">₹ 3,00,000</h4>
+                        </div>
+                    </div>
+                </div>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <nz-radio-group [(ngModel)]="selectedTab">
+                    <label nz-radio-button nzValue="all">Today</label>
+                    <label nz-radio-button nzValue="credit">This Month</label>
+                    <label nz-radio-button nzValue="debit">Overall</label>
+                </nz-radio-group>
+            </ng-template>
+            <ng-template #existing>
+                <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+                Existing
+            </ng-template>
+        </div>
+        <div class="col-md-6 mb-md-3">
+            <nz-card [nzTitle]="authorisation" [nzExtra]="extraTemplate" class="h-100">
+                <nz-table #basicTable [nzData]="[{}]">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Transactions</th>
+                            <th>Total Count</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Total</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Failed</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Successful</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <div class="row mt-md-4 ant-card-head px-0 py-3">
+                    <div class="col-md-12">
+                        <p class="m-b-0 muted">Failure Ratio</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="m-b-0">Failed/Total Transaction </h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="m-b-0">2,500/5,000</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="m-b-0">50%</h5>
+                    </div>
+                </div>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <nz-radio-group [(ngModel)]="selectedTab">
+                    <label nz-radio-button nzValue="all">Today</label>
+                    <label nz-radio-button nzValue="credit">This Month</label>
+                    <label nz-radio-button nzValue="debit">Overall</label>
+                </nz-radio-group>
+            </ng-template>
+            <ng-template #authorisation>
+                <i nz-icon nzType="line-chart" nzTheme="outline"></i>
+                Authorisation
+            </ng-template>
+        </div>
+        <div class="col-md-6 mb-md-3">
+            <nz-card [nzTitle]="delinquent" [nzExtra]="extraTemplate" class="h-100">
+                <nz-table #basicTable [nzData]="[{}]">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>No. of Days</th>
+                            <th>Total No. of Users</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>0+ Days</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>30+ Days</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>90+ Days</td>
+                            <td>5,000</td>
+                            <td>₹ 3,00,000</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <nz-radio-group [(ngModel)]="selectedTab">
+                    <label nz-radio-button nzValue="all">Today</label>
+                    <label nz-radio-button nzValue="credit">This Month</label>
+                    <label nz-radio-button nzValue="debit">Overall</label>
+                </nz-radio-group>
+            </ng-template>
+            <ng-template #delinquent>
+                <i nz-icon nzType="file-text" nzTheme="outline"></i>
+                Delinquent
+            </ng-template>
+        </div>
+        <div class="col-md-12">
+            <nz-card [nzTitle]="NBFC" [nzExtra]="extraTemplate">
+                <div style="height: 360px">
+                    <canvas ngChartjs 
+                        [datasets]="avgProfitChartData" 
+                        [labels]="avgProfitChartLabels"
+                        [options]="avgProfitChartOptions" 
+                        [colors]="avgProfitChartColors"
+                        [legend]="avgProfitChartLegend" 
+                        [chartType]="avgProfitChartType">
+                    </canvas>
+                </div>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <nz-radio-group [(ngModel)]="selectedTab">
+                    <label nz-radio-button nzValue="all">Today</label>
+                    <label nz-radio-button nzValue="credit">This Month</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Overall</label>
+                </nz-radio-group>
+            </ng-template>
+            <ng-template #NBFC>
+                <i nz-icon nzType="code-sandbox" nzTheme="outline"></i>
+                NBFC
+            </ng-template>
+        </div>
+    </div>
+</section>

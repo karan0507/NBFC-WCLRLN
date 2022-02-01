@@ -9,9 +9,8 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./document-upload.component.css']
 })
 export class DocumentUploadComponent implements OnInit {
-  checked = false;
-  loading = false;
-  indeterminate = false;
+  checked :boolean = false;
+  indeterminate : boolean = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
   loanApplicationData : any = [];
@@ -20,7 +19,7 @@ export class DocumentUploadComponent implements OnInit {
   _currentId :any;
   _activeLoans: any = [];
   today = new Date();
-  
+  api_calling_loader: boolean;
   disabledDate = (current: Date): boolean => {
         // Can not select days before today and today
         return differenceInCalendarDays(current, this.today) > 0;
@@ -58,17 +57,18 @@ export class DocumentUploadComponent implements OnInit {
     }
   ];
 
- 
   getFormLoanData(id?) {
+    this.api_calling_loader = true
     var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
     this.https.fetchLoanApplicationList(data).subscribe(res => {
       this.loanApplicationData = res?.data?.results;
       this.total_count = res?.data?.total_count;
+      this.api_calling_loader = false
+    },(err)=>{
+      this.api_calling_loader = false
     })
   }
-
-
-
+  
   getIdWiseData(id?, index?){
     let data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?id='+ id, 'source':'Onboarding'};
     this.https.fetchLoanApplicationList(data).subscribe(res=> {

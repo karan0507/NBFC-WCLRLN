@@ -10,3 +10,40 @@
 .ant-pagination {
     align-items: center !important;
 }
+
+.slick-dots {
+    li {
+        background-color: #B9B9B9;
+        border-radius: 50%;
+        width: 0.5rem !important;
+        height: 0.5rem !important;
+        button {
+            background-color: #B9B9B9;
+            border-radius: 50%;
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+        }
+    }
+    .slick-active {
+        background-color: #0E0E0E !important;
+        border-radius: 35% !important;
+        width: 1.5rem !important;
+        button {
+            background-color: #0E0E0E !important;
+            border-radius: 35% !important;
+            width: 1.5rem !important;
+        }
+    }
+}
+.dashboard-badge {
+    .ant-badge-status-default {
+        height: 100%;
+        border-radius: 0;
+        width: 50%;
+    }
+}
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+}

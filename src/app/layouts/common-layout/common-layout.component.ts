@@ -22,7 +22,7 @@ export class CommonLayoutComponent  {
     selectedHeaderColor: string;
     hideTitle: boolean;
 
-    constructor(private router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
+    constructor(public router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
         private message: NzMessageService,) {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),

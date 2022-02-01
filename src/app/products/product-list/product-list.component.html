@@ -17,14 +17,14 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="width: 9rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
                     </nz-select>
                 </div>
             </div>
-            <nz-table #basicTable [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="30"
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="30"
             [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader">
                 <thead>
                     <tr>
