@@ -35,3 +35,15 @@
         }
     }
 }
+.dashboard-badge {
+    .ant-badge-status-default {
+        height: 100%;
+        border-radius: 0;
+        width: 50%;
+    }
+}
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+}

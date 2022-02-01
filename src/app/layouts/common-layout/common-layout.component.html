@@ -20,9 +20,9 @@
                     </nz-breadcrumb-item>
                 </nz-breadcrumb>
             </div>
-            <!-- <div *ngIf="!hideTitle">
+            <div *ngIf="router.url.includes('dashboard')">
                 <h4 class="font-weight-semibold" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].title)}}</h4>
-            </div> -->
+            </div>
         </div>
         <div class="main-content pt-3">
             <router-outlet></router-outlet>
