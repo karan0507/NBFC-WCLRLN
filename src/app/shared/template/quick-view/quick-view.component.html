@@ -7,29 +7,75 @@
     <div class="row">
         <div class="col-md-12">
             <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>First Name</nz-form-label>
-            <nz-form-label nzNoColon>{{userData?.user?.first_name}}</nz-form-label>
+            <nz-form-label nzNoColon>{{employeeData?.first_name}}</nz-form-label>
         </div>
         <div class="col-md-12">
             <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Last Name</nz-form-label>
-            <nz-form-label nzNoColon>{{userData?.user?.last_name}}</nz-form-label>
+            <nz-form-label nzNoColon>{{employeeData?.last_name}}</nz-form-label>
         </div>
         <div class="col-md-12">
             <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Registered as</nz-form-label>
-            <nz-form-label nzNoColon>{{userData?.user?.role.role_name}}</nz-form-label>
+            <nz-form-label nzNoColon>{{employeeData?.role.role_name}}</nz-form-label>
         </div>
         <div class="col-md-12">
             <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Mobile No.</nz-form-label>
-            <nz-form-label nzNoColon>+91- {{userData?.user?.mobile}}</nz-form-label>
+            <nz-form-label nzNoColon>+91- {{employeeData?.mobile}}</nz-form-label>
         </div>
         <div class="col-md-12">
             <nz-form-label class="col-md-5 px-0 text-left" nzNoColon>Email-ID</nz-form-label>
-            <nz-form-label nzNoColon>{{userData?.user?.email}}</nz-form-label>
+            <nz-form-label nzNoColon>{{employeeData?.email}}</nz-form-label>
         </div>
-        
+
+        <nz-divider></nz-divider>
+        <div class="col-md-12 mb-md-3">
+            <a class="h5" style="color: #0b5edc;" (click)="isChangePassword = true">
+                <i nz-icon nzType="lock" nzTheme="outline"></i>
+                Change Password
+            </a>
+        </div>
+        <div class="col-md-12">
+            <a class="h5" style="color: #0b5edc;" (click)="logout()">
+                <i nz-icon nzType="logout" nzTheme="outline"></i>
+                Logout
+            </a>
+        </div>
     </div>
-    <nz-divider></nz-divider>
-    <a class="h4" style="color: #0b5edc;" (click)="logout()">
-        <i nz-icon nzType="logout" nzTheme="outline"></i>
-        Logout
-    </a>
+    <nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false" (nzOnOk)="changePassword()"
+        nzOkText="Update">
+        <ng-container *nzModalContent>
+            <nz-spin [nzSpinning]="formLoading">
+                <form [formGroup]="changePasswordForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="old_password" class="text-left" nzRequired>Old Password
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Old Password!">
+                                    <input nz-input type="text" formControlName="old_password" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="new_password" class="text-left" nzRequired>New Password
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input New Password!">
+                                    <input nz-input type="text" formControlName="new_password" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="retype_password" class="text-left" nzRequired>Confirm new Password
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Confirm new Password!">
+                                    <input nz-input type="text" formControlName="retype_password" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </form>
+            </nz-spin>
+        </ng-container>
+    </nz-modal>
 </section>

@@ -316,6 +316,13 @@ export class HttpService {
     return this._http.post((this.url +`/user/change-password-by-admin/`), data);
   }
 
+  /**
+   * changePassword
+   */
+   public changePassword(data) {
+    return this._http.post((this.url +`/user/change-password/`), data);
+  }
+
   /// export function
   exportMasterSectionModule(res, section, file_formate, generateloader){
     this.message.success('File Exported');

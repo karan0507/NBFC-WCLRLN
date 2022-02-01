@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -19,19 +20,45 @@ export class QuickViewComponent {
     isFolded : boolean;
     _apiCallLoader: boolean = false;
     userData: any;
+    api_calling_loader: boolean;
+    employeeData: any;
+    isChangePassword = false
+    changePasswordForm: any;
+    formLoading: boolean;
 
     constructor( private themeService: ThemeConstantService, private message: NzMessageService,
-        private HttpService: HttpService,
         private router: Router,
         private route: ActivatedRoute,
-        private modal: NzModalService,) {}
+        private modal: NzModalService,public http: HttpService, private fb: FormBuilder) {}
 
     ngOnInit(): void {
         this.userData = JSON.parse(localStorage.getItem('fatakpay_user_data'))
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isSideNavDarkChanges.subscribe(isDark => this.isSideNavDark = isDark);
         this.themeService.selectedHeaderColor.subscribe(color => this.selectedHeaderColor = color);
+        setTimeout(() => {
+            this.fetchEmployeeList();
+        }, 2000);
+        this.changePasswordFormFunction()
     }
+
+    fetchEmployeeList() {
+        if (!this.userData?.user?.id) {
+            this.userData = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+        }
+        let data = {
+          id : this.userData?.user?.id
+        }
+        this.api_calling_loader = true
+        if (this.userData?.user?.id) {
+            this.http.fetchEmployeeList(data).subscribe(res => {
+                this.api_calling_loader = false
+                this.employeeData = res['data'].results[0]
+            }, (err) => {
+                this.api_calling_loader = false
+            })
+        }
+      }
 
     changeHeaderColor() {
         this.themeService.changeHeaderColor(this.selectedHeaderColor)
@@ -60,37 +87,43 @@ export class QuickViewComponent {
 
     //// logout user 
     logoutUserFunction() {
-        // this._apiCallLoader = true
         this.modal.closeAll()
-        
         localStorage.removeItem("fatakpay_user_data");
         this.router.navigate(['/authentication/login']);
-        // var end_point = JSON.parse(localStorage.getItem('biomech_user_data')).user_type.name == 'Stockists' ? 'stockist/client-auth/logout' : 'employee/employee-auth/logout'
-        // this.HttpService.logoutUserAPI(end_point).subscribe((res) => {
-        //     // this.globalFunction.sendUserData(null);
-        //     if (JSON.parse(localStorage.getItem('biomech_user_data')).user_type.name == 'Stockists') {
-        //         this.router.navigate(['/authentication/login']);
-        //     } else {
-        //         this.router.navigate(['/authentication/employee-login']);
-        //     }
-        //     localStorage.removeItem("biomech_user_token");
-        //     localStorage.removeItem('biomech_user_data');
-        //     localStorage.removeItem("biomech_generated_depots");
-        //     this._apiCallLoader = false
-        //     if (res.result) {
-        //         this.message.success(res.message);
-        //     }
-        // }, (err) => {
-        //     if (JSON.parse(localStorage.getItem('biomech_user_data')).user_type.name == 'Stockists') {
-        //         this.router.navigate(['/authentication/login']);
-        //     } else {
-        //         this.router.navigate(['/authentication/employee-login']);
-        //     }
-        //     localStorage.removeItem("biomech_user_token");
-        //     localStorage.removeItem('biomech_user_data');
-        //     localStorage.removeItem("biomech_generated_depots");
-        //     this._apiCallLoader = false
-        // })
     }
+    changePasswordFormFunction() {
+        this.changePasswordForm = this.fb.group({
+          id: [this.employeeData ? this.employeeData.id : ''],
+          mobile: [this.employeeData ? this.employeeData.mobile : ''],
+          new_password: [''],
+          retype_password: [''],
+          old_password: [''],
+        })
+      }
+
+    changePassword() {
+        if (!this.changePasswordForm.value.old_password) {
+          this.message.error('Please fill old Password')
+          return;
+        }
+        if (!this.changePasswordForm.value.new_password) {
+          this.message.error('Please fill new Password')
+          return;
+        }
+        if (!this.changePasswordForm.value.retype_password) {
+          this.message.error('Please fill confirm Password')
+          return;
+        }
+        if (this.changePasswordForm.value.new_password !== this.changePasswordForm.value.retype_password) {
+          this.message.error('should New password and confirm Password both are same')
+          return;
+        }
+        if (this.changePasswordForm.value.old_password && this.changePasswordForm.value.new_password && this.changePasswordForm.value.retype_password) {
+          this.http.changePassword(this.changePasswordForm.value).subscribe(res => {
+            this.isChangePassword = false
+            this.message.success(res['message'])
+          })
+        }
+      }
 }
 
