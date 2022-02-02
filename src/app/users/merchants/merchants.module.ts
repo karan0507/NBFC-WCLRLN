@@ -23,6 +23,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DsaListComponent } from './dsa-list/dsa-list.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { DsaListComponent } from './dsa-list/dsa-list.component';
     NzUploadModule,
     NzDropDownModule,
     NzCheckboxModule,
-    DragDropModule
+    DragDropModule,
+    SharedModule
   ]
 })
 export class MerchantsModule { }

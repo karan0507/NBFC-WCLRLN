@@ -140,19 +140,12 @@ export class MasterPartnersListComponent implements OnInit {
     this.isDelete = false;
   }
 
-  confirmationTrigger(value: any) {
-    // if(value){
-    //   value = this.section_id
-    // }
-    console.log(value);
-    if(value){
+  confirmationTrigger() {
       this.http.deleteMasterUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         console.log(res);
         this.getMasterPartner();
         this.isDelete = false
       })
-    }
-    // this.confirmationEvent.emit(value);
   }
 
   deleteUserByUserId(id){

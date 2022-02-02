@@ -20,6 +20,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -46,7 +47,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzDividerModule,
     NzUploadModule,
     NzModalModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    SharedModule
   ]
 })
 export class MastersPartnersModule { }

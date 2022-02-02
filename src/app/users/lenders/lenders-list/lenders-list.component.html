@@ -68,7 +68,7 @@
                             <td>{{ data?.registered}}</td>
                             <td>{{ data?.transaction_status}}</td>
                             <td *ngIf="data?.is_deleted">False</td>
-                            <td *ngIf="!data?.is_deleted">False</td>
+                            <td *ngIf="!data?.is_deleted">True</td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
                             <td nzRight>
@@ -86,7 +86,7 @@
                                         <li nz-menu-item>
                                             <span class="m-l-5" [routerLink]="['../lenders/add']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item *ngIf="!data.is_deleted">
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
                                         </li>
                                         <li nz-menu-item>
@@ -333,26 +333,19 @@
     </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isDelete" nzOkLoading="true" nzWidth="25rem" [nzTitle]="null" [nzClosable]="false" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+  <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-
-      <div class="py-4 text-center">
-        <!-- <img src="assets/images/icons/doubleconfirmationdelete.png"> -->
-
-        <p class="font-weight-bold text-dark mt-4">You are about to delete an User</p>
-        <p class="font-size-12 font-weight-semibold text-dark">This action will delete the user Permanently<br> Are You Sure ?</p>
-
-        <div class="row pt-4">
-          <div class="col-6">
-            <button nz-button (click)="handleCancel()" nzType="default" nzBlock>Cancel</button>
-          </div>
-          <div class="col-6">
-            <button nz-button (click)="confirmationTrigger(true)" nzType="primary" nzBlock>{{isCancel ? 'Cancel Order' : 'Delete'}}</button>
-          </div>
-        </div>
-      </div>
+        <app-double-confirmation-popup 
+            [title]="'You are about to delete an User'"
+            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
+            [icon]="'assets/images/delete-icon.png'"
+            (onOkCall)="confirmationTrigger()"
+            (onCencelCall)="isDelete = false; selectedUserId = ''"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
     </ng-container>
-  </nz-modal>
+</nz-modal>
 
 <!-- <section>
     <div class="row mb-md-3">

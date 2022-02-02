@@ -202,19 +202,12 @@ export class PartnersListComponent implements OnInit {
     this.isDelete = false;
   }
 
-  confirmationTrigger(value: any) {
-    // if(value){
-    //   value = this.section_id
-    // }
-    console.log(value);
-    if(value){
+  confirmationTrigger() {
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         console.log(res);
         this.getPartnerList();
         this.isDelete = false
       })
-    }
-    // this.confirmationEvent.emit(value);
   }
 
   deleteUserByUserId(id){
