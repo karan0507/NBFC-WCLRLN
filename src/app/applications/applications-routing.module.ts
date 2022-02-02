@@ -9,6 +9,7 @@ import { OfferAcceptanceComponent } from './offer-acceptance/offer-acceptance.co
 import { OfferProposedComponent } from './offer-proposed/offer-proposed.component';
 import { PerApprovedComponent } from './per-approved/per-approved.component';
 import { StageTriggersComponent } from './stage-triggers/stage-triggers.component';
+import { TrackStatusComponent } from './track-status/track-status.component';
 import { UnderwritingComponent } from './underwriting/underwriting.component';
 import { VerificationComponent } from './verification/verification.component';
 
@@ -24,7 +25,7 @@ const routes: Routes = [
           title: 'Form Filling',
           parent: 'Application',
           custom_url:'/applications/form-filling'
-        }
+        },  
       },
       {
         path: 'pre-approved',
@@ -111,7 +112,7 @@ const routes: Routes = [
           // redirectTo:'/applications/form-filling',
           data: {
             title: 'Form Filling',
-            parent: 'applications',
+            parent: 'Applications',
             custom_url:'/applications/form-filling'
           },
           children:[
@@ -120,8 +121,16 @@ const routes: Routes = [
              component: EditFormComponent,
              data: {
                title: 'Edit Form',
-               parent: 'applications',
+               parent: 'Applications',
              },
+            },
+            {
+              path: 'track-status',
+              component: TrackStatusComponent,
+              data: {
+                title: 'Track Status',
+                parent: 'Application',
+              }
             } 
            ]
         },
