@@ -77,10 +77,10 @@
                             <td>{{ data?.source_id }}</td>
                             <td>Partner ID</td>
                             <td>{{ data?.refer_id }}</td>
-                            <td *ngIf="!data?.registered">
+                            <td *ngIf="data?.registered">
                                 <a ><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
                             </td>
-                            <td *ngIf="data?.registered">
+                            <td *ngIf="!data?.registered">
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
                             <td>{{data?.transaction_status}}</td>
@@ -99,7 +99,7 @@
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
                                         <li nz-menu-item>
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                            <span class="m-l-5">Change Password</span>
+                                            <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
@@ -109,7 +109,7 @@
                                           nzPopconfirmTitle="Are you sure delete Employee?"
                                           nzPopconfirmPlacement="topLeft"
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-                                        <li nz-menu-item>
+                                        <li nz-menu-item *ngIf="!data.is_deleted">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
                                         </li>
@@ -352,26 +352,32 @@
     </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isDelete" nzOkLoading="true" nzWidth="25rem" [nzTitle]="null" [nzClosable]="false" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+<nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-
-      <div class="py-4 text-center">
-        <!-- <img src="assets/images/icons/doubleconfirmationdelete.png"> -->
-
-        <p class="font-weight-bold text-dark mt-4">You are about to delete an User</p>
-        <p class="font-size-12 font-weight-semibold text-dark">This action will delete the user Permanently<br> Are You Sure ?</p>
-
-        <div class="row pt-4">
-          <div class="col-6">
-            <button nz-button (click)="handleCancel()" nzType="default" nzBlock>Cancel</button>
-          </div>
-          <div class="col-6">
-            <button nz-button (click)="confirmationTrigger(true)" nzType="primary" nzBlock>{{isCancel ? 'Cancel Order' : 'Delete'}}</button>
-          </div>
-        </div>
-      </div>
+        <app-double-confirmation-popup 
+            [title]="'You are about to delete an User'"
+            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
+            [icon]="'assets/images/delete-icon.png'"
+            (onOkCall)="confirmationTrigger()"
+            (onCencelCall)="isDelete = false; selectedUserId = ''"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
     </ng-container>
-  </nz-modal>
+</nz-modal>
+
+<nz-modal nzTitle="Change Password"  (nzOnCancel)="toggleChangePassword = false"[nzWidth]="800" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <app-change-password
+            [userData]="selectedUserData"
+            (onOkCall)="onClickChangePassword($event)"
+            (onCencelCall)="toggleChangePassword = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Update'">
+        </app-change-password>
+    </ng-container>
+</nz-modal>
+
 
 
 

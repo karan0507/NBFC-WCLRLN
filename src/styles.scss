@@ -47,3 +47,8 @@
     margin-top: -5em;
     display: flex;
 }
+.ant-modal-footer {
+    .ant-btn {
+        border-color: #55268E !important;
+    }
+}

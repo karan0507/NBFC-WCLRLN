@@ -69,15 +69,15 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="isblock = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Block A/c</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="isUnblock = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Unblock A/c</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="isRestructure = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Restructure A/c</span>
                                         </li>
@@ -90,3 +90,45 @@
         </nz-card>
     </div>
 </section>
+<!-- Block  -->
+<nz-modal [nzWidth]="400" [(nzVisible)]="isblock" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to Block Akshays account permanently?'"
+            [subTitle]="''"
+            [icon]="'assets/images/accloser.png'"
+            (onOkCall)="isblock = false"
+            (onCencelCall)="isblock = false;"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Block'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Unblock -->
+<nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to Unblock Akshays account?'"
+            [subTitle]="''"
+            [icon]="'assets/images/accloser.png'"
+            (onOkCall)="isUnblock = false"
+            (onCencelCall)="isUnblock = false;"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Unblock'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Restructure -->
+<nz-modal [nzWidth]="400" [(nzVisible)]="isRestructure" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to Restructure Akshays account?'"
+            [subTitle]="''"
+            [icon]="'assets/images/accloser.png'"
+            (onOkCall)="isRestructure = false"
+            (onCencelCall)="isRestructure = false;"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>

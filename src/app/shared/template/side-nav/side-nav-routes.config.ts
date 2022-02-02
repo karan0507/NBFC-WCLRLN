@@ -212,6 +212,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'lms/manual-transaction',
+                title: 'Manual Transactions', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'lms/authorization-policy',
                 title: 'Authorization Policy', 
                 iconType: '', 

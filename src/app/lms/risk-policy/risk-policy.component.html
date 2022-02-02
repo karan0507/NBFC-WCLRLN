@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="default">Upload</button>
+    <button nz-button nzType="default" (click)="isUpload = true">Upload</button>
 </div>
 <section>
     <div class="row mb-md-3">
@@ -25,3 +25,50 @@
 <section *ngIf="selectedTab == '4'">
     <app-credit-line-inc-dec></app-credit-line-inc-dec>
 </section>
+<!-- Upload -->
+<nz-modal [(nzVisible)]="isUpload" nzTitle="Upload" [nzFooter]="null" (nzOnCancel)="isUpload = false" nzOkText="Submit">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-upload nzType="drag" [nzMultiple]="true" (nzChange)="handleChange($event)">
+                    <p class="ant-upload-text">Drag and Drop file here</p>
+                    <p class="ant-upload-text">or</p>
+                    <button class="mt-md-4" nz-button nzType="primary" (click)="isPreview = true; isUpload = false">Browse</button>
+                </nz-upload>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>
+<!-- Preview -->
+<nz-modal [nzWidth]="'max-content'" [(nzVisible)]="isPreview" nzTitle="Preview for :  6677789.xls" (nzOnCancel)="isPreview = false" (nzOnOk)="isPreview = false;"
+nzOkText="Upload">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-table [nzData]="borrowertList">
+                    <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+                    <thead>
+                        <tr>
+                            <th nzWidth="3rem">#</th>
+                            <th>User Name</th>
+                            <th>Mobile No.</th>
+                            <th>Email -ID</th>
+                            <th>Loan ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of borrowertList; index as i">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>

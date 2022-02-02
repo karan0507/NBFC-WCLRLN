@@ -81,7 +81,7 @@
                             <td nzRight>
                                 <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="isPreview = true">Preview</a>
                                 <a class="mr-3">Download</a>
-                                <a class="mr-3" *ngIf="selectedTab == 'pending'">Approve </a>
+                                <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="isApprove = true">Approve </a>
                                 <a *ngIf="selectedTab == 'pending'" (click)="isReject = true">Reject </a>
                             </td>
                         </tr>
@@ -131,6 +131,17 @@ nzOkText="Next">
     </ng-container>
 </nz-modal>
 
+<nz-modal [nzWidth]="'max-content'" [(nzVisible)]="isApprove" nzTitle="Preview for :  6677789.xls" (nzOnCancel)="isApprove = false" (nzOnOk)="isApprove = false; isApprovedSuccess = true"
+nzOkText="Approve">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <app-upload-transactions-preview [listOfData]="listOfData"></app-upload-transactions-preview>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>
+
 <nz-modal [(nzVisible)]="isFail" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <div class="row p-3">
@@ -148,5 +159,18 @@ nzOkText="Next">
                 <button nz-button nzType="primary" (click)="isImport = true;isFail = false">Import Excel</button>
             </div>
         </div>
+    </ng-container>
+</nz-modal>
+<nz-modal [nzWidth]="500" [(nzVisible)]="isApprovedSuccess" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="''"
+            [subTitle]="''"
+            [icon]="'assets/images/done.png'"
+            (onOkCall)="isApprovedSuccess = false"
+            (onCencelCall)="isApprovedSuccess = false"
+            [cancelBtnTxt]="''"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>

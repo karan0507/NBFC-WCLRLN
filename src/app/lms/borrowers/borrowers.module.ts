@@ -8,6 +8,7 @@ import { BorrowersDetailsComponent } from './borrowers-details/borrowers-details
 import { AppDownloadsComponent } from './app-downloads/app-downloads.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BorrowersRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class BorrowersModule { }

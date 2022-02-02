@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class LineBlockUnblockComponent implements OnInit {
 
   borrowertList = [{}]
+  isblock = false
+  isUnblock = false
   constructor() { }
 
   ngOnInit(): void {
