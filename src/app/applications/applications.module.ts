@@ -29,6 +29,8 @@ import { TrackStatusComponent } from './track-status/track-status.component';
 import { RejectedComponent } from './rejected/rejected.component';
 import { DormantComponent } from './dormant/dormant.component';
 import { PerApprovedComponent } from './per-approved/per-approved.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
@@ -49,7 +51,9 @@ import { PerApprovedComponent } from './per-approved/per-approved.component';
     NzDropDownModule,
     NzMenuModule,
     NzDatePickerModule,
-    NzFormModule
+    NzFormModule,
+    NzModalModule,
+    NzStepsModule
   ],
   providers:[
     // HttpService
