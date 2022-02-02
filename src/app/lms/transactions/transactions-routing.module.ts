@@ -6,7 +6,7 @@ import { UploadTransactionsListComponent } from './upload-transactions-list/uplo
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'transactions',
     component: TransactionsListComponent,
     data: {
       title: 'Transactions',
@@ -14,10 +14,10 @@ const routes: Routes = [
     }
   },
   {
-    path: 'upload',
+    path: 'manual-transaction',
     component: UploadTransactionsListComponent,
     data: {
-      title: 'Upload Transactions',
+      title: 'Manual Transactions',
       parent: 'Transactions'
     }
   },

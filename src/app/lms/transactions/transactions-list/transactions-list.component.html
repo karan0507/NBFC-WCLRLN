@@ -103,11 +103,11 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="isReverseCharges = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="isRefundTransaction = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>
@@ -121,3 +121,32 @@
         </nz-card>
     </div>
 </section>
+
+<!-- Reverse Charges -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to reverse the applied charges?'"
+            [subTitle]="'Amount to be reversed - ₹100 <br/> Are you sure about performing this action?'"
+            [icon]="'assets/images/reverse.png'"
+            (onOkCall)="isReverseCharges = false"
+            (onCencelCall)="isReverseCharges = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Refund Transaction -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to refund this transaction amount to users account?'"
+            [subTitle]="'Amount to be refunded - ₹100 <br/> Are you sure about performing this action?'"
+            [icon]="'assets/images/refund.png'"
+            (onOkCall)="isRefundTransaction = false"
+            (onCencelCall)="isRefundTransaction = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>

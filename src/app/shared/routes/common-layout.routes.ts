@@ -46,7 +46,7 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/borrowers/borrowers.module').then(m => m.BorrowersModule),
     },
     {
-        path: 'lms/transactions',
+        path: 'lms',
         loadChildren: () => import('../../lms/transactions/transactions.module').then(m => m.TransactionsModule),
     },
     {

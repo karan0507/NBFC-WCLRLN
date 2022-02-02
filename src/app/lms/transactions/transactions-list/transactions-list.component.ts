@@ -27,6 +27,8 @@ export class TransactionsListComponent implements OnInit {
   selectedType = ''
   selectedStatus = ''
   date = ''
+  isReverseCharges = false
+  isRefundTransaction = false
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
