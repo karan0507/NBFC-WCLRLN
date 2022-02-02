@@ -41,14 +41,23 @@
                     </button>
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                         <ul nz-menu>
-                            <li nz-menu-item>
-                                <a>1st item</a>
+                            <li nz-menu-item (click)="isAcClosure = true">
+                                <a>A/c Closure</a>
+                            </li>
+                            <li nz-menu-item (click)="isChangeBillDate = true">
+                                <a>Change Bill Date</a>
                             </li>
                             <li nz-menu-item>
-                                <a>2nd item</a>
+                                <a>Update UMRN No.</a>
+                            </li>
+                            <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Charges'; typeLabel = 'Type of Charge'">
+                                <a>Add Charges</a>
+                            </li>
+                            <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Payment'; typeLabel = 'Payment Type'">
+                                <a>Add Payment</a>
                             </li>
                             <li nz-menu-item>
-                                <a>3rd item</a>
+                                <a>Pull Bureau & SMS Data</a>
                             </li>
                         </ul>
                     </nz-dropdown-menu>
@@ -187,32 +196,20 @@
                             </a>
                             <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <!-- <li nz-menu-item> -->
-                                        <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
-                                        <!-- <span class="m-l-5">Change Password</span>
-                                    </li> -->
-
-                                    <li nz-menu-item>
+                                    <li nz-menu-item (click)="isReverseCharges = true">
                                         <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                        <span class="m-l-5">Edit</span>
+                                        <span class="m-l-5">Reverse Charges</span>
                                     </li>
 
-                                    <li nz-menu-item>
+                                    <li nz-menu-item (click)="isRefundTransaction = true">
                                         <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
-                                        <span class="m-l-5">Delete</span>
+                                        <span class="m-l-5">Refund Transaction</span>
                                     </li>
                                     
-                                    <!-- <li nz-menu-item> -->
+                                    <li nz-menu-item (click)="isWaiveOff = true">
                                         <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                        <!-- <span class="m-l-5">Edit Permissions</span>
-                                    </li> -->
-
-                                    <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
-                                        nzPopconfirmTitle="Are you sure delete this IPD Admission?"
-                                        (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
-                                        <i nz-icon nzType="delete" theme="outline"></i>
-                                        <span class="m-l-5">Delete</span>
-                                    </li> -->
+                                        <span class="m-l-5">Waive off Charges</span>
+                                    </li>
                                 </ul>
                             </nz-dropdown-menu>
                         </div>
@@ -310,3 +307,204 @@
         <app-app-downloads></app-app-downloads>
     </nz-card>
 </section>
+
+<!-- Modal section -->
+<!-- add payment and add charges modal -->
+
+<nz-modal [(nzVisible)]="isAddPayment" [nzTitle]="paymentTitle" (nzOnCancel)="isAddPayment = false" (nzOnOk)="addPayment(createAddPaymentOrChargeForm.value)"
+    nzOkText="Save">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <form [formGroup]="createAddPaymentOrChargeForm">
+                <div class="row">
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount</nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount!">
+                                <input nz-input type="number" min="0" formControlName="amount" placeholder="Please input Amount"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="mode_of_payment" class="text-left" nzRequired>Mode of Payment
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Mode of Payment!">
+                                <nz-select nzAllowClear formControlName="mode_of_payment" nzPlaceHolder="Please select Mode of Payment">
+                                    <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
+                                    <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="paid_on" class="text-left" nzRequired>Amount Paid on
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount Paid on!">
+                                <nz-date-picker formControlName="paid_on" [nzFormat]="'YYYY-MM-dd'" nzPlaceHolder="Please input Amount Paid on!"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="payment_type" class="text-left" nzRequired>{{typeLabel}}
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input {{typeLabel}}!">
+                                <nz-select nzAllowClear formControlName="payment_type" nzPlaceHolder="Please select {{typeLabel}}">
+                                    <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
+                                    <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="received_by" class="text-left" nzRequired>Received By
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Received By!">
+                                <nz-select nzAllowClear formControlName="received_by" nzPlaceHolder="Please select Received By">
+                                    <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
+                                    <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>
+
+<!-- Account Closure -->
+<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosure" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to close Akshays account permanently?'"
+            [subTitle]="'This action is irreversible. Are You Sure? '"
+            [icon]="'assets/images/accloser.png'"
+            (onOkCall)="closeAccount(); isAcClosure = false; isAcClosureError = true"
+            (onCencelCall)="isAcClosure = false;"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Account Closure Error -->
+<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosureError" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'The user still has pending dues, therefore this A/C cannot be closed. '"
+            [subTitle]="''"
+            [icon]="'assets/images/acclosererror.png'"
+            (onOkCall)="isAcClosureError = false"
+            (onCencelCall)="isAcClosureError = false"
+            [cancelBtnTxt]="''"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Reverse Charges -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to reverse the applied charges?'"
+            [subTitle]="'Amount to be reversed - ₹100 <br/> Are you sure about performing this action?'"
+            [icon]="'assets/images/reverse.png'"
+            (onOkCall)="isReverseCharges = false"
+            (onCencelCall)="isReverseCharges = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Refund Transaction -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Do you want to refund this transaction amount to users account?'"
+            [subTitle]="'Amount to be refunded - ₹100 <br/> Are you sure about performing this action?'"
+            [icon]="'assets/images/refund.png'"
+            (onOkCall)="isRefundTransaction = false"
+            (onCencelCall)="isRefundTransaction = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Waive off Charges  -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'You are about to delete an employee detail'"
+            [subTitle]="'This action will delete the details permanently. <br/> Are You Sure?'"
+            [icon]="'assets/images/waiveoff.png'"
+            (onOkCall)="isWaiveOff = false"
+            (onCencelCall)="isWaiveOff = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Change bill date -->
+<nz-modal [(nzVisible)]="isChangeBillDate" [nzTitle]="paymentTitle" (nzOnCancel)="isChangeBillDate = false" (nzOnOk)="isChangeBillDate = false"
+    nzOkText="Update">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="paid_on" class="text-left" nzNoColon>Pending Request ({{dataSet.length }})
+            </nz-form-label>
+            <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
+                <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Previous Bill Date</th>
+                        <th>Requested Bill Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of dataSet; index as i">
+                        <td>{{i+1}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <span class="mx-1">
+                                <a>Approve</a>
+                            </span>
+                            <span class="mx-1">
+                                <a>Reject</a>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <form [formGroup]="createAddPaymentOrChargeForm">
+                <div class="row">
+                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="paid_on" class="text-left" nzNoColon>Set New Bill Date
+                    </nz-form-label>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="paid_on" class="text-left" nzRequired>Previous Bill Date
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount Paid on!">
+                                <nz-date-picker formControlName="paid_on" [nzFormat]="'YYYY-MM-dd'"
+                                    nzPlaceHolder="Please input Amount Paid on!"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="paid_on" class="text-left" nzRequired>New Bill Date
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount Paid on!">
+                                <nz-date-picker formControlName="paid_on" [nzFormat]="'YYYY-MM-dd'"
+                                    nzPlaceHolder="Please input Amount Paid on!"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>
