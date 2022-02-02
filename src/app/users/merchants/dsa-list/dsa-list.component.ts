@@ -124,18 +124,11 @@ export class DsaListComponent implements OnInit {
   }
 
   confirmationTrigger(value: any) {
-    // if(value){
-    //   value = this.section_id
-    // }
-    console.log(value);
-    if(value){
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         console.log(res);
         this.getPartnerDSAList();
         this.isDelete = false
       })
-    }
-    // this.confirmationEvent.emit(value);
   }
 
   deleteUserByUserId(id){
