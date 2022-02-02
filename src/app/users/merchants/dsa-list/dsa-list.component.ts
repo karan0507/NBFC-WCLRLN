@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -33,6 +34,8 @@ export class DsaListComponent implements OnInit {
   merchantDetailList: any = [];
   isDelete: boolean;
   selectedUserId: any;
+  selectedUserData: any[];
+  toggleChangePassword: boolean;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -43,9 +46,10 @@ export class DsaListComponent implements OnInit {
     }
   }
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private message: NzMessageService ) { }
 
   ngOnInit(): void {
+    this.selectedTab = 'all'
     this.page = 1
     this.getPartnerDSAList();
     
@@ -93,7 +97,7 @@ export class DsaListComponent implements OnInit {
       'page': this.page,
       'name': this.searchValue,
       'partner_nature': 'DSA',
-      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
+      'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']
@@ -134,6 +138,31 @@ export class DsaListComponent implements OnInit {
   deleteUserByUserId(id){
     this.selectedUserId = id
     this.isDelete = true;
+  }
+
+  onClickChangePassword(e){
+    console.log('event to execute')
+    console.log(e)
+    this.http.changePasswordByAdmin(e).subscribe((res)=>{
+      this.message.success('Password Updated Successfully');
+      this.toggleChangePassword = false;
+    }, err => {
+      this.toggleChangePassword = false;
+    })
+  }
+
+  changePassword(data){
+    this.selectedUserData = [];
+    const selectedData = {
+      id: data?.user?.id,
+      email: data?.contact_person_email,
+      phone:data?.contact_person_phone,
+      name: data?.name
+    }
+    this.selectedUserData.push(selectedData)
+    // this.selectedUserData = data;
+    console.log(this.selectedUserData)
+    this.toggleChangePassword = true
   }
 
   

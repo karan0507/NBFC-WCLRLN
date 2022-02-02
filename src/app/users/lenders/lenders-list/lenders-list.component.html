@@ -360,6 +360,18 @@
     </ng-container>
 </nz-modal>
 
+<nz-modal nzTitle="Change Password"  (nzOnCancel)="toggleChangePassword = false"[nzWidth]="800" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <app-change-password
+            [userData]="selectedUserData"
+            (onOkCall)="onClickChangePassword($event)"
+            (onCencelCall)="toggleChangePassword = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Update'">
+        </app-change-password>
+    </ng-container>
+</nz-modal>
+
 <!-- <section>
     <div class="row mb-md-3">
         <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">

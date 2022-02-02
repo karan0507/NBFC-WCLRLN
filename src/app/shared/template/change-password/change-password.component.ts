@@ -18,6 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   @Output() onCencelCall = new EventEmitter<any>();
   passwordForm!: FormGroup;
   isLoading =false;
+  passwordVisible = false;
 
   constructor(private fb: FormBuilder, private message: NzMessageService ) { }
 
@@ -29,8 +30,8 @@ export class ChangePasswordComponent implements OnInit {
   createPasswordForm(){
     this.passwordForm = this.fb.group({
       id: [ this.userData?.[0]?.id, [Validators.required]],
-      new_password: [ null, [Validators.required]],
-      retype_password: [ null, [Validators.required]],
+      new_password: [ '', [Validators.required]],
+      retype_password: [ '', [Validators.required]],
     })
   }
 

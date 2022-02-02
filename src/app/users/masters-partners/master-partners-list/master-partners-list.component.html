@@ -107,7 +107,7 @@
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
                                         <li nz-menu-item>
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                            <span class="m-l-5">Change Password</span>
+                                            <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item [routerLink]="['../masters-partners/add']" [queryParams]="{id: data.id}">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
@@ -387,5 +387,17 @@
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+
+<nz-modal nzTitle="Change Password"  (nzOnCancel)="toggleChangePassword = false"[nzWidth]="800" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <app-change-password
+            [userData]="selectedUserData"
+            (onOkCall)="onClickChangePassword($event)"
+            (onCencelCall)="toggleChangePassword = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Update'">
+        </app-change-password>
     </ng-container>
 </nz-modal>
