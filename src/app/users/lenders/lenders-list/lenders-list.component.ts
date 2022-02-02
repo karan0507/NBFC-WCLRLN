@@ -30,6 +30,8 @@ export class LendersListComponent implements OnInit {
   isDelete: boolean = false;
   selectedUserId: any;
   selectedId: number;
+  toggleChangePassword: boolean = false;
+  selectedUserData: any;
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
       this.selectedId = id;
@@ -152,6 +154,15 @@ export class LendersListComponent implements OnInit {
   deleteUserByUserId(id){
     this.selectedUserId = id
     this.isDelete = true;
+  }
+
+  onClickChangePassword(){
+    console.log('event to execute')
+  }
+
+  changePassword(data){
+    this.selectedUserData = data;
+    this.toggleChangePassword = true
   }
 
 }

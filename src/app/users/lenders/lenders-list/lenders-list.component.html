@@ -81,7 +81,7 @@
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
                                         <li nz-menu-item>
-                                            <span class="m-l-5">Change Password</span>
+                                            <span class="m-l-5"  (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5" [routerLink]="['../lenders/add']" [queryParams]="{id: data.id}">Edit</span>
@@ -344,6 +344,19 @@
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [nzWidth]="400" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-change-password>
+            [userData]="selectedUserData"
+            
+            (onOkCall)="onClickChangePassword()"
+            (onCencelCall)="isDelete = false; selectedUserId = ''"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'OK'">
+        </app-change-password>
     </ng-container>
 </nz-modal>
 

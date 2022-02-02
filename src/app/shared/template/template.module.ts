@@ -68,7 +68,7 @@ const antdModule = [
         SideNavComponent,
         SideNavDirective,
         FooterComponent,
-        ChangePasswordComponent
+        // ChangePasswordComponent
     ],
     providers: [ 
         ThemeConstantService
