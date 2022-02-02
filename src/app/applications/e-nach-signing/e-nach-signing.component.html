@@ -45,12 +45,12 @@
                   </div>
             </div>
             <nz-table #rowSelectionTable nzShowSizeChanger (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }">
+                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
                   <thead>
                         <tr>
                               <th nzWidth="2rem"></th>
-                              <th nzWidth="3rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                                    (nzCheckedChange)="onAllChecked($event)"></th>
+                              <th nzWidth="3rem" [nzChecked]=" loanApplicationData[0] ? checked : false" [nzIndeterminate]=" loanApplicationData[0] ? indeterminate : false"
+                                    (nzCheckedChange)="loanApplicationData[0] ? onAllChecked($event) : false"></th>
                               <th nzWidth="100px">#</th>
                               <th>Loan ID</th>
                               <th nzWidth="14rem">User Details</th>

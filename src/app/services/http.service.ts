@@ -207,10 +207,16 @@ export class HttpService {
   }
 
   /**
-   * fetchProductLimits
+   * fetchUnderWritingRule
    */
    public fetchUnderWritingRule(data) {
     return this._http.get((this.url +`/product/v1/get-underwritingrule/` + data.product_id));
+  }
+  /**
+   * fetchUnderWritingSpecificEntity
+   */
+   public fetchUnderWritingSpecificEntity() {
+    return this._http.get((this.url +`/platform_central/v1/get-underwriting-specific-entites`));
   }
   /**
    * fetchTriggerMaster
@@ -308,6 +314,24 @@ export class HttpService {
    */
    public changePasswordByAdmin(data) {
     return this._http.post((this.url +`/user/change-password-by-admin/`), data);
+  }
+
+  /**
+   * changePassword
+   */
+   public changePassword(data) {
+    return this._http.post((this.url +`/user/change-password/`), data);
+  }
+
+  /// export function
+  exportMasterSectionModule(res, section, file_formate, generateloader){
+    this.message.success('File Exported');
+      this.message.remove(generateloader);
+      var downloadURL = window.URL.createObjectURL(res);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = section + '.' + file_formate;
+      link.click();
   }
 
   //************************ */

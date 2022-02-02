@@ -59,6 +59,10 @@ export class LimitsComponent implements OnInit {
       interest_min_percentage: [this.productlimitData ? this.productlimitData.interest_min_percentage : '', [Validators.required]],
       interest_max_percentage: [this.productlimitData ? this.productlimitData.interest_max_percentage : '', [Validators.required]],
     })
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
 
   submitForm() {

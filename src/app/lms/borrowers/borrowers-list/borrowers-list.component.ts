@@ -23,7 +23,7 @@ export class BorrowersListComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.globalPageSize = 30
-    this.fetchBorrowerList()
+    // this.fetchBorrowerList()
   }
 
   fetchBorrowerList() {

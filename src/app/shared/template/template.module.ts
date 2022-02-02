@@ -24,6 +24,7 @@ import { SideNavDirective } from "../directives/side-nav.directive";
 import { ThemeConstantService } from '../services/theme-constant.service';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { DoubleConfirmationPopupComponent } from './double-confirmation-popup/double-confirmation-popup.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const antdModule = [
@@ -43,6 +44,8 @@ const antdModule = [
 @NgModule({
     exports: [
         CommonModule,
+        ChangePasswordComponent,
+        DoubleConfirmationPopupComponent,
         HeaderComponent,
         SearchComponent,
         QuickViewComponent,
@@ -54,6 +57,8 @@ const antdModule = [
         RouterModule,
         CommonModule,
         SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
         ...antdModule
     ],
     declarations: [

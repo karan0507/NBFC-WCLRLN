@@ -26,6 +26,14 @@ const routes: Routes = [
           parent: 'Product'
         }
       },
+      {
+        path: 'view-product',
+        component: CreateProductComponent,
+        data: {
+          title: 'View Product',
+          parent: 'Product'
+        }
+      },
     ]
   }
 ];

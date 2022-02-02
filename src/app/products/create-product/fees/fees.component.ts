@@ -74,6 +74,10 @@ export class FeesComponent implements OnInit {
       fees: this.fb.array([]),
     })
     this.setFormData(data)
+    
+    if (this.router.url.includes('view-product')) {
+      this.createEditForm.disable()
+    }
   }
   get fees(): FormArray {
     return <FormArray>this.createEditForm.get('fees');

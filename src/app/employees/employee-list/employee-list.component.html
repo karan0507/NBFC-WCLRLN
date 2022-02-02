@@ -16,13 +16,13 @@
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="roles"
+                    <nz-select class="mx-1" style="width: 15rem;" [(ngModel)]="roles"
                         (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Role" (nzFocus)="fetchRoles()">
                         <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
 
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
+                    <nz-select class="mx-1" style="width: 12rem;" [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
                         nzPlaceHolder="Filter By Status">
                         <nz-option nzValue="0" nzLabel="Active"></nz-option>
                         <nz-option nzValue="1" nzLabel="Inactive"></nz-option>
@@ -57,7 +57,7 @@
                             <div>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                     [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
-                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>

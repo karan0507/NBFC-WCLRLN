@@ -9,9 +9,8 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./offer-acceptance.component.css']
 })
 export class OfferAcceptanceComponent implements OnInit {
-  checked = false;
-  loading = false;
-  indeterminate = false;
+  checked :boolean = false;
+  indeterminate : boolean = false;
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
   loanApplicationData : any = [];
@@ -20,7 +19,7 @@ export class OfferAcceptanceComponent implements OnInit {
   _currentId :any;
   _activeLoans: any = [];
   today = new Date();
-  
+  api_calling_loader: boolean;
   disabledDate = (current: Date): boolean => {
         // Can not select days before today and today
         return differenceInCalendarDays(current, this.today) > 0;
@@ -31,14 +30,18 @@ export class OfferAcceptanceComponent implements OnInit {
   ngOnInit(): void {
     this.getFormLoanData();
   }
+  
   getFormLoanData(id?) {
+    this.api_calling_loader = true
     var data = {'datapoint':'loan_application', 'endpoint':'LoanApplication?stage_id=1', 'source':'Onboarding'}
     this.https.fetchLoanApplicationList(data).subscribe(res => {
       this.loanApplicationData = res?.data?.results;
       this.total_count = res?.data?.total_count;
+      this.api_calling_loader = false
+    },(err)=>{
+      this.api_calling_loader = false
     })
   }
-
 
 
   getIdWiseData(id?, index?){

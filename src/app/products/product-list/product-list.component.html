@@ -17,14 +17,15 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="width: 9rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
                     </nz-select>
                 </div>
             </div>
-            <nz-table #basicTable [nzData]="productList" [nzScroll]="{ x: '2200px' }" [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="30"
+            [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -59,7 +60,7 @@
                         <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
                         <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
                         <td nzRight>
-                            <a class="mr-3"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
+                            <a class="mr-3" [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
                             <a class="mr-3" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
                             <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
                         </td>
