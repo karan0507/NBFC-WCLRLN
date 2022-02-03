@@ -92,6 +92,7 @@ export class PartnersListComponent implements OnInit {
   selectedUserId: any;
   selectedUserData: any;
   toggleChangePassword: boolean;
+  toggleOnUpgradeUser: boolean = false;
 
   constructor(private http: HttpService, private message: NzMessageService ) { }
 
@@ -238,9 +239,17 @@ export class PartnersListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
-    this.selectedUserId = id
-    this.isDelete = true;
+  deleteUserByUserId(id, action){
+    if(action === 'delete'){
+      this.selectedUserId = id;
+      this.isDelete = true;
+    } else {
+      this.toggleOnUpgradeUser = true;
+    }
+  }
+
+  confirmationForUpdation(){
+    this.toggleOnUpgradeUser = false;
   }
 
 }

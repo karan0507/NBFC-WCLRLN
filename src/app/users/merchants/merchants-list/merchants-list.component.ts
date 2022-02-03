@@ -34,6 +34,7 @@ export class MerchantsListComponent implements OnInit {
   selectedUserId: any;
   selectedUserData: any[];
   toggleChangePassword: boolean;
+  toggleOnUpgradeUser: boolean;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -137,9 +138,17 @@ export class MerchantsListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
-    this.selectedUserId = id
-    this.isDelete = true;
+  deleteUserByUserId(id, action){
+    if(action === 'delete'){
+      this.selectedUserId = id;
+      this.isDelete = true;
+    } else {
+      this.toggleOnUpgradeUser = true;
+    }
+  }
+
+  confirmationForUpdation(){
+    this.toggleOnUpgradeUser = false;
   }
 
   onClickChangePassword(e){

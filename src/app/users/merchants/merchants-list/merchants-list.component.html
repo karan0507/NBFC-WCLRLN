@@ -97,6 +97,9 @@
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
                                         </li>
                                         <li nz-menu-item>
+                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To Master</span>
+                                        </li>
+                                        <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
                                         </li>
                                         <li nz-menu-item>
@@ -364,6 +367,19 @@
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Update'">
         </app-change-password>
+    </ng-container>
+</nz-modal>
+<nz-modal [nzWidth]="400" [(nzVisible)]="toggleOnUpgradeUser" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Upgrade To Master Partner'"
+            [subTitle]="'This action will upgrade user in to Master Partner permanently. Are You Sure?'"
+            [icon]="'assets/images/upgrade-user.png'"
+            (onOkCall)="confirmationForUpdation()"
+            (onCencelCall)="toggleOnUpgradeUser = false;"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'  OK  '">
+        </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 

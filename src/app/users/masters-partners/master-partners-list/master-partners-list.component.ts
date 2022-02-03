@@ -31,6 +31,8 @@ export class MasterPartnersListComponent implements OnInit {
   selectedUserId: any;
   toggleChangePassword: boolean;
   selectedUserData: any[];
+  toggleOnUpgradeUser: boolean = false;
+  
   onExpandChange(id: number, checked: boolean, i): void {
     console.log(checked);
     
