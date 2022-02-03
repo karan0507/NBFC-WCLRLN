@@ -26,6 +26,9 @@ export class FormFillingComponent implements OnInit {
         return differenceInCalendarDays(current, this.today) > 0;
       };
 
+  // Modal Boolean Values
+  _isUpdateStatus: boolean = false;
+  statusList : any;
   constructor(public https: HttpService) { }
 
   ngOnInit(): void {
@@ -100,6 +103,18 @@ export class FormFillingComponent implements OnInit {
   }
 
   onMonthChange(event){
+
+  }
+
+  updateStatus(){
+    this._isUpdateStatus = true;
+  }
+
+  handleCancel(){
+    this._isUpdateStatus = false;
+  }
+
+  handleOk(){
 
   }
 }

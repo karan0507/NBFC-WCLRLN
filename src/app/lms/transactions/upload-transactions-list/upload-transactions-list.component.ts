@@ -12,6 +12,8 @@ export class UploadTransactionsListComponent implements OnInit {
   isReject =  false
   isImport = false
   isFail;
+  isApprove = false
+  isApprovedSuccess = false
   isPreview;
   rejactRemarks;
   searchValue = '';

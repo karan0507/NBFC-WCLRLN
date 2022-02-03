@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AccountBlockUnblockComponent implements OnInit {
 
   borrowertList = [{}]
+  isRestructure = false
+  isUnblock = false
+  isblock = false
   constructor() { }
 
   ngOnInit(): void {

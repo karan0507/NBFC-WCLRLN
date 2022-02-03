@@ -9,6 +9,7 @@ import { AccountBlockUnblockComponent } from './account-block-unblock/account-bl
 import { CreditLineIncDecComponent } from './credit-line-inc-dec/credit-line-inc-dec.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RiskPolicyRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class RiskPolicyModule { }

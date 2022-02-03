@@ -20,10 +20,16 @@ export class DocumentUploadComponent implements OnInit {
   _activeLoans: any = [];
   today = new Date();
   api_calling_loader: boolean;
+  _currentDocument : any = '1'
   disabledDate = (current: Date): boolean => {
         // Can not select days before today and today
         return differenceInCalendarDays(current, this.today) > 0;
       };
+      statusList : any;
+      // Modal Booleans
+      _isUpdateStatus : boolean = false;
+      _isDocument : boolean = false;
+      _isStatus : boolean = false;
   constructor(public https:HttpService ) { }
 
   ngOnInit(): void {
@@ -123,6 +129,31 @@ export class DocumentUploadComponent implements OnInit {
   }
 
   onMonthChange(event){
+
+  }
+
+  updateStatus(type?){
+    console.log(type, typeof(type));
+    
+    this._isUpdateStatus = true;
+    switch (type){
+      case 'status':this._isStatus = true; break;
+      case 'download': this._isDocument = true; break;
+
+    }
+  }
+
+  handleCancel(){
+    this._isUpdateStatus = false;
+    this._isStatus = false;
+    this._isDocument = false;
+  }
+
+  handleOk(){
+
+  }
+
+  downloadModal(){
 
   }
 }

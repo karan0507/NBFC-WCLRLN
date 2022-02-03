@@ -1,1 +1,75 @@
-<p>track-status works!</p>
+<nz-page-header class="site-page-header bg-gray-lightest mb-3" [nzTitle]="title">
+</nz-page-header>
+<ng-template #title>
+      <span class="font-weight-normal">User Status Track</span>
+</ng-template>
+<section>
+      <nz-card>
+            <div class="row">
+                  <div class="col-md-6">
+                        <div class="d-flex flex-column">
+                              <div>
+                                    <h5 class="mb-4">Status</h5>
+                              </div>
+                              <div>
+                                    <nz-steps [nzCurrent]="1" nzProgressDot nzDirection="vertical">
+                                          <nz-step nzTitle="Logged In, no Action Taken"></nz-step>
+                                          <!--nzDescription="This is a description. This is a description."-->
+                                          <nz-step nzTitle="Logged In, no Action Taken"></nz-step>
+                                          <nz-step nzTitle="Document Upload Pending"></nz-step>
+                                          <nz-step nzTitle="Pre-Approved Offer Accepted"></nz-step>
+                                    </nz-steps>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="col-md-3">
+                        <div class="d-flex flex-column">
+                              <div>
+                                    <h5 class="mb-4">Date</h5>
+                              </div>
+                              <div>
+                                    <ul nz-menu>
+                                          <li class="pl-0" nz-menu-item>
+                                                22/02/01
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                22/02/01
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                22/02/01
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                22/02/01
+                                          </li>
+                                    </ul>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="col-md-3">
+                        <div class="d-flex flex-column">
+                              <div>
+                                    <h5 class="mb-4">Time</h5>
+                              </div>
+                              <div>
+                                    <ul nz-menu>
+                                          
+                                          <li class="pl-0" nz-menu-item>
+                                                05:38 pm
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                05:38 pm
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                05:38 pm
+                                          </li>
+                                          <li class="pl-0" nz-menu-item>
+                                                05:38 pm
+                                          </li>
+
+                                    </ul>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </nz-card>
+</section>

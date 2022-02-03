@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class UserTerminateUnblockComponent implements OnInit {
 
   borrowertList = [{}]
+  isUnblock = false
+  isTerminate = false
   constructor() { }
 
   ngOnInit(): void {

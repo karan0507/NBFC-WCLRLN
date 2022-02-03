@@ -8,6 +8,7 @@ import { UploadTransactionsListComponent } from './upload-transactions-list/uplo
 import { UploadTransactionsPreviewComponent } from './upload-transactions-preview/upload-transactions-preview.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
     TransactionsRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class TransactionsModule { }
