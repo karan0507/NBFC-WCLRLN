@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -24,9 +25,16 @@ export class BorrowersDetailsComponent implements OnInit {
   isWaiveOff = false
   isChangeBillDate = false
   createAddPaymentOrChargeForm: FormGroup;
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
+  
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,
+    private sanitized: DomSanitizer,) { }
 
   ngOnInit(): void {
     this.createAddPaymentOrChargeFormFunction()
@@ -50,4 +58,19 @@ export class BorrowersDetailsComponent implements OnInit {
   }
   closeAccount(){}
 
+  handleCancel() {
+    this.pdf_viewer_object_values['boolean'] = false
+    this.pdf_viewer_object_values['url'] = ''
+  }
+  sanatizeUrlToSafe(value) {
+    return this.sanitized.bypassSecurityTrustResourceUrl(value);
+  }
+
+  pdfViewerAndDownload(title) {
+    const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
+    this.pdf_viewer_object_values['title'] = title
+    this.pdf_viewer_object_values['url'] = ''
+    this.pdf_viewer_object_values['boolean'] = true
+    this.message.remove(generateloader);
+  }
 }

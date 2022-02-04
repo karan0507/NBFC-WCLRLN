@@ -11,6 +11,8 @@ import { HttpService } from 'src/app/services/http.service';
 export class EditFormComponent implements OnInit {
   personalDetails: FormGroup;
   employementDetails: FormGroup;
+  preApprovedForm : FormGroup;
+  documentForm : FormGroup;
   userId: any;
   constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router) { }
 
@@ -32,12 +34,24 @@ export class EditFormComponent implements OnInit {
       company_name: [],
       address: []
     })
+    this.preApprovedForm = this.fb.group({
+      limitProcessed:[],
+      product_name: [] 
+    })
+    
+    this.documentForm = this.fb.group({
+      document_name : ['1'],
+      document_name_2:['1']
+    })
   }
 
   onChange(event) {
 
   }
 
+  cancelForm(){
+    
+  }
   getFormLoanData() {
     let data = { id: this.userId }
     this.https.fetchLoanApplicationData(data).subscribe(res => {
