@@ -125,7 +125,7 @@
                                             <span class="m-l-5">User Login</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5">Payout Structure</span>
+                                            <span class="m-l-5" [routerLink]="['../payoutStructure/add']" [queryParams]="{id: data.id, user: 'masterPartner'}">Payout Structure</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Payout List</span>
