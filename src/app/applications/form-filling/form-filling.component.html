@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-      <button nz-button nzType="primary" class="ml-auto" (click)="updateStatus()" [routerLink]="">Update Status</button>
+      <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()" [routerLink]="">Update Status</button>
       <button nz-button nzType="link" class="ml-3 border" [routerLink]="">Export</button>
 </div>
 <nz-page-header class="site-page-header bg-gray-lightest mb-3" [nzTitle]="title">
@@ -27,18 +27,17 @@
                   </div>
                   <div class="col-md-2">
                         <div>
-                              <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
+                              <nz-select class="mx-1 w-auto" [(ngModel)]="productFilters" nzAllowClear
                                     nzPlaceHolder="FatakPay">
-                                    <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
-                                    <nz-option nzValue="medic" nzLabel="Medicine 2"></nz-option>
+                                    <nz-option nzValue="fpay1" nzLabel="FatakPay"></nz-option>
                               </nz-select>
                         </div>
                   </div>
                   <div class="col-md-6 mb-3 d-flex justify-content-md-end">
-                        <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
-                              (ngModelChange)="onMonthChange($event)"></nz-date-picker>
-                        <nz-select class="mx-1 w-auto" style=" width: 8rem;" ngModel="filters" nzAllowClear
-                              nzPlaceHolder="By Name">
+                        <!-- <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
+                              (ngModelChange)="onMonthChange($event)"></nz-date-picker> -->
+                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
+                              nzPlaceHolder="Select Status">
                               <nz-option nzValue="medicine" nzLabel="--"></nz-option>
                         </nz-select>
                   </div>
@@ -175,7 +174,7 @@
                                                                   </h6>
                                                                   <div>
                                                                         <!-- created_at -->
-                                                                        {{data?.expanddata?.income_details.results[0].employment_type_id?.name
+                                                                        {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
                                                                         == 'Salaried' ?
                                                                         data?.expanddata?.income_details.results[0].employer_id?.name
                                                                         : '--'}}
@@ -219,10 +218,9 @@
                               Select Status
                         </div>
                         <div class="col-md-8 mb-3">
-                              <nz-select class="w-100" [(ngModel)]="statusList" nzAllowClear
+                              <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option nzValue="medicine" nzLabel="Document Verification"></nz-option>
-                                    <nz-option nzValue="medic" nzLabel="Underwritting"></nz-option>
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>
                         <div class="col-md-4">
