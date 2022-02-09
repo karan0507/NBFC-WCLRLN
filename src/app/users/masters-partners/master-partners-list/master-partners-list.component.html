@@ -113,6 +113,10 @@
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Edit</span>
                                         </li>
+                                        <li nz-menu-item [routerLink]="['../employeeDetail']" [queryParams]="{id: data.id}">
+                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Employee Details</span>
+                                        </li>
                                         <!-- nz-popconfirm
                                           nzPopconfirmTitle="Are you sure delete Employee?"
                                           nzPopconfirmPlacement="topLeft"
