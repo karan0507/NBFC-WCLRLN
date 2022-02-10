@@ -1,3 +1,5 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -69,15 +71,22 @@ export class AuthorizationMccCodeComponent implements OnInit {
 
   apiLoader = {
     'list': false,
+    'onOk': false
   }
   page = 1;
 
   total_count = 10;
   UPIList: any;
+  uploaded_file: any;
+  file: string;
+  isVisible: boolean;
+  oldDetail: any;
+  updateMCCDetails: FormGroup;
 
-  constructor(private http: HttpService) { }
+  constructor(private fb: FormBuilder,public http: HttpService) { }
 
   ngOnInit(): void {
+    this.createUpdateDetailForm();
     this.getAuthorizationList();
   }
 
@@ -90,6 +99,68 @@ export class AuthorizationMccCodeComponent implements OnInit {
     this.page =1;
     this.searchValue = '';
     this.getAuthorizationList();
+  }
+
+  createUpdateDetailForm(){
+      this.updateMCCDetails = this.fb.group({
+        source : "LMS",
+        datapoint : "authorization_edit",
+        endpoint : [null, [Validators.required]], 
+        // `Mcccodes/${this.oldDetail?.id}` ,
+        remarks : ["", [Validators.required]],
+        code :  ["", [Validators.required]]
+      })
+  }
+
+  onClickUpdateDetails(){
+    this.apiLoader['onOk'] = true;
+    for (const i in this.updateMCCDetails.controls) {
+      this.updateMCCDetails.controls[ i ].markAsDirty();
+      this.updateMCCDetails.controls[ i ].updateValueAndValidity();
+      this.apiLoader['onOk'] = false;
+    }
+    if(this.updateMCCDetails.valid){
+      this.apiLoader['onOk'] = true;
+      const data = this.updateMCCDetails.value;
+      this.http.updateStatusForAuthorization(data).subscribe((res)=> {
+        console.log(res);
+        this.apiLoader['onOk'] = false;
+        this.isVisible = false;
+        this.getAuthorizationList();
+      }, err => {
+        this.apiLoader['onOk'] = false;
+        console.log(err);
+      })
+    }
+  }
+
+  changeDetail(data){
+    this.isVisible= true
+    this.oldDetail= data;
+    this.updateMCCDetails.patchValue({
+      endpoint: `Mcccodes/${this.oldDetail?.id}` 
+    })
+    console.log(data);
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    console.log(file.name);
+    this.file = file.name
+    this.uploaded_file = file
+    this.updateMCCCodeWithUploadingFile();
+    return false;
+  };
+
+  updateMCCCodeWithUploadingFile(){
+    let data = new FormData();
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'authorization_upload'),
+    data.append('endpoint', 'Mcccodes'),
+    data.append('file', this.uploaded_file)
+    this.http.uploadMCCFile(data).subscribe((res)=>{
+      console.log(res);
+      this.getAuthorizationList()
+    })
   }
 
   toggleStatusBasedOnAction(id,action){
@@ -110,8 +181,9 @@ export class AuthorizationMccCodeComponent implements OnInit {
         "status" : true
       } 
     }
-    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+    this.http.updateStatusForAuthorization(data).subscribe((res)=> {
       console.log(res);
+      this.getAuthorizationList();
     }, err => {
       console.log(err);
     })

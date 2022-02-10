@@ -420,6 +420,11 @@ export class HttpService {
     return this._http.post((this.url +`/central-api/v1/call-api`), data, {headers : headers});
   }
 
+  public updateStatusForAuthorization(data):Observable <any> {
+    const headers = new HttpHeaders();
+    return this._http.put((this.url +`/central-api/v1/call-api`), data, {headers : headers});
+  }
+
   public getLMSAuthorizationList(data):Observable <any> {
     const headers = new HttpHeaders();
     return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data,});
@@ -491,5 +496,21 @@ export class HttpService {
   // Lender Management API
   public getLenderManagementList(){
     return this._http.get(this.url + `/loan-application/v1/lender-management-dashboard`);
+  }
+
+
+  // sample Download
+  sampleDownloadGlobalFunction(section){
+    var link = document.createElement('a');
+    link.href = '/assets/imports/' + section + '.xlsx';
+    link.download = section + '.xlsx';
+    link.click();
+  }
+
+  // uploadFile
+
+  uploadMCCFile(data){
+    const headers = new HttpHeaders();
+    return this._http.post(this.url + `/central-api/v1/call-api`, data, { headers: headers });
   }
 }

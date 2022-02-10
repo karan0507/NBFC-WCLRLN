@@ -23,12 +23,17 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
+                    <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload"
+                    class="d-flex align-items-center mx-4" nzSize="large">
+                     {{uploaded_file ? file : 'Upload File' }}
+                    <i *ngIf="!uploaded_file" class="pl-2 text-primary" nz-icon nzTheme="outline" nzType="edit"></i>
+                </nz-upload>
+                    <button nz-button nzType="primary" class="ml-3" (click)="http.sampleDownloadGlobalFunction('UPI_UPLOAD')">Sample File Download<i nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
                 [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
-                (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList"
-                [nzScroll]="{ x: '1500px' }">
+                (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -51,16 +56,14 @@
                             </a>
                             <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <!-- [routerLink]="['edit-employee', data.id]" -->
-                                    <li nz-menu-item>
-                                        <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                    <li nz-menu-item (click)="changeDetail(data)">
                                         <span class="m-l-5">Edit</span>
                                     </li>
-                                    <li nz-menu-item>
+                                    <li nz-menu-item *ngIf="!data?.status">
                                         <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                     </li>
-                                    <li nz-menu-item>
+                                    <li nz-menu-item *ngIf="data?.status">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                     </li>
                                 </ul>
@@ -72,3 +75,38 @@
         </nz-card>
     </div>
 </section>
+
+<nz-modal nzTitle="Edit" [nzOkLoading]="apiLoader['onOk']"  (nzOnCancel)="isVisible = false"[nzWidth]="800" [(nzVisible)]="isVisible" (nzOnOk)="onClickUpdateDetails()" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <div  class="row mb-4">
+            <div class="col-6">
+                <span class="h6 my-0 text-bold ml-1 mr-5">
+                    Old UPI ID :-
+                </span>
+                <span class="h6 my-0 pl-2">
+                    {{oldDetail?.upi_id ? oldDetail?.upi_id : ' -- '}}
+                </span>
+            </div>
+        </div>
+        <form [formGroup]="updateUPIDetails">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="upi_id" class="text-left" nzRequired>New UPI ID</nz-form-label>
+                    <nz-form-control [nzSm]="19" [nzXs]="24" nzErrorTip="Please add valid UPI ID!">
+                        <input nz-input formControlName="upi_id" type="text"  placeholder="UPI ID"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label  [nzSm]="5" [nzXs]="24" nzFor="remarks" class="text-left" nzRequired>Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="19" [nzXs]="24" nzErrorTip="Please input Remarks!">
+                        <input nz-input formControlName="remarks" type="text"  placeholder="Remarks"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+    </ng-container>
+</nz-modal>
