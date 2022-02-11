@@ -31,10 +31,11 @@ import { DormantComponent } from './dormant/dormant.component';
 import { PerApprovedComponent } from './per-approved/per-approved.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NbfcApprovalComponent } from './nbfc-approval/nbfc-approval.component';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent, NbfcApprovalComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,

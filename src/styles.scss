@@ -52,3 +52,20 @@
         border-color: #55268E !important;
     }
 }
+
+.accordianLoanApp{
+
+        tr.ant-table-expanded-row:hover>td, tr.ant-table-expanded-row>td {
+            background: #FFFAEC;
+        }
+        .acc-bg-light {
+            background-color: #ffeab2 !important;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            width: 25%;
+            padding: 0.5rem;
+        }
+        .ant-card-body{
+              padding: 1rem;
+        }
+}
