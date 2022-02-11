@@ -38,6 +38,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../users/payout-structure/payout-structure.module').then(m => m.PayoutStructureModule),
     },
     {
+        path: 'employeeDetail',
+        loadChildren: () => import('../../users/employee-details/employee-details.module').then(m => m.EmployeeDetailsModule),
+    },
+    {
         path: 'employees',
         loadChildren: () => import('../../employees/employees.module').then(m => m.EmployeesModule),
     },
