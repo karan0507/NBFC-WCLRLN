@@ -1,0 +1,156 @@
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="new-joinees">New Joinees</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="exit-employee">Exit Employee</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"
+                    nzValue="attendance">Attendance</label>
+                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="notice-period">Notice Period</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="selectedTab === 'new-joinees'">
+    <section>
+        <div class="row">
+            <nz-card class="w-100">
+                <div class="row">
+                    <div class="col-md-4 mb-3 d-flex">
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                                placeholder="Search text" />
+                        </nz-input-group>
+                        <!-- <ng-template #suffixIconButton>
+                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template> -->
+                        <ng-template #suffixIconButton>
+                            <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                    nzType="search"></i></button>
+                        </ng-template>
+                    </div>
+                    <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                            class="mr-2" (click)="resetFilter()">
+                            <i nz-icon nzType="undo"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
+                    [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
+                    (nzQueryParams)="getNewJoineeList($event)" [nzShowSizeChanger]="true" [nzData]="listOfNewJoinees"
+                    [nzScroll]="{ x: '1500px' }">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="3">File Name</th>
+                            <th rowspan="3">Added on</th>
+                            <th rowspan="2">Added By</th>
+                            <th rowspan="2"> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of listOfNewJoinees; index as i">
+                            <td >{{ i + 1 }}</td>
+                            <td>{{ data?.file_name }}</td>
+                            <td>
+                                <div>
+                                    {{ data?.regDate }}
+                                </div>
+                                <div>
+                                    {{ data?.time }}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{ data?.added_by }}
+                                </div>
+                                <div>
+                                    {{'Contact No: ' + data?.contact_no }}
+                                </div>
+                                </td>
+                            <td>
+                                <a nz-button class="primary" nzType="link" style="color: #074EE8;">View</a>
+                                <a nz-button nzType="link" style="color: #074EE8;">Download</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+    </section>
+
+</section>
+
+<section *ngIf="selectedTab === 'exit-employee' || selectedTab === 'attendance' ||  selectedTab === 'notice-period'">
+    <section>
+        <div class="row">
+            <nz-card class="w-100">
+                <div class="row">
+                    <div class="col-md-4 mb-3 d-flex">
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                                placeholder="Search text" />
+                        </nz-input-group>
+                        <!-- <ng-template #suffixIconButton>
+                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template> -->
+                        <ng-template #suffixIconButton>
+                            <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                    nzType="search"></i></button>
+                        </ng-template>
+                    </div>
+                    <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                            class="mr-2" (click)="resetFilter()">
+                            <i nz-icon nzType="undo"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
+                    [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
+                    (nzQueryParams)="getNewJoineeList($event)" [nzShowSizeChanger]="true" [nzData]="listOfEmployee"
+                    [nzScroll]="{ x: '1500px' }">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name of  employee</th>
+                            <th>Emp. ID</th>
+                            <th>Email ID</th>
+                            <th> Mobile Number</th>
+                            <th> Alternate Mobile No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of listOfEmployee; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ data?.employee_name }}</td>
+                            <td>
+                                    {{ data?.emp_id }}
+                            </td>
+                            <td>
+                                    {{ data?.email_id }}
+                                </td>
+                            <td>
+                                {{data?.mobile_no}}
+                            </td>
+                            <td>
+                                {{data?.alternate_mobile_no}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+    </section>
+
+</section>

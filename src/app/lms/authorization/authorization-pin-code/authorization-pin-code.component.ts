@@ -1,3 +1,5 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -69,17 +71,24 @@ export class AuthorizationPinCodeComponent implements OnInit {
   ];
 
   apiLoader ={
-    'list': false
+    'list': false,
+    'onOk': false,    
   } 
 
   page = 1;
 
   total_count = 10;
   pinCodeList: any;
+  uploaded_file: any;
+  file: string;
+  isVisible: boolean;
+  oldDetail: any;
+  updatePINDetails: FormGroup;
 
-  constructor(private http: HttpService) { }
+  constructor(private fb: FormBuilder,public http: HttpService) { }
 
   ngOnInit(): void {
+    this.createUpdateDetailForm();
     this.getAuthorizationList();
   }
 
@@ -91,6 +100,66 @@ export class AuthorizationPinCodeComponent implements OnInit {
 
   }
 
+  createUpdateDetailForm(){
+    this.updatePINDetails = this.fb.group({
+      source : "LMS",
+      datapoint : "authorization_edit",
+      endpoint : [null, [Validators.required]], 
+      remarks : ["", [Validators.required]],
+      pincode :  ["", [Validators.required, Validators.maxLength(6)]]
+    })
+}
+
+  changeDetail(data){
+    this.isVisible= true
+    this.oldDetail= data;
+    this.updatePINDetails.patchValue({
+      endpoint: `Pincodes/${this.oldDetail?.id}` 
+    })
+  }
+
+  onClickUpdateDetails(){
+    this.apiLoader['onOk'] = true;
+    for (const i in this.updatePINDetails.controls) {
+      this.updatePINDetails.controls[ i ].markAsDirty();
+      this.updatePINDetails.controls[ i ].updateValueAndValidity();
+      this.apiLoader['onOk'] = false;
+    }
+    if(this.updatePINDetails.valid){
+      this.apiLoader['onOk'] = true;
+      const data = this.updatePINDetails.value;
+      this.http.updateStatusForAuthorization(data).subscribe((res)=> {
+        console.log(res);
+        this.apiLoader['onOk'] = false;
+        this.isVisible = false;
+        this.getAuthorizationList();
+      }, err => {
+        this.apiLoader['onOk'] = false;
+        console.log(err);
+      })
+    }
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    console.log(file.name);
+    this.file = file.name
+    this.uploaded_file = file
+    this.updateMCCCodeWithUploadingFile();
+    return false;
+  };
+
+  updateMCCCodeWithUploadingFile() {
+    let data = new FormData();
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'authorization_upload'),
+    data.append('endpoint', 'Pincodes'),
+    data.append('file', this.uploaded_file)
+    this.http.uploadMCCFile(data).subscribe((res)=>{
+      console.log(res);
+      this.getAuthorizationList()
+    })
+  }
+  
   toggleStatusBasedOnAction(id,action){
     let data;
     if(action == 'inactive'){
@@ -109,7 +178,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
         "status" : true
       } 
     }
-    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+    this.http.updateStatusForAuthorization(data).subscribe((res)=> {
       console.log(res);
     }, err => {
       console.log(err);

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PayoutStructureComponent } from './payout-structure/payout-structure.component';
-import { PayoutStructureRoutingModule } from './payoutStructure-routing.modules';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { EmployeeDetailRoutingModule } from './employee-details-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -23,10 +23,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [PayoutStructureComponent],
+  declarations: [EmployeeDetailsComponent],
   imports: [
     CommonModule,
-    PayoutStructureRoutingModule,
+    EmployeeDetailRoutingModule,
+    NzDropDownModule,
     NzRadioModule,
     FormsModule,
     ReactiveFormsModule,
@@ -37,15 +38,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzInputModule,
     NzButtonModule,
     NzTagModule,
-    NzDropDownModule,
     NzPageHeaderModule,
-    NzModalModule,
     NzFormModule,
     NzDividerModule,
     NzUploadModule,
+    NzModalModule,
     NzCheckboxModule,
-    SharedModule
-
+    SharedModule,
   ]
 })
-export class PayoutStructureModule { }
+export class EmployeeDetailsModule { }
