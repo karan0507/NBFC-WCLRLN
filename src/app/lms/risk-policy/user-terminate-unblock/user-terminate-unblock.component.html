@@ -31,7 +31,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }">
+            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
                 <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
                 <thead>
                     <tr>
@@ -50,16 +50,20 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of borrowertList; index as i">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ i + 1}}</td>
+                        <td>
+                            <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                            <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
+                            <p *ngIf="data.user?.email">{{data.user ? data.user.email : '-'}}</p>
+                        </td>
+                        <td>{{data.loan_unique_id}}</td>
+                        <td>{{data.activation_date | date: "medium"}}</td>
+                        <td>{{data.loan_amount_provided}}</td>
+                        <td>{{data.credit_utilization_amount}}</td>
+                        <td>{{data.loan_amount_provided - data.credit_utilization_amount}}</td>
+                        <td>{{data.fees_or_charges_amount}}</td>
+                        <td>{{data.is_activated}}</td>
+                        <td>-</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
