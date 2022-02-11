@@ -14,7 +14,7 @@ export class HttpService {
 
   globalProductData = new ReplaySubject<any>();
 
-  constructor(private _http: HttpClient, private message: NzMessageService,) { 
+  constructor(private _http: HttpClient, private message: NzMessageService) { 
   }
 
   public UserLogin(data):any {
@@ -343,7 +343,7 @@ export class HttpService {
    * Application Module Fetch Loan 
    */
   public fetchLoanApplicationData(data?): any {
-    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`));
+    return this._http.get((this.url +`/loan-application/v1/fetch-loan-application/LoanApplication`));
   }
 
   
@@ -356,7 +356,7 @@ export class HttpService {
 
   // Export API
   public exportLoanApplicationData(data?): any {
-        return this._http.post((this.url + `/central-api/v1/call-api`), data);
+        return this._http.post((this.url + `/central-api/v1/call-api`), data, {responseType: 'blob'});
   }
 
   public fetchLoanApplicationList(data): Observable<any> {
@@ -426,9 +426,6 @@ export class HttpService {
         //     "endpoint" : "8",
         //     "remarks" : "Offer was not useful"
   }
-
-
-
 
   // ********************************** End Loan Application API's***************************
 

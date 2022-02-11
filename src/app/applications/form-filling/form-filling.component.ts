@@ -151,12 +151,14 @@ export class FormFillingComponent implements OnInit {
             }
       }
 
-      exportData() {
-            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList) }
+      exportData(file_formate?) {
+            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.exportLoanApplicationData(data).subscribe(res => {
                   this._exportDocument = res;
-                  this.generateBase64View(this._exportDocument)
+                  this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             },error =>{
+                  this.message.remove(generateloader);
                   console.log(error);
             })
       }
