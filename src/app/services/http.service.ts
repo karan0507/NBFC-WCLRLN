@@ -593,13 +593,21 @@ export class HttpService {
   }
 
   //UploadAndShowAggrement
-  uploadAndShowAgreement(action, id, data?){
+  uploadAndShowAgreement(endPoint, action, id, data?){
     const headers = new HttpHeaders();
     if(action === 'post'){
-      return this._http.post(this.url + `/partner/v1/upload-agreement/partner/${id}`, data, { headers: headers });
+      return this._http.post(this.url + `/partner/v1/upload-agreement/${endPoint}/${id}`, data, { headers: headers });
     } else if (action === 'get'){
-      return this._http.get(this.url + `/partner/v1/upload-agreement/partner/${id}`, { headers: headers });
+      return this._http.get(this.url + `/partner/v1/upload-agreement/${endPoint}/${id}`, { headers: headers });
     }
   }
-  // 
+
+  uploadAndShowAgreementForNBFC(action, id, data?){
+    const headers = new HttpHeaders();
+    if(action === 'post'){
+      return this._http.post(this.url + `/nbfc/v1/upload-agreement/${id}`, data, { headers: headers });
+    } else if (action === 'get'){
+      return this._http.get(this.url + `/nbfc/v1/upload-agreement/${id}`, { headers: headers });
+    }
+  }
 }

@@ -139,7 +139,7 @@
                                         <li nz-menu-item (click)="storeSelectedId(data?.id)">
                                             <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                 [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
-                                                class="d-flex pl-2 align-items-left" nzSize="large">
+                                                class="d-flex pl-1 align-items-left" nzSize="large">
                                                 Upload Agreement
                                             </nz-upload>
                                         </li>
@@ -403,6 +403,18 @@
             (onCencelCall)="toggleChangePassword = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'Update'">
         </app-change-password>
     </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw"  nzWidth="60vw" nzKeyboard="true"
+	[nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+	<ng-container *nzModalContent>
+		<div class="pdf_viewer_container">
+			<embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" style="height: 25rem;" />
+		</div>
+	</ng-container>
+	<ng-template #modalFooter>
+		<button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+	</ng-template>
 </nz-modal>
 
 

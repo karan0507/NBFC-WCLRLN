@@ -105,14 +105,16 @@
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
                                         </li>
-                                        <li nz-menu-item>
-                                            <span class="m-l-5">Upload Agreement</span>
+                                        <li nz-menu-item (click)="storeSelectedId(data?.id)">
+                                            <nz-upload style="cursor: pointer;" [nzMultiple]="false"
+                                                [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
+                                                class="d-flex pl-1 align-items-left" nzSize="large">
+                                                Upload Agreement
+                                            </nz-upload>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')">
                                             <span class="m-l-5">Show Agreement</span>
                                         </li>
-                                
-                                
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>
@@ -382,6 +384,19 @@
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw"  nzWidth="60vw" nzKeyboard="true"
+	[nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+	<ng-container *nzModalContent>
+		<div class="pdf_viewer_container">
+			<embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" style="height: 25rem;" />
+		</div>
+	</ng-container>
+	<ng-template #modalFooter>
+		<button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+	</ng-template>
+</nz-modal>
+
 
 
 <!-- <section>
