@@ -1,10 +1,10 @@
-
 <section>
     <div class="row mb-md-3">
         <div class="col-md-6 mb-md-0">
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
-                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                    nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
                     nzValue="inactive">Inactive</label>
             </nz-radio-group>
@@ -21,39 +21,43 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input placeholder="Search text" />
-                      </nz-input-group>
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
                     <!-- <ng-template #suffixIconButton>
                         <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                     </ng-template> -->
                     <ng-template #suffixIconButton>
-                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
-                      </ng-template>
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
-                      </button>
+                    </button>
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
-            [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
-            [nzPageIndex]="page" (nzQueryParams)="getPartnerList($event)" [nzShowSizeChanger]="true" [nzData]="partnerList" [nzScroll]="{ x: '1500px' }">
+                [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
+                [nzPageIndex]="page" (nzQueryParams)="getPartnerList($event)" [nzShowSizeChanger]="true"
+                [nzData]="partnerList" [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
-                    <th rowspan="2" nzWidth="100px">#</th>
-                    <th >Partner's Details</th>
-                    <th >DOB</th>
-                    <th >Type</th>
-                    <th> Master Partner</th>
-                    <th>Regd. On</th>
-                    <th>Source ID</th>
-                    <th>Partner Id</th>
-                    <th>Refer ID</th>
-                    <th>Registered</th>
-                    <th>Transaction Status</th>
-                    <th>System Status</th>
-                    <th>Actions</th>
+                        <th rowspan="2" nzWidth="100px">#</th>
+                        <th>Partner's Details</th>
+                        <th>DOB</th>
+                        <th>Type</th>
+                        <th> Master Partner</th>
+                        <th>Regd. On</th>
+                        <th>Source ID</th>
+                        <th>Partner Id</th>
+                        <th>Refer ID</th>
+                        <th>Registered</th>
+                        <th>Transaction Status</th>
+                        <th>System Status</th>
+                        <th>Actions</th>
                     </tr>
                     <!-- <tr>
                         <th>Total
@@ -67,18 +71,19 @@
                 <tbody>
                     <ng-container *ngFor="let data of partnerList; index as i">
                         <tr>
-                            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
+                            <td [nzExpand]="expandSet.has(data.id)"
+                                (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                 {{ i + 1 }}</td>
                             <td>{{ data?.name }}</td>
                             <td>{{ data?.dob }}</td>
-                            <td>{{ data?.type  }}</td>
-                            <td>{{ data?.master_partner  }}</td>
+                            <td>{{ data?.type }}</td>
+                            <td>{{ data?.master_partner }}</td>
                             <td>{{ data?.created_at | date: 'dd MMM yyyy' }}
                             <td>{{ data?.source_id }}</td>
                             <td>Partner ID</td>
                             <td>{{ data?.refer_id }}</td>
                             <td *ngIf="data?.registered">
-                                <a ><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
                             </td>
                             <td *ngIf="!data?.registered">
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
@@ -86,7 +91,7 @@
                             <td>{{data?.transaction_status}}</td>
                             <td *ngIf="data?.is_deleted">True</td>
                             <td *ngIf="!data?.is_deleted">False</td>
-                            
+
                             <!-- <td>{{ data.no_of_partner }}</td> -->
                             <td>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
@@ -103,9 +108,11 @@
                                         </li>
                                         <li nz-menu-item>
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
-                                            <span class="m-l-5" [routerLink]="['../partners/add']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['../partners/add']"
+                                                [queryParams]="{id: data.id}">Edit</span>
                                         </li>
-                                        <li nz-menu-item [routerLink]="['../employeeDetail']" [queryParams]="{id: data.id}">
+                                        <li nz-menu-item [routerLink]="['../employeeDetail']"
+                                            [queryParams]="{id: data.id}">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Employee Details</span>
                                         </li>
@@ -115,10 +122,13 @@
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                         <li nz-menu-item *ngIf="!data.is_deleted">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id, 'delete')">Delete</span>
+                                            <span class="m-l-5"
+                                                (click)="deleteUserByUserId(data?.id, 'delete')">Delete</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To Master</span>
+                                            <span class="m-l-5"
+                                                (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To
+                                                Master</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
@@ -126,14 +136,18 @@
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
                                         </li>
-                                        <li nz-menu-item>
-                                            <span class="m-l-5">Upload Agreement</span>
+                                        <li nz-menu-item (click)="storeSelectedId(data?.id)">
+                                            <nz-upload style="cursor: pointer;" [nzMultiple]="false"
+                                                [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
+                                                class="d-flex pl-2 align-items-left" nzSize="large">
+                                                Upload Agreement
+                                            </nz-upload>
                                         </li>
-                                        <li nz-menu-item>
+                                        <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')">
                                             <span class="m-l-5">Show Agreement</span>
                                         </li>
-                                
-                                
+
+
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>
@@ -143,7 +157,7 @@
                         <tr [nzExpand]="expandSet.has(data.id) ">
 
                             <div class="justify-content-center">
-                                <nz-page-header 
+                                <nz-page-header
                                     class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
                                     [nzTitle]="basicDetail">
                                 </nz-page-header>
@@ -155,7 +169,8 @@
                                                     Partner's Address
                                                 </h6>
                                                 <div>
-                                                    {{(data?.expandSet?.address_line_1 + ' ' + data?.expandSet?.address_line_2)}}
+                                                    {{(data?.expandSet?.address_line_1 + ' ' +
+                                                    data?.expandSet?.address_line_2)}}
                                                 </div>
                                             </div>
                                         </div>
@@ -273,7 +288,8 @@
                                 <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
                                     <div class="row">
                                         <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column" *ngIf="data?.expandSet?.documents?.length >= 1">
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length >= 1">
                                                 <h6>
                                                     {{data?.document_master?.name}}
                                                 </h6>
@@ -281,7 +297,8 @@
                                                     Submitted & Verified
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-column" *ngIf="data?.expandSet?.documents?.length < 1">
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length < 1">
                                                 <h6>
                                                     No Documents To show
                                                 </h6>
@@ -311,7 +328,7 @@
                                         <div class="col-md-6">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    Payout  
+                                                    Payout
                                                 </h6>
                                                 <div class="d-flex">
                                                     {{data?.expandSet?.payout}}
@@ -361,40 +378,29 @@
 
 <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'You are about to delete an User'"
+        <app-double-confirmation-popup [title]="'You are about to delete an User'"
             [subTitle]="'This action will delete the details permanently. Are You Sure?'"
-            [icon]="'assets/images/delete-icon.png'"
-            (onOkCall)="confirmationTrigger()"
-            (onCencelCall)="isDelete = false; selectedUserId = ''"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'OK'">
+            [icon]="'assets/images/delete-icon.png'" (onOkCall)="confirmationTrigger()"
+            (onCencelCall)="isDelete = false; selectedUserId = ''" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 
 <nz-modal [nzWidth]="400" [(nzVisible)]="toggleOnUpgradeUser" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'Upgrade To Master Partner'"
+        <app-double-confirmation-popup [title]="'Upgrade To Master Partner'"
             [subTitle]="'This action will upgrade user in to Master Partner permanently. Are You Sure?'"
-            [icon]="'assets/images/upgrade-user.png'"
-            (onOkCall)="confirmationForUpdation()"
-            (onCencelCall)="toggleOnUpgradeUser = false;"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'  OK  '">
+            [icon]="'assets/images/upgrade-user.png'" (onOkCall)="confirmationForUpdation()"
+            (onCencelCall)="toggleOnUpgradeUser = false;" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'  OK  '">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 
-<nz-modal nzTitle="Change Password"  (nzOnCancel)="toggleChangePassword = false"[nzWidth]="800" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" >
+<nz-modal nzTitle="Change Password" (nzOnCancel)="toggleChangePassword = false" [nzWidth]="800"
+    [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true">
     <ng-container *nzModalContent>
-        <app-change-password
-            [userData]="selectedUserData"
-            (onOkCall)="onClickChangePassword($event)"
-            (onCencelCall)="toggleChangePassword = false"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Update'">
+        <app-change-password [userData]="selectedUserData" (onOkCall)="onClickChangePassword($event)"
+            (onCencelCall)="toggleChangePassword = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'Update'">
         </app-change-password>
     </ng-container>
 </nz-modal>

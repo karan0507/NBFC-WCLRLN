@@ -1,3 +1,4 @@
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -93,6 +94,8 @@ export class PartnersListComponent implements OnInit {
   selectedUserData: any;
   toggleChangePassword: boolean;
   toggleOnUpgradeUser: boolean = false;
+  file: string;
+  uploaded_file: any;
 
   constructor(private http: HttpService, private message: NzMessageService ) { }
 
@@ -245,6 +248,47 @@ export class PartnersListComponent implements OnInit {
       this.isDelete = true;
     } else {
       this.toggleOnUpgradeUser = true;
+    }
+  }
+
+  selectedIdForAgreement: any;
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    alert(1);
+    console.log(file.name);
+    this.file = file.name
+    this.uploaded_file = file
+    console.log(file);
+    console.log(this.uploaded_file);
+    // this.updateMCCCodeWithUploadingFile();
+    this.uploadAndShowAgreement('post');
+    return false;
+  };
+
+  storeSelectedId(id, action){
+    this.selectedIdForAgreement = id;
+    if(action === 'get'){
+      this.uploadAndShowAgreement('get');
+
+    }
+  }
+
+  uploadAndShowAgreement(action?){
+    let data = new FormData();
+    data.append('file', this.uploaded_file);
+    if(action === 'post' ){
+      this.http.uploadAndShowAgreement('post', this.selectedIdForAgreement, data).subscribe((res)=> {
+        console.log(res);
+      }, err => {
+        console.log(err);
+      })
+    } else {
+      this.http.uploadAndShowAgreement('get', this.selectedIdForAgreement).subscribe((res)=> {
+        console.log(res);
+      }, err => {
+        console.log(err);
+      })
+
     }
   }
 

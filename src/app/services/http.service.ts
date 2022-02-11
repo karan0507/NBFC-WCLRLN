@@ -513,4 +513,15 @@ export class HttpService {
     const headers = new HttpHeaders();
     return this._http.post(this.url + `/central-api/v1/call-api`, data, { headers: headers });
   }
+
+  //UploadAndShowAggrement
+  uploadAndShowAgreement(action, id, data?){
+    const headers = new HttpHeaders();
+    if(action === 'post'){
+      return this._http.post(this.url + `/partner/v1/upload-agreement/partner/${id}`, data, { headers: headers });
+    } else if (action === 'get'){
+      return this._http.get(this.url + `/partner/v1/upload-agreement/partner/${id}`, { headers: headers });
+    }
+  }
+  // 
 }
