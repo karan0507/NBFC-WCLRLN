@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class FormFillingComponent implements OnInit {
       checked: boolean = false;
       filters: any;
+      _exportDocument: any;
       productFilters: any;
       indeterminate: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
@@ -34,7 +36,7 @@ export class FormFillingComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
-      constructor(public https: HttpService) { }
+      constructor(public https: HttpService, public message : NzMessageService) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
@@ -51,7 +53,6 @@ export class FormFillingComponent implements OnInit {
             }, (err) => {
                   this.api_calling_loader = false
             })
-            this.api_calling_loader = false
       }
 
 
@@ -127,7 +128,7 @@ export class FormFillingComponent implements OnInit {
       }
 
       handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: this._checkedLoanList };
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
                         console.log('res');
@@ -149,4 +150,24 @@ export class FormFillingComponent implements OnInit {
                   return true
             }
       }
+
+      exportData() {
+            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList) }
+            this.https.exportLoanApplicationData(data).subscribe(res => {
+                  this._exportDocument = res;
+                  this.generateBase64View(this._exportDocument)
+            },error =>{
+                  console.log(error);
+            })
+      }
+
+      generateBase64View(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            this._exportDocument = file;
+            reader.onload = (e) => {
+                  console.log(reader, this._exportDocument);
+            }
+      }
+
 }

@@ -109,29 +109,13 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item [routerLink]="['edit-form']"
-                                                                  [queryParams]="{id: data?.id}">
+                                                            <li nz-menu-item>
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Edit Application</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Track Application</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull Cibil</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull SMS Data</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull Black Box Data</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Edit Offer</span>
+                                                                  <span class="m-l-5">Approve Offer</span>
                                                             </li>
 
                                                             <li nz-menu-item>
-                                                                  <span class="m-l-5">Policy Attributes</span>
+                                                                  <span class="m-l-5">Disapprove Offer</span>
                                                             </li>
 
                                                       </ul>
@@ -390,8 +374,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No. of
                                                                                           Cheque Bounce</span>
                                                                                     <div class="mr-5">
@@ -406,8 +389,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Nach Trans.
                                                                                           Declined (last 3
                                                                                           months)</span>
@@ -423,8 +405,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Max.
                                                                                           Delinquent Amt. (out of
                                                                                           income)
@@ -442,8 +423,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No. of
                                                                                           write off cases</span>
                                                                                     <div class="mr-5">
@@ -458,8 +438,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Data
                                                                                           Quality score</span>
                                                                                     <div class="mr-5">
@@ -474,8 +453,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Retail
                                                                                           Lending score
                                                                                     </span>
@@ -493,8 +471,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No. of
                                                                                           Inquiries (in last 3 Months)
                                                                                     </span>
@@ -510,8 +487,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No negative
                                                                                           Events (in last 6 Months)
                                                                                     </span>
@@ -527,8 +503,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Avg. Salary
                                                                                           Credited (last 6 months)
                                                                                     </span>
@@ -545,8 +520,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">Avg Min.
                                                                                           Balance/month (in last 90
                                                                                           days)
@@ -563,8 +537,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No Cc
                                                                                           Applied (last 14 days)
                                                                                     </span>
@@ -580,8 +553,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">No loan
                                                                                           applied (last 14 days)
                                                                                     </span>
@@ -597,8 +569,7 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
+                                                                              <div class="d-flex flex-column">
                                                                                     <span class="text-muted">FOIR (Total
                                                                                           Debt/Monthly Salary))
                                                                                     </span>
@@ -616,6 +587,67 @@
                                                 <ng-template #underWriting>
                                                       <div class="ml-md-2">
                                                             <h6 class="mb-0"> Underwriting Rules </h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="offerDetails">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Product
+                                                                                          Name</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Limit Proposed</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Pre-Approved Offer</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #offerDetails>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Offer Details</h6>
                                                       </div>
                                                 </ng-template>
                                           </div>

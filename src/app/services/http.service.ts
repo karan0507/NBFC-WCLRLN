@@ -348,7 +348,7 @@ export class HttpService {
 
       // Export API
       public exportLoanApplicationData(data?): any {
-            return this._http.post((this.url + `/loan-application/v1/export-data/LoanApplication`), data);
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       public fetchLoanApplicationList(data): Observable<any> {

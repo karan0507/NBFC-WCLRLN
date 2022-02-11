@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import { Data } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-underwriting',
-  templateUrl: './underwriting.component.html',
-  styleUrls: ['./underwriting.component.css']
+  selector: 'app-nbfc-approval',
+  templateUrl: './nbfc-approval.component.html',
+  styleUrls: ['./nbfc-approval.component.css']
 })
-export class UnderwritingComponent implements OnInit {
+export class NbfcApprovalComponent implements OnInit {
       _exportDocument : any;
       checked: boolean = false;
       filters: any;
