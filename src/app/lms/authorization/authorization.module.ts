@@ -46,6 +46,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzPageHeaderModule,
     NzModalModule,
     NzDividerModule,
+    NzUploadModule,
   ]
 })
 export class AuthorizationModule { }

@@ -12,6 +12,7 @@ import { SearchPipe } from './pipes/search.pipe';
 import { DoubleConfirmationPopupComponent } from './template/double-confirmation-popup/double-confirmation-popup.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
     exports: [
@@ -34,6 +35,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
         DemoNgZorroAntdModule,
         NzFormModule,
         ReactiveFormsModule,
+        NzInputModule 
     ],
     declarations: [
         SearchPipe,

@@ -1,17 +1,16 @@
 <div class="header_breadcrumb_section">
-      <button nz-button nzType="primary" class="ml-auto" [routerLink]="">Update Status</button>
-      <button nz-button nzType="link" class="ml-3 border" [routerLink]="">Export</button>
-</div>
-<nz-page-header class="site-page-header bg-gray-lightest mb-3" [nzTitle]="title">
-      <nz-page-header-extra class="align-self-center"> <span class="font-size-16 font-weight-semibold">No. of Users :
-                  {{total_count}}</span>
-      </nz-page-header-extra>
-</nz-page-header>
-<ng-template #title>
-      <div class="d-flex justify-content-between">
-            <div> <span class="font-weight-normal">Application Stage 5</span></div>
+      <div class="d-flex justify-content-md-between flex-wrap w-100">
+            <div></div>
+            <div class="align-self-end font-size-20"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users
+                  : {{total_count ? total_count : '0'}}</div>
+            <div> <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto"
+                        (click)="updateStatus('status')" [routerLink]="">Update Status ({{ _checkedLoanList ?
+                        _checkedLoanList?.length : '0'}})</button>
+                  <button nz-button nzType="link" [disabled]="checkDisabledStatus()" (click)="exportData('XLXS')"
+                        class="ml-3 border" [routerLink]="">Export</button>
+            </div>
       </div>
-</ng-template>
+</div>
 
 <!-- Main Section  -->
 <section>
@@ -36,359 +35,695 @@
                         </div>
                   </div>
                   <div class="col-md-6 mb-3 d-flex justify-content-md-end">
-                        <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
-                              (ngModelChange)="onMonthChange($event)"></nz-date-picker>
-                        <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
-                              nzPlaceHolder="By Name">
+                        <!-- <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
+                              (ngModelChange)="onMonthChange($event)"></nz-date-picker> -->
+                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
+                              nzPlaceHolder="Select Status">
                               <nz-option nzValue="medicine" nzLabel="--"></nz-option>
                         </nz-select>
                   </div>
             </div>
-            <nz-table #rowSelectionTable nzShowSizeChanger (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
-                  <thead>
-                        <tr>
-                              <th nzWidth="2rem"></th>
-                              <th nzWidth="3rem" [nzChecked]=" loanApplicationData[0] ? checked : false" [nzIndeterminate]=" loanApplicationData[0] ? indeterminate : false"
-                                    (nzCheckedChange)="loanApplicationData[0] ? onAllChecked($event) : false"></th>
-                              <th nzWidth="100px">#</th>
-                              <th>Loan ID</th>
-                              <th nzWidth="14rem">User Details</th>
-                              <th>Apply Date & Time</th>
-                              <th>Master Partner</th>
-                              <th>Source Id</th>
-                              <th>Partner Id</th>
-                              <th>Reference Id</th>
-                              <th>Latest Action Performed By</th>
-                              <th>Status</th>
-                              <th nzRight>Action</th>
-                        </tr>
-                  </thead>
-                  <tbody>
-                        <ng-container *ngFor="let data of loanApplicationData; index as i">
+            <div class="accordianLoanApp">
+                  <nz-table #rowSelectionTable nzShowSizeChanger
+                        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
+                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                        <thead>
                               <tr>
-                                    <td nzWidth="2rem" [nzExpand]="expandSet.has(data.id)"
-                                          (nzExpandChange)="onExpandChange(data.id, $event, i)"></td>
-                                    <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)"
-                                          [nzDisabled]="data.disabled"
-                                          (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                    <td>{{i+1}}</td>
-                                    <td>{{ data?.id }}</td>
-                                    <td nzWidth="14rem">
-                                          <div class="d-flex flex-column">
-                                                <div>{{ data?.user?.first_name ? data?.user?.first_name + ' ' +
-                                                      (data?.user?.last_name ? data?.user?.last_name : '') : '' }}</div>
-                                                <div *ngIf="data?.user?.mobile" class="d-flex font-size-12">Contact No:
-                                                      {{data?.user?.mobile}}</div>
-                                          </div>
-                                    </td>
-                                    <td>
-                                          <div class="d-flex flex-column">
-                                                <div>{{ data?.created_at | date:'shortDate' }}</div>
-                                                <div>{{ data?.created_at | date:'shortTime' }}</div>
-                                          </div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
-                                    <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td nzRight>
-                                          <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                                [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                                [nzDropdownMenu]="latestUploadDropDown">
-                                                <i nz-icon nzType="ellipsis" theme="outline"></i>
-                                          </a>
-                                          <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                                <ul nz-menu>
-                                                      <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                      <li nz-menu-item>
-                                                            <span class="m-l-5">Track Application</span>
-                                                      </li>
-                                                      <li nz-menu-item>
-                                                            <span class="m-l-5">Edit Offer</span>
-                                                      </li>
-                                                      <li nz-menu-item>
-                                                            <span class="m-l-5">Accept</span>
-                                                      </li>
-                                                      <li nz-menu-item>
-                                                            <span class="m-l-5">Reject</span>
-                                                      </li>
-
-
-                                                </ul>
-                                          </nz-dropdown-menu>
-                                    </td>
+                                    <th nzWidth="2rem"></th>
+                                    <th nzWidth="3rem" [nzChecked]=" loanApplicationData[0] ? checked : false"
+                                          [nzIndeterminate]=" loanApplicationData[0] ? indeterminate : false"
+                                          (nzCheckedChange)="loanApplicationData[0] ? onAllChecked($event) : false">
+                                    </th>
+                                    <th nzWidth="100px">#</th>
+                                    <th>Loan ID</th>
+                                    <th nzWidth="14rem">User Details</th>
+                                    <th>Apply Date & Time</th>
+                                    <th>Master Partner</th>
+                                    <th>Source Id</th>
+                                    <th>Partner Id</th>
+                                    <th>Reference Id</th>
+                                    <th>Latest Action Performed By</th>
+                                    <th>Status</th>
+                                    <th nzRight>Action</th>
                               </tr>
-                              <tr [nzExpand]="expandSet.has(data.id)">
-                                    <div class="justify-content-center">
-                                          <nz-page-header
-                                                class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
-                                                [nzTitle]="personalDetail">
-                                          </nz-page-header>
-                                          <nz-card class="mb-md-0">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        Email
-                                                                  </h6>
-                                                                  <div>
-                                                                        {{data?.expanddata?.user?.email ? data?.user?.email : '--'}}
-                                                                  </div>
-                                                            </div>
+                        </thead>
+                        <tbody>
+                              <ng-container *ngFor="let data of loanApplicationData; index as i">
+                                    <tr>
+                                          <td nzWidth="2rem" [nzExpand]="expandSet.has(data.id)"
+                                                (nzExpandChange)="onExpandChange(data.id, $event, i)"></td>
+                                          <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)"
+                                                [nzDisabled]="data.disabled"
+                                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                                          <td>{{i+1}}</td>
+                                          <td>{{ data?.id }}</td>
+                                          <td nzWidth="14rem">
+                                                <div class="d-flex flex-column">
+                                                      <div>{{ data?.user?.first_name ? data?.user?.first_name + ' ' +
+                                                            (data?.user?.last_name ? data?.user?.last_name : '') : '' }}
                                                       </div>
-                                                      <div class="col-md-8">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        D.O.B
-                                                                  </h6>
-                                                                  <div>
-                                                                        {{data?.expanddata?.user?.dob ? data?.user?.dob : '--'}}
-                                                                  </div>
-                                                            </div>
-                                                      </div>
+                                                      <div *ngIf="data?.user?.mobile" class="d-flex font-size-12">
+                                                            Contact No:
+                                                            {{data?.user?.mobile}}</div>
                                                 </div>
-                                          </nz-card>
-                                          <ng-template #personalDetail>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">Personal Details</h6>
+                                          </td>
+                                          <td>
+                                                <div class="d-flex flex-column">
+                                                      <div>{{ data?.created_at | date:'shortDate' }}</div>
+                                                      <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
-                                          </ng-template>
-                                    </div>
-                                    <div>
-                                          <nz-page-header
-                                                class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
-                                                [nzTitle]="empHeader">
-                                          </nz-page-header>
-                                          <nz-card class="mb-md-0">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        Company Name
-                                                                  </h6>
-                                                                  <div>
-                                                                        {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
-                                                                        data?.expanddata?.income_details.results[0].employer_id?.name : '--'}}  
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div class="col-md-8">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        Address
-                                                                  </h6>
-                                                                  <div>
-                                                                    --
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </nz-card>
-                                          <ng-template #empHeader>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">Employement Details</h6>
-                                                </div>
-                                          </ng-template>
-                                    </div>
-                                    <div>
-                                          <nz-page-header
-                                                class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest my-2"
-                                                [nzTitle]="document">
-                                          </nz-page-header>
-                                          <nz-card class="mb-md-0">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>PAN</div>
-                                                                              <div class="mr-5">
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="eye"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                class="mx-3"
-                                                                                                nzType="check-circle"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="download"
-                                                                                                nzTheme="outline"></i></a>
-                                                                              </div>
-                                                                        </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                        {{data?.expanddata?.kyc_details?.results[0]?.pan_no ?data?.expanddata?.kyc_details?.results[0]?.pan_no : '--'}}
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Aadhar:</div>
-                                                                              <div class="mr-5">
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="eye"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                class="mx-3"
-                                                                                                nzType="check-circle"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="download"
-                                                                                                nzTheme="outline"></i></a>
-                                                                              </div>
-                                                                        </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                        {{data?.expanddata?.kyc_details?.results[0]?.aadhar_no ?data?.expanddata?.kyc_details?.results[0]?.aadhar_no : '--'}}
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Selfie</div>
-                                                                              <div class="mr-5">
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="eye"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                class="mx-3"
-                                                                                                nzType="check-circle"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="download"
-                                                                                                nzTheme="outline"></i></a>
-                                                                              </div>
-                                                                        </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                       {{data?.expanddata?.selfie ? 'Add Obj for selfie' : '--'}}
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </nz-card>
-                                          <ng-template #document>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">Document Details</h6>
-                                                </div>
-                                          </ng-template>
-                                    </div>
-                                    <div>
-                                          <nz-page-header
-                                                class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest my-2"
-                                                [nzTitle]="bureau">
-                                          </nz-page-header>
-                                          <nz-card class="mb-md-0">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Cibil Score:</div>
-                                                                              <div class="mr-5">
-                                                                                    {{data?.expanddata?.cibil_data ? 'Add Obj for
-                                                                                    cibil_data' : '--'}}
-                                                                              </div>
-                                                                        </div>
-                                                                  </h6>
-                                                                  <p>
-                                                                        <a class="text-primary">Fetch Details</a>    
-                                                                  </p>
-                                                                  <div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </nz-card>
-                                          <ng-template #bureau>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">Bureau Details</h6>
-                                                </div>
-                                          </ng-template>
-                                    </div>
+                                          </td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
+                                          <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
+                                          <td></td>
+                                          <td></td>
+                                          <td nzRight>
+                                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                                      [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                      [nzDropdownMenu]="latestUploadDropDown">
+                                                      <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                                </a>
+                                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                                      <ul nz-menu>
+                                                            <!-- [routerLink]="['edit-employee', data.id]" -->
+                                                            <li nz-menu-item (click)="updateStatus('editOffer', data)">
+                                                                  <span class="m-l-5">Edit Offer</span>
+                                                            </li>
+                                                            <li nz-menu-item>
+                                                                  <span class="m-l-5">Reject</span>
+                                                            </li>
 
-                                    <div>
-                                          <nz-page-header
-                                                class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest my-2"
-                                                [nzTitle]="offer">
-                                          </nz-page-header>
-                                          <nz-card class="mb-md-0">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Product Name:</div>
-                                                                              <div class="mr-5">
-                                                                                   
-                                                                              </div>
+
+                                                      </ul>
+                                                </nz-dropdown-menu>
+                                          </td>
+                                    </tr>
+                                    <tr [nzExpand]="expandSet.has(data.id)">
+                                          <div class="justify-content-center">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="personalDetail">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Email
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.user?.email ?
+                                                                              data?.user?.email : '--'}}
                                                                         </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                       </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              D.O.B
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.user?.dob ?
+                                                                              data?.user?.dob
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Monthly Income
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.user?.dob ?
+                                                                              data?.user?.dob
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
                                                             </div>
                                                       </div>
-                                                      
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Limit Proposed:</div>
-                                                                              <div class="mr-5">
-                                                                                   
-                                                                              </div>
+                                                </nz-card>
+                                                <ng-template #personalDetail>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user"
+                                                                        nzTheme="outline"></i> Personal Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="empHeader">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Company Name
+                                                                        </span>
+                                                                        <div>
+                                                                              <!-- created_at -->
+                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
+                                                                              == 'Salaried' ?
+                                                                              data?.expanddata?.income_details.results[0].employer_id?.name
+                                                                              : '--'}}
                                                                         </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                       </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Address
+                                                                        </span>
+                                                                        <div>
+                                                                              --
+                                                                              <!-- {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
+                                                                  data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
+                                                                        </div>
+                                                                  </div>
                                                             </div>
                                                       </div>
-                                                      <div class="col-md-4">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Status:</div>
-                                                                              <div class="mr-5">
-                                                                                   
+                                                </nz-card>
+                                                <ng-template #empHeader>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
+                                                                        nzTheme="outline"></i> Employement Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="document">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">PAN</span>
+                                                                                    <div class="mr-5">
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="eye"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="check-circle"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="download"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="upload"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                    </div>
                                                                               </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              ?data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              : '--'}}
                                                                         </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                     </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span
+                                                                                          class="text-muted">Aadhar:</span>
+                                                                                    <div class="mr-5">
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="eye"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="check-circle"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="download"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="upload"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              ?data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span
+                                                                                          class="text-muted">Selfie</span>
+                                                                                    <div class="mr-5">
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="eye"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="check-circle"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary"> <i
+                                                                                                      nz-icon
+                                                                                                      nzType="download"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                          <a class="text-primary mx-3">
+                                                                                                <i nz-icon
+                                                                                                      nzType="upload"
+                                                                                                      nzTheme="outline"></i></a>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                              {{data?.expanddata?.selfie ? 'Add Obj for
+                                                                              selfie' : '--'}}
+                                                                        </div>
+                                                                  </div>
                                                             </div>
                                                       </div>
-                                                      <div class="col-md-4 mt-2">
-                                                            <div class="d-flex flex-column">
-                                                                  <h6>
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <div>Pre-Approved Offer:</div>
-                                                                              <div class="mr-5">
-                                                                                   
+                                                </nz-card>
+                                                <ng-template #document>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Document Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="bureau">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Cibil
+                                                                                          Score:</span>
+                                                                                    <div class="mr-5">
+                                                                                          {{data?.expanddata?.cibil_data
+                                                                                          ?
+                                                                                          'Add Obj for
+                                                                                          cibil_data' : '--'}}
+                                                                                    </div>
                                                                               </div>
+                                                                        </h6>
+                                                                        <p>
+                                                                              <a class="text-primary">Fetch Details</a>
+                                                                        </p>
+                                                                        <div>
                                                                         </div>
-                                                                  </h6>
-                                                                  <div>
-                                                                       </div>
+                                                                  </div>
                                                             </div>
                                                       </div>
-                                                </div>
-                                          </nz-card>
-                                          <ng-template #offer>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">Offer Details</h6>
-                                                </div>
-                                          </ng-template>
-                                    </div> 
-                              </tr>
-                        </ng-container>
-                  </tbody>
-            </nz-table>
+                                                </nz-card>
+                                                <ng-template #bureau>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Bureau Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                          <!-- UnderWriting Rules -->
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="underWriting">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No. of
+                                                                                          Cheque Bounce</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Nach Trans.
+                                                                                          Declined (last 3
+                                                                                          months)</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Max.
+                                                                                          Delinquent Amt. (out of
+                                                                                          income)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No. of
+                                                                                          write off cases</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Data
+                                                                                          Quality score</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Retail
+                                                                                          Lending score
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No. of
+                                                                                          Inquiries (in last 3 Months)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No negative
+                                                                                          Events (in last 6 Months)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Avg. Salary
+                                                                                          Credited (last 6 months)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">Avg Min.
+                                                                                          Balance/month (in last 90
+                                                                                          days)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No Cc
+                                                                                          Applied (last 14 days)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">No loan
+                                                                                          applied (last 14 days)
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex flex-column">
+                                                                                    <span class="text-muted">FOIR (Total
+                                                                                          Debt/Monthly Salary))
+                                                                                    </span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #underWriting>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"> Underwriting Rules </h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="offerDetails">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Product
+                                                                                          Name</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Limit
+                                                                                          Proposed</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Status</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span class="text-muted">Pre-Approved
+                                                                                          Offer</span>
+                                                                                    <div class="mr-5">
+                                                                                          --
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #offerDetails>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Offer Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                    </tr>
+                              </ng-container>
+                        </tbody>
+                  </nz-table>
+            </div>
       </nz-card>
-</section>    
+</section>
+
+<!-- Modal Section -->
+<ng-template #modalTitle>
+      <label *ngIf="_isStatus">Update Status</label>
+      <label *ngIf="_isEditOffer">Edit Offer</label>
+</ng-template>
+<section>
+      <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+            [nzFooter]="footerModal">
+            <section *ngIf="_isStatus">
+                  <div class="row">
+                        <div class="col-md-4 mb-3">
+                              Select Status
+                        </div>
+                        <div class="col-md-8 mb-3">
+                              <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
+                                    nzPlaceHolder="Select Status">
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                          [nzLabel]="item?.name"></nz-option>
+                              </nz-select>
+                        </div>
+                        <div class="col-md-4">
+                              Remarks
+                        </div>
+                        <div class="col-md-8">
+                              <nz-textarea-count [nzMaxCharacterCount]="100">
+                                    <textarea rows="4" nz-input [(ngModel)]="remarks"></textarea>
+                              </nz-textarea-count>
+                        </div>
+                  </div>
+            </section>
+            <section *ngIf="_isEditOffer">
+                  <div class="row" [formGroup]="offerForm">
+                        <div class="col-md-12 mb-3">
+                              {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
+                                    + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                                    : '')) : '--' }}
+                                    <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?  _currentDocumentReq?.user?.mobile : '--'}}</span>
+                                    <span class="mx-2">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id : '--'}}</span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                              Offer Amount
+                        </div>
+                        <div class="col-md-8 mb-3">
+                              <input nz-input placeholder="Enter Your Offer Amount" formControlName="amountOffered">
+                        </div>
+                  </div>
+            </section>
+            <ng-template #footerModal>
+                  <button *ngIf="_isEditOffer" nz-button nzType="link" class="border" (click)="handleCancel()">Reset</button>
+                  <button *ngIf="_isStatus" nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+                  <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+                  <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
+            </ng-template>

@@ -1,7 +1,9 @@
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-partners-list',
@@ -92,8 +94,16 @@ export class PartnersListComponent implements OnInit {
   selectedUserId: any;
   selectedUserData: any;
   toggleChangePassword: boolean;
+  toggleOnUpgradeUser: boolean = false;
+  file: string;
+  uploaded_file: any;
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
 
-  constructor(private http: HttpService, private message: NzMessageService ) { }
+  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
 
   ngOnInit(): void {
     this.selectedTab = 'all';
@@ -106,7 +116,6 @@ export class PartnersListComponent implements OnInit {
     if (checked) {
       this.getPartnerListDetail(id, i)
       this.expandSet.add(id);
-      // alert('Clicked On Expand ' + id)
     } else {
       this.expandSet.delete(id);
     }
@@ -203,6 +212,8 @@ export class PartnersListComponent implements OnInit {
 
   handleCancel(){
     this.isDelete = false;
+    this.pdf_viewer_object_values['boolean'] = false
+    this.pdf_viewer_object_values['url'] = ''
   }
 
   onClickChangePassword(e){
@@ -238,9 +249,73 @@ export class PartnersListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
-    this.selectedUserId = id
-    this.isDelete = true;
+  deleteUserByUserId(id, action){
+    if(action === 'delete'){
+      this.selectedUserId = id;
+      this.isDelete = true;
+    } else {
+      this.toggleOnUpgradeUser = true;
+    }
+  }
+
+  selectedIdForAgreement: any;
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    console.log(file.name);
+    this.file = file.name
+    this.uploaded_file = file
+    console.log(file);
+    console.log(this.uploaded_file);
+    // this.updateMCCCodeWithUploadingFile();
+    this.uploadAndShowAgreement('post');
+    return false;
+  };
+
+  sanatizeUrlToSafe(value) {
+    // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
+    return this.sanitized.bypassSecurityTrustResourceUrl(value);
+  }
+
+  storeSelectedId(id, action){
+    this.selectedIdForAgreement = id;
+    if(action === 'get'){
+      this.uploadAndShowAgreement('get');
+
+    }
+  }
+
+
+
+  uploadAndShowAgreement(action?){
+    let data = new FormData();
+    data.append('file', this.uploaded_file);
+    let endPoint =  'partner' 
+    if(action === 'post' ){
+      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res)=> {
+        console.log(res);
+      }, err => {
+        console.log(err);
+      })
+    } else {
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
+      this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
+        if(res.success){
+          this.pdf_viewer_object_values['title'] = 'Show Agreement'
+          this.pdf_viewer_object_values['url'] = res?.data.agreement
+          this.pdf_viewer_object_values['boolean'] = true
+          this.message.remove(generateloader);
+        } else {
+          this.message.remove(generateloader);
+        }
+      }, err => {
+        console.log(err);
+      })
+
+    }
+  }
+
+  confirmationForUpdation(){
+    this.toggleOnUpgradeUser = false;
   }
 
 }

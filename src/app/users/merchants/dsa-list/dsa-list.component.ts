@@ -1,5 +1,8 @@
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -33,6 +36,15 @@ export class DsaListComponent implements OnInit {
   merchantDetailList: any = [];
   isDelete: boolean;
   selectedUserId: any;
+  selectedUserData: any[];
+  toggleChangePassword: boolean;
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
+  file: string;
+  uploaded_file: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -43,9 +55,10 @@ export class DsaListComponent implements OnInit {
     }
   }
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer  ) { }
 
   ngOnInit(): void {
+    this.selectedTab = 'all'
     this.page = 1
     this.getPartnerDSAList();
     
@@ -93,7 +106,7 @@ export class DsaListComponent implements OnInit {
       'page': this.page,
       'name': this.searchValue,
       'partner_nature': 'DSA',
-      'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
+      'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
     // if(this.searchValue){
     //   data['']
@@ -121,6 +134,8 @@ export class DsaListComponent implements OnInit {
 
   handleCancel(){
     this.isDelete = false;
+    this.pdf_viewer_object_values['boolean'] = false
+    this.pdf_viewer_object_values['url'] = ''
   }
 
   confirmationTrigger(value: any) {
@@ -136,6 +151,89 @@ export class DsaListComponent implements OnInit {
     this.isDelete = true;
   }
 
-  
+  onClickChangePassword(e){
+    console.log('event to execute')
+    console.log(e)
+    this.http.changePasswordByAdmin(e).subscribe((res)=>{
+      this.message.success('Password Updated Successfully');
+      this.toggleChangePassword = false;
+    }, err => {
+      this.toggleChangePassword = false;
+    })
+  }
+
+  changePassword(data){
+    this.selectedUserData = [];
+    const selectedData = {
+      id: data?.user?.id,
+      email: data?.contact_person_email,
+      phone:data?.contact_person_phone,
+      name: data?.name
+    }
+    this.selectedUserData.push(selectedData)
+    // this.selectedUserData = data;
+    console.log(this.selectedUserData)
+    this.toggleChangePassword = true
+  }
+
+ 
+  selectedIdForAgreement: any;
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    console.log(file.name);
+    this.file = file.name
+    this.uploaded_file = file
+    console.log(file);
+    console.log(this.uploaded_file);
+    // this.updateMCCCodeWithUploadingFile();
+    this.uploadAndShowAgreement('post');
+    return false;
+  };
+
+  sanatizeUrlToSafe(value) {
+    // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
+    return this.sanitized.bypassSecurityTrustResourceUrl(value);
+  }
+
+  storeSelectedId(id, action){
+    this.selectedIdForAgreement = id;
+    if(action === 'get'){
+      this.uploadAndShowAgreement('get');
+
+    }
+  }
+
+
+
+  uploadAndShowAgreement(action?){
+    let data = new FormData();
+    let endPoint =  'partner' 
+    data.append('file', this.uploaded_file);
+    if(action === 'post' ){
+      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res)=> {
+        console.log(res);
+      }, err => {
+        console.log(err);
+      })
+    } else {
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
+      this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
+        console.log(res);
+        // pdfViewerAndDownload(){
+          if(res.success){
+            this.pdf_viewer_object_values['title'] = 'Show Agreement'
+            this.pdf_viewer_object_values['url'] = res?.data.agreement
+            this.pdf_viewer_object_values['boolean'] = true
+            this.message.remove(generateloader);
+          } else {
+            this.message.remove(generateloader);
+          }
+        // }
+      }, err => {
+        console.log(err);
+      })
+
+    }
+  }
 
 }

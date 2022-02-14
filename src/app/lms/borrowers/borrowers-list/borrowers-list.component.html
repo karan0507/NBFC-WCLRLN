@@ -52,9 +52,9 @@
                     <tr *ngFor="let data of borrowertList; index as i">
                         <td>{{ i + 1}}</td>
                         <td>
-                            <h5>{{data.user ? data.user.first_name + ' ' + data.user.last_name : '-'}}</h5>
-                            <span>Contact No: {{data.user ? data.user.mobile : '-'}}</span>
-                            <p>{{data.user ? data.user.email : '-'}}</p>
+                            <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                            <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
+                            <p *ngIf="data.user?.email">{{data.user ? data.user.email : '-'}}</p>
                         </td>
                         <td>{{data.loan_unique_id}}</td>
                         <td>{{data.activation_date | date: "medium"}}</td>
