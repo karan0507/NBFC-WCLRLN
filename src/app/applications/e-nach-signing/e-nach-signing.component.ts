@@ -54,7 +54,7 @@ export class ENachSigningComponent implements OnInit {
 
       getFormLoanData(id?) {
             this.api_calling_loader = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=6', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   this.loanApplicationData = res?.data?.results;
                   this.total_count = res?.data?.total_count;
@@ -153,7 +153,7 @@ export class ENachSigningComponent implements OnInit {
       handleOk(type?) {
           switch (type){
                 case 'status': 
-                let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '6', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                 this.https.updateMultipleLoanApp(data).subscribe(res => {
                       if (res.success) {
                             console.log('res');
@@ -185,7 +185,7 @@ export class ENachSigningComponent implements OnInit {
       exportData(file_formate?) {
             let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-            this.https.exportLoanApplicationData(data).subscribe(res => {
+            this.https.fetchLoanApplicationList(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
