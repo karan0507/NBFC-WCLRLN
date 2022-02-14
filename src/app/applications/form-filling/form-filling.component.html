@@ -28,7 +28,7 @@
             <div class="row">
                   <div class="col-md-4 mb-3 d-flex">
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" nz-input placeholder="Search text" />
+                              <input type="text" (key.up)="getFormLoanData()" [(ngModel)]="searchValue" nz-input placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
                               <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
