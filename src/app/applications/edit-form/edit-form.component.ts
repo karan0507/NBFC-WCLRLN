@@ -53,8 +53,8 @@ export class EditFormComponent implements OnInit {
     
   }
   getFormLoanData() {
-    let data = { id: this.userId }
-    this.https.fetchLoanApplicationData(data).subscribe(res => {
+      let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + this.userId, 'source': 'Onboarding' };
+    this.https.fetchLoanApplicationList(data).subscribe(res => {
       console.log(res);
       if (res.success) {
         res.data.results.forEach(element => {

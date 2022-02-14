@@ -139,6 +139,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                  path: 'applications/nbfc-approval',
+                  title: 'NBFC Approval', 
+                  iconType: '', 
+                  icon: '',
+                  iconTheme: '',
+                  submenu: [] 
+              },
+            { 
                 path: 'applications/offer-proposed',
                 title: 'Offer Proposed', 
                 iconType: '', 

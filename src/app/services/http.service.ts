@@ -5,7 +5,7 @@ import { fromEvent, merge, Observable, Observer, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+      providedIn: 'root'
 })
 export class HttpService {
 	url = 'https://devadminapi.fatakpay.com'
@@ -14,7 +14,7 @@ export class HttpService {
 
   globalProductData = new ReplaySubject<any>();
 
-  constructor(private _http: HttpClient, private message: NzMessageService,) { 
+  constructor(private _http: HttpClient, private message: NzMessageService) { 
   }
 
   public UserLogin(data):any {
@@ -343,8 +343,91 @@ export class HttpService {
    * Application Module Fetch Loan 
    */
   public fetchLoanApplicationData(data?): any {
-    return this._http.get((this.url1 +`/loan-application/v1/fetch-loan-application/LoanApplication`));
+    return this._http.get((this.url +`/loan-application/v1/fetch-loan-application/LoanApplication`));
   }
+
+  
+
+//   ****************************Loan Application Module API's ***************************
+  //  Fetch All Stages**/
+  public getStageMaster(data?): any {
+        return this._http.get((this.url + `/master/fetch-master-data/StageMaster`));
+  }
+
+  // Export API
+  public exportLoanApplicationData(data?): any {
+        return this._http.post((this.url + `/central-api/v1/call-api`), data, {responseType: 'blob'});
+  }
+
+  public fetchLoanApplicationList(data): Observable<any> {
+        const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+        return this._http.get((this.url + `/central-api/v1/call-api`), { headers: headers, params: data, });
+  }
+
+  // Pull Cibil
+  public getCibilData(id?): any {
+        return this._http.get((this.url + `/loan-application/v1/pull-cibil/`, id));
+  }
+
+  // Update Single Loan Application Status
+  public updateSingleLoanApp(data?): any {
+        return this._http.post((this.url + `/central-api/v1/call-api`), data);
+  }
+
+  // Update Multiple Loan Application Status
+  public updateMultipleLoanApp(data?): any {
+        return this._http.post((this.url + `/central-api/v1/call-api`), data);
+  }
+
+  // Fetch Admin Proposed Offer
+  public getAdProposedOffer(id?) {
+        return this._http.get((this.url + `/central-api/v1/call-api`, id));
+        //** */ ?source=LMS&datapoint=fetch_proposed_offers&endpoint=1
+  }
+
+  // Fetch Admin Accepted Offers
+  public getAdAcceptedOffer(id?) {
+        return this._http.get((this.url + `/central-api/v1/call-api`, id));
+        //** */ ?source=LMS&datapoint=fetch_accepted_offers&endpoint=1
+  }
+
+  // Edit Proposed Accepted Offers
+  public editAdProposedOffer(id?) {
+        return this._http.put((this.url + `/central-api/v1/call-api`), id);
+        //**Form Body "source" : "LMS",
+        //     "datapoint" : "edit_proposed_offers",
+        //     "endpoint" : "1",
+        //     "amount" : 2000
+  }
+
+  // Edit Admin Accepted Offers
+  public editAdAcceptedOffer(id?) {
+        return this._http.put((this.url + `/central-api/v1/call-api`), id);
+        //**Form Body     "source" : "LMS",
+        //     "datapoint" : "edit_accepted_offers",
+        //     "endpoint" : "1",
+        //     "amount" : 2000
+  }
+
+  // Admin Accepted Offers
+  public acceptOfferAd(id?) {
+        return this._http.put((this.url + `/central-api/v1/call-api`), id);
+        //**Form Body     // "source" : "LMS",
+        // "datapoint" : "accept_offer",
+        // "endpoint" : "9",
+        // "remarks" : "Offer was not useful"
+  }
+
+  // Admin Rejected Offers
+  public rejectedOffersAd(id?) {
+        return this._http.put((this.url + `/central-api/v1/call-api`), id);
+        //**Form Body      "source" : "LMS",
+        //     "datapoint" : "reject_offer",
+        //     "endpoint" : "8",
+        //     "remarks" : "Offer was not useful"
+  }
+
+  // ********************************** End Loan Application API's***************************
 
   public getMasterPartner(data){
     return this._http.get((this.url +`/partner/v1/get/master`),{params:data});
@@ -409,7 +492,7 @@ export class HttpService {
   // /partner/v1/create-partner-partnermaster
 
   // Application Module => End point 
-  public fetchLoanApplicationList(data):Observable <any> {
+  public fetchLoanApplicationListExport(data):Observable <any> {
     const headers = new HttpHeaders().set('Authorization','Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
     return this._http.get((this.url +`/central-api/v1/call-api`), {headers : headers, params: data, responseType: 'blob'});
   }
@@ -512,5 +595,24 @@ export class HttpService {
   uploadMCCFile(data){
     const headers = new HttpHeaders();
     return this._http.post(this.url + `/central-api/v1/call-api`, data, { headers: headers });
+  }
+
+  //UploadAndShowAggrement
+  uploadAndShowAgreement(endPoint, action, id, data?){
+    const headers = new HttpHeaders();
+    if(action === 'post'){
+      return this._http.post(this.url + `/partner/v1/upload-agreement/${endPoint}/${id}`, data, { headers: headers });
+    } else if (action === 'get'){
+      return this._http.get(this.url + `/partner/v1/upload-agreement/${endPoint}/${id}`, { headers: headers });
+    }
+  }
+
+  uploadAndShowAgreementForNBFC(action, id, data?){
+    const headers = new HttpHeaders();
+    if(action === 'post'){
+      return this._http.post(this.url + `/nbfc/v1/upload-agreement/${id}`, data, { headers: headers });
+    } else if (action === 'get'){
+      return this._http.get(this.url + `/nbfc/v1/upload-agreement/${id}`, { headers: headers });
+    }
   }
 }
