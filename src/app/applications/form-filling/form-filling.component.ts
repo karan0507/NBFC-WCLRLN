@@ -11,6 +11,7 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class FormFillingComponent implements OnInit {
       checked: boolean = false;
+      searchValue : any = '';
       filters: any;
       _exportDocument: any;
       productFilters: any;
@@ -46,6 +47,13 @@ export class FormFillingComponent implements OnInit {
       getFormLoanData(id?) {
             this.api_calling_loader = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            // if(this.searchValue){
+            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }
+            // if(){
+            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }    
+            
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   this.loanApplicationData = res?.data?.results;
                   this.total_count = res?.data?.total_count;
