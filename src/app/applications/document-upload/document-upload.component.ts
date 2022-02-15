@@ -10,7 +10,7 @@ import { HttpService } from 'src/app/services/http.service';
       styleUrls: ['./document-upload.component.css']
 })
 export class DocumentUploadComponent implements OnInit {
-      _exportDocument : any;
+      _exportDocument: any;
       checked: boolean = false;
       filters: any;
       _currentDocumentReq: any;
@@ -77,9 +77,13 @@ export class DocumentUploadComponent implements OnInit {
             this.api_calling_loader = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader = false
+                  } else {
+                        this.api_calling_loader = false
+                  }
             }, (err) => {
                   this.api_calling_loader = false
             })
@@ -200,12 +204,12 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
-            },error =>{
+            }, error => {
                   this.message.remove(generateloader);
                   console.log(error);
             })

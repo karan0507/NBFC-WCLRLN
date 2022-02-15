@@ -53,7 +53,7 @@
             </div>
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable nzShowSizeChanger (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                   <thead>
                         <tr>
                               <th nzWidth="2rem"></th>
@@ -132,7 +132,7 @@
                                           </nz-dropdown-menu>
                                     </td>
                               </tr>
-                              <tr [nzExpand]="expandSet.has(data.id)">
+                              <tr [nzExpand]="expandSet.has(data.id)" [nzLoading]="api_calling_loader['accordian']">
                                     <div class="justify-content-center">
                                           <nz-page-header
                                                 class="site-page-header acc-bg-light"

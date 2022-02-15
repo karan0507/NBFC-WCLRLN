@@ -50,9 +50,13 @@ export class UnderwritingComponent implements OnInit {
             this.api_calling_loader = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
+                 if(res?.data){
                   this.loanApplicationData = res?.data?.results;
                   this.total_count = res?.data?.total_count;
                   this.api_calling_loader = false
+                 }else{
+                  this.api_calling_loader = false
+                 }
             }, (err) => {
                   this.api_calling_loader = false
             })
