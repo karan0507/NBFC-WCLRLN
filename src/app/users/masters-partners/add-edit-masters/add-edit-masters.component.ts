@@ -86,8 +86,8 @@ export class AddEditMastersComponent implements OnInit {
       address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
       city: [data ? data?.city : null, [Validators.required]],
       state: [data ? data?.state : null, [Validators.required]],
-      pincode: [data ? data?.pincode : null, [Validators.required]],
-      phone: [data ? data?.phone : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
 
       bank_name: [data ? data?.bank_name : null, [Validators.required]],
@@ -100,8 +100,8 @@ export class AddEditMastersComponent implements OnInit {
       // Attribute Nature under business detail
       business_nature: [data ? data?.business_nature : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
-      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       employee: [data ? data?.employee : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],
       document_data:  this.fb.array([]),

@@ -92,8 +92,8 @@ export class AddEditLendersComponent implements OnInit {
       ],
       city: [data ? data?.city : null, [Validators.required]],
       state: [data ? data?.state : null, [Validators.required]],
-      pincode: [data ? data?.pincode : null, [Validators.required]],
-      phone: [data ? data?.phone : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
       bank_name: [data ? data?.bank_name : null, [Validators.required]],
       account_no: [data ? data?.account_no : null, [Validators.required]],
@@ -118,11 +118,11 @@ export class AddEditLendersComponent implements OnInit {
       ],
       nbfc_user_mobile: [
         data ? data?.nbfc_user_mobile : null,
-        [Validators.required],
+        [Validators.required, Validators.pattern('^[7-9][0-9]{9}$')],
       ],
       nbfc_user_email: [
         data ? data?.nbfc_user_email : null,
-        [Validators.required],
+        [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
       ],
       // employee: [data ? data?.name : null, [Validators.required]],
       // payout: [data ? data?.name : null, [Validators.required]],
@@ -172,7 +172,7 @@ export class AddEditLendersComponent implements OnInit {
     // }
   }
 
-  get_underwritingArr(form) {
+  get_documentArr(form) {
     return form.controls.document_data.controls;
   }
 
