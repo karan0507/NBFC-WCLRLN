@@ -18,7 +18,20 @@ const routes: Routes = [
         path: 'add',
         component: AddEditPartnersComponent,
         data: {
-          title: 'Add Partners',
+          title: 'Add Cooperate',
+          parent: 'Partners',
+        }
+      },
+    ]
+  },
+  {
+    path: '',
+    children: [
+      {
+        path: 'edit',
+        component: AddEditPartnersComponent,
+        data: {
+          title: 'Edit Cooperate',
           parent: 'Partners',
         }
       },

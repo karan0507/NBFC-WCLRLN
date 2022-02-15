@@ -242,6 +242,7 @@ export class MerchantsListComponent implements OnInit {
             this.message.remove(generateloader);
           } else {
             this.message.remove(generateloader);
+            this.message.error('No Reports To Generate..');
           }
         // }
       }, err => {

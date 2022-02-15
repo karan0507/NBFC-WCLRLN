@@ -84,7 +84,7 @@
                                             <span class="m-l-5"  (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../lenders/add']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['../lenders/edit']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted">
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>

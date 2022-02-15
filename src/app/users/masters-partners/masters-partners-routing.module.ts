@@ -24,6 +24,19 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: '',
+    children: [
+      {
+        path: 'edit',
+        component: AddEditMastersComponent,
+        data: {
+          title: 'Edit Masters Partners',
+          parent: 'Masters Partners',
+        }
+      },
+    ]
+  },
 ];
 
 @NgModule({

@@ -90,7 +90,7 @@
                                             <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../add-dsa']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['../edit-dsa']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
