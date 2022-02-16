@@ -1,3 +1,4 @@
+import { saveAs } from "file-saver";
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
@@ -259,6 +260,16 @@ export class PartnersListComponent implements OnInit {
     } else {
       this.toggleOnUpgradeUser = true;
     }
+  }
+
+  onClickDownloadSelectedDocument(e){
+console.log(e)
+// if(e?.document_file?.includes('pdf')){
+  // alert(true)
+  saveAs(e?.document_file, `${e?.file_name}`);
+// } else {
+  // alert(false)
+// }
   }
 
   selectedIdForAgreement: any;
