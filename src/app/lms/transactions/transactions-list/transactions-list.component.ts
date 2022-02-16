@@ -105,7 +105,7 @@ export class TransactionsListComponent implements OnInit {
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-    this.http.fetchLoanApplicationList(data).subscribe(res => {
+    this.http.fetchLoanApplicationListExport(data).subscribe(res => {
       this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
     })
   }
