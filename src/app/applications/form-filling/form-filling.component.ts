@@ -27,8 +27,8 @@ export class FormFillingComponent implements OnInit {
       _activeLoans: any = [];
       today = new Date();
       api_calling_loader = {
-            'listLoader' : false,
-            'accordian':false
+            'listLoader': false,
+            'accordian': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -79,20 +79,21 @@ export class FormFillingComponent implements OnInit {
                         this.api_calling_loader['accordian'] = false;
                         this._activeLoans.push(res?.data?.results[0]);
                         this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                        console.log(this.loanApplicationData[index].expanddata)
                   } else {
                         this.api_calling_loader['accordian'] = false;
                   }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
+            console.log(id, checked, index);
+
             if (checked) {
                   this.expandSet.add(id);
                   this.getIdWiseData(this._currentId = id, index);
-                  // console.log();
-
             } else {
                   this.expandSet.delete(id);
                   console.log('Deleted array of active ids', this._activeLoans);

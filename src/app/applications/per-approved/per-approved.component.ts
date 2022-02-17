@@ -5,13 +5,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-per-approved',
-  templateUrl: './per-approved.component.html',
-  styleUrls: ['./per-approved.component.css']
+      selector: 'app-per-approved',
+      templateUrl: './per-approved.component.html',
+      styleUrls: ['./per-approved.component.css']
 })
 export class PerApprovedComponent implements OnInit {
       checked: boolean = false;
-      _exportDocument : any;
+      _exportDocument: any;
       filters: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -25,7 +25,10 @@ export class PerApprovedComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
@@ -36,7 +39,7 @@ export class PerApprovedComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
-      constructor(public https: HttpService, public message : NzMessageService) { }
+      constructor(public https: HttpService, public message: NzMessageService) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
@@ -44,28 +47,34 @@ export class PerApprovedComponent implements OnInit {
 
 
       getFormLoanData(id?) {
-            this.api_calling_loader = true
+            this.api_calling_loader['listLoader'] = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if(res?.data){
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
-                  }else{
-                        this.api_calling_loader = false;
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader['listLoader'] = false
+                  } else {
+                        this.api_calling_loader['listLoader'] = false;
                   }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                        console.log(this.loanApplicationData[index].expanddata)
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
             })
       }
 
@@ -156,12 +165,12 @@ export class PerApprovedComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
-            },error =>{
+            }, error => {
                   this.message.remove(generateloader);
                   console.log(error);
             })

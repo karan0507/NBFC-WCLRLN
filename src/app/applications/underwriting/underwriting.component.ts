@@ -26,7 +26,10 @@ export class UnderwritingComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean = false;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
@@ -47,18 +50,18 @@ export class UnderwritingComponent implements OnInit {
       }
 
       getFormLoanData(id?) {
-            this.api_calling_loader = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
+            this.api_calling_loader['listLoader'] = true
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                  if(res?.data){
                   this.loanApplicationData = res?.data?.results;
                   this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
                  }else{
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
                  }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 

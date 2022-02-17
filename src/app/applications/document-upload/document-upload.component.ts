@@ -23,16 +23,21 @@ export class DocumentUploadComponent implements OnInit {
       _currentDate: any;
       _currentId: any;
       console = console;
+      _currentDocType: any;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
-      _currentStageStatus: any;
+      _currentStageStatus: any = null;
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
+      _isViewDocument: boolean = false;
 
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
@@ -73,29 +78,44 @@ export class DocumentUploadComponent implements OnInit {
       //       }
       // ];
 
+
       getFormLoanData(id?) {
-            this.api_calling_loader = true
+            this.api_calling_loader['listLoader'] = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
+            // if(this.searchValue){
+            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }
+            // if(){
+            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }    
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
-                        this.api_calling_loader = false
+                        this.api_calling_loader['listLoader'] = false
                   } else {
-                        this.api_calling_loader = false
+                        this.api_calling_loader['listLoader'] = false
                   }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 
@@ -147,8 +167,8 @@ export class DocumentUploadComponent implements OnInit {
 
       }
 
-      updateStatus(type?, data?) {
-            console.log(type, typeof (type));
+      updateStatus(type?, data?, docType?) {
+            console.log(type, typeof (type), docType);
             if (data) {
                   this._currentDocumentReq = data
                   console.log(this._currentDocumentReq, 'Your current ID');
@@ -164,8 +184,13 @@ export class DocumentUploadComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
-                  case 'download': this._isDocument = true; break;
+                  case 'download': this._isDocument = true;
+                        break;
+                  case 'viewDocument': this._isViewDocument = true; break;
 
+            }
+            if (docType) {
+                  this._currentDocType = docType;
             }
       }
 
@@ -173,21 +198,29 @@ export class DocumentUploadComponent implements OnInit {
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
+            this._isViewDocument = false;
       }
 
-      handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '2', applications: JSON.stringify(this._checkedLoanList) };
-            this.https.updateMultipleLoanApp(data).subscribe(res => {
-                  if (res.success) {
-                        console.log('res');
-                        this._isUpdateStatus = false;
-                  } else {
-                        console.log('error=>', res?.error);
-                  }
-            }, error => {
-                  console.log(error);
+      handleOk(type?) {
+            switch (type) {
+                  case 'DocumentModal':
+                        console.log('Add Document API Logic');
+                        break;
+                  case 'StatusModal':
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '2', applications: JSON.stringify(this._checkedLoanList) };
+                        this.https.updateMultipleLoanApp(data).subscribe(res => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this._isUpdateStatus = false;
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              console.log(error);
 
-            })
+                        })
+                        break;
+            }
       }
 
       downloadModal() {
@@ -215,12 +248,21 @@ export class DocumentUploadComponent implements OnInit {
             })
       }
 
-      generateBase64View(file) {
+      generateBase64View(file: Blob) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             this._exportDocument = file;
             reader.onload = (e) => {
                   console.log(reader, this._exportDocument);
+            }
+      }
+
+      viewDocument(document) {
+            if (document) {
+                  console.log(document);
+            } else {
+                  console.log('document is null');
+
             }
       }
 }

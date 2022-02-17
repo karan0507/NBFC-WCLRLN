@@ -346,7 +346,10 @@ export class HttpService {
     return this._http.get((this.url +`/loan-application/v1/fetch-loan-application/LoanApplication`));
   }
 
-  
+//   Fetch Master Income Source Range list
+public getMasterIncomeSource(){
+      return this._http.get((this.url +`/master/fetch-master-data/IncomeSourceMaster`));   
+}
 
 //   ****************************Loan Application Module API's ***************************
   //  Fetch All Stages**/
