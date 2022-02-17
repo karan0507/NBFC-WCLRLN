@@ -615,4 +615,9 @@ export class HttpService {
       return this._http.get(this.url + `/nbfc/v1/upload-agreement/${id}`, { headers: headers });
     }
   }
+
+  fetchDetailForUserModuleDropDown(action){
+    // /platform_central/v1/get-states
+    return this._http.get(this.url + `/platform_central/v1/${action}`);
+  }
 }

@@ -263,7 +263,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-console.log(e)
+    console.log(e)
 // if(e?.document_file?.includes('pdf')){
   // alert(true)
   saveAs(e?.document_file, `${e?.file_name}`);

@@ -1,7 +1,7 @@
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NzUploadFile } from "ng-zorro-antd/upload";
 import { HttpService } from "src/app/services/http.service";
 
@@ -20,11 +20,19 @@ export class AddEditLendersComponent implements OnInit {
   isVisible;
   selectedDocument;
   masterPartnerId: any;
+  stateArr: any;
+  apiLoader = {
+    'formSave': false,
+    'saveAddNew': false
+  } 
+  debounce: any;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpService,
     private route: ActivatedRoute,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private router: Router,
   ) {
     this.getListOfDocumentRequired();
   }
@@ -38,6 +46,7 @@ export class AddEditLendersComponent implements OnInit {
         this.masterPartnerId = params["id"];
         if (this.masterPartnerId) {
           this.getNBFCDetail();
+          this.getListOfStates();
         }
       } else {
         this.isEdit = false;
@@ -53,6 +62,24 @@ export class AddEditLendersComponent implements OnInit {
       console.log(res);
       this.createMasterProductForm(res?.data);
     });
+  }
+
+  getListOfStates(){
+    let action = 'get-states'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      console.log(res);
+      this.stateArr = res?.data;
+    })
+  }
+  
+  onSearchGetList(e, action){
+    // if(action === 'sta'){
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        // this.getListOfCorp(search_param);
+      }, 500);
+    // }
+
   }
 
   setFormData(data) {
@@ -91,7 +118,7 @@ export class AddEditLendersComponent implements OnInit {
         [Validators.required],
       ],
       city: [data ? data?.city : null, [Validators.required]],
-      state: [data ? data?.state : null, [Validators.required]],
+      state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
@@ -237,6 +264,7 @@ export class AddEditLendersComponent implements OnInit {
     }
 
     if (this.addEditProductForm.valid) {
+      this.apiLoader['formSave'] = true
       if (!this.isEdit) {
         let data = new FormData();
 
@@ -249,8 +277,12 @@ export class AddEditLendersComponent implements OnInit {
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          data.append("documents", sendDate?.document_data[i]?.documents);
-          delete sendDate?.document_data[i]?.documents;
+          if(sendDate?.document_data[i]?.documents){
+            data.append('documents', sendDate?.document_data[i]?.documents)
+            delete sendDate?.document_data[i]?.documents
+          }
+          // data.append("documents", sendDate?.document_data[i]?.documents);
+          // delete sendDate?.document_data[i]?.documents;
         }
 
         for (var i in sendDate) {
@@ -261,9 +293,18 @@ export class AddEditLendersComponent implements OnInit {
           }
         }
         const url = this.http.createNBFCForm(data);
-        url.subscribe((res) => {
-          console.log(res);
-        });
+        url.subscribe((res: any)=> {
+          if(res.success){
+            this.apiLoader['formSave'] = false
+            this.message.success(res?.message);
+            this.router.navigate(['lenders']);
+          } else {
+            this.apiLoader['formSave'] = false
+            this.message.error(res?.message);
+          }
+        }, err => {
+          this.apiLoader['formSave'] = false
+        })
       } else {
         let data = new FormData();
 
@@ -292,68 +333,70 @@ export class AddEditLendersComponent implements OnInit {
           }
         }
         const url = this.http.updateNBFCForm(this.masterPartnerId, data);
-        url.subscribe((res) => {
-          console.log(res);
-        });
+        url.subscribe((res: any)=> {
+          if(res.success){
+            this.message.success(res?.message);
+            this.apiLoader['formSave'] = false
+            this.router.navigate(['lenders']);
+          } else {
+            this.message.error(res?.message);
+            this.apiLoader['formSave'] = false
+          }
+        }, err => {
+          this.apiLoader['formSave'] = false
+        })
       }
     }
   }
 
-  // onClickSubmitForm(){
-  //   for (const i in this.addEditProductForm.controls) {
-  //     this.addEditProductForm.controls[ i ].markAsDirty();
-  //     this.addEditProductForm.controls[ i ].updateValueAndValidity();
-  //   }
+  onClickSaveExistingForm(){
+    for (const i in this.addEditProductForm.controls) {
+      this.addEditProductForm.controls[ i ].markAsDirty();
+      this.addEditProductForm.controls[ i ].updateValueAndValidity();
+    }
+    if(this.addEditProductForm.valid) {
+      this.apiLoader['saveAddNew'] = true
+      let data = new FormData();
+    
+      var sendDate = this.addEditProductForm.value
+      
+      for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        if(!sendDate.unique_code){
+          delete sendDate?.unique_code;
+        }
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const url = this.http.createNBFCForm(data);
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['saveAddNew'] = false
+        let newRouterLink = '/lenders/add';
+        this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['saveAddNew'] = false
+        }
+      }, err =>{
+        this.apiLoader['saveAddNew'] = false
+      })
+    }
 
-  //   let data = new FormData();
-
-  //     var sendDate = this.addEditProductForm.value
-
-  //   if(this.addEditProductForm.valid && !this.masterPartnerId){
-
-  //     for (var i in sendDate.document_data) {
-  //       data.append('documents', sendDate?.document_data[i]?.documents)
-  //       delete sendDate?.document_data[i]?.documents
-  //     }
-
-  //     for (var i in sendDate) {
-  //       if(sendDate?.document_data.length >= 1){
-  //       if(i == 'document_data'){
-  //         data.append(i, JSON.stringify(sendDate[i]))
-  //       } }
-  //         // else {
-  //         data.append(i, sendDate[i])
-  //       // }
-
-  //     }
-
-  //     this.http.createNBFCForm(data).subscribe((res)=> {
-  //       console.log(res);
-  //     })
-  //   } else {
-  //     for (var i in sendDate.document_data) {
-  //       if(sendDate?.document_data[i]?.documents?.includes('/')){
-  //       break;
-  //       }
-  //       data.append('documents', sendDate?.document_data[i]?.documents)
-  //       delete sendDate?.document_data[i]?.documents
-  //     }
-
-  //     for (var i in sendDate) {
-  //       if(i == 'document_data'){
-  //         data.append(i, JSON.stringify(sendDate[i]))
-  //       } else {
-  //         data.append(i, sendDate[i])
-  //       }
-  //     }
-  //     const  url = this.http.updateNBFCForm(this.masterPartnerId, data)
-  //     url.subscribe((res)=> {
-  //       console.log(res);
-  //     })
-  //   }
-
-  //   // console.log(data);
-  // }
+  }
 
   handleChange(e, index) {
     // console.log('in Progress', i);

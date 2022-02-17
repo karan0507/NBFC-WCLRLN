@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
 import {  FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
@@ -23,19 +23,30 @@ export class AddEditMastersComponent implements OnInit {
   masterPartnerId: any;
   isVerified: any;
   isEdit: boolean;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
+  businessNatureArr: any;
+  businessTypeArr: any;
+  stateArr: any;
+  apiLoader = {
+    'formSave': false,
+    'saveAddNew': false
+  } 
+  debounce: any;
+
+  constructor(private fb: FormBuilder,private router: Router, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
   ngOnInit(): void {
     this.createMasterProductForm();
-    
     this.route.queryParams.subscribe(params => {
       if(params['id']){
         this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.fetchMasterPartner()
+          this.fetchMasterPartner();
+          this.getListOfBusinessType();
+          this.getListOfBusinessNature();
+          this.getListOfStates();
         }
       } else {
         this.isEdit = false
@@ -46,6 +57,37 @@ export class AddEditMastersComponent implements OnInit {
     });
   }
 
+  getListOfBusinessNature(){
+    let action = 'get-business-natures'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      this.businessNatureArr = res?.data;
+    }) 
+  }
+
+  getListOfBusinessType(){
+    let action = 'get-business-types'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      this.businessTypeArr = res?.data;
+    }) 
+  }
+
+  getListOfStates(){
+    let action = 'get-states'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      console.log(res);
+      this.stateArr = res?.data;
+    })
+  }
+  
+  onSearchGetList(e, action){
+    // if(action === 'sta'){
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        // this.getListOfCorp(search_param);
+      }, 500);
+    // }
+
+  }
 
   fetchMasterPartner(){
 
@@ -85,7 +127,7 @@ export class AddEditMastersComponent implements OnInit {
       address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
       address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
       city: [data ? data?.city : null, [Validators.required]],
-      state: [data ? data?.state : null, [Validators.required]],
+      state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
@@ -96,9 +138,9 @@ export class AddEditMastersComponent implements OnInit {
       branch: [data ? data?.branch : null, [Validators.required]],
 
       // Attribute Type under business detail
-      business_type: [data ? data?.business_type : null, [Validators.required]],
+      business_type: [data ? data?.business_type?.id : null, [Validators.required]],
       // Attribute Nature under business detail
-      business_nature: [data ? data?.business_nature : null, [Validators.required]],
+      business_nature: [data ? data?.business_nature?.id : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -226,6 +268,7 @@ export class AddEditMastersComponent implements OnInit {
     console.log('Working',this.addEditProductForm.value);
       
     if(this.addEditProductForm.valid) {
+      this.apiLoader['formSave'] = true
       if(!this.isEdit) {
       let data = new FormData();
     
@@ -238,8 +281,13 @@ export class AddEditMastersComponent implements OnInit {
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
-        data.append('documents', sendDate?.document_data[i]?.documents)
-        delete sendDate?.document_data[i]?.documents
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+
+        // data.append('documents', sendDate?.document_data[i]?.documents)
+        
       }
   
       for (var i in sendDate) {
@@ -250,8 +298,18 @@ export class AddEditMastersComponent implements OnInit {
         }
       }
       const  url = this.http.createMasterPartnerForm(data);
-      url.subscribe((res)=> {
+      url.subscribe((res: any)=> {
         console.log(res);
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false;
+          this.router.navigate(['masters-partners']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false;
+        }
+      }, err => {
+        this.apiLoader['formSave'] = false
       })
     }
      else  {
@@ -272,13 +330,6 @@ export class AddEditMastersComponent implements OnInit {
           delete sendDate?.document_data[i]?.documents
         }
       }
-      // for (var i in sendDate.document_data) {
-        // if(sendDate?.document_data[i]?.documents?.includes('/')){
-        // break;  
-        // }
-        // data.append('documents', sendDate?.document_data[i]?.documents)
-        // delete sendDate?.document_data[i]?.documents
-      // }
   
       for (var i in sendDate) {
         if(i == 'document_data'){
@@ -288,11 +339,70 @@ export class AddEditMastersComponent implements OnInit {
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
-      url.subscribe((res)=> {
-        console.log(res);
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false
+          this.router.navigate(['masters-partners']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false
+        }
+      }, err => {
+        this.apiLoader['formSave'] = false
       })
     }
   }
+
+  }
+
+  onClickSaveExistingForm(){
+    for (const i in this.addEditProductForm.controls) {
+      this.addEditProductForm.controls[ i ].markAsDirty();
+      this.addEditProductForm.controls[ i ].updateValueAndValidity();
+    }
+    if(this.addEditProductForm.valid) {
+      this.apiLoader['saveAddNew'] = true
+      let data = new FormData();
+    
+      var sendDate = this.addEditProductForm.value
+      
+      for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        if(!sendDate.unique_code){
+          delete sendDate?.unique_code;
+        }
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.http.createPartnerForm(data);
+      url.subscribe((res: any)=> {
+        console.log(res);
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['saveAddNew'] = false;
+          let newRouterLink = '/masters-partners/add';
+        this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['saveAddNew'] = false;
+        }
+      }, err =>{
+        this.apiLoader['saveAddNew'] = false
+      })
+    }
 
   }
 

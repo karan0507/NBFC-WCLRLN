@@ -36,11 +36,23 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Sate">
+                            <nz-select formControlName="state" nzPlaceHolder="Select State"
+                                (nzFocus)="getListOfStates()" nzShowSearch nzAllowClear
+                                (nzOnSearch)="onSearchGetList($event, 'state')">
+                                <nz-option *ngFor="let item of stateArr" [nzValue]="item.id"
+                                    [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <!-- <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State/Region</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid State!">
                             <input nz-input type="text" formControlName="state"  placeholder="State"/>
                         </nz-form-control>
-                    </nz-form-item>
+                    </nz-form-item> -->
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
@@ -205,11 +217,23 @@
             <div class="row border-top mt-2">
                 <div class="col-md-12 mt-4">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="corporation_category" class="text-left" nzRequired>Corp Category</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Valid Corporation Category">
+                            <nz-select formControlName="corporation_category" nzPlaceHolder="Select Corporation Category"
+                                (nzFocus)="getListOfCorp()" nzShowSearch nzAllowClear
+                                (nzOnSearch)="onSearchGetList($event, 'corp')">
+                                <nz-option *ngFor="let item of corpArr" [nzValue]="item.id"
+                                    [nzLabel]="item.category_name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <!-- <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>Corp Category</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Corp Category !">
                             <input nz-input type="text" formControlName="state"  placeholder="State"/>
                         </nz-form-control>
-                    </nz-form-item>
+                    </nz-form-item> -->
                 </div>
                 <div class="col-md-12 mt-4">
                     <nz-form-item>
@@ -230,10 +254,10 @@
     </nz-card>
     <div class="row my-3 justify-content-between">
         <div class="col-3">
-            <button nz-button nzType="default">Reset</button>
+            <button nzType="primary" *ngIf="!isEdit" nz-button type="submit" [nzLoading]="apiLoader['saveAddNew']" [disabled]="apiLoader['formSave']" (click)="onClickSaveExistingForm($event)">Save & Add New</button>
         </div>
         <div class="col-3 text-right">
-            <button type="submit" (click)="onClickSubmitForm()" nz-button nzType="primary">Save</button>
+            <button type="submit" (click)="onClickSubmitForm()" [nzLoading]="apiLoader['formSave']" [disabled]="apiLoader['saveAddNew']" nz-button nzType="primary">Save</button>
         </div>
 
     </div>

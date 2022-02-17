@@ -1,3 +1,4 @@
+import { saveAs } from "file-saver";
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
@@ -216,8 +217,23 @@ export class LendersListComponent implements OnInit {
     this.selectedIdForAgreement = id;
     if(action === 'get'){
       this.uploadAndShowAgreement('get');
-
+    } else if(action === 'submitted'){
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+      this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
+          this.pdf_viewer_object_values['url'] = id?.document_file
+          this.pdf_viewer_object_values['boolean'] = true
+          this.message.remove(generateloader);
     }
+  }
+
+  onClickDownloadSelectedDocument(e){
+    console.log(e)
+// if(e?.document_file?.includes('pdf')){
+  // alert(true)
+  saveAs(e?.document_file, `${e?.file_name}`);
+// } else {
+  // alert(false)
+// }
   }
 
 
