@@ -36,6 +36,7 @@
                       </button>
                 </div>
             </div>
+            <div class="accordianLoanApp">
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
             [nzPageIndex]="page" (nzQueryParams)="getPartnerDSAList($event)" [nzShowSizeChanger]="true" [nzData]="merchantList" [nzScroll]="{ x: '1500px' }">
@@ -50,7 +51,7 @@
                     <th>Merchant ID</th>
                     <th>Refer Id</th>
                     <th>Registered</th>
-                    <th>Transaction Status</th>
+                    <!-- <th>Transaction Status</th> -->
                     <th>System Status</th>
                     <th>Action</th>
                     </tr>
@@ -73,7 +74,7 @@
                             <td *ngIf="!data?.registered ">
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
-                            <td>{{data?.transaction_status}}</td>
+                            <!-- <td>{{data?.transaction_status}}</td> -->
                             <td *ngIf="data?.is_deleted">False</td>
                             <td *ngIf="!data?.is_deleted">True</td>
                             
@@ -90,7 +91,7 @@
                                             <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../add-dsa']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['../edit-dsa']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
@@ -124,10 +125,10 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header 
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="basicDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex flex-column">
@@ -135,7 +136,7 @@
                                                     NBFC's Address
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.address_line_1}}
+                                                    {{ data?.expandSet?.address_line_2 || data?.expandSet?.address_line_1 ? (data?.expandSet?.address_line_1 + '  ' + data?.expandSet?.address_line_2) : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -145,7 +146,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.phone}}
+                                                    {{data?.expandSet?.phone ? data?.expandSet?.phone : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -155,10 +156,10 @@
 
                             <div>
                                 <nz-page-header
-                                    class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="contactPersonDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -166,7 +167,7 @@
                                                     Name
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.contact_person_name}}
+                                                    {{data?.expandSet?.contact_person_name ? data?.expandSet?.contact_person_name : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -176,7 +177,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.contact_person_name}}
+                                                    {{data?.expandSet?.contact_person_name ? data?.expandSet?.contact_person_name : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -186,7 +187,7 @@
                                                     Email-Id
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.contact_person_email}}
+                                                    {{data?.expandSet?.contact_person_email ? data?.expandSet?.contact_person_email : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -196,10 +197,10 @@
 
                             <div>
                                 <nz-page-header
-                                    class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="bankingDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -207,7 +208,7 @@
                                                     Bank Name
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.bank_name}}
+                                                    {{data?.expandSet?.bank_name ? data?.expandSet?.bank_name : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +218,7 @@
                                                     IFSC
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.ifsc}}
+                                                    {{data?.expandSet?.ifsc ? data?.expandSet?.ifsc : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -227,7 +228,7 @@
                                                     A/c No.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.account_no}}
+                                                    {{data?.expandSet?.account_no ? data?.expandSet?.account_no : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -237,7 +238,7 @@
                                                     Branch.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.branch}}
+                                                    {{data?.expandSet?.branch ? data?.expandSet?.branch : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -247,19 +248,42 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="kycDocument">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" >
                                     <div class="row">
                                         <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column">
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length >= 0">
                                                 <h6>
                                                     {{data?.document_master?.name}}
                                                 </h6>
                                                 <div>
-                                                    Submitted & Verified
+                                                    <span *ngIf="data?.document_file">
+                                                        <a>Submitted </a>
+                                                        &
+                                                    </span>
+                                                    <span *ngIf="!data?.document_file">
+                                                        Not Submitted &
+                                                    </span>
+                                                    <span *ngIf="data?.is_verified">
+                                                        Verified
+                                                    </span>
+                                                    <span *ngIf="!data?.is_verified">
+                                                        Not Verified
+                                                    </span>
                                                 </div>
+                                                <div class="mt-3">
+                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
+                                                    <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length < 0">
+                                                <h6>
+                                                    No Documents To show
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -268,10 +292,10 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="otherDetails">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -279,7 +303,7 @@
                                                     Total Commitment
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.total_commitment}}
+                                                    {{data?.expandSet?.total_commitment ? data?.expandSet?.total_commitment : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -289,7 +313,7 @@
                                                     Roi
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{data?.expandSet?.roi}}
+                                                    {{data?.expandSet?.roi ? data?.expandSet?.roi : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -299,7 +323,7 @@
                                                     FLDG
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{data?.expandSet?.fldg}}
+                                                    {{data?.expandSet?.fldg ? data?.expandSet?.fldg : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -312,6 +336,7 @@
                     </ng-container>
                 </tbody>
             </nz-table>
+        </div>
         </nz-card>
     </div>
 </section>

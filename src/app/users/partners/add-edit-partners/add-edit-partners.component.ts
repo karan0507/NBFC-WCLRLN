@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -20,12 +20,22 @@ export class AddEditPartnersComponent implements OnInit {
   partnerId: any;
   isVerified: any;
   isEdit: boolean;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
+  stateArr: any;
+  corpArr: any;
+  debounce: any;
+  apiLoader = {
+    'formSave': false,
+    'saveAddNew': false
+
+  } 
+  constructor(private fb: FormBuilder, private http: HttpService,private router: Router, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
   ngOnInit(): void {
     this.createMasterProductForm();
+    this.getListOfStates();
+    this.getListOfCorp();
     
     this.route.queryParams.subscribe(params => {
       if(params['id']){
@@ -41,6 +51,32 @@ export class AddEditPartnersComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
+  }
+
+  getListOfStates(){
+    let action = 'get-states'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      console.log(res);
+      this.stateArr = res?.data;
+    })
+  }
+
+  getListOfCorp(){
+    let action = 'get-corporation-category'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      console.log(res);
+      this.corpArr = res?.data;
+    })
+  }
+
+  onSearchGetList(e, action){
+    if(action === 'corp'){
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        // this.getListOfCorp(search_param);
+      }, 500);
+    }
+
   }
 
 
@@ -82,9 +118,10 @@ export class AddEditPartnersComponent implements OnInit {
       address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
       address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
       city: [data ? data?.city : null, [Validators.required]],
-      state: [data ? data?.state : null, [Validators.required]],
-      pincode: [data ? data?.pincode : null, [Validators.required]],
-      phone: [data ? data?.phone : null, [Validators.required]],
+      state: [data ? data?.state?.id : null, [Validators.required]],
+      corporation_category:[data ? data?.corporation_category?.id : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       unique_code: [data ? data?.unique_code : null],
 
 
@@ -99,8 +136,9 @@ export class AddEditPartnersComponent implements OnInit {
       // business_nature: [data ? data?.business_nature : null, [Validators.required]],
 
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
-      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+
       // employee: [data ? data?.employee : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],
       document_data:  this.fb.array([]),
@@ -165,7 +203,7 @@ export class AddEditPartnersComponent implements OnInit {
         document_master: [data?.pk],
         label_name: [data?.name],
         documents: [data?.documents],
-        document_name:[data?.document_name],
+        document_name:[data?.document_name ? data?.document_name : ''],
         is_verified:[ data?.is_verified ? data?.is_verified : false]
       })
   }
@@ -216,16 +254,82 @@ export class AddEditPartnersComponent implements OnInit {
     this.skills.removeAt(i);
   }
 
-  onClickSubmitForm(){
 
+  onClickSaveExistingForm(){
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+    if(this.addEditProductForm.valid) {
+      this.apiLoader['saveAddNew'] = true
+      let data = new FormData();
+    
+      var sendDate = this.addEditProductForm.value
+      
+      for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        if(!sendDate.unique_code){
+          delete sendDate?.unique_code;
+        }
+        if(sendDate?.document_data[i]?.documents){
+          // delete sendDate?.document_data[i]?.id;
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+        // if(sendDate.documents == null){
+        //   delete sendDate?.documents;
+        // }
+        // documents
+      }
+  
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.http.createPartnerForm(data);
+      url.subscribe((res: any)=> {
+        console.log(res);
+        if(res.success){
+          this.apiLoader['saveAddNew'] = false
+          this.message.success(res?.message);
+          let newRouterLink = '/partners/add';
+          this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
+      } else {
+          this.apiLoader['saveAddNew'] = false
+          this.message.error(res?.message);
+        }
+      }, err =>{
+        this.apiLoader['saveAddNew'] = false
+      })
+    }
 
-    console.log('Working',this.addEditProductForm.value);
+  }
+  
+  
+  onClickSubmitForm(){
+    for (const i in this.addEditProductForm.controls) {
+      this.addEditProductForm.controls[ i ].markAsDirty();
+      this.addEditProductForm.controls[ i ].updateValueAndValidity();
+      // if(this.addEditProductForm.controls[i].status === 'INVALID'){
+      //   alert(this.addEditProductForm.controls[i].status + '  ' + this.addEditProductForm.controls[i].value)
+      //   this.addEditProductForm.controls[i].invalid;
+      //   this.addEditProductForm.controls[i].asyncValidator;
+      //   this.addEditProductForm.controls[i].dirty;
+      //   this.addEditProductForm.controls[i].markAsDirty();
+      //   this.addEditProductForm.controls[i].markAsUntouched();
+      //   this.addEditProductForm.controls[i].setValidators(Validators.required);
+      // }
+    }
+
+    console.log('Working',this.addEditProductForm.controls);
       
     if(this.addEditProductForm.valid) {
+      this.apiLoader['formSave'] = true
       if(!this.isEdit) {
       let data = new FormData();
     
@@ -241,8 +345,12 @@ export class AddEditPartnersComponent implements OnInit {
         if(!sendDate.unique_code){
           delete sendDate?.unique_code;
         }
-        data.append('documents', sendDate?.document_data[i]?.documents)
-        delete sendDate?.document_data[i]?.documents
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+        // data.append('documents', sendDate?.document_data[i]?.documents)
+        // delete sendDate?.document_data[i]?.documents
       }
   
       for (var i in sendDate) {
@@ -253,9 +361,17 @@ export class AddEditPartnersComponent implements OnInit {
         }
       }
       const  url = this.http.createPartnerForm(data);
-      url.subscribe((res)=> {
-        console.log(res);
-        this.message.success(" User Created...");
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false;
+          this.router.navigate(['partners']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false;
+        }
+      }, err =>{
+        this.apiLoader['formSave'] = false
       })
     }
      else  {
@@ -279,14 +395,6 @@ export class AddEditPartnersComponent implements OnInit {
           delete sendDate?.document_data[i]?.documents
         }
       }
-      // for (var i in sendDate.document_data) {
-        // if(sendDate?.document_data[i]?.documents?.includes('/')){
-        // break;  
-        // }
-        // data.append('documents', sendDate?.document_data[i]?.documents)
-        // delete sendDate?.document_data[i]?.documents
-      // }
-  
       for (var i in sendDate) {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
@@ -295,9 +403,17 @@ export class AddEditPartnersComponent implements OnInit {
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.partnerId, data) 
-      url.subscribe((res)=> {
-        this.message.success(" User Updated...");
-        console.log(res);
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false
+          this.router.navigate(['partners']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false;
+        }
+      }, err =>{
+        this.apiLoader['formSave'] = false
       })
     }
   }
@@ -327,25 +443,4 @@ export class AddEditPartnersComponent implements OnInit {
     console.log(file)
     return false;
   };
-
-//   onUpload(e, i){
-// console.log(e)
-// console.log(i)
-//   }
-
-  // beforeUpload = (file: NzUploadFile): boolean => {
-  //   // this.newGallery.patchValue({document: file});
-  //   // console.log(file)
-  //   // this.generateBase64View(file)
-  //   // this.galleryDocument = file
-  //   // this.logoStockistObject['fileObject'] = file;
-  //   // this.handleChange(this.logoStockistObject['fileObject'])
-  //   return false;
-  // };
-
-
-  // add(data?) {
-  //   this.slab_array.push(this.addSlabControls(data))
-  // }
-
 }

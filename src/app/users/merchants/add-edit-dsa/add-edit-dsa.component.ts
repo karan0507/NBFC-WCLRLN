@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -21,7 +21,14 @@ export class AddEditDsaComponent {
   isVisible;
   selectedDocument;
   masterPartnerId: any;
-  constructor(private fb: FormBuilder, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
+  stateArr: any;
+  apiLoader = {
+    'formSave': false,
+    'saveAddNew': false
+  } 
+  debounce: any;
+
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
@@ -33,7 +40,8 @@ export class AddEditDsaComponent {
         this.isEdit = true
         this.masterPartnerId = params['id']
         if (this.masterPartnerId) {
-          this.getPartnerDSAListById()
+          this.getPartnerDSAListById();
+          this.getListOfStates();
         }
       } else {
         // this.masterParnerPayout = null
@@ -51,6 +59,25 @@ export class AddEditDsaComponent {
       console.log(res);
       this.createMasterProductForm(res?.data);
     })
+  }
+
+  getListOfStates(){
+    let action = 'get-states'
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+      console.log(res);
+      this.stateArr = res?.data;
+    })
+  }
+
+
+  onSearchGetList(e, action){
+    // if(action === 'sta'){
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        // this.getListOfCorp(search_param);
+      }, 500);
+    // }
+
   }
 
   setFormData(data) {
@@ -85,9 +112,9 @@ export class AddEditDsaComponent {
       address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
       address_line_2: [data ? data?.address_line_2 : null, [Validators.required]],
       city: [data ? data?.city : null, [Validators.required]],
-      state: [data ? data?.state : null, [Validators.required]],
-      pincode: [data ? data?.pincode : null, [Validators.required]],
-      phone: [data ? data?.phone : null, [Validators.required]],
+      state: [data ? data?.state?.id : null, [Validators.required]],
+      pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
 
       bank_name: [data ? data?.bank_name : null, [Validators.required]],
@@ -111,8 +138,8 @@ export class AddEditDsaComponent {
 
 
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required]],
-      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
@@ -221,6 +248,7 @@ export class AddEditDsaComponent {
     }
 
     if(this.addEditProductForm.valid) {
+      this.apiLoader['formSave'] = true
       if(!this.isEdit) {
       let data = new FormData();
     
@@ -233,8 +261,12 @@ export class AddEditDsaComponent {
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
-        data.append('documents', sendDate?.document_data[i]?.documents)
-        delete sendDate?.document_data[i]?.documents
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+        // data.append('documents', sendDate?.document_data[i]?.documents)
+        // delete sendDate?.document_data[i]?.documents
       }
   
       for (var i in sendDate) {
@@ -245,9 +277,17 @@ export class AddEditDsaComponent {
         }
       }
       const  url = this.http.createMasterPartnerForm(data);
-      url.subscribe((res)=> {
-        console.log(res);
-        this.message.success(" User Created...");
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false
+          this.router.navigate(['merchants/DSA']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false
+        }
+      }, err => {
+        this.apiLoader['formSave'] = false
       })
     }
      else  {
@@ -278,14 +318,68 @@ export class AddEditDsaComponent {
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
-      url.subscribe((res)=> {
-        console.log(res);
-        this.message.success(" User Updated...");
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['formSave'] = false
+          this.router.navigate(['merchants/DSA']);
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['formSave'] = false
+        }
+      }, err => {
+        this.apiLoader['formSave'] = false
       })
     }
   }
+  }
 
+  onClickSaveExistingForm(){
+    for (const i in this.addEditProductForm.controls) {
+      this.addEditProductForm.controls[ i ].markAsDirty();
+      this.addEditProductForm.controls[ i ].updateValueAndValidity();
+    }
+    if(this.addEditProductForm.valid) {
+      this.apiLoader['saveAddNew'] = true
+      let data = new FormData();
+    
+      var sendDate = this.addEditProductForm.value
+      
+      for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].id){
+          delete sendDate?.document_data[i]?.id;
+        }
+        if(!sendDate.unique_code){
+          delete sendDate?.unique_code;
+        }
+        if(sendDate?.document_data[i]?.documents){
+          data.append('documents', sendDate?.document_data[i]?.documents)
+          delete sendDate?.document_data[i]?.documents
+        }
+      }
   
+      for (var i in sendDate) {
+        if(i == 'document_data'){
+          data.append(i, JSON.stringify(sendDate[i]))
+        } else {
+          data.append(i, sendDate[i])
+        }
+      }
+      const  url = this.http.createMasterPartnerForm(data);
+      url.subscribe((res: any)=> {
+        if(res.success){
+          this.message.success(res?.message);
+          this.apiLoader['saveAddNew'] = false
+          let newRouterLink = '/merchants/add-dsa';
+          this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
+        } else {
+          this.message.error(res?.message);
+          this.apiLoader['saveAddNew'] = false
+        }
+      }, err =>{
+        this.apiLoader['saveAddNew'] = false
+      })
+    }
 
   }
 

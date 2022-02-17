@@ -25,10 +25,26 @@ const routes: Routes = [
         }
       },
       {
+        path: 'edit-merchant',
+        component: AddEditMerchantsComponent,
+        data: {
+          title: 'Edit Merchants',
+          parent: 'Merchants',
+        }
+      },
+      {
         path: 'add-dsa',
         component: AddEditDsaComponent,
         data: {
           title: 'Add Merchants',
+          parent: 'Merchants',
+        }
+      },
+      {
+        path: 'edit-dsa',
+        component: AddEditDsaComponent,
+        data: {
+          title: 'Edit DSA Merchants',
           parent: 'Merchants',
         }
       },
