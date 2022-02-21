@@ -117,8 +117,7 @@ export class PartnersListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.storeDetailId = id;
-      this.getPartnerListDetail(id, i)
+      this.getPartnerListDetail(this.storeDetailId = id, i);
       this.expandSet.add(id);
     } else {
       this.expandSet.delete(id);

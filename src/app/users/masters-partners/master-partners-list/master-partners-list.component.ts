@@ -42,12 +42,13 @@ export class MasterPartnersListComponent implements OnInit {
   }
   file: string;
   uploaded_file: any;
+  storeDetailId: number;
   
   onExpandChange(id: number, checked: boolean, i): void {
     console.log(checked);
     
     if (checked) {
-      this.getMasterPartnerById(id, i)
+      this.getMasterPartnerById(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
@@ -87,7 +88,6 @@ export class MasterPartnersListComponent implements OnInit {
     this.http.getMasterPartnerById(id).subscribe((res: any)=> {
       this.masterPartnerDetailList.push(res?.data);
       this.masterPartner[i].expandSet = res?.data;
-      console.log('this.merchantList', this.masterPartner)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);

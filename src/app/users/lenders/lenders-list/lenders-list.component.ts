@@ -43,10 +43,11 @@ export class LendersListComponent implements OnInit {
   selectedId: number;
   toggleChangePassword: boolean = false;
   selectedUserData: any;
+  storeDetailId: number;
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
       this.selectedId = id;
-      this.getNBFCDetail(id, i)
+      this.getNBFCDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {

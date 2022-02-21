@@ -46,6 +46,7 @@ export class DsaListComponent implements OnInit {
   }
   file: string;
   uploaded_file: any;
+  storeDetailId: number;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -125,7 +126,7 @@ export class DsaListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getMerchantDetail(id, i)
+      this.getMerchantDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
