@@ -48,7 +48,7 @@ export class PerApprovedComponent implements OnInit {
 
       getFormLoanData(id?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         this.loanApplicationData = res?.data?.results;

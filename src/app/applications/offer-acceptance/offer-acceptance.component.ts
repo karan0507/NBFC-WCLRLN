@@ -28,7 +28,10 @@ export class OfferAcceptanceComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean = false;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
       offerForm : FormGroup
@@ -53,28 +56,42 @@ export class OfferAcceptanceComponent implements OnInit {
       }
 
       getFormLoanData(id?) {
-            this.api_calling_loader = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=6', 'source': 'Onboarding' }
+            this.api_calling_loader['listLoader'] = true
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            // if(this.searchValue){
+            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }
+            // if(){
+            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }    
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if(res?.data){
+                  if (res?.data) {
                         this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
-                  }else{
-                        this.api_calling_loader = false
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader['listLoader'] = false
+                  } else {
+                        this.api_calling_loader['listLoader'] = false
                   }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 

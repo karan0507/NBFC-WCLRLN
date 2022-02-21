@@ -229,9 +229,7 @@
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                            <div class="d-flex justify-content-between">
                                                                                     <span class="text-muted">PAN</span>
                                                                                     <div class="mr-5"  *ngIf="data?.expanddata?.pan">
                                                                                           <a class="text-primary" (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'"> <i
@@ -252,7 +250,6 @@
                                                                                                       nzTheme="outline"></i></a>
                                                                                     </div>
                                                                               </div>
-                                                                        </h6>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details?.results[0]?.pan_no
                                                                               ?data?.expanddata?.kyc_details?.results[0]?.pan_no

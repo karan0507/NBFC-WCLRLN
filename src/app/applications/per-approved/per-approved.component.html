@@ -108,7 +108,7 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item [routerLink]="['edit-form']"
+                                                            <li nz-menu-item [routerLink]="['/applications/form-filling/edit-form']"
                                                                   [queryParams]="{id: data?.id}">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
@@ -223,7 +223,7 @@
                                                                               Product Name
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.user?.dob ? data?.user?.dob :
+                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.product_name :
                                                                               '--'}}
                                                                               <!-- {{_activeLoans[i]['id'] == data.id ? _activeLoans[i]['email']}} -->
                                                                         </div>
@@ -235,7 +235,7 @@
                                                                               Limit Proposed
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.user?.dob ? data?.user?.dob :
+                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.limit_proposed :
                                                                               '--'}}
                                                                         </div>
                                                                   </div>

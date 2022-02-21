@@ -350,26 +350,26 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="bureau">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                              <div class="d-flex">
                                                                                     <span class="text-muted">Cibil
                                                                                           Score:</span>
-                                                                                    <div class="mr-5">
-                                                                                          {{data?.expanddata?.cibil_data
+                                                                                    <div class="mx-3">
+                                                                                          {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
-                                                                                          'Add Obj for
-                                                                                          cibil_data' : '--'}}
+                                                                                          data?.expanddata?.cibil_data?.results[0]?.cibil_score
+                                                                                          : '--'}}
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
-                                                                        <p>
-                                                                              <a class="text-primary">Fetch Details</a>
-                                                                        </p>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getCibilScoreData(data?.id)">Fetch
+                                                                                    Details</a> </b>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -387,102 +387,89 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="underWriting">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">No. of
-                                                                                          Cheque Bounce</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">No. of
+                                                                                    Cheque Bounce</span>
+                                                                              <!-- <div class="mr-5">
+                                                                                    <label class="text-muted font-size-14">(Last 3 Months)</label>
+                                                                              </div> -->
+                                                                        </div>
+                                                                        <div>
+                                                                              --
+                                                                              <!-- {{ _currentCibilData ? _currentCibilData?.No. of Cheque Bounce : '--' }} -->
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Nach Trans.
+                                                                                    Declined (last 3
+                                                                                    months)</span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">Nach Trans.
-                                                                                          Declined (last 3
-                                                                                          months)</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Max.
+                                                                                    Delinquent Amt. (out of
+                                                                                    income)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">Max.
-                                                                                          Delinquent Amt. (out of
-                                                                                          income)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No. of
+                                                                                    write off cases</span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
-                                                                        <div>
                                                                         </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">No. of
-                                                                                          write off cases</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">Data
-                                                                                          Quality score</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Data
+                                                                                    Quality score</span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">Retail
-                                                                                          Lending score
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Retail
+                                                                                    Lending score
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -491,48 +478,42 @@
 
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">No. of
-                                                                                          Inquiries (in last 3 Months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No. of
+                                                                                    Inquiries (in last 3 Months)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">No negative
-                                                                                          Events (in last 6 Months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No negative
+                                                                                    Events (in last 6 Months)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">Avg. Salary
-                                                                                          Credited (last 6 months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Avg. Salary
+                                                                                    Credited (last 6 months)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -540,65 +521,60 @@
 
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">Avg Min.
-                                                                                          Balance/month (in last 90
-                                                                                          days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Avg Min.
+                                                                                    Balance/month (in last 90
+                                                                                    days)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">No Cc
-                                                                                          Applied (last 14 days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No Cc
+                                                                                    Applied (last 14 days)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">No loan
-                                                                                          applied (last 14 days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No loan
+                                                                                    applied (last 14 days)
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex flex-column">
-                                                                                    <span class="text-muted">FOIR (Total
-                                                                                          Debt/Monthly Salary))
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">FOIR (Total
+                                                                                    Debt/Monthly Salary))
+                                                                              </span>
+                                                                              <div class="mr-5">
+                                                                                    --
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -623,10 +599,16 @@
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
+      <label *ngIf="_isViewDocument">{{ _currentDocType ? _currentDocType : '' }} Document</label>
 </ng-template>
+<!-- Modal Section -->
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
+            <section *ngIf="_isViewDocument">
+                  <!-- <embed [src]="generateBase64View(_currentDocumentReq)" class="w-100 h-100"> -->
+                  <img [src]="_currentDocumentReq" class="w-100 h-100">
+            </section>
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
@@ -649,7 +631,12 @@
                         </div>
                   </div>
             </section>
-            <ng-template #footerModal>
-                  <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-                  <button nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button>
-            </ng-template>
+      </nz-modal>
+</section>
+
+<ng-template #footerModal>
+      <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+            (click)="handleOk('StatusModal')">Submit</button>
+      <!-- <button *ngIf="_isDocument" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
+</ng-template>
