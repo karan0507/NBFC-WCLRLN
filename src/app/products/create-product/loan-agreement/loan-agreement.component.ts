@@ -16,7 +16,13 @@ export class LoanAgreementComponent implements OnInit {
   @Input() productDetails: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,) { 
+      this.route.queryParams.subscribe(params => {
+        if(params['id']){
+          this.product_id = params['id']
+        }
+      });
+    }
 
     ngOnInit(): void {
       this.createEditForm = this.fb.group({})

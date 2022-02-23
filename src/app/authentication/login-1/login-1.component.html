@@ -11,12 +11,14 @@
         </div>
         <div class="col-lg-5">
             <div class="container h-100">
+                <img src="assets/images/Icon.svg" alt="close" class="pointer mt-md-5 ml-md-4" *ngIf="is_forget" (click)="is_forget = false">
                 <div class="row no-gutters h-100 align-items-center">
                     <div class="col-md-9 col-lg-9 col-xl-8 mx-auto">
                         <img src="assets/images/logo/logo.png" alt="" class="w-50 mb-5">
-                        <h2>Lets Get Started</h2>
+                        <div class="my-md-5" *ngIf="is_forget"></div>
+                        <h2>{{is_forget ? ( is_link_send ? 'Email has been sent!' : 'Forgot Password?') : 'Lets Get Started'}}</h2>
                         <!-- <p class="m-b-30">Enter your credential to get access</p> -->
-                        <form nz-form [formGroup]="loginForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm(loginForm)">
+                        <form *ngIf="!is_forget" nz-form [formGroup]="loginForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm(loginForm)">
                             <nz-form-item>
                                 <nz-form-label nzRequired nzFor="mobile">Username</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your username!">
@@ -35,7 +37,7 @@
                             </nz-form-item>
                             <div>
                                 <div class="font-size-13 p-t-10 text-right w-100">
-                                    <a [routerLink]="['/authentication/reset-password-1']">Forget
+                                    <a (click)="is_forget = true; is_link_send = false">Forget
                                         Password?</a>
                                 </div>
                                 <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader" [nzType]="'primary'">Login</button>
@@ -44,6 +46,22 @@
                                 </div>
                             </div>
                         </form>
+                        <p *ngIf="is_forget">{{ is_link_send ? 'Please check your Inbox and click in the received link to reset your password.' : 'Enter your registered email id below to receive ‘reset password’ link.'}}</p>
+                        <form *ngIf="is_forget" nz-form [formGroup]="forgetForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm(forgetForm)">
+                            <nz-form-item *ngIf="!is_link_send">
+                                <nz-form-label nzRequired nzFor="email">Email-ID</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input your email!">
+                                    <nz-input-group [nzPrefix]="prefixUser">
+                                        <input type="text" nz-input formControlName="email" placeholder="Email">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <div *ngIf="is_link_send" class="text-right pointer">
+                                <span class="text-warning" (click)="submitForm(forgetForm)">Didn’t receive the link?  <span class="text-primary">Resend</span></span>
+                            </div>
+                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="!is_link_send" [nzLoading]="api_calling_loader" [nzType]="'primary'">Send</button>
+                        </form>
+                        <button nz-button class="w-100 mb-5 mt-3" *ngIf="is_forget && is_link_send" (click)="is_forget = false" [nzLoading]="api_calling_loader" [nzType]="'primary'">Back to Login</button>
                         <ng-template #prefixUser><i nz-icon nzType="user"></i></ng-template>
                         <ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
                     </div>
