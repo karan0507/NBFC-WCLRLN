@@ -33,12 +33,6 @@ export class LineBlockUnblockComponent implements OnInit {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationAcceptedProduct',
       source: 'LMS',
-      // txn_status: this.selectedStatus,
-      // txn_type: this.selectedType,
-      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      // search_param: this.searchValue,
-      // tab_filter: this.selectedTab
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

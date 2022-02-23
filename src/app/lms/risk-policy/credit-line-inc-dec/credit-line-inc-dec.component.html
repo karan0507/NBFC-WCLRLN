@@ -31,7 +31,7 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }">
+            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
                 <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
                 <thead>
                     <tr>
@@ -39,27 +39,23 @@
                         <th>User Name</th>
                         <th>Loan ID</th>
                         <th>Applied on</th>
-                        <th>Credit Line Assigned</th>
-                        <th>Credit Utilised</th>
-                        <th>Outstanding</th>
-                        <th>Fees/Charges</th>
-                        <th>Card Status</th>
-                        <th>A/c Status</th>
+                        <th>Previous Credit Line Assigned</th>
+                        <th>Change of Amount</th>
+                        <th>New Credit Line Assigned</th>
+                        <th>Activation Date</th>
                         <th nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of borrowertList; index as i">
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data.user ? data.user.full_name : '-'}}</td>
+                        <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
+                        <td>{{data.created_at | date: "medium"}}</td>
+                        <td>{{data.loan_amount_provided ? data.loan_amount_provided : '-'}}</td>
+                        <td>{{data.creditline_data[0]?.change_type ? data.creditline_data[0]?.change_type : '-'}}{{data.creditline_data[0]?.amount_change ? data.creditline_data[0]?.amount_change : '-'}}</td>
+                        <td>{{data.loan_amount_provided ? (data.creditline_data[0]?.change_type == '+' ? data.loan_amount_provided + data.creditline_data[0]?.amount_change : data.loan_amount_provided - data.creditline_data[0]?.amount_change) : '-'}}</td>
+                        <td>{{data.created_at | date: "medium"}}</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"

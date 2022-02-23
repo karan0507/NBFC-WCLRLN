@@ -153,7 +153,7 @@
     <ng-container *nzModalContent>
         <div class="row">
             <div class="col-md-12">
-                <nz-upload nzType="drag" [nzMultiple]="true" (nzChange)="handleChange($event)">
+                <nz-upload nzType="drag" [nzMultiple]="false" [nzBeforeUpload]="beforeUploadName">
                     <p class="ant-upload-text">Drag and Drop file here</p>
                     <button class="mt-md-5" nz-button nzType="primary">Browse</button>
                 </nz-upload>

@@ -117,17 +117,10 @@ export class UploadTransactionsListComponent implements OnInit {
     this.isReject = true; 
     this.reject_id = id
   }
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
-    if (status === 'done') {
-      // this.msg.success(`${file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      // this.msg.error(`${file.name} file upload failed.`);
-    }
-  }
+  beforeUploadName = (file) => {
+    console.log(file)
+    return false;
+  };
 
   fetchPreviewAfterList(value, isPreview) {
     let data = {
