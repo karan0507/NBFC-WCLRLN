@@ -16,7 +16,7 @@ export class LineBlockUnblockComponent implements OnInit {
   page : any
   api_calling_loader: boolean;
   total_count = 0;
-  search_params = '';
+  search_param = '';
   globalPageSize: number;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -33,6 +33,7 @@ export class LineBlockUnblockComponent implements OnInit {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationAcceptedProduct',
       source: 'LMS',
+      search_param: this.search_param,
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

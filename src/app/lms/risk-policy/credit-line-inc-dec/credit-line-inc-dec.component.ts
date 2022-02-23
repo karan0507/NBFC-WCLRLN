@@ -18,6 +18,7 @@ export class CreditLineIncDecComponent implements OnInit {
   createDescLine: FormGroup;
   api_calling_loader: boolean;
   total_count: any;
+  search_param: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) { }
@@ -48,6 +49,7 @@ export class CreditLineIncDecComponent implements OnInit {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationCreditlineUpdation',
       source: 'LMS',
+      search_param: this.search_param
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
