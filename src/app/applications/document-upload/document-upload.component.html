@@ -46,7 +46,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable nzShowSizeChanger
                         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -129,7 +129,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="personalDetail">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -149,7 +150,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                              data?.user?.dob
+                                                                              data?.expanddata?.user?.dob
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -160,8 +161,10 @@
                                                                               Monthly Income
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.user?.dob ?
-                                                                              data?.user?.dob
+                                                                              {{
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id
+                                                                              ?
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id?.name
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -179,7 +182,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="empHeader">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -220,16 +224,15 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="document">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                            <div class="d-flex justify-content-between">
                                                                                     <span class="text-muted">PAN</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
+                                                                                    <div class="mr-5"  *ngIf="data?.expanddata?.pan">
+                                                                                          <a class="text-primary" (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'"> <i
                                                                                                       nz-icon
                                                                                                       nzType="eye"
                                                                                                       nzTheme="outline"></i></a>
@@ -247,7 +250,6 @@
                                                                                                       nzTheme="outline"></i></a>
                                                                                     </div>
                                                                               </div>
-                                                                        </h6>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details?.results[0]?.pan_no
                                                                               ?data?.expanddata?.kyc_details?.results[0]?.pan_no
@@ -257,31 +259,25 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span
-                                                                                          class="text-muted">Aadhar:</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="eye"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="check-circle"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="download"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="upload"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                    </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Aadhar:</span>
+                                                                              <div class="mr-5" *ngIf="data?.expanddata?.aadhar">
+                                                                                    <a class="text-primary"
+                                                                                          (click)="data?.expanddata?.aadhar ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'Aadhaar Card') : 'null'">
+                                                                                          <i nz-icon nzType="eye"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mx-3">
+                                                                                          <i nz-icon
+                                                                                                nzType="check-circle"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary"> <i nz-icon
+                                                                                                nzType="download"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mx-3">
+                                                                                          <i nz-icon nzType="upload"
+                                                                                                nzTheme="outline"></i></a>
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details?.results[0]?.aadhar_no
                                                                               ?data?.expanddata?.kyc_details?.results[0]?.aadhar_no
@@ -296,10 +292,11 @@
                                                                                     class="d-flex justify-content-between">
                                                                                     <span
                                                                                           class="text-muted">Selfie</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="eye"
+                                                                                    <div class="mr-5"
+                                                                                          *ngIf="data?.expanddata?.selfie">
+                                                                                          <a class="text-primary"
+                                                                                                (click)="data?.expanddata?.selfie ? updateStatus('viewDocument',data?.expanddata?.user?.selfie, 'Selfie') : 'null'">
+                                                                                                <i nz-icon nzType="eye"
                                                                                                       nzTheme="outline"></i></a>
                                                                                           <a class="text-primary mx-3">
                                                                                                 <i nz-icon
@@ -317,8 +314,8 @@
                                                                               </div>
                                                                         </h6>
                                                                         <div>
-                                                                              {{data?.expanddata?.selfie ? 'Add Obj for
-                                                                              selfie' : '--'}}
+                                                                              Doc Name
+                                                                              <!-- {{data?.expanddata?.selfie ? data?.expanddata?.user?.selfie : '--'}} -->
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -342,11 +339,16 @@
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="_isDocument">Request Document</label>
+      <label *ngIf="_isViewDocument">{{ _currentDocType ? _currentDocType : '' }} Document</label>
 </ng-template>
 <!-- Modal Section -->
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
+            <section *ngIf="_isViewDocument">
+                  <!-- <embed [src]="generateBase64View(_currentDocumentReq)" class="w-100 h-100"> -->
+                  <img [src]="_currentDocumentReq" class="w-100 h-100">
+            </section>
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
@@ -413,5 +415,7 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button>
+      <button *ngIf="_isDocument" nz-button nzType="primary" class="mx-2" (click)="handleOk('DocumentModal')">Submit</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" [disabled]="!_currentStageStatus ? true : false"  class="mx-2" (click)="handleOk('StatusModal')">Submit</button>
+      <!-- <button *ngIf="_isDocument" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>

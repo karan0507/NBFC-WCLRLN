@@ -1,9 +1,11 @@
+import { saveAs } from "file-saver";
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+// import * as jsPDF from 'jspdf';  
 
 @Component({
   selector: 'app-partners-list',
@@ -97,6 +99,7 @@ export class PartnersListComponent implements OnInit {
   toggleOnUpgradeUser: boolean = false;
   file: string;
   uploaded_file: any;
+  storeDetailId: any;
   pdf_viewer_object_values = {
     'boolean': false,
     'url': '',
@@ -114,6 +117,7 @@ export class PartnersListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
+      this.storeDetailId = id;
       this.getPartnerListDetail(id, i)
       this.expandSet.add(id);
     } else {
@@ -258,6 +262,16 @@ export class PartnersListComponent implements OnInit {
     }
   }
 
+  onClickDownloadSelectedDocument(e){
+    console.log(e)
+// if(e?.document_file?.includes('pdf')){
+  // alert(true)
+  saveAs(e?.document_file, `${e?.file_name}`);
+// } else {
+  // alert(false)
+// }
+  }
+
   selectedIdForAgreement: any;
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -280,7 +294,12 @@ export class PartnersListComponent implements OnInit {
     this.selectedIdForAgreement = id;
     if(action === 'get'){
       this.uploadAndShowAgreement('get');
-
+    } else if(action === 'submitted'){
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+      this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
+          this.pdf_viewer_object_values['url'] = id?.document_file
+          this.pdf_viewer_object_values['boolean'] = true
+          this.message.remove(generateloader);
     }
   }
 
@@ -306,6 +325,7 @@ export class PartnersListComponent implements OnInit {
           this.message.remove(generateloader);
         } else {
           this.message.remove(generateloader);
+          this.message.error('No Reports To Generate..');
         }
       }, err => {
         console.log(err);

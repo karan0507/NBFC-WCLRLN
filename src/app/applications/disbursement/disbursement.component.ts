@@ -3,12 +3,13 @@ import { FormBuilder } from '@angular/forms';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { iif } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-disbursement',
-  templateUrl: './disbursement.component.html',
-  styleUrls: ['./disbursement.component.css']
+      selector: 'app-disbursement',
+      templateUrl: './disbursement.component.html',
+      styleUrls: ['./disbursement.component.css']
 })
 export class DisbursementComponent implements OnInit {
       _exportDocument: any;
@@ -42,7 +43,7 @@ export class DisbursementComponent implements OnInit {
       _currentDocument: any = '1'
       _isEditOffer: boolean = false;
       _isStatus: boolean = false;
-      constructor(public https: HttpService, public message: NzMessageService, public fb : FormBuilder) { }
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
       }
@@ -51,9 +52,13 @@ export class DisbursementComponent implements OnInit {
             this.api_calling_loader = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader = false
+                  } else {
+                        this.api_calling_loader = false
+                  }
             }, (err) => {
                   this.api_calling_loader = false
             })
@@ -146,28 +151,28 @@ export class DisbursementComponent implements OnInit {
       }
 
       handleOk(type?) {
-          switch (type){
-                case 'status': 
-                let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '7', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
-                this.https.updateMultipleLoanApp(data).subscribe(res => {
-                      if (res.success) {
-                            console.log('res');
-                            this._isUpdateStatus = false;
-                      } else {
-                            console.log('error=>', res?.error);
-                      }
-                }, error => {
-                      console.log(error);
-    
-                })
-                break;
-                case 'offer': 
-                console.log('you are in offer');
-                
-                break;
-          }
+            switch (type) {
+                  case 'status':
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '7', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        this.https.updateMultipleLoanApp(data).subscribe(res => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this._isUpdateStatus = false;
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              console.log(error);
+
+                        })
+                        break;
+                  case 'offer':
+                        console.log('you are in offer');
+
+                        break;
+            }
       }
-      
+
       checkDisabledStatus() {
             this._checkedLoanList = Array.from(this.setOfCheckedId);
             if (this._checkedLoanList.length > 0) {

@@ -53,7 +53,7 @@
             </div>
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable nzShowSizeChanger (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                  [nzData]="loanApplicationData" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                   <thead>
                         <tr>
                               <th nzWidth="2rem"></th>
@@ -138,7 +138,7 @@
                                                 class="site-page-header acc-bg-light"
                                                 [nzTitle]="personalDetail">
                                           </nz-page-header>
-                                          <nz-card class="mb-md-0 border">
+                                          <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                 <div class="row">
                                                       <div class="col-md-4">
                                                             <div class="d-flex flex-column">
@@ -168,7 +168,7 @@
                                                                        Monthly Income
                                                                   </span>
                                                                   <div>
-                                                                        {{data?.expanddata?.user?.dob ? data?.user?.dob
+                                                                        {{ data?.expanddata?.income_details?.results[0]?.income_range_id ? data?.expanddata?.income_details?.results[0]?.income_range_id?.name
                                                                         : '--'}}
                                                                   </div>
                                                             </div>
@@ -186,7 +186,7 @@
                                                 class="site-page-header acc-bg-light"
                                                 [nzTitle]="empHeader">
                                           </nz-page-header>
-                                          <nz-card class="mb-md-0 border">
+                                          <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                 <div class="row">
                                                       <div class="col-md-4">
                                                             <div class="d-flex flex-column">

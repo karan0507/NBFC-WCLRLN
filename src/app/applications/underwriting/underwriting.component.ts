@@ -22,13 +22,19 @@ export class UnderwritingComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      _currentDocType: any;
+      _isViewDocument: any;
       console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean = false;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
+      _currentCibilData : any;
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -40,6 +46,7 @@ export class UnderwritingComponent implements OnInit {
       _currentDocument: any = '1'
       _isDocument: boolean = false;
       _isStatus: boolean = false;
+
       constructor(public https: HttpService, public message: NzMessageService) { }
 
       ngOnInit(): void {
@@ -47,24 +54,42 @@ export class UnderwritingComponent implements OnInit {
       }
 
       getFormLoanData(id?) {
-            this.api_calling_loader = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
+            this.api_calling_loader['listLoader'] = true
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            // if(this.searchValue){
+            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }
+            // if(){
+            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }    
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader['listLoader'] = false
+                  } else {
+                        this.api_calling_loader['listLoader'] = false
+                  }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 
@@ -116,8 +141,8 @@ export class UnderwritingComponent implements OnInit {
 
       }
 
-      updateStatus(type?, data?) {
-            console.log(type, typeof (type));
+      updateStatus(type?, data?, docType?) {
+            console.log(type, typeof (type), docType);
             if (data) {
                   this._currentDocumentReq = data
                   console.log(this._currentDocumentReq, 'Your current ID');
@@ -133,8 +158,13 @@ export class UnderwritingComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
-                  case 'download': this._isDocument = true; break;
+                  case 'download': this._isDocument = true;
+                        break;
+                  case 'viewDocument': this._isViewDocument = true; break;
 
+            }
+            if (docType) {
+                  this._currentDocType = docType;
             }
       }
 
@@ -192,4 +222,21 @@ export class UnderwritingComponent implements OnInit {
                   console.log(reader, this._exportDocument);
             }
       }
+
+      // Get Cibil Data API
+      getCibilScoreData(id?) {
+            console.log('API call');
+            if (id) {
+                  console.log(id);
+                  
+                let data = {source: 'Onboarding', datapoint: 'pull_cibil', endpoint: id}
+                  this.https.getCibilData(id, data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            }
+      }
+
 }

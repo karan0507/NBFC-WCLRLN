@@ -31,7 +31,7 @@ export class OfferProposedComponent implements OnInit {
       api_calling_loader: boolean = false;
       stageMasterList: any;
       _currentStageStatus: any;
-      offerForm : FormGroup
+      offerForm: FormGroup
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -43,12 +43,12 @@ export class OfferProposedComponent implements OnInit {
       _currentDocument: any = '1'
       _isEditOffer: boolean = false;
       _isStatus: boolean = false;
-      constructor(public https: HttpService, public message: NzMessageService, public fb : FormBuilder) { }
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
             this.offerForm = this.fb.group({
-                  amountOffered : [null]
+                  amountOffered: [null]
             })
       }
 
@@ -56,9 +56,13 @@ export class OfferProposedComponent implements OnInit {
             this.api_calling_loader = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=5', 'source': 'Onboarding' }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader = false
+                  } else {
+                        this.api_calling_loader = false
+                  }
             }, (err) => {
                   this.api_calling_loader = false
             })
@@ -151,26 +155,26 @@ export class OfferProposedComponent implements OnInit {
       }
 
       handleOk(type?) {
-          switch (type){
-                case 'status': 
-                let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
-                this.https.updateMultipleLoanApp(data).subscribe(res => {
-                      if (res.success) {
-                            console.log('res');
-                            this._isUpdateStatus = false;
-                      } else {
-                            console.log('error=>', res?.error);
-                      }
-                }, error => {
-                      console.log(error);
-    
-                })
-                break;
-                case 'offer': 
-                console.log('you are in offer');
-                
-                break;
-          }
+            switch (type) {
+                  case 'status':
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        this.https.updateMultipleLoanApp(data).subscribe(res => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this._isUpdateStatus = false;
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              console.log(error);
+
+                        })
+                        break;
+                  case 'offer':
+                        console.log('you are in offer');
+
+                        break;
+            }
       }
 
       downloadModal() {
