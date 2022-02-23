@@ -45,6 +45,7 @@ export class MerchantsListComponent implements OnInit {
   }
   file: string;
   uploaded_file: any;
+  storeDetailId: number;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -79,11 +80,6 @@ export class MerchantsListComponent implements OnInit {
     this.http.getPartnerListDetail(id).subscribe((res: any)=> {
       this.merchantDetailList.push(res?.data);
       this.merchantList[i].expandSet = res?.data;
-      console.log('this.merchantList', this.merchantList)
-
-    //   this._activeLoans.push(res?.data?.results[0]);
-    //  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-    //  console.log(this.loanApplicationData[index].expanddata)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -127,7 +123,7 @@ export class MerchantsListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getMerchantDetail(id, i)
+      this.getMerchantDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {

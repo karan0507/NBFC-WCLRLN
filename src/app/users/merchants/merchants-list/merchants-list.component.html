@@ -53,7 +53,7 @@
                     <th>Registered</th>
                     <!-- <th>Transaction Status</th> -->
                     <th>System Status</th>
-                    <th>Action</th>
+                    <th nzWidth="80px" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,11 +75,11 @@
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
                             <!-- <td>{{data?.transaction_status}}</td> -->
-                            <td *ngIf="data?.is_deleted">False</td>
-                            <td *ngIf="!data?.is_deleted">True</td>
+                            <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                            <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
-                            <td>
+                            <td  nzRight>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
@@ -129,7 +129,7 @@
                                     class="  site-page-header acc-bg-light mb-2"
                                     [nzTitle]="basicDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" >
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex flex-column">
@@ -160,7 +160,7 @@
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="contactPersonDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" >
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -201,7 +201,7 @@
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="bankingDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" >
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -252,7 +252,7 @@
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="kycDocument">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
                                     <div class="row">
                                         <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
                                             <div class="d-flex flex-column"
@@ -296,7 +296,7 @@
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="otherDetails">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" >
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
