@@ -323,6 +323,28 @@ export class HttpService {
             return this._http.post((this.url + `/user/change-password/`), data);
       }
 
+      /**
+       * fetchLoanAgreementMaster
+       */
+      public fetchLoanAgreementMaster() {
+        return this._http.get((this.url + `/platform_central/v1/get-agreements`));
+      }
+
+      /**
+       * fetchLoanAgreement
+       */
+       public fetchLoanAgreement(data) {
+        return this._http.get((this.url + `/product/v1/get-agreement-mapping/` + data.product_id));
+      }
+
+
+      /**
+       * createLoanAgreement
+       */
+      public createLoanAgreement(data) {
+        return this._http.post((this.url + `/product/v1/add-edit-agreement-mapping`), data);
+      }
+
       /// export function
       exportMasterSectionModule(res, section, file_formate, generateloader) {
             this.message.success('File Exported');
