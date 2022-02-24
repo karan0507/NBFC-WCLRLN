@@ -73,3 +73,10 @@
 .bg-light-orange{
       background: #FFFAEC;
 }
+.ant-radio-disabled+span, .ant-picker-input>input-disabled, .ant-picker-input>input[disabled] {
+    color: #000;
+}
+input:disabled, .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: #fff;
+    color: #000;
+}

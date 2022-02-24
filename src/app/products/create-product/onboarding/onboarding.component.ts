@@ -30,7 +30,7 @@ export class OnboardingComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
@@ -78,7 +78,7 @@ export class OnboardingComponent implements OnInit {
     })
     if (data?.field_rules[0]) {
       data?.field_rules.forEach(element => {
-        this.addFieldRules(element, true)  
+        // this.addFieldRules(element, true)  
       });
     } else {
       this.fetchEntityData()
@@ -93,16 +93,18 @@ export class OnboardingComponent implements OnInit {
     
     if (this.router.url.includes('view-product')) {
       this.createEditForm.disable()
+      // this.field_rules.disable()
+      this.document_rules.disable()
     }
   }
 
-  get field_rules(): FormArray {
-    return <FormArray>this.createEditForm.get('field_rules');
-  }
+  // get field_rules(): FormArray {
+  //   return <FormArray>this.createEditForm.get('field_rules');
+  // }
 
-  addFieldRules(data?, bool?) {
-    this.field_rules.push(this.addFieldRulesControls(data, bool))
-  }
+  // addFieldRules(data?, bool?) {
+  //   this.field_rules.push(this.addFieldRulesControls(data, bool))
+  // }
   public addFieldRulesControls(data, bool): FormGroup {
     if (data && bool) {
       return this.fb.group({
@@ -171,7 +173,7 @@ export class OnboardingComponent implements OnInit {
     this.http.fetchEntity(data).subscribe(res => {
       this.entityData = res['data'].results
       this.entityData.forEach(element => {
-        this.addFieldRules(element, false)
+        // this.addFieldRules(element, false)
       });
       // this.message.success(res['message'])
     })

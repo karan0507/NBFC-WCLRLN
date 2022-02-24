@@ -27,7 +27,7 @@ export class LoanAgreementComponent implements OnInit {
   loading: boolean;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    public router : Router,
     private route: ActivatedRoute,
     private sanitized: DomSanitizer) { 
       this.route.queryParams.subscribe(params => {

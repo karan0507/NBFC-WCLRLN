@@ -1,7 +1,7 @@
 <section>
     <nz-card [nzActions]="[actionSubmit]">
         <div class="col-12">
-            <nz-radio-group [(ngModel)]="radioValue" class="w-100">
+            <nz-radio-group [(ngModel)]="radioValue" class="w-100" [nzDisabled]="router.url.includes('view-product')">
                 <label nz-radio *ngFor="let item of loanAgreementDataMaster" [nzValue]="item.id" class="mb-3">{{item.name}} <a class="float-right" (click)="modalPreview(item)">view</a></label> 
             </nz-radio-group>
         </div>

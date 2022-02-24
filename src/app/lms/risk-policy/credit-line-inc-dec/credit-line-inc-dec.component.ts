@@ -18,7 +18,7 @@ export class CreditLineIncDecComponent implements OnInit {
   createDescLine: FormGroup;
   api_calling_loader: boolean;
   total_count: any;
-  search_param: any;
+  search_param: any = '';
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) { }
