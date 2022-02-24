@@ -73,16 +73,16 @@ export class OnboardingComponent implements OnInit {
     this.createEditForm = this.fb.group({
       primary_product: [data ? data?.product_priority[0]?.primary_product?.product_master?.id: '', [Validators.required]],
       secondary_product: [data ? data?.product_priority[0]?.secondary_product?.product_master?.id: '', [Validators.required]],
-      field_rules: this.fb.array([]),
+      // field_rules: this.fb.array([]),
       document_rules: this.fb.array([])
     })
-    if (data?.field_rules[0]) {
-      data?.field_rules.forEach(element => {
-        // this.addFieldRules(element, true)  
-      });
-    } else {
-      this.fetchEntityData()
-    }
+    // if (data?.field_rules[0]) {
+    //   data?.field_rules.forEach(element => {
+    //     // this.addFieldRules(element, true)  
+    //   });
+    // } else {
+    //   this.fetchEntityData()
+    // }
     if (data?.document_rules[0]) {
       data?.document_rules.forEach(element => {
         this.addDocumentRules(element, true)  
@@ -179,9 +179,9 @@ export class OnboardingComponent implements OnInit {
     })
   }
 
-  get_field_rules(form) {
-    return form.controls.field_rules.controls;
-  }
+  // get_field_rules(form) {
+  //   return form.controls.field_rules.controls;
+  // }
 
   get_document_rules(form) {
     return form.controls.document_rules.controls;
@@ -191,9 +191,9 @@ export class OnboardingComponent implements OnInit {
     this.createEditForm.value.document_rules.forEach(element => {
       element.employment_type = this.selectedTab
     });
-    this.createEditForm.value.field_rules.forEach(element => {
-      element.employment_type = this.selectedTab
-    });
+    // this.createEditForm.value.field_rules.forEach(element => {
+    //   element.employment_type = this.selectedTab
+    // });
     let product_priority;
     if (this.product_priority_id) {
       product_priority = [
@@ -215,7 +215,7 @@ export class OnboardingComponent implements OnInit {
     }
     let data = {
       product_priority : product_priority,
-      field_rules : this.createEditForm.value.field_rules,
+      // field_rules : this.createEditForm.value.field_rules,
       document_rules: this.createEditForm.value.document_rules
     }
     
