@@ -25,7 +25,7 @@ export class UploadTransactionsListComponent implements OnInit {
     'list': false,
   }
   page = 1;
-  total_count = 10;
+  total_count;
   listOfData = [];
   setOfCheckedId = new Set<number>();
   listOfCurrentPageData = [];
@@ -38,6 +38,15 @@ export class UploadTransactionsListComponent implements OnInit {
   approve_id: string | Blob;
   is_approve_loading: boolean;
   reject_id: string | Blob;
+  isRejectSuccess: boolean = false;
+  previewBeforeUpload: any;
+  isPreviewBeforeUpload: boolean;
+  isLineError: any;
+  uploaded_file: any;
+  uploadSuccessfully: boolean;
+  is_upload_loading: boolean;
+  globalPageSize = 30
+
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -47,27 +56,40 @@ export class UploadTransactionsListComponent implements OnInit {
     this.getManualTransactionList()
   }
   
-  getManualTransactionList(e?) {
+  getManualTransactionList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       source: 'LMS',
       datapoint: 'loan_services',
       endpoint: 'fetch-offline-transactions',
       status: this.selectedTab,
-      // date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
-      keyword: this.searchValue
+      date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
+      keyword: this.searchValue,
+      page: this.page,
+      limit: this.globalPageSize
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
-      this.listOfData = res['data'].results
-      this.total_count = res['data'].total_count
+      if (res['data']) {
+        this.listOfData = res['data'].results
+        this.total_count = res['data'].total_count
+      } else {
+        this.listOfData = null
+        this.total_count = 0
+      }
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
     })
   }
   resetFilter(){
-
+    this.date = '';
+    this.searchValue = ''
+    this.getManualTransactionList()
   }
   getResultBasedOnSearch(){
 
@@ -107,7 +129,7 @@ export class UploadTransactionsListComponent implements OnInit {
       this.isReject = false;
       this.is_approve_loading = false
       this.rejactRemarks = ''
-      this.message.success(res['message'])
+      this.isRejectSuccess = true;
       this.getManualTransactionList()
     }, (err) => {
       this.is_approve_loading = false
@@ -119,8 +141,52 @@ export class UploadTransactionsListComponent implements OnInit {
   }
   beforeUploadName = (file) => {
     console.log(file)
+    this.uploaded_file = file
+    this.fetchPreviewBeforeUpload(this.uploaded_file)
     return false;
   };
+
+  fetchPreviewBeforeUpload(value) {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'check_excel'),
+    data.append('file', value)
+    var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.message.remove(generateloader);
+      this.isImport = false
+      this.previewBeforeUpload = res['data'].list
+      this.isLineError = res['data'].status
+      this.isPreviewBeforeUpload = true;
+    }, (err) => {
+      generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
+      this.isImport = true
+      this.message.remove(generateloader);
+      this.isFail = true
+    })
+  }
+
+  uploadTransaction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'upload_excel'),
+    data.append('file', this.uploaded_file)
+    if (this.isLineError) {
+      this.is_upload_loading = true
+      this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+        this.is_upload_loading = false
+        this.isImport = false
+        this.isPreviewBeforeUpload = false;
+        this.uploadSuccessfully = true
+      }, (err) => {
+        this.isImport = true
+        this.is_upload_loading = false
+      })
+    } else {
+      this.isFail = true
+      this.isPreviewBeforeUpload = false;
+    }
+  }
 
   fetchPreviewAfterList(value, isPreview) {
     let data = {
@@ -159,4 +225,10 @@ export class UploadTransactionsListComponent implements OnInit {
     })
   }
 
+  downloadSampleFile() {
+    var link = document.createElement('a');
+    link.href = 'assets/static files/Manual transactions sample file.xlsx';
+    link.download = 'Manual transactions sample file.xlsx';
+    link.click();
+  }
 }

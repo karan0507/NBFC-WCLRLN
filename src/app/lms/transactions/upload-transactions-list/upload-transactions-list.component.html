@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="default" class="mx-1">Download Sample</button>
+    <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
     <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
 </div>
 <section>
@@ -35,14 +35,11 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
-                        nzPlaceHolder="Filter By Date">
-                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
-                    </nz-select>
+                    <nz-date-picker [(ngModel)]="date" (ngModelChange)="getManualTransactionList()"></nz-date-picker>
                 </div>
             </div>
-            <nz-table [nzFrontPagination]="false" (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader">
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
+             (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader">
                 <thead>
                     <tr>
                         <th nzWidth="5rem">#</th>
@@ -71,12 +68,12 @@
                                 <h5>{{data?.verified_by ? data?.verified_by : '-'}}</h5>
                                 <span>Contact No: {{data.verified_by_phone ? data.verified_by_phone : '-'}}</span>
                             </td>
-                            <td *ngIf="selectedTab == 'approved'">{{ data?.pan }}</td>
+                            <td *ngIf="selectedTab == 'approved'">{{ data?.updated_at | date: 'medium' }}</td>
                             <td *ngIf="selectedTab == 'rejected'">
                                 <h5>{{data?.verified_by ? data?.verified_by : '-'}}</h5>
                                 <span>Contact No: {{data.verified_by_phone ? data.verified_by_phone : '-'}}</span>
                             </td>
-                            <td *ngIf="selectedTab == 'rejected'">{{ data?.pan }}</td>
+                            <td *ngIf="selectedTab == 'rejected'">{{ data?.updated_at | date: 'medium' }}</td>
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.remarks  ? data?.remarks  : '-'}}</td>
                             <td nzRight>
                                 <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a>
@@ -92,11 +89,11 @@
     </div>
 </section>
 <!-- preview -->
-<nz-modal [nzWidth]="'max-content'" [(nzVisible)]="isPreview" nzTitle="Preview for : {{preview_file_name}}" [nzFooter]="null" (nzOnCancel)="isPreview = false" (nzOnOk)="isPreview = false; isFail = true">
+<nz-modal [nzWidth]="'max-content'" [(nzVisible)]="isPreview" nzTitle="Preview for : {{preview_file_name}}" [nzFooter]="null" (nzOnCancel)="isPreview = false" (nzOnOk)="isPreview = false;">
     <ng-container *nzModalContent>
         <div class="row">
             <div class="col-md-12">
-                <app-upload-transactions-preview [listOfData]="previewData"></app-upload-transactions-preview>
+                <app-upload-transactions-preview [file_upload_success]="true" [listOfData]="previewData"></app-upload-transactions-preview>
             </div>
         </div>
     </ng-container>
@@ -106,26 +103,26 @@
     <ng-container *nzModalContent>
         <div class="row">
             <div class="col-md-12">
-                <app-upload-transactions-preview [listOfData]="previewData"></app-upload-transactions-preview>
+                <app-upload-transactions-preview [file_upload_success]="true" [listOfData]="previewData"></app-upload-transactions-preview>
             </div>
         </div>
     </ng-container>
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="isApprove = false">Cancel</button>
         <button nz-button nzType="primary" (click)="approveTransaction()" [nzLoading]="is_approve_loading">Approve</button>
-      </ng-template>
+    </ng-template>
 </nz-modal>
-<!-- Success -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isApprovedSuccess" [nzFooter]="null" [nzClosable]="false">
+<!-- Approve Success -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isApprovedSuccess" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isApprovedSuccess = false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="''"
+            [title]="'Approved Successfully!'"
             [subTitle]="''"
             [icon]="'assets/images/done.png'"
             (onOkCall)="isApprovedSuccess = false; getManualTransactionList()"
             (onCencelCall)="isApprovedSuccess = false; getManualTransactionList()"
             [cancelBtnTxt]="''"
-            [submitBtnTxt]="'OK'">
+            [submitBtnTxt]="''">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
@@ -148,7 +145,21 @@
         <button nz-button nzType="primary" (click)="rejectTransaction()" [disabled]="!rejactRemarks" [nzLoading]="is_approve_loading">Submit</button>
       </ng-template>
 </nz-modal>
-
+<!-- Reject Success -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRejectSuccess" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isRejectSuccess = false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Rejected Successfully!'"
+            [subTitle]="''"
+            [icon]="'assets/images/done.png'"
+            (onOkCall)="isRejectSuccess = false; getManualTransactionList()"
+            (onCencelCall)="isRejectSuccess = false; getManualTransactionList()"
+            [cancelBtnTxt]="''"
+            [submitBtnTxt]="''">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- Import excel -->
 <nz-modal [(nzVisible)]="isImport" nzTitle="Import Excel" [nzFooter]="null" (nzOnCancel)="isImport = false" nzOkText="Submit">
     <ng-container *nzModalContent>
         <div class="row">
@@ -161,8 +172,35 @@
         </div>
     </ng-container>
 </nz-modal>
-
-
+<!-- preview brfore upload -->
+<nz-modal [nzWidth]="'max-content'" [(nzVisible)]="isPreviewBeforeUpload" nzTitle="Preview for : {{preview_file_name}}" [nzFooter]="modalFooterupload" (nzOnCancel)="isPreviewBeforeUpload = false" (nzOnOk)="isPreviewBeforeUpload = false;">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <app-upload-transactions-preview [file_upload_success]="false" [listOfData]="previewBeforeUpload"></app-upload-transactions-preview>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #modalFooterupload>
+        <button nz-button nzType="default" (click)="isPreviewBeforeUpload = false">Cancel</button>
+        <button nz-button nzType="primary" (click)="uploadTransaction()" [nzLoading]="is_upload_loading">Upload</button>
+    </ng-template>
+</nz-modal>
+<!-- success upload -->
+<nz-modal [nzWidth]="500" [(nzVisible)]="uploadSuccessfully" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="uploadSuccessfully = false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="'Upload Successfully!'"
+            [subTitle]="''"
+            [icon]="'assets/images/done.png'"
+            (onOkCall)="uploadSuccessfully = false; getManualTransactionList()"
+            (onCencelCall)="uploadSuccessfully = false; getManualTransactionList()"
+            [cancelBtnTxt]="''"
+            [submitBtnTxt]="''">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
+<!-- failed upload -->
 <nz-modal [(nzVisible)]="isFail" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 

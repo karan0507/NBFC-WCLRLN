@@ -1,37 +1,41 @@
 
 <section>
     <div class="row">
-        <nz-table [nzFrontPagination]="false" [nzData]="listOfData">
+        <nz-table [nzFrontPagination]="false" [nzData]="listOfData" [nzScroll]="{ x: '1400px' }">
             <thead>
                 <tr>
                     <th nzWidth="3rem">#</th>
-                    <th>User Details</th>
-                    <th>Loan ID</th>
-                    <th>Transaction Type</th>
-                    <th>Details</th>
-                    <th>Date & Time</th>
+                    <th>Loan Unique Id</th>
                     <th>Amount (₹)</th>
-                    <th>GST Amount</th>
-                    <th>Total Amount (₹)</th>
-                    <th>Status</th>
+                    <th>Transaction Type</th>
+                    <th>Entry Type</th>
+                    <th>Details</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Time</th>
+                    <th>MCC Code</th>
+                    <th>Remarks</th>
+                    <th>Transaction ID</th>
+                    <th *ngIf="!file_upload_success">Status</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container *ngFor="let data of listOfData; index as i">
                     <tr>
                         <td>{{ i + 1 }}</td>
-                        <td>
-                            <h5>{{data?.name}}</h5>
-                            <span>Contact No: {{data.pan}}</span>
+                        <td>{{ data?.Loan_unique_Id}}</td>
+                        <td>{{ data?.Amount}}</td>
+                        <td>{{ data?.Transaction_Type}}</td>
+                        <td>{{ data?.Entry_Type}}</td>
+                        <td>{{ data?.Details}}</td>
+                        <td>{{ data?.Transaction_Date}}</td>
+                        <td>{{ data?.Transaction_Time}}</td>
+                        <td>{{ data?.MCC_Code}}</td>
+                        <td>{{ data?.Remarks}}</td>
+                        <td>{{ data?.Transaction_ID}}</td>
+                        <td *ngIf="!file_upload_success">
+                            <span *ngIf="data.line_status == 'Error'" class="text-danger">Error</span>
+                            <span *ngIf="data.line_status == 'Success'" class="text-success">Success</span>
                         </td>
-                        <td>{{ data?.TRANSACTION_UNIQUE_ID }}</td>
-                        <td>{{ data?.TRANSACTION_TYPE }}</td>
-                        <td>{{ data?.DETAILS }}</td>
-                        <td>{{ data?.pan }}</td>
-                        <td>{{ data?.TRANSACTION_AMOUNT }}</td>
-                        <td>{{ data?.pan }}</td>
-                        <td>{{ data?.pan }}</td>
-                        <td>{{ data?.TRANSACTION_STATUS }}</td>
                     </tr>
                 </ng-container>
             </tbody>

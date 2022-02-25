@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
@@ -8,16 +9,24 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 })
 export class RiskPolicyComponent implements OnInit {
 
-  selectedTab = '1'
+  selectedTab;
   isUpload = false
   isPreview = false
-  constructor() { }
+  constructor(private router: Router,
+    private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if(params['index']){
+        this.selectedTab = params['index']
+      } else {
+        this.selectedTab = '1'
+      }
+    });
   }
 
   onClickChangeTab(e) {
-
+    this.router.navigate([], {queryParams: {index: this.selectedTab}})
   }
   handleChange({ file, fileList }: NzUploadChangeParam): void {
     const status = file.status;
