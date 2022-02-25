@@ -163,14 +163,6 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'applications/verification',
-                title: 'Verification', 
-                iconType: '', 
-                icon: '',
-                iconTheme: '',
-                submenu: [] 
-            },
-            { 
                 path: 'applications/e-signing',
                 title: 'E-Nach/Signing', 
                 iconType: '', 
@@ -187,8 +179,16 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
-                path: 'applications/stage-triggers',
-                title: 'Stage Triggers ', 
+                  path: 'applications/rejected',
+                  title: 'Rejected', 
+                  iconType: '', 
+                  icon: '',
+                  iconTheme: '',
+                  submenu: [] 
+              },
+            { 
+                path: 'applications/dormant',
+                title: 'Dormant ', 
                 iconType: '', 
                 icon: '',
                 iconTheme: '',

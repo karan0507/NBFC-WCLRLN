@@ -197,9 +197,10 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              --
-                                                                              <!-- {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
-                                                                        data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
+                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
+                                                                                    == 'Salaried' ?
+                                                                                    data?.expanddata?.income_details.results[0].employer_id?.nmae
+                                                                                    : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>

@@ -11,18 +11,16 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class NbfcApprovalComponent implements OnInit {
       _exportDocument: any;
-      checked: boolean = false;
       filters: any;
       _currentDocumentReq: any;
       productFilters: any;
-      indeterminate: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
       setOfCheckedId = new Set<number>();
       loanApplicationData: any = [];
       total_count: any;
+      _currentLoanData: any;
       _currentDate: any;
       _currentId: any;
-      console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -30,6 +28,7 @@ export class NbfcApprovalComponent implements OnInit {
             'listLoader': false,
             'accordian': false
       };
+      remarks: any = '';
       stageMasterList: any;
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
@@ -38,12 +37,17 @@ export class NbfcApprovalComponent implements OnInit {
       };
 
       // Modal Boolean Values
+      checked: boolean = false;
+      indeterminate: boolean = false;
       _isUpdateStatus: boolean = false;
       statusList: any;
       _currentDocument: any = '1'
       _isDocument: boolean = false;
       _isStatus: boolean = false;
-      _currentCibilData : any;
+      _isAcceptOffer: boolean = false;
+      isRejectOffer : boolean = false;
+      _currentCibilData: any;
+
       constructor(public https: HttpService, public message: NzMessageService) { }
 
       ngOnInit(): void {
@@ -53,7 +57,7 @@ export class NbfcApprovalComponent implements OnInit {
 
       getFormLoanData(id?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=10', 'source': 'Onboarding' }
             // if(this.searchValue){
             //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
             // }
@@ -146,6 +150,7 @@ export class NbfcApprovalComponent implements OnInit {
                   console.log(this._currentDocumentReq, 'Your current ID');
             }
             this._isUpdateStatus = true;
+            this.remarks = '';
             switch (type) {
                   case 'status':
                         this._isStatus = true;
@@ -162,24 +167,51 @@ export class NbfcApprovalComponent implements OnInit {
       }
 
       handleCancel() {
+            // this.remarks = '';
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
+            this._isAcceptOffer = false;
+            this.isRejectOffer = false;
       }
 
-      handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '10', applications: JSON.stringify(this._checkedLoanList) };
-            this.https.updateMultipleLoanApp(data).subscribe(res => {
-                  if (res.success) {
-                        console.log('res');
-                        this._isUpdateStatus = false;
-                  } else {
-                        console.log('error=>', res?.error);
-                  }
-            }, error => {
-                  console.log(error);
+      handleOk(type?) {
+            if (type == 'status') {
+                  let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '10', applications: JSON.stringify(this._checkedLoanList) };
+                  this.https.updateMultipleLoanApp(data).subscribe(res => {
+                        if (res.success) {
+                              console.log('res');
+                              this._isUpdateStatus = false;
+                        } else {
+                              console.log('error=>', res?.error);
+                        }
+                  }, error => {
+                        console.log(error);
 
-            })
+                  })
+            } else if (type == 'accept') {
+                  let data = { source: 'LMS', datapoint: 'accept_offer', endpoint: this._currentLoanData?.id, remarks: this.remarks };
+                  this.https.acceptLoanOffer(data).subscribe((res: any) => {
+                        if (res?.success) {
+                              this.message.success(res?.message);
+                              this.handleCancel();
+                              this.getFormLoanData();
+                        } else {
+                              this.message.error(res?.message)
+                        }
+                  })
+            }else if(type == 'reject'){
+                  let data = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanData?.id, remarks: this.remarks };
+                  this.https.acceptLoanOffer(data).subscribe((res: any) => {
+                        if (res?.success) {
+                              this.message.success(res?.message);
+                              this.handleCancel();
+                              this.getFormLoanData();
+                        } else {
+                              this.message.error(res?.message)
+                        }
+                  })
+            }
       }
 
       downloadModal() {
@@ -219,7 +251,7 @@ export class NbfcApprovalComponent implements OnInit {
       getCibilScoreData(id?) {
             console.log('API call');
             if (id) {
-                let data = {source: 'Onboarding', datapoint: 'pull_cibil', endpoint:2}
+                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 2 }
                   this.https.getCibilData(id, data).subscribe(res => {
                         if (res?.data) {
                               console.log(res?.data);
@@ -227,5 +259,19 @@ export class NbfcApprovalComponent implements OnInit {
                         }
                   })
             }
+      }
+
+      offerMethods(value?, type?) {
+            this._isUpdateStatus = true;
+            this._currentLoanData = value;
+            console.log(value);
+            this._currentCibilData
+            this.remarks = '';
+            if (type == 'approve') {
+                  console.log(value);
+                  this._isAcceptOffer = true;
+            } else if (type == 'reject') {
+                  this.isRejectOffer = true;
+             }
       }
 }

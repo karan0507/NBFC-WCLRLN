@@ -109,12 +109,12 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item>
+                                                            <li nz-menu-item (click)="offerMethods(data, 'approve')">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Approve Offer</span>
                                                             </li>
 
-                                                            <li nz-menu-item>
+                                                            <li nz-menu-item (click)="offerMethods(data, 'reject')">
                                                                   <span class="m-l-5">Disapprove Offer</span>
                                                             </li>
 
@@ -376,16 +376,13 @@
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">No. of
-                                                                                    Cheque Bounce</span>
-                                                                              <!-- <div class="mr-5">
-                                                                                    <label class="text-muted font-size-14">(Last 3 Months)</label>
-                                                                              </div> -->
+                                                                        <div class="text-muted">No. of
+                                                                              Cheque Bounce
                                                                         </div>
                                                                         <div>
-                                                                              --
-                                                                              <!-- {{ _currentCibilData ? _currentCibilData?.No. of Cheque Bounce : '--' }} -->
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_cheque_bounce :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -395,11 +392,11 @@
                                                                               <span class="text-muted">Nach Trans.
                                                                                     Declined (last 3
                                                                                     months)</span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.nach_trans_declined :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -410,11 +407,11 @@
                                                                                     Delinquent Amt. (out of
                                                                                     income)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.max_delinquent_amount :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -423,11 +420,11 @@
                                                                         <div class="d-flex flex-column">
                                                                               <span class="text-muted">No. of
                                                                                     write off cases</span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_write_off_cases :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -436,11 +433,11 @@
                                                                         <div class="d-flex flex-column">
                                                                               <span class="text-muted">Data
                                                                                     Quality score</span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.data_Quality_score :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -450,11 +447,11 @@
                                                                               <span class="text-muted">Retail
                                                                                     Lending score
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.retail_lending_score :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -466,11 +463,11 @@
                                                                               <span class="text-muted">No. of
                                                                                     Inquiries (in last 3 Months)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_inquiries :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -480,11 +477,11 @@
                                                                               <span class="text-muted">No negative
                                                                                     Events (in last 6 Months)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_negative_events :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -494,11 +491,11 @@
                                                                               <span class="text-muted">Avg. Salary
                                                                                     Credited (last 6 months)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.avg_salary_credited :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -510,11 +507,11 @@
                                                                                     Balance/month (in last 90
                                                                                     days)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.avg_min_balance_Month :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -525,11 +522,11 @@
                                                                               <span class="text-muted">No Cc
                                                                                     Applied (last 14 days)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_cc_applied :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -540,11 +537,11 @@
                                                                               <span class="text-muted">No loan
                                                                                     applied (last 14 days)
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_loan_applied :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -555,11 +552,11 @@
                                                                               <span class="text-muted">FOIR (Total
                                                                                     Debt/Monthly Salary))
                                                                               </span>
-                                                                              <div class="mr-5">
-                                                                                    --
-                                                                              </div>
                                                                         </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.foir :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -581,11 +578,14 @@
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">Product
-                                                                                    Name</span>
+                                                                        <div class="text-muted">Product
+                                                                              Name
                                                                         </div>
                                                                         <div>
+                                                                              {{data?.expanddata?.offer_details
+                                                                              ?
+                                                                              data?.expanddata?.offer_details?.product_name
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -596,6 +596,10 @@
                                                                                     Proposed</span>
                                                                         </div>
                                                                         <div>
+                                                                              {{data?.expanddata?.offer_details
+                                                                              ?
+                                                                              data?.expanddata?.offer_details?.limit_proposed
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -606,6 +610,10 @@
                                                                                     Offer</span>
                                                                         </div>
                                                                         <div>
+                                                                              {{data?.expanddata?.offer_details
+                                                                              ?
+                                                                              data?.expanddata?.offer_details?.pre_approved_offer
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -628,6 +636,8 @@
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
+      <label *ngIf="_isAcceptOffer">Accept</label>
+      <label *ngIf="isRejectOffer">Reject</label>
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -649,12 +659,68 @@
                         </div>
                         <div class="col-md-8">
                               <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" nz-input></textarea>
+                                    <textarea rows="4" nz-input [(ngModel)]="remarks"></textarea>
                               </nz-textarea-count>
                         </div>
                   </div>
             </section>
+
+            <!-- Accept Offer -->
+            <section *ngIf="_isAcceptOffer">
+                  <div class="row">
+                        <div class="col-md-12 text-muted">
+                              {{ _currentLoanData?.user?.first_name ? 'Name : ' + ( _currentLoanData?.user?.first_name
+                              + ' ' + (_currentLoanData?.user?.last_name ? _currentLoanData?.user?.last_name
+                              : '')) : '--' }}
+                              <span class="mx-3">{{ _currentLoanData?.id ? 'Loan ID - ' + _currentLoanData?.id :
+                                    '--'}}</span>
+                        </div>
+                        <div class="col-md-12 my-4">
+                              Are you sure about rejecting the offer?
+                        </div>
+                        <div class="col-md-4 text-muted">
+                              Remarks, if any
+                        </div>
+                        <div class="col-md-8">
+                              <nz-textarea-count [nzMaxCharacterCount]="100">
+                                    <textarea rows="4" class="border" nz-input [(ngModel)]="remarks"></textarea>
+                              </nz-textarea-count>
+                        </div>
+
+                  </div>
+            </section>
+
+            <!-- Disapprove Offer -->
+            <section *ngIf="isRejectOffer">
+                  <div class="row">
+                        <div class="col-md-12 text-muted">
+                              {{ _currentLoanData?.user?.first_name ? 'Name : ' + ( _currentLoanData?.user?.first_name
+                              + ' ' + (_currentLoanData?.user?.last_name ? _currentLoanData?.user?.last_name
+                              : '')) : '--' }}
+                              <span class="mx-3">{{ _currentLoanData?.id ? 'Loan ID - ' + _currentLoanData?.id :
+                                    '--'}}</span>
+                        </div>
+                        <div class="col-md-12 my-4">
+                              Are you sure about rejecting the offer?
+                        </div>
+                        <div class="col-md-4 text-muted">
+                              Remarks, if any
+                        </div>
+                        <div class="col-md-8">
+                              <nz-textarea-count [nzMaxCharacterCount]="100">
+                                    <textarea rows="4" class="border" nz-input [(ngModel)]="remarks"></textarea>
+                              </nz-textarea-count>
+                        </div>
+
+                  </div>
+            </section>
+
             <ng-template #footerModal>
                   <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-                  <button nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button>
+                  <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2"
+                        (click)="handleOk('status')">Submit</button>
+                  <button *ngIf="_isAcceptOffer" nz-button nzType="primary" class="mx-2"
+                        (click)="handleOk('accept')">Submit</button>
+                  <button *ngIf="isRejectOffer" nz-button nzType="primary" class="mx-2"
+                        (click)="handleOk('reject')">Submit</button>
             </ng-template>

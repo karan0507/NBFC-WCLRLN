@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -12,7 +13,9 @@ import { HttpService } from 'src/app/services/http.service';
 export class UnderwritingComponent implements OnInit {
       _exportDocument: any;
       checked: boolean = false;
+      _isEditOffer: boolean = false;
       filters: any;
+      offerForm: FormGroup;
       _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -34,7 +37,7 @@ export class UnderwritingComponent implements OnInit {
       };
       stageMasterList: any;
       _currentStageStatus: any;
-      _currentCibilData : any;
+      _currentCibilData: any;
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -47,15 +50,20 @@ export class UnderwritingComponent implements OnInit {
       _isDocument: boolean = false;
       _isStatus: boolean = false;
 
-      constructor(public https: HttpService, public message: NzMessageService) { }
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
+            this.offerForm = this.fb.group({
+                  amountOffered: [null, [Validators.required, Validators.min(1)]],
+                  validitiy: [null],
+                  interest: [null]
+            })
       }
 
       getFormLoanData(id?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
             // if(this.searchValue){
             //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
             // }
@@ -161,7 +169,27 @@ export class UnderwritingComponent implements OnInit {
                   case 'download': this._isDocument = true;
                         break;
                   case 'viewDocument': this._isViewDocument = true; break;
+                  case 'editOffer': this._isEditOffer = true;
+                        this.api_calling_loader['accordian'] = true;
+                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
+                        this.https.fetchEditofferData(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    console.log(res);
+                                    this.offerForm.get('amountOffered').setValue(res?.data?.amount);
+                                    this.offerForm.get('validitiy').setValue(res?.data?.validity);
+                                    this.offerForm.get('interest').setValue(res?.data?.interest);
+                                    this.api_calling_loader['accordian'] = false;
 
+                              } else {
+                                    this.message.error(res?.error)
+                                    this.api_calling_loader['accordian'] = false;
+
+                              }
+                              this.api_calling_loader['accordian'] = false;
+                        }, err => { this.message.error(err) }
+                        )
+
+                        break;
             }
             if (docType) {
                   this._currentDocType = docType;
@@ -172,21 +200,38 @@ export class UnderwritingComponent implements OnInit {
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
+            this._isEditOffer = false;
       }
 
-      handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
-            this.https.updateMultipleLoanApp(data).subscribe(res => {
-                  if (res.success) {
-                        console.log('res');
-                        this._isUpdateStatus = false;
-                  } else {
-                        console.log('error=>', res?.error);
-                  }
-            }, error => {
-                  console.log(error);
+      handleOk(type?) {
+            if (type == '') {
+                  let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
+                  this.https.updateMultipleLoanApp(data).subscribe(res => {
+                        if (res.success) {
+                              console.log('res');
+                              this._isUpdateStatus = false;
+                        } else {
+                              console.log('error=>', res?.error);
+                        }
+                  }, error => {
+                        console.log(error);
 
-            })
+                  })
+            } else if (type == 'offer') {
+                  let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentDocumentReq?.id, amount: this.offerForm.get('amountOffered').value };
+                  this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
+                        if (res.success) {
+                              console.log('res');
+                              this.handleCancel();
+                              this.getFormLoanData();
+                        } else {
+                              console.log('error=>', res?.error);
+                        }
+                  }, error => {
+                        console.log(error);
+
+                  })
+            }
       }
 
       downloadModal() {
@@ -227,9 +272,7 @@ export class UnderwritingComponent implements OnInit {
       getCibilScoreData(id?) {
             console.log('API call');
             if (id) {
-                  console.log(id);
-                  
-                let data = {source: 'Onboarding', datapoint: 'pull_cibil', endpoint: id}
+                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: id }
                   this.https.getCibilData(id, data).subscribe(res => {
                         if (res?.data) {
                               console.log(res?.data);
