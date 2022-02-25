@@ -388,14 +388,9 @@ export class HttpService {
       }
 
       // Fetch Admin Proposed Offer
-      public getAdProposedOffer(id?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`, id));
+      public fetchEditofferData(data?) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
             //** */ ?source=LMS&datapoint=fetch_proposed_offers&endpoint=1
-      }
-
-      // Fetch Admin Accepted Offers
-      public getAdAcceptedOffer(id?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`, id));
             //** */ ?source=LMS&datapoint=fetch_accepted_offers&endpoint=1
       }
 
@@ -418,8 +413,8 @@ export class HttpService {
       }
 
       // Admin Accepted Offers
-      public acceptOfferAd(id?) {
-            return this._http.put((this.url + `/central-api/v1/call-api`), id);
+      public acceptLoanOffer(data?) {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
             //**Form Body     // "source" : "LMS",
             // "datapoint" : "accept_offer",
             // "endpoint" : "9",
@@ -434,6 +429,11 @@ export class HttpService {
             //     "endpoint" : "8",
             //     "remarks" : "Offer was not useful"
       }
+
+      public moveApplication(data?) {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
+      }
+
 
       // ********************************** End Loan Application API's***************************
 
@@ -578,9 +578,14 @@ export class HttpService {
       }
 
       // Lender Management API
-      public getLenderManagementList() {
-            return this._http.get(this.url + `/loan-application/v1/lender-management-dashboard`);
+      public getLenderManagementList(data?): (Observable<any>) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
+
+      public getLendersCommitmentList(data?) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
+      // /central-api/v1/call-api?datapoint=lender_master_get&endpoint=LenderFundCommitments&source=LMS&lender_id=1
 
 
       // sample Download

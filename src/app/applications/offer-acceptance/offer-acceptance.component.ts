@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-offer-acceptance',
-  templateUrl: './offer-acceptance.component.html',
-  styleUrls: ['./offer-acceptance.component.css']
+      selector: 'app-offer-acceptance',
+      templateUrl: './offer-acceptance.component.html',
+      styleUrls: ['./offer-acceptance.component.css']
 })
 export class OfferAcceptanceComponent implements OnInit {
       _exportDocument: any;
@@ -18,6 +18,7 @@ export class OfferAcceptanceComponent implements OnInit {
       _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
+      isRejectModal: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
       setOfCheckedId = new Set<number>();
       loanApplicationData: any = [];
@@ -34,7 +35,7 @@ export class OfferAcceptanceComponent implements OnInit {
       };
       stageMasterList: any;
       _currentStageStatus: any;
-      offerForm : FormGroup
+      offerForm: FormGroup
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -45,19 +46,24 @@ export class OfferAcceptanceComponent implements OnInit {
       statusList: any;
       _currentDocument: any = '1'
       _isEditOffer: boolean = false;
+      _isDocument: boolean = false;
       _isStatus: boolean = false;
-      constructor(public https: HttpService, public message: NzMessageService, public fb : FormBuilder) { }
+      _currentCibilData: any;
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
             this.offerForm = this.fb.group({
-                  amountOffered : [null]
+                  amountOffered: [null, [Validators.required, Validators.min(1)]],
+                  validitiy: [null],
+                  interest: [null]
             })
       }
 
+
       getFormLoanData(id?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
             // if(this.searchValue){
             //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
             // }
@@ -160,7 +166,30 @@ export class OfferAcceptanceComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
-                  case 'editOffer': this._isEditOffer = true; break;
+                  case 'download': this._isDocument = true; break;
+                  case 'editOffer': this._isEditOffer = true;
+                        this.api_calling_loader['accordian'] = true;
+                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
+                        this.https.fetchEditofferData(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    console.log(res);
+                                    this.api_calling_loader['accordian'] = false;
+                                    this.offerForm.get('amountOffered').setValue(res?.data?.amount);
+                                    this.offerForm.get('validitiy').setValue(res?.data?.validity);
+                                    this.offerForm.get('interest').setValue(res?.data?.interest);
+
+                              } else {
+                                    this.message.error(res?.error)
+                                    this.api_calling_loader['accordian'] = false;
+
+                              }
+                              this.api_calling_loader['accordian'] = false;
+                        }, err => { this.message.error(err) }
+                        )
+
+                        break;
+                        break;
+                  case 'rejectOffer': this.isRejectModal = true; break;
 
             }
       }
@@ -168,30 +197,59 @@ export class OfferAcceptanceComponent implements OnInit {
       handleCancel() {
             this._isUpdateStatus = false;
             this._isStatus = false;
+            this._isDocument = false;
             this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
-          switch (type){
-                case 'status': 
-                let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '6', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
-                this.https.updateMultipleLoanApp(data).subscribe(res => {
-                      if (res.success) {
-                            console.log('res');
-                            this._isUpdateStatus = false;
-                      } else {
-                            console.log('error=>', res?.error);
-                      }
-                }, error => {
-                      console.log(error);
-    
-                })
-                break;
-                case 'offer': 
-                console.log('you are in offer');
-                
-                break;
-          }
+            switch (type) {
+                  case 'status':
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        this.https.updateMultipleLoanApp(data).subscribe(res => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this._isUpdateStatus = false;
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              console.log(error);
+
+                        })
+                        break;
+                  case 'offer':
+                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentDocumentReq?.id, amount: this.offerForm.get('amountOffered').value };
+                        this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this.handleCancel();
+                                    this.getFormLoanData();
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              console.log(error);
+                        })
+
+                        break;
+                  case 'reject':
+                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentDocumentReq?.id, remarks: this.remarks };
+                        this.https.acceptLoanOffer(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getFormLoanData();
+                              } else {
+                                    this.message.error(res?.message)
+                              }
+                        });
+                        break;
+            }
+      }
+
+      downloadModal() {
+
       }
 
       checkDisabledStatus() {
@@ -206,7 +264,7 @@ export class OfferAcceptanceComponent implements OnInit {
       exportData(file_formate?) {
             let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-            this.https.fetchLoanApplicationList(data).subscribe(res => {
+            this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
@@ -224,4 +282,16 @@ export class OfferAcceptanceComponent implements OnInit {
             }
       }
 
+      getCibilScoreData(id?) {
+            console.log('API call');
+            if (id) {
+                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 2 }
+                  this.https.getCibilData(id, data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            }
+      }
 }

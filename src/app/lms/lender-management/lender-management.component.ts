@@ -2,48 +2,69 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-lender-management',
-  templateUrl: './lender-management.component.html',
-  styleUrls: ['./lender-management.component.css']
+      selector: 'app-lender-management',
+      templateUrl: './lender-management.component.html',
+      styleUrls: ['./lender-management.component.css']
 })
 export class LenderManagementComponent implements OnInit {
-  lenderListData: any = [];
-  matricData: any = [];
-  page: number;
-  limit: any;
-  total_count : any;
-  api_calling_loader = {
-      'listLoader' : false,
-      'cardList':false
-};
-  constructor(private https: HttpService) { }
+      lenderListData: any = [];
+      matricData: any = [];
+      page: number;
+      limit: any;
+      total_count: any;
+      api_calling_loader = {
+            'listLoader': false,
+            'cardList': false
+      };
+      constructor(private https: HttpService) { }
 
-  ngOnInit(): void {
-    this.page = 1;
-    this.getLenderManagementList();
-  }
+      ngOnInit(): void {
+            this.page = 1;
+            this.getLenderManagementList();
+      }
 
-  getLenderManagementList() {
-    this.lenderListData = [];
-    this.api_calling_loader['listLoader'] = true;
-    this.api_calling_loader['cardList'] = true;
-    let data = new FormData();
-    data.append('page', '1');
-    data.append('limit', '10')
-    this.https.getLenderManagementList().subscribe((res : any) =>  {
-     if(res?.data){
-      this.lenderListData = res?.data?.list_data
-      this.matricData = res?.data?.matric_data;
-      this.api_calling_loader['listLoader'] = false;
-      this.api_calling_loader['cardList'] = false;
-      this.total_count = res?.total_count;
-      // console.log(this.matricData, this.lenderListData,res, this.total_count);
-     }
-    },error=>{
-      this.api_calling_loader['listLoader'] = false;
-      this.api_calling_loader['cardList'] = false;
-    })
+      getLenderManagementList() {
+            this.lenderListData = [];
+            this.api_calling_loader['listLoader'] = true;
+            this.api_calling_loader['cardList'] = true;
+            //     let data = new FormData();
+            //     data.append('page', '1');
+            //     data.append('limit', '10');
+            let params = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderManagement', 'source': 'LMS' }
+            this.https.getLenderManagementList(params).subscribe((res: any) => {
+                  if (res?.data) {
+                        this.lenderListData = res?.data?.list_data
+                        this.matricData = res?.data?.matric_data;
+                        this.api_calling_loader['listLoader'] = false;
+                        this.api_calling_loader['cardList'] = false;
+                        this.total_count = res?.total_count;
+                        // console.log(this.matricData, this.lenderListData,res, this.total_count);
+                  } else {
+                        this.api_calling_loader['listLoader'] = false;
+                        this.api_calling_loader['cardList'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['listLoader'] = false;
+                  this.api_calling_loader['cardList'] = false;
+            })
+      }
 
-  }
+
+      getMultipleAction(type?, data?) {
+            let params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderFundCommitments', 'source': 'LMS', 'lender_id': data?.id }
+            switch (type) {
+                  case 'commitment': 
+                  this.https.getLendersCommitmentList().subscribe((res : any)=>{
+                        console.log(res);
+                  })
+                  break;
+                  case 'request_fund': 
+                  params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': data?.id }
+                  break;
+                  case 'repay_NBFC': 
+                  params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderManagementRepayment', 'source': 'LMS', 'lender_id': data?.id }
+                  break;
+            }
+      }
 
 }
