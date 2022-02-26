@@ -1,7 +1,7 @@
 <section>
     <nz-card>
         <div class="row">
-            <div class="mr-3"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></div>
+            <div class="mr-3"><i nz-icon nzType="arrow-left" [routerLink]="['../']" class="pointer" nzTheme="outline"></i></div>
             <div class="col d-flex justify-contents-between px-0">
                 <div>
                     <h4 class="h4">Samyak</h4>
@@ -24,9 +24,9 @@
                             <li nz-menu-item (click)="pdfViewerAndDownload('Outstanding Calculation', 2)">
                                 <a>Outstanding Calculation</a>
                             </li>
-                            <li nz-menu-item (click)="pdfViewerAndDownload('Bill Statement', 3)">
+                            <!-- <li nz-menu-item (click)="pdfViewerAndDownload('Bill Statement', 3)">
                                 <a>Bill Statement</a>
-                            </li>
+                            </li> -->
                             <li nz-menu-item (click)="pdfViewerAndDownload('Closure Letter', 4)">
                                 <a>Closure Letter</a>
                             </li>
@@ -302,6 +302,70 @@
                 </tr>
             </tbody>
         </nz-table>
+    </nz-card>
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Bill Statement">
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Monthly EMI</th>
+                    <th>Balance</th>
+                    <th>Charges</th>
+                    <th>Billing Date</th>
+                    <th>Paid On</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+          </nz-table>
+    </nz-card>
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Invoices">
+        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Monthly EMI</th>
+                    <th>Balance</th>
+                    <th>Charges</th>
+                    <th>Billing Date</th>
+                    <th>Paid On</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataSet; index as i">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+          </nz-table>
     </nz-card>
     <nz-card *ngIf="selectedTab == '3'">
         <app-app-downloads></app-app-downloads>

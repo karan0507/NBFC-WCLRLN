@@ -31,6 +31,14 @@ export class BorrowersDetailsComponent implements OnInit {
     'title': ''
   }
   borrower_id: any;
+  page: any;
+  globalPageSize: any;
+  is_blocked = '';
+  master_product_id = '';
+  search_params = '';
+  api_calling_loader: boolean;
+  borrowertList: any;
+  total_count: any;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -44,6 +52,8 @@ export class BorrowersDetailsComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.page = 1;
+    this.globalPageSize = 30
     this.createAddPaymentOrChargeFormFunction()
   }
 
@@ -116,5 +126,32 @@ export class BorrowersDetailsComponent implements OnInit {
     this.pdf_viewer_object_values['url'] = ''
     this.pdf_viewer_object_values['boolean'] = true
     this.message.remove(generateloader);
+  }
+
+  fetchBorrowerList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
+    let data = {
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationAcceptedProduct',
+      source: 'LMS',
+      page: this.page,
+      limit: this.globalPageSize,
+      product_id: this.master_product_id,
+      is_blocked: this.is_blocked,
+      search_param: this.search_params,
+      id: this.borrower_id
+    }
+    this.api_calling_loader = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader = false
+      this.borrowertList = res['data']
+      this.total_count = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader = false
+    })
   }
 }
