@@ -1,18 +1,28 @@
+<div class="header_breadcrumb_section">
+    <div class="d-flex justify-content-md-between flex-wrap w-100">
+          <div></div>
+          <div> <button nz-button nzType="primary" class="ml-auto px-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> Upload </button>
+                <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
+          </div>
+    </div>
+
+</div>
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="new-joinees">New Joinees</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="exit-employee">Exit Employee</label>
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Employee Database">Employee Database</label>
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="New Joinees">New Joinees</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Exit Employee">Exit Employee</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"
-                    nzValue="attendance">Attendance</label>
-                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="notice-period">Notice Period</label>
+                    nzValue="Attendance">Attendance</label>
+                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Notice Period">Notice Period</label>
             </nz-radio-group>
         </div>
     </div>
 </section>
 
-<section *ngIf="selectedTab === 'new-joinees'">
+<section *ngIf="selectedTab === 'New Joinees' || selectedTab === 'employee-database' || selectedTab === 'Exit Employee' || selectedTab === 'Attendance' ||  selectedTab === 'Notice Period'">
     <section>
         <div class="row">
             <nz-card class="w-100">
@@ -31,48 +41,55 @@
                         </ng-template>
                     </div>
                     <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                            class="mr-2" (click)="resetFilter()">
+                    <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
+                        (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
+                        </nz-option>
+                        <nz-option nzValue="All" nzLabel="all">
+                        </nz-option>
+                    </nz-select>
+                        <button nz-button nzType="default" [disabled]="selectedCorporate || searchValue ? false : true" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                            class="mx-3" (click)="resetFilter()">
                             <i nz-icon nzType="undo"></i>
                         </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
-                    [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
-                    (nzQueryParams)="getNewJoineeList($event)" [nzShowSizeChanger]="true" [nzData]="listOfNewJoinees"
-                    [nzScroll]="{ x: '1500px' }">
+                    <nz-table [nzTotal]="total_count" [nzLoading]="apiLoader['list']" [nzFrontPagination]="true" [nzPageIndex]="page" [nzPageSize]="size"
+                    (nzQueryParams)="getEmployeeDetailWithEmployeeTypeAndCorporateId($event)" [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
                     <thead>
                         <tr>
                             <th rowspan="2">#</th>
-                            <th rowspan="3">File Name</th>
-                            <th rowspan="3">Added on</th>
-                            <th rowspan="2">Added By</th>
-                            <th rowspan="2"> Actions</th>
+                            <th nzWidth="14rem">Partner Name</th>
+                            <th nzWidth="13rem">Added on</th>
+                            <th>Added By</th>
+                            <th nzWidth="13rem">Remarks</th>
+                            <th nzRight> Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of listOfNewJoinees; index as i">
+                        <tr *ngFor="let data of listOfEmployee; index as i">
                             <td >{{ i + 1 }}</td>
-                            <td>{{ data?.file_name }}</td>
+                            <td>{{ data?.partner_name ? data?.partner_name :  ' -- ' }}</td>
                             <td>
                                 <div>
-                                    {{ data?.regDate }}
+                                    {{  data?.created_at ? (data?.created_at | date :'dd/MM/yy') : ' --/--/-- '}}
                                 </div>
                                 <div>
-                                    {{ data?.time }}
+                                    {{ data?.created_at ? (data?.created_at | date :'h:mm a') : ' -:--: - ' }}
                                 </div>
                             </td>
-                            <td>
-                                <div>
+                            <td>{{data?.uploaded_by?.name ? data?.uploaded_by?.name : ' '}}
+                                <!-- <div>
                                     {{ data?.added_by }}
                                 </div>
                                 <div>
                                     {{'Contact No: ' + data?.contact_no }}
-                                </div>
+                                </div> -->
                                 </td>
-                            <td>
+                            <td>{{data?.remarks ? data?.remarks : ' '}}</td>
+                            <td nzRight>
                                 <a nz-button class="primary" nzType="link" style="color: #074EE8;">View</a>
                                 <a nz-button nzType="link" style="color: #074EE8;">Download</a>
                             </td>
@@ -87,70 +104,81 @@
 
 </section>
 
-<section *ngIf="selectedTab === 'exit-employee' || selectedTab === 'attendance' ||  selectedTab === 'notice-period'">
-    <section>
-        <div class="row">
-            <nz-card class="w-100">
-                <div class="row">
-                    <div class="col-md-4 mb-3 d-flex">
-                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                            <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
-                                placeholder="Search text" />
-                        </nz-input-group>
-                        <!-- <ng-template #suffixIconButton>
-                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
-                        </ng-template> -->
-                        <ng-template #suffixIconButton>
-                            <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
-                                    nzType="search"></i></button>
-                        </ng-template>
-                    </div>
-                    <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                            class="mr-2" (click)="resetFilter()">
-                            <i nz-icon nzType="undo"></i>
-                        </button>
-                    </div>
+<section>
+    <nz-modal [nzWidth]="isVisibleModal['previewIsVisible'] ? '1100px' : '500px'" [(nzVisible)]="isVisibleModal['modalIsVisible']" [nzTitle]="isVisibleModal['previewIsVisible'] ? ('Upload File for Selected Section ' + selectedTab) : ('Preview For : ' + fileName)" (nzOnCancel)="handleCancel()"
+          [nzFooter]="footerModal">
+          <ng-container *nzModalContent>
+              <form *ngIf="!isVisibleModal['previewIsVisible']"  [formGroup]="uploadSelectedCorporateFile">
+              <div class="row">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Select Partner</nz-form-label>
+                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
+                                <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" formControlName="partner" style="width: 15rem;"
+                                    nzPlaceHolder="Filter By Corporate">
+                                    <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                    </nz-form-item>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
-                    [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"
-                    (nzQueryParams)="getNewJoineeList($event)" [nzShowSizeChanger]="true" [nzData]="listOfEmployee"
-                    [nzScroll]="{ x: '1500px' }">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="file" nzRequired>Insert File</nz-form-label>
+                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
+                                <nz-upload
+                                        [nzMultiple]="'false'" [nzAccept]="'.xlsx, .xls'"
+                                        [nzCustomRequest]="customUpload"
+                                        (nzChange)="onUpload($event, k, 'upload')"
+                                        >
+                                        <!-- <button nz-button>
+                                            <i nz-icon nzType="upload"></i>
+                                            Click to Upload
+                                        </button> -->
+                                        <button nz-button nzType="link" ><i nz-icon nzType="upload"></i>{{uploadSelectedCorporateFile.controls.file.value ? ' Re-Upload File' : 'Upload File'}}</button>
+                                        </nz-upload>
+                            </nz-form-control>
+                    </nz-form-item>
+                </div>
+              </div>
+            </form>
+            <div class="row" *ngIf="isVisibleModal['previewIsVisible']">
+                <div class="col-12">
+                    <nz-table [nzLoading]="apiLoader['list']" [nzFrontPagination]="false"
+                [nzShowSizeChanger]="true" [nzData]="retrievedFileResponse">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Name of  employee</th>
-                            <th>Emp. ID</th>
-                            <th>Email ID</th>
-                            <th> Mobile Number</th>
-                            <th> Alternate Mobile No</th>
+                            <th rowspan="2">#</th>
+                            <th>Name Of Employee</th>
+                            <th>EMP. ID</th>
+                            <th>Employee Type</th>
+                            <th >Email ID</th>
+                            <th> Mobile No.</th>
+                            <th> Alternative Mobile No.</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of listOfEmployee; index as i">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ data?.employee_name }}</td>
+                        <tr *ngFor="let data of retrievedFileResponse; index as i">
+                            <td >{{ i + 1 }}</td>
+                            <td>{{ (data?.First + ' ' + Name +' ' + data?.Last + ' ' + Name)}}</td>
                             <td>
-                                    {{ data?.emp_id }}
+                                    {{ (data?.Emp + ' ' + ID) }}
                             </td>
-                            <td>
-                                    {{ data?.email_id }}
-                                </td>
-                            <td>
-                                {{data?.mobile_no}}
-                            </td>
-                            <td>
-                                {{data?.alternate_mobile_no}}
-                            </td>
+                            <td>{{(data?.Employee + ' ' + Type)}}</td>
+                            <td>{{(data?.Personal+ ' ' + Email + ' '+ id)}}</td>
+                            <td>{{(data?.Mobile + ' ' + no)}}</td>
+                            <td>{{(data?.Home + ' ' + no)}}</td>
                         </tr>
                     </tbody>
-                </nz-table>
-                    </div>
+                </nz-table>  
                 </div>
-            </nz-card>
-        </div>
-    </section>
+            </div>
 
-</section>
+          </ng-container>
+          </nz-modal></section>
+
+          <ng-template #footerModal>
+            <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+            <button nz-button nzType="primary" class="mx-2" *ngIf="!isVisibleModal['previewIsVisible']" [nzLoading]="isVisibleModal['previewButtonLoading']" (click)="handleOk()">Click to Preview </button>
+            <button nz-button nzType="primary" class="mx-2" *ngIf="isVisibleModal['previewIsVisible']" [nzLoading]="isVisibleModal['uploadButtonLoading']" (click)="onClickUploadFile()">Upload File</button>
+      </ng-template>

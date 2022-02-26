@@ -621,4 +621,20 @@ export class HttpService {
             // /platform_central/v1/get-states
             return this._http.get(this.url + `/platform_central/v1/${action}`);
       }
+
+      getEmployeeDetailWithEmployeeTypeAndCorporateId(data){
+            return this._http.get(this.url + `/partner/v1/fetch-employee-details`, { params: data } );
+      }
+
+      viewFileBeforeSaving(data){
+            return this._http.post(this.url + `/partner/v1/view-unsaved-employee-details-file` , data);
+      }
+
+      uploadUserEmployeePreviewedFile(data){
+            return this._http.post(this.url + `/partner/v1/upload-employee-details` , data);
+      }
+
+
+
+      // /partner/v1/view-unsaved-employee-details-file
 }
