@@ -19,6 +19,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 
 
@@ -45,6 +46,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzModalModule,
     NzCheckboxModule,
     SharedModule,
+    NzPaginationModule
   ]
 })
 export class EmployeeDetailsModule { }

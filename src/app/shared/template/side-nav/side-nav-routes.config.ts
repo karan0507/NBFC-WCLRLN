@@ -65,6 +65,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'employeeDetail',
+                title: 'User Employee Details', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'merchants',
                 title: 'Merchants', 
                 iconType: '', 
