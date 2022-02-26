@@ -19,11 +19,18 @@ export class CreditLineIncDecComponent implements OnInit {
   api_calling_loader: boolean;
   total_count: any;
   search_param: any = '';
+  page: any;
+  globalPageSize: any;
+  master_product_id = '';
+  is_blocked = '';
+  search_params = '';
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.page = 1;
+    this.globalPageSize = 30
     this.createDescLineFunction()
     this.createIncLineFunction()
     this.fetchLoanApplicationList()
@@ -44,22 +51,36 @@ export class CreditLineIncDecComponent implements OnInit {
     })
   }
   
-  fetchLoanApplicationList() {
+  fetchLoanApplicationList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationCreditlineUpdation',
       source: 'LMS',
-      search_param: this.search_param
+      page: this.page,
+      limit: this.globalPageSize,
+      product_id: this.master_product_id,
+      is_blocked: this.is_blocked,
+      search_param: this.search_params,
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.borrowertList = res['data']
-      this.total_count = res['data'].total_count
+      this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
     })
+  }
+  resetFilters() {
+    this.search_params = ''
+    this.is_blocked = ''
+    this.master_product_id = ''
+    this.fetchLoanApplicationList()
   }
 
 }

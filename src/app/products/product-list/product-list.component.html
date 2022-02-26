@@ -24,8 +24,8 @@
                     </nz-select>
                 </div>
             </div>
-            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="30"
-            [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="productList ? fetchProductList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -60,9 +60,28 @@
                         <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
                         <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
                         <td nzRight>
-                            <a class="mr-3" [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="eye" nzTheme="outline"></i></a>
-                            <a class="mr-3" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}"><i nz-icon nzType="edit" nzTheme="outline"></i></a>
-                            <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>    
+                                        <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">View</span>
+                                        </li> 
+                                        <li nz-menu-item [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">Edit</span>
+                                        </li> 
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Activate</span>
+                                        </li> 
+                                        <li nz-menu-item>
+                                            <span class="m-l-5">Deactivate</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
