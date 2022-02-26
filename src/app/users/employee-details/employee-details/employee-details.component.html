@@ -22,7 +22,7 @@
     </div>
 </section>
 
-<section *ngIf="selectedTab === 'New Joinees' || selectedTab === 'employee-database' || selectedTab === 'Exit Employee' || selectedTab === 'Attendance' ||  selectedTab === 'Notice Period'">
+<section *ngIf="selectedTab === 'New Joinees' || selectedTab === 'Employee Database' || selectedTab === 'Exit Employee' || selectedTab === 'Attendance' ||  selectedTab === 'Notice Period'">
     <section>
         <div class="row">
             <nz-card class="w-100">
@@ -105,7 +105,7 @@
 </section>
 
 <section>
-    <nz-modal [nzWidth]="isVisibleModal['previewIsVisible'] ? '1100px' : '500px'" [(nzVisible)]="isVisibleModal['modalIsVisible']" [nzTitle]="isVisibleModal['previewIsVisible'] ? ('Upload File for Selected Section ' + selectedTab) : ('Preview For : ' + fileName)" (nzOnCancel)="handleCancel()"
+    <nz-modal [nzWidth]="isVisibleModal['previewIsVisible'] ? '1100px' : '500px'" [(nzVisible)]="isVisibleModal['modalIsVisible']" [nzTitle]="('Upload File for Selected Section ' + selectedTab) " (nzOnCancel)="handleCancel()"
           [nzFooter]="footerModal">
           <ng-container *nzModalContent>
               <form *ngIf="!isVisibleModal['previewIsVisible']"  [formGroup]="uploadSelectedCorporateFile">
@@ -124,50 +124,174 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="file" nzRequired>Insert File</nz-form-label>
-                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="file"  nzRequired>Insert File</nz-form-label>
+                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid File'>
                                 <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.xlsx, .xls'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'upload')"
+                                        formControlName="file"
                                         >
-                                        <!-- <button nz-button>
-                                            <i nz-icon nzType="upload"></i>
-                                            Click to Upload
-                                        </button> -->
                                         <button nz-button nzType="link" ><i nz-icon nzType="upload"></i>{{uploadSelectedCorporateFile.controls.file.value ? ' Re-Upload File' : 'Upload File'}}</button>
                                         </nz-upload>
                             </nz-form-control>
                     </nz-form-item>
+                    <!-- <input type='file' formControlName="file"/> -->
                 </div>
               </div>
             </form>
             <div class="row" *ngIf="isVisibleModal['previewIsVisible']">
                 <div class="col-12">
+                    <h4>Preview For : {{fileName}} </h4>
+                </div>
+                <div class="col-12" style="overflow-x: auto;">
                     <nz-table [nzLoading]="apiLoader['list']" [nzFrontPagination]="false"
                 [nzShowSizeChanger]="true" [nzData]="retrievedFileResponse">
                     <thead>
                         <tr>
                             <th rowspan="2">#</th>
-                            <th>Name Of Employee</th>
+                            <th>Full Name Of Employee</th>
                             <th>EMP. ID</th>
                             <th>Employee Type</th>
                             <th >Email ID</th>
                             <th> Mobile No.</th>
                             <th> Alternative Mobile No.</th>
+                            <th> Sex </th>
+                            <th> DOB </th>
+                            <th> Joining_Date </th>
+                            <th> Gross_Monthly_income  </th>
+                            <th> Net_monthly_income </th>
+                            <th> Advance_salary_from_company </th>
+                            <th> Marital_Status </th>
+                            <th> No_of_Children </th>
+                            <th> Father_Name </th>
+                            <th> Dependant </th>
+                            <th> Office_Tel_No </th>
+                            <th> Office_Extn_No </th>
+                            <th> official_Email_ID </th>
+                            <th> Active_Status </th>
+                            <th> Branch_Name </th>
+                            <th> Branch_Address </th>
+                            <th> Department_Name </th>
+                            <th> Manager_Name </th>
+                            <th> Designation_Name </th>
+                            <th> Division_Name </th>
+                            <th> Crspnd_Street_No  </th>
+                            <th> Crspnd_Street </th>
+                            <th> Crspnd_Block </th>
+                            <th> Crspnd_Building </th>
+                            <th> Crspnd_PS </th>
+                            <th> Crspnd_PO </th>
+                            <th> Crspnd_Landmark </th>
+                            <th> Crspnd_City </th>
+                            <th> Crspnd_ZIP </th>
+                            <th> Crspnd_State </th>
+                            <th> Crspnd_State_Name </th>
+                            <th> Crspnd_Country </th>
+                            <th> Crspnd_Country_Name </th>
+                            <th> Prmnt_Street_No </th>
+                            <th> Prmnt_Street </th>
+                            <th> Prmnt_Block </th>
+                            <th> Prmnt_Building </th>
+                            <th> Prmnt_PS </th>
+                            <th> Prmnt_PO </th>
+                            <th> Prmnt_Landmark </th>
+                            <th> Prmnt_City </th>
+                            <th> Prmnt_ZIP </th>
+                            <th> Prmnt_State </th>
+                            <th> Prmnt_State_Name </th>
+                            <th> Prmnt_Country </th>
+                            <th> Prmnt_Country1 </th>
+                            <th> Bank_Name </th>
+                            <th> IFSC_Code </th>
+                            <th> Bank_Branch </th>
+                            <th> Bank_Account </th>
+                            <th> Name_in_Bank </th>
+                            <th> Benificiary_Name </th>
+                            <th> Confirmation_Date </th>
+                            <th> Resignation_Date </th>
+                            <th> Last_Working_Date </th>
+                            <th> GratuityNominee </th>
+                            <th> PFNominee </th>
+                            <th> Aadhar_No </th>
+                            <th> Driving_License_No </th>
+                            <th> Passport_No </th>
+                            <th> Pan_no </th>
+                            <!-- <th> Photo </th> -->
+
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of retrievedFileResponse; index as i">
                             <td >{{ i + 1 }}</td>
-                            <td>{{ (data?.First + ' ' + Name +' ' + data?.Last + ' ' + Name)}}</td>
-                            <td>
-                                    {{ (data?.Emp + ' ' + ID) }}
-                            </td>
-                            <td>{{(data?.Employee + ' ' + Type)}}</td>
-                            <td>{{(data?.Personal+ ' ' + Email + ' '+ id)}}</td>
-                            <td>{{(data?.Mobile + ' ' + no)}}</td>
-                            <td>{{(data?.Home + ' ' + no)}}</td>
+                            <td>{{ (data?.First_Name ? data?.First_Name + ' '  : '' +  data?.Last_Name ? data?.Last_Name : ' - ')}}</td>
+                            <td>{{ data?.Emp_ID ? data?.Emp_ID : ' -- ' }}</td>
+                            <td>{{ data?.Employee_Type ? data?.Employee_Type : ' -- ' }}</td>
+                            <td>{{data?.Personal_Email_id ? data?.Personal_Email_id: ' - '}}</td>
+                            <td>{{data?.Mobile_no ? data?.Mobile_no : ' - '}}</td>
+                            <td>{{data?.Home_no ? data?.Home_no : ' - '}}</td>
+                            <td> {{data?.Sex ? data?.Sex : ' - ' }} </td>
+                            <td> {{data?.DOB ? (data?.DOB | date : 'dd-MM-yy')  : ' -  '}} </td>
+                            <td> {{data?.Joining_Date ? (data?.Joining_Date | date : 'dd-MM-yy') : ' - ' }}</td>
+                            <td> {{data?.Gross_Monthly_income ? data?.Gross_Monthly_income : ' - ' }}  </td>
+                            <td> {{data?.Net_monthly_income ? data?.Net_monthly_income : ' '}} </td>
+                            <td> {{data?.Advance_salary_from_company ? data?.Advance_salary_from_company : ' -- ' }} </td>
+                            <td> {{data?.Marital_Status ? data?.Marital_Status : ' -- ' }} </td>
+                            <td> {{data?.No_of_Children ? data?.No_of_Children : ' - '}} </td>
+                            <td> {{data?.Father_Name ? data?.Father_Name : ' - '}} </td>
+                            <td> {{data?.Dependant ? data?.Dependant : ' - ' }} </td>
+                            <td> {{data?.Office_Tel_No ? data?.Office_Tel_No : ' - '}} </td>
+                            <td> {{data?.Office_Extn_No ? data?.Office_Extn_No : ' '}} </td>
+                            <td> {{data?.official_Email_ID ? data?.official_Email_ID :  ' - '}} </td>
+                            <td> {{data?.Active_Status ? data?.Active_Status : ' - '}} </td>
+                            <td> {{data?.Branch_Name ? data?.Branch_Name : ' - ' }} </td>
+                            <td> {{data?.Branch_Address ? data?.Branch_Address : ' - '}} </td>
+                            <td> {{data?.Department_Name ? data?.Department_Name : ' - '}} </td>
+                            <td> {{data?.Manager_Name ? data?.Manager_Name : ' -- '}} </td>
+                            <td> {{data?.Designation_Name ? data?.Designation_Name : ' - '}} </td>
+                            <td> {{data?.Division_Name ? data?.Division_Name : ' - '}} </td>
+                            <td> {{data?.Crspnd_Street_No ? data?.Crspnd_Street_No : ' - '}}  </td>
+                            <td> {{data?.Crspnd_Street ? data?.Crspnd_Street : ' - '}} </td>
+                            <td> {{data?.Crspnd_Block ? data?.Crspnd_Block  : ' - ' }} </td>
+                            <td> {{data?.Crspnd_Building ? data?.Crspnd_Building : ' - '}} </td>
+                            <td> {{data?.Crspnd_PS ? data?.Crspnd_PS : ' - '}} </td>
+                            <td> {{data?.Crspnd_PO ? data?.Crspnd_PO : ' - '}} </td>
+                            <td> {{data?.Crspnd_Landmark ? data?.Crspnd_Landmark  : ' - '}}</td>
+                            <td> {{data?.Crspnd_City ? data?.Crspnd_City : ' - ' }}</td>
+                            <td> {{data?.Crspnd_ZIP ? data?.Crspnd_ZIP : ' - '}} </td>
+                            <td> {{data?.Crspnd_State ? data?.Crspnd_State : ' - '}} </td>
+                            <td> {{data?.Crspnd_State_Name ? data?.Crspnd_State_Name : ' - '}} </td>
+                            <td> {{data?.Crspnd_Country ? data?.Crspnd_Country : ' - ' }} </td>
+                            <td> {{data?.Crspnd_Country_Name ? data?.Crspnd_Country_Name : ' - '}} </td>
+                            <td> {{data?.Prmnt_Street_No ? data?.Prmnt_Street_No : ' - '}} </td>
+                            <td> {{data?.Prmnt_Street ? data?.Prmnt_Street : ' - '}} </td>
+                            <td> {{data?.Prmnt_Block ? data?.Prmnt_Block : ' - '}} </td>
+                            <td> {{data?.Prmnt_Building ? data?.Prmnt_Building : ' - '}} </td>
+                            <td> {{data?.Prmnt_PS ? data?.Prmnt_PS : ' - '}} </td>
+                            <td> {{data?.Prmnt_PO ? data?.Prmnt_PO : ' - '}} </td>
+                            <td> {{data?.Prmnt_Landmark ? data?.Prmnt_Landmark : ' - '}}  </td>
+                            <td> {{data?.Prmnt_City ? data?.Prmnt_City : ' ' }}</td>
+                            <td> {{data?.Prmnt_ZIP ? data?.Prmnt_ZIP : ' - '}} </td>
+                            <td> {{data?.Prmnt_State ? data?.Prmnt_State : ' '}} </td>
+                            <td> {{data?.Prmnt_State_Name ? data?.Prmnt_State_Name : ' - '}} </td>
+                            <td> {{data?.Prmnt_Country ? data?.Prmnt_Country  : ' - '}} </td>
+                            <td> {{data?.Prmnt_Country1 ? data?.Prmnt_Country1 : ' - '}} </td>
+                            <td> {{data?.Bank_Name ? data?.Bank_Name: ' - '}} </td>
+                            <td> {{data?.IFSC_Code ? data?.IFSC_Code : ' - '}} </td>
+                            <td> {{data?.Bank_Branch ? data?.Bank_Branch : ' - '}} </td>
+                            <td> {{data?.Bank_Account ? data?.Bank_Account : ' -- '}} </td>
+                            <td> {{data?.Name_in_Bank ? data?.Name_in_Bank : ' -- '}} </td>
+                            <td> {{data?.Benificiary_Name ? data?.Benificiary_Name : ' -- '}} </td>
+                            <td> {{data?.Confirmation_Date ? data?.Confirmation_Date :  ' -- '}} </td>
+                            <td> {{data?.Resignation_Date  ? data?.Resignation_Date : ' -- ' }}</td>
+                            <td> {{data?.Last_Working_Date ? data?.Last_Working_Date : ' - '}} </td>
+                            <td> {{data?.GratuityNominee ? data?.GratuityNominee : ' - '}} </td>
+                            <td> {{data?.PFNominee ? data?.PFNominee : ' '}} </td>
+                            <td> {{data?.Aadhar_No ? data?.Aadhar_No : ' '}} </td>
+                            <td> {{data?.Driving_License_No ? data?.Driving_License_No : ' - '}} </td>
+                            <td> {{data?.Passport_No ? data?.Passport_No : ' -- '}} </td>
+                            <td> {{data?.Pan_no ? data?.Pan_no : ' -- '}} </td>
+                            <!-- <td> {{data?.Photo  </td> -->
                         </tr>
                     </tbody>
                 </nz-table>  
@@ -179,6 +303,6 @@
 
           <ng-template #footerModal>
             <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-            <button nz-button nzType="primary" class="mx-2" *ngIf="!isVisibleModal['previewIsVisible']" [nzLoading]="isVisibleModal['previewButtonLoading']" (click)="handleOk()">Click to Preview </button>
+            <button nz-button nzType="primary" class="mx-2" *ngIf="!isVisibleModal['previewIsVisible']" [nzLoading]="isVisibleModal['previewButtonLoading']" nzGhost [disabled]="!uploadSelectedCorporateFile.valid" (click)="handleOk()">Click to Preview </button>
             <button nz-button nzType="primary" class="mx-2" *ngIf="isVisibleModal['previewIsVisible']" [nzLoading]="isVisibleModal['uploadButtonLoading']" (click)="onClickUploadFile()">Upload File</button>
       </ng-template>
