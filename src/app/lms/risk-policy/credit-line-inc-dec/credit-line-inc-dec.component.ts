@@ -24,6 +24,8 @@ export class CreditLineIncDecComponent implements OnInit {
   master_product_id = '';
   is_blocked = '';
   search_params = '';
+  selectedLine: any;
+  is_change_line: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) { }
@@ -31,7 +33,6 @@ export class CreditLineIncDecComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.globalPageSize = 30
-    this.createDescLineFunction()
     this.createIncLineFunction()
     this.fetchLoanApplicationList()
   }
@@ -39,14 +40,6 @@ export class CreditLineIncDecComponent implements OnInit {
   createIncLineFunction() {
     this.createIncLine = this.fb.group({
       incBy: [],
-      newCred: [],
-      activation_from: []
-    })
-  }
-  createDescLineFunction() {
-    this.createDescLine = this.fb.group({
-      incBy: [],
-      newCred: [],
       activation_from: []
     })
   }
@@ -81,6 +74,31 @@ export class CreditLineIncDecComponent implements OnInit {
     this.is_blocked = ''
     this.master_product_id = ''
     this.fetchLoanApplicationList()
+  }
+
+  openChangeCreditModal(data) {
+    this.selectedLine = data;
+    this.isIncLine = true
+  }
+
+  convertToFloat(num) {
+    return parseFloat(num)
+  }
+
+  changeCreditLineFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS')
+    data.append('datapoint', 'change_credit_line')
+    data.append('accepted_loan_application', this.selectedLine.id)
+    data.append('amount_change', String(this.convertToFloat(this.selectedLine.loan_amount_provided) + this.convertToFloat(this.createIncLine.get('incBy').value ? this.createIncLine.get('incBy').value : 0)))
+    data.append('activation_date', this.createIncLine.get('activation_from').value)
+    this.is_change_line = true
+    this.http.postLoanApplicationApi(data).subscribe(res => {
+      this.isIncLine = false
+      this.is_change_line = false
+    }, (err) => {
+      this.is_change_line = false
+    })
   }
 
 }

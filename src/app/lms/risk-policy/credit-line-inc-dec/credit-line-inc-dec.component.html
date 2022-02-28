@@ -52,9 +52,9 @@
                         <td>{{data.user ? data.user.full_name : '-'}}</td>
                         <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
-                        <td>{{data.loan_amount_provided ? data.loan_amount_provided : '-'}}</td>
-                        <td>{{data.creditline_data[0]?.change_type ? data.creditline_data[0]?.change_type : '-'}}{{data.creditline_data[0]?.amount_change ? data.creditline_data[0]?.amount_change : '-'}}</td>
-                        <td>{{data.loan_amount_provided ? (data.creditline_data[0]?.change_type == '+' ? data.loan_amount_provided + data.creditline_data[0]?.amount_change : data.loan_amount_provided - data.creditline_data[0]?.amount_change) : '-'}}</td>
+                        <td>{{data.loan_amount_provided ? data.loan_amount_provided : 0}}</td>
+                        <td>{{data.creditline_data[0] ? (data.creditline_data[0]?.change_type == '+' ? (convertToFloat(data.creditline_data[0]?.amount_change) + convertToFloat(data.loan_amount_provided)) : (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided))) : 0}}</td>
+                        <td>{{data.creditline_data[0]?.amount_change ? data.creditline_data[0]?.amount_change : 0}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
@@ -65,13 +65,9 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="isIncLine = true">
+                                        <li nz-menu-item (click)="openChangeCreditModal(data)">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
-                                            <span class="m-l-5">Increase Credit Line</span>
-                                        </li>
-                                        <li nz-menu-item (click)="isDescLine = true">
-                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5">Decrease Credit Line</span>
+                                            <span class="m-l-5">Change Credit Line</span>
                                         </li>
                                     </ul>
                                 </nz-dropdown-menu>
@@ -85,35 +81,36 @@
         </nz-card>
     </div>
 </section>
-<nz-modal [(nzVisible)]="isIncLine" nzTitle="Increase Credit Line" (nzOnCancel)="isIncLine = false" nzOkText="Save" (nzOnOk)="isIncLine = false">
+<nz-modal [(nzVisible)]="isIncLine" nzTitle="Change Credit Line" (nzOnCancel)="isIncLine = false" nzOkText="Save" (nzOnOk)="isIncLine = false">
     <ng-container *nzModalContent>
         <form [formGroup]="createIncLine">
             <div class="row">
                 <div class="col-md-12">
-                    <span class="mr-md-5">Name : Akshay Tomar</span>
-                    <span>Loan ID - #F-EMI4567</span>
+                    <span class="mr-md-5">Name : {{selectedLine.user ? selectedLine.user.full_name : '-'}}</span>
+                    <span>Loan ID - {{selectedLine.loan_unique_id ? selectedLine.loan_unique_id : '-'}}</span>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="amount" class="text-left">Previous Credit Line</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount!">
-                            10000
+                            {{selectedLine.loan_amount_provided ? selectedLine.loan_amount_provided : '-'}}
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="incBy" class="text-left" nzRequired>Increase Credit by</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Increase Credit by!">
-                            <input nz-input type="number" min="0" formControlName="incBy" placeholder="Please input Increase Credit by"/>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="incBy" class="text-left" nzRequired>Change Credit by</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Change Credit by!">
+                            <input nz-input type="number" min="0" formControlName="incBy" placeholder="Please input Change Credit by"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="newCred" class="text-left" nzRequired>New Credit Line</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>New Credit Line</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input New Credit Line!">
-                            <input nz-input type="number" min="0" formControlName="newCred" placeholder="Please input New Credit Line"/>
+                            <!-- <input nz-input type="number" min="0" placeholder="Please input New Credit Line"/> -->
+                            {{convertToFloat(selectedLine.loan_amount_provided) + convertToFloat(createIncLine.get('incBy').value ? createIncLine.get('incBy').value : 0)}}
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -130,7 +127,7 @@
         </form>
     </ng-container>
 </nz-modal>
-<nz-modal [(nzVisible)]="isDescLine" nzTitle="Decrease Credit Line" (nzOnCancel)="isDescLine = false" nzOkText="Save" (nzOnOk)="isDescLine = false">
+<!-- <nz-modal [(nzVisible)]="isDescLine" nzTitle="Decrease Credit Line" (nzOnCancel)="isDescLine = false" nzOkText="Save" (nzOnOk)="isDescLine = false">
     <ng-container *nzModalContent>
         <form [formGroup]="createDescLine">
             <div class="row">
@@ -174,4 +171,4 @@
             </div>
         </form>
     </ng-container>
-</nz-modal>
+</nz-modal> -->
