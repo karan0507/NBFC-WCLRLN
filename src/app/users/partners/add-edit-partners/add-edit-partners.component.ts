@@ -28,11 +28,13 @@ export class AddEditPartnersComponent implements OnInit {
     'saveAddNew': false
 
   } 
+  listOfMasterPartner: any;
   constructor(private fb: FormBuilder, private http: HttpService,private router: Router, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
   ngOnInit(): void {
+    this.getListOfMasterPartner();
     this.createMasterProductForm();
     this.getListOfStates();
     this.getListOfCorp();
@@ -51,6 +53,20 @@ export class AddEditPartnersComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
+  }
+
+
+  getListOfMasterPartner(action?){
+    let data = {
+      'page': 1,
+      'limit': 30
+    }
+    this.http.fetchMasterPartner(data).subscribe((res: any)=> {
+      console.log(res);
+      this.listOfMasterPartner = res?.data?.results
+    }, err => {
+      console.log(err)
+    })
   }
 
   getListOfStates(){
@@ -122,7 +138,7 @@ export class AddEditPartnersComponent implements OnInit {
       corporation_category:[data ? data?.corporation_category?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
-      unique_code: [data ? data?.unique_code : null],
+      // unique_code: [data ? data?.unique_code : null],
 
 
       bank_name: [data ? data?.bank_name : null, [Validators.required]],
@@ -146,6 +162,7 @@ export class AddEditPartnersComponent implements OnInit {
       // if m creating master always share the value 1  
       master: [ 0, [Validators.required]],
       partner_nature: [ 'Partner', [Validators.required]],
+      partner_master:[data ? data?.partner_master?.pk : null , [Validators.required]]
     });
     if(data){
       this.setFormData(data);

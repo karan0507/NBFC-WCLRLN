@@ -74,14 +74,28 @@
                         </p> -->
                     </nz-form-item>
                 </div>
+                <!-- (nzFocus)="searchStaticDataGlobalFunction('employee', 1)" -->
                 <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left" nzRequired>Refereed By</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
+                        <nz-select nzAllowClear nzShowSearch class="mr-2 width" [nzAllowClear]='false' nzPlaceHolder="Select Master Partner"
+                         (keyup)="getListOfMasterPartner($event?.target.value)" formControlName="partner_master">
+                        <ng-container *ngFor="let item of listOfMasterPartner" nzCustomContent>
+                            <nz-option *ngIf="item?.name"  [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+                        </ng-container>
+                      </nz-select>
+                    </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique Code</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Unique Code!">
                             <input nz-input type="text" formControlName="unique_code"  placeholder="Unique Code."/>
                         </nz-form-control>
                     </nz-form-item>
-                </div>
+                </div> -->
             </div>
             <div class="mt-2">
                 <h5>
