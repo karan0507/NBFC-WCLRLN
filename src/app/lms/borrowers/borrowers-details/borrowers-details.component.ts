@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -33,12 +34,34 @@ export class BorrowersDetailsComponent implements OnInit {
   borrower_id: any;
   page: any;
   globalPageSize: any;
+  page1: any;
+  globalPageSize1: any;
+  page2: any;
+  globalPageSize2: any;
   is_blocked = '';
   master_product_id = '';
   search_params = '';
   api_calling_loader: boolean;
   borrowertList: any;
   total_count: any;
+  // selectedType = ''
+  // selectedStatus = ''
+  // date = ''
+  // searchValue = '';
+  selectedType1 = ''
+  selectedStatus1 = ''
+  date1 = ''
+  searchValue1 = '';
+  selectedType2 = ''
+  selectedStatus2 = ''
+  date2 = ''
+  searchValue2 = '';
+  transaction_repayment_list: any;
+  fees_charges_list: any;
+  total_count1: any;
+  total_count2: any;
+  api_calling_loader2: boolean;
+  api_calling_loader1: boolean;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -54,6 +77,13 @@ export class BorrowersDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.globalPageSize = 30
+    this.page1 = 1;
+    this.globalPageSize1 = 10
+    this.page2 = 1;
+    this.globalPageSize2 = 10
+    this.fetchBorrowerList();
+    this.fetchTransactionTxnList();
+    this.fetchTransactionFessList();
     this.createAddPaymentOrChargeFormFunction()
   }
 
@@ -147,11 +177,84 @@ export class BorrowersDetailsComponent implements OnInit {
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
-      this.borrowertList = res['data']
+      this.borrowertList = res['data'][0]
       this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
     })
+  }
+
+  
+  fetchTransactionTxnList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page2 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page2;
+      this.globalPageSize2 = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize2;
+    }
+    let data = {
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationTransactions',
+      source: 'LMS',
+      page: this.page2,
+      limit: this.globalPageSize2,
+      txn_status: this.selectedStatus2,
+      start_date: this.date2[0] ? moment(this.date2[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date2[1] ? moment(this.date2[1]).format("YYYY-MM-DD") : '',
+      search_param: this.searchValue2,
+      transaction_type: 'transactions_and_repayments'
+    }
+    this.api_calling_loader2 = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader2 = false
+        this.transaction_repayment_list = res['data']
+        this.total_count2 = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader2 = false
+    })
+  }
+
+  fetchTransactionFessList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page1 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page1;
+      this.globalPageSize1 = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize1;
+    }
+    let data = {
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationTransactions',
+      source: 'LMS',
+      page: this.page1,
+      limit: this.globalPageSize1,
+      txn_status: this.selectedStatus1,
+      start_date: this.date1[0] ? moment(this.date1[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date1[1] ? moment(this.date1[1]).format("YYYY-MM-DD") : '',
+      search_param: this.searchValue1,
+      transaction_type: 'Fees Charge'
+    }
+    this.api_calling_loader1 = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader1 = false
+        this.fees_charges_list = res['data']
+        this.total_count1 = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader1 = false
+    })
+  }
+
+  
+  resetFilter1(){
+    this.searchValue1 = ''
+    this.selectedType1 = ''
+    this.selectedStatus1 = ''
+    this.date1 = ''
+    this.fetchTransactionFessList();
+  }
+  resetFilter2(){
+    this.searchValue2 = ''
+    this.selectedType2 = ''
+    this.selectedStatus2 = ''
+    this.date2 = ''
+    this.fetchTransactionTxnList();
   }
 }

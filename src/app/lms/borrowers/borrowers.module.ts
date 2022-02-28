@@ -9,6 +9,7 @@ import { AppDownloadsComponent } from './app-downloads/app-downloads.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DemoNgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NzPopoverModule
   ]
 })
 export class BorrowersModule { }
