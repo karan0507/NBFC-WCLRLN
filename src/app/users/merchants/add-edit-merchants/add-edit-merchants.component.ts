@@ -27,12 +27,14 @@ export class AddEditMerchantsComponent implements OnInit {
     'saveAddNew': false
   } 
   debounce: any;
+  listOfMasterPartner: any;
 
   constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService  ) {
     this.getListOfDocumentRequired();
   }
 
   ngOnInit(): void {
+    this.getListOfMasterPartner();
     this.createMasterProductForm();
     
     this.route.queryParams.subscribe(params => {
@@ -50,6 +52,19 @@ export class AddEditMerchantsComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
+  }
+
+  getListOfMasterPartner(action?){
+    let data = {
+      'page': 1,
+      'limit': 30
+    }
+    this.http.fetchMasterPartner(data).subscribe((res: any)=> {
+      console.log(res);
+      this.listOfMasterPartner = res?.data?.results
+    }, err => {
+      console.log(err)
+    })
   }
 
 

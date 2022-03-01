@@ -151,9 +151,11 @@ export class EmployeeDetailsComponent implements OnInit {
     'modalIsVisible': false,
     'previewIsVisible': false,
     'previewButtonLoading': false,
-    'uploadButtonLoading': false
+    'uploadButtonLoading': false,
+    'toggleHeaderText': false,
   };
   fileName: any;
+  hasValidationError: boolean;
   constructor(private fb: FormBuilder,private router: Router, private message: NzMessageService, 
     private route: ActivatedRoute, private http: HttpService) { }
 
@@ -264,13 +266,17 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   handleCancel(){
-    this.isVisibleModal['modalIsVisible'] = false;
+    this.uploadSelectedCorporateFile.reset();
+    this.fileName = null
+    this.isVisibleModal['toggleHeaderText'] = false;
     this.isVisibleModal['previewIsVisible'] = false
+    this.isVisibleModal['modalIsVisible'] = false;
+    
+    
   }  
 
   onUpload(e){
     console.log(e?.file?.originFileObj)
-    this.fileName = e?.file?.name
     // let file = this.uploadSelectedCorporateFile.get('file');
     this.uploadSelectedCorporateFile.patchValue({file: e?.file?.originFileObj});
     // let value = this.addEditProductForm.get('document_data') as FormArray;
@@ -284,6 +290,13 @@ export class EmployeeDetailsComponent implements OnInit {
 
   handleOk(){
     console.log(this.uploadSelectedCorporateFile.value);
+    this.uploadSelectedCorporateFile.patchValue({
+      'section': this.selectedTab
+    })
+    const file  =  this.uploadSelectedCorporateFile.get('file')
+    // console.log(file?.value.name)
+    this.fileName = file?.value?.name 
+    console.log()
     if(this.uploadSelectedCorporateFile.valid){
       this.isVisibleModal['previewButtonLoading'] = true;
       console.log(this.uploadSelectedCorporateFile.value);
@@ -295,11 +308,13 @@ export class EmployeeDetailsComponent implements OnInit {
       this.http.viewFileBeforeSaving(data).subscribe((res: any)=>{
         if(res?.success){
           this.retrievedFileResponse = res?.data
+          this.isVisibleModal['toggleHeaderText'] = true;
           this.isVisibleModal['previewButtonLoading'] = false;
           this.isVisibleModal['previewIsVisible'] = true
         } else{
           this.isVisibleModal['previewButtonLoading'] = false;
           this.isVisibleModal['previewIsVisible'] = false;
+          this.isVisibleModal['toggleHeaderText'] = false;
         }
         console.log(res?.data)
       })
@@ -315,13 +330,22 @@ export class EmployeeDetailsComponent implements OnInit {
   onClickUploadFile(){
     if(this.uploadSelectedCorporateFile.valid){
       this.isVisibleModal['uploadButtonLoading'] = true;
-      let data = this.uploadSelectedCorporateFile.value
+      let data = new FormData;
+      let sendDate = this.uploadSelectedCorporateFile.value
+      for (var i in sendDate) {
+          data.append(i, sendDate[i])
+      }
+      // let data = this.uploadSelectedCorporateFile.value
       this.http.uploadUserEmployeePreviewedFile(data).subscribe((res: any)=> {
         if(res.success){
+          this.uploadSelectedCorporateFile.reset();
+          this.isVisibleModal['toggleHeaderText'] = false;
           this.isVisibleModal['uploadButtonLoading'] = false;
-          this.isVisibleModal['previewIsVisible'] = true
+          this.isVisibleModal['previewIsVisible'] = false
+          this.isVisibleModal['modalIsVisible'] = false;
           this.message.success('File Uploaded')
       } else {
+        this.isVisibleModal['toggleHeaderText'] = false;
         this.isVisibleModal['previewIsVisible'] = false
         this.isVisibleModal['uploadButtonLoading'] = false;
         this.message.error('Unable to File Uploaded');

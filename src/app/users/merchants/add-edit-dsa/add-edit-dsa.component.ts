@@ -27,12 +27,14 @@ export class AddEditDsaComponent {
     'saveAddNew': false
   } 
   debounce: any;
+  listOfMasterPartner: any;
 
   constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService ) {
     this.getListOfDocumentRequired();
   }
 
   ngOnInit(): void {
+    this.getListOfMasterPartner();
     this.createMasterProductForm();
     
     this.route.queryParams.subscribe(params => {
@@ -66,6 +68,19 @@ export class AddEditDsaComponent {
     this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
       console.log(res);
       this.stateArr = res?.data;
+    })
+  }
+
+  getListOfMasterPartner(action?){
+    let data = {
+      'page': 1,
+      'limit': 30
+    }
+    this.http.fetchMasterPartner(data).subscribe((res: any)=> {
+      console.log(res);
+      this.listOfMasterPartner = res?.data?.results
+    }, err => {
+      console.log(err)
     })
   }
 
@@ -143,6 +158,7 @@ export class AddEditDsaComponent {
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
+      partner_master:[data ? data?.partner_master?.pk : null , [Validators.required]]
       
     });
     if(data){
