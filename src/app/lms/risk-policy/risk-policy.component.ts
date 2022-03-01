@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-risk-policy',
@@ -12,8 +14,9 @@ export class RiskPolicyComponent implements OnInit {
   selectedTab;
   isUpload = false
   isPreview = false
-  constructor(private router: Router,
-    private route: ActivatedRoute,) { }
+  constructor(public http: HttpService, private message: NzMessageService,
+    private router : Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -28,15 +31,34 @@ export class RiskPolicyComponent implements OnInit {
   onClickChangeTab(e) {
     this.router.navigate([], {queryParams: {index: this.selectedTab}})
   }
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
+
+  beforeUploadName = (file) => {
+    console.log(file)
+    if (this.selectedTab == '1') {
+      
+    } else if (this.selectedTab == '2') {
+      this.fetchLoanApplicationUpload(file)
+    } else if (this.selectedTab == '3') {
+      
+    } else if (this.selectedTab == '4') {
+      
+    } else {
+      
     }
-    if (status === 'done') {
-      // this.msg.success(`${file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      // this.msg.error(`${file.name} file upload failed.`);
-    }
+    return false;
+  };
+
+  fetchLoanApplicationUpload(file) {
+    let data = new FormData();
+      data.append('datapoint', 'toggle_risk_policy_file'),
+      data.append('source', 'LMS'),
+      data.append('file', file),
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.message.success(res['message'])
+      this.isUpload = false
+      this.isPreview = false
+      this.http.refreshBorrower.next(true)
+    }, (err) => {
+    })
   }
 }

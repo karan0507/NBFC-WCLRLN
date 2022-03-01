@@ -24,12 +24,15 @@ export class LineBlockUnblockComponent implements OnInit {
   accepted_loan_application: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      this.page = 1;
+      this.globalPageSize = 30
+      http.refreshBorrower.subscribe(res => {
+        this.fetchBorrowerList()
+      })
+    }
 
   ngOnInit(): void {
-    this.page = 1;
-    this.globalPageSize = 30
-    this.fetchBorrowerList()
   }
 
   fetchBorrowerList(tabelFilter?) {

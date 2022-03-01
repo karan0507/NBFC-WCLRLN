@@ -13,7 +13,7 @@ export class HttpService {
       url1 = 'https://devonboardingapi.fatakpay.com'
 
       globalProductData = new ReplaySubject<any>();
-
+      refreshBorrower = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
