@@ -72,10 +72,10 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="isblock = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isblock = true">
                                             <span class="m-l-5">Block A/c</span>
                                         </li>
-                                        <li nz-menu-item (click)="isUnblock = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isUnblock = true">
                                             <span class="m-l-5">Unblock A/c</span>
                                         </li>
                                         <!-- <li nz-menu-item (click)="isRestructure = true">
@@ -97,10 +97,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Block Akshays account permanently?'"
+            [title]="'Do you want to Block account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isblock = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Block'">
@@ -111,10 +111,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock Akshays account?'"
+            [title]="'Do you want to Unblock account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isUnblock = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Unblock'">
@@ -125,7 +125,7 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isRestructure" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Restructure Akshays account?'"
+            [title]="'Do you want to Restructure account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
             (onOkCall)="isRestructure = false"

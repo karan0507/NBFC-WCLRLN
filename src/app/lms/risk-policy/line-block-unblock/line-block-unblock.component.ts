@@ -78,10 +78,14 @@ export class LineBlockUnblockComponent implements OnInit {
     }
 
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
-      this.isblock = false
-      this.isUnblock = false
-      this.message.success(res['message'])
-      this.fetchBorrowerList()
+      if (res.success) {
+        this.isblock = false
+        this.isUnblock = false
+        this.message.success(res['message'])
+        this.fetchBorrowerList()
+      } else {
+        this.message.error(res['message'])
+      }
     }, (err) => {
     })
   }

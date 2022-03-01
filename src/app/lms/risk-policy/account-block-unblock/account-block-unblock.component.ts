@@ -22,6 +22,7 @@ export class AccountBlockUnblockComponent implements OnInit {
   master_product_id = '';
   is_blocked = '';
   search_params = '';
+  applications: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -55,6 +56,27 @@ export class AccountBlockUnblockComponent implements OnInit {
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
+    })
+  }
+  toggleUserLineStatus() {
+    let data = new FormData
+      data.append('datapoint', 'update_multi_application_status'),
+      // endpoint: 'LoanApplicationAcceptedProduct',
+      data.append('source', 'Onboarding'),
+      data.append('stage_id', '13'),
+      data.append('applications', JSON.stringify([this.applications])),
+      data.append('remarks', ''),
+
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      if (res.success) {
+        this.isblock = false
+        this.isUnblock = false
+        this.message.success(res['message'])
+        this.fetchBorrowerList()
+      } else {
+        this.message.error(res['message'])
+      }
+    }, (err) => {
     })
   }
   resetFilters() {

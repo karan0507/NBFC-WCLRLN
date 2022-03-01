@@ -73,11 +73,11 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="isTerminate = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isTerminate = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Terminate User</span>
                                         </li>
-                                        <li nz-menu-item (click)="isUnblock = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isUnblock = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Unblock User</span>
                                         </li>
@@ -97,10 +97,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isTerminate" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Terminate Akshays account permanently?'"
+            [title]="'Do you want to Terminate account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isTerminate = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isTerminate = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Terminate'">
@@ -111,10 +111,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock Akshays account permanently?'"
+            [title]="'Do you want to Unblock account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isUnblock = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Unblock'">
