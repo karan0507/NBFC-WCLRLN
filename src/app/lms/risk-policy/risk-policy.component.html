@@ -30,10 +30,11 @@
     <ng-container *nzModalContent>
         <div class="row">
             <div class="col-md-12">
-                <nz-upload nzType="drag" [nzMultiple]="true" (nzChange)="handleChange($event)">
+                <nz-upload nzType="drag" [nzMultiple]="true" [nzBeforeUpload]="beforeUploadName">
                     <p class="ant-upload-text">Drag and Drop file here</p>
                     <p class="ant-upload-text">or</p>
-                    <button class="mt-md-4" nz-button nzType="primary" (click)="isPreview = true; isUpload = false">Browse</button>
+                    <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                    <!-- (click)="isPreview = true; isUpload = false" -->
                 </nz-upload>
             </div>
         </div>

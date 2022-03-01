@@ -5,7 +5,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Merchant Name</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please input Merchant Name!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Merchant Name!">
                             <input nz-input type="text" formControlName="name"  placeholder="Merchant Name"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_1" class="text-left" nzRequired>Address Line 1</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Address!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Address!">
                             <input nz-input type="text" formControlName="address_line_1" placeholder="Address Line 1"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -21,7 +21,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_2" class="text-left" nzRequired>Address line 2</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Address line 2!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Address line 2!">
                             <input nz-input type="text" formControlName="address_line_2"  placeholder="Address Line 2"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -29,7 +29,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique Code</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Unique Code!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Unique Code!">
                             <input nz-input type="text" formControlName="unique_code"  placeholder="Unique Code"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -37,23 +37,29 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add City!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid City!">
                             <input nz-input type="text" formControlName="city"  placeholder="City"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State/Region</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add State!">
-                            <input nz-input type="text" formControlName="state"  placeholder="State"/>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Sate">
+                            <nz-select formControlName="state" nzPlaceHolder="Select State"
+                                (nzFocus)="getListOfStates()" nzShowSearch nzAllowClear
+                                (nzOnSearch)="onSearchGetList($event, 'state')">
+                                <nz-option *ngFor="let item of stateArr" [nzValue]="item.id"
+                                    [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="pincode" class="text-left" nzRequired>Pin Code</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Pincode!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Pincode!">
                             <input nz-input type="number" formControlName="pincode"  placeholder="Pincode"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -61,9 +67,22 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="phone" class="text-left" nzRequired>Phone No</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Phone No.!">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Phone No.!">
                             <input nz-input type="number" formControlName="phone"  placeholder="Phone No."/>
                         </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left" nzRequired>Refereed By</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
+                        <nz-select nzAllowClear nzShowSearch class="mr-2 width" [nzAllowClear]='false' nzPlaceHolder="Select Master Partner"
+                         (keyup)="getListOfMasterPartner($event?.target.value)" formControlName="partner_master">
+                        <ng-container *ngFor="let item of listOfMasterPartner" nzCustomContent>
+                            <nz-option *ngIf="item?.name"  [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+                        </ng-container>
+                      </nz-select>
+                    </nz-form-control>
                     </nz-form-item>
                 </div>
             </div>
@@ -76,7 +95,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_name" class="text-left" nzRequired>Name</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact Person Name!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add valid Name!">
                             <input nz-input type="text" formControlName="contact_person_name"  placeholder="Person Name" />
                         </nz-form-control>
                     </nz-form-item>
@@ -84,7 +103,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_phone" class="text-left" nzRequired>Phone No.</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact person Name!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Phone No !">
                             <input nz-input type="number" formControlName="contact_person_phone"  placeholder="person Phone No."/>
                         </nz-form-control>
                     </nz-form-item>
@@ -93,7 +112,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_email" class="text-left" nzRequired>Email Id</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Contact Person Email!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Email!">
                             <input nz-input type="text" formControlName="contact_person_email"  placeholder="Person Email"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -111,7 +130,7 @@
                     <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left" nzRequired>Bank Name</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Bank Name!">
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
                                 <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name"/>
                             </nz-form-control>
                         </nz-form-item>
@@ -120,7 +139,7 @@
                     <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left" nzRequired>A/c No.</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Account No.!">
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
                                 <input nz-input type="text" formControlName="account_no"  placeholder="Account No."/>
                             </nz-form-control>
                         </nz-form-item>
@@ -129,7 +148,7 @@
                     <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left" nzRequired>IFSC Code</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add IFsC!">
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid IFSC Code!">
                                 <input nz-input type="text" formControlName="ifsc"  placeholder="IFSC" />
                             </nz-form-control>
                         </nz-form-item>
@@ -138,7 +157,7 @@
                     <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left" nzRequired>Branch</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Branch!">
+                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
                                 <input nz-input type="text" formControlName="branch"  placeholder="Branch" />
                             </nz-form-control>
                         </nz-form-item>
@@ -202,7 +221,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="primary_upi" class="text-left" nzRequired>Primary UPI ID</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Primary UPI ID.!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Primary UPI ID.!">
                             <input nz-input type="text" formControlName="primary_upi"  placeholder="Primary UPI ID"/>
                         </nz-form-control>
                     </nz-form-item>
@@ -211,7 +230,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="secondary_upi" class="text-left" nzRequired>Secondary UPI ID</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Secondary UPI ID!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Secondary UPI ID!">
                             <input nz-input type="text" formControlName="secondary_upi"  placeholder="Secondary UPI ID" />
                         </nz-form-control>
                     </nz-form-item>
@@ -229,7 +248,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="mdr" class="text-left" nzRequired>MDR %</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add MDR!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid MDR %!">
                             <input nz-input type="number" formControlName="mdr"  placeholder="MDR."/>
                         </nz-form-control>
                     </nz-form-item>
@@ -238,7 +257,7 @@
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="interest_subvention" class="text-left" nzRequired>Interest Subvention</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Interest Subvention !">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Interest Subvention !">
                             <input nz-input type="number" formControlName="interest_subvention"  placeholder="Interest Subvention" />
                         </nz-form-control>
                     </nz-form-item>
@@ -261,10 +280,10 @@
     </nz-card>
     <div class="row my-3 justify-content-between">
         <div class="col-3">
-            <button nz-button nzType="default">Reset</button>
+            <button nzType="primary" *ngIf="!isEdit" nz-button type="submit" [nzLoading]="apiLoader['saveAddNew']" [disabled]="apiLoader['formSave']" (click)="onClickSaveExistingForm($event)">Save & Add New</button>
         </div>
         <div class="col-3 text-right">
-            <button type="submit" (click)="onClickSubmitForm()" nz-button nzType="primary">Save</button>
+            <button type="submit" (click)="onClickSubmitForm()" [nzLoading]="apiLoader['formSave']" [disabled]="apiLoader['saveAddNew']" nz-button nzType="primary">Save</button>
         </div>
 
     </div>

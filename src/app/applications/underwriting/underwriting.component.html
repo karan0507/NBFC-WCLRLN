@@ -47,7 +47,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable nzShowSizeChanger
                         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -118,7 +118,7 @@
                                                                   <span class="m-l-5">Track Application</span>
                                                             </li>
                                                             <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull Cibil</span>
+                                                                  <span class="m-l-5">Download Cibil File</span>
                                                             </li>
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5">Pull SMS Data</span>
@@ -127,7 +127,9 @@
                                                                   <span class="m-l-5">Pull Black Box Data</span>
                                                             </li>
                                                             <li nz-menu-item>
-                                                                  <span class="m-l-5">Edit Offer</span>
+                                                                  <span class="m-l-5"
+                                                                        (click)="updateStatus('editOffer', data)">Edit
+                                                                        Offer</span>
                                                             </li>
 
                                                             <li nz-menu-item>
@@ -143,7 +145,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="personalDetail">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -163,7 +166,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                              data?.user?.dob
+                                                                              data?.expanddata?.user?.dob
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -174,8 +177,10 @@
                                                                               Monthly Income
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.user?.dob ?
-                                                                              data?.user?.dob
+                                                                              {{
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id
+                                                                              ?
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id?.name
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -193,7 +198,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="empHeader">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -217,7 +223,7 @@
                                                                         <div>
                                                                               --
                                                                               <!-- {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
-                                                                  data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
+                                                                        data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -234,7 +240,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="document">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -242,10 +249,11 @@
                                                                               <div
                                                                                     class="d-flex justify-content-between">
                                                                                     <span class="text-muted">PAN</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="eye"
+                                                                                    <div class="mr-5"
+                                                                                          *ngIf="data?.expanddata?.pan">
+                                                                                          <a class="text-primary"
+                                                                                                (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'">
+                                                                                                <i nz-icon nzType="eye"
                                                                                                       nzTheme="outline"></i></a>
                                                                                           <a class="text-primary mx-3">
                                                                                                 <i nz-icon
@@ -271,31 +279,26 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span
-                                                                                          class="text-muted">Aadhar:</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="eye"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="check-circle"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="download"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="upload"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                    </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Aadhar:</span>
+                                                                              <div class="mr-5"
+                                                                                    *ngIf="data?.expanddata?.aadhar">
+                                                                                    <a class="text-primary"
+                                                                                          (click)="data?.expanddata?.aadhar ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'Aadhaar Card') : 'null'">
+                                                                                          <i nz-icon nzType="eye"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mx-3">
+                                                                                          <i nz-icon
+                                                                                                nzType="check-circle"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary"> <i nz-icon
+                                                                                                nzType="download"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mx-3">
+                                                                                          <i nz-icon nzType="upload"
+                                                                                                nzTheme="outline"></i></a>
                                                                               </div>
-                                                                        </h6>
+                                                                        </div>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details?.results[0]?.aadhar_no
                                                                               ?data?.expanddata?.kyc_details?.results[0]?.aadhar_no
@@ -310,10 +313,11 @@
                                                                                     class="d-flex justify-content-between">
                                                                                     <span
                                                                                           class="text-muted">Selfie</span>
-                                                                                    <div class="mr-5">
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="eye"
+                                                                                    <div class="mr-5"
+                                                                                          *ngIf="data?.expanddata?.selfie">
+                                                                                          <a class="text-primary"
+                                                                                                (click)="data?.expanddata?.selfie ? updateStatus('viewDocument',data?.expanddata?.user?.selfie, 'Selfie') : 'null'">
+                                                                                                <i nz-icon nzType="eye"
                                                                                                       nzTheme="outline"></i></a>
                                                                                           <a class="text-primary mx-3">
                                                                                                 <i nz-icon
@@ -331,8 +335,8 @@
                                                                               </div>
                                                                         </h6>
                                                                         <div>
-                                                                              {{data?.expanddata?.selfie ? 'Add Obj for
-                                                                              selfie' : '--'}}
+                                                                              Doc Name
+                                                                              <!-- {{data?.expanddata?.selfie ? data?.expanddata?.user?.selfie : '--'}} -->
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -348,26 +352,26 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="bureau">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
+                                                                              <div class="d-flex">
                                                                                     <span class="text-muted">Cibil
                                                                                           Score:</span>
-                                                                                    <div class="mr-5">
-                                                                                          {{data?.expanddata?.cibil_data
+                                                                                    <div class="mx-3">
+                                                                                          {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
-                                                                                          'Add Obj for
-                                                                                          cibil_data' : '--'}}
+                                                                                          data?.expanddata?.cibil_data?.results[0]?.cibil_score
+                                                                                          : '--'}}
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
-                                                                        <p>
-                                                                              <a class="text-primary">Fetch Details</a>
-                                                                        </p>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getCibilScoreData(data?.id)">Fetch
+                                                                                    Details</a> </b>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -385,106 +389,87 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="underWriting">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">No. of
-                                                                                          Cheque Bounce</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="text-muted">No. of
+                                                                              Cheque Bounce
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_cheque_bounce :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">Nach Trans.
-                                                                                          Declined (last 3
-                                                                                          months)</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Nach Trans.
+                                                                                    Declined (last 3
+                                                                                    months)</span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.nach_trans_declined :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">Max.
-                                                                                          Delinquent Amt. (out of
-                                                                                          income)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                              <span class="text-muted">Max.
+                                                                                    Delinquent Amt. (out of
+                                                                                    income)
+                                                                              </span>
                                                                         </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">No. of
-                                                                                          write off cases</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.max_delinquent_amount :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">Data
-                                                                                          Quality score</span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No. of
+                                                                                    write off cases</span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_write_off_cases :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">Retail
-                                                                                          Lending score
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Data
+                                                                                    Quality score</span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.data_Quality_score :
+                                                                              '--' }}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Retail
+                                                                                    Lending score
+                                                                              </span>
+                                                                        </div>
+                                                                        <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.retail_lending_score :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -492,122 +477,104 @@
 
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">No. of
-                                                                                          Inquiries (in last 3 Months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No. of
+                                                                                    Inquiries (in last 3 Months)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_inquiries :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">No negative
-                                                                                          Events (in last 6 Months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No negative
+                                                                                    Events (in last 6 Months)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_negative_events :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">Avg. Salary
-                                                                                          Credited (last 6 months)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Avg. Salary
+                                                                                    Credited (last 6 months)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.avg_salary_credited :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
 
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">Avg Min.
-                                                                                          Balance/month (in last 90
-                                                                                          days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">Avg Min.
+                                                                                    Balance/month (in last 90
+                                                                                    days)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.avg_min_balance_Month :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">No Cc
-                                                                                          Applied (last 14 days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No Cc
+                                                                                    Applied (last 14 days)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_cc_applied :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">No loan
-                                                                                          applied (last 14 days)
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">No loan
+                                                                                    applied (last 14 days)
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.no_of_loan_applied :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex flex-column">
-                                                                                    <span class="text-muted">FOIR (Total
-                                                                                          Debt/Monthly Salary))
-                                                                                    </span>
-                                                                                    <div class="mr-5">
-                                                                                          --
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
+
+                                                                        <div class="d-flex flex-column">
+                                                                              <span class="text-muted">FOIR (Total
+                                                                                    Debt/Monthly Salary))
+                                                                              </span>
+                                                                        </div>
                                                                         <div>
+                                                                              {{ _currentCibilData ?
+                                                                              _currentCibilData?.foir :
+                                                                              '--' }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -631,10 +598,17 @@
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
+      <label *ngIf="_isViewDocument">{{ _currentDocType ? _currentDocType : '' }} Document</label>
+      <label *ngIf="_isEditOffer">Edit Offer</label>
 </ng-template>
+<!-- Modal Section -->
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
+            <section *ngIf="_isViewDocument">
+                  <!-- <embed [src]="generateBase64View(_currentDocumentReq)" class="w-100 h-100"> -->
+                  <img [src]="_currentDocumentReq" class="w-100 h-100">
+            </section>
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
@@ -657,7 +631,51 @@
                         </div>
                   </div>
             </section>
-            <ng-template #footerModal>
-                  <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-                  <button nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button>
-            </ng-template>
+            <section *ngIf="_isEditOffer">
+                  <nz-card [nzLoading]="api_calling_loader['accordian']" class="p-0 m-0 border-0">
+                        <div class="row" [formGroup]="offerForm">
+                              <div class="col-md-12 mb-3">
+                                    {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
+                                    + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                                    : '')) : '--' }}
+                                    <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?
+                                          _currentDocumentReq?.user?.mobile : '--'}}</span>
+                                    <span class="mx-2">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id :
+                                          '--'}}</span>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                    Offer Amount
+                              </div>
+                              <div class="col-md-8 mb-3">
+                                    <input nz-input placeholder="Enter Your Offer Amount" type="number" formControlName="amountOffered">
+                              </div>
+      
+                              <div class="col-md-4 mb-3">
+                                   Validity
+                              </div>
+                              <div class="col-md-8 mb-3">
+                                    <input nz-input readonly="readonly" formControlName="validitiy" placeholder="">
+                              </div>
+      
+                              <div class="col-md-4 mb-3">
+                                    Interest
+                              </div>
+                              <div class="col-md-8 mb-3">
+                                    <nz-input-group nzSuffix="%">
+                                          <input type="text" nz-input readonly="readonly" formControlName="interest" placeholder="" />
+                                        </nz-input-group>
+                              </div>
+                        </div>
+                  </nz-card>
+            </section>
+      </nz-modal>
+</section>
+
+<ng-template #footerModal>
+      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
+      <button nz-button *ngIf="!_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+            (click)="handleOk('StatusModal')">Submit</button>
+      <button *ngIf="_isEditOffer" [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
+      <!-- <button *ngIf="_isDocument" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
+</ng-template>

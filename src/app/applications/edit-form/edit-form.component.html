@@ -1,12 +1,12 @@
 <!--Edit Personal Details -->
 <section>
-      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="personal"></nz-page-header>
+      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="personal"></nz-page-header> -->
       <ng-template #personal>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14">Personal Details</span></div>
             </div>
       </ng-template>
-      <nz-card>
+      <nz-card [nzTitle]="personal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="personalDetails" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4">
@@ -31,10 +31,10 @@
                               <nz-form-item>
                                     <nz-form-label>Monthly Income</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Monthly Income!">
+                                          <!-- (nzFocus)="fetchMasterIncomeRange()"  -->
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="income"
                                                 nzAllowClear nzPlaceHolder="Select Amount">
-                                                <nz-option nzValue="medicine" nzLabel="1,000 < 1,00000"></nz-option>
-                                                <nz-option nzValue="medic" nzLabel="1,00000 > 1,000000"></nz-option>
+                                                <nz-option *ngFor="let item of masterIncomeRangeList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
@@ -46,22 +46,22 @@
 
 <!--Edit Employement Details -->
 <section>
-      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="employement"></nz-page-header>
+      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="employement"></nz-page-header> -->
       <ng-template #employement>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14">Employement Details</span></div>
             </div>
       </ng-template>
-      <nz-card>
+      <nz-card [nzTitle]="employement" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="employementDetails" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
                                     <nz-form-label>Company Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter your Company Name!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
-                                                nzAllowClear nzPlaceHolder="Company Name">
-                                                <nz-option nzValue="medicine" nzLabel="Infosys"></nz-option>
+                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name" 
+                                           nzAllowClear nzPlaceHolder="Company Name" (ngModelChange)="editCompanyName($event)">
+                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
@@ -70,7 +70,7 @@
                               <nz-form-item>
                                     <nz-form-label>Address</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter your company address">
-                                          <input nz-input placeholder="Enter your Company Address"
+                                          <input readonly="readonly" nz-input placeholder="Enter your Company Address"
                                                 formControlName="address" nzFormat="yyyy-MM-dd">
                                     </nz-form-control>
                               </nz-form-item>
@@ -82,13 +82,13 @@
 
 <!-- Section Pre Approved Offer Details -->
 <section>
-      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="preApprovedDetailModal"></nz-page-header>
+      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="preApprovedDetailModal"></nz-page-header> -->
       <ng-template #preApprovedDetailModal>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14">Pre Approved Offer Details</span></div>
             </div>
       </ng-template>
-      <nz-card>
+      <nz-card  [nzTitle]="preApprovedDetailModal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="preApprovedForm" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4">
@@ -118,24 +118,25 @@
 
 <!-- Document Details Section -->
 <section>
-      <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="documentModal"></nz-page-header>
+      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="documentModal"></nz-page-header> -->
       <ng-template #documentModal>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14"> Document Details</span></div>
             </div>
       </ng-template>
-      <nz-card>
+      <nz-card [nzTitle]="documentModal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="documentForm" [nzLayout]="'vertical'">
                   <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngFor="let item of documentList; index as i">
                               <nz-form-item>
-                                    <nz-form-label>Document 1</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please select document type!">
+                                    <nz-form-label>{{item?.document_master?.name}} Document {{ i + 1}}</nz-form-label>
+                                    <label> {{item?.file_name}}</label>
+                                    <!-- <nz-form-control nzErrorTip="Please select document type!">
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="document_name"
                                                 nzAllowClear nzPlaceHolder="Document Name">
-                                                <nz-option nzValue="1" nzLabel="PAN Card"></nz-option>
+                                                <nz-option [nzValue]="item?.document_master?.id" [nzLabel]="item?.document_master?.name"></nz-option>
                                           </nz-select>
-                                    </nz-form-control>
+                                    </nz-form-control> -->
                               </nz-form-item>
 
                               <div class="d-flex my-2 justify-content-between px-3">
@@ -148,7 +149,7 @@
                                           Uplaod</a>
                               </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                               <nz-form-item>
                                     <nz-form-label class="ml-2">Document 2</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter your limit proposed">
@@ -168,7 +169,7 @@
                                     <a class="text-primary"> <i nz-icon nzType="upload" nzTheme="outline"></i>
                                           Uplaod</a>
                               </div>
-                        </div>
+                        </div> -->
                   </div>
             </form>
             <div class="row my-3">

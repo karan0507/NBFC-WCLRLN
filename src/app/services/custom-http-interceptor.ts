@@ -1,15 +1,24 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, finalize, retry } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, finalize, retry,  map, takeUntil } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from './http.service';
+import { Router, ActivationStart } from '@angular/router';
 
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
   token = ''
-  constructor( private message: NzMessageService, private httpService: HttpService) { }
+  private pendingHTTPRequests$ = new Subject<void>();
+  constructor( private message: NzMessageService, private router : Router, private httpService: HttpService) {
+    router.events.subscribe(event => {
+      if (event instanceof ActivationStart) {
+        // Cancel pending calls
+        this.cancelPendingRequests();
+      }
+    });
+   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let check_status;
@@ -29,6 +38,15 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       }
       return next.handle(req)
       .pipe(
+        takeUntil(this.onCancelPendingRequests()),
+        map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            if(event.body.result == 0){
+              this.message.error(event.body.errors[0]);
+            }
+          }
+          return event;
+        }),
         // Handle errors
         catchError((error: HttpErrorResponse) => {
           if (error.status == 400) {
@@ -49,4 +67,13 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       this.message.error('Kindly check your network');  
     }
   }
+
+  public cancelPendingRequests() {
+    this.pendingHTTPRequests$.next();
+  }
+
+  public onCancelPendingRequests() {
+    return this.pendingHTTPRequests$.asObservable();
+  }
+
 }

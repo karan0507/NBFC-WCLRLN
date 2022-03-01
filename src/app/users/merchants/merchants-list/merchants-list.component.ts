@@ -1,3 +1,4 @@
+import { saveAs } from "file-saver";
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -44,6 +45,7 @@ export class MerchantsListComponent implements OnInit {
   }
   file: string;
   uploaded_file: any;
+  storeDetailId: number;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -78,11 +80,6 @@ export class MerchantsListComponent implements OnInit {
     this.http.getPartnerListDetail(id).subscribe((res: any)=> {
       this.merchantDetailList.push(res?.data);
       this.merchantList[i].expandSet = res?.data;
-      console.log('this.merchantList', this.merchantList)
-
-    //   this._activeLoans.push(res?.data?.results[0]);
-    //  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-    //  console.log(this.loanApplicationData[index].expanddata)
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -126,7 +123,7 @@ export class MerchantsListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
-      this.getMerchantDetail(id, i)
+      this.getMerchantDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
@@ -214,8 +211,23 @@ export class MerchantsListComponent implements OnInit {
     this.selectedIdForAgreement = id;
     if(action === 'get'){
       this.uploadAndShowAgreement('get');
-
+    }  else if(action === 'submitted'){
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+      this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
+          this.pdf_viewer_object_values['url'] = id?.document_file
+          this.pdf_viewer_object_values['boolean'] = true
+          this.message.remove(generateloader);
     }
+  }
+
+  onClickDownloadSelectedDocument(e){
+    console.log(e)
+    // if(e?.document_file?.includes('pdf')){
+    // alert(true)
+    saveAs(e?.document_file, `${e?.file_name}`);
+    // } else {
+    // alert(false)
+    // }
   }
 
 
@@ -242,6 +254,7 @@ export class MerchantsListComponent implements OnInit {
             this.message.remove(generateloader);
           } else {
             this.message.remove(generateloader);
+            this.message.error('No Reports To Generate..');
           }
         // }
       }, err => {
