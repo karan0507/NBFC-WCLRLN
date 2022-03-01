@@ -4,35 +4,35 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text"/>
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchBorrowerList()"/>
                     </nz-input-group>
                     <ng-template #suffixIconButton>
-                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()"><i nz-icon nzType="search"></i></button>
                     </ng-template>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="ml-2">
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear
+                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
-                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak Pay EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
-                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option [nzValue]="false" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="true" nzLabel="Blocked"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
-                    </nz-select>
+                    </nz-select> -->
                 </div>
             </div>
-            <nz-table [nzData]="borrowertList" [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
-                <!-- [nzFrontPagination]="true" [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -62,8 +62,8 @@
                         <td>{{data.credit_utilization_amount}}</td>
                         <td>{{data.loan_amount_provided - data.credit_utilization_amount}}</td>
                         <td>{{data.fees_or_charges_amount}}</td>
-                        <td>{{data.is_activated}}</td>
-                        <td>-</td>
+                        <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
+                        <td>{{data?.account_status}}</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -73,11 +73,11 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="isTerminate = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isTerminate = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Terminate User</span>
                                         </li>
-                                        <li nz-menu-item (click)="isUnblock = true">
+                                        <li nz-menu-item (click)="applications = data?.id; isUnblock = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Unblock User</span>
                                         </li>
@@ -87,6 +87,9 @@
                     </tr>
                 </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
         </nz-card>
     </div>
 </section>
@@ -94,10 +97,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isTerminate" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Terminate Akshays account permanently?'"
+            [title]="'Do you want to Terminate account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isTerminate = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isTerminate = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Terminate'">
@@ -108,10 +111,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock Akshays account permanently?'"
+            [title]="'Do you want to Unblock account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isUnblock = false"
+            (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Unblock'">

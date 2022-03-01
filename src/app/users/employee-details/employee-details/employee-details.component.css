@@ -1,0 +1,9 @@
+::ng-deep .ant-upload-list-text-container{
+    display: none !important;
+}
+
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+}

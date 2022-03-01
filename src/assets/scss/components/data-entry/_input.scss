@@ -37,6 +37,7 @@
     &:disabled {
         background-color: $input-bg-disabled;
         cursor: not-allowed;
+        color: #000;
 
         &:hover {
             border-color: $input-border-color;

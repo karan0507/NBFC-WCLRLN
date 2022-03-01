@@ -9,6 +9,7 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { ProductListComponent } from './product-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductListRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzPopconfirmModule
   ]
 })
 export class ProductListModule { }

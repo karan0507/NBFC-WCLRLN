@@ -34,12 +34,15 @@ export class EmployeeListComponent implements OnInit {
   idForDeleteEmployee: any;
   employeeManagerList: any;
   changePasswordForm: any;
+  globalPageSize: number;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,private fb: FormBuilder,) { }
 
   ngOnInit(): void {
+    this.page = 1;
+    this.globalPageSize = 30
     this.fetchEmployeeList()
   }
   createEditFormFunction(data?) {
@@ -67,12 +70,17 @@ export class EmployeeListComponent implements OnInit {
     })
   }
   
-  fetchEmployeeList() {
+  fetchEmployeeList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       page: this.page,
       deactivated: this.deactivated,
       name: this.search_params,
       role: this.roles,
+      limit: this.globalPageSize
     }
     this.api_calling_loader = true
     this.http.fetchEmployeeList(data).subscribe(res => {

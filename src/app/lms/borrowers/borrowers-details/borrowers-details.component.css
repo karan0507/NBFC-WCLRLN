@@ -1,3 +1,10 @@
 .pdf_viewer_container{
     height: 70vh;
 }
+
+.brr-detail-section {
+    background-color: #FFEAB2;
+}
+.brr-detail-section-border {
+    border-left: 5px solid #55268E;
+}

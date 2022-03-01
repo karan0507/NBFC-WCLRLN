@@ -77,14 +77,6 @@ const routes: Routes = [
                         }
                   },
                   {
-                        path: 'verification',
-                        component: VerificationComponent,
-                        data: {
-                              title: 'Verification',
-                              parent: 'Application',
-                        }
-                  },
-                  {
                         path: 'e-signing',
                         component: ENachSigningComponent,
                         data: {
@@ -101,10 +93,18 @@ const routes: Routes = [
                         }
                   },
                   {
-                        path: 'stage-triggers',
+                        path: 'rejected',
+                        component: VerificationComponent,
+                        data: {
+                              title: 'Rejected',
+                              parent: 'Application',
+                        }
+                  },
+                  {
+                        path: 'dormant',
                         component: StageTriggersComponent,
                         data: {
-                              title: 'StageTriggers',
+                              title: 'Dormant',
                               parent: 'Application',
                         }
                   },

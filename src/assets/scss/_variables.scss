@@ -381,7 +381,7 @@ $input-height:                   (($font-size-base * $input-line-height) + ($inp
 $input-height-sm:                (($font-size-base * $input-line-height) + ($input-padding-y-sm * 2)) !default;
 $input-height-lg:               (($font-size-base * $input-line-height) + ($input-padding-y-lg * 2.28)) !default;
 $input-bg:                       $white !default;
-$input-bg-disabled:              $gray-lighter !default;
+$input-bg-disabled:              $white !default;
 
 $input-color:                    $gray !default;
 $input-border-color:             $border-color !default;

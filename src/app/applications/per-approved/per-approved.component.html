@@ -47,7 +47,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable nzShowSizeChanger
                         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader">
+                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -108,7 +108,7 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item [routerLink]="['edit-form']"
+                                                            <li nz-menu-item [routerLink]="['/applications/form-filling/edit-form']"
                                                                   [queryParams]="{id: data?.id}">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
@@ -128,7 +128,7 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="personalDetail">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
+                                                <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -141,7 +141,7 @@
                                                                         </div>
                                                                   </div>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
                                                                               D.O.B
@@ -149,6 +149,17 @@
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
                                                                               data?.user?.dob : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                             Monthly Income
+                                                                        </span>
+                                                                        <div>
+                                                                              {{ data?.expanddata?.income_details?.results[0]?.income_range_id ? data?.expanddata?.income_details?.results[0]?.income_range_id?.name
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -164,7 +175,7 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="empHeader">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -186,9 +197,10 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              --
-                                                                              <!-- {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
-                                                                        data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
+                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
+                                                                                    == 'Salaried' ?
+                                                                                    data?.expanddata?.income_details.results[0].employer_id?.nmae
+                                                                                    : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -204,7 +216,7 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="preApproval">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0">
+                                                <nz-card class="mb-md-0"  [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -212,7 +224,7 @@
                                                                               Product Name
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.user?.dob ? data?.user?.dob :
+                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.product_name :
                                                                               '--'}}
                                                                               <!-- {{_activeLoans[i]['id'] == data.id ? _activeLoans[i]['email']}} -->
                                                                         </div>
@@ -224,7 +236,7 @@
                                                                               Limit Proposed
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.user?.dob ? data?.user?.dob :
+                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.limit_proposed :
                                                                               '--'}}
                                                                         </div>
                                                                   </div>

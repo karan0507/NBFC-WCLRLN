@@ -17,8 +17,12 @@ export class AccountBlockUnblockComponent implements OnInit {
   page : any
   api_calling_loader: boolean;
   total_count = 0;
-  search_params = '';
+  search_param = '';
   globalPageSize: number;
+  master_product_id = '';
+  is_blocked = '';
+  search_params = '';
+  applications: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -29,27 +33,57 @@ export class AccountBlockUnblockComponent implements OnInit {
     this.fetchBorrowerList()
   }
 
-  fetchBorrowerList() {
+  fetchBorrowerList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationAcceptedProduct',
       source: 'LMS',
-      // txn_status: this.selectedStatus,
-      // txn_type: this.selectedType,
-      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      // search_param: this.searchValue,
-      // tab_filter: this.selectedTab
+      page: this.page,
+      limit: this.globalPageSize,
+      product_id: this.master_product_id,
+      is_blocked: this.is_blocked,
+      search_param: this.search_params,
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.borrowertList = res['data']
-      this.total_count = res['data'].total_count
+      this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
     })
+  }
+  toggleUserLineStatus() {
+    let data = new FormData
+      data.append('datapoint', 'update_multi_application_status'),
+      // endpoint: 'LoanApplicationAcceptedProduct',
+      data.append('source', 'Onboarding'),
+      data.append('stage_id', '13'),
+      data.append('applications', JSON.stringify([this.applications])),
+      data.append('remarks', ''),
+
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      if (res.success) {
+        this.isblock = false
+        this.isUnblock = false
+        this.message.success(res['message'])
+        this.fetchBorrowerList()
+      } else {
+        this.message.error(res['message'])
+      }
+    }, (err) => {
+    })
+  }
+  resetFilters() {
+    this.search_params = ''
+    this.is_blocked = ''
+    this.master_product_id = ''
+    this.fetchBorrowerList()
   }
 
 }

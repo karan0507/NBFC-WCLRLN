@@ -11,7 +11,7 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class FormFillingComponent implements OnInit {
       checked: boolean = false;
-      searchValue : any = '';
+      searchValue: any = '';
       filters: any;
       _exportDocument: any;
       productFilters: any;
@@ -26,7 +26,10 @@ export class FormFillingComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
@@ -37,7 +40,7 @@ export class FormFillingComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
-      constructor(public https: HttpService, public message : NzMessageService) { }
+      constructor(public https: HttpService, public message: NzMessageService) { }
 
       ngOnInit(): void {
             this.getFormLoanData();
@@ -45,7 +48,7 @@ export class FormFillingComponent implements OnInit {
 
 
       getFormLoanData(id?) {
-            this.api_calling_loader = true
+            this.api_calling_loader['listLoader'] = true
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
             // if(this.searchValue){
             //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
@@ -53,33 +56,44 @@ export class FormFillingComponent implements OnInit {
             // if(){
             //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
             // }    
-            
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this.loanApplicationData = res?.data?.results;
-                  this.total_count = res?.data?.total_count;
-                  this.api_calling_loader = false
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader['listLoader'] = false
+                  } else {
+                        this.api_calling_loader['listLoader'] = false
+                  }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
+            console.log(id, checked, index);
+
             if (checked) {
                   this.expandSet.add(id);
                   this.getIdWiseData(this._currentId = id, index);
-                  // console.log();
-
             } else {
                   this.expandSet.delete(id);
                   console.log('Deleted array of active ids', this._activeLoans);
@@ -136,12 +150,15 @@ export class FormFillingComponent implements OnInit {
       }
 
       handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: JSON.stringify(this._checkedLoanList) };
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
                         console.log('res');
                         this._isUpdateStatus = false;
+                        this.message.success(res?.message);
+                        this.getFormLoanData();
                   } else {
+                        this.message.error(res?.message);
                         console.log('error=>', res?.error);
                   }
             }, error => {
@@ -160,12 +177,12 @@ export class FormFillingComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source:'Onboarding', datapoint:'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
-            },error =>{
+            }, error => {
                   this.message.remove(generateloader);
                   console.log(error);
             })

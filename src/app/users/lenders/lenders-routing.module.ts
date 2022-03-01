@@ -25,6 +25,20 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: '',
+    // component: LendersComponent,
+    children: [
+      {
+        path: 'edit',
+        component: AddEditLendersComponent,
+        data: {
+          title: 'Edit Lender',
+          parent: 'Lenders',
+        }
+      },
+    ]
+  },
 ];
 
 @NgModule({

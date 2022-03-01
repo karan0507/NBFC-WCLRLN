@@ -36,6 +36,7 @@
                       </button>
                 </div>
             </div>
+            <div class="accordianLoanApp">
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
             [nzPageIndex]="page" (nzQueryParams)="getMerchantList($event)" [nzShowSizeChanger]="true" [nzData]="merchantList" [nzScroll]="{ x: '1500px' }">
@@ -50,9 +51,9 @@
                     <th>Merchant ID</th>
                     <th>Refer Id</th>
                     <th>Registered</th>
-                    <th>Transaction Status</th>
+                    <!-- <th>Transaction Status</th> -->
                     <th>System Status</th>
-                    <th>Action</th>
+                    <th nzWidth="80px" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,12 +74,12 @@
                             <td *ngIf="!data?.registered ">
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
-                            <td>{{data?.transaction_status}}</td>
-                            <td *ngIf="data?.is_deleted">False</td>
-                            <td *ngIf="!data?.is_deleted">True</td>
+                            <!-- <td>{{data?.transaction_status}}</td> -->
+                            <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                            <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
-                            <td>
+                            <td  nzRight>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
@@ -90,7 +91,7 @@
                                             <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../merchants/add-merchant']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['../merchants/edit-merchant']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
@@ -125,10 +126,10 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header 
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="  site-page-header acc-bg-light mb-2"
                                     [nzTitle]="basicDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="d-flex flex-column">
@@ -156,10 +157,10 @@
 
                             <div>
                                 <nz-page-header
-                                    class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="contactPersonDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -197,10 +198,10 @@
 
                             <div>
                                 <nz-page-header
-                                    class="site-page-header text-center rounded w-25 p-1 bg-gray-lightest my-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="bankingDetail">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -248,19 +249,42 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="kycDocument">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
                                     <div class="row">
                                         <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column">
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length >= 0">
                                                 <h6>
                                                     {{data?.document_master?.name}}
                                                 </h6>
                                                 <div>
-                                                    Submitted & Verified
+                                                    <span *ngIf="data?.document_file">
+                                                        <a>Submitted </a>
+                                                        &
+                                                    </span>
+                                                    <span *ngIf="!data?.document_file">
+                                                        Not Submitted &
+                                                    </span>
+                                                    <span *ngIf="data?.is_verified">
+                                                        Verified
+                                                    </span>
+                                                    <span *ngIf="!data?.is_verified">
+                                                        Not Verified
+                                                    </span>
                                                 </div>
+                                                <div class="mt-3">
+                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
+                                                    <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column"
+                                                *ngIf="data?.expandSet?.documents?.length < 0">
+                                                <h6>
+                                                    No Documents To show
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -269,10 +293,10 @@
 
                             <div class="justify-content-center">
                                 <nz-page-header
-                                    class="site-page-header text-center w-25 p-1 rounded bg-gray-lightest mb-2"
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="otherDetails">
                                 </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="_apiLoader['detailList']">
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
@@ -313,6 +337,7 @@
                     </ng-container>
                 </tbody>
             </nz-table>
+        </div>
         </nz-card>
     </div>
 </section>
