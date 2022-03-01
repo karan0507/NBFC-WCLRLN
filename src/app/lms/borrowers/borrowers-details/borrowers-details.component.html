@@ -18,7 +18,7 @@
                     </button>
                     <nz-dropdown-menu #menu1="nzDropdownMenu">
                         <ul nz-menu>
-                            <li nz-menu-item (click)="pdfViewerAndDownload('Transaction Statement', 1)">
+                            <li nz-menu-item (click)="isSelectDate = true">
                                 <a>Transaction Statement</a>
                             </li>
                             <li nz-menu-item (click)="pdfViewerAndDownload('Outstanding Calculation', 2)">
@@ -30,9 +30,9 @@
                             <li nz-menu-item (click)="pdfViewerAndDownload('Closure Letter', 4)">
                                 <a>Closure Letter</a>
                             </li>
-                            <li nz-menu-item (click)="pdfViewerAndDownload('View Cal. Summary', 5)">
+                            <!-- <li nz-menu-item (click)="pdfViewerAndDownload('View Cal. Summary', 5)">
                                 <a>View Cal. Summary</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </nz-dropdown-menu>
                     <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu">
@@ -47,15 +47,15 @@
                             <li nz-menu-item (click)="isChangeBillDate = true">
                                 <a>Change Bill Date</a>
                             </li>
-                            <li nz-menu-item>
+                            <!-- <li nz-menu-item>
                                 <a>Update UMRN No.</a>
-                            </li>
-                            <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Charges'; typeLabel = 'Type of Charge'">
+                            </li> -->
+                            <!-- <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Charges'; typeLabel = 'Type of Charge'">
                                 <a>Add Charges</a>
-                            </li>
-                            <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Payment'; typeLabel = 'Payment Type'">
+                            </li> -->
+                            <!-- <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Payment'; typeLabel = 'Payment Type'">
                                 <a>Add Payment</a>
-                            </li>
+                            </li> -->
                             <li nz-menu-item>
                                 <a>Pull Bureau & SMS Data</a>
                             </li>
@@ -570,4 +570,12 @@
 	<ng-template #modalFooter>
 		<button nz-button nzType="primary" (click)="handleCancel()">Close</button>
 	</ng-template>
+</nz-modal>
+
+<!-- select date for trasaction -->
+<nz-modal [(nzVisible)]="isSelectDate" [nzTitle]="'Select date range'" (nzOnCancel)="isSelectDate = false" (nzOnOk)="pdfViewerAndDownload('Transaction Statement', 1)"
+    nzOkText="Download" [nzOkDisabled]="!selectedDateforStatement">
+    <ng-container *nzModalContent>
+        <nz-range-picker [(ngModel)]="selectedDateforStatement"></nz-range-picker>
+    </ng-container>
 </nz-modal>

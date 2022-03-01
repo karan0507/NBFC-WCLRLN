@@ -31,6 +31,7 @@ export class BorrowersDetailsComponent implements OnInit {
     'url': '',
     'title': ''
   }
+  isSelectDate;
   borrower_id: any;
   page: any;
   globalPageSize: any;
@@ -44,6 +45,7 @@ export class BorrowersDetailsComponent implements OnInit {
   api_calling_loader: boolean;
   borrowertList: any;
   total_count: any;
+  selectedDateforStatement;
   // selectedType = ''
   // selectedStatus = ''
   // date = ''
@@ -121,7 +123,10 @@ export class BorrowersDetailsComponent implements OnInit {
         datapoint: 'download_transaction_letter',
         endpoint: this.borrower_id,
         source: 'LMS',
+        start_date: this.selectedDateforStatement[0] ? moment(this.selectedDateforStatement[0]).format("YYYY-MM-DD") : '',
+        end_date: this.selectedDateforStatement[1] ? moment(this.selectedDateforStatement[1]).format("YYYY-MM-DD") : '',
       }
+      console.log(this.selectedDateforStatement)
     } else if (index == 2) {
       data = {
         datapoint: 'download_outstanding_letter',
@@ -149,13 +154,20 @@ export class BorrowersDetailsComponent implements OnInit {
     }
     if (data) {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
-
+        if (res.success) {
+          this.pdf_viewer_object_values['title'] = title
+          this.pdf_viewer_object_values['url'] = res?.data?.url
+          this.pdf_viewer_object_values['boolean'] = true
+        } else {
+          this.message.error('File download failed')
+        }
+        this.message.remove(generateloader);
+        this.isSelectDate = false
+      }, (err) => {
+        this.message.remove(generateloader);
+        this.isSelectDate = false
       });
     }
-    this.pdf_viewer_object_values['title'] = title
-    this.pdf_viewer_object_values['url'] = ''
-    this.pdf_viewer_object_values['boolean'] = true
-    this.message.remove(generateloader);
   }
 
   fetchBorrowerList(tabelFilter?) {
