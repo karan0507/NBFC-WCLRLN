@@ -337,6 +337,12 @@ export class HttpService {
         return this._http.get((this.url + `/product/v1/get-agreement-mapping/` + data.product_id));
       }
 
+      /**
+       * activeInactiveProduct
+       */
+       public activeInactiveProduct(id) {
+            return this._http.put((this.url + `/product/v1/activate-deactivate-product/` + id), null);
+          }
 
       /**
        * createLoanAgreement

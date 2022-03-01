@@ -57,4 +57,11 @@ export class ProductListComponent implements OnInit {
     this.product_master = ''
     this.fetchProductList();
   }
+
+  activeInactiveProduct(id) {
+    this.http.activeInactiveProduct(id).subscribe(res => {
+      this.message.success(res['message'])
+      this.fetchProductList()
+    })
+  }
 }

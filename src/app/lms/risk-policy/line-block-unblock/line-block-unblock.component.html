@@ -73,11 +73,11 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="isblock = true">
+                                        <li nz-menu-item *ngIf="!data?.is_blocked" (click)="accepted_loan_application = data?.id ;isblock = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Block Line</span>
                                         </li>
-                                        <li nz-menu-item (click)="isUnblock = true">
+                                        <li nz-menu-item *ngIf="data?.is_blocked" (click)="accepted_loan_application = data?.id ;isUnblock = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Unblock Line</span>
                                         </li>
@@ -97,10 +97,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Block Akshays account permanently?'"
+            [title]="'Do you want to Block Akshays line?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isblock = false"
+            (onOkCall)="toggleUserLineStatus(true)"
             (onCencelCall)="isblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Block'">
@@ -111,10 +111,10 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock Akshays account?'"
+            [title]="'Do you want to Unblock Akshays line?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="isUnblock = false"
+            (onOkCall)="toggleUserLineStatus(false)"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Unblock'">

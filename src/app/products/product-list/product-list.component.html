@@ -53,7 +53,7 @@
                         <td>{{ data.partners >= 0 ? data.partners : '-' }}</td>
                         <td>{{ data.nbfcs >= 0 ? data.nbfcs : '-' }}</td>
                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
-                        <td>{{ data.is_deleted ? 'Inactive' : 'Active' }}</td>
+                        <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
                         <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
@@ -73,10 +73,14 @@
                                         <li nz-menu-item [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li> 
-                                        <li nz-menu-item>
+                                        <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
                                             <span class="m-l-5">Activate</span>
                                         </li> 
-                                        <li nz-menu-item>
+                                        <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
                                             <span class="m-l-5">Deactivate</span>
                                         </li>
                                     </ul>

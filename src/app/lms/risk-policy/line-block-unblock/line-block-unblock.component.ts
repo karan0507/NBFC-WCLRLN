@@ -21,6 +21,7 @@ export class LineBlockUnblockComponent implements OnInit {
   master_product_id = '';
   is_blocked = '';
   search_params = '';
+  accepted_loan_application: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -61,6 +62,25 @@ export class LineBlockUnblockComponent implements OnInit {
     this.is_blocked = ''
     this.master_product_id = ''
     this.fetchBorrowerList()
+  }
+
+  toggleUserLineStatus(value) {
+    let data = {
+      datapoint: 'toggle_risk_policy',
+      // endpoint: 'LoanApplicationAcceptedProduct',
+      source: 'LMS',
+      toggle_type: 'LINE',
+      toggle_value: value,
+      accepted_loan_application: this.accepted_loan_application,
+    }
+
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.isblock = false
+      this.isUnblock = false
+      this.message.success(res['message'])
+      this.fetchBorrowerList()
+    }, (err) => {
+    })
   }
 
 }
