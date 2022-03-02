@@ -289,33 +289,19 @@
         </div>
     </nz-card>
     <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Bill Statement">
-        <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="false" [nzShowPagination]="false">
+        <nz-table #basicTable [nzLoading]="api_calling_loader3" [nzData]="billStatementList" [nzFrontPagination]="false" [nzShowPagination]="false">
             <thead>
                 <tr>
-                    <th>Month</th>
-                    <th>Principal</th>
-                    <th>Interest</th>
-                    <th>Monthly EMI</th>
-                    <th>Balance</th>
-                    <th>Charges</th>
-                    <th>Billing Date</th>
-                    <th>Paid On</th>
-                    <th>Method</th>
-                    <th>Status</th>
+                    <th>#</th>
+                    <th>File</th>
+                    <th>Created At</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of dataSet; index as i">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <tr *ngFor="let data of billStatementList; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{data?.report_file}}</td>
+                    <td>{{ data?.created_at | date: "medium" }}</td>
                 </tr>
             </tbody>
           </nz-table>

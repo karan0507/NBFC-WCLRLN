@@ -56,6 +56,13 @@ export class HttpService {
       }
 
       /**
+       * fetchGlobalProductDetailsbyId
+       */
+       public fetchGlobalProductDetailsbyId(id) {
+            return this._http.get((this.url + `/product/v1/global-product-view/` + id));
+      }
+
+      /**
        * fetchProductList
        */
       public fetchProductList(data) {

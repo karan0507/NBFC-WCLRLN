@@ -19,6 +19,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { HttpService } from 'src/app/services/http.service';
 import { ArrayFilterPipe } from 'src/app/shared/pipes/arrayFilter.pipe';
+import { ViewProductComponent } from './view-product/view-product.component';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { ArrayFilterPipe } from 'src/app/shared/pipes/arrayFilter.pipe';
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent],
+    LoanAgreementComponent, ViewProductComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,

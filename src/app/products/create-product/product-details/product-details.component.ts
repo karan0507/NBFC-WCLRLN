@@ -26,6 +26,13 @@ export class ProductDetailsComponent implements OnInit {
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) {
+      this.route.queryParams.subscribe(params => {
+        if(params['id']){
+          this.product_id = params['id']
+        } else {
+          this.product_id = null
+        }
+      });
     http.globalProductData.subscribe(res => {
       this.isLoading = true
       this.productDetails = res
@@ -146,9 +153,9 @@ export class ProductDetailsComponent implements OnInit {
     this.isLoading = true
     this.http.editProductDetail(data, this.product_id).subscribe(res => {
       this.isLoading = false
-      this.product_id = res['data'].product_id
-      this.router.navigate([], {
-      relativeTo: this.route, queryParams: {id: this.product_id}});
+      // this.product_id = res['data'].product_id
+      // this.router.navigate([], {
+      // relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
     })
   }
