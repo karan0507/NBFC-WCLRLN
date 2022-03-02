@@ -111,6 +111,7 @@ export class LendersListComponent implements OnInit {
     let data = {
       // 'user_type_id' : 2
       'page': this.page,
+      'list': this.globalPageSize,
       'name': this.searchValue,
       'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
     };
