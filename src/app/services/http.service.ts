@@ -617,8 +617,19 @@ export class HttpService {
       public getLendersCommitmentList(data?) {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
-      // /central-api/v1/call-api?datapoint=lender_master_get&endpoint=LenderFundCommitments&source=LMS&lender_id=1
 
+      public editLenderCommitment(id?, data?) {
+            return this._http.put((this.url + `/lender/v1/lender-edit-commitment/` + id), data);
+      }
+
+      public getLenderFundRequestList(){
+            return this._http.get((this.url + `/lender/v1/lender-edit-commitment/`));
+      }
+      // ?datapoint=lender_master_get&endpoint=LenderFundRequest&source=LMS&lender_id=1
+
+      public getCouponCodeList(data?){
+            return this._http.get((this.url + `/platform_central/v1/coupon-code-list`), { params: data });
+      } 
 
       // sample Download
       sampleDownloadGlobalFunction(section) {

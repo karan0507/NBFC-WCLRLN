@@ -5,7 +5,7 @@
                   <ng-template #nbfc>
                         <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                         Total NBFC’s Commitment
-                    </ng-template>
+                  </ng-template>
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="nbfc" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total NBFC’s Commitment</label></div> -->
@@ -19,7 +19,7 @@
             <ng-template #fundTransfer>
                   <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                   Fund Transferred in Escrow
-              </ng-template>
+            </ng-template>
             <div class="col-md-4 mb-3">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="fundTransfer" class="h-100">
                         <div class="d-flex flex-column">
@@ -34,7 +34,7 @@
             <ng-template #escrowFund>
                   <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                   Total Fund in Escrow
-              </ng-template>
+            </ng-template>
             <div class="col-md-4 mb-3">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="escrowFund" class="h-100">
                         <div class="d-flex flex-column">
@@ -49,7 +49,7 @@
             <ng-template #creditLine>
                   <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                   Total Credit Line
-              </ng-template>
+            </ng-template>
             <div class="col-md-4 mb-3">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditLine" class="h-100">
                         <div class="d-flex flex-column">
@@ -64,7 +64,7 @@
             <ng-template #creditBalance>
                   <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                   Total Credit Line Balance
-              </ng-template>
+            </ng-template>
             <div class="col-md-4 mb-3">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditBalance" class="h-100">
                         <div class="d-flex flex-column">
@@ -79,14 +79,14 @@
             <ng-template #creditUtilization>
                   <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
                   Total Credit Utilisation
-              </ng-template>
+            </ng-template>
             <div class="col-md-4 mb-3">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditUtilization" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total Credit Utilisation</label></div> -->
                               <div>
-                                    <h4 class="font-style-bold">₹{{ matricData?.fund_in_escrow ?
-                                          matricData?.fund_in_escrow : '0'}}</h4>
+                                    <h4 class="font-style-bold">₹{{ matricData?.total_credit_line_utilized ?
+                                          matricData?.total_credit_line_utilized : '0'}}</h4>
                               </div>
                         </div>
                   </nz-card>
@@ -94,10 +94,9 @@
       </div>
 </section>
 
-<!-- List Section -->
+<!-- Modal Section -->
 <section>
-      <nz-page-header class="site-page-header text-center w-100 py-3 px-2 bg-light-orange"
-            [nzTitle]="lenderManagement">
+      <nz-page-header class="site-page-header text-center w-100 py-3 px-2 bg-light-orange" [nzTitle]="lenderManagement">
       </nz-page-header>
       <ng-template #lenderManagement>
             <h6 class="mb-0 pl-3">Total Lenders - {{ total_count ? total_count : '0'}}</h6>
@@ -106,7 +105,8 @@
 
 <section>
       <nz-card>
-            <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="lenderListData" [nzLoading]="api_calling_loader['listLoader']" [nzScroll]="{ x: '1500px' }">
+            <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="lenderListData"
+                  [nzLoading]="api_calling_loader['listLoader']" [nzScroll]="{ x: '1500px' }">
                   <thead>
                         <tr>
                               <th>Name</th>
@@ -138,11 +138,11 @@
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                           <ul nz-menu>
                                                 <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                <li nz-menu-item>
+                                                <li nz-menu-item (click)="modalOpen('edit',data)">
                                                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                       <span class="m-l-5">Edit Total Commitment</span>
                                                 </li>
-                                                <li nz-menu-item>
+                                                <li nz-menu-item (click)="modalOpen('request',data)">
                                                       <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                       <span class="m-l-5">Request Funds</span>
                                                 </li>
@@ -150,7 +150,7 @@
                                           nzPopconfirmTitle="Are you sure delete Employee?"
                                           nzPopconfirmPlacement="topLeft"
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-                                                <li nz-menu-item>
+                                                <li nz-menu-item (click)="modalOpen('generate',data)">
                                                       <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                                       <span class="m-l-5">Generate Report</span>
                                                 </li>
@@ -162,3 +162,68 @@
             </nz-table>
       </nz-card>
 </section>
+
+<!-- Modal Section -->
+<section>
+      <ng-template #modalTitles>
+            <h6 *ngIf="isEdit">Edit Total Commitment</h6>
+            <h6 *ngIf="isRequest">Request Funds</h6>
+            <h6 *ngIf="isDownload">Download Report</h6>
+      </ng-template>
+      <nz-modal [(nzVisible)]="isOpenModal" [nzTitle]="modalTitles" (nzOnCancel)="handleCancel()"
+            [nzFooter]="footerModal">
+            <section *ngIf="isEdit">
+                  <div class="row">
+                        <div class="col-md-12 text-muted">
+                              <label> History</label>
+                        </div>
+                        <div class="col-md-12">
+                              <nz-table #basicTable [nzData]="editCommitmentList" [nzShowPagination]="false"
+                                    [nzLoading]="api_calling_loader['listLoader']">
+                                    <thead>
+                                          <tr>
+                                                <th>#</th>
+                                                <th>Date</th>
+                                                <th> Amount </th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr *ngFor="let data of editCommitmentList; index as i">
+                                                <td>{{i + 1}}</td>
+                                                <td>{{data?.created_at | date:'dd/MM/yy'}}</td>
+                                                <td>{{data?.commitment ? data?.commitment : '--'}}
+                                                </td>
+                                          </tr>
+                                          <tr *ngIf="editCommitmentList" class="bg-gray-lightest">
+                                                <td></td>
+                                                <td>
+                                                      <label class="text-dark font-weight-semibold">Total</label>
+                                                </td>
+                                                <td>
+                                                      <label class="text-dark font-weight-semibold">70000000.00</label>
+                                                </td>
+                                          </tr>
+                                    </tbody>
+                              </nz-table>
+                        </div>
+                        <div class="col-md-12 my-4">
+                              <div class="d-flex flex-wrap">
+                                    <label class="font-size-14 text-muted mr-3">Current Value</label>Add Values
+                              </div>
+                        </div>
+                        <div class="col-md-12">
+                              <div class="d-flex flex-wrap">
+                                    <div class="align-middle"><label class="font-size-14 text-muted mr-3">Type New Value</label></div>
+                                    <div> <input type="number" [(ngModel)]="newCommitmentValue" nz-input placeholder=""></div>
+
+                              </div>
+                        </div>
+                  </div>
+            </section>
+      </nz-modal>
+</section>
+
+<ng-template #footerModal>
+      <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+      <button nz-button nzType="primary" class="mx-2" (click)="getMultipleAction('commitment')">Save</button>
+</ng-template>
