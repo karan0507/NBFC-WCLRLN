@@ -81,7 +81,7 @@ export class DocumentUploadComponent implements OnInit {
 
       getFormLoanData(id?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
             // if(this.searchValue){
             //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
             // }

@@ -150,12 +150,15 @@ export class FormFillingComponent implements OnInit {
       }
 
       handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: JSON.stringify(this._checkedLoanList) };
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
                         console.log('res');
                         this._isUpdateStatus = false;
+                        this.message.success(res?.message);
+                        this.getFormLoanData();
                   } else {
+                        this.message.error(res?.message);
                         console.log('error=>', res?.error);
                   }
             }, error => {

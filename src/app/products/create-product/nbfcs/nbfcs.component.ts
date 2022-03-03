@@ -55,9 +55,9 @@ export class NbfcsComponent implements OnInit {
       this.fetchNbfcPartner()
     } else {
       this.addNbfcs_arr()
-      this.addNbfcs_arr()
-      this.addNbfcs_arr()
-      this.addNbfcs_arr()
+      // this.addNbfcs_arr()
+      // this.addNbfcs_arr()
+      // this.addNbfcs_arr()
     }
   }
 

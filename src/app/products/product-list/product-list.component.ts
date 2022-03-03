@@ -29,11 +29,16 @@ export class ProductListComponent implements OnInit {
     this.fetchProductList()
   }
 
-  fetchProductList() {
+  fetchProductList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       page: this.page,
       product_master: this.product_master,
-      name: this.search_params
+      name: this.search_params,
+      limit: this.globalPageSize
       // id: this.product_id
     }
     this.api_calling_loader = true
@@ -51,5 +56,12 @@ export class ProductListComponent implements OnInit {
     this.search_params = ''
     this.product_master = ''
     this.fetchProductList();
+  }
+
+  activeInactiveProduct(id) {
+    this.http.activeInactiveProduct(id).subscribe(res => {
+      this.message.success(res['message'])
+      this.fetchProductList()
+    })
   }
 }

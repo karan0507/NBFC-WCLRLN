@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateProductComponent } from './create-product.component';
+import { ViewProductComponent } from './view-product/view-product.component';
 
 const routes: Routes = [
   // {
@@ -28,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'view-product',
-        component: CreateProductComponent,
+        component: ViewProductComponent,
         data: {
           title: 'View Product',
           parent: 'Product'

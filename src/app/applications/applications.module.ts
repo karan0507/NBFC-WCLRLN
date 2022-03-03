@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ApplicationsRoutingModule } from './applications-routing.module';
 import { FormFillingComponent } from './form-filling/form-filling.component';
@@ -58,6 +58,7 @@ import { NbfcApprovalComponent } from './nbfc-approval/nbfc-approval.component';
   ],
   providers:[
     // HttpService
+    DatePipe
   ]
 })
 export class ApplicationsModule { }

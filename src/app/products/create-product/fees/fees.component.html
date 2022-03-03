@@ -51,7 +51,7 @@
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="buffer_months" class="text-left" nzRequired>Buffer</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Buffer!">
                                 <nz-select formControlName="buffer_months" nzPlaceHolder="Select Buffer!" nzShowSearch nzAllowClear>
-                                    <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
+                                    <nz-option *ngFor="let item of time_period_arr1" [nzValue]="item.value"
                                         [nzLabel]="item.name">
                                     </nz-option>
                                 </nz-select>

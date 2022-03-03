@@ -16,38 +16,77 @@ export class LineBlockUnblockComponent implements OnInit {
   page : any
   api_calling_loader: boolean;
   total_count = 0;
-  search_params = '';
+  search_param = '';
   globalPageSize: number;
+  master_product_id = '';
+  is_blocked = '';
+  search_params = '';
+  accepted_loan_application: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      this.page = 1;
+      this.globalPageSize = 30
+      http.refreshBorrower.subscribe(res => {
+        this.fetchBorrowerList()
+      })
+    }
 
   ngOnInit(): void {
-    this.page = 1;
-    this.globalPageSize = 30
-    this.fetchBorrowerList()
   }
 
-  fetchBorrowerList() {
+  fetchBorrowerList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationAcceptedProduct',
       source: 'LMS',
-      // txn_status: this.selectedStatus,
-      // txn_type: this.selectedType,
-      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      // search_param: this.searchValue,
-      // tab_filter: this.selectedTab
+      page: this.page,
+      limit: this.globalPageSize,
+      product_id: this.master_product_id,
+      is_blocked: this.is_blocked,
+      search_param: this.search_params,
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.borrowertList = res['data']
-      this.total_count = res['data'].total_count
+      this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
+    })
+  }
+  resetFilters() {
+    this.search_params = ''
+    this.is_blocked = ''
+    this.master_product_id = ''
+    this.fetchBorrowerList()
+  }
+
+  toggleUserLineStatus(value) {
+    let data = {
+      datapoint: 'toggle_risk_policy',
+      // endpoint: 'LoanApplicationAcceptedProduct',
+      source: 'LMS',
+      toggle_type: 'LINE',
+      toggle_value: value,
+      accepted_loan_application: this.accepted_loan_application,
+    }
+
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      if (res.success) {
+        this.isblock = false
+        this.isUnblock = false
+        this.message.success(res['message'])
+        this.fetchBorrowerList()
+      } else {
+        this.message.error(res['message'])
+      }
+    }, (err) => {
     })
   }
 

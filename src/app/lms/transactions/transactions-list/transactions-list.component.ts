@@ -17,7 +17,7 @@ export class TransactionsListComponent implements OnInit {
   }
   page = 1;
   globalPageSize: number;
-  total_count = 10;
+  total_count;
   listOfData = [];
   setOfCheckedId = new Set<number>();
   listOfCurrentPageData = [];
@@ -39,11 +39,17 @@ export class TransactionsListComponent implements OnInit {
     this.globalPageSize = 30
     this.fetchTransactionList()
   }
-  fetchTransactionList(e?) {
+  fetchTransactionList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationTransactions',
       source: 'LMS',
+      page: this.page,
+      limit: this.globalPageSize,
       txn_status: this.selectedStatus,
       txn_type: this.selectedType,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
@@ -55,7 +61,7 @@ export class TransactionsListComponent implements OnInit {
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.listOfData = res['data']
-      this.total_count = res['data'].total_count
+      this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false

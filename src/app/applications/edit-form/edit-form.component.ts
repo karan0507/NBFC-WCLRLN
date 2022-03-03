@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
+// import {}
 
 @Component({
       selector: 'app-edit-form',
@@ -21,7 +23,7 @@ export class EditFormComponent implements OnInit {
       masterIncomeRangeList: any = [];
       partnerList: any = [];
       documentList: any = [];
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router) { }
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe) { }
 
       ngOnInit(): void {
             this.route.queryParams.subscribe(params => {
@@ -55,12 +57,13 @@ export class EditFormComponent implements OnInit {
       }
 
       onChange(event) {
-
+            // this.personalDetails.get('date_of_birth').setValue(this.datePipe.transform(event, 'yyyy-MM-dd'))
       }
 
       cancelForm() {
 
       }
+
       getFormLoanData() {
             this.api_calling_loader['accordian'] = true;
             let data = { 'source': 'Onboarding', 'datapoint': 'get_edit_application', 'endpoint': this.userId };
@@ -85,11 +88,12 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
+            console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
             data.append('email', this.personalDetails.value.email);
-            data.append('dob', this.personalDetails.value.date_of_birth);
+            data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
-            data.append('company_id', this.employementDetails.value.company_name?.pk);
+            data.append('company_id', this.employementDetails.value.company_name);
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
@@ -120,6 +124,7 @@ export class EditFormComponent implements OnInit {
 
       editCompanyName(value?) {
             let data = this.partnerList.filter(res => res.pk == value);
+            console.log(data);
             this.employementDetails.get('address').setValue(data[0]?.address);
       }
 }

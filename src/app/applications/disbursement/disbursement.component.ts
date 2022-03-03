@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -19,6 +19,7 @@ export class DisbursementComponent implements OnInit {
       _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
+      isRejectModal: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
       setOfCheckedId = new Set<number>();
       loanApplicationData: any = [];
@@ -29,9 +30,13 @@ export class DisbursementComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
-      api_calling_loader: boolean = false;
+      api_calling_loader = {
+            'listLoader': false,
+            'accordian': false
+      };
       stageMasterList: any;
       _currentStageStatus: any;
+      offerForm: FormGroup
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -42,35 +47,56 @@ export class DisbursementComponent implements OnInit {
       statusList: any;
       _currentDocument: any = '1'
       _isEditOffer: boolean = false;
+      _isDocument: boolean = false;
       _isStatus: boolean = false;
+      _currentCibilData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
+            this.getFormLoanData();
+            this.offerForm = this.fb.group({
+                  amountOffered: [null]
+            })
       }
 
+
       getFormLoanData(id?) {
-            this.api_calling_loader = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
+            this.api_calling_loader['listLoader'] = true
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
+            // if(this.searchValue){
+            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }
+            // if(){
+            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
+            // }    
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
-                        this.api_calling_loader = false
+                        this.api_calling_loader['listLoader'] = false
                   } else {
-                        this.api_calling_loader = false
+                        this.api_calling_loader['listLoader'] = false
                   }
             }, (err) => {
-                  this.api_calling_loader = false
+                  this.api_calling_loader['listLoader'] = false
             })
       }
 
 
       getIdWiseData(id?, index?) {
+            this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  this._activeLoans.push(res?.data?.results[0]);
-                  this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                  console.log(this.loanApplicationData[index].expanddata)
+                  if (res) {
+                        this.api_calling_loader['accordian'] = false;
+                        this._activeLoans.push(res?.data?.results[0]);
+                        this.loanApplicationData[index].expanddata = res?.data?.results[0];
+                  } else {
+                        this.api_calling_loader['accordian'] = false;
+                  }
+            }, error => {
+                  this.api_calling_loader['accordian'] = false;
             })
       }
 
@@ -139,7 +165,9 @@ export class DisbursementComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
+                  case 'download': this._isDocument = true; break;
                   case 'editOffer': this._isEditOffer = true; break;
+                  case 'rejectOffer': this.isRejectModal = true; break;
 
             }
       }
@@ -147,13 +175,15 @@ export class DisbursementComponent implements OnInit {
       handleCancel() {
             this._isUpdateStatus = false;
             this._isStatus = false;
+            this._isDocument = false;
             this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
             switch (type) {
                   case 'status':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '7', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
@@ -170,7 +200,13 @@ export class DisbursementComponent implements OnInit {
                         console.log('you are in offer');
 
                         break;
+                  case 'reject': console.log('Code for Reject API');
+
             }
+      }
+
+      downloadModal() {
+
       }
 
       checkDisabledStatus() {
@@ -185,7 +221,7 @@ export class DisbursementComponent implements OnInit {
       exportData(file_formate?) {
             let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-            this.https.fetchLoanApplicationList(data).subscribe(res => {
+            this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
@@ -203,4 +239,16 @@ export class DisbursementComponent implements OnInit {
             }
       }
 
+      getCibilScoreData(id?) {
+            console.log('API call');
+            if (id) {
+                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 2 }
+                  this.https.getCibilData(id, data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            }
+      }
 }

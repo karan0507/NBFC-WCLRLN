@@ -13,7 +13,7 @@ export class HttpService {
       url1 = 'https://devonboardingapi.fatakpay.com'
 
       globalProductData = new ReplaySubject<any>();
-
+      refreshBorrower = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
@@ -53,6 +53,13 @@ export class HttpService {
        */
       public fetchProductDetailsbyId(data) {
             return this._http.get((this.url + `/product/v1/product`), { params: data });
+      }
+
+      /**
+       * fetchGlobalProductDetailsbyId
+       */
+       public fetchGlobalProductDetailsbyId(id) {
+            return this._http.get((this.url + `/product/v1/global-product-view/` + id));
       }
 
       /**
@@ -323,6 +330,34 @@ export class HttpService {
             return this._http.post((this.url + `/user/change-password/`), data);
       }
 
+      /**
+       * fetchLoanAgreementMaster
+       */
+      public fetchLoanAgreementMaster() {
+        return this._http.get((this.url + `/platform_central/v1/get-agreements`));
+      }
+
+      /**
+       * fetchLoanAgreement
+       */
+       public fetchLoanAgreement(data) {
+        return this._http.get((this.url + `/product/v1/get-agreement-mapping/` + data.product_id));
+      }
+
+      /**
+       * activeInactiveProduct
+       */
+       public activeInactiveProduct(id) {
+            return this._http.put((this.url + `/product/v1/activate-deactivate-product/` + id), null);
+          }
+
+      /**
+       * createLoanAgreement
+       */
+      public createLoanAgreement(data) {
+        return this._http.post((this.url + `/product/v1/add-edit-agreement-mapping`), data);
+      }
+
       /// export function
       exportMasterSectionModule(res, section, file_formate, generateloader) {
             this.message.success('File Exported');
@@ -370,6 +405,10 @@ export class HttpService {
             const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get((this.url + `/central-api/v1/call-api`), { headers: headers, params: data, });
       }
+      public fetchLoanApplicationUpload(data): Observable<any> {
+            const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+            return this._http.post((this.url + `/central-api/v1/call-api`), data, { headers: headers });
+      }
 
       // Pull Cibil
       public getCibilData(id?, data?): any {
@@ -388,14 +427,9 @@ export class HttpService {
       }
 
       // Fetch Admin Proposed Offer
-      public getAdProposedOffer(id?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`, id));
+      public fetchEditofferData(data?) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
             //** */ ?source=LMS&datapoint=fetch_proposed_offers&endpoint=1
-      }
-
-      // Fetch Admin Accepted Offers
-      public getAdAcceptedOffer(id?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`, id));
             //** */ ?source=LMS&datapoint=fetch_accepted_offers&endpoint=1
       }
 
@@ -418,8 +452,8 @@ export class HttpService {
       }
 
       // Admin Accepted Offers
-      public acceptOfferAd(id?) {
-            return this._http.put((this.url + `/central-api/v1/call-api`), id);
+      public acceptLoanOffer(data?) {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
             //**Form Body     // "source" : "LMS",
             // "datapoint" : "accept_offer",
             // "endpoint" : "9",
@@ -434,6 +468,11 @@ export class HttpService {
             //     "endpoint" : "8",
             //     "remarks" : "Offer was not useful"
       }
+
+      public moveApplication(data?) {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
+      }
+
 
       // ********************************** End Loan Application API's***************************
 
@@ -507,8 +546,8 @@ export class HttpService {
 
       // Application Module => End point 
       public postLoanApplicationApi(data): Observable<any> {
-            const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
-            return this._http.post((this.url + `/central-api/v1/call-api`), data, { headers: headers });
+            // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       public updateStatusForAuthorization(data): Observable<any> {
@@ -578,9 +617,14 @@ export class HttpService {
       }
 
       // Lender Management API
-      public getLenderManagementList() {
-            return this._http.get(this.url + `/loan-application/v1/lender-management-dashboard`);
+      public getLenderManagementList(data?): (Observable<any>) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
+
+      public getLendersCommitmentList(data?) {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
+      // /central-api/v1/call-api?datapoint=lender_master_get&endpoint=LenderFundCommitments&source=LMS&lender_id=1
 
 
       // sample Download

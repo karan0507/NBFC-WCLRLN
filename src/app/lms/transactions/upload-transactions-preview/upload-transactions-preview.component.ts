@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class UploadTransactionsPreviewComponent implements OnInit {
 
   @Input() listOfData: any;
+  @Input() file_upload_success: any;
   constructor() { }
 
   ngOnInit(): void {
