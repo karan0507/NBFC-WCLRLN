@@ -261,6 +261,14 @@ export const ROUTES: SideNavInterface[] = [
             },
         ]
     },
+    {
+      path: 'coupon-code',
+      title: 'Coupon Code',
+      iconType: 'nzIcon',
+      iconTheme: 'outline',
+      icon: 'picture',
+      submenu: []
+    }
     // {
     //     path: 'transactions',
     //     title: 'Transactions',
