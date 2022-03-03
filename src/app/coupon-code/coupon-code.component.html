@@ -1,0 +1,63 @@
+<section>
+      <nz-card class="w-100">
+            <div class="row">
+                  <div class="col-md-4 mb-3 d-flex">
+                        <!-- (key.up)="getFormLoanData()" -->
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                              <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Search text" />
+                        </nz-input-group>
+                        <ng-template #suffixIconButton>
+                              <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template>
+                  </div>
+                  <div class="col-md-2">
+                        <!-- <div>
+                              <nz-select class="mx-1 w-auto" [(ngModel)]="productFilters" nzAllowClear
+                                    nzPlaceHolder="FatakPay">
+                                    <nz-option nzValue="fpay1" nzLabel="Coupon Status"></nz-option>
+                              </nz-select>
+                        </div> -->
+                  </div>
+                  <div class="col-md-6 mb-3 d-flex justify-content-md-end">
+                        <!-- <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
+                              (ngModelChange)="onMonthChange($event)"></nz-date-picker> -->
+                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
+                              nzPlaceHolder="Select Status">
+                              <nz-option nzValue="1" nzLabel="Active"></nz-option>
+                              <nz-option nzValue="2" nzLabel="In Active"></nz-option>
+
+                        </nz-select>
+                        <button nz-button nzType="primary" class="ml-md-3" [routerLink]="['add-coupon-code']">Add New Code +</button>
+                  </div>
+            </div>
+            <div class="accordianLoanApp">
+                  <nz-table #rowSelectionTable nzShowSizeChanger
+                        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="couponCodeListData"
+                       [nzLoading]="api_calling_loader['listLoader']">
+                        <thead>
+                              <tr>
+                                    <th [nzWidth]="'4rem'">#</th>
+                                    <th>Coupon Code</th>
+                                    <th>Coupon Type</th>
+                                    <th>Remaining Coupons</th>
+                                    <th>Value</th>
+                                    <th>Actions</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <ng-container *ngFor="let data of couponCodeListData; index as i">
+                                    <tr>
+                                          <td [nzWidth]="'4rem'">{{i + 1}}</td>
+                                          <td>{{ data?.coupon_code ? data?.coupon_code : '--'}}</td>
+                                          <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
+                                          <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
+                                          <td>{{ data?.value ? data?.value : '--'}}</td>
+                                          <td> <button nz-button nzType="link" class="border" [routerLink]="['edit-coupon-code']" [queryParams]="{id: data?.id}">Edit</button>
+                                          </td>
+                                    </tr>
+                              </ng-container>
+                        </tbody>
+                  </nz-table>
+            </div>
+      </nz-card>
+</section>

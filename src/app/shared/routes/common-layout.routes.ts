@@ -69,4 +69,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/lender-management',
         loadChildren: () => import('../../lms/lender-management/lender-management.module').then(m => m.LenderManagementModule),
     },
+    {
+      path: 'coupon-code',
+      loadChildren: () => import('../../coupon-code/coupon-code.module').then(m => m.CouponCodeModule),
+  },
 ];

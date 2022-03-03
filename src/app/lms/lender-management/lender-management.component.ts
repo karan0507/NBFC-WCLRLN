@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { stringify } from 'querystring';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
 @Component({
       selector: 'app-lender-management',
@@ -12,15 +16,47 @@ export class LenderManagementComponent implements OnInit {
       page: number;
       limit: any;
       total_count: any;
+      _currentLenderId: any;
       api_calling_loader = {
             'listLoader': false,
-            'cardList': false
+            'cardList': false,
+            'button': false
       };
-      constructor(private https: HttpService) { }
+
+      // Forms
+      commitmentForm: FormGroup
+      requestFundForm: FormGroup
+      nbfcRepayment: FormGroup
+
+      // Edit
+      editCommitmentList: any = [];
+      editFundsList: any = []
+      editNBFCList: any = []
+
+      // Booleans For Modals
+      isOpenModal: boolean = false;
+      isEdit: Boolean = false;
+      isRequest: boolean = false;
+      isNBFC: boolean = false;
+      isAddRepayment: boolean = false;
+
+      constructor(private https: HttpService, public message: NzMessageService, public globalservice: GlobalservicesService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
             this.page = 1;
             this.getLenderManagementList();
+
+            this.commitmentForm = this.fb.group({
+                  newCommitmentValue: [null, [Validators.required]]
+            })
+            this.requestFundForm = this.fb.group({
+                  amount: [null, [Validators.required]],
+                  repaid_on: [null, [Validators.required]]
+            })
+            this.nbfcRepayment = this.fb.group({
+                  amount: [null, [Validators.required]],
+                  repaid_on: [null, [Validators.required]]
+            })
       }
 
       getLenderManagementList() {
@@ -37,7 +73,7 @@ export class LenderManagementComponent implements OnInit {
                         this.matricData = res?.data?.matric_data;
                         this.api_calling_loader['listLoader'] = false;
                         this.api_calling_loader['cardList'] = false;
-                        this.total_count = res?.total_count;
+                        this.total_count = res?.data?.list_data.length;
                         // console.log(this.matricData, this.lenderListData,res, this.total_count);
                   } else {
                         this.api_calling_loader['listLoader'] = false;
@@ -51,20 +87,90 @@ export class LenderManagementComponent implements OnInit {
 
 
       getMultipleAction(type?, data?) {
-            let params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderFundCommitments', 'source': 'LMS', 'lender_id': data?.id }
+            let params = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundCommitments', 'source': 'LMS', 'lender_id': data?.id }
             switch (type) {
-                  case 'commitment': 
-                  this.https.getLendersCommitmentList().subscribe((res : any)=>{
-                        console.log(res);
-                  })
-                  break;
-                  case 'request_fund': 
-                  params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': data?.id }
-                  break;
-                  case 'repay_NBFC': 
-                  params = {'datapoint': 'lender_master_get', 'endpoint': 'LenderManagementRepayment', 'source': 'LMS', 'lender_id': data?.id }
-                  break;
+                  case 'commitment':
+                        this.api_calling_loader['button'] = true;
+                        let body = new FormData();
+                        // this.newCommitmentValue = 80000
+                        body.append('commitment', this.commitmentForm.get('newCommitmentValue').value)
+                        this.https.editLenderCommitment(this._currentLenderId, body).subscribe((res: any) => {
+                              if (res) {
+                                    this.api_calling_loader['button'] = false;
+                                    this.commitmentForm.reset()
+                                    console.log(res);
+                              } else {
+                                    this.commitmentForm.reset()
+                                    this.api_calling_loader['button'] = false;
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                        })
+                        break;
+                  case 'request_fund':
+                        params = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': data?.id }
+                        break;
+                  case 'nbfc':
+                        let param = { 'datapoint': 'lender_add_repayment', 'source': 'LMS', 'lender_management': this._currentLenderId, 'amount': this.nbfcRepayment.get('amount').value, 'repaid_on': this.nbfcRepayment.get('repaid_on').value }
+                        this.https.addRepaymentNBFC(param).subscribe((res: any) => {
+                              console.log(res);
+                        })
+                        break;
             }
+      }
+
+      modalOpen(type?, data?) {
+            this._currentLenderId = data?.id
+            this.isAddRepayment = false;
+            this.isOpenModal = true;
+            if (type == 'edit') {
+                  this.isEdit = true;
+                  this.getLenderCommitmentList(data);
+            } else if (type == 'request') {
+                  this.isRequest = true;
+                  this.getFundsList(data)
+            } else if (type == 'nbfc') {
+                  this.isNBFC = true;
+                  this.getNbfcList(data)
+            }
+      }
+
+      // Get Lender Commitment List
+      getLenderCommitmentList(value?) {
+            this.api_calling_loader['listLoader'] = true;
+            let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundCommitments', 'source': 'LMS', 'lender_id': value?.id }
+            this.https.getLendersCommitmentList(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.editCommitmentList = res?.data
+                        this.api_calling_loader['listLoader'] = false;
+                  } else {
+                        this.message.error(res?.error);
+                        this.api_calling_loader['listLoader'] = false;
+                  }
+            })
+      }
+
+      handleCancel() {
+            this.isOpenModal = false;
+            this.isEdit = false;
+            this.isRequest = false;
+            this.isNBFC = false;
+      }
+
+      getFundsList(value?) {
+            let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': value?.id }
+            this.https.getLenderFundRequestList(data).subscribe((res: any) => {
+                  console.log(res, 'funds');
+                  this.editFundsList = res?.data
+            })
+      }
+
+      getNbfcList(value?) {
+            let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderManagementRepayment', 'source': 'LMS', 'lender_id': value?.id }
+            this.https.getRepaymentList(data).subscribe((res: any) => {
+                  console.log(res, 'funds');
+                  this.editNBFCList = res?.data
+            })
       }
 
 }

@@ -237,7 +237,7 @@ export class EmployeeDetailsComponent implements OnInit {
       'section': this.selectedTab,
       'keyword':this.searchValue ? this.searchValue : '',
       'page': this.page,
-      'size': this.size,
+      'limit': this.size,
     };
     if(this.selectedCorporate){
       data['partner'] = this.selectedCorporate

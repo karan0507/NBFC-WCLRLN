@@ -265,4 +265,23 @@ export class DocumentUploadComponent implements OnInit {
 
             }
       }
+
+      checkDocPresent(type?, results?){
+           if(type == 'pan'){
+            if(results?.filter(res=> res?.document_id?.name == 'Pan')){
+                  return true;
+            }else{
+                  return false
+            }
+           }else if(type == 'aadhar'){
+            if(results?.filter(res=> res?.document_id?.name == 'Pan')){
+                  return true;
+            }else{
+                  return false
+            }
+           }else{
+                 return false
+           }
+      }
+      
 }

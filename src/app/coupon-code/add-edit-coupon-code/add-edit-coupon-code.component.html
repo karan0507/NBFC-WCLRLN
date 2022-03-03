@@ -1,0 +1,133 @@
+<nz-card>
+      <form nz-form [formGroup]="couponForm" nzLayout="vertical">
+            <div class="row">
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Code</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <input nz-input formControlName="coupon_code" placeholder="Enter Coupon Code" />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Value</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                          <input nz-input type="number" min="0" placeholder="Enter value for coupon"
+                                                formControlName="value">
+                                    </nz-input-group>
+                                    <ng-template #addOnAfterTemplate>
+                                          <nz-select formControlName="coupon_calculation_type">
+                                                <nz-option nzLabel="%" [nzValue]="1"></nz-option>
+                                                <nz-option nzLabel="₹" [nzValue]="2"></nz-option>
+                                          </nz-select>
+                                    </ng-template>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <!-- <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Calculation Type</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-radio-group formControlName="coupon_calculation_type">
+                                          <label nz-radio [nzValue]="1">Variable (%)</label>
+                                          <label nz-radio [nzValue]="2">Flat (₹)</label>
+                                    </nz-radio-group>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div> -->
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Type</nz-form-label>
+                              <nz-form-control nzErrorTip="Please check Coupon Type">
+                                    <nz-radio-group formControlName="coupon_type">
+                                          <label nz-radio [nzValue]="1">Fees waiver</label>
+                                          <label nz-radio [nzValue]="2">Promotional</label>
+                                    </nz-radio-group>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Expiry Date</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <!-- [nzDisabledDate]="disabledDate" -->
+                                    <nz-date-picker formControlName="coupon_expiry" class="w-100"
+                                          [nzFormat]="'yyyy-MM-dd'">
+                                    </nz-date-picker>
+                                    <br />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Total Coupons</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <input nz-input formControlName="total_coupons" placeholder="Enter total coupons" />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+                  <!-- Optional Params -->
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Partner</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-select (nzFocus)="onFocusMethod('partner')" formControlName="partner"
+                                          nzAllowClear nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Master</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-select (nzFocus)="onFocusMethod('master')" formControlName="master" nzAllowClear
+                                          nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Product</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-select (nzFocus)="onFocusMethod('product')" formControlName="product"
+                                          nzAllowClear nzPlaceHolder="Select Product">
+                                          <nz-option *ngFor="let item of productList" [nzValue]="item?.id"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Product Fees</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-select (nzFocus)="onFocusMethod('product-fees')"
+                                          [nzDisabled]="couponForm.get('product').value ? false : true"
+                                          formControlName="product_fees" nzPlaceHolder="Select Product Fees"
+                                          nzAllowClear>
+                                          <nz-option *ngFor="let item of productFeesList" [nzValue]="item?.id"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+            </div>
+      </form>
+      <div class="d-flex justify-content-md-end">
+            <button nz-button nzType="link" (click)="couponForm.reset()" class="border mx-3">Reset</button>
+            <button nz-button nzType="primary" [disabled]="couponForm.valid ? false : true" (click)="saveFormData()">Submit</button>
+
+      </div>
+</nz-card>
