@@ -66,6 +66,9 @@ export class BorrowersDetailsComponent implements OnInit {
   api_calling_loader1: boolean;
   billStatementList: any;
   api_calling_loader3: boolean;
+  reverseId: any;
+  refundId: any;
+  waiveOffId: any;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -297,5 +300,28 @@ export class BorrowersDetailsComponent implements OnInit {
     this.selectedStatus2 = ''
     this.date2 = ''
     this.fetchTransactionTxnList();
+  }
+  fetchBorrowerDelete() {
+    let data = {
+      datapoint: 'wave_off_transaction',
+      endpoint: this.waiveOffId,
+      source: 'LMS',
+    }
+    this.http.fetchLoanApplicationDelete(data).subscribe(res => {
+      this.message.success(res['message'])
+      this.isWaiveOff = false
+    })
+  }
+  reverseChargesToggle(id) {
+    this.isReverseCharges = true
+    this.reverseId = id
+  }
+  refundTransactionToggle(id) {
+    this.isRefundTransaction = true
+    this.refundId = id
+  }
+  waiveOffToggle(id) {
+    this.isWaiveOff = true
+    this.waiveOffId = id
   }
 }
