@@ -13,11 +13,7 @@
                               </div>
                               <div>
                                     <nz-steps [nzCurrent]="1" nzProgressDot nzDirection="vertical">
-                                          <nz-step nzTitle="Logged In, no Action Taken"></nz-step>
-                                          <!--nzDescription="This is a description. This is a description."-->
-                                          <nz-step nzTitle="Logged In, no Action Taken"></nz-step>
-                                          <nz-step nzTitle="Document Upload Pending"></nz-step>
-                                          <nz-step nzTitle="Pre-Approved Offer Accepted"></nz-step>
+                                          <nz-step *ngFor="let item of loanStatusData" [nzTitle]="item?.status"></nz-step>
                                     </nz-steps>
                               </div>
                         </div>
@@ -29,18 +25,8 @@
                               </div>
                               <div>
                                     <ul nz-menu>
-                                          <li class="pl-0" nz-menu-item>
-                                                22/02/01
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                22/02/01
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                22/02/01
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                22/02/01
-                                          </li>
+                                          <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                {{ loanStatusData ? item?.date : '--'}} </li>
                                     </ul>
                               </div>
                         </div>
@@ -52,20 +38,10 @@
                               </div>
                               <div>
                                     <ul nz-menu>
-                                          
-                                          <li class="pl-0" nz-menu-item>
-                                                05:38 pm
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                05:38 pm
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                05:38 pm
-                                          </li>
-                                          <li class="pl-0" nz-menu-item>
-                                                05:38 pm
-                                          </li>
 
+                                          <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                {{ loanStatusData ? item?.time : '--'}}
+                                          </li>
                                     </ul>
                               </div>
                         </div>

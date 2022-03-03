@@ -58,7 +58,7 @@ export class HttpService {
       /**
        * fetchProductList
        */
-      public fetchProductList(data) {
+      public fetchProductList(data?) {
             return this._http.get((this.url + `/product/v1/product`), { params: data });
       }
 
@@ -124,7 +124,7 @@ export class HttpService {
       /**
        * fetchMasterPartner
        */
-      public fetchMasterPartner(data) {
+      public fetchMasterPartner(data?) {
             return this._http.get((this.url + `/master/fetch-master-data/PartnerMaster`), { params: data });
       }
 
@@ -257,7 +257,16 @@ export class HttpService {
             return this._http.get((this.url + `/product/v1/product-fees/` + data.product_id));
       }
 
+      // Get All Products
+      public getAllProducts() {
+            return this._http.get(this.url + `/product/v1/get-all-products`);
+      }
+      // Get All Products
+      public getProductWiseFees(id?) {
+            return this._http.get(this.url + `/product/v1/get-all-product-fees/` + id);
+      }
 
+      // /product/v1/get-all-products
       /**
        * createOnboardingRules
        */
@@ -327,28 +336,28 @@ export class HttpService {
        * fetchLoanAgreementMaster
        */
       public fetchLoanAgreementMaster() {
-        return this._http.get((this.url + `/platform_central/v1/get-agreements`));
+            return this._http.get((this.url + `/platform_central/v1/get-agreements`));
       }
 
       /**
        * fetchLoanAgreement
        */
-       public fetchLoanAgreement(data) {
-        return this._http.get((this.url + `/product/v1/get-agreement-mapping/` + data.product_id));
+      public fetchLoanAgreement(data) {
+            return this._http.get((this.url + `/product/v1/get-agreement-mapping/` + data.product_id));
       }
 
       /**
        * activeInactiveProduct
        */
-       public activeInactiveProduct(id) {
+      public activeInactiveProduct(id) {
             return this._http.put((this.url + `/product/v1/activate-deactivate-product/` + id), null);
-          }
+      }
 
       /**
        * createLoanAgreement
        */
       public createLoanAgreement(data) {
-        return this._http.post((this.url + `/product/v1/add-edit-agreement-mapping`), data);
+            return this._http.post((this.url + `/product/v1/add-edit-agreement-mapping`), data);
       }
 
       /// export function
@@ -370,6 +379,11 @@ export class HttpService {
       /**
        * Application Module Fetch Loan 
        */
+      // Track Application for Loan ID
+      public trackApplicationStatus(data?): any {
+            return this._http.get((this.url + `/central-api/v1/call-api`), {params : data});
+      }
+
       public fetchLoanApplicationData(data?): any {
             return this._http.get((this.url + `/loan-application/v1/fetch-loan-application/LoanApplication`));
       }
@@ -622,14 +636,27 @@ export class HttpService {
             return this._http.put((this.url + `/lender/v1/lender-edit-commitment/` + id), data);
       }
 
-      public getLenderFundRequestList(){
-            return this._http.get((this.url + `/lender/v1/lender-edit-commitment/`));
+      public getLenderFundRequestList(data?) {
+            return this._http.get((this.url + `/lender/v1/lender-edit-commitment/`),{ params: data });
       }
-      // ?datapoint=lender_master_get&endpoint=LenderFundRequest&source=LMS&lender_id=1
 
-      public getCouponCodeList(data?){
+      public getRepaymentList(data?) {
+            return this._http.get((this.url + `/central-api/v1/call-api`),{ params: data });
+      }
+
+      public addRepaymentNBFC(data?) {
+            return this._http.post(this.url + `/central-api/v1/call-api`, data);
+      }
+
+      public getCouponCodeList(data?) {
             return this._http.get((this.url + `/platform_central/v1/coupon-code-list`), { params: data });
-      } 
+      }
+
+      // Add Edit Coupon Code Data
+      public addEditCouponCode(data?) {
+            return this._http.put((this.url + `/platform_central/v1/add-edit-coupon-code`), data);
+      }
+
 
       // sample Download
       sampleDownloadGlobalFunction(section) {
@@ -670,16 +697,16 @@ export class HttpService {
             return this._http.get(this.url + `/platform_central/v1/${action}`);
       }
 
-      getEmployeeDetailWithEmployeeTypeAndCorporateId(data){
-            return this._http.get(this.url + `/partner/v1/fetch-employee-details`, { params: data } );
+      getEmployeeDetailWithEmployeeTypeAndCorporateId(data) {
+            return this._http.get(this.url + `/partner/v1/fetch-employee-details`, { params: data });
       }
 
-      viewFileBeforeSaving(data){
-            return this._http.post(this.url + `/partner/v1/view-unsaved-employee-details-file` , data);
+      viewFileBeforeSaving(data) {
+            return this._http.post(this.url + `/partner/v1/view-unsaved-employee-details-file`, data);
       }
 
-      uploadUserEmployeePreviewedFile(data){
-            return this._http.post(this.url + `/partner/v1/upload-employee-details` , data);
+      uploadUserEmployeePreviewedFile(data) {
+            return this._http.post(this.url + `/partner/v1/upload-employee-details`, data);
       }
 
 

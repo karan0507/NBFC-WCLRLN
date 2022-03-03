@@ -123,7 +123,7 @@
                                                       (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                                       <!-- /applications/form-filling/track-status -->
                                                       <li nz-menu-item
-                                                            [routerLink]="['/applications/form-filling/track-status']">
+                                                            [routerLink]="['/applications/form-filling/track-status']" [queryParams]="{id: data?.id}">
                                                             <span class="m-l-5">Track Status</span>
                                                       </li>
 

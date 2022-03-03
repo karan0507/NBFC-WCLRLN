@@ -11,6 +11,9 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
@@ -25,7 +28,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzDropDownModule,
     NzTableModule,
     NzModalModule,
-    NzInputModule
+    NzInputModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    NzFormModule,
+    NzDatePickerModule
   ]
 })
 export class LenderManagementModule { }

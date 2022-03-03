@@ -13,9 +13,13 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { AddEditCouponCodeComponent } from './add-edit-coupon-code/add-edit-coupon-code.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
-  declarations: [CouponCodeComponent],
+  declarations: [CouponCodeComponent, AddEditCouponCodeComponent],
   imports: [
     CommonModule,
     CouponCodeRoutingModule,
@@ -28,7 +32,10 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzInputModule,
     FormsModule,
     ReactiveFormsModule,
-    NzSelectModule
+    NzSelectModule,
+    NzFormModule,
+    NzDatePickerModule,
+    NzRadioModule
   ]
 })
 export class CouponCodeModule { }
