@@ -18,7 +18,7 @@ const routes: Routes = [
         path: 'add',
         component: AddEditPartnersComponent,
         data: {
-          title: 'Add Cooperate',
+          title: 'Add Corporate',
           parent: 'Partners',
         }
       },
@@ -31,7 +31,7 @@ const routes: Routes = [
         path: 'edit',
         component: AddEditPartnersComponent,
         data: {
-          title: 'Edit Cooperate',
+          title: 'Edit Corporate',
           parent: 'Partners',
         }
       },
