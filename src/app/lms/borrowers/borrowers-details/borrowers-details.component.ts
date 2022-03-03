@@ -64,6 +64,11 @@ export class BorrowersDetailsComponent implements OnInit {
   total_count2: any;
   api_calling_loader2: boolean;
   api_calling_loader1: boolean;
+  billStatementList: any;
+  api_calling_loader3: boolean;
+  reverseId: any;
+  refundId: any;
+  waiveOffId: any;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -87,6 +92,7 @@ export class BorrowersDetailsComponent implements OnInit {
     this.fetchTransactionTxnList();
     this.fetchTransactionFessList();
     this.createAddPaymentOrChargeFormFunction()
+    this.fetchBillStatementList();
   }
 
   createAddPaymentOrChargeFormFunction() {
@@ -197,6 +203,32 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
 
+  fetchBillStatementList(tabelFilter?) {
+    // if (tabelFilter) {
+    //   this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+    //   this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    // }
+    let data = {
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationReportDownload',
+      source: 'LMS',
+      // page: this.page,
+      // limit: this.globalPageSize,
+      offer_id: this.borrower_id,
+      report_type: 'Bill Statement',
+      // search_param: this.search_params,
+      // id: this.borrower_id
+    }
+    this.api_calling_loader3 = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader3 = false
+      this.billStatementList = res['data'][0]
+      this.total_count = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader3 = false
+    })
+  }
   
   fetchTransactionTxnList(tabelFilter?) {
     if (tabelFilter) {
@@ -268,5 +300,28 @@ export class BorrowersDetailsComponent implements OnInit {
     this.selectedStatus2 = ''
     this.date2 = ''
     this.fetchTransactionTxnList();
+  }
+  fetchBorrowerDelete() {
+    let data = {
+      datapoint: 'wave_off_transaction',
+      endpoint: this.waiveOffId,
+      source: 'LMS',
+    }
+    this.http.fetchLoanApplicationDelete(data).subscribe(res => {
+      this.message.success(res['message'])
+      this.isWaiveOff = false
+    })
+  }
+  reverseChargesToggle(id) {
+    this.isReverseCharges = true
+    this.reverseId = id
+  }
+  refundTransactionToggle(id) {
+    this.isRefundTransaction = true
+    this.refundId = id
+  }
+  waiveOffToggle(id) {
+    this.isWaiveOff = true
+    this.waiveOffId = id
   }
 }

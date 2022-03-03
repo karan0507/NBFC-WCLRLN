@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit {
     }
     let data = {
       page: this.page,
-      product_master: this.product_master,
+      product_master: this.product_master ? this.product_master : '',
       name: this.search_params,
       limit: this.globalPageSize
       // id: this.product_id

@@ -1,0 +1,736 @@
+<section>
+    <nz-card nzTitle="Product Details" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Product Name :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.name ? productDetails?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Product Code :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_code ? productDetails?.product_code : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Master Product :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_master ? productDetails?.product_master?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Activation Date :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.activation_date ? productDetails?.activation_date : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Inactivation Date :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.inactivation_date ? productDetails?.inactivation_date : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Remarks :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.remarks ? productDetails?.remarks : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100" *ngIf="productDetails?.tenures[0]">EMI Tenures</h5>
+            <ng-container *ngFor="let item of productDetails?.tenures; index as i">
+                <h5 class="w-100">Tenure {{i+1}} </h5>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Tenure Period :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.tenure ? item?.tenure : '-'}}
+                            {{item?.tenure_unit ? item?.tenure_unit : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Interest (annual)(%) :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.rate_of_interest ? item?.rate_of_interest : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            EMI Details :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.emi_details ? item?.emi_details : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            No. of EMIs :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.no_of_emis ? item?.no_of_emis : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Advance EMI :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.advance_emi ? item?.advance_emi : '-'}}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Masters" [nzLoading]="isLoading">
+        <div class="row" *ngFor="let master_item of productDetails?.master_commitments; index as k">
+            <h5 class="w-100">Master {{k+1}} :</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Master Partner's Name :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item?.master_partner?.name ? master_item?.master_partner?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        No. of Partners :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item.no_of_partner ? master_item?.no_of_partner : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Amt. Per Partner (at acquisition) :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item.amount_per_partner ? master_item?.amount_per_partner : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100">Slabs</h5>
+            <ng-container *ngFor="let item of master_item?.slabs; index as i">
+                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <div class="col-md-12 mb-3">
+                    <div class="row">
+                        <div class="col-md-2 font-weight-semibold">
+                            Trigger Master :
+                        </div>
+                        <div class="col-md-10">
+                            {{item.trigger_master?.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Minimum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.min_amount ? item?.min_amount : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Maximum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.max_amount ? item?.max_amount : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Commission :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.commission ? item?.commission : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Time Period :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.time_period ? item?.time_period + 'Months' : '-'}}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Corporates" [nzLoading]="isLoading">
+        <div class="row" *ngFor="let master_item of productDetails?.partner_commitments; index as k">
+            <h5 class="w-100">Corporate {{k+1}} :</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Corporate Name :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item?.master_partner?.name ? master_item?.master_partner?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        No. of Partners :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item.no_of_partner ? master_item?.no_of_partner : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Amt. Per Partner (at acquisition) :
+                    </div>
+                    <div class="col-md-8">
+                        {{master_item.amount_per_partner ? master_item?.amount_per_partner : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100">Slabs</h5>
+            <ng-container *ngFor="let item of master_item?.slabs; index as i">
+                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <div class="col-md-12 mb-3">
+                    <div class="row">
+                        <div class="col-md-2 font-weight-semibold">
+                            Trigger Master :
+                        </div>
+                        <div class="col-md-10">
+                            {{item.trigger_master?.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Minimum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.min_amount ? item?.min_amount : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Maximum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.max_amount ? item?.max_amount : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Commission :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.commission ? item?.commission : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Time Period :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.time_period ? item?.time_period + 'Months' : '-'}}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Limit" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        First Transaction Limit :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.first_txn_limit ? productDetails?.product_limits?.first_txn_limit : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Global Limit :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.global_txn_limit ? productDetails?.product_limits?.global_txn_limit : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Daily Limit :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.daily_txn_limit ? productDetails?.product_limits?.daily_txn_limit : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100">Disbursement </h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Minimum Amount (₹) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.disbursement_min_amount ? productDetails?.product_limits?.disbursement_min_amount : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Maximum Amount (₹) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.disbursement_max_amount ? productDetails?.product_limits?.disbursement_max_amount : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100">Interest</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Minimum Amount (%) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.interest_min_percentage ? productDetails?.product_limits?.interest_min_percentage : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Maximum Amount(%) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.interest_max_percentage ? productDetails?.product_limits?.interest_max_percentage : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="NBFC's" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.product_nbfcs[0]">
+            No Records found.
+        </div>
+        <div class="row" *ngFor="let item of productDetails?.product_nbfcs; index as i">
+            <h5 class="w-100">Priority {{i+1}}</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        NBFC Name : 
+                    </div>
+                    <div class="col-md-8">
+                        {{item.nbfc?.name ? item.nbfc?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Interest Rate(%) (annual) :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.interest_rate ? item.interest_rate : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Credit Line (commitment) :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.credit_line ? item.credit_line : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Underwriting" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Employment Type :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_underwriting?.underwriting_rules?.comparison_entities ? productDetails?.product_underwriting?.underwriting_rules?.comparison_entities[0]?.employment_type?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Negative Pincodes : 
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_underwriting?.blacklist_pincodes[0] ? productDetails?.product_underwriting?.blacklist_pincodes :'-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Servicable Pincodes :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_underwriting?.servicable_pincodes[0] ? productDetails?.product_underwriting?.servicable_pincodes :'-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
+            <h5 class="w-100">Validation Required for</h5>
+            <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        {{item.underwriting_entity?.display_name}}
+                    </div>
+                    <div class="col-md-8">
+                        <!-- {{item.value == "Yes" ? 'Required' : 'Optional'}} -->
+                        {{item.value}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
+            <h5 class="w-100">Comparison Entities</h5>
+            <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        {{item.underwriting_entity?.display_name}}
+                    </div>
+                    <div class="col-md-8">
+                        <!-- {{item.value == "Yes" ? 'Required' : 'Optional'}} -->
+                        {{item.underwriting_entity?.comparison_operator}}
+                        {{item.value}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Onboarding" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Employment Type :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name ? productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name : '-') : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Primary Product : 
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.primary_product?.name ? productDetails?.product_onboarding?.product_priority[0]?.primary_product?.name : '-') : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Secondary Product :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name ? productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name : '-') : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="productDetails?.product_onboarding?.document_rules[0]">
+            <h5 class="w-100">Validation Required for Document Upload</h5>
+            <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_onboarding?.document_rules">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        {{item.document?.name}}
+                    </div>
+                    <div class="col-md-8">
+                        {{item.check_type}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Fees" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.product_fees[0]">
+            NO fees Found.
+        </div>
+        <div class="row" *ngFor="let item of productDetails?.product_fees; index as i">
+            <h5 class="w-100">Type {{i+1}}</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Fees Type :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.fees_type?.name ? item.fees_type?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Frequency :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.frequency?.name ? item.frequency?.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Starts from :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.start_month ? item?.start_month + 'Months' : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Buffer :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.buffer_months ? item?.buffer_months + "Months" : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Trigger :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.trigger.name ? item?.trigger.name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Slab :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.slab_specific ? item?.slab_specific : '-'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100">Slabs</h5>
+            <ng-container *ngFor="let item of item?.slabs; index as i">
+                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Minimum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.minimum_charge ? item?.minimum_charge : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Maximum Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.maximum_charge ? item?.maximum_charge : '-'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-4 font-weight-semibold">
+                            Amount :
+                        </div>
+                        <div class="col-md-8">
+                            {{item?.amount ? item?.amount : '-'}}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        GST rate :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.gst_rate ? item?.gst_rate : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Active start Amount :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.active_start_month ? item?.active_start_month : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Active End Amount :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.active_end_month ? item?.active_end_month : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Threshold Minimum Amount :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.threshold_min ? item?.threshold_min : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Threshold Maximum Amount :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.threshold_max ? item?.threshold_max : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<section>
+    <nz-card nzTitle="Loan Agreement" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Name
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_agreements?.agreement?.name ? productDetails?.product_agreements?.agreement?.name :'-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        File Name
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_agreements?.agreement?.file_name ? productDetails?.product_agreements?.agreement?.file_name : '-'}}
+                        <a class="float-right" *ngIf="productDetails?.product_agreements?.agreement?.file_name" (click)="modalPreview(productDetails?.product_agreements?.agreement)">view</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nz-card>
+</section>
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" nzKeyboard="true"
+	[nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+	<ng-container *nzModalContent>
+		<div class="pdf_viewer_container">
+			<embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" height="400px" />
+		</div>
+	</ng-container>
+	<ng-template #modalFooter>
+		<button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+	</ng-template>
+</nz-modal>
