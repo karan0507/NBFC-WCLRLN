@@ -105,6 +105,7 @@ export class PartnersListComponent implements OnInit {
     'url': '',
     'title': ''
   }
+  
 
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
 
@@ -135,6 +136,7 @@ export class PartnersListComponent implements OnInit {
 
   onClickChangeTab(e){
     this.selectedTab = e;
+    this.page = 1;
     this.getPartnerList();
   }
 
@@ -172,6 +174,7 @@ export class PartnersListComponent implements OnInit {
     let data = {
       // 'user_type_id' : 2
       'page': this.page,
+      'limit': this.globalPageSize,
       'name': this.searchValue,
       'partner_nature': 'Partner',
       'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''
