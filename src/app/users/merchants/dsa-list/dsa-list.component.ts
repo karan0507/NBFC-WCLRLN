@@ -106,6 +106,7 @@ export class DsaListComponent implements OnInit {
     let data = {
       // 'user_type_id' : 2
       'page': this.page,
+      'limit': this.globalPageSize,
       'name': this.searchValue,
       'partner_nature': 'DSA',
       'status': this.selectedTab === 'all' ? 'all' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''

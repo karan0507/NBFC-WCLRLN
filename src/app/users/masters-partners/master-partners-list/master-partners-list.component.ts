@@ -111,6 +111,7 @@ export class MasterPartnersListComponent implements OnInit {
     let data = {
       // 'user_type_id' : 2
       'page': this.page,
+      'limit': this.globalPageSize,
       'name': this.searchValue,
       'partner_nature': 'master',
       'status': this.selectedTab === 'all' ? '' : this.selectedTab === 'active' ? 'active' : this.selectedTab === 'inactive' ? 'inactive' : ''

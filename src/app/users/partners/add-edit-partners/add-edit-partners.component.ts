@@ -162,7 +162,7 @@ export class AddEditPartnersComponent implements OnInit {
       // if m creating master always share the value 1  
       master: [ 0, [Validators.required]],
       partner_nature: [ 'Partner', [Validators.required]],
-      partner_master:[data ? data?.partner_master?.pk : null , [Validators.required]]
+      partner_master:[data ? data?.master_partner?.id : null , [Validators.required]]
     });
     if(data){
       this.setFormData(data);
