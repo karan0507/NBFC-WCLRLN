@@ -158,17 +158,23 @@ export class DashboardComponent implements OnInit {
         'nbfc': 'Today',
         'authorization': 'Today',
     } 
+    fetchedList ={
+        'delinquent': '',
+        'nbfc': '',
+        'authorization': '',
+    } 
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void { }
 
     getAuthorizationList(){
         let data = {
-            'datapoint': 'dashboard_authorization',
+            'datapoint': 'dashboard_authorisation',
             'source': 'LMS',
             'filter_type': this.selectedTab['authorization']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+        this.fetchedList['authorization'] = res?.data
             console.log(res);
         }, err => {
             console.log(err);
@@ -195,7 +201,8 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['delinquent']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            this.fetchedList['delinquent'] = res?.data
             console.log(res);
         }, err => {
             console.log(err);
@@ -208,7 +215,8 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['nbfc']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            this.fetchedList['nbfc'] = res?.data
             console.log(res);
         }, err => {
             console.log(err);
