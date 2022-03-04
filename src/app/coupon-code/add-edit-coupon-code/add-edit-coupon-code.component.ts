@@ -11,6 +11,9 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class AddEditCouponCodeComponent implements OnInit {
       couponForm: FormGroup
+      api_calling_loader = {
+            'listLoader': false,
+      }
       // disabledDate = (current: Date): boolean => {
 
       //       return differenceInCalendarDays(current,) > 0;
@@ -33,7 +36,6 @@ export class AddEditCouponCodeComponent implements OnInit {
                         this.isEdit = true;
                         this.currentCouponId = params['id']
                         this.getDetailForCoupon(this.currentCouponId);
-                        this.callMultipleMasters();
                   }
             });
             this.couponForm = this.fb.group({
@@ -51,7 +53,7 @@ export class AddEditCouponCodeComponent implements OnInit {
       }
 
       getDetailForCoupon(currentCouponId) {
-
+            this.api_calling_loader['listLoader'] = true;
             this.https.getCouponDetail(currentCouponId).subscribe((res: any) => {
                   if (res?.success) {
                         this.couponDetail = res?.data
@@ -65,7 +67,8 @@ export class AddEditCouponCodeComponent implements OnInit {
                         this.couponForm.get('master').setValue(this.couponDetail?.master ? this.couponDetail?.master?.id : null)
                         this.couponForm.get('product').setValue(this.couponDetail?.product ? this.couponDetail?.product?.id : null)
                         this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees ? this.couponDetail?.product_fees?.id : null)
-
+                        this.callMultipleMasters();
+                        this.api_calling_loader['listLoader'] = false;
                   }
             })
       }
@@ -104,6 +107,16 @@ export class AddEditCouponCodeComponent implements OnInit {
 
       saveFormData() {
             if (this.couponForm.valid) {
+                  if(this.couponForm.get('coupon_calculation_type').value == 1){
+                        this.couponForm.get('coupon_calculation_type').setValue('Variable');
+                  }else{
+                        this.couponForm.get('coupon_calculation_type').setValue('Flat')
+                  }
+                  if(this.couponForm.get('coupon_type').value == 1){
+                        this.couponForm.get('coupon_type').setValue('Fees waiver')
+                  }else{
+                        this.couponForm.get('coupon_type').setValue('Promotional')
+                  }
                   console.log('you are about to call API', this.couponForm.value);
                   // this.https.addEditCouponCode().subscribe((res: any) => {
 
@@ -113,7 +126,6 @@ export class AddEditCouponCodeComponent implements OnInit {
 
       callMultipleMasters() {
             console.log(this.couponForm?.get('product')?.value);
-
             this.https.getAllProducts().subscribe((res: any) => {
                   if (res) {
                         this.productList = res?.data?.filter(res => { if (res?.name) { return res } });

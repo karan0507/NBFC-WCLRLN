@@ -3,7 +3,7 @@
       <div class="row">
             <div class="col-md-4 mb-3">
                   <ng-template #nbfc>
-                        <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                        <img class="mr-2" src="../../../assets/images/Icons/LMS_Money_Bag.svg" alt="">
                         Total NBFC’s Commitment
                   </ng-template>
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="nbfc" class="h-100">
@@ -17,7 +17,7 @@
                   </nz-card>
             </div>
             <ng-template #fundTransfer>
-                  <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                  <img class="mr-2" src="../../../assets/images/Icons/Rupee.svg" alt="">
                   Fund Transferred in Escrow
             </ng-template>
             <div class="col-md-4 mb-3">
@@ -32,7 +32,7 @@
                   </nz-card>
             </div>
             <ng-template #escrowFund>
-                  <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                  <img class="mr-2" src="../../../assets/images/Icons/Bag_No_Money.svg" alt="">
                   Total Fund in Escrow
             </ng-template>
             <div class="col-md-4 mb-3">
@@ -47,7 +47,7 @@
                   </nz-card>
             </div>
             <ng-template #creditLine>
-                  <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                  <img class="mr-2" src="../../../assets/images/Icons/Rupee_round.svg" alt="">
                   Total Credit Line
             </ng-template>
             <div class="col-md-4 mb-3">
@@ -62,7 +62,7 @@
                   </nz-card>
             </div>
             <ng-template #creditBalance>
-                  <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                  <img class="mr-2" src="../../../assets/images/Icons/Coins.svg" alt="">
                   Total Credit Line Balance
             </ng-template>
             <div class="col-md-4 mb-3">
@@ -77,7 +77,7 @@
                   </nz-card>
             </div>
             <ng-template #creditUtilization>
-                  <!-- <i nz-icon nzType="user" nzTheme="outline"></i> -->
+                  <img class="mr-2" src="../../../assets/images/Icons/Coin_rupee.svg" alt="">
                   Total Credit Utilisation
             </ng-template>
             <div class="col-md-4 mb-3">
@@ -94,12 +94,11 @@
       </div>
 </section>
 
-<!-- Modal Section -->
 <section>
       <nz-page-header class="site-page-header text-center w-100 py-3 px-2 bg-light-orange" [nzTitle]="lenderManagement">
       </nz-page-header>
       <ng-template #lenderManagement>
-            <h6 class="mb-0 pl-3">Total Lenders - {{ total_count ? total_count : '0'}}</h6>
+            <h6 class="mb-0 pl-3"><img class="mr-2" src="../../../assets/images/Icons/Bag.svg" alt="">Total Lenders - {{ total_count ? total_count : '0'}}</h6>
       </ng-template>
 </section>
 
@@ -133,7 +132,7 @@
                               <td nzRight> <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                           [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                           [nzDropdownMenu]="latestUploadDropDown">
-                                          <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                          <img src="assets/images/ellipsis.png" alt="" width="30">
                                     </a>
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                           <ul nz-menu>
@@ -181,8 +180,7 @@
                               <label> History</label>
                         </div>
                         <div class="col-md-12">
-                              <nz-table #basicTable [nzData]="editCommitmentList" [nzShowPagination]="false"
-                                    [nzLoading]="api_calling_loader['listLoader']">
+                              <nz-table #basicTable [nzData]="editCommitmentList" [nzShowPagination]="false">
                                     <thead>
                                           <tr>
                                                 <th>#</th>
@@ -197,13 +195,13 @@
                                                 <td>{{data?.commitment ? data?.commitment : '--'}}
                                                 </td>
                                           </tr>
-                                          <tr *ngIf="editCommitmentList" class="bg-gray-lightest">
+                                          <tr *ngIf="totalCommitments" class="bg-gray-lightest">
                                                 <td></td>
                                                 <td>
                                                       <label class="text-dark font-weight-semibold">Total</label>
                                                 </td>
                                                 <td>
-                                                      <label class="text-dark font-weight-semibold">70000000.00</label>
+                                                      <label class="text-dark font-weight-semibold">{{ totalCommitments}}</label>
                                                 </td>
                                           </tr>
                                     </tbody>
@@ -211,7 +209,7 @@
                         </div>
                         <div class="col-md-12 my-4">
                               <div class="d-flex flex-wrap">
-                                    <label class="font-size-14 text-muted mr-3">Current Value</label>Add Values
+                                    <label class="font-size-14 text-muted mr-3">Current Value</label> {{ totalCommitments ? totalCommitments : '0'}}
                               </div>
                         </div>
                         <div class="col-md-12">
@@ -240,8 +238,7 @@
                               <label> Previous Fund Requests {{ editFundsList ? editFundsList.length : '0'}}</label>
                         </div>
                         <div class="col-md-12" *ngIf="editFundsList.length > 0">
-                              <nz-table #basicTable [nzData]="editFundsList" [nzShowPagination]="false"
-                                    [nzLoading]="api_calling_loader['listLoader']">
+                              <nz-table #basicTable [nzData]="editFundsList" [nzShowPagination]="false">
                                     <thead>
                                           <tr>
                                                 <th>#</th>
@@ -314,8 +311,7 @@
                               <label> History {{ editNBFCList ? editNBFCList.length : '0'}}</label>
                         </div>
                         <div class="col-md-12" *ngIf="editNBFCList.length > 0">
-                              <nz-table #basicTable [nzData]="editNBFCList" [nzShowPagination]="false"
-                                    [nzLoading]="api_calling_loader['listLoader']">
+                              <nz-table #basicTable [nzData]="editNBFCList" [nzShowPagination]="false">
                                     <thead>
                                           <tr>
                                                 <th>#</th>
@@ -336,7 +332,7 @@
 
                         <section class="my-3" *ngIf="!isAddRepayment">
                               <a class="text-primary" (click)="isAddRepayment = true">
-                                    <h5 class="text-primary">+ Add Document</h5>
+                                    <h5 class="text-primary">+ Add Repayment</h5>
                               </a>
                         </section>
 
