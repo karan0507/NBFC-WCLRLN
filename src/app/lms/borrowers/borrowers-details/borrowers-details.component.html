@@ -188,6 +188,7 @@
                     <th>Amount (₹)</th>
                     <th>GST Amount</th>
                     <th>Total Amount (₹)</th>
+                    <th nzRight>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -206,6 +207,32 @@
                         <td>{{ data?.txn_amount }}</td>
                         <td>{{ data?.pan }}</td>
                         <td>{{ data?.pan }}</td>
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="isReverseCharges = true">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Reverse Charges</span>
+                                        </li>
+    
+                                        <li nz-menu-item (click)="isRefundTransaction = true">
+                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li>
+                                        
+                                        <li nz-menu-item (click)="isWaiveOff = true">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Waive off Charges</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
                     </tr>
                 </ng-container>
             </tbody>
@@ -262,6 +289,7 @@
                     <th>Amount (₹)</th>
                     <th>GST Amount</th>
                     <th>Total Amount (₹)</th>
+                    <th nzRight>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -280,6 +308,32 @@
                         <td>{{ data?.txn_amount }}</td>
                         <td>{{ data?.pan }}</td>
                         <td>{{ data?.pan }}</td>
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Reverse Charges</span>
+                                        </li>
+    
+                                        <li nz-menu-item (click)="refundTransactionToggle(data?.id);">
+                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li>
+                                        
+                                        <li nz-menu-item (click)="waiveOffToggle(data?.id);">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Waive off Charges</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
                     </tr>
                 </ng-container>
             </tbody>
@@ -474,7 +528,7 @@
             [title]="'You are about to delete an employee detail'"
             [subTitle]="'This action will delete the details permanently. <br/> Are You Sure?'"
             [icon]="'assets/images/waiveoff.png'"
-            (onOkCall)="isWaiveOff = false"
+            (onOkCall)="fetchBorrowerDelete()"
             (onCencelCall)="isWaiveOff = false"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">

@@ -46,7 +46,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of productList; index as i">
-                        <td>{{ i+1 }}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data.name ? data.name : '-' }}</td>
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
                         <td>{{ data.master_partners >= 0 ? data.master_partners : '-' }}</td>

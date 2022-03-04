@@ -311,7 +311,7 @@
                         First Transaction Limit :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.first_txn_limit}}
+                        {{productDetails?.product_limits?.first_txn_limit ? productDetails?.product_limits?.first_txn_limit : '-'}}
                     </div>
                 </div>
             </div>
@@ -321,7 +321,7 @@
                         Global Limit :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.global_txn_limit}}
+                        {{productDetails?.product_limits?.global_txn_limit ? productDetails?.product_limits?.global_txn_limit : '-'}}
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@
                         Daily Limit :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.daily_txn_limit}}
+                        {{productDetails?.product_limits?.daily_txn_limit ? productDetails?.product_limits?.daily_txn_limit : '-'}}
                     </div>
                 </div>
             </div>
@@ -342,7 +342,7 @@
                         Minimum Amount (₹) :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.disbursement_min_amount}}
+                        {{productDetails?.product_limits?.disbursement_min_amount ? productDetails?.product_limits?.disbursement_min_amount : '-'}}
                     </div>
                 </div>
             </div>
@@ -352,7 +352,7 @@
                         Maximum Amount (₹) :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.disbursement_max_amount}}
+                        {{productDetails?.product_limits?.disbursement_max_amount ? productDetails?.product_limits?.disbursement_max_amount : '-'}}
                     </div>
                 </div>
             </div>
@@ -363,7 +363,7 @@
                         Minimum Amount (%) :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.interest_min_percentage}}
+                        {{productDetails?.product_limits?.interest_min_percentage ? productDetails?.product_limits?.interest_min_percentage : '-'}}
                     </div>
                 </div>
             </div>
@@ -373,7 +373,7 @@
                         Maximum Amount(%) :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_limits?.interest_max_percentage}}
+                        {{productDetails?.product_limits?.interest_max_percentage ? productDetails?.product_limits?.interest_max_percentage : '-'}}
                     </div>
                 </div>
             </div>
@@ -382,6 +382,9 @@
 </section>
 <section>
     <nz-card nzTitle="NBFC's" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.product_nbfcs[0]">
+            No Records found.
+        </div>
         <div class="row" *ngFor="let item of productDetails?.product_nbfcs; index as i">
             <h5 class="w-100">Priority {{i+1}}</h5>
             <div class="col-md-6 mb-3">
@@ -426,7 +429,7 @@
                         Employment Type :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_underwriting?.underwriting_rules?.comparison_entities[0].employment_type?.name}}
+                        {{productDetails?.product_underwriting?.underwriting_rules?.comparison_entities ? productDetails?.product_underwriting?.underwriting_rules?.comparison_entities[0]?.employment_type?.name : '-'}}
                     </div>
                 </div>
             </div>
@@ -438,7 +441,7 @@
                         Negative Pincodes : 
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_underwriting?.blacklist_pincodes}}
+                        {{productDetails?.product_underwriting?.blacklist_pincodes[0] ? productDetails?.product_underwriting?.blacklist_pincodes :'-'}}
                     </div>
                 </div>
             </div>
@@ -448,13 +451,13 @@
                         Servicable Pincodes :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_underwriting?.servicable_pincodes}}
+                        {{productDetails?.product_underwriting?.servicable_pincodes[0] ? productDetails?.product_underwriting?.servicable_pincodes :'-'}}
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="row">
+        <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
             <h5 class="w-100">Validation Required for</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
                 <div class="row">
@@ -469,7 +472,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
             <h5 class="w-100">Comparison Entities</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
                 <div class="row">
@@ -495,7 +498,7 @@
                         Employment Type :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name}}
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name ? productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name : '-') : '-'}}
                     </div>
                 </div>
             </div>
@@ -507,7 +510,7 @@
                         Primary Product : 
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_onboarding?.product_priority[0]?.primary_product?.name}}
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.primary_product?.name ? productDetails?.product_onboarding?.product_priority[0]?.primary_product?.name : '-') : '-'}}
                     </div>
                 </div>
             </div>
@@ -517,12 +520,12 @@
                         Secondary Product :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name}}
+                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name ? productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name : '-') : '-'}}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="productDetails?.product_onboarding?.document_rules[0]">
             <h5 class="w-100">Validation Required for Document Upload</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_onboarding?.document_rules">
                 <div class="row">
@@ -539,6 +542,9 @@
 </section>
 <section>
     <nz-card nzTitle="Fees" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.product_fees[0]">
+            NO fees Found.
+        </div>
         <div class="row" *ngFor="let item of productDetails?.product_fees; index as i">
             <h5 class="w-100">Type {{i+1}}</h5>
             <div class="col-md-6 mb-3">
@@ -699,7 +705,7 @@
                         Name
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_agreements?.agreement?.name}}
+                        {{productDetails?.product_agreements?.agreement?.name ? productDetails?.product_agreements?.agreement?.name :'-'}}
                     </div>
                 </div>
             </div>
@@ -709,8 +715,8 @@
                         File Name
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_agreements?.agreement?.file_name}}
-                        <a class="float-right" (click)="modalPreview(productDetails?.product_agreements?.agreement)">view</a>
+                        {{productDetails?.product_agreements?.agreement?.file_name ? productDetails?.product_agreements?.agreement?.file_name : '-'}}
+                        <a class="float-right" *ngIf="productDetails?.product_agreements?.agreement?.file_name" (click)="modalPreview(productDetails?.product_agreements?.agreement)">view</a>
                     </div>
                 </div>
             </div>
