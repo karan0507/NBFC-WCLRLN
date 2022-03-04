@@ -149,13 +149,13 @@
                                                       <span class="m-l-5">Repayment to NBFC</span>
                                                 </li>
                                                 <!-- (click)="modalOpen('generate',data)" -->
-                                                <li nz-menu-item >
+                                                <li nz-menu-item>
                                                       <span class="m-l-5">Download Report</span>
                                                 </li>
                                                 <li nz-menu-item (click)="modalOpen('generate',data)">
                                                       <span class="m-l-5">Generate Report</span>
                                                 </li>
-                                                
+
                                           </ul>
                                     </nz-dropdown-menu>
                               </td>
@@ -247,16 +247,16 @@
                                                 <th>#</th>
                                                 <th> Amount </th>
                                                 <th>Requested On</th>
-                                                <th>Requested By</th>
+                                                <!-- <th>Requested By</th> -->
                                           </tr>
                                     </thead>
                                     <tbody>
                                           <tr *ngFor="let data of editFundsList; index as i">
                                                 <td>{{i + 1}}</td>
-                                                <td>{{data?.created_at | date:'dd/MM/yy'}}</td>
-                                                <td>{{data?.commitment ? data?.commitment : '--'}}
+                                                <td>{{data?.requested_amount}}</td>
+                                                <td>{{ data?.created_at | date:'dd/MM/yy' }}
                                                 </td>
-                                                <td></td>
+                                                <!-- <td></td> -->
                                           </tr>
                                     </tbody>
                               </nz-table>
@@ -265,24 +265,27 @@
                               <form [formGroup]="requestFundForm">
                                     <div class="col-md-12 my-4">
                                           <div class="d-flex flex-wrap">
-                                                <div class="align-middle"><label
-                                                            class="font-size-14 text-muted mr-3">Amount
-                                                            Value</label></div>
-                                                <div class="flex-column">
-                                                      <div>
-                                                            <nz-form-item class="mb-0">
-                                                                  <!-- <nz-form-label nzRequired>Select Date</nz-form-label> -->
-                                                                  <nz-form-control nzErrorTip="Please enter amount">
-                                                                        <!-- [nzDisabledDate]="disabledDate" -->
-                                                                        <input type="number" formControlName="amount"
-                                                                              nz-input placeholder="">
-                                                                  </nz-form-control>
-                                                            </nz-form-item>
-                                                      </div>
-                                                      <div>
-                                                            ₹ {{ requestFundForm.get('amount').value ?
-                                                            globalservice.amountFromatterFinction(requestFundForm.get('amount').value)
-                                                            : ''}}</div>
+
+                                                <div>
+                                                      <nz-form-item class="mb-0">
+                                                            <nz-form-label nzRequired>Amount
+                                                                  Value</nz-form-label>
+                                                            <nz-form-control nzErrorTip="Please enter amount">
+                                                                  <!-- [nzDisabledDate]="disabledDate" -->
+                                                                  <div class="flex-column">
+                                                                        <div>
+                                                                              <input type="number"
+                                                                                    formControlName="amount" nz-input
+                                                                                    placeholder="">
+                                                                        </div>
+                                                                        <div>
+                                                                              ₹ {{ requestFundForm.get('amount').value ?
+                                                                              globalservice.amountFromatterFinction(requestFundForm.get('amount').value)
+                                                                              : ''}}</div>
+                                                                  </div>
+
+                                                            </nz-form-control>
+                                                      </nz-form-item>
                                                 </div>
                                           </div>
 
@@ -384,7 +387,11 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button *ngIf="isEdit" [disabled]="commitmentForm.valid ? false : true" [nzLoading]="api_calling_loader['button']"  nzType="primary" class="mx-2" (click)="getMultipleAction('commitment')">Save</button>
-      <button nz-button *ngIf="isRequest" [disabled]="requestFundForm.valid ? false : true" nzType="primary" class="mx-2" (click)="getMultipleAction('funds')">Save</button>
-      <button nz-button *ngIf="isNBFC" [disabled]="nbfcRepayment.valid ? false : true" nzType="primary" class="mx-2" (click)="getMultipleAction('nbfc')">Save</button>
+      <button nz-button *ngIf="isEdit" [disabled]="commitmentForm.valid ? false : true" nzType="primary" class="mx-2"
+            (click)="getMultipleAction('commitment')" [nzLoading]="api_calling_loader['button']">Save</button>
+      <button nz-button *ngIf="isRequest" [disabled]="requestFundForm.valid ? false : true" nzType="primary"
+            class="mx-2" (click)="getMultipleAction('funds')" [nzLoading]="api_calling_loader['button']">Send
+            Request</button>
+      <button nz-button *ngIf="isNBFC" [disabled]="nbfcRepayment.valid ? false : true" nzType="primary" class="mx-2"
+            (click)="getMultipleAction('nbfc')" [nzLoading]="api_calling_loader['button']">Save</button>
 </ng-template>
