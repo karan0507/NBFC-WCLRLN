@@ -53,7 +53,6 @@ export class ProductDetailsComponent implements OnInit {
     this.createEditForm = this.fb.group({
       name: [ this.productDetails ? this.productDetails.name : '', [Validators.required]],
       product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
-      product_code: [ this.productDetails ? this.productDetails.product_code : '', [Validators.required]],
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
@@ -116,7 +115,6 @@ export class ProductDetailsComponent implements OnInit {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
-        product_code: this.createEditForm.value.product_code,
         product_master: this.createEditForm.value.product_master,
         remarks: this.createEditForm.value.remarks,
         tenures: this.createEditForm.value.tenures
@@ -126,7 +124,6 @@ export class ProductDetailsComponent implements OnInit {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
-        product_code: this.createEditForm.value.product_code,
         product_master: this.createEditForm.value.product_master,
         remarks: this.createEditForm.value.remarks
       }        

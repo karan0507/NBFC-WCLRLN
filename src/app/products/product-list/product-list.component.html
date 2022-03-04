@@ -17,7 +17,12 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style="width: 9rem;" ngModel="filters" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="width: 9rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
+                        nzPlaceHolder="Filter By Draft Status">
+                        <nz-option [nzValue]="'yes'" nzLabel="Yes"></nz-option>
+                        <nz-option [nzValue]="'no'" nzLabel="No"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style="width: 9rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
@@ -36,6 +41,7 @@
                         <th>NBFC's Mapped</th>
                         <th>Fees Type</th>
                         <th>Status</th>
+                        <th>Draft Status</th>
                         <th>Activated on</th>
                         <th>Created at</th>
                         <th>Created by</th>
@@ -55,6 +61,7 @@
                         <td>{{ data.nbfcs >= 0 ? data.nbfcs : '-' }}</td>
                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                         <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
+                        <td>{{ data.is_draft ? 'Draft' : 'Complete'  }}</td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
                         <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>

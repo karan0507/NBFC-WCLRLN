@@ -69,6 +69,8 @@ export class BorrowersDetailsComponent implements OnInit {
   reverseId: any;
   refundId: any;
   waiveOffId: any;
+  isdeleteloader: boolean;
+  is_revese_loading: boolean;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -307,8 +309,13 @@ export class BorrowersDetailsComponent implements OnInit {
       endpoint: this.waiveOffId,
       source: 'LMS',
     }
+    this.isdeleteloader = true
     this.http.fetchLoanApplicationDelete(data).subscribe(res => {
+      this.isdeleteloader = false
       this.message.success(res['message'])
+      this.isWaiveOff = false
+    }, (err)=> {
+      this.isdeleteloader = false
       this.isWaiveOff = false
     })
   }
@@ -323,5 +330,20 @@ export class BorrowersDetailsComponent implements OnInit {
   waiveOffToggle(id) {
     this.isWaiveOff = true
     this.waiveOffId = id
+  }
+
+  reverseChargesFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'reverse_transaction'),
+    data.append('endpoint', this.reverseId)
+    this.is_revese_loading = true
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.is_revese_loading = false
+      this.isReverseCharges = false
+      this.message.success(res['message'])
+    }, (err) => {
+      this.is_revese_loading = false
+    })
   }
 }
