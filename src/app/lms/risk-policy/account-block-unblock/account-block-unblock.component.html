@@ -75,7 +75,7 @@
                                         <li nz-menu-item *ngIf="data?.account_status == 'Active'" (click)="applications = data?.id; isblock = true">
                                             <span class="m-l-5">Block A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Active'" (click)="applications = data?.id; isUnblock = true">
+                                        <li nz-menu-item *ngIf="data?.account_status == 'Inactive'" (click)="applications = data?.id; isUnblock = true">
                                             <span class="m-l-5">Unblock A/c</span>
                                         </li>
                                         <!-- <li nz-menu-item (click)="isRestructure = true">
