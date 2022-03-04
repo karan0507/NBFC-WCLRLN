@@ -58,7 +58,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             { 
                 path: 'partners',
-                title: 'Partners', 
+                title: 'Corporate', 
                 iconType: '', 
                 icon: '',
                 iconTheme: '',

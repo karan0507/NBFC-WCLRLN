@@ -77,8 +77,8 @@
                                 <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                     {{ i + 1 }}</td>
                                 <td>{{ data.name }}</td>
-                                <td>{{data?.business_type}}</td>
-                                <td>{{data?.business_nature}}</td>
+                                <td>{{data?.business_type?.business_type}}</td>
+                                <td>{{data?.business_nature?.business_nature}}</td>
                                 <!-- <td>{{ data.no_of_partner }}</td> -->
                                 <td>{{data?.partners?.total}}</td>
                                 <td>{{data?.partners?.active}}</td>
