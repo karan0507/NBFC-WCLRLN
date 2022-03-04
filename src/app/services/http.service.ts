@@ -646,8 +646,8 @@ export class HttpService {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
-      public editLenderCommitment(id?, data?) {
-            return this._http.put((this.url + `/lender/v1/lender-edit-commitment/` + id), data);
+      public editLenderCommitment(data?) {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       public getLenderFundRequestList(data?) {
@@ -656,7 +656,7 @@ export class HttpService {
 
       // Add Fund Reuqest
       public addLenderFundRequest(data?) {
-            return this._http.put((this.url + `/central-api/v1/call-api`), data);
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       public getRepaymentList(data?) {

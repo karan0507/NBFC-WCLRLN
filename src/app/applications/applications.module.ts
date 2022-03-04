@@ -32,6 +32,7 @@ import { PerApprovedComponent } from './per-approved/per-approved.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NbfcApprovalComponent } from './nbfc-approval/nbfc-approval.component';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
@@ -54,7 +55,8 @@ import { NbfcApprovalComponent } from './nbfc-approval/nbfc-approval.component';
     NzDatePickerModule,
     NzFormModule,
     NzModalModule,
-    NzStepsModule
+    NzStepsModule,
+    NzToolTipModule
   ],
   providers:[
     // HttpService
