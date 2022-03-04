@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: PartnersListComponent,
     data: {
-      title: 'Partners',
+      title: 'Corporate',
     }
   },
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
         component: AddEditPartnersComponent,
         data: {
           title: 'Add Corporate',
-          parent: 'Partners',
+          parent: 'Corporate',
         }
       },
     ]
@@ -32,7 +32,7 @@ const routes: Routes = [
         component: AddEditPartnersComponent,
         data: {
           title: 'Edit Corporate',
-          parent: 'Partners',
+          parent: 'Corporate',
         }
       },
     ]

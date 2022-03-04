@@ -128,7 +128,6 @@ export class MerchantsListComponent implements OnInit {
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
-      alert('id '+ id + checked)
       this.expandSet.delete(id);
     }
   }
