@@ -58,7 +58,7 @@ export class HttpService {
       /**
        * fetchGlobalProductDetailsbyId
        */
-       public fetchGlobalProductDetailsbyId(id) {
+      public fetchGlobalProductDetailsbyId(id) {
             return this._http.get((this.url + `/product/v1/global-product-view/` + id));
       }
 
@@ -388,7 +388,7 @@ export class HttpService {
        */
       // Track Application for Loan ID
       public trackApplicationStatus(data?): any {
-            return this._http.get((this.url + `/central-api/v1/call-api`), {params : data});
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
       public fetchLoanApplicationData(data?): any {
@@ -644,11 +644,16 @@ export class HttpService {
       }
 
       public getLenderFundRequestList(data?) {
-            return this._http.get((this.url + `/lender/v1/lender-edit-commitment/`),{ params: data });
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
+
+      // Add Fund Reuqest
+      public addLenderFundRequest(data?) {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
       }
 
       public getRepaymentList(data?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`),{ params: data });
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
       public addRepaymentNBFC(data?) {
@@ -664,6 +669,10 @@ export class HttpService {
             return this._http.put((this.url + `/platform_central/v1/add-edit-coupon-code`), data);
       }
 
+      // Get Detail Of Coupon Code
+      public getCouponDetail(data?) {
+            return this._http.get((this.url + `/platform_central/v1/coupon-code-details/` + data));
+      }
 
       // sample Download
       sampleDownloadGlobalFunction(section) {
