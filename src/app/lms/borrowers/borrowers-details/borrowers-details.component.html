@@ -194,7 +194,7 @@
             <tbody>
                 <ng-container *ngFor="let data of transaction_repayment_list; index as i">
                     <tr>
-                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="page2 === 1">{{i+1}}</td><td *ngIf="page2 > 1">{{((page2-1)*globalPageSize2)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -295,7 +295,7 @@
             <tbody>
                 <ng-container *ngFor="let data of fees_charges_list; index as i">
                     <tr>
-                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="page1 === 1">{{i+1}}</td><td *ngIf="page1 > 1">{{((page1-1)*globalPageSize1)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -350,7 +350,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of billStatementList; index as i">
-                    <td>{{i+1}}</td>
+                    <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                     <td>{{data?.report_file}}</td>
                     <td>{{ data?.created_at | date: "medium" }}</td>
                 </tr>
@@ -555,7 +555,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of dataSet; index as i">
-                        <td>{{i+1}}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td></td>
                         <td></td>
                         <td>

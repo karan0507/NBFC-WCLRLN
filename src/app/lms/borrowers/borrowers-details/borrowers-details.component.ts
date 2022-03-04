@@ -314,6 +314,7 @@ export class BorrowersDetailsComponent implements OnInit {
       this.isdeleteloader = false
       this.message.success(res['message'])
       this.isWaiveOff = false
+      this.fetchTransactionTxnList()
     }, (err)=> {
       this.isdeleteloader = false
       this.isWaiveOff = false
@@ -342,6 +343,7 @@ export class BorrowersDetailsComponent implements OnInit {
       this.is_revese_loading = false
       this.isReverseCharges = false
       this.message.success(res['message'])
+      this.fetchTransactionTxnList()
     }, (err) => {
       this.is_revese_loading = false
     })

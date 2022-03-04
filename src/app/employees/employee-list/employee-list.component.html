@@ -1,4 +1,6 @@
-
+<div class="header_breadcrumb_section">
+    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true">+ Add Employee</button>
+</div>
 <section>
     <div class="row">
         <nz-card class="w-100">
@@ -46,7 +48,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of employeeList; index as i">
-                        <td>{{ i+1 }}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data.first_name ? data.first_name + ' ' + data.last_name : '-' }}</td>
                         <td>{{ data.unique_code ? data.unique_code : '-' }}</td>
                         <td>{{ data.role ? data.role.role_name : '-' }}</td>
@@ -104,8 +106,8 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isEdit" nzTitle="Edit Employee" (nzOnCancel)="isEdit = false" (nzOnOk)="editEmployee(createEditForm.value)"
-    nzOkText="Save">
+<nz-modal [(nzVisible)]="isEdit" nzTitle="{{'Edit Employee'}}" (nzOnCancel)="isEdit = false" (nzOnOk)="editEmployee(createEditForm.value)"
+    nzOkText="Save" [nzOkDisabled]="createEditForm.invalid">
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
             <form [formGroup]="createEditForm">
@@ -168,7 +170,7 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="reporting_manager" class="text-left" nzRequired>
                                 Reporting Manager</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Reporting Manager!">
-                                <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Reporting Manager"
+                                <nz-select nzAllowClear formControlName="reporting_manager" nzPlaceHolder="Please select Reporting Manager"
                                     (nzFocus)="fetchEmployeeManagerList()">
                                     <nz-option *ngFor="let item of employeeManagerList" [nzValue]="item.id"
                                         [nzLabel]="item.first_name + ' ' + item.last_name">

@@ -31,10 +31,8 @@ export class ProductListComponent implements OnInit {
   }
 
   fetchProductList(tabelFilter?) {
-    if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
-    }
+    this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     let data = {
       page: this.page,
       product_master: this.product_master ? this.product_master : '',
@@ -43,6 +41,8 @@ export class ProductListComponent implements OnInit {
       limit: this.globalPageSize
       // id: this.product_id
     }
+    this.productList = null
+    this.total_count = null
     this.api_calling_loader = true
     this.http.fetchProductList(data).subscribe(res => {
       this.api_calling_loader = false

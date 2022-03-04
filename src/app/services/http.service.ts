@@ -106,6 +106,12 @@ export class HttpService {
       public addEditEmployee(data) {
             return this._http.patch((this.url + `/user/admin-user/`), data);
       }
+      /**
+       * addEmployee
+       */
+       public addEmployee(data) {
+            return this._http.post((this.url + `/user/admin-user/`), data);
+      }
 
       /**
        * editMasterPartner
@@ -422,7 +428,7 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
       public fetchLoanApplicationDelete(data): Observable<any> {
-            return this._http.delete((this.url + `/central-api/v1/call-api`), data);
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       // Pull Cibil
