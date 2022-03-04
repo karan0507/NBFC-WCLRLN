@@ -107,16 +107,40 @@ export class LenderManagementComponent implements OnInit {
                               this.api_calling_loader['button'] = false;
                         })
                         break;
-                  case 'request_fund':
-                        params = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': data?.id }
+                  case 'funds':
+                        this.api_calling_loader['button'] = true;
+                        let requestBody = { 'datapoint': 'lender_add_fund_request', 'source': 'LMS', lender_management: this._currentLenderId, 'requested_amount': this.requestFundForm.get('amount').value, 'requested_at': this.requestFundForm.get('repaid_on').value }
+                        this.https.addLenderFundRequest(requestBody).subscribe((res: any) => {
+                              if (res?.success) {
+                                    console.log(res);
+                                    this.api_calling_loader['button'] = false;
+                                    this.handleCancel()
+                                    this.requestFundForm.reset()
+                              }else{
+                                    this.api_calling_loader['button'] = false;
+                              }
+                        },err=>{
+                              this.api_calling_loader['button'] = false;
+                        })
                         break;
                   case 'nbfc':
+                        this.api_calling_loader['button'] = true;
                         let param = { 'datapoint': 'lender_add_repayment', 'source': 'LMS', 'lender_management': this._currentLenderId, 'amount': this.nbfcRepayment.get('amount').value, 'repaid_on': this.nbfcRepayment.get('repaid_on').value }
                         this.https.addRepaymentNBFC(param).subscribe((res: any) => {
+                             if(res?.success){
                               console.log(res);
+                              this.api_calling_loader['button'] = false;
+                              this.handleCancel()
+                              this.nbfcRepayment.reset()
+                             }else{
+                              this.api_calling_loader['button'] = false;
+                             }
+                        },err=>{
+                              this.api_calling_loader['button'] = false;
                         })
                         break;
             }
+            this.getLenderManagementList();
       }
 
       modalOpen(type?, data?) {
@@ -137,15 +161,12 @@ export class LenderManagementComponent implements OnInit {
 
       // Get Lender Commitment List
       getLenderCommitmentList(value?) {
-            this.api_calling_loader['listLoader'] = true;
             let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundCommitments', 'source': 'LMS', 'lender_id': value?.id }
             this.https.getLendersCommitmentList(data).subscribe((res: any) => {
                   if (res?.success) {
                         this.editCommitmentList = res?.data
-                        this.api_calling_loader['listLoader'] = false;
                   } else {
                         this.message.error(res?.error);
-                        this.api_calling_loader['listLoader'] = false;
                   }
             })
       }
@@ -160,8 +181,10 @@ export class LenderManagementComponent implements OnInit {
       getFundsList(value?) {
             let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderFundRequest', 'source': 'LMS', 'lender_id': value?.id }
             this.https.getLenderFundRequestList(data).subscribe((res: any) => {
-                  console.log(res, 'funds');
-                  this.editFundsList = res?.data
+                  if (res?.success) {
+                        console.log(res, 'funds');
+                        this.editFundsList = res?.data
+                  }
             })
       }
 
@@ -169,7 +192,10 @@ export class LenderManagementComponent implements OnInit {
             let data = { 'datapoint': 'lender_master_get', 'endpoint': 'LenderManagementRepayment', 'source': 'LMS', 'lender_id': value?.id }
             this.https.getRepaymentList(data).subscribe((res: any) => {
                   console.log(res, 'funds');
-                  this.editNBFCList = res?.data
+                  if (res?.success) {
+                        this.editNBFCList = res?.data
+                  }
+
             })
       }
 
