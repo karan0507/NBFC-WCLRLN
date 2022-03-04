@@ -716,6 +716,10 @@ export class HttpService {
             return this._http.post(this.url + `/partner/v1/upload-employee-details`, data);
       }
 
+      getDetailForDashboardAPI(data){
+            return this._http.get(this.url + `/central-api/v1/call-api`, { params: data });
+      }
+
 
 
       // /partner/v1/view-unsaved-employee-details-file
