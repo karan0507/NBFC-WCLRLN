@@ -1,3 +1,4 @@
+import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeConstantService } from '../shared/services/theme-constant.service';
@@ -152,8 +153,65 @@ export class DashboardComponent implements OnInit {
             barPercentage: 0.3,
         }
     ];
-    selectedTab = 'all'
-    constructor( private colorConfig:ThemeConstantService, public router: Router) { }
+    selectedTab ={
+        'delinquent': 'Today',
+        'nbfc': 'Today',
+        'authorization': 'Today',
+    } 
+    constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void { }
+
+    getAuthorizationList(){
+        let data = {
+            'datapoint': 'dashboard_authorization',
+            'source': 'LMS',
+            'filter_type': this.selectedTab['authorization']
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        })
+    }
+
+    onChangeTab(e, action){
+        if(action == 'nbfc'){
+            this.selectedTab['nbfc'] = e;
+            this.getNBFCList();
+        } else if(action == 'delinquent'){
+            this.selectedTab['delinquent'] = e;
+            this.getDelinquentList();
+        } else if (action == 'authorization'){
+            this.selectedTab['authorization'] = e;
+            this.getAuthorizationList();
+        }
+        console.log(e, + ' on click')
+    }
+
+    getDelinquentList(){
+        let data = {
+            'datapoint': 'dashboard_delinquent',
+            'source': 'LMS',
+            'filter_type': this.selectedTab['delinquent']
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        })
+    }
+
+    getNBFCList(){
+        let data = {
+            'datapoint': 'dashboard_nbfc',
+            'source': 'LMS',
+            'filter_type': this.selectedTab['nbfc']
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        })
+    }
 }
