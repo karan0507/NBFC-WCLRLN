@@ -19,7 +19,7 @@
                                 <label nz-radio nzValue="2">Fatak Pay EMI</label>
                               </nz-radio-group>
                         </nz-form-control><nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.created_at | date: 'YYYY-MM-dd') : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <!-- <div class="col-md-12">
@@ -40,14 +40,14 @@
                             <input nz-input type="text" formControlName="product_code" />
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Created at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? (productDetails.created_at | date: 'YYYY-MM-dd') : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div> -->
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>Activation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Activation Date!">
-                            <nz-date-picker formControlName="activation_date" [nzFormat]="'YYYY-MM-dd'"></nz-date-picker>
+                            <nz-date-picker formControlName="activation_date" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created by</nz-form-label>
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true"  class="text-left">{{productDetails ? productDetails.created_by?.first_name : '-'}}</nz-form-label>
@@ -57,10 +57,10 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="inactivation_date" class="text-left">Inactivation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Inactivation Date!">
-                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'YYYY-MM-dd'"></nz-date-picker>
+                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Updated at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'YYYY-MM-dd') : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">

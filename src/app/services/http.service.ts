@@ -14,6 +14,9 @@ export class HttpService {
 
       globalProductData = new ReplaySubject<any>();
       refreshBorrower = new ReplaySubject<any>();
+      refreshUser = new ReplaySubject<any>();
+      refreshAccount = new ReplaySubject<any>();
+      refreshCreditLine = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
