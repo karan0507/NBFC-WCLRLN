@@ -75,7 +75,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
   }
   page = 1;
 
-  total_count = 10;
+  total_count: any;
   UPIList: any;
   uploaded_file: any;
   file: string;
