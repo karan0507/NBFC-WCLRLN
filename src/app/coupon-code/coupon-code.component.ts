@@ -23,7 +23,7 @@ export class CouponCodeComponent implements OnInit {
 
       getCouponCodeList() {
             this.api_calling_loader['listLoader'] = true;
-            let param = { keyword: 'ABC' }
+            let param = {  }
             this.https.getCouponCodeList(param).subscribe((res: any) => {
                   if (res?.success) {
                         console.log(res?.data);

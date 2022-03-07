@@ -1,0 +1,7 @@
+<nz-card class="p-0" [nzLoading]="api_calling_loader['cardData']">
+      <section>
+            <pre>
+                        {{ cibilData ? (cibilData | json ) : ''}}
+            </pre>
+      </section>
+</nz-card>

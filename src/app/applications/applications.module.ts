@@ -33,10 +33,15 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NbfcApprovalComponent } from './nbfc-approval/nbfc-approval.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent, NbfcApprovalComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
@@ -56,7 +61,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzFormModule,
     NzModalModule,
     NzStepsModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzPopoverModule,
+    NzPopconfirmModule,
+    NzImageModule,
+    NzRadioModule
   ],
   providers:[
     // HttpService

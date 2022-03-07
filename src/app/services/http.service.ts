@@ -392,7 +392,7 @@ export class HttpService {
       }
 
       public fetchLoanApplicationData(data?): any {
-            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application/LoanApplication`));
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application/LoanApplication`), { params: data });
       }
 
       //   Fetch Master Income Source Range list
@@ -406,6 +406,9 @@ export class HttpService {
             return this._http.get((this.url + `/master/fetch-master-data/StageMaster`));
       }
 
+      public getStatusStageWise(data?): any {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
       // Export API
       public exportLoanApplicationData(data?): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data, { responseType: 'blob' });
@@ -416,7 +419,7 @@ export class HttpService {
       }
 
       public fetchLoanApplicationList(data): Observable<any> {
-            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data, });
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
       public fetchLoanApplicationUpload(data): Observable<any> {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
@@ -429,6 +432,26 @@ export class HttpService {
       public getCibilData(id?, data?): any {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
+
+      // Pull cibil from 3rd Party
+      public pullCibilThirdParty(data) : any{
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+
+      // Upload document for loan application
+      public uploadLoanDocument(data): any {
+            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
+      }
+
+      // Verify Loan Application Documents 
+      public verifyLoanDocument(data): any {
+            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
+      }
+
+      // Download Loan Application Documents 
+      public downloadDocuments(data): any {
+            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
       }
 
       // Update Single Loan Application Status
@@ -667,7 +690,7 @@ export class HttpService {
 
       // Add Edit Coupon Code Data
       public addEditCouponCode(data?) {
-            return this._http.put((this.url + `/platform_central/v1/add-edit-coupon-code`), data);
+            return this._http.post((this.url + `/platform_central/v1/add-edit-coupon-code`), data);
       }
 
       // Get Detail Of Coupon Code

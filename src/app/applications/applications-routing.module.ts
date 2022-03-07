@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { ENachSigningComponent } from './e-nach-signing/e-nach-signing.component';
@@ -144,8 +145,30 @@ const routes: Routes = [
                         ]
                   },
             ]
+      },
+
+      {
+            path: '',
+            // component: ProductsComponent,
+            children: [
+                  {
+                        path: 'underwriting',
+                        // component: FormFillingComponent,
+                        // redirectTo:'/applications/form-filling',
+                        data: {
+                              title: 'Underwriting',
+                              parent: 'Applications',
+                              custom_url: '/applications/underwriting'
+                        },
+                        children: [
+                              {
+                                    path: 'pull-data',
+                                    component: CommonCibilSmsComponent,
+                              },
+                        ]
+                  },
+            ]
       }
-      ,
 
 ];
 

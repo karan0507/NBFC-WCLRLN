@@ -46,17 +46,17 @@ export class SideNavComponent {
       getCount(item) {
             switch (item) { 
                   case 'Form Filling': 
-                  return this.applicationCount[0]?.count
-                  case 'Pre Approved': return this.applicationCount[8]?.count;
-                  case 'Document Upload': return this.applicationCount[1]?.count;
-                  case 'Underwriting': return this.applicationCount[2]?.count;
-                  case 'NBFC Approval': return this.applicationCount[9]?.count;
-                  case 'Offer Proposed': return this.applicationCount[3]?.count;
-                  case 'Offer Acceptance': return this.applicationCount[4]?.count;
-                  case 'E-Nach/Signing': return this.applicationCount[5]?.count;
-                  case 'Disbursement': return this.applicationCount[6]?.count;
-                  case 'Rejected': return this.applicationCount[7]?.count;
-                  case 'Dormant ': return this.applicationCount[10]?.count;
+                  return this.applicationCount ? this.applicationCount[0]?.count : 0
+                  case 'Pre Approved': return this.applicationCount ? this.applicationCount[8]?.count : 0
+                  case 'Document Upload': return this.applicationCount ? this.applicationCount[1]?.count : 0
+                  case 'Underwriting': return this.applicationCount ? this.applicationCount[2]?.count : 0
+                  case 'NBFC Approval': return this.applicationCount ? this.applicationCount[9]?.count : 0
+                  case 'Offer Proposed': return this.applicationCount ? this.applicationCount[3]?.count : 0
+                  case 'Offer Acceptance': return this.applicationCount ? this.applicationCount[4]?.count : 0
+                  case 'E-Nach/Signing': return this.applicationCount ? this.applicationCount[5]?.count : 0
+                  case 'Disbursement': return this.applicationCount ? this.applicationCount[6]?.count : 0
+                  case 'Rejected': return this.applicationCount ? this.applicationCount[7]?.count : 0
+                  case 'Dormant ': return this.applicationCount ? this.applicationCount[10]?.count : 0
             }
 
       }

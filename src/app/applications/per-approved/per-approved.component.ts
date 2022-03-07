@@ -3,6 +3,7 @@ import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
 @Component({
       selector: 'app-per-approved',
@@ -21,7 +22,6 @@ export class PerApprovedComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
-      console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -39,23 +39,67 @@ export class PerApprovedComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
-      constructor(public https: HttpService, public message: NzMessageService) { }
+
+      // Page Filters and Pagination Data
+      searchValue : any
+      page = 1
+      globalPageSize : any;
+      productList : any = []
+      stageStatusList : any = []
+
+      constructor(public https: HttpService, public message: NzMessageService, public global : GlobalservicesService) { }
 
       ngOnInit(): void {
+            this.page = 1
+            this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
       }
 
+      onFocusMethod(type) {
+            if (type == 'product') {
+                  this.https.getAllProducts().subscribe((res: any) => {
+                        this.productList = res?.data
+                  })
+            } else if (type == 'status') {
+                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  this.https.getStatusStageWise(params).subscribe((res: any) => {
+                        this.stageStatusList = res?.data
+                  })
+            }
+      }
 
-      getFormLoanData(id?) {
+      getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
+            this.loanApplicationData = [];
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+
+            if (this.filters) {
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['search_value'] = this.searchValue
+            }
+            if (tableFilter) {
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  data['page'] = tableFilter?.pageIndex
+                  data['limit'] = tableFilter?.pageSize
+            } else {
+
+                  data['page'] = this.page
+                  data['limit'] = this.globalPageSize
+            }
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
                   } else {
-                        this.api_calling_loader['listLoader'] = false;
+                        this.api_calling_loader['listLoader'] = false
                   }
             }, (err) => {
                   this.api_calling_loader['listLoader'] = false
@@ -71,7 +115,6 @@ export class PerApprovedComponent implements OnInit {
                         this.api_calling_loader['accordian'] = false;
                         this._activeLoans.push(res?.data?.results[0]);
                         this.loanApplicationData[index].expanddata = res?.data?.results[0];
-                        console.log(this.loanApplicationData[index].expanddata)
                   } else {
                         this.api_calling_loader['accordian'] = false;
                   }
@@ -83,11 +126,8 @@ export class PerApprovedComponent implements OnInit {
             if (checked) {
                   this.expandSet.add(id);
                   this.getIdWiseData(this._currentId = id, index);
-                  // console.log();
-
             } else {
                   this.expandSet.delete(id);
-                  console.log('Deleted array of active ids', this._activeLoans);
             }
       }
 
@@ -133,7 +173,6 @@ export class PerApprovedComponent implements OnInit {
                         this.stageMasterList = res?.data?.results
                   }
             })
-            console.log(this._checkedLoanList);
       }
 
       handleCancel() {
@@ -144,13 +183,10 @@ export class PerApprovedComponent implements OnInit {
             let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '9', applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
-                        console.log('res');
                         this._isUpdateStatus = false;
                   } else {
-                        console.log('error=>', res?.error);
                   }
             }, error => {
-                  console.log(error);
 
             })
       }
@@ -172,16 +208,6 @@ export class PerApprovedComponent implements OnInit {
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
                   this.message.remove(generateloader);
-                  console.log(error);
             })
-      }
-
-      generateBase64View(file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            this._exportDocument = file;
-            reader.onload = (e) => {
-                  console.log(reader, this._exportDocument);
-            }
       }
 }

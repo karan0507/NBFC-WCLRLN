@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile, NzUploadTransformFileType } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
       selector: 'app-document-upload',
@@ -22,72 +25,100 @@ export class DocumentUploadComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
-      console = console;
       _currentDocType: any;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button': false
       };
       stageMasterList: any;
+      documentStatus = 1
       _currentStageStatus: any = null;
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
-      _isViewDocument: boolean = false;
 
       // Modal Boolean Values
-      _isUpdateStatus: boolean = false;
+      _isOpenModal: boolean = false;
       statusList: any;
       _currentDocument: any = '1'
-      _isDocument: boolean = false;
+      _currentFileName: any = { 'beforeUpload': null, 'previewImage': null };
+      fileList: any = [];
       _isStatus: boolean = false;
-      constructor(public https: HttpService, public message: NzMessageService) { }
+      _isDownload: boolean = false;
+      _isViewDocument: boolean = false;
+      _isVerify: boolean = false;
+      _isUpload: boolean = false;
+      _currentModalData: any;
+      _currentLoanDetails: any;
+      verifyRemarks: any;
+
+      // Page Filters and Pagination Data
+      searchValue: any
+      page = 1
+      globalPageSize: any;
+      productList: any = []
+      stageStatusList: any = []
+      kycDetailsList: any = []
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
+            this.page = 1
+            this.globalPageSize = this.global.globalPageSize;
+            console.log(this.globalPageSize);
             this.getFormLoanData();
       }
 
-      // listOfData = [
-      //       {
-      //             id: 1,
-      //             name: 'John Brown',
-      //             age: 32,
-      //             expand: false,
-      //             address: '9th Jan',
-      //             description: '--'
-      //       },
-      //       {
-      //             id: 2,
-      //             name: 'Jim Green',
-      //             age: 42,
-      //             expand: false,
-      //             address: '12th Dec',
-      //             description: '--'
-      //       },
-      //       {
-      //             id: 3,
-      //             name: 'Joe Black',
-      //             age: 32,
-      //             expand: false,
-      //             address: '21th Jan',
-      //             description: '--'
-      //       }
-      // ];
+      sanatizeUrlToSafe(value) {
+            // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
+            return this.sanitize.bypassSecurityTrustResourceUrl(value);
+      }
+      onFocusMethod(type) {
+            if (type == 'product') {
+                  this.https.getAllProducts().subscribe((res: any) => {
+                        this.productList = res?.data
+                        console.log(this.productList);
+                  })
+            } else if (type == 'status') {
+                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  this.https.getStatusStageWise(params).subscribe((res: any) => {
+                        this.stageStatusList = res?.data
+                        console.log(this.stageStatusList);
+                  })
+            }
+      }
 
-
-      getFormLoanData(id?) {
+      getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
+            this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
-            // if(this.searchValue){
-            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }
-            // if(){
-            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }    
+
+            if (this.filters) {
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['search_value'] = this.searchValue
+            }
+            if (tableFilter) {
+                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  data['page'] = tableFilter?.pageIndex
+                  data['limit'] = tableFilter?.pageSize
+            } else {
+                  console.log(this.globalPageSize);
+
+                  data['page'] = this.page
+                  data['limit'] = this.globalPageSize
+            }
+            console.log(data);
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
@@ -101,7 +132,6 @@ export class DocumentUploadComponent implements OnInit {
                   this.api_calling_loader['listLoader'] = false
             })
       }
-
 
       getIdWiseData(id?, index?) {
             this.api_calling_loader['accordian'] = true;
@@ -171,9 +201,8 @@ export class DocumentUploadComponent implements OnInit {
             console.log(type, typeof (type), docType);
             if (data) {
                   this._currentDocumentReq = data
-                  console.log(this._currentDocumentReq, 'Your current ID');
             }
-            this._isUpdateStatus = true;
+            this._isOpenModal = true;
             switch (type) {
                   case 'status':
                         this._isStatus = true;
@@ -184,21 +213,16 @@ export class DocumentUploadComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
-                  case 'download': this._isDocument = true;
-                        break;
-                  case 'viewDocument': this._isViewDocument = true; break;
-
-            }
-            if (docType) {
-                  this._currentDocType = docType;
             }
       }
 
       handleCancel() {
-            this._isUpdateStatus = false;
+            this._isOpenModal = false;
             this._isStatus = false;
-            this._isDocument = false;
+            this._isDownload = false;
             this._isViewDocument = false;
+            this._isUpload = false;
+            this._isVerify = false;
       }
 
       handleOk(type?) {
@@ -211,7 +235,7 @@ export class DocumentUploadComponent implements OnInit {
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
-                                    this._isUpdateStatus = false;
+                                    this._isOpenModal = false;
                               } else {
                                     console.log('error=>', res?.error);
                               }
@@ -219,6 +243,27 @@ export class DocumentUploadComponent implements OnInit {
                               console.log(error);
 
                         })
+                        break;
+                  case 'verify':
+                        let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.document_id?.pk, 'status': (this.documentStatus == 1 ? 'accepted' : 'rejected'), 'reason': this.verifyRemarks }
+                        console.log('export this file', this._currentModalData, params);
+                        break;
+                  case 'uploadDocument':
+                        this.api_calling_loader['button'] = true
+                        let param = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.document_id?.pk, 'file': this._currentFileName['previewImage'] }
+                        console.log(param, 'For Upload Document', typeof (this._currentFileName['previewImage']), this._currentFileName['previewImage']?.['File']);
+
+                        // this.https.uploadLoanDocument(param).subscribe((res : any)=>{
+                        //       if(res?.success){
+                        //             this.api_calling_loader['button'] = false;
+                        //             this.fileList = [];
+                        //             this.handleCancel();
+                        //       }else{
+                        //             this.api_calling_loader['button'] = false;
+                        //             this.fileList = [];
+                        //             this.handleCancel();
+                        //       }
+                        // },,err=>{this.api_calling_loader['button'] = false;})
                         break;
             }
       }
@@ -251,37 +296,48 @@ export class DocumentUploadComponent implements OnInit {
       generateBase64View(file: Blob) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            this._exportDocument = file;
             reader.onload = (e) => {
-                  console.log(reader, this._exportDocument);
+                  this._currentFileName['previewImage'] = reader.result
+            }
+            console.log(this._currentFileName['previewImage']);
+
+      }
+
+      openDocumentModal(type?, data?, loanData?) {
+            this._isOpenModal = true;
+            this._currentModalData = data;
+            this._currentLoanDetails = loanData;
+            console.log(this._currentModalData, this._currentModalData);
+
+            switch (type) {
+                  case 'download': this._isDownload = true;
+                        break;
+                  case 'viewDocument': this._isViewDocument = true;
+                        // this.generateBase64View(this._currentModalData?.file);
+                        break;
+                  case 'verify': this._isVerify = true; break;
+                  case 'upload': this._currentFileName['previewImage'] = null; this._isUpload = true; break;
             }
       }
 
-      viewDocument(document) {
-            if (document) {
-                  console.log(document);
-            } else {
-                  console.log('document is null');
+      verifyDocument(item, id?) {
 
-            }
       }
 
-      checkDocPresent(type?, results?){
-           if(type == 'pan'){
-            if(results?.filter(res=> res?.document_id?.name == 'Pan')){
-                  return true;
-            }else{
-                  return false
-            }
-           }else if(type == 'aadhar'){
-            if(results?.filter(res=> res?.document_id?.name == 'Pan')){
-                  return true;
-            }else{
-                  return false
-            }
-           }else{
-                 return false
-           }
+      beforeUploadName = (file: NzUploadFile) => {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(file);
+            this._currentFileName['previewImage'] = this.fileList[0];
+            console.log(this._currentFileName, file);
+            // this.generateBase64View(file)
+            return false;
+      };
+
+      handleChangeLogoUpload(event) {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(event?.fileList[0]);
+            // this._currentFileName['previewImage'] = this.fileList[0];
+            console.log(this._currentFileName,'event=>', event);
+            // this.generateBase64View(event.file.originFileObj) 
       }
-      
 }
