@@ -3,7 +3,7 @@ import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
-
+import { GlobalservicesService } from 'src/app/shared/globalservices.service'
 @Component({
       selector: 'app-form-filling',
       templateUrl: './form-filling.component.html',
@@ -13,6 +13,8 @@ export class FormFillingComponent implements OnInit {
       checked: boolean = false;
       searchValue: any = '';
       filters: any;
+      page = 1;
+      globalPageSize;
       _exportDocument: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -30,6 +32,8 @@ export class FormFillingComponent implements OnInit {
             'listLoader': false,
             'accordian': false
       };
+      productList: any = []
+      stageStatusList: any = []
       stageMasterList: any;
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
@@ -40,22 +44,57 @@ export class FormFillingComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
-      constructor(public https: HttpService, public message: NzMessageService) { }
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
+            this.page = 1
+            this.globalPageSize = this.global.globalPageSize;
+            console.log(this.globalPageSize);
             this.getFormLoanData();
       }
 
+      onFocusMethod(type) {
+            if (type == 'product') {
+                  this.https.getAllProducts().subscribe((res: any) => {
+                        this.productList = res?.data
+                        console.log(this.productList);
+                  })
+            } else if (type == 'status') {
+                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  this.https.getStatusStageWise(params).subscribe((res: any) => {
+                        this.stageStatusList = res?.data
+                        console.log(this.stageStatusList);
+                  })
+            }
+      }
 
-      getFormLoanData(id?) {
+      getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
-            // if(this.searchValue){
-            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }
-            // if(){
-            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }    
+            this.loanApplicationData = [];
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
+
+            if (this.filters) {
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['search_value'] = this.searchValue
+            }
+            if (tableFilter) {
+                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  data['page'] = tableFilter?.pageIndex
+                  data['limit'] = tableFilter?.pageSize
+            } else {
+                  console.log(this.globalPageSize);
+
+                  data['page'] = this.page
+                  data['limit'] = this.globalPageSize
+            }
+            console.log(data);
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {

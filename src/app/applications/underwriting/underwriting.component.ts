@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
 @Component({
       selector: 'app-underwriting',
@@ -50,26 +53,88 @@ export class UnderwritingComponent implements OnInit {
       _isDocument: boolean = false;
       _isStatus: boolean = false;
 
-      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder) { }
+      // Modal Boolean Values
+      _isPullData: boolean = false;
+      _isOpenModal: boolean = false;
+      //      statusList: any;
+      //      _currentDocument: any = '1'
+      _currentFileName: any = { 'beforeUpload': null, 'previewImage': null };
+      fileList: any = [];
+      //      _isStatus: boolean = false;
+      _isDownload: boolean = false;
+      //      _isViewDocument: boolean = false;
+      _isVerify: boolean = false;
+      _isUpload: boolean = false;
+      _currentModalData: any;
+      _currentLoanDetails: any;
+      verifyRemarks: any;
+      _isCibil: boolean = false
+      // Page Filters and Pagination Data
+      searchValue: any
+      page = 1
+      globalPageSize: any;
+      productList: any = []
+      stageStatusList: any = []
+      kycDetailsList: any = []
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb : FormBuilder) { }
 
       ngOnInit(): void {
-            this.getFormLoanData();
+            this.page = 1
+            this.globalPageSize = this.global.globalPageSize;
             this.offerForm = this.fb.group({
                   amountOffered: [null, [Validators.required, Validators.min(1)]],
                   validitiy: [null],
                   interest: [null]
             })
+            this.getFormLoanData();
       }
 
-      getFormLoanData(id?) {
+      sanatizeUrlToSafe(value) {
+            // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
+            return this.sanitize.bypassSecurityTrustResourceUrl(value);
+      }
+      onFocusMethod(type) {
+            if (type == 'product') {
+                  this.https.getAllProducts().subscribe((res: any) => {
+                        this.productList = res?.data
+                        console.log(this.productList);
+                  })
+            } else if (type == 'status') {
+                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  this.https.getStatusStageWise(params).subscribe((res: any) => {
+                        this.stageStatusList = res?.data
+                        console.log(this.stageStatusList);
+                  })
+            }
+      }
+
+      getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=4', 'source': 'Onboarding' }
-            // if(this.searchValue){
-            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }
-            // if(){
-            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }    
+            this.loanApplicationData = [];
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
+
+            if (this.filters) {
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['search_value'] = this.searchValue
+            }
+            if (tableFilter) {
+                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  data['page'] = tableFilter?.pageIndex
+                  data['limit'] = tableFilter?.pageSize
+            } else {
+                  console.log(this.globalPageSize);
+
+                  data['page'] = this.page
+                  data['limit'] = this.globalPageSize
+            }
+            console.log(data);
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
@@ -149,13 +214,11 @@ export class UnderwritingComponent implements OnInit {
 
       }
 
-      updateStatus(type?, data?, docType?) {
-            console.log(type, typeof (type), docType);
-            if (data) {
-                  this._currentDocumentReq = data
-                  console.log(this._currentDocumentReq, 'Your current ID');
-            }
+      updateStatus(type?, data?) {
             this._isUpdateStatus = true;
+            this._currentLoanDetails = data;
+            console.log(data);
+            
             switch (type) {
                   case 'status':
                         this._isStatus = true;
@@ -171,7 +234,9 @@ export class UnderwritingComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
+                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': this._currentLoanDetails['id'] }
+                        console.log('Edit Offer Params', params);
+                        
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     console.log(res);
@@ -191,9 +256,6 @@ export class UnderwritingComponent implements OnInit {
 
                         break;
             }
-            if (docType) {
-                  this._currentDocType = docType;
-            }
       }
 
       handleCancel() {
@@ -201,6 +263,8 @@ export class UnderwritingComponent implements OnInit {
             this._isStatus = false;
             this._isDocument = false;
             this._isEditOffer = false;
+            this._isPullData = false;
+            this._isCibil = false;
       }
 
       handleOk(type?) {
@@ -218,7 +282,9 @@ export class UnderwritingComponent implements OnInit {
 
                   })
             } else if (type == 'offer') {
-                  let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentDocumentReq?.id, amount: this.offerForm.get('amountOffered').value };
+
+                  let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
+                  
                   this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                         if (res.success) {
                               console.log('res');
@@ -259,15 +325,43 @@ export class UnderwritingComponent implements OnInit {
             })
       }
 
-      generateBase64View(file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            this._exportDocument = file;
-            reader.onload = (e) => {
-                  console.log(reader, this._exportDocument);
+      openDocumentModal(type?, data?, loanData?) {
+            this._isOpenModal = true;
+            this._currentModalData = data;
+            this._currentLoanDetails = loanData;
+            console.log(this._currentModalData, this._currentModalData);
+
+            switch (type) {
+                  case 'download': this._isDownload = true;
+                        break;
+                  case 'viewDocument': this._isViewDocument = true;
+                        // this.generateBase64View(this._currentModalData?.file);
+                        break;
+                  case 'verify': this._isVerify = true; break;
+                  case 'upload': this._currentFileName['previewImage'] = null; this._isUpload = true; break;
             }
       }
 
+      verifyDocument(item, id?) {
+
+      }
+
+      beforeUploadName = (file: NzUploadFile) => {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(file);
+            this._currentFileName['previewImage'] = this.fileList[0];
+            console.log(this._currentFileName, file);
+            // this.generateBase64View(file)
+            return false;
+      };
+
+      handleChangeLogoUpload(event) {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(event?.fileList[0]);
+            // this._currentFileName['previewImage'] = this.fileList[0];
+            console.log(this._currentFileName,'event=>', event);
+            // this.generateBase64View(event.file.originFileObj) 
+      }
       // Get Cibil Data API
       getCibilScoreData(id?) {
             console.log('API call');
@@ -279,6 +373,24 @@ export class UnderwritingComponent implements OnInit {
                               this._currentCibilData = res?.data
                         }
                   })
+            }
+      }
+
+      // Pull Cibil Methods
+      pullDataSMSCibil(type?, data?) {
+            this._isUpdateStatus = true
+            switch (type) {
+                  case 'thirdPartyCibil':
+                        this._isPullData = true
+                        this._currentLoanDetails = data
+                        this._isCibil = true
+                        break;
+                  case 'downloadCibil': break
+                  case 'thirdPartySMS':
+                        this._isPullData = true;
+                        this._currentLoanDetails = data
+                        break
+
             }
       }
 

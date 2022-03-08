@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import * as moment from 'moment';
 
 @Component({
       selector: 'app-add-edit-coupon-code',
@@ -26,7 +28,7 @@ export class AddEditCouponCodeComponent implements OnInit {
       isEdit: boolean = false;
       currentCouponId: any;
       couponDetail: any;
-      constructor(public https: HttpService, public fb: FormBuilder, public router: Router, public route: ActivatedRoute) { }
+      constructor(public https: HttpService, public fb: FormBuilder, public router: Router, public route: ActivatedRoute, public message: NzMessageService) { }
 
       ngOnInit(): void {
 
@@ -78,58 +80,70 @@ export class AddEditCouponCodeComponent implements OnInit {
                   this.https.fetchPartner().subscribe((res: any) => {
                         if (res) {
                               this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
-                              console.log('Partern List=>', this.partnerList);
                         }
                   })
             } else if (type == 'master') {
                   this.https.fetchMasterPartner().subscribe((res: any) => {
                         if (res) {
                               this.masterList = res?.data?.results.filter(res => { if (res?.name) { return res } });
-                              console.log('Master List=>', this.masterList);
                         }
                   })
             } else if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
                         if (res) {
                               this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
-                              console.log('Product List=>', this.productList);
                         }
                   })
             } else if (type == 'product-fees') {
                   this.https.getProductWiseFees(this.couponForm.get('product').value).subscribe((res: any) => {
                         if (res) {
                               this.productFeesList = res?.data?.filter(res => { if (res?.name) { return res } });
-                              console.log('ProductFees List=>', this.productFeesList);
                         }
                   })
             }
       }
 
       saveFormData() {
-            if (this.couponForm.valid) {
-                  if(this.couponForm.get('coupon_calculation_type').value == 1){
-                        this.couponForm.get('coupon_calculation_type').setValue('Variable');
-                  }else{
-                        this.couponForm.get('coupon_calculation_type').setValue('Flat')
-                  }
-                  if(this.couponForm.get('coupon_type').value == 1){
-                        this.couponForm.get('coupon_type').setValue('Fees waiver')
-                  }else{
-                        this.couponForm.get('coupon_type').setValue('Promotional')
-                  }
-                  console.log('you are about to call API', this.couponForm.value);
-                  // this.https.addEditCouponCode().subscribe((res: any) => {
-
-                  // })
+            let data = {
+                  'coupon_code': this.couponForm.get('coupon_code').value,
+                  'value': this.couponForm.get('value').value,
+                  'coupon_calculation_type': this.couponForm.get('coupon_calculation_type').value == 1 ? 'Variable' : 'Flat',
+                  'coupon_type': this.couponForm.get('coupon_type').value == 1 ? 'Fees waiver' : 'Promotional',
+                  'coupon_expiry': moment(this.couponForm.get('coupon_expiry').value).format("YYYY-MM-DD"),
+                  'total_coupons': this.couponForm.get('total_coupons').value,
             }
+            if (this.isEdit) {
+                  data['id'] = this.couponDetail?.id
+            }
+            if (this.couponForm.get('partner').value) {
+                  data['partner'] = this.couponForm.get('partner').value
+
+            }
+            if (this.couponForm.get('master').value) {
+                  data['master'] = this.couponForm.get('master').value
+            }
+            if (this.couponForm.get('product').value) {
+                  data['product'] = this.couponForm.get('product').value
+            }
+            if (this.couponForm.get('product_fees').value) {
+                  data['product_fees'] = this.couponForm.get('product_fees').value
+            }
+            console.log('you are about to call API', data, this.couponForm.value);
+            this.https.addEditCouponCode(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        console.log('');
+                        this.message.success(res?.message)
+                        this.router.navigateByUrl(`/coupon-code`);
+                  } else {
+                        this.message.error(res?.message)
+                  }
+            })
       }
 
       callMultipleMasters() {
-            console.log(this.couponForm?.get('product')?.value);
             this.https.getAllProducts().subscribe((res: any) => {
                   if (res) {
                         this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
-                        console.log('Product List=>', this.productList);
                   }
             })
 
@@ -137,7 +151,6 @@ export class AddEditCouponCodeComponent implements OnInit {
                   this.https.getProductWiseFees(this.couponForm.get('product').value).subscribe((res: any) => {
                         if (res) {
                               this.productFeesList = res?.data?.filter(res => { if (res?.name) { return res } });
-                              console.log('ProductFees List=>', this.productFeesList);
                         }
                   })
 
@@ -147,14 +160,12 @@ export class AddEditCouponCodeComponent implements OnInit {
             this.https.fetchMasterPartner().subscribe((res: any) => {
                   if (res) {
                         this.masterList = res?.data?.results.filter(res => { if (res?.name) { return res } });
-                        console.log('Master List=>', this.masterList);
                   }
             })
 
             this.https.fetchPartner().subscribe((res: any) => {
                   if (res) {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
-                        console.log('Partern List=>', this.partnerList);
                   }
             })
       }

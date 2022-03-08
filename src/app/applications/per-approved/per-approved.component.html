@@ -18,35 +18,39 @@
       <nz-card class="w-100">
             <div class="row">
                   <div class="col-md-4 mb-3 d-flex">
-
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" nz-input placeholder="Search text" />
+                              <input type="text" (keyup.enter)="getFormLoanData()" [(ngModel)]="searchValue" nz-input
+                                    placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                              <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                         <div>
-                              <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
-                                    nzPlaceHolder="FatakPay">
-                                    <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
-                                    <nz-option nzValue="medic" nzLabel="Medicine 2"></nz-option>
+                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters" (nzFocus)="onFocusMethod('product')"
+                                    (ngModelChange)="getFormLoanData()" 
+                                    nzPlaceHolder="Product">
+                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                          [nzLabel]="item.name">
+                                    </nz-option>
                               </nz-select>
                         </div>
                   </div>
-                  <div class="col-md-6 mb-3 d-flex justify-content-md-end">
-                        <!-- <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
-                              (ngModelChange)="onMonthChange($event)"></nz-date-picker> -->
-                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
-                              nzPlaceHolder="Select Status">
-                              <nz-option nzValue="medicine" nzLabel="--"></nz-option>
+                  <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status
+                              ">
+                              </nz-option>
                         </nz-select>
                   </div>
             </div>
             <div class="accordianLoanApp">
-                  <nz-table #rowSelectionTable nzShowSizeChanger
-                        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
+                  <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
+                        [nzPageSize]="globalPageSize"
+                        (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
                         [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
@@ -108,7 +112,8 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item [routerLink]="['/applications/form-filling/edit-form']"
+                                                            <li nz-menu-item
+                                                                  [routerLink]="['/applications/form-filling/edit-form']"
                                                                   [queryParams]="{id: data?.id}">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
@@ -128,7 +133,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="personalDetail">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -155,10 +161,13 @@
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
-                                                                             Monthly Income
+                                                                              Monthly Income
                                                                         </span>
                                                                         <div>
-                                                                              {{ data?.expanddata?.income_details?.results[0]?.income_range_id ? data?.expanddata?.income_details?.results[0]?.income_range_id?.name
+                                                                              {{
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id
+                                                                              ?
+                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id?.name
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -175,7 +184,8 @@
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="empHeader">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0" [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -198,9 +208,9 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                                    == 'Salaried' ?
-                                                                                    data?.expanddata?.income_details.results[0].employer_id?.nmae
-                                                                                    : '--'}}
+                                                                              == 'Salaried' ?
+                                                                              data?.expanddata?.income_details.results[0].employer_id?.nmae
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -212,11 +222,49 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+                                          <div class="my-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="kycDetails">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              PAN No.
+                                                                        </span>
+                                                                        <div>
+                                                                              <!-- created_at -->
+                                                                              {{data?.expanddata?.pan ? data?.expanddata?.kyc_details?.results[0]?.pan_no : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Aadhaar No.
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.pan ? data?.expanddata?.kyc_details?.results[0]?.aadhar_no : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #kycDetails>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
+                                                                        nzTheme="outline"></i> KYC Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
                                           <div>
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="preApproval">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0"  [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
@@ -224,7 +272,9 @@
                                                                               Product Name
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.product_name :
+                                                                              {{data?.expanddata?.offer_details ?
+                                                                              data?.expanddata?.offer_details?.product_name
+                                                                              :
                                                                               '--'}}
                                                                               <!-- {{_activeLoans[i]['id'] == data.id ? _activeLoans[i]['email']}} -->
                                                                         </div>
@@ -236,7 +286,9 @@
                                                                               Limit Proposed
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.offer_details ? data?.expanddata?.offer_details?.limit_proposed :
+                                                                              {{data?.expanddata?.offer_details ?
+                                                                              data?.expanddata?.offer_details?.limit_proposed
+                                                                              :
                                                                               '--'}}
                                                                         </div>
                                                                   </div>
