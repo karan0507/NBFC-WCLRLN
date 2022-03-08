@@ -29,6 +29,8 @@ export class TransactionsListComponent implements OnInit {
   date = ''
   isReverseCharges = false
   isRefundTransaction = false
+  reverseId: any;
+  is_revese_loading: boolean;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -113,6 +115,24 @@ export class TransactionsListComponent implements OnInit {
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExport(data).subscribe(res => {
       this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
+    })
+  }
+  reverseChargesToggle(id) {
+    this.isReverseCharges = true
+    this.reverseId = id
+  }
+  reverseChargesFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'reverse_transaction'),
+    data.append('endpoint', this.reverseId)
+    this.is_revese_loading = true
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.is_revese_loading = false
+      this.isReverseCharges = false
+      this.message.success(res['message'])
+    }, (err) => {
+      this.is_revese_loading = false
     })
   }
 }

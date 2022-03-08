@@ -61,6 +61,46 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Created at :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.created_at ? (productDetails?.created_at | date : 'medium') : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Updated at :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.updated_at ? (productDetails?.updated_at | date : 'medium') : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Created by :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.created_by ? productDetails?.created_by.first_name : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Updated by :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.updated_by ? productDetails?.updated_by.first_name : '-'}}
+                    </div>
+                </div>
+            </div>
             <h5 class="w-100" *ngIf="productDetails?.tenures[0]">EMI Tenures</h5>
             <ng-container *ngFor="let item of productDetails?.tenures; index as i">
                 <h5 class="w-100">Tenure {{i+1}} </h5>
@@ -225,7 +265,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
                         No. of Partners :
@@ -234,7 +274,7 @@
                         {{master_item.no_of_partner ? master_item?.no_of_partner : '-'}}
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -656,7 +696,7 @@
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
-                        Active start Amount :
+                        Active start Month :
                     </div>
                     <div class="col-md-8">
                         {{item.active_start_month ? item?.active_start_month : '-'}}
@@ -666,7 +706,7 @@
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
-                        Active End Amount :
+                        Active End Month :
                     </div>
                     <div class="col-md-8">
                         {{item.active_end_month ? item?.active_end_month : '-'}}

@@ -71,7 +71,6 @@ export class CommonLayoutComponent  {
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
-                console.log(route.routeConfig.data)
                 label = route.routeConfig.data['parent'] ? route.routeConfig.data['parent'] : route.routeConfig.data['title'];
                 path += route.routeConfig.path;
                 title = route.routeConfig.data['title'];

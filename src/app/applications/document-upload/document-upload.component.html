@@ -235,7 +235,7 @@
                                                                                     <!-- data?.expanddata?.kyc_documents?.results[0]?.document_id?.name == 'Pan' && data?.expanddata?.kyc_documents?.results[0]?.file -->
                                                                                     <!-- && data?.expanddata?.kyc_documents?.results.filter(res=> res.document_id?.pk == 3) -->
                                                                                     <div class="mr-5"  *ngIf="data?.expanddata?.kyc_documents?.results ? checkDocPresent('pan',data?.expanddata?.kyc_documents?.results) : false">
-                                                                                          <a class="text-primary" (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'"> <i
+                                                                                          <a class="text-primary" nzTooltipTitle="View Document" (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'"> <i
                                                                                                       nz-icon
                                                                                                       nzType="eye"
                                                                                                       nzTheme="outline"></i></a>
@@ -250,7 +250,8 @@
                                                                                           <a class="text-primary mx-3">
                                                                                                 <i nz-icon
                                                                                                       nzType="upload"
-                                                                                                      nzTheme="outline"></i></a>
+                                                                                                      nzTheme="outline"></i>
+                                                                                                </a>
                                                                                     </div>
                                                                               </div>
                                                                         <div>

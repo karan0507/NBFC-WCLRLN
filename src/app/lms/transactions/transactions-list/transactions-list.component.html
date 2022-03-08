@@ -81,7 +81,7 @@
                         <tr>
                             <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                                 (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                            <td>{{ i + 1 }}</td>
+                                <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -103,12 +103,10 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="isReverseCharges = true">
-                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);">
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
                                         <li nz-menu-item (click)="isRefundTransaction = true">
-                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>
                                     </ul>
@@ -132,7 +130,8 @@
             [title]="'Do you want to reverse the applied charges?'"
             [subTitle]="'Amount to be reversed - ₹100 <br/> Are you sure about performing this action?'"
             [icon]="'assets/images/reverse.png'"
-            (onOkCall)="isReverseCharges = false"
+            (onOkCall)="reverseChargesFunction()"
+            [isbtnLoading]="is_revese_loading"
             (onCencelCall)="isReverseCharges = false"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">

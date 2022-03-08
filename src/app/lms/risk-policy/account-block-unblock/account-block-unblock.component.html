@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of borrowertList; index as i">
-                        <td>{{ i + 1}}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
@@ -72,10 +72,10 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="applications = data?.id; isblock = true">
+                                        <li nz-menu-item *ngIf="data?.account_status == 'Active'" (click)="applications = data?.id; isblock = true">
                                             <span class="m-l-5">Block A/c</span>
                                         </li>
-                                        <li nz-menu-item (click)="applications = data?.id; isUnblock = true">
+                                        <li nz-menu-item *ngIf="data?.account_status == 'Inactive'" (click)="applications = data?.id; isUnblock = true">
                                             <span class="m-l-5">Unblock A/c</span>
                                         </li>
                                         <!-- <li nz-menu-item (click)="isRestructure = true">
