@@ -12,18 +12,19 @@ export class DashboardComponent implements OnInit {
     themeColors = this.colorConfig.get().colors;
     blue = this.themeColors.blue;
     blueLight = this.themeColors.blueLight;
+    pink = this.themeColors.pink;
     cyan = this.themeColors.cyan;
     cyanLight = this.themeColors.cyanLight;
     gold = this.themeColors.gold;
     purple = this.themeColors.purple;
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
-    customersChartData: number[] = [350, 450, 100];
-    customersChartLabels: string[] = ['New', 'Returning', 'Others'];
+    customersChartData: number[] = [350, 450, 100, 243];
+    customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
     customersChartType = 'doughnut';
     customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.cyan, this.purple, this.gold],
-        pointBackgroundColor : [this.cyan, this.purple, this.gold]
+        backgroundColor: [this.cyan, this.purple, this.gold, this.pink],
+        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.pink]
     }];
     customersChartOptions: any = {
         cutoutPercentage: 75,
@@ -130,13 +131,13 @@ export class DashboardComponent implements OnInit {
                     stepSize: 40,
                     display: true,
                     beginAtZero: true,
-                    fontSize: 13,
+                    fontSize: 3,
                     padding: 10
                 }
             }]
         }
     };
-    avgProfitChartLabels: string[] = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+    avgProfitChartLabels: string[] = ['Total Commitments', 'Line Assigned', 'Fund Transfer to Escrow', 'Total O/S Balance to NBFC', 'Fund Available in Escrow', 'Unutilized Credit Line'];
     avgProfitChartType = 'bar';
     avgProfitChartLegend = false;
     avgProfitChartColors: Array<any> = [
@@ -145,7 +146,7 @@ export class DashboardComponent implements OnInit {
             borderWidth: 10
         }
     ];
-    avgProfitChartData: any[] = [
+    avgProfitChartData = [
         { 
             data: [38, 38, 30, 19, 56, 55, 31],
             label: 'Series A',
@@ -157,17 +158,24 @@ export class DashboardComponent implements OnInit {
         'delinquent': 'Today',
         'nbfc': 'Today',
         'authorization': 'Today',
+        'existing': 'today',
+        'acquisition': 'today',
     } 
     fetchedList ={
         'delinquent': '',
         'nbfc': '',
         'authorization': null,
+        'acquisition': null,
+        'existing': null,
     } 
     isLoading ={
         'delinquent': false,
         'nbfc': false,
         'authorization': false,
+        'acquisition': false,
+        'existing': false,
     } 
+    thirty_day_user_activity: any;
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void {
@@ -175,7 +183,7 @@ export class DashboardComponent implements OnInit {
     this.getNBFCList();    
     this.getDelinquentList();   
     this.getExistingList();
-    this.getAcquisition();
+    this.getAcquisitionList();
      }
 
     getAuthorizationList(){
@@ -187,10 +195,8 @@ export class DashboardComponent implements OnInit {
         }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
         this.fetchedList['authorization'] = res?.data
-            console.log(res);
             this.isLoading['authorization'] = false;
         }, err => {
-            console.log(err);
             this.isLoading['authorization'] = false;
         })
     }
@@ -205,12 +211,20 @@ export class DashboardComponent implements OnInit {
         } else if (action == 'authorization'){
             this.selectedTab['authorization'] = e;
             this.getAuthorizationList();
-        }
-        console.log(e, + ' on click')
+        } else if (action == 'existing'){
+            this.selectedTab['existing'] = e;
+            this.getExistingList();
+        } else if (action == 'acquisition'){
+            this.selectedTab['acquisition'] = e;
+            this.getAcquisitionList();
+        } 
+        // 'acquisition': false,
+        // 'existing': false,
     }
 
     getDelinquentList(){
         this.isLoading['delinquent'] = true;
+        // this.customersChartData = [];
         let data = {
             'datapoint': 'dashboard_delinquent',
             'source': 'LMS',
@@ -218,47 +232,48 @@ export class DashboardComponent implements OnInit {
         }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['delinquent'] = res?.data
-            console.log(res);
+            // customersChartData: number[] = [350, 450, 100, 243];
+            // customersChartLabels: string[] = ['New', 'Returning', 'Others', 'blue'];
             this.isLoading['delinquent'] = false;
         }, err => {
-            console.log(err);
             this.isLoading['delinquent'] = false;
         })
     }
 
     getExistingList(){
-        this.isLoading['delinquent'] = true;
+        this.isLoading['existing'] = true;
         let data = {
             'datapoint': 'dashboard_existing',
             'source': 'LMS',
-            'filter_type': 'this month'
+            'filter_type': this.selectedTab['existing']
         }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             // this.fetchedList['delinquent'] = res?.data
-            console.log(res?.data)
-            console.log(res);
-            this.isLoading['delinquent'] = false;
+            this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
+            this.fetchedList['existing'] = res?.data
+            this.isLoading['existing'] = false;
         }, err => {
-            console.log(err);
-            this.isLoading['delinquent'] = false;
+            this.isLoading['existing'] = false;
         })
     }
 
-    getAcquisition(){
-        this.isLoading['delinquent'] = true;
+    getAcquisitionList(){
+        this.isLoading['acquisition'] = true;
         let data = {
             'datapoint': 'dashboard_acquisition',
             'source': 'LMS',
-            'filter_type': 'this month'
+            'filter_type': this.selectedTab['acquisition']
         }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
-            // this.fetchedList['delinquent'] = res?.data
-            console.log(res?.data)
-            console.log(res);
-            this.isLoading['delinquent'] = false;
+            this.fetchedList['acquisition'] = res?.data
+            this.customersChartData = []
+            this.customersChartData.push(res?.data?.app_registered_users_exact_count ? res?.data?.app_registered_users_exact_count : 0)
+            this.customersChartData.push(res?.data?.all_registered_users_exact_count ? res?.data?.all_registered_users_exact_count : 0 )
+            this.customersChartData.push(res?.data?.total_corporate_users_exact_count ? res?.data?.total_corporate_users_exact_count : 0 )
+            this.customersChartData.push(res?.data?.active_users_exact_count ? res?.data?.active_users_exact_count : 0)
+            this.isLoading['acquisition'] = false;
         }, err => {
-            console.log(err);
-            this.isLoading['delinquent'] = false;
+            this.isLoading['acquisition'] = false;
         })
     }
 
@@ -269,12 +284,21 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['nbfc']
         }
+        console.log(this.avgProfitChartData);
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['nbfc'] = res?.data
-            console.log(res);
+            // this.avgProfitChartData[0].data = []
+            console.log(this.avgProfitChartData[0]?.data);
+            this.avgProfitChartData[0].data = [];
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_nbfc_commitment ? res?.data?.total_nbfc_commitment : 0)
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line ? res?.data?.total_credit_line : 0)
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.fund_transfered_escrow ? res?.data?.fund_transfered_escrow : 0)
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line_balance ? res?.data?.total_credit_line_balance : 0)
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.fund_in_escrow ? res?.data?.fund_in_escrow : 0)
+            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line_utilized ? res?.data?.total_credit_line_utilized : 0)
+            console.log(this.avgProfitChartData[0]?.data);
             this.isLoading['nbfc'] = false;
         }, err => {
-            console.log(err);
             this.isLoading['nbfc'] = false;
         })
     }

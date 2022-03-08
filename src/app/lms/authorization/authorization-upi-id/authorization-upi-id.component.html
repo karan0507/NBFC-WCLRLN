@@ -48,8 +48,7 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ data?.upi_id }}</td>
                         <td>{{ data?.remarks }}</td>
-                        <td *ngIf="data?.status">Active</td>
-                        <td *ngIf="!data?.status">Deactive</td>
+                        <td>{{ data?.status }}</td>
                         <td>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                 [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">

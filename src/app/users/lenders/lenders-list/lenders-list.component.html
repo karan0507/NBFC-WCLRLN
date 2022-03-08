@@ -48,7 +48,6 @@
                     <th >NBFC Line Given</th>
                     <th> Amt. Recd. in Escrow A/C</th>
                     <th rowspan="2">Wallet Bal.</th>
-                    <th rowspan="2">Master Partner associated</th>
                     <th rowspan="2">Registered</th>
                     <!-- <th rowspan="2">Transaction Status</th> -->
                     <th rowspan="2">System Status</th>
@@ -65,7 +64,6 @@
                                 <td>{{ data?.nbfc_line_given }}</td>
                                 <td>{{ data?.amount_received}}</td>
                             <td>{{data?.wallet_balance}}</td>
-                            <td>{{ data?.master_partner_associated}}</td>
                             <td>{{ data?.registered}}</td>
                             <!-- <td>{{ data?.transaction_status}}</td> -->
                             <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>

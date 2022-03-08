@@ -2,6 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-authorization-mcc-code',
@@ -83,7 +84,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
   oldDetail: any;
   updateMCCDetails: FormGroup;
 
-  constructor(private fb: FormBuilder,public http: HttpService) { }
+  constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.createUpdateDetailForm();
@@ -182,7 +183,12 @@ export class AuthorizationMccCodeComponent implements OnInit {
       } 
     }
     this.http.updateStatusForAuthorization(data).subscribe((res)=> {
-      console.log(res);
+      // , private message: NzMessageService
+      if(res?.success){
+        this.message.success('MCC Code Updated ')
+      } else {
+        this.message.error('Unable to Updated MCC Code....! ')
+      }
       this.getAuthorizationList();
     }, err => {
       console.log(err);

@@ -2,6 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-authorization-upi-id',
@@ -84,7 +85,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
   uploaded_file: any;
   globalPageSize: any = 30;
 
-  constructor(private fb: FormBuilder,public http: HttpService) { }
+  constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.createUpdateDetailForm();
@@ -180,7 +181,13 @@ export class AuthorizationUpiIdComponent implements OnInit {
         "status" : true
       } 
     }
-    this.http.getLMSAuthorizationList(data).subscribe((res)=> {
+    this.http.updateLMSAuthorizationList(data).subscribe((res: any)=> {
+      this.getAuthorizationList();
+      if(res?.success){
+        this.message.success('UPI ID Updated ')
+      } else {
+        this.message.error('Unable to Updated....! ')
+      }
       console.log(res);
     }, err => {
       console.log(err);

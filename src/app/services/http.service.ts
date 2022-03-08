@@ -574,6 +574,11 @@ export class HttpService {
             return this._http.get((this.url + `/central-api/v1/call-api`), { headers: headers, params: data, });
       }
 
+      public updateLMSAuthorizationList(data) {
+            const headers = new HttpHeaders();
+            return this._http.put((this.url + `/central-api/v1/call-api`),data);
+      }
+
       public deleteUserByUserId(id) {
             // /partner/v1/delete-user/partner/23
             return this._http.delete((this.url + `/partner/v1/delete-user/partner/${id}`));
