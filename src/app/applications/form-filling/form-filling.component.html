@@ -49,7 +49,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
-                        [nzPageSize]="globalPageSize"
+                        [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
                         [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>

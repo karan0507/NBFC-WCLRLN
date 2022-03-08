@@ -373,8 +373,8 @@
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
-                                                                                    <span class="text-muted">Cibil
-                                                                                          Score:</span>
+                                                                                    <label class="text-muted">Cibil
+                                                                                          Score: <span>(  )</span></label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
@@ -385,7 +385,7 @@
                                                                         </h6>
                                                                         <b> <a class="text-primary"
                                                                                     (click)="getCibilScoreData(data?.id)">Fetch
-                                                                                    Details</a> </b>
+                                                                                    Cibil</a> </b>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -412,9 +412,9 @@
                                                                               Cheque Bounce
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_cheque_bounce :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata?.underwriting ?
+                                                                              data?.expanddata?.underwriting?.no_of_cheque_bounce :
+                                                                              (_currentCibilData ? _currentCibilData?.no_of_cheque_bounce : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -426,9 +426,9 @@
                                                                                     months)</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.nach_trans_declined :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata?.nach_trans_declined ?
+                                                                              data?.expanddata?.nach_trans_declined :
+                                                                              (_currentCibilData ? _currentCibilData?.no_of_cheque_bounce : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -441,9 +441,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.max_delinquent_amount :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.max_delinquent_amount :
+                                                                              ( _currentCibilData ? _currentCibilData?.max_delinquent_amount : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -454,9 +454,9 @@
                                                                                     write off cases</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_write_off_cases :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata  ?
+                                                                                    data?.expanddata?.no_of_write_off_cases :
+                                                                              ( _currentCibilData ? _currentCibilData?.no_of_write_off_cases : '--')  }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -467,9 +467,9 @@
                                                                                     Quality score</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.data_Quality_score :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.data_Quality_score :
+                                                                              ( _currentCibilData ? _currentCibilData?.data_Quality_score : '--')  }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -481,9 +481,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.retail_lending_score :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.retail_lending_score :
+                                                                               ( _currentCibilData ? _currentCibilData?.retail_lending_score : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -497,9 +497,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_inquiries :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.no_of_inquiries :
+                                                                               ( _currentCibilData ? _currentCibilData?.no_of_inquiries : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -511,9 +511,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_negative_events :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.no_of_negative_events :
+                                                                               ( _currentCibilData ? _currentCibilData?.no_of_negative_events : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -525,9 +525,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.avg_salary_credited :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata  ?
+                                                                              data?.expanddata?.avg_salary_credited :
+                                                                               ( _currentCibilData ? _currentCibilData?.avg_salary_credited : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -541,9 +541,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.avg_min_balance_Month :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.avg_min_balance_Month :
+                                                                               ( _currentCibilData ? _currentCibilData?.avg_min_balance_Month : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -556,9 +556,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_cc_applied :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.no_of_cc_applied :
+                                                                               ( _currentCibilData ? _currentCibilData?.no_of_cc_applied : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -571,9 +571,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_loan_applied :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.no_of_loan_applied :
+                                                                               ( _currentCibilData ? _currentCibilData?.no_of_loan_applied : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -586,9 +586,9 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.foir :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.foir :
+                                                                               ( _currentCibilData ? _currentCibilData?.foir : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>

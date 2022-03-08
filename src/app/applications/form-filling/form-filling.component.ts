@@ -83,7 +83,6 @@ export class FormFillingComponent implements OnInit {
                   data['search_value'] = this.searchValue
             }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex

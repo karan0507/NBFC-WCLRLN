@@ -55,6 +55,7 @@ export class DocumentUploadComponent implements OnInit {
       _isUpload: boolean = false;
       _currentModalData: any;
       _currentLoanDetails: any;
+      isRequestDoc : boolean = false;
       verifyRemarks: any;
 
       // Page Filters and Pagination Data
