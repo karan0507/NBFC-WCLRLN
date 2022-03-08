@@ -36,7 +36,7 @@ const routes: Routes = [
         path: 'add-dsa',
         component: AddEditDsaComponent,
         data: {
-          title: 'Add Merchants',
+          title: 'Partner DSA',
           parent: 'Merchants',
         }
       },
@@ -44,7 +44,7 @@ const routes: Routes = [
         path: 'edit-dsa',
         component: AddEditDsaComponent,
         data: {
-          title: 'Edit DSA Merchants',
+          title: 'Edit Partner DSA',
           parent: 'Merchants',
         }
       },
@@ -52,7 +52,7 @@ const routes: Routes = [
         path: 'DSA',
         component: DsaListComponent,
         data: {
-          title: 'Add Merchants',
+          title: 'Partner DSA',
           parent: 'Merchants',
         }
       },

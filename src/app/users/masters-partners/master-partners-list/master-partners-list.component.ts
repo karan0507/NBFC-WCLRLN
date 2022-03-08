@@ -245,8 +245,13 @@ export class MasterPartnersListComponent implements OnInit {
     let endPoint =  'master' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
-      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res)=> {
+      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res?: any)=> {
         console.log(res);
+        if(res?.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error(res?.message?.[0])
+        }
       }, err => {
         console.log(err);
       })

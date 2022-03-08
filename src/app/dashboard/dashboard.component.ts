@@ -158,20 +158,40 @@ export class DashboardComponent implements OnInit {
         'nbfc': 'Today',
         'authorization': 'Today',
     } 
+    fetchedList ={
+        'delinquent': '',
+        'nbfc': '',
+        'authorization': null,
+    } 
+    isLoading ={
+        'delinquent': false,
+        'nbfc': false,
+        'authorization': false,
+    } 
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+    this.getAuthorizationList();
+    this.getNBFCList();    
+    this.getDelinquentList();   
+    this.getExistingList();
+    this.getAcquisition();
+     }
 
     getAuthorizationList(){
+        this.isLoading['authorization'] = true;
         let data = {
-            'datapoint': 'dashboard_authorization',
+            'datapoint': 'dashboard_authorisation',
             'source': 'LMS',
             'filter_type': this.selectedTab['authorization']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+        this.fetchedList['authorization'] = res?.data
             console.log(res);
+            this.isLoading['authorization'] = false;
         }, err => {
             console.log(err);
+            this.isLoading['authorization'] = false;
         })
     }
 
@@ -190,28 +210,72 @@ export class DashboardComponent implements OnInit {
     }
 
     getDelinquentList(){
+        this.isLoading['delinquent'] = true;
         let data = {
             'datapoint': 'dashboard_delinquent',
             'source': 'LMS',
             'filter_type': this.selectedTab['delinquent']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            this.fetchedList['delinquent'] = res?.data
             console.log(res);
+            this.isLoading['delinquent'] = false;
         }, err => {
             console.log(err);
+            this.isLoading['delinquent'] = false;
+        })
+    }
+
+    getExistingList(){
+        this.isLoading['delinquent'] = true;
+        let data = {
+            'datapoint': 'dashboard_existing',
+            'source': 'LMS',
+            'filter_type': 'this month'
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            // this.fetchedList['delinquent'] = res?.data
+            console.log(res?.data)
+            console.log(res);
+            this.isLoading['delinquent'] = false;
+        }, err => {
+            console.log(err);
+            this.isLoading['delinquent'] = false;
+        })
+    }
+
+    getAcquisition(){
+        this.isLoading['delinquent'] = true;
+        let data = {
+            'datapoint': 'dashboard_acquisition',
+            'source': 'LMS',
+            'filter_type': 'this month'
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            // this.fetchedList['delinquent'] = res?.data
+            console.log(res?.data)
+            console.log(res);
+            this.isLoading['delinquent'] = false;
+        }, err => {
+            console.log(err);
+            this.isLoading['delinquent'] = false;
         })
     }
 
     getNBFCList(){
+        this.isLoading['nbfc'] = true;
         let data = {
             'datapoint': 'dashboard_nbfc',
             'source': 'LMS',
             'filter_type': this.selectedTab['nbfc']
         }
-        this.http.getDetailForDashboardAPI(data).subscribe((res)=> {
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            this.fetchedList['nbfc'] = res?.data
             console.log(res);
+            this.isLoading['nbfc'] = false;
         }, err => {
             console.log(err);
+            this.isLoading['nbfc'] = false;
         })
     }
 }

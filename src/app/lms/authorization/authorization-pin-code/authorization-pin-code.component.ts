@@ -77,13 +77,14 @@ export class AuthorizationPinCodeComponent implements OnInit {
 
   page = 1;
 
-  total_count = 10;
+  total_count: any;
   pinCodeList: any;
   uploaded_file: any;
   file: string;
   isVisible: boolean;
   oldDetail: any;
   updatePINDetails: FormGroup;
+  globalPageSize: any = 30;
 
   constructor(private fb: FormBuilder,public http: HttpService) { }
 
@@ -93,10 +94,13 @@ export class AuthorizationPinCodeComponent implements OnInit {
   }
 
   getResultBasedOnSearch(){
-
+    this.getAuthorizationList();
   }
 
   resetFilter(){
+    this.page = 1;
+    this.searchValue = '';
+    this.getAuthorizationList();
 
   }
 
@@ -180,6 +184,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
     }
     this.http.updateStatusForAuthorization(data).subscribe((res)=> {
       console.log(res);
+      this.getAuthorizationList();
     }, err => {
       console.log(err);
     })
@@ -188,14 +193,18 @@ export class AuthorizationPinCodeComponent implements OnInit {
 
   getAuthorizationList(e?){
     if(this.apiLoader['list']){return}
+    if(e){
+      this.page = e?.pageIndex;
+      this.globalPageSize = e?.pageSize
+    } 
     this.apiLoader['list'] = true;
     let data = {
       'source': 'LMS',
       'datapoint':'authorization_get',
       'endpoint':'Pincodes',
       'keyword': this.searchValue,
-      'page': 1,
-      'size': 30
+      'page': this.page,
+      'limit': this.globalPageSize
     }
     // this.listOfData;
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {

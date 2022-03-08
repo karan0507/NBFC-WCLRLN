@@ -148,6 +148,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
 
 
+      partner_master:[data ? data?.master_partner?.id : null , [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
