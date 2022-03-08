@@ -1,6 +1,6 @@
 <section>
     <div class="row mb-md-3">
-        <span>{{listOfData?.length}} Results Found</span>
+        <span>{{total_count ? (total_count + '  Results Found') : (0 + '  Results Found')}}</span>
     </div>
     <div class="row">
         <nz-card class="w-100">
@@ -48,7 +48,8 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ data?.upi_id }}</td>
                         <td>{{ data?.remarks }}</td>
-                        <td>{{ data?.status }}</td>
+                        <td *ngIf="data?.status">Active</td>
+                        <td *ngIf="!data?.status">Deactive</td>
                         <td>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                 [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">

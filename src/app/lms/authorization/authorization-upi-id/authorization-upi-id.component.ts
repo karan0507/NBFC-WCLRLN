@@ -75,13 +75,14 @@ export class AuthorizationUpiIdComponent implements OnInit {
   }
   page = 1;
 
-  total_count = 10;
+  total_count: any;
   UPIList: any;
   isVisible: boolean;
   updateUPIDetails: FormGroup
   oldDetail: any;
   file: string;
   uploaded_file: any;
+  globalPageSize: any = 30;
 
   constructor(private fb: FormBuilder,public http: HttpService) { }
 
@@ -107,7 +108,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
       datapoint : "authorization_edit",
       endpoint : [null, [Validators.required]], 
       remarks : ["", [Validators.required]],
-      upi_id :  ["", [Validators.required]]
+      upi_id :  ["", [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-19]')]]
     })
 }
 
@@ -191,13 +192,17 @@ export class AuthorizationUpiIdComponent implements OnInit {
     // this.listOfData;
     if(this.apiLoader['list']){return}
     this.apiLoader['list'] = true;
+    if(e){
+      this.page = e?.pageIndex;
+      this.globalPageSize = e?.pageSize
+    } 
     let data = {
       'source': 'LMS',
       'datapoint':'authorization_get',
       'endpoint':'Upi',
       'keyword': this.searchValue,
-      'page': 1,
-      'size': 30
+      'page': this.page,
+      'limit': this.globalPageSize
     }
     // this.listOfData;
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {

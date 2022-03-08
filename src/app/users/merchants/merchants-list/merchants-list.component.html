@@ -178,7 +178,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.contact_person_name}}
+                                                    {{data?.expandSet?.contact_person_phone}}
                                                 </div>
                                             </div>
                                         </div>
@@ -203,7 +203,7 @@
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="d-flex flex-column">
                                                 <h6>
                                                     Bank Name
@@ -213,7 +213,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="d-flex flex-column">
                                                 <h6>
                                                     IFSC
@@ -223,7 +223,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="d-flex flex-column">
                                                 <h6>
                                                     A/c No.
@@ -233,7 +233,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="d-flex flex-column">
                                                 <h6>
                                                     Branch.
@@ -294,6 +294,37 @@
                             <div class="justify-content-center">
                                 <nz-page-header
                                     class="site-page-header acc-bg-light mb-2"
+                                    [nzTitle]="upiDetails">
+                                </nz-page-header>
+                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <h6>
+                                                    Primary
+                                                </h6>
+                                                <div>
+                                                    {{data?.expandSet?.primary_upi}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <h6>
+                                                    Secondary
+                                                </h6>
+                                                <div class="d-flex">
+                                                    {{data?.expandSet?.secondary_upi}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                            </div>
+
+                            <div class="justify-content-center">
+                                <nz-page-header
+                                    class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="otherDetails">
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
@@ -301,30 +332,30 @@
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    Total Commitment
+                                                    MDR %
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.total_commitment}}
+                                                    {{data?.expandSet?.mdr ? data?.expandSet?.mdr : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    Roi
+                                                    Interest Subvention
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{data?.expandSet?.roi}}
+                                                    {{data?.expandSet?.interest_subvention ? data?.expandSet?.interest_subvention : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
                                                 <h6>
-                                                    FLDG
+                                                    Payout
                                                 </h6>
                                                 <div class="d-flex">
-                                                    {{data?.expandSet?.fldg}}
+                                                    {{data?.expandSet?.payout ? data?.expandSet?.payout : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>
@@ -368,6 +399,11 @@
 <ng-template #otherDetails>
     <div class="ml-md-2">
         <h6 class="mb-0">Other Details</h6>
+    </div>
+</ng-template>
+<ng-template #upiDetails>
+    <div class="ml-md-2">
+        <h6 class="mb-0">UPI Id</h6>
     </div>
 </ng-template>
 

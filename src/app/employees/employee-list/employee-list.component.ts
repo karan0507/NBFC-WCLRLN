@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -35,6 +35,7 @@ export class EmployeeListComponent implements OnInit {
   employeeManagerList: any;
   changePasswordForm: any;
   globalPageSize: number;
+  modalTitle: string;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -44,20 +45,35 @@ export class EmployeeListComponent implements OnInit {
     this.page = 1;
     this.globalPageSize = 30
     this.fetchEmployeeList()
+    this.createEditFormFunction()
   }
   createEditFormFunction(data?) {
-    this.createEditForm = this.fb.group({
-      id: [data ? data.id : ''],
-      first_name: [data ? data.first_name : ''],
-      last_name: [data ? data.last_name : ''],
-      unique_code: [data ? data.unique_code : ''],
-      role: [data ? data.role?.id : ''],
-      associated_team: [data ? data.associated_team : ''],
-      reporting_manager: [data ? data.reporting_manager?.id : ''],
-      mobile: [data ? data.mobile : ''],
-      email: [data ? data.email : ''],
-      is_active: [data ? data.is_active : '']
-    })
+    if (data) {
+      this.createEditForm = this.fb.group({
+        id: [data ? data.id : '', [Validators.required]],
+        first_name: [data ? data.first_name : '', [Validators.required]],
+        last_name: [data ? data.last_name : '', [Validators.required]],
+        unique_code: [data ? data.unique_code : '', [Validators.required]],
+        role: [data ? data.role?.id : '', [Validators.required]],
+        associated_team: [data ? data.associated_team : '', [Validators.required]],
+        reporting_manager: [data ? data.reporting_manager?.id : '', [Validators.required]],
+        mobile: [data ? data.mobile : '', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        email: [data ? data.email : '', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        is_active: [data ? data.is_active : '', [Validators.required]]
+      })
+    } else {
+      this.createEditForm = this.fb.group({
+        first_name: ['', [Validators.required]],
+        last_name: ['', [Validators.required]],
+        unique_code: ['', [Validators.required]],
+        role: ['', [Validators.required]],
+        associated_team: ['', [Validators.required]],
+        reporting_manager: ['', [Validators.required]],
+        mobile: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        is_active: [ '', [Validators.required]]
+      })
+    }
   }
   changePasswordFormFunction(data?) {
     this.changePasswordForm = this.fb.group({
@@ -82,6 +98,8 @@ export class EmployeeListComponent implements OnInit {
       role: this.roles,
       limit: this.globalPageSize
     }
+    this.employeeList = null
+    this.total_count = null
     this.api_calling_loader = true
     this.http.fetchEmployeeList(data).subscribe(res => {
       this.api_calling_loader = false
@@ -111,17 +129,29 @@ export class EmployeeListComponent implements OnInit {
 
   editEmployee(data) {
     this.formLoading = true
-    this.http.addEditEmployee(data).subscribe(res => {
-      this.formLoading = false
-      this.isEdit = false
-      this.isDelete = false
-      this.message.success(res['message'])
-      this.fetchEmployeeList()
-    })
+    if (data?.id) {
+      this.http.addEditEmployee(data).subscribe(res => {
+        this.formLoading = false
+        this.isEdit = false
+        this.isDelete = false
+        this.message.success(res['message'])
+        this.fetchEmployeeList()
+      })
+    } else {
+      this.http.addEmployee(data).subscribe(res => {
+        this.formLoading = false
+        this.isEdit = false
+        this.isDelete = false
+        this.message.success(res['message'])
+        this.fetchEmployeeList()
+        this.createEditForm.reset()
+      })
+    }
   }
 
   editEmployeeFunction(data) {
     this.isEdit = true;
+    this.modalTitle = 'Edit Employee'
     this.fetchEmployeeManagerList()
     this.fetchRoles()
     this.createEditFormFunction(data)

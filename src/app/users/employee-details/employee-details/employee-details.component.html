@@ -13,10 +13,10 @@
             <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Employee Database">Employee Database</label>
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="New Joinees">New Joinees</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Exit Employee">Exit Employee</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"
                     nzValue="Attendance">Attendance</label>
-                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Notice Period">Notice Period</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Exit Employee">Exit Employee</label>
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Notice Period">Notice Period</label>
             </nz-radio-group>
         </div>
     </div>
@@ -90,8 +90,8 @@
                                 </td>
                             <td>{{data?.remarks ? data?.remarks : ' '}}</td>
                             <td nzRight>
-                                <a nz-button class="primary" nzType="link" style="color: #074EE8;">View</a>
-                                <a nz-button nzType="link" style="color: #074EE8;">Download</a>
+                                <a nz-button class="primary" nzType="link">View</a>
+                                <a nz-button nzType="link">Download</a>
                             </td>
                         </tr>
                     </tbody>
@@ -130,7 +130,6 @@
                                         [nzMultiple]="'false'" [nzAccept]="'.xlsx, .xls'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'upload')"
-                                        formControlName="file"
                                         >
                                         <button nz-button nzType="link" ><i nz-icon nzType="upload"></i>{{uploadSelectedCorporateFile.controls.file.value ? ' Re-Upload File' : 'Upload File'}}</button>
                                         </nz-upload>

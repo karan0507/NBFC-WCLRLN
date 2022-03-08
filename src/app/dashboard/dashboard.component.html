@@ -170,8 +170,8 @@
             </ng-template>
         </div>
         <div class="col-md-6 mb-md-3">
-            <nz-card [nzTitle]="authorisation" [nzExtra]="extraTemplate" class="h-100">
-                <nz-table #basicTable [nzData]="[{}]">
+            <nz-card [nzTitle]="authorisation" [nzExtra]="authorizationTemplate" class="h-100">
+                <nz-table  [nzLoading]="isLoading['authorization']" [nzData]="fetchedList['authorization']">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -181,24 +181,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <ng-container>
                         <tr>
                             <td>1</td>
                             <td>Total</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
+                            <td>{{fetchedList['authorization']?.total ? ('₹ ' + fetchedList['authorization']?.total) : ' 0 '}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>Failed</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
+                            <td>{{fetchedList['authorization']?.failed ? ('₹ ' + fetchedList['authorization']?.failed) : ' 0 '}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>Successful</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
+                            <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td>
                         </tr>
+                    </ng-container>
                     </tbody>
                 </nz-table>
                 <div class="row mt-md-4 ant-card-head px-0 py-3">
@@ -216,21 +215,11 @@
                     </div>
                 </div>
             </nz-card>
-            <ng-template #extraTemplate>
-                <nz-radio-group [(ngModel)]="selectedTab">
-                    <label nz-radio-button nzValue="all">Today</label>
-                    <label nz-radio-button nzValue="credit">This Month</label>
-                    <label nz-radio-button nzValue="debit">Overall</label>
-                </nz-radio-group>
-            </ng-template>
-            <ng-template #authorisation>
-                <i nz-icon nzType="line-chart" nzTheme="outline"></i>
-                Authorisation
-            </ng-template>
+            
         </div>
         <div class="col-md-6 mb-md-3">
-            <nz-card [nzTitle]="delinquent" [nzExtra]="extraTemplate" class="h-100">
-                <nz-table #basicTable [nzData]="[{}]">
+            <nz-card [nzTitle]="delinquent" [nzExtra]="delinquentTemplate" class="h-100">
+                <nz-table [nzLoading]="isLoading['delinquent']" [nzData]="fetchedList['delinquent']">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -240,13 +229,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>0+ Days</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
+                        <tr *ngFor="let data of fetchedList['delinquent'], index as i">
+                            <td>{{i + 1}}</td>
+                            <td>{{data?.number_of_days}}</td>
+                            <td>{{data?.number_of_user}}</td>
+                            <td>{{data?.total_amount ? ('₹ ' + data?.total_amount) : ' 0 '}}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>2</td>
                             <td>30+ Days</td>
                             <td>5,000</td>
@@ -257,7 +246,7 @@
                             <td>90+ Days</td>
                             <td>5,000</td>
                             <td>₹ 3,00,000</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </nz-table>
             </nz-card>
@@ -274,7 +263,7 @@
             </ng-template>
         </div>
         <div class="col-md-12">
-            <nz-card [nzTitle]="NBFC" [nzExtra]="extraTemplate">
+            <nz-card [nzTitle]="NBFC" [nzExtra]="nbfcTemplate">
                 <div style="height: 360px">
                     <canvas ngChartjs 
                         [datasets]="avgProfitChartData" 
@@ -300,3 +289,30 @@
         </div>
     </div>
 </section>
+
+
+<ng-template #delinquentTemplate>
+    <nz-radio-group (ngModelChange)="onChangeTab($event, 'delinquent')" [(ngModel)]="selectedTab['delinquent']">
+        <label nz-radio-button nzValue="Today">Today</label>
+        <label nz-radio-button nzValue="This Month">This Month</label>
+        <label nz-radio-button nzValue="Overall">Overall</label>
+    </nz-radio-group>
+</ng-template>
+<ng-template #nbfcTemplate>
+    <nz-radio-group (ngModelChange)="onChangeTab($event, 'nbfc')" [(ngModel)]="selectedTab['nbfc']">
+        <label nz-radio-button nzValue="Today">Today</label>
+        <label nz-radio-button nzValue="This Month">This Month</label>
+        <label nz-radio-button nzValue="Overall">Overall</label>
+    </nz-radio-group>
+</ng-template>
+<ng-template #authorizationTemplate>
+    <nz-radio-group (ngModelChange)="onChangeTab($event, 'authorization')" [(ngModel)]="selectedTab['authorization']">
+        <label nz-radio-button nzValue="Today">Today</label>
+        <label nz-radio-button nzValue="This Month">This Month</label>
+        <label nz-radio-button nzValue="Overall">Overall</label>
+    </nz-radio-group>
+</ng-template>
+<ng-template #authorisation>
+    <i nz-icon nzType="line-chart" nzTheme="outline"></i>
+    Authorisation
+</ng-template>

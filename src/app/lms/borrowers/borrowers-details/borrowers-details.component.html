@@ -4,12 +4,12 @@
             <div class="mr-3"><i nz-icon nzType="arrow-left" [routerLink]="['../']" class="pointer" nzTheme="outline"></i></div>
             <div class="col d-flex justify-contents-between px-0">
                 <div>
-                    <h4 class="h4">{{borrowertList?.user?.full_name}}</h4>
-                    <span class="mr-3">Loan ID - {{borrowertList?.loan_unique_id}}</span>
-                    <span class="mr-3">Card Status - {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
-                    <span class="mr-3">A/c Status - {{borrowertList?.account_status}}</span>
-                    <span class="mr-3">Contact - {{borrowertList?.user?.mobile}}</span>
-                    <span class="mr-3">Email ID - {{borrowertList?.user?.email}}</span>
+                    <h4 class="h4">{{borrowertList?.user?.full_name}} <img src="assets/images/rupee-br.svg" alt=""></h4>
+                    <span class="mr-3"><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Loan ID - {{borrowertList?.loan_unique_id}}</span>
+                    <span class="mr-3"><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card Status - {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
+                    <span class="mr-3"><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; A/c Status - {{borrowertList?.account_status}}</span>
+                    <span class="mr-3"><i nz-icon nzType="user" nzTheme="outline"></i> &nbsp; Contact - {{borrowertList?.user?.mobile}}</span>
+                    <span class="mr-3"><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID - {{borrowertList?.user?.email}}</span>
                 </div>
                 <div class="col d-flex align-items-center" *ngIf="selectedTab == '1'">
                     <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3">
@@ -143,8 +143,12 @@
             </tbody>
         </nz-table>
     </nz-card>
-    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Transactions & Repayments" [nzExtra]="extraTemplate">
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" [nzTitle]="txntitle" [nzExtra]="extraTemplate">
         <div class="row">
+            <ng-template #txntitle>
+                <img src="../../../../assets/images/rupees.svg" alt=""> &nbsp;Transactions & Repayments
+            </ng-template>
+            
             <div class="col-md-4 mb-3 d-flex">
                 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                     <input (keyup.enter)="fetchTransactionTxnList()" [(ngModel)]="searchValue2" type="text" nz-input
@@ -194,7 +198,7 @@
             <tbody>
                 <ng-container *ngFor="let data of transaction_repayment_list; index as i">
                     <tr>
-                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="page2 === 1">{{i+1}}</td><td *ngIf="page2 > 1">{{((page2-1)*globalPageSize2)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -215,17 +219,17 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="isReverseCharges = true">
+                                        <li nz-menu-item (click)="reverseChargesToggle(data.id)">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
     
-                                        <li nz-menu-item (click)="isRefundTransaction = true">
+                                        <li nz-menu-item (click)="refundTransactionToggle(data?.id)">
                                             <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>
                                         
-                                        <li nz-menu-item (click)="isWaiveOff = true">
+                                        <li nz-menu-item (click)="waiveOffToggle(data?.id)">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Waive off Charges</span>
                                         </li>
@@ -244,7 +248,10 @@
     <ng-template #extraTemplate>
         Spend Status :  {{borrowertList?.account_status}}
     </ng-template>
-    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Fees and Charges">
+    <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" [nzTitle]="feestitle">
+        <ng-template #feestitle>
+            <img src="../../../../assets/images/rupees.svg" alt=""> &nbsp;Fees and Charges
+        </ng-template>
         <div class="row">
             <div class="col-md-4 mb-3 d-flex">
                 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -295,7 +302,7 @@
             <tbody>
                 <ng-container *ngFor="let data of fees_charges_list; index as i">
                     <tr>
-                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="page1 === 1">{{i+1}}</td><td *ngIf="page1 > 1">{{((page1-1)*globalPageSize1)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -314,24 +321,21 @@
                                     [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
                                     <i nz-icon nzType="ellipsis" theme="outline"></i>
                                 </a>
-                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <!-- <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <li nz-menu-item (click)="reverseChargesToggle(data?.id);">
-                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
     
                                         <li nz-menu-item (click)="refundTransactionToggle(data?.id);">
-                                            <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>
                                         
                                         <li nz-menu-item (click)="waiveOffToggle(data?.id);">
-                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Waive off Charges</span>
                                         </li>
                                     </ul>
-                                </nz-dropdown-menu>
+                                </nz-dropdown-menu> -->
                             </div>
                         </td>
                     </tr>
@@ -353,7 +357,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of billStatementList; index as i">
-                    <td>{{i+1}}</td>
+                    <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                     <td>{{data?.report_file}}</td>
                     <td>{{ data?.created_at | date: "medium" }}</td>
                 </tr>
@@ -496,13 +500,15 @@
 <!-- Reverse Charges -->
 <nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
+        <!-- Amount to be reversed - ₹100 <br/>  -->
         <app-double-confirmation-popup 
             [title]="'Do you want to reverse the applied charges?'"
-            [subTitle]="'Amount to be reversed - ₹100 <br/> Are you sure about performing this action?'"
+            [subTitle]="'Are you sure about performing this action?'"
             [icon]="'assets/images/reverse.png'"
-            (onOkCall)="isReverseCharges = false"
+            (onOkCall)="reverseChargesFunction()"
             (onCencelCall)="isReverseCharges = false"
             [cancelBtnTxt]="'Cancel'"
+            [isbtnLoading]="is_revese_loading"
             [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
     </ng-container>
@@ -510,9 +516,10 @@
 <!-- Refund Transaction -->
 <nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
+        <!-- Amount to be refunded - ₹100 <br/>  -->
         <app-double-confirmation-popup 
             [title]="'Do you want to refund this transaction amount to users account?'"
-            [subTitle]="'Amount to be refunded - ₹100 <br/> Are you sure about performing this action?'"
+            [subTitle]="'Are you sure about performing this action?'"
             [icon]="'assets/images/refund.png'"
             (onOkCall)="isRefundTransaction = false"
             (onCencelCall)="isRefundTransaction = false"
@@ -531,7 +538,8 @@
             (onOkCall)="fetchBorrowerDelete()"
             (onCencelCall)="isWaiveOff = false"
             [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'OK'">
+            [submitBtnTxt]="'OK'"
+            [isbtnLoading]="isdeleteloader">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
@@ -554,7 +562,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of dataSet; index as i">
-                        <td>{{i+1}}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td></td>
                         <td></td>
                         <td>

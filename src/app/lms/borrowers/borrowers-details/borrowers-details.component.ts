@@ -69,6 +69,8 @@ export class BorrowersDetailsComponent implements OnInit {
   reverseId: any;
   refundId: any;
   waiveOffId: any;
+  isdeleteloader: boolean;
+  is_revese_loading: boolean;
   
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -127,7 +129,7 @@ export class BorrowersDetailsComponent implements OnInit {
     if (index == 1) {
       data = {
         datapoint: 'download_transaction_letter',
-        endpoint: this.borrower_id,
+        offer: this.borrower_id,
         source: 'LMS',
         start_date: this.selectedDateforStatement[0] ? moment(this.selectedDateforStatement[0]).format("YYYY-MM-DD") : '',
         end_date: this.selectedDateforStatement[1] ? moment(this.selectedDateforStatement[1]).format("YYYY-MM-DD") : '',
@@ -161,11 +163,16 @@ export class BorrowersDetailsComponent implements OnInit {
     if (data) {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
         if (res.success) {
-          this.pdf_viewer_object_values['title'] = title
-          this.pdf_viewer_object_values['url'] = res?.data?.url
-          this.pdf_viewer_object_values['boolean'] = true
+          // this.pdf_viewer_object_values['title'] = title
+          // this.pdf_viewer_object_values['url'] = res?.data?.url
+          // this.pdf_viewer_object_values['boolean'] = true
+          var downloadURL = res?.data?.url
+          var link = document.createElement('a');
+          link.href = downloadURL;
+          // link.download = section + '.' + file_formate;
+          link.click();
         } else {
-          this.message.error('File download failed')
+          this.message.error(res['message'])
         }
         this.message.remove(generateloader);
         this.isSelectDate = false
@@ -307,8 +314,14 @@ export class BorrowersDetailsComponent implements OnInit {
       endpoint: this.waiveOffId,
       source: 'LMS',
     }
+    this.isdeleteloader = true
     this.http.fetchLoanApplicationDelete(data).subscribe(res => {
+      this.isdeleteloader = false
       this.message.success(res['message'])
+      this.isWaiveOff = false
+      this.fetchTransactionTxnList()
+    }, (err)=> {
+      this.isdeleteloader = false
       this.isWaiveOff = false
     })
   }
@@ -323,5 +336,21 @@ export class BorrowersDetailsComponent implements OnInit {
   waiveOffToggle(id) {
     this.isWaiveOff = true
     this.waiveOffId = id
+  }
+
+  reverseChargesFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'reverse_transaction'),
+    data.append('endpoint', this.reverseId)
+    this.is_revese_loading = true
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.is_revese_loading = false
+      this.isReverseCharges = false
+      this.message.success(res['message'])
+      this.fetchTransactionTxnList()
+    }, (err) => {
+      this.is_revese_loading = false
+    })
   }
 }

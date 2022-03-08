@@ -245,8 +245,13 @@ export class LendersListComponent implements OnInit {
     // let endPoint =  'partner' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
-      this.http.uploadAndShowAgreementForNBFC('post', this.selectedIdForAgreement, data).subscribe((res)=> {
+      this.http.uploadAndShowAgreementForNBFC('post', this.selectedIdForAgreement, data).subscribe((res: any)=> {
         console.log(res);
+        if(res?.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error(res?.message?.[0])
+        }
       }, err => {
         console.log(err);
       })
