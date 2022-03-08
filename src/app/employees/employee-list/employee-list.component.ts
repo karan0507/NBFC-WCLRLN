@@ -35,6 +35,7 @@ export class EmployeeListComponent implements OnInit {
   employeeManagerList: any;
   changePasswordForm: any;
   globalPageSize: number;
+  modalTitle: string;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -56,8 +57,8 @@ export class EmployeeListComponent implements OnInit {
         role: [data ? data.role?.id : '', [Validators.required]],
         associated_team: [data ? data.associated_team : '', [Validators.required]],
         reporting_manager: [data ? data.reporting_manager?.id : '', [Validators.required]],
-        mobile: [data ? data.mobile : '', [Validators.required]],
-        email: [data ? data.email : '', [Validators.required]],
+        mobile: [data ? data.mobile : '', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        email: [data ? data.email : '', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         is_active: [data ? data.is_active : '', [Validators.required]]
       })
     } else {
@@ -68,8 +69,8 @@ export class EmployeeListComponent implements OnInit {
         role: ['', [Validators.required]],
         associated_team: ['', [Validators.required]],
         reporting_manager: ['', [Validators.required]],
-        mobile: ['', [Validators.required]],
-        email: ['', [Validators.required]],
+        mobile: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         is_active: [ '', [Validators.required]]
       })
     }
@@ -150,6 +151,7 @@ export class EmployeeListComponent implements OnInit {
 
   editEmployeeFunction(data) {
     this.isEdit = true;
+    this.modalTitle = 'Edit Employee'
     this.fetchEmployeeManagerList()
     this.fetchRoles()
     this.createEditFormFunction(data)

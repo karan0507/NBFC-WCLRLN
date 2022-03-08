@@ -129,7 +129,7 @@ export class BorrowersDetailsComponent implements OnInit {
     if (index == 1) {
       data = {
         datapoint: 'download_transaction_letter',
-        endpoint: this.borrower_id,
+        offer: this.borrower_id,
         source: 'LMS',
         start_date: this.selectedDateforStatement[0] ? moment(this.selectedDateforStatement[0]).format("YYYY-MM-DD") : '',
         end_date: this.selectedDateforStatement[1] ? moment(this.selectedDateforStatement[1]).format("YYYY-MM-DD") : '',
@@ -163,11 +163,16 @@ export class BorrowersDetailsComponent implements OnInit {
     if (data) {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
         if (res.success) {
-          this.pdf_viewer_object_values['title'] = title
-          this.pdf_viewer_object_values['url'] = res?.data?.url
-          this.pdf_viewer_object_values['boolean'] = true
+          // this.pdf_viewer_object_values['title'] = title
+          // this.pdf_viewer_object_values['url'] = res?.data?.url
+          // this.pdf_viewer_object_values['boolean'] = true
+          var downloadURL = res?.data?.url
+          var link = document.createElement('a');
+          link.href = downloadURL;
+          // link.download = section + '.' + file_formate;
+          link.click();
         } else {
-          this.message.error('File download failed')
+          this.message.error(res['message'])
         }
         this.message.remove(generateloader);
         this.isSelectDate = false

@@ -62,8 +62,26 @@
                         <td>{{data.credit_utilization_amount}}</td>
                         <td>{{data.loan_amount_provided - data.credit_utilization_amount}}</td>
                         <td>{{data.fees_or_charges_amount}}</td>
-                        <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
-                        <td>{{data?.account_status}}</td>
+                        <td>
+                            <nz-tag nzColor="green" *ngIf="!data?.is_blocked">
+                                <i nz-icon nzType="check-circle"></i>
+                                <span>Active</span>
+                            </nz-tag>
+                            <nz-tag nzColor="red" *ngIf="data?.is_blocked">
+                                <i nz-icon nzType="close-circle"></i>
+                                <span>Block</span>
+                            </nz-tag>
+                        </td>
+                        <td>
+                            <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
+                                <i nz-icon nzType="check-circle"></i>
+                                <span>Active</span>
+                              </nz-tag>
+                              <nz-tag nzColor="orange" *ngIf="data?.account_status == 'Inactive'">
+                                <i nz-icon nzType="close-circle"></i>
+                                <span>Inactive</span>
+                              </nz-tag>
+                        </td>
                         <td nzRight>
                             <div>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"

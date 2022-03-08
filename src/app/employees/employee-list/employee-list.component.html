@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true">+ Add Employee</button>
+    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true; modalTitle = 'Add Employee'">+ Add Employee</button>
 </div>
 <section>
     <div class="row">
@@ -106,7 +106,7 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isEdit" nzTitle="{{'Edit Employee'}}" (nzOnCancel)="isEdit = false" (nzOnOk)="editEmployee(createEditForm.value)"
+<nz-modal [(nzVisible)]="isEdit" [nzTitle]="modalTitle" (nzOnCancel)="isEdit = false; createEditForm.reset()" (nzOnOk)="editEmployee(createEditForm.value)"
     nzOkText="Save" [nzOkDisabled]="createEditForm.invalid">
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
