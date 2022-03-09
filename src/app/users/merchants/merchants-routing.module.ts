@@ -8,9 +8,9 @@ import { MerchantsListComponent } from './merchants-list/merchants-list.componen
 const routes: Routes = [
       {
             path: '',
-           
+
             children: [
-                  { 
+                  {
                         path: "DSA",
                         component: DsaListComponent,
                         data: {
@@ -18,6 +18,18 @@ const routes: Routes = [
                               parent: "Merchants",
                         },
                         children: [
+
+                        ],
+                  },
+                  {
+                        path: "DSA",
+                        data: {
+                              title: "Partner DSA",
+                              parent: "Merchants",
+                        },
+                        children: [
+
+
                               {
                                     path: "add-dsa",
                                     component: AddEditDsaComponent,
@@ -52,7 +64,7 @@ const routes: Routes = [
                         path: "list",
                         data: {
                               title: 'Merchant List',
-                              parent:'Merchants',
+                              parent: 'Merchants',
                               custom_url: "merchants/list",
                         },
                         children: [
