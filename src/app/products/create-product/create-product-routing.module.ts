@@ -10,13 +10,19 @@ const routes: Routes = [
   // },
   {
     path:'',
+    data: {
+      title: 'Product List',
+      parent: 'Products',
+      custom_url: 'product-list'
+    },
     children: [
       {
         path: 'create-product',
         component: CreateProductComponent,
         data: {
           title: 'Create New Product',
-          parent: 'Product'
+          parent: 'Product',
+          custom_url: 'product/create-product'
         }
       },
       {
@@ -24,7 +30,8 @@ const routes: Routes = [
         component: CreateProductComponent,
         data: {
           title: 'Edit Product',
-          parent: 'Product'
+          parent: 'Product',
+          custom_url: 'product/edit-product'
         }
       },
       {
@@ -32,7 +39,8 @@ const routes: Routes = [
         component: ViewProductComponent,
         data: {
           title: 'View Product',
-          parent: 'Product'
+          parent: 'Product',
+          custom_url: 'product/view-product'
         }
       },
     ]

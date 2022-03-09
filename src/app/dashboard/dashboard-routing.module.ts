@@ -8,7 +8,6 @@ const routes: Routes = [
         component: DashboardComponent,
         data: {
             title: 'Dashboard ',
-            headerDisplay: "none"
         }
     }
 ];

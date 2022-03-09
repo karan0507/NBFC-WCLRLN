@@ -8,6 +8,8 @@ const routes: Routes = [
     component: ProductListComponent,
     data: {
       title: 'Product List',
+      parent: 'Products',
+      custom_url: 'product-list'
     }
   },
 ];

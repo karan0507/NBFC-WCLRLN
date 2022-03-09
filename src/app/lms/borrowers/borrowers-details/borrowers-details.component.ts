@@ -28,7 +28,7 @@ export class BorrowersDetailsComponent implements OnInit {
   createAddPaymentOrChargeForm: FormGroup;
   pdf_viewer_object_values = {
     'boolean': false,
-    'url': '',
+    'url': null,
     'title': ''
   }
   isSelectDate;
@@ -117,10 +117,10 @@ export class BorrowersDetailsComponent implements OnInit {
 
   handleCancel() {
     this.pdf_viewer_object_values['boolean'] = false
-    this.pdf_viewer_object_values['url'] = ''
+    this.pdf_viewer_object_values['url'] = null
   }
   sanatizeUrlToSafe(value) {
-    return this.sanitized.bypassSecurityTrustResourceUrl(value);
+    this.pdf_viewer_object_values['url'] = this.sanitized.bypassSecurityTrustResourceUrl(value);
   }
 
   pdfViewerAndDownload(title, index) {
@@ -163,14 +163,10 @@ export class BorrowersDetailsComponent implements OnInit {
     if (data) {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
         if (res.success) {
-          // this.pdf_viewer_object_values['title'] = title
-          // this.pdf_viewer_object_values['url'] = res?.data?.url
-          // this.pdf_viewer_object_values['boolean'] = true
-          var downloadURL = res?.data?.url
-          var link = document.createElement('a');
-          link.href = downloadURL;
-          // link.download = section + '.' + file_formate;
-          link.click();
+          this.pdf_viewer_object_values['title'] = title
+          this.sanatizeUrlToSafe(res?.data?.url) 
+          this.pdf_viewer_object_values['boolean'] = true
+          
         } else {
           this.message.error(res['message'])
         }

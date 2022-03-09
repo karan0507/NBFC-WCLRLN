@@ -44,6 +44,10 @@ export class CustomHttpInterceptor implements HttpInterceptor {
             if(event.body.result == 0){
               this.message.error(event.body.errors[0]);
             }
+            if(!event.body.success){
+              this.message.error(event.body.message[0]);
+              return null;
+            }
           }
           return event;
         }),

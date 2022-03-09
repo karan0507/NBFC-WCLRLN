@@ -22,6 +22,9 @@
             </div>
         </div>
 
+        <div *ngIf="router.url.includes('dashboard')">
+            <h4 class="font-weight-semibold" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].label)}}</h4>
+        </div>
         <h4 class="font-weight-semibold d-none" [ngClass]="showBreadCrumb ? 'mt-4' : ''"
             *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1]?.label)}}</h4>
     </div>

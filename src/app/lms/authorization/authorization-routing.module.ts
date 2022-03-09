@@ -8,7 +8,8 @@ const routes: Routes = [
     component: AuthorizationComponent,
     data: {
       title: 'Authorization Policy',
-      parent: 'LMS'
+      parent: 'LMS',
+      custom_url: 'lms/authorization-policy'
     }
   },
 ];

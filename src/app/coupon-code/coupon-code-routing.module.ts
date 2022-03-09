@@ -7,27 +7,35 @@ const routes: Routes = [
             path: '',
             component: CouponCodeComponent,
             data: {
-                  'title': 'Coupon Code'
+                  title: 'Coupon Code',
+                  parent: 'Coupon Code',
+                  custom_url: 'coupon-code'
             }
       },
       {
             path: '',
             data: {
-                  'title': 'Coupon Code'
+                  title: 'Coupon Code',
+                  parent: 'Coupon Code',
+                  custom_url: 'coupon-code'
             },
             children: [
                   {
                         path: 'add-coupon-code',
                         component: AddEditCouponCodeComponent,
                         data: {
-                              'title': 'Add Coupon Code'
+                              title: 'Add Coupon Code',
+                              parent: 'Coupon Code',
+                              custom_url: 'coupon-code/add-coupon-code'
                         }
                   },
                   {
                         path: 'edit-coupon-code',
                         component: AddEditCouponCodeComponent,
                         data: {
-                              'title': 'Edit Coupon Code'
+                              title: 'Edit Coupon Code',
+                              parent: 'Coupon Code',
+                              custom_url: 'coupon-code/edit-coupon-code'
                         }
                   }
             ]

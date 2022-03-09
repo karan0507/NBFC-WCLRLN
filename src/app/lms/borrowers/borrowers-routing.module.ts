@@ -10,17 +10,29 @@ const routes: Routes = [
     component: BorrowersListComponent,
     data: {
       title: 'Borrowers',
-      parent: 'LMS'
+      parent: 'LMS',
+      custom_url: 'lms/borrowers'
     }
   },
   {
-    path: 'details',
-    component: BorrowersDetailsComponent,
+    path: '',
     data: {
-      title: 'View Details',
+      title: 'Borrowers',
       parent: 'LMS',
-      hideTitle: true
-    }
+      custom_url: 'lms/borrowers'
+    },
+    children: [
+      {
+        path: 'details',
+        component: BorrowersDetailsComponent,
+        data: {
+          title: 'View Details',
+          parent: 'LMS',
+          hideTitle: true,
+          custom_url: 'lms/borrowers/details'
+        }
+      }
+    ]
   },
 ];
 
