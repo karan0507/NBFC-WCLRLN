@@ -55,7 +55,7 @@ export class DocumentUploadComponent implements OnInit {
       _isUpload: boolean = false;
       _currentModalData: any;
       _currentLoanDetails: any;
-      isRequestDoc : boolean = false;
+      isRequestDoc: boolean = false;
       verifyRemarks: any;
 
       // Page Filters and Pagination Data
@@ -194,10 +194,6 @@ export class DocumentUploadComponent implements OnInit {
             this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
       }
 
-      onMonthChange(event) {
-
-      }
-
       updateStatus(type?, data?, docType?) {
             console.log(type, typeof (type), docType);
             if (data) {
@@ -214,7 +210,7 @@ export class DocumentUploadComponent implements OnInit {
                         })
                         console.log(this._checkedLoanList);
                         break;
-                  case 'requestDoc': 
+                  case 'requestDoc':
                         this.isRequestDoc = true;
                         break;
             }
@@ -227,7 +223,7 @@ export class DocumentUploadComponent implements OnInit {
             this._isViewDocument = false;
             this._isUpload = false;
             this._isVerify = false;
-		this.isRequestDoc = false;
+            this.isRequestDoc = false;
       }
 
       handleOk(type?) {
@@ -249,47 +245,56 @@ export class DocumentUploadComponent implements OnInit {
 
                         })
                         break;
-                  case 'verify' :
-				this.api_calling_loader['button'] = true
+                  case 'verify':
+                        this.api_calling_loader['button'] = true
                         let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
                         console.log('export this file', this._currentModalData, params);
-				this.https.verifyLoanDocument(params).subscribe((res :any)=>{
-					if(res?.success){
-						this.api_calling_loader['button'] = false
-						this.message.success(res?.message);
-						this.handleCancel();
-						this.getIdWiseData(this._currentModalData['application'])
-					}else{
-						this.api_calling_loader['button'] = false
-						this.message.error(res?.message);
-					}
-				},err =>{this.api_calling_loader['button'] = false
-				this.message.error(err);})
-				
+                        this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getIdWiseData(this._currentModalData['application'])
+                              } else {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false
+                              this.message.error(err);
+                        })
+
                         break;
                   case 'uploadDocument':
                         this.api_calling_loader['button'] = true
-                        let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
+                        let uploadDoc = new FormData()
+                        uploadDoc.append('source', 'Onboarding')
+                        uploadDoc.append('datapoint', 'upload_kyc_doc')
+                        uploadDoc.append('application_id', this._currentModalData['application'])
+                        uploadDoc.append('kyc_document_id', this._currentModalData?.id)
+                        uploadDoc.append('file', this._currentFileName)
                         console.log(uploadDoc, 'For Upload Document');
 
-                        this.https.uploadLoanDocument(uploadDoc).subscribe((res : any)=>{
-                              if(res?.success){
+                        this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+                              if (res?.success) {
                                     this.api_calling_loader['button'] = false;
                                     this.fileList = [];
-						this.message.success(res?.message)
+                                    this.message.success(res?.message)
                                     this.handleCancel();
-                              }else{
+                              } else {
                                     this.api_calling_loader['button'] = false;
                                     this.fileList = [];
-						this.message.error(res?.message)
+                                    this.message.error(res?.message)
                                     this.handleCancel();
                               }
-                        },err=>{this.api_calling_loader['button'] = false;
-				this.message.error(err)})
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(err)
+                        })
                         break;
             }
       }
-	
+
       checkDisabledStatus() {
             this._checkedLoanList = Array.from(this.setOfCheckedId);
             if (this._checkedLoanList.length > 0) {
@@ -319,39 +324,50 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       openDocumentModal(type?, data?, loanData?) {
-		this._currentModalData = data;
-		this._currentLoanDetails = loanData;
-		if(type == 'download'){
-			let data = { source: 'Onboarding', datapoint: 'download_document','endpoint':'kyc', 'id': this._currentModalData?.id}
-			console.log(data);
-			this.https.downloadDocuments(data).subscribe((res:any)=>{
-if(res?.success){
-	// let url = window.URL.createObjectURL(blob)
-	let pwa = window.open(res?.file);
-}
-			});
-		}else{
-			this._isOpenModal = true;
-			console.log( this._currentModalData);
-			switch (type) {
-				case 'viewDocument': this._isViewDocument = true;
-					// this.generateBase64View(this._currentModalData?.file);
-					break;
-				case 'verify': this._isVerify = true; break;
-				case 'upload': this._isUpload = true; break;
-			}
-		}  
+            this._currentModalData = data;
+            this._currentLoanDetails = loanData;
+            if (type == 'download') {
+                  let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  console.log(data);
+                  this.https.downloadDocuments(data).subscribe((res: any) => {
+                        if (res?.success) {
+
+                              let blob = new Blob([res?.data?.file], { type: type });
+                              let url = window.URL.createObjectURL(blob);
+                              let pwa = window.open(url);
+                              if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+                                    alert( 'Please disable your Pop-up blocker and try again.');
+                                }
+                              // var downloadURL = window.URL.createObjectURL(res);
+                              // var link = document.createElement('a');
+                              // link.href = downloadURL;
+                              // link.download = res?.data?.file;
+                              // link.click();
+                        }
+                  });
+            } else {
+                  this._isOpenModal = true;
+                  console.log(this._currentModalData);
+                  switch (type) {
+                        case 'viewDocument': this._isViewDocument = true;
+                              // this.generateBase64View(this._currentModalData?.file);
+                              break;
+                        case 'verify': this._isVerify = true; break;
+                        case 'upload': this._isUpload = true; break;
+                  }
+            }
       }
 
-      beforeUploadName = (file : NzUploadFile): boolean => {
+      beforeUploadName = (file: NzUploadFile): boolean => {
             this.fileList = [];
             this.fileList = this.fileList.concat(file);
-            this._currentFileName = file;		
+            this._currentFileName = file;
+            console.log(file, this._currentFileName);
             // this.generateBase64View(file)
             return false;
       };
 
-      resetFilters(){
+      resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
