@@ -78,6 +78,7 @@ export class DocumentUploadComponent implements OnInit {
             // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
             return this.sanitize.bypassSecurityTrustResourceUrl(value);
       }
+
       onFocusMethod(type) {
             if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
@@ -331,18 +332,13 @@ export class DocumentUploadComponent implements OnInit {
                   console.log(data);
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
-
-                              let blob = new Blob([res?.data?.file], { type: type });
-                              let url = window.URL.createObjectURL(blob);
-                              let pwa = window.open(url);
-                              if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-                                    alert( 'Please disable your Pop-up blocker and try again.');
-                                }
-                              // var downloadURL = window.URL.createObjectURL(res);
-                              // var link = document.createElement('a');
-                              // link.href = downloadURL;
-                              // link.download = res?.data?.file;
-                              // link.click();
+                             
+                              // var downloadURL = window.URL.createObjectURL(res?.data?.file)
+                              var link = document.createElement('a');
+                              link.href = res?.data?.file;
+                              link.download = '';
+                              link.target = '_blank'
+                              link.click();
                         }
                   });
             } else {

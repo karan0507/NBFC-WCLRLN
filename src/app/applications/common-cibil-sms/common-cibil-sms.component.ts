@@ -26,7 +26,7 @@ export class CommonCibilSmsComponent implements OnInit {
       getDetails() {
             if (this.isCibil) {
                   this.api_calling_loader['cardData'] = true;
-                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-bureau-data', 'application': this._currentLoanDetails?.id }
+                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-bureau-data', 'application': this._currentLoanDetails }
                   this.https.pullCibilThirdParty(param).subscribe((res: any) => {
                         if (res?.success) {
                               this.api_calling_loader['cardData'] = false;
@@ -42,7 +42,7 @@ export class CommonCibilSmsComponent implements OnInit {
                   })
             } else {
                   this.api_calling_loader['cardData'] = true;
-                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-sms-data', 'app_user': this._currentLoanDetails?.user?.id }
+                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-sms-data', 'app_user': this._currentLoanDetails }
                   this.https.pullCibilThirdParty(param).subscribe((res: any) => {
                         if (res?.success) {
                               this.api_calling_loader['cardData'] = false;

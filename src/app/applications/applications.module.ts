@@ -70,6 +70,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
   providers:[
     // HttpService
     DatePipe
-  ]
+  ],
+  exports:[CommonCibilSmsComponent]
 })
 export class ApplicationsModule { }
