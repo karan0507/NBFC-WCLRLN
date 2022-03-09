@@ -136,6 +136,8 @@ export class EmployeeListComponent implements OnInit {
         this.isDelete = false
         this.message.success(res['message'])
         this.fetchEmployeeList()
+      }, (err) => {
+        this.formLoading = false
       })
     } else {
       this.http.addEmployee(data).subscribe(res => {
@@ -145,6 +147,8 @@ export class EmployeeListComponent implements OnInit {
         this.message.success(res['message'])
         this.fetchEmployeeList()
         this.createEditForm.reset()
+      }, (err) => {
+        this.formLoading = false
       })
     }
   }
