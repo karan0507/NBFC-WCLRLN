@@ -80,7 +80,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: [
                     { 
-                        path: 'merchants',
+                        path: 'merchants/list',
                         title: 'Merchants', 
                         iconType: '', 
                         icon: '',

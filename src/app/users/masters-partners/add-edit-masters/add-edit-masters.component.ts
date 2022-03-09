@@ -168,6 +168,7 @@ export class AddEditMastersComponent implements OnInit {
       this.documentArray.push(document);
       this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
       fileName.removeAt(i);
+      this.selectedDocument = null;
     } else {
       this.http
         .deleteMasterDocumentByDocumentId(selectedFile?.id)
@@ -179,6 +180,7 @@ export class AddEditMastersComponent implements OnInit {
           this.documentArray.push(document);
           this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
           fileName.removeAt(i);
+          this.selectedDocument = null;
         });
     }
   }
@@ -203,6 +205,7 @@ export class AddEditMastersComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
+    this.selectedDocument = null;
       return this.fb.group({
         id: [data ? data?.id : null],
         document_master: [data?.pk],
