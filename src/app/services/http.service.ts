@@ -450,17 +450,17 @@ export class HttpService {
 
       // Upload document for loan application
       public uploadLoanDocument(data): any {
-            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       // Verify Loan Application Documents 
       public verifyLoanDocument(data): any {
-            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       // Download Loan Application Documents 
       public downloadDocuments(data): any {
-            return this._http.get((this.url + ` /central-api/v1/call-api`), { params: data });
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
       // Update Single Loan Application Status
@@ -605,6 +605,11 @@ export class HttpService {
       public getLMSAuthorizationList(data): Observable<any> {
             const headers = new HttpHeaders();
             return this._http.get((this.url + `/central-api/v1/call-api`), { headers: headers, params: data, });
+      }
+
+      public updateLMSAuthorizationList(data) {
+            const headers = new HttpHeaders();
+            return this._http.put((this.url + `/central-api/v1/call-api`),data);
       }
 
       public deleteUserByUserId(id) {

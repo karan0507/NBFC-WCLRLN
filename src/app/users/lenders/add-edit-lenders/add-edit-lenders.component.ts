@@ -126,6 +126,7 @@ export class AddEditLendersComponent implements OnInit {
       account_no: [data ? data?.account_no : null, [Validators.required]],
       ifsc: [data ? data?.ifsc : null, [Validators.required]],
       branch: [data ? data?.branch : null, [Validators.required]],
+      display_name: [data ? data?.display_name : null, [Validators.required]],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],

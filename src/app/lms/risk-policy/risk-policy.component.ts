@@ -34,14 +34,18 @@ export class RiskPolicyComponent implements OnInit {
 
   beforeUploadName = (file) => {
     console.log(file)
-    if (this.selectedTab == '1') {
-      this.fetchLoanApplicationUserAc(file, 'USER')
-    } else if (this.selectedTab == '2') {
-      this.fetchLoanApplicationUpload(file)
-    } else if (this.selectedTab == '3') {
-      this.fetchLoanApplicationUserAc(file, 'ACCOUNT')
-    } else if (this.selectedTab == '4') {
-      this.fetchLoanApplicationUploadCreditLine(file)
+    if (file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+      if (this.selectedTab == '1') {
+        this.fetchLoanApplicationUserAc(file, 'USER')
+      } else if (this.selectedTab == '2') {
+        this.fetchLoanApplicationUpload(file)
+      } else if (this.selectedTab == '3') {
+        this.fetchLoanApplicationUserAc(file, 'ACCOUNT')
+      } else if (this.selectedTab == '4') {
+        this.fetchLoanApplicationUploadCreditLine(file)
+      }
+    } else {
+      this.message.error('File should be .xlsx')
     }
     return false;
   };

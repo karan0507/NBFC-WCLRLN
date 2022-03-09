@@ -141,18 +141,23 @@ export class MerchantsListComponent implements OnInit {
   confirmationTrigger(value: any) {
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         console.log(res);
+        if(res.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error('Unable to Delete User......')
+        }
         this.getMerchantList();
         this.isDelete = false
       })
   }
 
   deleteUserByUserId(id, action){
-    if(action === 'delete'){
+    // if(action === 'delete'){
       this.selectedUserId = id;
       this.isDelete = true;
-    } else {
-      this.toggleOnUpgradeUser = true;
-    }
+    // } else {
+    //   this.toggleOnUpgradeUser = true;
+    // }
   }
 
   confirmationForUpdation(){

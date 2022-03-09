@@ -37,7 +37,10 @@
                         </div>
                   </div>
                   <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                              <i nz-icon nzType="undo"></i>
+                          </button>
+                        <nz-select class=" w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
                               (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status
                               ">
@@ -49,7 +52,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
-                        [nzPageSize]="globalPageSize"
+                        [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
                         [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
@@ -98,10 +101,10 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
-                                          <td></td>
-                                          <td></td>
-                                          <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
-                                          <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
+                                          <td>{{data?.master_partner ? data?.master_partner?.name : '--'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '--'}}</td>
+                                          <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
+                                          <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td></td>
                                           <td nzRight>
@@ -202,10 +205,7 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                              == 'Salaried' ?
-                                                                              data?.expanddata?.income_details.results[0].employer_id?.name
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ? data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -215,10 +215,7 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                              == 'Salaried' ?
-                                                                              data?.expanddata?.income_details.results[0].employer_id?.address
-                                                                              : '--'}}
+                                                                              {{ data?.expanddata?.partner ? data?.expanddata?.partner?.address : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
