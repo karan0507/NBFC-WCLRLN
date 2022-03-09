@@ -149,7 +149,8 @@
                     <thead>
                         <tr>
                             <th rowspan="2">#</th>
-                            <th>Full Name Of Employee</th>
+                            <th *ngFor="let data of retrievedFileResponseKey; index as i" >{{data}}</th>
+                            <!-- <th>Full Name Of Employee</th>
                             <th>EMP. ID</th>
                             <th>Employee Type</th>
                             <th >Email ID</th>
@@ -215,20 +216,18 @@
                             <th> Aadhar_No </th>
                             <th> Driving_License_No </th>
                             <th> Passport_No </th>
-                            <th> Pan_no </th>
+                            <th> Pan_no </th> -->
                             <!-- <th> Photo </th> -->
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of retrievedFileResponse; index as i">
+                        <tr *ngFor="let data of retrievedFileResponse?.data; index as i">
                             <td >{{ i + 1 }}</td>
-                            <td>{{ (data?.First_Name ? data?.First_Name + ' '  : '' +  data?.Last_Name ? data?.Last_Name : ' - ')}}</td>
+                            <td>{{ data?.First_Name ? data?.First_Name :  ' ' }}</td>
+                            <td>{{ data?.Middle_Name ? data?.Middle_Name :  ' ' }}</td>
+                            <td>{{ data?.Last_Name ? data?.Last_Name :  ' ' }}</td>
                             <td>{{ data?.Emp_ID ? data?.Emp_ID : ' -- ' }}</td>
-                            <td>{{ data?.Employee_Type ? data?.Employee_Type : ' -- ' }}</td>
-                            <td>{{data?.Personal_Email_id ? data?.Personal_Email_id: ' - '}}</td>
-                            <td>{{data?.Mobile_no ? data?.Mobile_no : ' - '}}</td>
-                            <td>{{data?.Home_no ? data?.Home_no : ' - '}}</td>
                             <td> {{data?.Sex ? data?.Sex : ' - ' }} </td>
                             <td> {{data?.DOB ? (data?.DOB | date : 'dd-MM-yy')  : ' -  '}} </td>
                             <td> {{data?.Joining_Date ? (data?.Joining_Date | date : 'dd-MM-yy') : ' - ' }}</td>
@@ -242,6 +241,10 @@
                             <td> {{data?.Office_Tel_No ? data?.Office_Tel_No : ' - '}} </td>
                             <td> {{data?.Office_Extn_No ? data?.Office_Extn_No : ' '}} </td>
                             <td> {{data?.official_Email_ID ? data?.official_Email_ID :  ' - '}} </td>
+                            <td>{{data?.Mobile_no ? data?.Mobile_no : ' - '}}</td>
+                            <td>{{data?.Home_no ? data?.Home_no : ' - '}}</td>
+                            <td>{{data?.Personal_Email_id ? data?.Personal_Email_id: ' - '}}</td>
+                            <td>{{ data?.Employee_Type ? data?.Employee_Type : ' -- ' }}</td>
                             <td> {{data?.Active_Status ? data?.Active_Status : ' - '}} </td>
                             <td> {{data?.Branch_Name ? data?.Branch_Name : ' - ' }} </td>
                             <td> {{data?.Branch_Address ? data?.Branch_Address : ' - '}} </td>
