@@ -2,6 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-authorization-pin-code',
@@ -86,7 +87,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
   updatePINDetails: FormGroup;
   globalPageSize: any = 30;
 
-  constructor(private fb: FormBuilder,public http: HttpService) { }
+  constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.createUpdateDetailForm();
@@ -183,7 +184,12 @@ export class AuthorizationPinCodeComponent implements OnInit {
       } 
     }
     this.http.updateStatusForAuthorization(data).subscribe((res)=> {
-      console.log(res);
+      // , private message: NzMessageService
+      if(res?.success){
+        this.message.success('PIN Code Updated ')
+      } else {
+        this.message.error('Unable to Updated PIN Code....! ')
+      }
       this.getAuthorizationList();
     }, err => {
       console.log(err);

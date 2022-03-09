@@ -28,6 +28,14 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="display_name" class="text-left" nzRequired>Display Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Display Name!">
+                            <input nz-input type="text" formControlName="display_name"  placeholder="Display Name"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid City!">
                             <input nz-input type="text" formControlName="city"  placeholder="City"/>

@@ -16,6 +16,7 @@ export class ThemeConstantService {
             redLight: 'rgba(222, 68, 54, 0.05)',
             volcano: '#fa541c',
             volcanoLight: 'rgba(250, 84, 28, 0.05)',
+            pink: '#F2637B',
             orange: '#fa8c16',
             orangeLight: 'rgba(250, 140, 22, 0.1)',
             gold: '#ffc107',

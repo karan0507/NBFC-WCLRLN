@@ -81,6 +81,8 @@ export class EmployeeDetailsComponent implements OnInit {
     },
   ];
 
+  retrievedFileResponseKey: any;
+
   
 
   listOfEmployee = [
@@ -266,7 +268,9 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   handleCancel(){
-    this.uploadSelectedCorporateFile.reset();
+    // this.uploadSelectedCorporateFile.reset();
+    this.uploadSelectedCorporateFile.controls['partner'].reset()
+    this.uploadSelectedCorporateFile.controls['file'].reset()
     this.fileName = null
     this.isVisibleModal['toggleHeaderText'] = false;
     this.isVisibleModal['previewIsVisible'] = false
@@ -308,6 +312,7 @@ export class EmployeeDetailsComponent implements OnInit {
       this.http.viewFileBeforeSaving(data).subscribe((res: any)=>{
         if(res?.success){
           this.retrievedFileResponse = res?.data
+          this.retrievedFileResponseKey = res?.data?.keys
           this.isVisibleModal['toggleHeaderText'] = true;
           this.isVisibleModal['previewButtonLoading'] = false;
           this.isVisibleModal['previewIsVisible'] = true
