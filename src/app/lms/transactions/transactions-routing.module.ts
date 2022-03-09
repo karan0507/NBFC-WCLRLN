@@ -10,7 +10,8 @@ const routes: Routes = [
     component: TransactionsListComponent,
     data: {
       title: 'Transactions',
-      parent: 'LMS'
+      parent: 'LMS',
+      custom_url: 'lms/transactions'
     }
   },
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
     component: UploadTransactionsListComponent,
     data: {
       title: 'Manual Transactions',
-      parent: 'Transactions'
+      parent: 'LMS',
+      custom_url: 'lms/manual-transaction'
     }
   },
 ];

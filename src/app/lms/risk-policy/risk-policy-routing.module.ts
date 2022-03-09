@@ -8,7 +8,8 @@ const routes: Routes = [
     component: RiskPolicyComponent,
     data: {
       title: 'Risk Policy',
-      parent: 'LMS'
+      parent: 'LMS',
+      custom_url: 'lms/risk-policy'
     }
   },
 ];

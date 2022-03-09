@@ -8,7 +8,8 @@ const routes: Routes = [
     component: LenderManagementComponent,
     data: {
       title: 'Lender Management',
-      parent: 'LMS'
+      parent: 'LMS',
+      custom_url: 'lms/lender-management'
     }
   },
 ];

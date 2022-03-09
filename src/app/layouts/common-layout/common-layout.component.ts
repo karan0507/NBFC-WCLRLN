@@ -21,6 +21,7 @@ export class CommonLayoutComponent  {
     isExpand: boolean;
     selectedHeaderColor: string;
     hideTitle: boolean;
+    showBreadCrumb: any;
 
     constructor(public router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
         private message: NzMessageService,) {
@@ -67,29 +68,23 @@ export class CommonLayoutComponent  {
     }
 
     private buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
-        let label = '', path = '/', display = null, title;
+        let label = '', path = '/', display = null, title, params = '';
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
-                label = route.routeConfig.data['parent'] ? route.routeConfig.data['parent'] : route.routeConfig.data['title'];
-                path += route.routeConfig.path;
-                title = route.routeConfig.data['title'];
-                if (route.routeConfig.data['hideTitle']) {
-                    this.hideTitle = true;
+                // console.log(route.routeConfig.path)
+                label = route.routeConfig.data['title'];
+                if (route.routeConfig.data['custom_url']) {
+                    path += route.routeConfig.data['custom_url'];
                 } else {
-                    this.hideTitle = false;
+                    path += route.routeConfig.path;
                 }
-                // label = route.routeConfig.data['title'];
-                // if (route.routeConfig.data['custom_url']) {
-                //     path += route.routeConfig.data['custom_url'];
-                // } else {
-                //     path += route.routeConfig.path;
-                // }
-                // if(route.routeConfig.data['params']){
-                //     params = route.routeConfig.data['params']
-                // }
+                if (route.routeConfig.data['params']) {
+                    params = route.routeConfig.data['params']
+                }
+                this.showBreadCrumb = route.routeConfig.data['parent'];
             }
-        } 
+        }
         // else {
         //     label = 'Dashboard';
         //     path += 'dashboard';

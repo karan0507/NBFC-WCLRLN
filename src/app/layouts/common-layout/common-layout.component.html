@@ -1,32 +1,35 @@
-<div class="common-layout {{ 'is-' + selectedHeaderColor }}" 
-    [ngClass]="{
-        'is-folded': isFolded,
-        'is-side-nav-dark' : isSideNavDark,
-        'is-expand' : isExpand
-    }"
->
-    <app-header></app-header>
-    <app-sidenav></app-sidenav>
-    <div class="page-container">
-        <div class="bg-white main-content pb-3 px-md-3" style="min-height: unset;">
-            <div class="main-content-header px-md-0" *ngIf="contentHeaderDisplay !== 'none'">
-                <h4 class="page-title" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].label)}}</h4>
-                <nz-breadcrumb nzSeparator=">">
-                    <i class="m-r-5 text-gray" nz-icon nzType="home"></i>
-                    <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs$ | async">
-                        <a [routerLink]="breadcrumb.url">
-                            {{ breadcrumb.title }}
+<div class="common-layout {{ 'is-' + selectedHeaderColor }}" [ngClass]="{
+    'is-folded': isFolded,
+    'is-side-nav-dark' : isSideNavDark,
+    'is-expand' : isExpand
+}">
+<app-header></app-header>
+<app-sidenav></app-sidenav>
+<div class="page-container">
+    <div class="bg-white main-content h-unset pb-3" [ngClass]="!showBreadCrumb ? 'd-flex align-items-center' : ''"
+        *ngIf="contentHeaderDisplay !== 'none'">
+        <div class="main-content-header d-flex justify-content-between mb-2 flex-wrap" *ngIf="showBreadCrumb">
+            <div class="d-flex flex-wrap">
+                <h5 class="page-title mr-2" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{showBreadCrumb}}</h5>
+                <nz-breadcrumb>
+                    /
+                    <nz-breadcrumb-item class="pl-2" *ngFor="let breadcrumb of breadcrumbs$ | async">
+                        <a [routerLink]="breadcrumb.url" [queryParams]="breadcrumb.params">
+                            {{ breadcrumb.label }}
                         </a>
                     </nz-breadcrumb-item>
                 </nz-breadcrumb>
             </div>
-            <div *ngIf="router.url.includes('dashboard')">
-                <h4 class="font-weight-semibold" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].title)}}</h4>
-            </div>
         </div>
-        <div class="main-content pt-3">
-            <router-outlet></router-outlet>
+
+        <div *ngIf="router.url.includes('dashboard')">
+            <h4 class="font-weight-semibold" *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1].label)}}</h4>
         </div>
-        <app-footer></app-footer>
+        <h4 class="font-weight-semibold d-none" [ngClass]="showBreadCrumb ? 'mt-4' : ''"
+            *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1]?.label)}}</h4>
     </div>
+    <div class="main-content" [ngClass]="contentHeaderDisplay !== 'none' ? 'pt-3' : ''">
+        <router-outlet></router-outlet>
+    </div>
+</div>
 </div>
