@@ -120,24 +120,25 @@ export class DashboardComponent implements OnInit {
                     labelString: 'Value'
                 },
                 gridLines: {
-                    drawBorder: false,
-                    offsetGridLines: false,
-                    drawTicks: false,
+                    drawBorder: true,
+                    offsetGridLines: true,
+                    drawTicks: true,
                     borderDash: [3, 4],
                     zeroLineWidth: 1,
                     zeroLineBorderDash: [3, 4]
                 },
                 ticks: {                           
-                    stepSize: 40,
+                    stepSize: 0,
                     display: true,
                     beginAtZero: true,
-                    fontSize: 3,
-                    padding: 10
+                    fontSize: 13,
+                    padding: 4
                 }
             }]
         }
     };
     avgProfitChartLabels: string[] = ['Total Commitments', 'Line Assigned', 'Fund Transfer to Escrow', 'Total O/S Balance to NBFC', 'Fund Available in Escrow', 'Unutilized Credit Line'];
+    // avgProfitChartLabels: string[] = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
     avgProfitChartType = 'bar';
     avgProfitChartLegend = false;
     avgProfitChartColors: Array<any> = [
@@ -146,12 +147,12 @@ export class DashboardComponent implements OnInit {
             borderWidth: 10
         }
     ];
-    avgProfitChartData = [
+    avgProfitChartData : any[] = [
         { 
-            data: [38, 38, 30, 19, 56, 55, 31],
-            label: 'Series A',
-            categoryPercentage: 0.35,
-            barPercentage: 0.3,
+            data: [3200, 2100, 2507, 8008, 9543, 5044],
+            type: "bar",
+            categoryPercentage: 35,
+            barPercentage: 0.32,
         }
     ];
     selectedTab ={
@@ -163,7 +164,7 @@ export class DashboardComponent implements OnInit {
     } 
     fetchedList ={
         'delinquent': '',
-        'nbfc': '',
+        'nbfc': null,
         'authorization': null,
         'acquisition': null,
         'existing': null,
@@ -176,6 +177,8 @@ export class DashboardComponent implements OnInit {
         'existing': false,
     } 
     thirty_day_user_activity: any;
+    avgProfitChartDataCustomArray: any;
+    nbfcGraphValue: any[];
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void {
@@ -284,22 +287,37 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['nbfc']
         }
-        console.log(this.avgProfitChartData);
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['nbfc'] = res?.data
-            // this.avgProfitChartData[0].data = []
-            console.log(this.avgProfitChartData[0]?.data);
-            this.avgProfitChartData[0].data = [];
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_nbfc_commitment ? res?.data?.total_nbfc_commitment : 0)
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line ? res?.data?.total_credit_line : 0)
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.fund_transfered_escrow ? res?.data?.fund_transfered_escrow : 0)
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line_balance ? res?.data?.total_credit_line_balance : 0)
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.fund_in_escrow ? res?.data?.fund_in_escrow : 0)
-            this.avgProfitChartData?.[0]?.data.push(res?.data?.total_credit_line_utilized ? res?.data?.total_credit_line_utilized : 0)
-            console.log(this.avgProfitChartData[0]?.data);
+            const data = [
+               res?.data?.total_nbfc_commitment,
+               res?.data?.total_credit_line,
+               res?.data?.fund_transfered_escrow,
+               res?.data?.total_credit_line_balance,
+               res?.data?.fund_in_escrow,
+               res?.data?.total_credit_line_utilized
+            ]
+            this.nbfcGraphValue = data;
+            this.designNBFCGraph();
             this.isLoading['nbfc'] = false;
         }, err => {
             this.isLoading['nbfc'] = false;
         })
+    }
+
+    designNBFCGraph() {
+        this.avgProfitChartData = [
+     
+            {
+              data: this.nbfcGraphValue.map((val) => {
+                  if(!val){
+                      val = 0
+                  }
+                return val;
+              }),
+              type: "bar",
+              categoryPercentage: 0.3,
+              barPercentage: 0.5,
+            }]
     }
 }
