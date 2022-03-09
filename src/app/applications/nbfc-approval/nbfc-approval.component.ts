@@ -3,7 +3,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import { Data } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { GlobalservicesService } from 'src/app/shared/globalservices.service'
 @Component({
       selector: 'app-nbfc-approval',
       templateUrl: './nbfc-approval.component.html',
@@ -47,37 +47,73 @@ export class NbfcApprovalComponent implements OnInit {
       _isAcceptOffer: boolean = false;
       isRejectOffer : boolean = false;
       _currentCibilData: any;
-
-      constructor(public https: HttpService, public message: NzMessageService) { }
-
-      ngOnInit(): void {
-            this.getFormLoanData();
-      }
-
-
-      getFormLoanData(id?) {
-            this.api_calling_loader['listLoader'] = true
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=10', 'source': 'Onboarding' }
-            // if(this.searchValue){
-            //      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }
-            // if(){
-            //       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding', 'search' : this.searchValue }
-            // }    
-
-            this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.data) {
-                        this.loanApplicationData = res?.data?.results;
-                        this.total_count = res?.data?.total_count;
-                        this.api_calling_loader['listLoader'] = false
-                  } else {
-                        this.api_calling_loader['listLoader'] = false
-                  }
-            }, (err) => {
-                  this.api_calling_loader['listLoader'] = false
-            })
-      }
-
+      
+         // Page Filters and Pagination Data
+         searchValue : any
+         page = 1
+         globalPageSize : any;
+         productList : any = []
+         stageStatusList : any = []
+   
+         constructor(public https: HttpService, public message: NzMessageService, public global : GlobalservicesService) { }
+   
+         ngOnInit(): void {
+               this.page = 1
+               this.globalPageSize = this.global.globalPageSize;
+               this.getFormLoanData();
+         }
+   
+         onFocusMethod(type) {
+               if (type == 'product') {
+                     this.https.getAllProducts().subscribe((res: any) => {
+                           this.productList = res?.data
+                     })
+               } else if (type == 'status') {
+                     let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                     this.https.getStatusStageWise(params).subscribe((res: any) => {
+                           this.stageStatusList = res?.data
+                     })
+               }
+         }
+   
+         getFormLoanData(tableFilter?) {
+               this.api_calling_loader['listLoader'] = true
+               this.loanApplicationData = [];
+               var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+   
+               if (this.filters) {
+                     data['status'] = this.filters
+               }
+               if (this.productFilters) {
+                     data['product_master'] = this.productFilters
+               }
+               if (this.searchValue) {
+                     data['search_value'] = this.searchValue
+               }
+               if (tableFilter) {
+                     this.page = tableFilter?.pageIndex
+                     this.globalPageSize = tableFilter?.pageSize
+                     data['page'] = tableFilter?.pageIndex
+                     data['limit'] = tableFilter?.pageSize
+               } else {
+   
+                     data['page'] = this.page
+                     data['limit'] = this.globalPageSize
+               }
+   
+               this.https.fetchLoanApplicationList(data).subscribe(res => {
+                     if (res?.data) {
+                           this.loanApplicationData = res?.data?.results;
+                           this.total_count = res?.data?.total_count;
+                           this.api_calling_loader['listLoader'] = false
+                     } else {
+                           this.api_calling_loader['listLoader'] = false
+                     }
+               }, (err) => {
+                     this.api_calling_loader['listLoader'] = false
+               })
+         }
+   
 
       getIdWiseData(id?, index?) {
             this.api_calling_loader['accordian'] = true;
