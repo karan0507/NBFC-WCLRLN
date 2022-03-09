@@ -9,10 +9,17 @@ const routes: Routes = [
     component: LendersListComponent,
     data: {
       title: 'Lenders List',
-    }
+      parent: 'Lenders',
+      custom_url: 'lenders'
+    },
   },
   {
     path: '',
+    data: {
+      title: 'Lenders List',
+      parent: 'Lenders',
+      custom_url: 'lenders'
+    },
     // component: LendersComponent,
     children: [
       {
@@ -21,20 +28,16 @@ const routes: Routes = [
         data: {
           title: 'Add Lender',
           parent: 'Lenders',
+          custom_url: 'lenders/add'
         }
       },
-    ]
-  },
-  {
-    path: '',
-    // component: LendersComponent,
-    children: [
       {
         path: 'edit',
         component: AddEditLendersComponent,
         data: {
           title: 'Edit Lender',
           parent: 'Lenders',
+          custom_url: 'lenders/edit'
         }
       },
     ]
