@@ -252,13 +252,13 @@
     </nz-card>
 </section>
 <section>
-    <nz-card nzTitle="Corporates" [nzLoading]="isLoading">
+    <nz-card nzTitle="Partners" [nzLoading]="isLoading">
         <div class="row" *ngFor="let master_item of productDetails?.partner_commitments; index as k">
-            <h5 class="w-100">Corporate {{k+1}} :</h5>
+            <h5 class="w-100">Partner {{k+1}} :</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
-                        Corporate Name :
+                        Partner Name :
                     </div>
                     <div class="col-md-8">
                         {{master_item?.master_partner?.name ? master_item?.master_partner?.name : '-'}}

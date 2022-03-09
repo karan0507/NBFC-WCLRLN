@@ -20,10 +20,10 @@
                     </div>
                     <div class="col-md-12">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="partnersName" class="text-left" nzRequired>Corporate's Name
+                            <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="partnersName" class="text-left" nzRequired>Partner's Name
                             </nz-form-label>
-                            <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Corporate's  Name!">
-                                <nz-select formControlName="partnersName" nzPlaceHolder="Select Corporate's  Name!" nzMode="multiple"
+                            <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Partner's  Name!">
+                                <nz-select formControlName="partnersName" nzPlaceHolder="Select Partner's  Name!" nzMode="multiple"
                                     (nzFocus)="fetchPartnerData()" nzShowSearch nzAllowClear>
                                     <nz-option *ngFor="let item of partnerData" [nzValue]="item.pk" [nzLabel]="item.name">
                                     </nz-option>
@@ -44,13 +44,13 @@
                     <div class="col-md-12">
                         <nz-form-item>
                             <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="amount_per_partner" class="text-left text-wrap" nzRequired>
-                                Amt. Per Corporate (at acquisition)</nz-form-label>
-                            <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Amt. Per Corporate (at acquisition)!">
+                                Amt. Per Partner (at acquisition)</nz-form-label>
+                            <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Amt. Per Partner (at acquisition)!">
                                 <!-- <input nz-input type="number" min="0" formControlName="amount_per_partner"
                                                     placeholder="Please input Amt. Per Partner (at acquisition)!" /> -->
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
                                     <input nz-input type="number" min="0" formControlName="amount_per_partner"
-                                        placeholder="Please input Amt. Per Corporate (at acquisition)!" />
+                                        placeholder="Please input Amt. Per Partner (at acquisition)!" />
                                 </nz-input-group>
             
                                 <ng-template #addOnAfterTemplateforamt>
@@ -232,7 +232,7 @@
     <ng-template #actionSubmit>
         <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
             <div class="col-12 d-flex justify-content-between px-4">
-                <button nz-button nzType="link" (click)="addMasterPartner()">+Add another Corporate</button>
+                <button nz-button nzType="link" (click)="addMasterPartner()">+Add another Partner</button>
                 <button nz-button nzType="primary"
                     [disabled]="(createEditForm.invalid)" [nzLoading]="isloading"
                     (click)="submitForm()">Submit</button>
