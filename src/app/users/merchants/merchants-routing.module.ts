@@ -16,9 +16,9 @@ const routes: Routes = [
                         data: {
                               title: "Partner DSA",
                               parent: "Merchants",
+                              custom_url: '/merchants/DSA'
                         },
                         children: [
-
                         ],
                   },
                   {
@@ -26,16 +26,15 @@ const routes: Routes = [
                         data: {
                               title: "Partner DSA",
                               parent: "Merchants",
+                              custom_url : '/merchants/DSA'
                         },
                         children: [
-
-
                               {
                                     path: "add-dsa",
                                     component: AddEditDsaComponent,
                                     data: {
                                           title: "Add DSA",
-                                          parent: "DSA List",
+                                          parent: "Merchants",
                                           custom_url: "add-dsa",
                                     },
                               },
