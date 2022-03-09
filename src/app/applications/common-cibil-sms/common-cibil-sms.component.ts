@@ -18,10 +18,8 @@ export class CommonCibilSmsComponent implements OnInit {
 
       ngOnInit(): void {
             if (this._currentLoanDetails) {
-                  console.log(this._currentLoanDetails);
                   this.getDetails();
             }
-            console.log(this._currentLoanDetails, this.isCibil);
 
       }
 
@@ -32,16 +30,33 @@ export class CommonCibilSmsComponent implements OnInit {
                   this.https.pullCibilThirdParty(param).subscribe((res: any) => {
                         if (res?.success) {
                               this.api_calling_loader['cardData'] = false;
-                              console.log(res);
+                              this.message.success(res?.message);
                               this.cibilData = res?.data
                         } else {
-                              this.message.error(res?.error);
+                              this.message.error(res?.message);
                               this.api_calling_loader['cardData'] = false;
                         }
+                  }, err => {
+                        this.message.error(err);
+                        this.api_calling_loader['cardData'] = false;
                   })
             } else {
-                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-sms-data', 'app_user': this._currentLoanDetails?.id, 'device_id': '' }
-                  this.https.getCibilData()
+                  this.api_calling_loader['cardData'] = true;
+                  let param = { 'source': 'Onboarding', 'datapoint': 'fetch-sms-data', 'app_user': this._currentLoanDetails?.user?.id }
+                  this.https.pullCibilThirdParty(param).subscribe((res: any) => {
+                        if (res?.success) {
+                              this.api_calling_loader['cardData'] = false;
+                              this.message.success(res?.message);
+                              this.cibilData = res?.data
+                        }
+                        else {
+                              this.message.error(res?.message);
+                              this.api_calling_loader['cardData'] = false;
+                        }
+                  }, err => {
+                        this.message.error(err);
+                        this.api_calling_loader['cardData'] = false;
+                  })
             }
 
       }

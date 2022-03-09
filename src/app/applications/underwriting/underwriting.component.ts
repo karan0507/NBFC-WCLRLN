@@ -419,6 +419,7 @@ if(res?.success){
                   case 'thirdPartySMS':
                         this._isPullData = true;
                         this._currentLoanDetails = data
+                        this._isCibil = false
                         break
 
             }
