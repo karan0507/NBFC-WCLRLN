@@ -81,7 +81,7 @@
                                 <td>{{ data?.master_partner }}</td>
                                 <td>{{ data?.created_at | date: 'dd MMM yyyy' }}
                                 <td>{{ data?.source_id }}</td>
-                                <td>{{data?.unique_code</td>
+                                <td>{{data?.unique_code}}</td>
                                 <td>{{ data?.refer_id }}</td>
                                 <td *ngIf="data?.registered">
                                     <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
@@ -90,7 +90,7 @@
                                     <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                                 </td>
                                 <!-- <td>{{data?.transaction_status}}</td> -->
-                                <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                                <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
 
                                 <!-- <td>{{ data.no_of_partner }}</td> -->
@@ -125,7 +125,7 @@
                                             <li nz-menu-item *ngIf="!data.is_deleted">
                                                 <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                                 <span class="m-l-5"
-                                                    (click)="deleteUserByUserId(data?.id, 'delete')">Delete</span>
+                                                    (click)="deleteUserByUserId(data?.id, 'delete')">Deactivate</span>
                                             </li>
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5"

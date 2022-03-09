@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
             <!-- <button nz-button class='text-primary mr-4' [routerLink]="['/merchants/add-merchant']">+ Add Merchant</button> -->
-            <button nz-button class='text-primary' [routerLink]="['/merchants/add-dsa']">+ Add Partner DSA</button>
+            <button nz-button class='text-primary' [routerLink]="['/merchants/DSA/add-dsa']">+ Add Partner DSA</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -73,8 +73,8 @@
                                 <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                             </td>
                             <!-- <td>{{data?.transaction_status}}</td> -->
-                            <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                             <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                            <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
                             <td nzRight>
@@ -89,11 +89,11 @@
                                             <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                         </li>
                                         <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../edit-dsa']" [queryParams]="{id: data.id}">Edit</span>
+                                            <span class="m-l-5" [routerLink]="['/merchants/DSA/edit-dsa']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
+                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Deactivate</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
@@ -175,7 +175,7 @@
                                                     Phone No.
                                                 </h6>
                                                 <div>
-                                                    {{data?.expandSet?.contact_person_name ? data?.expandSet?.contact_person_name : ' -- '}}
+                                                    {{data?.expandSet?.contact_person_phone ? data?.expandSet?.contact_person_phone : ' -- '}}
                                                 </div>
                                             </div>
                                         </div>

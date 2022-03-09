@@ -143,7 +143,6 @@ export class AddEditDsaComponent {
       payout: [data ? data?.payout : null, [Validators.required]],
       employee: [data ? data?.employee : null, [Validators.required]],
       dsa_type: [data ? data?.dsa_type : null, [Validators.required]],
-      unique_code: [data ? data?.unique_code : null, [Validators.required]],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
@@ -157,7 +156,7 @@ export class AddEditDsaComponent {
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
-      partner_master:[data ? data?.partner_master?.pk : null , [Validators.required]]
+      partner_master:[data ? data?.master_partner?.id : null , [Validators.required]],
       
     });
     if(data){
@@ -176,6 +175,7 @@ export class AddEditDsaComponent {
       this.documentArray.push(document);
       this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
       fileName.removeAt(i);
+      this.selectedDocument = null;
     } else {
       this.http
         .deletePartnerDocumentByDocumentId(selectedFile?.id)
@@ -188,6 +188,7 @@ export class AddEditDsaComponent {
           this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
           fileName.removeAt(i);
         });
+        this.selectedDocument = null;
     }
   }
   
@@ -213,6 +214,7 @@ export class AddEditDsaComponent {
   }
  
   newSkill(data?): FormGroup {
+    this.selectedDocument = null;
     return this.fb.group({
       id: [data ? data?.id : null],
       document_master: [data?.pk],

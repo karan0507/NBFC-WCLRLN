@@ -140,7 +140,6 @@ export class AddEditMerchantsComponent implements OnInit {
       mdr: [data ? data?.mdr : null, [Validators.required]],
       interest_subvention: [data ? data?.interest_subvention : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],
-      unique_code: [data ? data?.unique_code : null, [Validators.required]],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
@@ -174,6 +173,7 @@ export class AddEditMerchantsComponent implements OnInit {
       this.documentArray.push(document);
       this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
       fileName.removeAt(i);
+      this.selectedDocument = null;
     } else {
       this.http
         .deletePartnerDocumentByDocumentId(selectedFile?.id)
@@ -185,6 +185,7 @@ export class AddEditMerchantsComponent implements OnInit {
           this.documentArray.push(document);
           this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
           fileName.removeAt(i);
+          this.selectedDocument = null;
         });
     }
   }
@@ -211,6 +212,7 @@ export class AddEditMerchantsComponent implements OnInit {
   }
  
   newSkill(data?): FormGroup {
+    this.selectedDocument = null;
     return this.fb.group({
       id: [data ? data?.id : null],
       document_master: [data?.pk],
@@ -254,6 +256,7 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   onClickSubmitForm(){
+    console.log(this.addEditProductForm.controls)
 
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
@@ -347,6 +350,7 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   onClickSaveExistingForm(){
+    console.log(this.addEditProductForm.controls)
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();

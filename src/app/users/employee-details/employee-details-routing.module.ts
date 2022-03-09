@@ -7,21 +7,10 @@ const routes: Routes = [
     path: '',
     component: EmployeeDetailsComponent,
     data: {
-      title: 'Employee Details',
+      title: 'Employee List',
+      parent: 'Employee Details',
+      custom_url: 'employeeDetail'
     }
-  },
-  {
-    path: '',
-    children: [
-      {
-        path: 'employee-details',
-        component: EmployeeDetailsComponent,
-        data: {
-          title: 'Employee Detail List',
-          parent: 'Employee Details',
-        }
-      },
-    ]
   },
 ];
 

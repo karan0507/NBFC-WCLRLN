@@ -8,55 +8,77 @@ import { MerchantsListComponent } from './merchants-list/merchants-list.componen
 const routes: Routes = [
   {
     path: '',
-    component: MerchantsListComponent,
-    data: {
-      title: 'Merchants',
-    }
-  },
+    data:{
+      title: "Merchant",
+      parent: "Merchants",
+    },
+    children: [
   {
-    path: '',
+    path: "DSA",
+    component: DsaListComponent,
+    data: {
+      title: "Partner DSA",
+      parent: "Merchants",
+    },
     children: [
       {
-        path: 'add-merchant',
-        component: AddEditMerchantsComponent,
-        data: {
-          title: 'Add Merchants',
-          parent: 'Merchants',
-        }
-      },
-      {
-        path: 'edit-merchant',
-        component: AddEditMerchantsComponent,
-        data: {
-          title: 'Edit Merchants',
-          parent: 'Merchants',
-        }
-      },
-      {
-        path: 'add-dsa',
+        path: "add-dsa",
         component: AddEditDsaComponent,
         data: {
-          title: 'Partner DSA',
-          parent: 'Merchants',
-        }
+          title: "Add DSA",
+          parent: "DSA List",
+          custom_url: "add-dsa",
+        },
       },
       {
-        path: 'edit-dsa',
+        path: "edit-dsa",
         component: AddEditDsaComponent,
         data: {
-          title: 'Edit Partner DSA',
-          parent: 'Merchants',
-        }
+          title: "Edit DSA",
+          parent: "DSA List",
+          custom_url: "edit-dsa",
+        },
+      },
+    ],
+  },
+  {
+    path: "list",
+    component: MerchantsListComponent,
+    data: {
+      title: "Merchant List",
+      parent: "Merchants",
+      custom_url: "list",
+    },
+    children: [],
+  },
+  {
+    path: "list",
+    data: {
+      title: "Merchant List",
+      custom_url: "merchants/list",
+    },
+    children: [
+      {
+        path: "add-merchant",
+        component: AddEditMerchantsComponent,
+        data: {
+          title: "Add Merchant",
+          parent: "Merchant List",
+          custom_url: "add-merchant",
+        },
       },
       {
-        path: 'DSA',
-        component: DsaListComponent,
+        path: "edit-merchant",
+        component: AddEditMerchantsComponent,
         data: {
-          title: 'Partner DSA',
-          parent: 'Merchants',
-        }
+          title: "Edit Merchant",
+          parent: "Merchant",
+          custom_url: "add-merchant",
+        },
       },
-    ]
+    ],
+  },
+]
   },
 ];
 
@@ -65,3 +87,84 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class MerchantsRoutingModule { }
+
+
+// {
+//   path: 'add-merchant',
+//   component: AddEditMerchantsComponent,
+//   data: {
+//     title: 'Add Merchant',
+//     parent: 'Merchant List',
+//     custom_url: 'add-merchant'
+//   }
+// },
+// {
+//   path: 'edit-merchant',
+//   component: AddEditMerchantsComponent,
+//   data: {
+//     title: 'Edit Merchant',
+//     parent: 'Merchant',
+//     custom_url: 'add-merchant'
+//   }
+// },
+
+
+
+
+
+// {
+//   path: 'add-merchant',
+//   component: AddEditMerchantsComponent,
+//   data: {
+//     title: 'Add Merchant',
+//     parent: 'Merchant List',
+//     custom_url: 'add-merchant'
+//   }
+// },
+// {
+//   path: 'edit-merchant',
+//   component: AddEditMerchantsComponent,
+//   data: {
+//     title: 'Edit Merchant',
+//     parent: 'Merchant',
+//     custom_url: 'add-merchant'
+//   }
+// },
+
+
+
+
+
+// {
+//   path: 'add-dsa',
+//   component: AddEditDsaComponent,
+//   data: {
+//     title: 'Partner DSA',
+//     parent: 'Merchants',
+//   }
+// },
+// {
+//   path: 'edit-dsa',
+//   component: AddEditDsaComponent,
+//   data: {
+//     title: 'Edit Partner DSA',
+//     parent: 'Merchants',
+//   }
+// },
+
+// {
+      //   path: 'add-merchant',
+      //   component: AddEditMerchantsComponent,
+      //   data: {
+      //     title: 'Add Merchants',
+      //     parent: 'Merchants',
+      //   }
+      // },
+      // {
+      //   path: 'edit-merchant',
+      //   component: AddEditMerchantsComponent,
+      //   data: {
+      //     title: 'Edit Merchants',
+      //     parent: 'Merchants',
+      //   }
+      // },

@@ -161,8 +161,14 @@ export class LendersListComponent implements OnInit {
   confirmationTrigger(value: any) {
     console.log(value);
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
-        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error(res?.message?.[0])
+        }
         this.getNBFCList();
+        this.isDelete = false
+      }, err=> {
         this.isDelete = false
       })
   }
