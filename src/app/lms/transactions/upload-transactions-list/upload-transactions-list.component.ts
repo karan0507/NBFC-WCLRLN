@@ -126,11 +126,13 @@ export class UploadTransactionsListComponent implements OnInit {
     data.append('remarks', this.rejactRemarks)
     this.is_approve_loading = true
     this.http.postLoanApplicationApi(data).subscribe(res => {
-      this.isReject = false;
-      this.is_approve_loading = false
-      this.rejactRemarks = ''
-      this.isRejectSuccess = true;
-      this.getManualTransactionList()
+      if (res.success) {
+        this.isReject = false;
+        this.is_approve_loading = false
+        this.rejactRemarks = ''
+        this.isRejectSuccess = true;
+        this.getManualTransactionList()
+      }
     }, (err) => {
       this.is_approve_loading = false
     })
@@ -198,13 +200,17 @@ export class UploadTransactionsListComponent implements OnInit {
     this.approve_id = value.id
     const generateloader = this.message.loading('Generating Preview..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationList(data).subscribe(res => {
-      if (isPreview) {
-        this.isPreview = true;
-      } else {
-        this.isApprove = true;
+      if (res.success) {
+        if (isPreview) {
+          this.isPreview = true;
+        } else {
+          this.isApprove = true;
+        }
+        this.message.remove(generateloader);
+        this.previewData = res['data']
       }
+      
       this.message.remove(generateloader);
-      this.previewData = res['data']
       // this.message.success(res['message'])
     }, (err) => {
       this.message.remove(generateloader);
@@ -217,9 +223,11 @@ export class UploadTransactionsListComponent implements OnInit {
     data.append('id', this.approve_id)
     this.is_approve_loading = true
     this.http.postLoanApplicationApi(data).subscribe(res => {
-      this.isApprove = false; 
-      this.isApprovedSuccess = true
-      this.is_approve_loading = false
+      if (res.success) {
+        this.isApprove = false;
+        this.isApprovedSuccess = true
+        this.is_approve_loading = false
+      }
     }, (err) => {
       this.is_approve_loading = false
     })
