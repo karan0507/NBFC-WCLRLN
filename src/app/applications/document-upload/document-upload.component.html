@@ -38,6 +38,9 @@
                         </div>
                   </div>
                   <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                              <i nz-icon nzType="undo"></i>
+                          </button>
                         <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
                               (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status
@@ -49,7 +52,7 @@
             <div class="accordianLoanApp">
                   <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
-                        [nzPageSize]="globalPageSize"
+                        [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
                         [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
@@ -98,10 +101,10 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
-                                          <td></td>
-                                          <td></td>
-                                          <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
-                                          <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
+                                          <td>{{data?.master_partner ? data?.master_partner?.name : '--'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '--'}}</td>
+                                          <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
+                                          <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td></td>
                                           <td nzRight>
@@ -197,10 +200,7 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                              == 'Salaried' ?
-                                                                              data?.expanddata?.income_details.results[0].employer_id?.name
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ? data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -210,10 +210,7 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                              == 'Salaried' ?
-                                                                              data?.expanddata?.income_details.results[0].employer_id?.address
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.partner?.address ? data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -280,12 +277,8 @@
                                                       <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
                                                             <div class="col-md-4"
                                                                   *ngFor="let item of data?.expanddata?.kyc_documents?.results">
-
-
-
                                                                   <div class="d-flex flex-column">
-                                                                        <div
-                                                                              class="d-flex flex-wrap justify-content-between">
+                                                                        <div class="d-flex flex-wrap justify-content-between">
                                                                               <label class="text-muted">{{
                                                                                     item?.document_id?.name + ' '}} <b>
                                                                                           {{ item?.status }} </b>
@@ -349,7 +342,7 @@
 
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
-      <label *ngIf="_isDownload">Request Document</label>
+      <label *ngIf="isRequestDoc">Request Document</label>
       <label *ngIf="_isUpload">Upload Document</label>
       <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
             }} Document</label>
@@ -392,41 +385,12 @@
 
             <!-- Upload Document Modal -->
             <section *ngIf="_isUpload">
-                  <ng-container class="text-center">
-                        <nz-upload class="w-100 text-center ant-upload-drag-icon" (nzChange)="handleChangeLogoUpload($event)" [nzMultiple]="false" 
-                        [(nzFileList)]="fileList" >
-                        <p class="ant-upload-text">Drag and Drop file here</p>
-                        <p class="ant-upload-text">or</p>
-                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                        <!-- (click)="isPreview = true; isUpload = false" -->
-                  </nz-upload>
-                  </ng-container>
-                 
-
-
-
-
-                  <!-- <ng-container> -->
-                  <!-- <nz-upload nzListType="picture"
-                              >
-                              <p class="ant-upload-text">Drag and Drop file here</p>
-                              <p class="ant-upload-text">or</p>
-                              <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                        </nz-upload> -->
-                  <!-- </ng-container> -->
-
-                  <!-- <nz-upload nzType="drag" *ngIf="!_currentFileName" [nzMultiple]="false"
-                        (nzChange)="handleChangeLogoUpload($event)">
-                        <p class="ant-upload-drag-icon">
-                              <i nz-icon nzType="inbox"></i>
-                        </p>
-                        <p class="ant-upload-text">Click or drag file to this area to upload</p>
-                  </nz-upload> -->
-                  <!-- <div *ngIf="_currentFileName['previewImage']">
-                        <div class="w-100 text-center" style="height: 20rem">
-                              <img nz-image [nzSrc]="_currentFileName['previewImage']" class="h-100">
-                        </div>
-                  </div> -->
+                            <nz-upload  nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'" [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList" >
+                                <p class="ant-upload-text">Drag and Drop file here</p>
+                                <p class="ant-upload-text">or</p>
+                                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                                <!-- (click)="isPreview = true; isUpload = false" -->
+                            </nz-upload>
             </section>
             <!-- Status Modal -->
             <section *ngIf="_isStatus">
@@ -451,7 +415,7 @@
             </section>
 
             <!--Add Document Modal -->
-            <section *ngIf="_isDownload">
+            <section *ngIf="isRequestDoc">
                   <div class="row">
                         <div class="col-md-12 mb-4 text-muted">
                               <label
@@ -500,8 +464,8 @@
             (click)="handleOk('StatusModal')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2" [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+      <button *ngIf="_isVerify" nz-button nzType="primary" 
+            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('verify')">Submit</button>
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>

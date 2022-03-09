@@ -71,7 +71,7 @@ export class FormFillingComponent implements OnInit {
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
 
             if (this.filters) {
                   data['status'] = this.filters
@@ -235,4 +235,10 @@ export class FormFillingComponent implements OnInit {
             }
       }
 
+      resetFilters(){
+            this.productFilters = null;
+            this.filters = null;
+            this.searchValue = null;
+            this.getFormLoanData()
+      }
 }

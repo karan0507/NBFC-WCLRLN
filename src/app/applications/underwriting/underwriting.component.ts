@@ -56,26 +56,22 @@ export class UnderwritingComponent implements OnInit {
       // Modal Boolean Values
       _isPullData: boolean = false;
       _isOpenModal: boolean = false;
-      //      statusList: any;
-      //      _currentDocument: any = '1'
-      _currentFileName: any = { 'beforeUpload': null, 'previewImage': null };
+      _currentFileName: any ;
       fileList: any = [];
-      //      _isStatus: boolean = false;
       _isDownload: boolean = false;
-      //      _isViewDocument: boolean = false;
       _isVerify: boolean = false;
       _isUpload: boolean = false;
       _currentModalData: any;
       _currentLoanDetails: any;
       verifyRemarks: any;
       _isCibil: boolean = false
+      documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
       page = 1
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
-      kycDetailsList: any = []
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb : FormBuilder) { }
 
       ngOnInit(): void {
@@ -259,6 +255,10 @@ export class UnderwritingComponent implements OnInit {
       }
 
       handleCancel() {
+            this._isOpenModal = false;
+            this._isViewDocument = false;
+            this._isUpload = false;
+            this._isVerify = false;
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
@@ -268,40 +268,72 @@ export class UnderwritingComponent implements OnInit {
       }
 
       handleOk(type?) {
-            if (type == '') {
-                  let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
-                  this.https.updateMultipleLoanApp(data).subscribe(res => {
+            switch(type){
+                  case 'offer':
+                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
+                        
+                        this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
+                              if (res.success) {
+                                    console.log('res');
+                                    this.handleCancel();
+                                    this.getFormLoanData();
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                              
+                        })
+      break;
+                  case 'verify' :
+				this.api_calling_loader['button'] = true
+                        let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
+                        console.log('export this file', this._currentModalData, params);
+				this.https.verifyLoanDocument(params).subscribe((res :any)=>{
+					if(res?.success){
+						this.api_calling_loader['button'] = false
+						this.message.success(res?.message);
+						this.handleCancel();
+						this.getIdWiseData(this._currentModalData['application'])
+					}else{
+						this.api_calling_loader['button'] = false
+						this.message.error(res?.message);
+					}
+				},err =>{this.api_calling_loader['button'] = false
+				this.message.error(err);})
+				
+                        break;
+                  case 'uploadDocument':
+                        this.api_calling_loader['button'] = true
+                        let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
+                        console.log(uploadDoc, 'For Upload Document');
+
+                        this.https.uploadLoanDocument(uploadDoc).subscribe((res : any)=>{
+                              if(res?.success){
+                                    this.api_calling_loader['button'] = false;
+                                    this.fileList = [];
+						this.message.success(res?.message)
+                                    this.handleCancel();
+                              }else{
+                                    this.api_calling_loader['button'] = false;
+                                    this.fileList = [];
+						this.message.error(res?.message)
+                                    this.handleCancel();
+                              }
+                        },err=>{this.api_calling_loader['button'] = false;
+				this.message.error(err)})
+                        break;
+                        case 'StatusModal':
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
+                        this.https.updateMultipleLoanApp(data).subscribe(res => {
                         if (res.success) {
-                              console.log('res');
                               this._isUpdateStatus = false;
                         } else {
                               console.log('error=>', res?.error);
                         }
                   }, error => {
-                        console.log(error);
-
                   })
-            } else if (type == 'offer') {
-
-                  let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
-                  
-                  this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
-                        if (res.success) {
-                              console.log('res');
-                              this.handleCancel();
-                              this.getFormLoanData();
-                        } else {
-                              console.log('error=>', res?.error);
-                        }
-                  }, error => {
-                        console.log(error);
-
-                  })
-            }
-      }
-
-      downloadModal() {
-
+                  break;
+            }    
       }
 
       checkDisabledStatus() {
@@ -326,42 +358,40 @@ export class UnderwritingComponent implements OnInit {
       }
 
       openDocumentModal(type?, data?, loanData?) {
-            this._isOpenModal = true;
-            this._currentModalData = data;
-            this._currentLoanDetails = loanData;
-            console.log(this._currentModalData, this._currentModalData);
-
-            switch (type) {
-                  case 'download': this._isDownload = true;
-                        break;
-                  case 'viewDocument': this._isViewDocument = true;
-                        // this.generateBase64View(this._currentModalData?.file);
-                        break;
-                  case 'verify': this._isVerify = true; break;
-                  case 'upload': this._currentFileName['previewImage'] = null; this._isUpload = true; break;
-            }
-      }
-
-      verifyDocument(item, id?) {
-
+		this._currentModalData = data;
+		this._currentLoanDetails = loanData;
+		if(type == 'download'){
+			let data = { source: 'Onboarding', datapoint: 'download_document','endpoint':'kyc', 'id': this._currentModalData?.id}
+			console.log(data);
+			this.https.downloadDocuments(data).subscribe((res:any)=>{
+if(res?.success){
+	// let url = window.URL.createObjectURL(blob)
+	let pwa = window.open(res?.file);
+}
+			});
+		}else{
+			this._isOpenModal = true;
+                  this._isUpdateStatus = true
+			console.log( this._currentModalData);
+			switch (type) {
+				case 'viewDocument': this._isViewDocument = true;
+					// this.generateBase64View(this._currentModalData?.file);
+					break;
+				case 'verify': this._isVerify = true; break;
+				case 'upload': this._isUpload = true; break;
+			}
+		}  
       }
 
       beforeUploadName = (file: NzUploadFile) => {
             this.fileList = [];
             this.fileList = this.fileList.concat(file);
-            this._currentFileName['previewImage'] = this.fileList[0];
+            this._currentFileName = this.fileList[0];
             console.log(this._currentFileName, file);
             // this.generateBase64View(file)
             return false;
       };
 
-      handleChangeLogoUpload(event) {
-            this.fileList = [];
-            this.fileList = this.fileList.concat(event?.fileList[0]);
-            // this._currentFileName['previewImage'] = this.fileList[0];
-            console.log(this._currentFileName,'event=>', event);
-            // this.generateBase64View(event.file.originFileObj) 
-      }
       // Get Cibil Data API
       getCibilScoreData(id?) {
             console.log('API call');
@@ -394,4 +424,10 @@ export class UnderwritingComponent implements OnInit {
             }
       }
 
+      resetFilters(){
+            this.productFilters = null;
+            this.filters = null;
+            this.searchValue = null;
+            this.getFormLoanData()
+      }
 }
