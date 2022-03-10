@@ -331,7 +331,7 @@ export class PartnersListComponent implements OnInit {
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
-        if(res.success){
+        if(res.data){
           this.pdf_viewer_object_values['title'] = 'Show Agreement'
           this.pdf_viewer_object_values['url'] = res?.data.agreement
           this.pdf_viewer_object_values['boolean'] = true
@@ -341,6 +341,7 @@ export class PartnersListComponent implements OnInit {
           this.message.error('No Reports To Generate..');
         }
       }, err => {
+        this.message.remove(generateloader);
         console.log(err);
       })
 
