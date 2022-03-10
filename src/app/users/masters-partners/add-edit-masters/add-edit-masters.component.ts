@@ -120,6 +120,25 @@ export class AddEditMastersComponent implements OnInit {
     }
   }
 
+  omit_special_char(event) {
+    // to avoid special Character
+    // var k;
+    // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+
+
+    // to avoid special Character && Number
+    var charCode = event.keyCode;
+
+    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 32 ||  charCode == 8)
+
+        return true;
+    else
+        return false;
+
+
+}
+
   
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({
@@ -132,17 +151,17 @@ export class AddEditMastersComponent implements OnInit {
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
 
-      bank_name: [data ? data?.bank_name : null, [Validators.required]],
-      account_no: [data ? data?.account_no : null, [Validators.required]],
-      ifsc: [data ? data?.ifsc : null, [Validators.required]],
-      branch: [data ? data?.branch : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null],
+      account_no: [data ? data?.account_no : null],
+      ifsc: [data ? data?.ifsc : null],
+      branch: [data ? data?.branch : null],
 
       // Attribute Type under business detail
       display_name: [data ? data?.display_name : null, [Validators.required]],
       business_type: [data ? data?.business_type?.id : null, [Validators.required]],
       // Attribute Nature under business detail
       business_nature: [data ? data?.business_nature?.id : null, [Validators.required]],
-      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
+      contact_person_name: [data ? data?.contact_person_name : null, [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]],
       contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       employee: [data ? data?.employee : null, [Validators.required]],
