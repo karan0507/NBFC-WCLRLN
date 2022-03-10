@@ -387,7 +387,7 @@ export class AddEditDsaComponent {
         if(res.success){
           this.message.success(res?.message);
           this.apiLoader['saveAddNew'] = false
-          let newRouterLink = '/merchants/add-dsa';
+          let newRouterLink = '/merchants/DSA/add-dsa';
           this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
         } else {
           this.message.error(res?.message);

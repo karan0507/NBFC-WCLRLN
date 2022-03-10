@@ -2,10 +2,12 @@ import { HttpService } from 'src/app/services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeConstantService } from '../shared/services/theme-constant.service';
+import * as Chart from 'chart.js';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css']
 })
 
 export class DashboardComponent implements OnInit {
@@ -151,8 +153,8 @@ export class DashboardComponent implements OnInit {
         { 
             data: [3200, 2100, 2507, 8008, 9543, 5044],
             type: "bar",
-            categoryPercentage: 35,
-            barPercentage: 0.32,
+            categoryPercentage: 0.3,
+            barPercentage: 0.5,
         }
     ];
     selectedTab ={

@@ -296,7 +296,7 @@ export class AddEditMerchantsComponent implements OnInit {
       url.subscribe((res: any)=> {
         if(res.success){
           
-          this.router.navigate(['merchants']);
+          this.router.navigate(['merchants/list']);
         } else {
           this.message.error(res?.message);
           this.apiLoader['formSave'] = false;
@@ -337,7 +337,7 @@ export class AddEditMerchantsComponent implements OnInit {
         if(res.success){
           this.message.success(res?.message);
           this.apiLoader['formSave'] = false
-          this.router.navigate(['merchants']);
+          this.router.navigate(['merchants/list']);
         } else {
           this.message.error(res?.message);
           this.apiLoader['formSave'] = false;
@@ -386,7 +386,7 @@ export class AddEditMerchantsComponent implements OnInit {
         if(res.success){
           this.message.success(res?.message);
           this.apiLoader['saveAddNew'] = false
-          let newRouterLink = '/merchants/add-merchant';
+          let newRouterLink = '/merchants/list/add-merchant';
           this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
         } else {
           this.message.error(res?.message);

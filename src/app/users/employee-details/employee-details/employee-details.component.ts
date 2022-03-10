@@ -158,6 +158,7 @@ export class EmployeeDetailsComponent implements OnInit {
   };
   fileName: any;
   hasValidationError: boolean;
+  branchName: any;
   constructor(private fb: FormBuilder,private router: Router, private message: NzMessageService, 
     private route: ActivatedRoute, private http: HttpService) { }
 
@@ -184,6 +185,8 @@ export class EmployeeDetailsComponent implements OnInit {
     this.uploadSelectedCorporateFile = this.fb.group({
       file: [null, [Validators.required]], 
       partner:[null, [Validators.required]], 
+      branch:[null, [Validators.required]], 
+      branch_name:[{value: null,disabled: true}, [Validators.required]], 
       section:[this.selectedTab ? this.selectedTab : null, [Validators.required]], 
     })
   }
@@ -215,10 +218,12 @@ export class EmployeeDetailsComponent implements OnInit {
       'partner_nature': 'Partner',
       'status': 'all'
     }
-    this.http.getPartnerList(data).subscribe((res: any)=> {
-      console.log('res ', res)
-      this.corporateList = res?.data?.results;
-    })
+      this.http.fetchPartner().subscribe((res: any) => {
+            if (res?.success) {
+              this.corporateList = res?.data?.results;
+            }
+      })
+// }
   }
 
   getResultWithSelectedFilter(e){
@@ -330,6 +335,28 @@ export class EmployeeDetailsComponent implements OnInit {
       }
     }
     
+  }
+
+  onClickSelectFireBranchAPI(e){
+    this.uploadSelectedCorporateFile.patchValue({
+      'section': this.selectedTab
+    })
+    if(e){
+      this.http.fetchBranchOfChoosenCorporate(e).subscribe((res: any)=> {
+        console.log( res?.data);
+        if(res?.success){
+          this.message.success(res?.message)
+          this.branchName = res?.data?.branch_name;
+        this.uploadSelectedCorporateFile.patchValue({
+          branch: res?.data[0]?.id,
+          branch_name: res?.data[0]?.branch_name
+        });
+        console.log(this.uploadSelectedCorporateFile.value);
+        } else {
+          this.message.error(res?.message)
+        }
+      })
+    }
   }
 
   onClickUploadFile(){

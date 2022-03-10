@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
+
+
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -47,6 +49,8 @@ export class EmployeeListComponent implements OnInit {
     this.fetchEmployeeList()
     this.createEditFormFunction()
   }
+
+  
   createEditFormFunction(data?) {
     if (data) {
       this.createEditForm = this.fb.group({

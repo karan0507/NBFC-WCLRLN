@@ -59,11 +59,11 @@
                                     <li nz-menu-item (click)="changeDetail(data)">
                                         <span class="m-l-5">Edit</span>
                                     </li>
-                                    <li nz-menu-item *ngIf="!data?.status">
+                                    <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                         <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                     </li>
-                                    <li nz-menu-item *ngIf="data?.status">
+                                    <li nz-menu-item *ngIf="data?.status == 'Active'">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                     </li>
                                 </ul>
