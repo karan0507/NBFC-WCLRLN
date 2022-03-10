@@ -29,19 +29,19 @@ export class BorrowersListComponent implements OnInit {
   }
 
   fetchBorrowerList(tabelFilter?) {
-    if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
-    }
+    // if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    // }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationAcceptedProduct',
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
-      product_id: this.master_product_id,
-      is_blocked: this.is_blocked,
-      search_param: this.search_params,
+      product_id: this.master_product_id ? this.master_product_id : '',
+      is_blocked: this.is_blocked ? this.is_blocked : '',
+      search_param: this.search_params ? this.search_params : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

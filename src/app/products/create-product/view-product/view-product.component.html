@@ -258,23 +258,26 @@
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
-                        Partner Name :
+                        Master Partner Name :
                     </div>
                     <div class="col-md-8">
                         {{master_item?.master_partner?.name ? master_item?.master_partner?.name : '-'}}
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
-                        No. of Partners :
+                        Partners :
                     </div>
                     <div class="col-md-8">
-                        {{master_item.no_of_partner ? master_item?.no_of_partner : '-'}}
+                        <ng-container *ngFor="let item of master_item.partners;  index as i">
+                            <span>{{item.name}}</span> <span *ngIf="i != (master_item.partners.length - 1)">, &nbsp;</span>
+                        </ng-container>
+                        
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">

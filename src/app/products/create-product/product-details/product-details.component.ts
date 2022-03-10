@@ -84,6 +84,7 @@ export class ProductDetailsComponent implements OnInit {
         rate_of_interest: [ data ? data.rate_of_interest : ''],
         emi_details: [ data ? data.emi_details : ''],
         advance_emi: [ data ? data.advance_emi : ''],
+        // type: [ data ? data.type : '1'],
       });
     } else {
       return this.fb.group({
@@ -93,6 +94,7 @@ export class ProductDetailsComponent implements OnInit {
         rate_of_interest: [''],
         emi_details: [''],
         advance_emi: [''],
+        // type: ['1'],
       });
     }
   }
