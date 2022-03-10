@@ -6,6 +6,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 @Component({
       selector: 'app-document-upload',
@@ -332,13 +333,8 @@ export class DocumentUploadComponent implements OnInit {
                   console.log(data);
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
-                             
-                              // var downloadURL = window.URL.createObjectURL(res?.data?.file)
-                              var link = document.createElement('a');
-                              link.href = res?.data?.file;
-                              link.download = '';
-                              link.target = '_blank'
-                              link.click();
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {

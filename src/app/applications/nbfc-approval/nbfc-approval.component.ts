@@ -4,6 +4,7 @@ import { Data } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service'
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 @Component({
       selector: 'app-nbfc-approval',
       templateUrl: './nbfc-approval.component.html',
@@ -45,20 +46,20 @@ export class NbfcApprovalComponent implements OnInit {
       _isDocument: boolean = false;
       _isStatus: boolean = false;
       _isAcceptOffer: boolean = false;
-      isRejectOffer : boolean = false;
+      isRejectOffer: boolean = false;
       _currentCibilData: any;
-      
-         // Page Filters and Pagination Data
-         searchValue : any
-         page = 1
-         globalPageSize : any;
-         productList : any = []
-         stageStatusList : any = []
+
+      // Page Filters and Pagination Data
+      searchValue: any
+      page = 1
+      globalPageSize: any;
+      productList: any = []
+      stageStatusList: any = []
 
       // Modal Boolean Values
       _isPullData: boolean = false;
       _isOpenModal: boolean = false;
-      _currentFileName: any ;
+      _currentFileName: any;
       fileList: any = [];
       _isViewDocument: any;
       _isDownload: boolean = false;
@@ -69,66 +70,66 @@ export class NbfcApprovalComponent implements OnInit {
       verifyRemarks: any;
       _isCibil: boolean = false
       documentStatus = 1
-      
-         constructor(public https: HttpService, public message: NzMessageService, public global : GlobalservicesService) { }
-   
-         ngOnInit(): void {
-               this.page = 1
-               this.globalPageSize = this.global.globalPageSize;
-               this.getFormLoanData();
-         }
-   
-         onFocusMethod(type) {
-               if (type == 'product') {
-                     this.https.getAllProducts().subscribe((res: any) => {
-                           this.productList = res?.data
-                     })
-               } else if (type == 'status') {
-                     let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
-                     this.https.getStatusStageWise(params).subscribe((res: any) => {
-                           this.stageStatusList = res?.data
-                     })
-               }
-         }
-   
-         getFormLoanData(tableFilter?) {
-               this.api_calling_loader['listLoader'] = true
-               this.loanApplicationData = [];
-               var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=10', 'source': 'Onboarding' }
-   
-               if (this.filters) {
-                     data['status'] = this.filters
-               }
-               if (this.productFilters) {
-                     data['product_master'] = this.productFilters
-               }
-               if (this.searchValue) {
-                     data['search_value'] = this.searchValue
-               }
-               if (tableFilter) {
-                     this.page = tableFilter?.pageIndex
-                     this.globalPageSize = tableFilter?.pageSize
-                     data['page'] = tableFilter?.pageIndex
-                     data['limit'] = tableFilter?.pageSize
-               } else {
-   
-                     data['page'] = this.page
-                     data['limit'] = this.globalPageSize
-               }
-   
-               this.https.fetchLoanApplicationList(data).subscribe(res => {
-                     if (res?.data) {
-                           this.loanApplicationData = res?.data?.results;
-                           this.total_count = res?.data?.total_count;
-                           this.api_calling_loader['listLoader'] = false
-                     } else {
-                           this.api_calling_loader['listLoader'] = false
-                     }
-               }, (err) => {
-                     this.api_calling_loader['listLoader'] = false
-               })
-         }
-   
+
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
+
+      ngOnInit(): void {
+            this.page = 1
+            this.globalPageSize = this.global.globalPageSize;
+            this.getFormLoanData();
+      }
+
+      onFocusMethod(type) {
+            if (type == 'product') {
+                  this.https.getAllProducts().subscribe((res: any) => {
+                        this.productList = res?.data
+                  })
+            } else if (type == 'status') {
+                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  this.https.getStatusStageWise(params).subscribe((res: any) => {
+                        this.stageStatusList = res?.data
+                  })
+            }
+      }
+
+      getFormLoanData(tableFilter?) {
+            this.api_calling_loader['listLoader'] = true
+            this.loanApplicationData = [];
+            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=10', 'source': 'Onboarding' }
+
+            if (this.filters) {
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['search_value'] = this.searchValue
+            }
+            if (tableFilter) {
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  data['page'] = tableFilter?.pageIndex
+                  data['limit'] = tableFilter?.pageSize
+            } else {
+
+                  data['page'] = this.page
+                  data['limit'] = this.globalPageSize
+            }
+
+            this.https.fetchLoanApplicationList(data).subscribe(res => {
+                  if (res?.data) {
+                        this.loanApplicationData = res?.data?.results;
+                        this.total_count = res?.data?.total_count;
+                        this.api_calling_loader['listLoader'] = false
+                  } else {
+                        this.api_calling_loader['listLoader'] = false
+                  }
+            }, (err) => {
+                  this.api_calling_loader['listLoader'] = false
+            })
+      }
+
 
       getIdWiseData(id?, index?) {
             this.api_calling_loader['accordian'] = true;
@@ -195,12 +196,8 @@ export class NbfcApprovalComponent implements OnInit {
       }
 
       updateStatus(type?, data?) {
-            console.log(type, typeof (type));
-            if (data) {
-                  this._currentDocumentReq = data
-                  console.log(this._currentDocumentReq, 'Your current ID');
-            }
             this._isUpdateStatus = true;
+            this._currentLoanDetails = data;
             this.remarks = '';
             switch (type) {
                   case 'status':
@@ -218,7 +215,7 @@ export class NbfcApprovalComponent implements OnInit {
       }
 
       handleCancel() {
-           
+
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
@@ -257,7 +254,7 @@ export class NbfcApprovalComponent implements OnInit {
                               this.message.error(res?.message)
                         }
                   })
-            }else if(type == 'reject'){
+            } else if (type == 'reject') {
                   let data = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanData?.id, remarks: this.remarks };
                   this.https.acceptLoanOffer(data).subscribe((res: any) => {
                         if (res?.success) {
@@ -268,41 +265,45 @@ export class NbfcApprovalComponent implements OnInit {
                               this.message.error(res?.message)
                         }
                   })
-            }else if('uploadDocument'){
+            } else if ('uploadDocument') {
                   this.api_calling_loader['button'] = true
-                        let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
-                        console.log(uploadDoc, 'For Upload Document');
+                  let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
+                  console.log(uploadDoc, 'For Upload Document');
 
-                        this.https.uploadLoanDocument(uploadDoc).subscribe((res : any)=>{
-                              if(res?.success){
-                                    this.api_calling_loader['button'] = false;
-                                    this.fileList = [];
-						this.message.success(res?.message)
-                                    this.handleCancel();
-                              }else{
-                                    this.api_calling_loader['button'] = false;
-                                    this.fileList = [];
-						this.message.error(res?.message)
-                                    this.handleCancel();
-                              }
-                        },err=>{this.api_calling_loader['button'] = false;
-				this.message.error(err)})
-            }else if('verify'){
+                  this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+                        if (res?.success) {
+                              this.api_calling_loader['button'] = false;
+                              this.fileList = [];
+                              this.message.success(res?.message)
+                              this.handleCancel();
+                        } else {
+                              this.api_calling_loader['button'] = false;
+                              this.fileList = [];
+                              this.message.error(res?.message)
+                              this.handleCancel();
+                        }
+                  }, err => {
+                        this.api_calling_loader['button'] = false;
+                        this.message.error(err)
+                  })
+            } else if ('verify') {
                   this.api_calling_loader['button'] = true
-                        let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
-                        console.log('export this file', this._currentModalData, params);
-				this.https.verifyLoanDocument(params).subscribe((res :any)=>{
-					if(res?.success){
-						this.api_calling_loader['button'] = false
-						this.message.success(res?.message);
-						this.handleCancel();
-						this.getIdWiseData(this._currentModalData['application'])
-					}else{
-						this.api_calling_loader['button'] = false
-						this.message.error(res?.message);
-					}
-				},err =>{this.api_calling_loader['button'] = false
-				this.message.error(err);})
+                  let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
+                  console.log('export this file', this._currentModalData, params);
+                  this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                        if (res?.success) {
+                              this.api_calling_loader['button'] = false
+                              this.message.success(res?.message);
+                              this.handleCancel();
+                              this.getIdWiseData(this._currentModalData['application'])
+                        } else {
+                              this.api_calling_loader['button'] = false
+                              this.message.error(res?.message);
+                        }
+                  }, err => {
+                        this.api_calling_loader['button'] = false
+                        this.message.error(err);
+                  })
             }
       }
 
@@ -360,37 +361,46 @@ export class NbfcApprovalComponent implements OnInit {
                   this._isAcceptOffer = true;
             } else if (type == 'reject') {
                   this.isRejectOffer = true;
-             }
+            }
       }
 
 
       openDocumentModal(type?, data?, loanData?) {
-		this._currentModalData = data;
-		this._currentLoanDetails = loanData;
-		if(type == 'download'){
-			let data = { source: 'Onboarding', datapoint: 'download_document','endpoint':'kyc', 'id': this._currentModalData?.id}
-			console.log(data);
-			this.https.downloadDocuments(data).subscribe((res:any)=>{
-if(res?.success){
-	// let url = window.URL.createObjectURL(blob)
-	let pwa = window.open(res?.file);
-}
-			});
-		}else{
-			this._isOpenModal = true;
+            this._currentModalData = data;
+            this._currentLoanDetails = loanData;
+            if (type == 'download') {
+                  let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  console.log(data);
+                  this.https.downloadDocuments(data).subscribe((res: any) => {
+                        if (res?.success) {
+                              // let url = window.URL.createObjectURL(blob)
+                              let pwa = window.open(res?.file);
+                        }
+                  });
+            } else {
+                  this._isOpenModal = true;
                   this._isUpdateStatus = true
-			console.log( this._currentModalData);
-			switch (type) {
-				case 'viewDocument': this._isViewDocument = true;
-					// this.generateBase64View(this._currentModalData?.file);
-					break;
-				case 'verify': this._isVerify = true; break;
-				case 'upload': this._isUpload = true; break;
-			}
-		}  
+                  console.log(this._currentModalData);
+                  switch (type) {
+                        case 'viewDocument': this._isViewDocument = true;
+                              // this.generateBase64View(this._currentModalData?.file);
+                              break;
+                        case 'verify': this._isVerify = true; break;
+                        case 'upload': this._isUpload = true; break;
+                  }
+            }
       }
 
-      resetFilters(){
+      beforeUploadName = (file: NzUploadFile) => {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(file);
+            this._currentFileName = this.fileList[0];
+            console.log(this._currentFileName, file);
+            // this.generateBase64View(file)
+            return false;
+      };
+
+      resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

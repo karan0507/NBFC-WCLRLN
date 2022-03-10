@@ -4,7 +4,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label nzRequired>Coupon Code</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Please check coupon code">
                                     <input nz-input formControlName="coupon_code" placeholder="Enter Coupon Code" />
                               </nz-form-control>
                         </nz-form-item>
@@ -53,8 +53,7 @@
                         <nz-form-item>
                               <nz-form-label nzRequired>Coupon Expiry Date</nz-form-label>
                               <nz-form-control nzErrorTip="Please check the expiry date">
-                                    <!-- [nzDisabledDate]="disabledDate" -->
-                                    <nz-date-picker formControlName="coupon_expiry" class="w-100"
+                                    <nz-date-picker [nzDisabledDate]="disabledDate" formControlName="coupon_expiry" class="w-100"
                                           [nzFormat]="'yyyy-MM-dd'">
                                     </nz-date-picker>
                                     <br />
