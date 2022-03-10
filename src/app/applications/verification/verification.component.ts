@@ -98,7 +98,7 @@ export class VerificationComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '8', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -118,7 +118,7 @@ export class VerificationComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -246,7 +246,7 @@ export class VerificationComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '8', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
