@@ -11,25 +11,25 @@
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label>Email</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please input your Email!">
-                                          <input nz-input formControlName="email" placeholder="Enter your Email" />
+                                    <nz-form-label nzRequired>Email</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Email!">
+                                          <input nz-input type="email" formControlName="email" placeholder="Enter your Email" />
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label>D.O.B</nz-form-label>
+                                    <nz-form-label nzRequired>D.O.B</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Date Of Birth!">
                                           <nz-date-picker formControlName="date_of_birth" nzFormat="yyyy-MM-dd"
-                                                (ngModelChange)="onChange($event)">
+                                          [nzDisabledDate]="disabledDate" (ngModelChange)="onChange($event)">
                                           </nz-date-picker>
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label>Monthly Income</nz-form-label>
+                                    <nz-form-label nzRequired>Monthly Income</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Monthly Income!">
                                           <!-- (nzFocus)="fetchMasterIncomeRange()"  -->
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="income"
@@ -57,8 +57,8 @@
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label>Company Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please enter your Company Name!">
+                                    <nz-form-label nzRequired>Company Name</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please select your Company Name!">
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name" 
                                            nzAllowClear nzPlaceHolder="Company Name" (ngModelChange)="editCompanyName($event)">
                                                 <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
@@ -68,8 +68,8 @@
                         </div>
                         <div class="col-md-8">
                               <nz-form-item>
-                                    <nz-form-label>Address</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please enter your company address">
+                                    <nz-form-label nzRequired>Address</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your company name for address">
                                           <input readonly="readonly" nz-input placeholder="Enter your Company Address"
                                                 formControlName="address" nzFormat="yyyy-MM-dd">
                                     </nz-form-control>
@@ -93,8 +93,8 @@
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label>Product Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please enter your Product Name!">
+                                    <nz-form-label nzRequired>Product Name</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please select Product Name!">
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="product_name"
                                                 nzAllowClear nzPlaceHolder="Product Name">
                                                 <nz-option nzValue="medicine" nzLabel="FatakPay"></nz-option>
@@ -104,9 +104,9 @@
                         </div>
                         <div class="col-md-8">
                               <nz-form-item>
-                                    <nz-form-label>Limit Proposed</nz-form-label>
+                                    <nz-form-label nzRequired>Limit Proposed</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter your limit proposed">
-                                          <input nz-input placeholder="Enter your Limit Proposed"
+                                          <input nz-input type="number" placeholder="Enter your Limit Proposed"
                                                 formControlName="limitProcessed">
                                     </nz-form-control>
                               </nz-form-item>
@@ -172,19 +172,19 @@
                         </div> -->
                   </div>
             </form>
-            <div class="row my-3">
+            <!-- <div class="row my-3">
                   <div class="col-md-12">
                         <a class="text-primary">
                               <h5 class="text-primary">+ Add Document</h5>
                         </a>
                   </div>
-            </div>
+            </div> -->
       </nz-card>
 </section>
 
 <section>
       <div class="d-flex justify-content-md-end">
-            <button nz-button nzType="link" class="border" (click)="cancelForm()">Cancel</button>
+            <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
             <button nz-button nzType="primary" class="mx-2" (click)="submitForm()">Save</button>
       </div>
 </section>

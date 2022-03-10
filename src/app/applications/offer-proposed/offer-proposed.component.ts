@@ -118,7 +118,7 @@ export class OfferProposedComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
