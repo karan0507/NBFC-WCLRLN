@@ -714,12 +714,12 @@
                   <nz-card [nzLoading]="api_calling_loader['accordian']" class="p-0 m-0 border-0">
                         <div class="row" [formGroup]="offerForm">
                               <div class="col-md-12 mb-3">
-                                    {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
-                                    + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                                    {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
+                                    + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                                     : '')) : '--' }}
-                                    <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?
-                                          _currentDocumentReq?.user?.mobile : '--'}}</span>
-                                    <span class="mx-2">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id :
+                                    <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                          _currentLoanDetails?.user?.mobile : '--'}}</span>
+                                    <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                           '--'}}</span>
                               </div>
                               <div class="col-md-4 mb-3">
@@ -752,12 +752,12 @@
             <section *ngIf="isRejectModal">
                   <div class="row">
                         <div class="col-md-12 text-muted">
-                              {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
-                              + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                              {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
+                              + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
-                              <!-- <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?
-                                    _currentDocumentReq?.user?.mobile : '--'}}</span> -->
-                              <span class="mx-3">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id :
+                              <!-- <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                    _currentLoanDetails?.user?.mobile : '--'}}</span> -->
+                              <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                     '--'}}</span>
                         </div>
                         <div class="col-md-12 my-4">
