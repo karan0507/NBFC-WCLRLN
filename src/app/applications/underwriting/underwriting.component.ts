@@ -408,17 +408,20 @@ if(res?.success){
 
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
+            console.log(data);
+            
             this._isUpdateStatus = true
             switch (type) {
                   case 'thirdPartyCibil':
                         this._isPullData = true
-                        this._currentLoanDetails = data
+                        this._currentLoanDetails = data?.id
                         this._isCibil = true
                         break;
                   case 'downloadCibil': break
                   case 'thirdPartySMS':
                         this._isPullData = true;
-                        this._currentLoanDetails = data
+                        this._currentLoanDetails = data?.user?.id
+                        this._isCibil = false
                         break
 
             }

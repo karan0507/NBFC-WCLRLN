@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from '../shared/globalservices.service';
 
 
 @Component({
@@ -15,25 +16,50 @@ export class CouponCodeComponent implements OnInit {
       couponCodeListData: any = [];
       filters: any;
       searchValue: any;
-      constructor(public https: HttpService) { }
+      page = 1
+      globalPageSize
+      total_count: any;
+      constructor(public https: HttpService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
+            this.page = 1;
+            this.globalPageSize = this.global.globalPageSize;
             this.getCouponCodeList();
       }
 
-      getCouponCodeList() {
+      getCouponCodeList(tableFilter?) {
             this.api_calling_loader['listLoader'] = true;
-            let param = {  }
+            let param = new FormData()
+            console.log(this.filters);
+            
+            if (this.filters) {
+                  param['status'] = this.filters == 1 ? 'active' : 'inactive';
+            }
+            if (this.searchValue) {
+                  param['keyword'] = this.searchValue
+            }
+            if (tableFilter) {
+                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
+                  this.page = tableFilter?.pageIndex
+                  this.globalPageSize = tableFilter?.pageSize
+                  param['page'] = tableFilter?.pageIndex
+                  param['limit'] = tableFilter?.pageSize
+            } else {
+                  console.log(this.globalPageSize);
+
+                  param['page'] = this.page
+                  param['limit'] = this.globalPageSize
+            }
             this.https.getCouponCodeList(param).subscribe((res: any) => {
                   if (res?.success) {
                         console.log(res?.data);
                         this.couponCodeListData = res?.data?.results
                         this.api_calling_loader['listLoader'] = false;
-
-                  } else {
+                  } else{
                         this.api_calling_loader['listLoader'] = false;
-
                   }
+            },err=>{
+                  this.api_calling_loader['listLoader'] = false;  
             })
       }
 
@@ -43,5 +69,11 @@ export class CouponCodeComponent implements OnInit {
 
       addNewCouponCode() {
 
+      }
+
+      resetFilters() {
+            this.filters = null;
+            this.searchValue = null;
+            this.getCouponCodeList()
       }
 }

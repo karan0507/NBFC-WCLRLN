@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ApplicationModule, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BorrowersRoutingModule } from './borrowers-routing.module';
@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-
+import { ApplicationsModule } from 'src/app/applications/applications.module';
 
 @NgModule({
   declarations: [BorrowersComponent, BorrowersListComponent, BorrowersDetailsComponent, AppDownloadsComponent],
@@ -23,7 +23,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     ReactiveFormsModule,
     SharedModule,
     NzPopoverModule,
-    NzTagModule
+    NzTagModule,
+    ApplicationsModule
   ]
 })
 export class BorrowersModule { }

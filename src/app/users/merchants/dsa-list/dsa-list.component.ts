@@ -143,8 +143,14 @@ export class DsaListComponent implements OnInit {
 
   confirmationTrigger(value: any) {
       this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
-        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error(res?.message?.[0])
+        }
         this.getPartnerDSAList();
+        this.isDelete = false
+      }, err=>{
         this.isDelete = false
       })
   }

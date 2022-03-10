@@ -8,11 +8,19 @@ const routes: Routes = [
     path: '',
     component: PartnersListComponent,
     data: {
-      title: 'Corporate',
+      title: 'Corporate List',
+      parent: 'Corporate',
+      custom_url: 'partners'
     }
   },
   {
     path: '',
+    data: {
+      title: 'Corporate List',
+      parent: 'Corporate',
+      custom_url: 'partners'
+    },
+    // component: LendersComponent,
     children: [
       {
         path: 'add',
@@ -20,19 +28,16 @@ const routes: Routes = [
         data: {
           title: 'Add Corporate',
           parent: 'Corporate',
+          custom_url: 'partner/add'
         }
       },
-    ]
-  },
-  {
-    path: '',
-    children: [
       {
         path: 'edit',
         component: AddEditPartnersComponent,
         data: {
           title: 'Edit Corporate',
           parent: 'Corporate',
+          custom_url: 'partner/edit'
         }
       },
     ]

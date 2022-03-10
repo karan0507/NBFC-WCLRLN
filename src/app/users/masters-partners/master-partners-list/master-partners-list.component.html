@@ -94,8 +94,8 @@
                                     <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                                 </td>
                                 <!-- <td>{{ data.transaction_type }}</td> -->
-                                <td *ngIf="data.is_deleted"> <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
-                                <td *ngIf="!data.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                                <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                                <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                                 <td nzRight>
                                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                         [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -122,11 +122,11 @@
                                             (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                             <li nz-menu-item *ngIf="!data.is_deleted">
                                                 <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                                <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Delete</span>
+                                                <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Deactivate</span>
                                             </li>
-                                            <li nz-menu-item>
+                                            <!-- <li nz-menu-item>
                                                 <span class="m-l-5">User Login</span>
-                                            </li>
+                                            </li> -->
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5" [routerLink]="['../payoutStructure/add']" [queryParams]="{id: data.id, user: 'masterPartner'}">Payout Structure</span>
                                             </li> -->

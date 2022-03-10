@@ -161,8 +161,14 @@ export class MasterPartnersListComponent implements OnInit {
 
   confirmationTrigger() {
       this.http.deleteMasterUserByUserId(this.selectedUserId).subscribe((res :any)=> {
-        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message)
+        } else {
+          this.message.error(res?.message?.[0])
+        }
         this.getMasterPartner();
+        this.isDelete = false
+      }, err=>{
         this.isDelete = false
       })
   }

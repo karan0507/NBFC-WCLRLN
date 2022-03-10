@@ -8,35 +8,66 @@ const routes: Routes = [
     path: '',
     component: MasterPartnersListComponent,
     data: {
-      title: 'Masters Partners ',
+      title: 'Masters Partners',
+      parent: 'Masters Partners',
+      custom_url: 'masters-partners'
     }
   },
   {
     path: '',
+    data: {
+      title: 'Masters Partners',
+      parent: 'Masters Partners',
+      custom_url: 'masters-partners'
+    },
+    // component: LendersComponent,
     children: [
       {
         path: 'add',
         component: AddEditMastersComponent,
         data: {
-          title: 'Add Masters Partners',
-          parent: 'Masters Partners',
+          title: 'Add Master Partner',
+          parent: 'Master Partner',
+          custom_url: 'masters-partners/add'
         }
       },
-    ]
-  },
-  {
-    path: '',
-    children: [
       {
         path: 'edit',
         component: AddEditMastersComponent,
         data: {
-          title: 'Edit Masters Partners',
-          parent: 'Masters Partners',
+          title: 'Edit Master Partner',
+          parent: 'Master Partner',
+          custom_url: 'masters-partners/edit'
         }
       },
     ]
   },
+  // {
+  //   path: '',
+  //   children: [
+  //     {
+  //       path: 'add',
+  //       component: AddEditMastersComponent,
+  //       data: {
+  //         title: 'Add Masters Partners',
+  //         parent: 'Masters Partners',
+  //       }
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: '',
+  //   children: [
+  //     {
+  //       path: 'edit',
+  //       component: AddEditMastersComponent,
+  //       data: {
+  //         title: 'Edit Masters Partners',
+  //         parent: 'Masters Partners',
+  //       }
+  //     },
+  //   ]
+  // },
 ];
 
 @NgModule({

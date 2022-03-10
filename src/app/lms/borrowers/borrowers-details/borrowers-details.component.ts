@@ -71,7 +71,15 @@ export class BorrowersDetailsComponent implements OnInit {
   waiveOffId: any;
   isdeleteloader: boolean;
   is_revese_loading: boolean;
+//   Pull SMS Cibil Modals
+  isPullSMSCibilPopup:boolean;
+  isPullSMSCibilModal : boolean;
+  isPullCibil : boolean;
+  isFetchCibil : boolean;
   
+  _isPullData : boolean;
+  _isCibil : boolean;
+  _currentLoanDetails : any
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,
@@ -349,4 +357,25 @@ export class BorrowersDetailsComponent implements OnInit {
       this.is_revese_loading = false
     })
   }
+
+
+  pullDataSMSCibil(type?) {
+      this.isPullSMSCibilModal = true      
+      switch (type) {
+            case 'thirdPartyCibil':
+                  this.isPullSMSCibilModal = true
+                  this._currentLoanDetails = this.borrowertList?.loan_application_id;
+                  this._isCibil = true
+                  break;
+            case 'downloadCibil': break
+            case 'thirdPartySMS':
+                  this.isPullSMSCibilModal = true;
+                  this._currentLoanDetails = this.borrowertList?.user?.user_id
+                  this._isCibil = false
+                  break
+
+      }
+}
+
+
 }

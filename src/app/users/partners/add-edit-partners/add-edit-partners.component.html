@@ -199,7 +199,6 @@
                                     {{item.controls.label_name.value}}</nz-form-label>
                                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                     <div class="d-flex">
-                                        <label class="mr-3 mt-2 d-flex" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                         <nz-upload
                                         [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                         [nzCustomRequest]="customUpload"
@@ -211,6 +210,7 @@
                                         </button> -->
                                         <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                         </nz-upload>
+                                        <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                     </div>
                                     <!-- (nzChange)="onUpload($event)"[nzBeforeUpload]="beforeUpload" [nzBeforeUpload]="beforeUpload" <input type="file" formControlName="documents" > -->
                                     <!-- <input nz-input type="number" min="0" formControlName="label_name"
@@ -236,7 +236,7 @@
             </ng-container>
             <div class="row no-gutters">
                 <div class="col-12 d-flex justify-content-between">
-                    <button nz-button nzType="link" class="pl-0" (click)="isVisible = true">+Add Document</button>
+                    <button nz-button nzType="link" class="" (click)="isVisible = true">+Add Document</button>
                 </div>
             </div>
 
@@ -289,10 +289,10 @@
     </div>
 </section>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" (nzOnOk)="addRule()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzOkDisabled]="!selectedDocument" (nzOnOk)="addRule()">
     <ng-container *nzModalContent>
         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
-        <nz-select [(ngModel)]="selectedDocument" nzPlaceHolder="Select Select Entity!">
+        <nz-select  class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Select Entity!"  style="min-width: 13rem;">
             <nz-option *ngFor="let item of documentArray" [nzValue]="item" [nzLabel]="item.name">
             </nz-option>
         </nz-select>

@@ -12,7 +12,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label nzRequired>Coupon Value</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Coupon Value cannot be empty">
                                     <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                           <input nz-input type="number" min="0" placeholder="Enter value for coupon"
                                                 formControlName="value">
@@ -40,7 +40,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label nzRequired>Coupon Type</nz-form-label>
-                              <nz-form-control nzErrorTip="Please check Coupon Type">
+                              <nz-form-control nzErrorTip="Please select Coupon Type">
                                     <nz-radio-group formControlName="coupon_type">
                                           <label nz-radio [nzValue]="1">Fees waiver</label>
                                           <label nz-radio [nzValue]="2">Promotional</label>
@@ -52,7 +52,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label nzRequired>Coupon Expiry Date</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Please check the expiry date">
                                     <!-- [nzDisabledDate]="disabledDate" -->
                                     <nz-date-picker formControlName="coupon_expiry" class="w-100"
                                           [nzFormat]="'yyyy-MM-dd'">
@@ -65,7 +65,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label nzRequired>Total Coupons</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Please check total coupons">
                                     <input nz-input formControlName="total_coupons" placeholder="Enter total coupons" />
                               </nz-form-control>
                         </nz-form-item>
@@ -75,7 +75,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label>Select Partner</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Check partner selected">
                                     <nz-select (nzFocus)="onFocusMethod('partner')"
                                           formControlName="partner" nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
@@ -87,7 +87,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label>Select Master</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Check selected master">
                                     <nz-select (nzFocus)="onFocusMethod('master')"
                                           formControlName="master" nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
@@ -99,7 +99,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label>Select Product</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Check selected products">
                                     <nz-select (nzFocus)="onFocusMethod('product')"
                                           formControlName="product" nzAllowClear nzPlaceHolder="Select Product">
                                           <nz-option *ngFor="let item of productList" [nzValue]="item?.id"
@@ -111,7 +111,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label>Product Fees</nz-form-label>
-                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                              <nz-form-control nzErrorTip="Check product fees">
                                     <nz-select (nzFocus)="onFocusMethod('product-fees')"
                                           [nzDisabled]="couponForm.get('product').value ? false : true"
                                           formControlName="product_fees" nzPlaceHolder="Select Product Fees"
