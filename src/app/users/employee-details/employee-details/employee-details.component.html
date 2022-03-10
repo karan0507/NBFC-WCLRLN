@@ -114,11 +114,25 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Select Partner</nz-form-label>
                             <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" formControlName="partner" style="width: 15rem;"
+                                <nz-select class="mx-1" formControlName="partner" style="width: 15rem;"
+                                           nzAllowClear nzPlaceHolder="Partner Name" (ngModelChange)="onClickSelectFireBranchAPI($event)">
+                                                <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+                                </nz-select>
+                                <!-- <nz-select (ngModelChange)="onClickSelectFireBranchAPI($event)"  nzAllowClear
+                                 (nzOnSearch)="getResultWithSelectedFilter($event)" 
+                                class="mx-1" formControlName="partner" style="width: 15rem;"
                                     nzPlaceHolder="Filter By Corporate">
                                     <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
                                     </nz-option>
-                                </nz-select>
+                                </nz-select> -->
+                            </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Selected Branch</nz-form-label>
+                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
+                                <input nz-input type="text" placeholder="Branch" formControlName="branch_name" [disabled]='true' />
                             </nz-form-control>
                     </nz-form-item>
                 </div>

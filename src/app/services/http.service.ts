@@ -771,6 +771,11 @@ export class HttpService {
             return this._http.get(this.url + `/loan-services/v1/dashboard/get-${action}`, { params: data });
       }
 
+      fetchBranchOfChoosenCorporate(id){
+            return this._http.get(this.url + `/partner/v1/get-all-branches/${id}`);
+            // /partner/v1/get-all-branches/18
+      }
+
 
 
       // /partner/v1/view-unsaved-employee-details-file
