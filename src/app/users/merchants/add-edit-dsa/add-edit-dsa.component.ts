@@ -132,10 +132,10 @@ export class AddEditDsaComponent {
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
 
 
-      bank_name: [data ? data?.bank_name : null, [Validators.required]],
-      account_no: [data ? data?.account_no : null, [Validators.required]],
-      ifsc: [data ? data?.ifsc : null, [Validators.required]],
-      branch: [data ? data?.branch : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null],
+      account_no: [data ? data?.account_no : null],
+      ifsc: [data ? data?.ifsc : null, [Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
+      branch: [data ? data?.branch : null],
       // primary_upi: [data ? data?.primary_upi : null, [Validators.required]],
       // secondary_upi: [data ? data?.secondary_upi : null, [Validators.required]],
       // mdr: [data ? data?.mdr : null, [Validators.required]],
@@ -156,7 +156,7 @@ export class AddEditDsaComponent {
       master: [0, [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
-      partner_master:[data ? data?.master_partner?.id : null , [Validators.required]],
+      partner_master:[data ? data?.master_partner?.id : null],
       
     });
     if(data){
@@ -397,8 +397,28 @@ export class AddEditDsaComponent {
         this.apiLoader['saveAddNew'] = false
       })
     }
-
   }
+
+
+  onClickOpenPopUp(e){
+    if(e?.pointerType == 'mouse'){
+      this.isVisible = true;
+    }
+  }
+
+  omit_special_char(event) {
+    // to avoid special Character
+    // var k;
+    // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+
+    // to avoid special Character && Number
+    var charCode = event.keyCode;
+    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 32 ||  charCode == 8)
+        return true;
+    else
+        return false;
+}
 
   handleChange(e,index){
     // console.log('in Progress', i);

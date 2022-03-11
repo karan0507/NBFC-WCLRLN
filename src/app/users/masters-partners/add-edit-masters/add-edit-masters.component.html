@@ -87,9 +87,9 @@
                         </nz-form-control>
                     </nz-form-item> -->
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="business_type" class="text-left" nzRequired>Type</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Type">
-                            <nz-select formControlName="business_type" nzPlaceHolder="Select Type"
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="business_type" class="text-left" nzRequired>Industry</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Industry">
+                            <nz-select formControlName="business_type" nzPlaceHolder="Select Industry"
                                 (nzFocus)="getListOfBusinessType()" nzShowSearch nzAllowClear
                                 (nzOnSearch)="onSearchGetList($event, 'state')">
                                 <nz-option *ngFor="let item of businessTypeArr" [nzValue]="item.id"
@@ -170,7 +170,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left">Bank Name</nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
-                                <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name"/>
+                                <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name" (keypress)="omit_special_char($event)"/>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -197,7 +197,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left">Branch</nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
-                                <input nz-input type="text" formControlName="branch"  placeholder="Branch" />
+                                <input nz-input type="text" formControlName="branch"  placeholder="Branch" (keypress)="omit_special_char($event)" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -258,7 +258,7 @@
             </ng-container>
             <div class="row no-gutters">
                 <div class="col-12 d-flex justify-content-between">
-                    <button nz-button nzType="link" class="pl-0" (click)="isVisible = true">+Add Document</button>
+                    <button nz-button nzType="link" class="pl-0" (click)="onClickOpenPopUp($event)">+Add Document</button>
                     <!-- <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button> -->
                 </div>
             </div>

@@ -126,6 +126,10 @@
                                                 <span class="m-l-5"
                                                     (click)="deleteUserByUserId(data?.id, 'delete')">Inactive</span>
                                             </li>
+                                            <li nz-menu-item *ngIf="data.is_deleted">
+                                                <span class="m-l-5"
+                                                    (click)="deleteUserByUserId(data?.id, 'delete')">Active</span>
+                                            </li>
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5"
                                                     (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To

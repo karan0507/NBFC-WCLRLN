@@ -141,10 +141,10 @@ export class AddEditPartnersComponent implements OnInit {
       // unique_code: [data ? data?.unique_code : null],
 
 
-      bank_name: [data ? data?.bank_name : null],
-      account_no: [data ? data?.account_no : null],
-      ifsc: [data ? data?.ifsc : null, [Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
-      branch: [data ? data?.branch : null],
+      bank_name: [data ? data?.bank_name : ''],
+      account_no: [data ? data?.account_no : ''],
+      ifsc: [data ? data?.ifsc : '', [Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
+      branch: [data ? data?.branch : ''],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.business_type : null, [Validators.required]],
@@ -166,6 +166,12 @@ export class AddEditPartnersComponent implements OnInit {
     });
     if(data){
       this.setFormData(data);
+    }
+  }
+
+  onClickOpenPopUp(e){
+    if(e?.pointerType == 'mouse'){
+      this.isVisible = true;
     }
   }
   

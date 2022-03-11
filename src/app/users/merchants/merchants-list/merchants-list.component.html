@@ -92,8 +92,10 @@
                                             <span class="m-l-5" [routerLink]="['/merchants/list/edit-merchant']" [queryParams]="{id: data.id}">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted">
-                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Deactivate</span>
+                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Inactive</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data.is_deleted">
+                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Active</span>
                                         </li>
                                         <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade To Master</span>
