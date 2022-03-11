@@ -126,17 +126,12 @@ export class AddEditMastersComponent implements OnInit {
     // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
 
-
     // to avoid special Character && Number
     var charCode = event.keyCode;
-
     if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 32 ||  charCode == 8)
-
         return true;
     else
         return false;
-
-
 }
 
   
@@ -153,7 +148,8 @@ export class AddEditMastersComponent implements OnInit {
 
       bank_name: [data ? data?.bank_name : null],
       account_no: [data ? data?.account_no : null],
-      ifsc: [data ? data?.ifsc : null],
+      ifsc: [data ? data?.ifsc : null, [ Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")] ],
+      // "^[A-Z]{4}0[A-Z0-9]{6}$"
       branch: [data ? data?.branch : null],
 
       // Attribute Type under business detail
@@ -283,6 +279,7 @@ export class AddEditMastersComponent implements OnInit {
 
   onClickSubmitForm(){
 
+    console.log(this.addEditProductForm.controls, 'Validate ')
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();

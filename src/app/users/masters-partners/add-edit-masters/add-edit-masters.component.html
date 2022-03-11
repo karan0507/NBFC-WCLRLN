@@ -38,7 +38,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid City!">
-                            <input nz-input type="text" formControlName="city"  placeholder="City"  (keypress)="omit_special_char($event)"/>
+                            <input nz-input type="text" formControlName="city"  placeholder="City" (keypress)="omit_special_char($event)"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -147,7 +147,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_email" class="text-left" nzRequired>Email Id</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Email!">
-                            <input nz-input type="text" formControlName="contact_person_email"  placeholder="Person Email"/>
+                            <input nz-input type="text" formControlName="contact_person_email"  placeholder="Person Email" style="text-transform:lowercase"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -179,7 +179,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.</nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
-                                <input nz-input type="text" formControlName="account_no"  placeholder="Account No."/>
+                                <input nz-input type="number" formControlName="account_no"  placeholder="Account No."/>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -232,7 +232,7 @@
                                         </button> -->
                                         <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                         </nz-upload>
-                                        <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
+                                        <label class="ml-3 align-self-center" [nzDisabled]="item.controls.document_name.value ? false : true" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                     </div>
                                     <!-- (nzChange)="onUpload($event)"[nzBeforeUpload]="beforeUpload" [nzBeforeUpload]="beforeUpload" <input type="file" formControlName="documents" > -->
                                     <!-- <input nz-input type="number" min="0" formControlName="label_name"
@@ -271,7 +271,7 @@
                             <nz-radio-group formControlName='employee'>
                                 <label nz-radio nzValue="yes">Yes</label>
                                 <label nz-radio nzValue="no">No</label>
-                                <label nz-radio nzValue="na">N/A</label>
+                                <!-- <label nz-radio nzValue="na">N/A</label> -->
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -285,7 +285,7 @@
                             <nz-radio-group formControlName='payout'>
                                 <label nz-radio nzValue="yes">Yes</label>
                                 <label nz-radio nzValue="no">No</label>
-                                <label nz-radio nzValue="na">N/A</label>
+                                <!-- <label nz-radio nzValue="na">N/A</label> -->
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
