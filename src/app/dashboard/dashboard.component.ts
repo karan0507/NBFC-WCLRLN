@@ -134,7 +134,18 @@ export class DashboardComponent implements OnInit {
                     display: true,
                     beginAtZero: true,
                     fontSize: 13,
-                    padding: 4
+                    padding: 4,
+                    callback: function (value, index, values) {
+                        // return value + ' Lacs';
+                        var val: any;
+                        val = Math.abs(value);
+                        if (val >= 10000000) {
+                          val = (val / 10000000).toFixed(2) + " Cr";
+                        } else if (val >= 100000) {
+                          val = (val / 100000).toFixed(2) + " Lacs";
+                        }
+                        return val;
+                      },
                 }
             }]
         }
@@ -315,8 +326,16 @@ export class DashboardComponent implements OnInit {
                   if(!val){
                       val = 0
                   }
-                return val;
+                //   var val: any;
+                //   val = Math.abs(val);
+                //   if (val >= 10000000) {
+                //     val = (val / 10000000).toFixed(2) + " Cr";
+                //   } else if (val >= 100000) {
+                //     val = (val / 100000).toFixed(2) + " Lacs";
+                //   }
+                  return val;
               }),
+              label: 'Amount of Money',
               type: "bar",
               categoryPercentage: 0.3,
               barPercentage: 0.5,

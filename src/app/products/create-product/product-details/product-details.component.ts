@@ -55,7 +55,7 @@ export class ProductDetailsComponent implements OnInit {
       product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
-      remarks: [ this.productDetails ? this.productDetails.remarks : '', [Validators.required]],
+      remarks: [ this.productDetails ? this.productDetails.remarks : ''],
       tenures: this.fb.array([]),
       })
     if (this.productDetails) {

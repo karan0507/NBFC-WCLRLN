@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RejectedComponent } from './rejected.component';
+import { ChangeBillDateComponent } from './change-bill-date.component';
 
-describe('RejectedComponent', () => {
-  let component: RejectedComponent;
-  let fixture: ComponentFixture<RejectedComponent>;
+describe('ChangeBillDateComponent', () => {
+  let component: ChangeBillDateComponent;
+  let fixture: ComponentFixture<ChangeBillDateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RejectedComponent ]
+      declarations: [ ChangeBillDateComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RejectedComponent);
+    fixture = TestBed.createComponent(ChangeBillDateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

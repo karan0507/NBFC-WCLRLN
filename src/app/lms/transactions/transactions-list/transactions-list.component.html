@@ -55,6 +55,7 @@
                         nzPlaceHolder="Filter By Status">
                         <nz-option nzValue="Success" nzLabel="Success"></nz-option>
                         <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                        <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
                     </nz-select>
                 </div>
             </div>
@@ -62,7 +63,7 @@
                 (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
-                        <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <!-- <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
                         <th nzWidth="3rem">#</th>
                         <th nzWidth="15rem">User Details</th>
                         <!-- <th>User Code</th> -->
@@ -79,8 +80,8 @@
                 <tbody>
                     <ng-container *ngFor="let data of listOfData; index as i">
                         <tr>
-                            <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
-                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                            <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
                                 <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>

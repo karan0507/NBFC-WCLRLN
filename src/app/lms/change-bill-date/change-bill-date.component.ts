@@ -1,0 +1,202 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpService } from 'src/app/services/http.service';
+
+@Component({
+  selector: 'app-change-bill-date',
+  templateUrl: './change-bill-date.component.html',
+  styleUrls: ['./change-bill-date.component.css']
+})
+export class ChangeBillDateComponent implements OnInit {
+
+  
+  isImport = false
+  page = 1;
+  total_count;
+  globalPageSize = 30
+  api_calling_loader: boolean;
+  listOfData;
+  selectedTab = 'pending'
+  preview_file_name: any;
+  approve_id: any;
+  isPreview: boolean;
+  isApprove: boolean;
+  previewData: any;
+  uploaded_file: any;
+  previewBeforeUpload: any;
+  isLineError: any;
+  isPreviewBeforeUpload: boolean;
+  isFail: boolean;
+  is_approve_loading: boolean;
+  isApprovedSuccess: boolean;
+  is_upload_loading: boolean;
+  uploadSuccessfully: boolean;
+  isReject: boolean;
+  isRejectSuccess: boolean;
+  reject_id: any;
+
+  constructor(public http: HttpService, private message: NzMessageService,
+    private router : Router,
+    private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.getManualTransactionList()
+  }
+
+  downloadSampleFile() {
+    var link = document.createElement('a');
+    link.href = 'assets/static files/Change_Bill_Day.xlsx';
+    link.download = 'Change_Bill_Day.xlsx';
+    link.click();
+  }
+
+  getManualTransactionList(tabelFilter?) {
+    if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+    }
+    let data = {
+      source: 'LMS',
+      datapoint: 'fetch_change_bill_day',
+      status: this.selectedTab,
+      // date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
+      // keyword: this.searchValue,
+      page: this.page,
+      limit: this.globalPageSize
+    }
+    this.api_calling_loader = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader = false
+      if (res['data']) {
+        this.listOfData = res['data'].results
+        this.total_count = res['data'].total_count
+      } else {
+        this.listOfData = null
+        this.total_count = 0
+      }
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader = false
+    })
+  }
+
+  fetchPreviewAfterList(value, isPreview) {
+    let data = {
+      source: 'LMS',
+      datapoint: 'preview_change_bill_day',
+      endpoint: value?.id
+    }
+    this.preview_file_name = value.file_name
+    this.approve_id = value.id
+    const generateloader = this.message.loading('Generating Preview..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      if (res.success) {
+        if (isPreview) {
+          this.isPreview = true;
+        } else {
+          this.isApprove = true;
+        }
+        this.message.remove(generateloader);
+        this.previewData = res['data']
+      }
+      
+      this.message.remove(generateloader);
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.message.remove(generateloader);
+    })
+  }
+  beforeUploadName = (file) => {
+    console.log(file)
+    this.uploaded_file = file
+    this.fetchPreviewBeforeUpload(this.uploaded_file)
+    return false;
+  };
+
+  fetchPreviewBeforeUpload(value) {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'check_change_bill_day'),
+    data.append('file', value)
+    var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.message.remove(generateloader);
+      this.isImport = false
+      this.previewBeforeUpload = res['data'].list
+      this.isLineError = res['data'].status
+      this.isPreviewBeforeUpload = true;
+    }, (err) => {
+      generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
+      this.isImport = true
+      this.message.remove(generateloader);
+      this.isFail = true
+    })
+  }
+  
+  approveTransaction() {
+    let data = new FormData()
+    data.append('source', 'LMS')
+    data.append('datapoint', 'approve_reject_change_bill_day')
+    data.append('status', 'APPROVED')
+    data.append('id', this.approve_id)
+    this.is_approve_loading = true
+    this.http.postLoanApplicationApi(data).subscribe(res => {
+      if (res.success) {
+        this.isApprove = false;
+        this.isApprovedSuccess = true
+        this.is_approve_loading = false
+      }
+    }, (err) => {
+      this.is_approve_loading = false
+    })
+  }
+  
+  uploadTransaction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'import_change_bill_day'),
+    data.append('file', this.uploaded_file)
+    if (this.isLineError) {
+      this.is_upload_loading = true
+      this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+        this.is_upload_loading = false
+        this.isImport = false
+        this.isPreviewBeforeUpload = false;
+        this.uploadSuccessfully = true
+      }, (err) => {
+        this.isImport = true
+        this.is_upload_loading = false
+      })
+    } else {
+      this.isFail = true
+      this.isPreviewBeforeUpload = false;
+    }
+  }
+  
+  clickOnReject(id) {
+    this.isReject = true; 
+    this.reject_id = id
+  }
+
+  rejectTransaction() {
+    let data = new FormData()
+    data.append('source', 'LMS')
+    data.append('datapoint', 'approve_reject_change_bill_day')
+    data.append('status', 'REJECT')
+    data.append('id', this.reject_id)
+    this.is_approve_loading = true
+    this.http.postLoanApplicationApi(data).subscribe(res => {
+      if (res.success) {
+        this.isReject = false;
+        this.is_approve_loading = false
+        this.isRejectSuccess = true;
+        this.getManualTransactionList()
+      }
+    }, (err) => {
+      this.is_approve_loading = false
+    })
+  }
+}
+

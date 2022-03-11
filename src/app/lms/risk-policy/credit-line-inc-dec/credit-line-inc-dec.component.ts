@@ -51,7 +51,7 @@ export class CreditLineIncDecComponent implements OnInit {
     // }
     let data = {
       datapoint: 'loan_service',
-      endpoint: 'LoanApplicationAcceptedProduct',
+      endpoint: 'LoanApplicationCreditlineUpdation',
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,

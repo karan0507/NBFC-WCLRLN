@@ -44,6 +44,7 @@ export class LendersListComponent implements OnInit {
   toggleChangePassword: boolean = false;
   selectedUserData: any;
   storeDetailId: number;
+  statusOfSelectedLender: any;
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
       this.selectedId = id;
@@ -160,7 +161,7 @@ export class LendersListComponent implements OnInit {
 
   confirmationTrigger(value: any) {
     console.log(value);
-      this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
+      this.http.deleteNBFCUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         if(res?.success){
           this.message.success(res?.message)
         } else {
@@ -173,7 +174,9 @@ export class LendersListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
+  deleteUserByUserId(id, action){
+    this.statusOfSelectedLender = action;
+    alert(this?.statusOfSelectedLender)
     this.selectedUserId = id
     this.isDelete = true;
   }

@@ -14,7 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class AddEditMastersComponent implements OnInit {
   // masterForm
-  addEditProductForm!: FormGroup;
+  addEditProductForm: FormGroup;
   documentBasedForm: FormGroup;
   documentArray: any;
   index: any;
@@ -51,7 +51,7 @@ export class AddEditMastersComponent implements OnInit {
       } else {
         this.isEdit = false
         // this.masterParnerPayout = null
-        this.createMasterProductForm();
+        // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
     });
@@ -93,8 +93,23 @@ export class AddEditMastersComponent implements OnInit {
 
     this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
-      this.createMasterProductForm(res?.data);
+      this.setRetrievedDataInForm(res?.data)
+      // this.createMasterProductForm(res?.data);
     })
+  }
+
+  setRetrievedDataInForm(data){
+    for( var i in this.addEditProductForm.value){
+      if(i == 'business_nature' || i == 'business_type' || i == 'state'){
+        data[i] = data[i]?.id;
+      }
+      if(i != 'document_data'){
+        if(data[i]){
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+        }
+      }
+    }
+    this.setFormData(data)
   }
 
   setFormData(data) {
@@ -117,6 +132,12 @@ export class AddEditMastersComponent implements OnInit {
         });
         this.addSkills(documents)
       });
+    }
+  }
+
+  onClickOpenPopUp(e){
+    if(e?.pointerType == 'mouse'){
+      this.isVisible = true;
     }
   }
 

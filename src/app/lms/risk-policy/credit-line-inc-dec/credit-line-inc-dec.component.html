@@ -53,8 +53,8 @@
                         <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td>{{data.loan_amount_provided ? data.loan_amount_provided : 0}}</td>
-                        <td>{{data.creditline_data[0] ? (data.creditline_data[0]?.change_type == '+' ? (convertToFloat(data.creditline_data[0]?.amount_change) + convertToFloat(data.loan_amount_provided)) : (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided))) : 0}}</td>
-                        <td>{{data.creditline_data[0]?.amount_change ? data.creditline_data[0]?.amount_change : 0}}</td>
+                        <td>{{data.creditline_data?.length > 0 ? (data.creditline_data[0]?.change_type == '+' ? (convertToFloat(data.creditline_data[0]?.amount_change) + convertToFloat(data.loan_amount_provided)) : (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided))) : 0}}</td>
+                        <td>{{data.creditline_data?.length > 0 ?.amount_change ? data.creditline_data[0]?.amount_change : 0}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"

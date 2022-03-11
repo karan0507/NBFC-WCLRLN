@@ -386,48 +386,43 @@
                   <thead>
                         <tr>
                               <th>#</th>
-                              <th>File</th>
                               <th>Created At</th>
+                              <th nzRight>Actions</th>
                         </tr>
                   </thead>
                   <tbody>
                         <tr *ngFor="let data of billStatementList; index as i">
-                              <td *ngIf="page === 1">{{i+1}}</td>
-                              <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
-                              <td>{{data?.report_file}}</td>
+                              <td *ngIf="page4 === 1">{{i+1}}</td>
+                              <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
+                              <td nzRight>
+                                    <a (click)="viewInvoice(data.report_file, 'Bill Statement')">view</a>
+                              </td>
                         </tr>
                   </tbody>
             </nz-table>
       </nz-card>
       <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Invoices">
-            <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <nz-table #basicTable [nzData]="invoiceList" [nzFrontPagination]="false" [nzShowPagination]="false">
                   <thead>
                         <tr>
-                              <th>Month</th>
-                              <th>Principal</th>
-                              <th>Interest</th>
-                              <th>Monthly EMI</th>
-                              <th>Balance</th>
-                              <th>Charges</th>
-                              <th>Billing Date</th>
-                              <th>Paid On</th>
-                              <th>Method</th>
-                              <th>Status</th>
+                              <th>#</th>
+                              <th>Term</th>
+                              <th>Total Amount</th>
+                              <th>Invoice date</th>
+                              <th nzRight>Actions</th>
                         </tr>
                   </thead>
                   <tbody>
-                        <tr *ngFor="let data of dataSet; index as i">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                        <tr *ngFor="let data of invoiceList; index as i">
+                              <td *ngIf="page5 === 1">{{i+1}}</td>
+                              <td *ngIf="page5 > 1">{{((page5-1)*globalPageSize5)+(i+1)}}</td>
+                              <td>{{data.terms ? data.terms : '-'}}</td>
+                              <td>{{data.total ? data.total : '-'}}</td>
+                              <td>{{data.invoice_date ? data.invoice_date : '-'}}</td>
+                              <td nzRight>
+                                    <a (click)="viewInvoice(data.invoice_file, 'Invoice')">view</a>
+                              </td>
                         </tr>
                   </tbody>
             </nz-table>
