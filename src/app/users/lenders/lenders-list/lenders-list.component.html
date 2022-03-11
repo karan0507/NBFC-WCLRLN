@@ -64,7 +64,12 @@
                                 <td>{{ data?.nbfc_line_given }}</td>
                                 <td>{{ data?.amount_received}}</td>
                             <td>{{data?.wallet_balance}}</td>
-                            <td>{{ data?.registered}}</td>
+                            <td *ngIf="data?.registered">
+                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                            </td>
+                            <td *ngIf="!data?.registered">
+                                <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
+                            </td>
                             <!-- <td>{{ data?.transaction_status}}</td> -->
                             <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                             <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
@@ -79,14 +84,17 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item>
-                                            <span class="m-l-5"  (click)="changePassword(data)">Change Password</span>
+                                        <li nz-menu-item (click)="changePassword(data)">
+                                            <span class="m-l-5" >Change Password</span>
                                         </li>
-                                        <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['../lenders/edit']" [queryParams]="{id: data.id}">Edit</span>
+                                        <li nz-menu-item  [routerLink]="['../lenders/edit']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="!data.is_deleted">
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Deactivate Account</span>
+                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
+                                            <span class="m-l-5">InActive</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data.is_deleted"  (click)="deleteUserByUserId(data?.id, true)">
+                                            <span class="m-l-5">Active</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
@@ -363,8 +371,8 @@
   <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'This action will  deactivate this account'"
-            [subTitle]="'if required, you can activate this account after 15 days. Are your sure ?'"
+            [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
+            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
             [icon]="'assets/images/activate.png'"
             (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''"

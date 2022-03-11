@@ -7,8 +7,8 @@
                   <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="dsa_type" class="text-left" nzRequired>DSA Type</nz-form-label>
                   <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select DSA Type!">
                       <nz-radio-group formControlName='dsa_type'>
-                          <label nz-radio nzValue="Entity">Entity</label>
-                          <label nz-radio nzValue="Company">Company</label>
+                          <label nz-radio nzValue="Entity">Individual</label>
+                          <label nz-radio nzValue="Company">Entity</label>
                       </nz-radio-group>
                   </nz-form-control>
               </nz-form-item>
@@ -17,7 +17,7 @@
                   <nz-form-item>
                       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Entity Name</nz-form-label>
                       <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Entity Name!">
-                          <input nz-input type="text" formControlName="name"  placeholder="Merchant Name"/>
+                          <input nz-input type="text" formControlName="name"  placeholder="Merchant Name"  (keypress)="omit_special_char($event)"/>
                       </nz-form-control>
                   </nz-form-item>
               </div>
@@ -57,7 +57,7 @@
                   <nz-form-item>
                       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City</nz-form-label>
                       <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid City!">
-                          <input nz-input type="text" formControlName="city"  placeholder="City"/>
+                          <input nz-input type="text" formControlName="city"  placeholder="City" (keypress)="omit_special_char($event)"/>
                       </nz-form-control>
                   </nz-form-item>
               </div>
@@ -93,7 +93,7 @@
               </div>
               <div class="col-md-12">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left" nzRequired>Refereed By</nz-form-label>
+                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left">Refereed By</nz-form-label>
                     <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
                     <nz-select nzAllowClear nzShowSearch class="mr-2 width" [nzAllowClear]='false' nzPlaceHolder="Select Master Partner"
                      (keyup)="getListOfMasterPartner($event?.target.value)" formControlName="partner_master">
@@ -115,7 +115,7 @@
                   <nz-form-item>
                       <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_name" class="text-left" nzRequired>Name</nz-form-label>
                       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Name!">
-                          <input nz-input type="text" formControlName="contact_person_name"  placeholder="Person Name" />
+                          <input nz-input type="text" formControlName="contact_person_name"  placeholder="Person Name" (keypress)="omit_special_char($event)" />
                       </nz-form-control>
                   </nz-form-item>
               </div>
@@ -148,25 +148,25 @@
                   
                   <div class="col-md-6">
                       <nz-form-item>
-                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left" nzRequired>Bank Name</nz-form-label>
+                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left" >Bank Name</nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Bank Name!">
-                              <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name"/>
+                              <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name" (keypress)="omit_special_char($event)"/>
                           </nz-form-control>
                       </nz-form-item>
                   </div>
 
                   <div class="col-md-6">
                       <nz-form-item>
-                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left" nzRequired>A/c No.</nz-form-label>
+                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.</nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Account No.!">
-                              <input nz-input type="text" formControlName="account_no"  placeholder="Account No."/>
+                              <input nz-input type="number" formControlName="account_no"  placeholder="Account No."/>
                           </nz-form-control>
                       </nz-form-item>
                   </div>
 
                   <div class="col-md-6">
                       <nz-form-item>
-                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left" nzRequired>IFSC Code</nz-form-label>
+                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left">IFSC Code</nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add IFsC!">
                               <input nz-input type="text" formControlName="ifsc"  placeholder="IFSC" />
                           </nz-form-control>
@@ -175,9 +175,9 @@
 
                   <div class="col-md-6">
                       <nz-form-item>
-                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left" nzRequired>Branch</nz-form-label>
+                          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left" >Branch</nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Branch!">
-                              <input nz-input type="text" formControlName="branch"  placeholder="Branch" />
+                              <input nz-input type="text" formControlName="branch"  placeholder="Branch" (keypress)="omit_special_char($event)" />
                           </nz-form-control>
                       </nz-form-item>
                   </div>
@@ -226,7 +226,7 @@
           </ng-container>
           <div class="row no-gutters">
               <div class="col-12 d-flex justify-content-between">
-                  <button nz-button nzType="link" class="pl-0" (click)="isVisible = true">+Add Document</button>
+                  <button nz-button nzType="link" class="pl-0" (click)="onClickOpenPopUp($event)">+Add Document</button>
               </div>
           </div>
 
@@ -273,7 +273,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzOkDisabled]="!selectedDocument" (nzOnOk)="addRule()">
   <ng-container *nzModalContent>
       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
-      <nz-select class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Select Entity!" style="min-width: 13rem;">
+      <nz-select class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Document!" style="min-width: 13rem;">
           <nz-option *ngFor="let item of documentArray" [nzValue]="item" [nzLabel]="item.name">
           </nz-option>
       </nz-select>
