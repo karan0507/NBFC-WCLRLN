@@ -48,8 +48,8 @@
                         <tr>
                             <th rowspan="2" nzWidth="100px">#</th>
                             <th>Partner's Details</th>
-                            <th>DOB</th>
-                            <th>Type</th>
+                            <!-- <th>DOB</th>
+                            <th>Type</th> -->
                             <th> Master Partner</th>
                             <th>Regd. On</th>
                             <th>Source ID</th>
@@ -76,8 +76,8 @@
                                     (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                     {{ i + 1 }}</td>
                                 <td>{{ data?.name }}</td>
-                                <td>{{ data?.dob }}</td>
-                                <td>{{ data?.type }}</td>
+                                <!-- <td>{{ data?.dob }}</td>
+                                <td>{{ data?.type }}</td> -->
                                 <td>{{ data?.master_partner }}</td>
                                 <td>{{ data?.created_at | date: 'dd MMM yyyy' }}
                                 <td>{{ data?.source_id }}</td>
@@ -123,9 +123,8 @@
                                           nzPopconfirmPlacement="topLeft"
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                             <li nz-menu-item *ngIf="!data.is_deleted">
-                                                <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                                 <span class="m-l-5"
-                                                    (click)="deleteUserByUserId(data?.id, 'delete')">Deactivate</span>
+                                                    (click)="deleteUserByUserId(data?.id, 'delete')">Inactive</span>
                                             </li>
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5"

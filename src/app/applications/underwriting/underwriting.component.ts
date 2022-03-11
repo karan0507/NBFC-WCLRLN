@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -19,7 +20,6 @@ export class UnderwritingComponent implements OnInit {
       _isEditOffer: boolean = false;
       filters: any;
       offerForm: FormGroup;
-      _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
@@ -96,7 +96,7 @@ export class UnderwritingComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '3', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -116,7 +116,7 @@ export class UnderwritingComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -364,7 +364,8 @@ export class UnderwritingComponent implements OnInit {
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               // let url = window.URL.createObjectURL(blob)
-                              let pwa = window.open(res?.file);
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {

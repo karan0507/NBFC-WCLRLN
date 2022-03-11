@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -18,7 +19,6 @@ export class OfferProposedComponent implements OnInit {
       checked: boolean = false;
       filters: any;
       remarks: any = '';
-      _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
       isRejectModal: boolean = false;
@@ -98,7 +98,7 @@ export class OfferProposedComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '4', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -285,7 +285,7 @@ export class OfferProposedComponent implements OnInit {
                         })
                         break;
                   case 'offer':
-                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentDocumentReq?.id, amount: this.offerForm.get('amountOffered').value };
+                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
                                     console.log('res');
@@ -300,7 +300,7 @@ export class OfferProposedComponent implements OnInit {
 
                         break;
                   case 'reject':
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentDocumentReq?.id, remarks: this.remarks };
+                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanDetails?.id, remarks: this.remarks };
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);
@@ -410,7 +410,8 @@ export class OfferProposedComponent implements OnInit {
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               // let url = window.URL.createObjectURL(blob)
-                              let pwa = window.open(res?.file);
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {

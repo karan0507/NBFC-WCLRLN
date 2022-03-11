@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -18,7 +19,6 @@ export class ENachSigningComponent implements OnInit {
       checked: boolean = false;
       filters: any;
       remarks: any = '';
-      _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
       isRejectModal: boolean = false;
@@ -98,7 +98,7 @@ export class ENachSigningComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '6', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -118,7 +118,7 @@ export class ENachSigningComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -246,7 +246,7 @@ export class ENachSigningComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '4', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '6', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
@@ -340,7 +340,8 @@ export class ENachSigningComponent implements OnInit {
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               // let url = window.URL.createObjectURL(blob)
-                              let pwa = window.open(res?.file);
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {

@@ -141,10 +141,10 @@ export class AddEditPartnersComponent implements OnInit {
       // unique_code: [data ? data?.unique_code : null],
 
 
-      bank_name: [data ? data?.bank_name : null, [Validators.required]],
-      account_no: [data ? data?.account_no : null, [Validators.required]],
-      ifsc: [data ? data?.ifsc : null, [Validators.required]],
-      branch: [data ? data?.branch : null, [Validators.required]],
+      bank_name: [data ? data?.bank_name : null],
+      account_no: [data ? data?.account_no : null],
+      ifsc: [data ? data?.ifsc : null, [Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
+      branch: [data ? data?.branch : null],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.business_type : null, [Validators.required]],
@@ -162,13 +162,27 @@ export class AddEditPartnersComponent implements OnInit {
       // if m creating master always share the value 1  
       master: [ 0, [Validators.required]],
       partner_nature: [ 'Partner', [Validators.required]],
-      partner_master:[data ? data?.master_partner?.id : null , [Validators.required]]
+      partner_master:[data ? data?.master_partner?.id : null]
     });
     if(data){
       this.setFormData(data);
     }
   }
   
+  omit_special_char(event) {
+    // to avoid special Character
+    // var k;
+    // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+
+    // to avoid special Character && Number
+    var charCode = event.keyCode;
+    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 32 ||  charCode == 8)
+        return true;
+    else
+        return false;
+}
+
   deleteDocumentByDocumentId(i) {
     let fileName = this.addEditProductForm.get("document_data") as FormArray;
     const selectedFile = fileName.controls?.[i].value;
