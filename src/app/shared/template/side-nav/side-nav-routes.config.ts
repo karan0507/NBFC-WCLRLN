@@ -220,6 +220,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'lms/change-bill-date',
+                title: 'Change Bill date', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'lms/transactions',
                 title: 'Transactions', 
                 iconType: '', 
