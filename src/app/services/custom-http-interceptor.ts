@@ -50,6 +50,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
             // }
             if(event.body.status_code == 500){
               this.message.error(event.body.message);
+              return null;
             }
           }
           return event;
