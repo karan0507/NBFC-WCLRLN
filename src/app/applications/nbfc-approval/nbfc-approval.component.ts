@@ -5,6 +5,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service'
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import * as FileSaver from 'file-saver';
 @Component({
       selector: 'app-nbfc-approval',
       templateUrl: './nbfc-approval.component.html',
@@ -85,7 +86,7 @@ export class NbfcApprovalComponent implements OnInit {
                         this.productList = res?.data
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '10', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
@@ -104,7 +105,7 @@ export class NbfcApprovalComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
@@ -340,7 +341,7 @@ export class NbfcApprovalComponent implements OnInit {
       getCibilScoreData(id?) {
             console.log('API call');
             if (id) {
-                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 2 }
+                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 10 }
                   this.https.getCibilData(id, data).subscribe(res => {
                         if (res?.data) {
                               console.log(res?.data);
@@ -374,7 +375,8 @@ export class NbfcApprovalComponent implements OnInit {
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               // let url = window.URL.createObjectURL(blob)
-                              let pwa = window.open(res?.file);
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {
