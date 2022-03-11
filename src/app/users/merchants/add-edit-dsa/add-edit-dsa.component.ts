@@ -48,7 +48,7 @@ export class AddEditDsaComponent {
       } else {
         // this.masterParnerPayout = null
         this.isEdit = false
-        this.createMasterProductForm();
+        // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
     });
@@ -59,8 +59,23 @@ export class AddEditDsaComponent {
 
     this.http.getPartnerDSAListById(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
-      this.createMasterProductForm(res?.data);
+      this.setRetrievedDataInForm(res?.data)
+      // this.createMasterProductForm(res?.data);
     })
+  }
+
+  setRetrievedDataInForm(data){
+    for( var i in this.addEditProductForm.value){
+      if(i == 'state'){
+        data[i] = data[i]?.id;
+      }
+      if(i != 'document_data'){
+        if(data[i]){
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+        }
+      }
+    }
+    this.setFormData(data)
   }
 
   getListOfStates(){

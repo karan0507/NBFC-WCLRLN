@@ -48,7 +48,7 @@ export class AddEditMerchantsComponent implements OnInit {
       } else {
         // this.masterParnerPayout = null
         this.isEdit = false
-        this.createMasterProductForm();
+        // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
     });
@@ -72,8 +72,23 @@ export class AddEditMerchantsComponent implements OnInit {
 
     this.http.getPartnerListDetail(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
-      this.createMasterProductForm(res?.data);
+      this.setRetrievedDataInForm(res?.data)
+      // this.createMasterProductForm(res?.data);
     })
+  }
+
+  setRetrievedDataInForm(data){
+    for( var i in this.addEditProductForm.value){
+      if(i == 'partner_master' || i == 'state'){
+        data[i] = data[i]?.id;
+      }
+      if(i != 'document_data'){
+        if(data[i]){
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+        }
+      }
+    }
+    this.setFormData(data)
   }
 
   setFormData(data) {
@@ -148,7 +163,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
 
 
-      partner_master:[data ? data?.master_partner?.id : null],
+      partner_master:[data ? data?.partner_master?.id : null],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],

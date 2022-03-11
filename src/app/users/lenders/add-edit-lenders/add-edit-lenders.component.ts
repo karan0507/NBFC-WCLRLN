@@ -51,7 +51,7 @@ export class AddEditLendersComponent implements OnInit {
       } else {
         this.isEdit = false;
         // this.masterParnerPayout = null
-        this.createMasterProductForm();
+        // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
     });
@@ -60,8 +60,23 @@ export class AddEditLendersComponent implements OnInit {
   getNBFCDetail() {
     this.http.getNBFCDetail(this.masterPartnerId).subscribe((res: any) => {
       console.log(res);
-      this.createMasterProductForm(res?.data);
+      this.setRetrievedDataInForm(res?.data)
+      // this.createMasterProductForm(res?.data);
     });
+  }
+
+  setRetrievedDataInForm(data){
+    for( var i in this.addEditProductForm.value){
+      if(i == 'state'){
+        data[i] = data[i]?.id;
+      }
+      if(i != 'document_data'){
+        if(data[i]){
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+        }
+      }
+    }
+    this.setFormData(data)
   }
 
   getListOfStates(){

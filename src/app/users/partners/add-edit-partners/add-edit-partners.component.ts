@@ -49,7 +49,7 @@ export class AddEditPartnersComponent implements OnInit {
       } else {
         this.isEdit = false
         // this.masterParnerPayout = null
-        this.createMasterProductForm();
+        // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
     });
@@ -100,8 +100,23 @@ export class AddEditPartnersComponent implements OnInit {
 
     this.http.getPartnerListDetail(this.partnerId).subscribe((res: any)=> {
       console.log(res);
-      this.createMasterProductForm(res?.data);
+      this.setRetrievedDataInForm(res?.data)
+      // this.createMasterProductForm(res?.data);
     })
+  }
+
+  setRetrievedDataInForm(data){
+    for( var i in this.addEditProductForm.value){
+      if(i == 'partner_master' || i == 'state' || i =='corporation_category'){
+        data[i] = data[i]?.id;
+      }
+      if(i != 'document_data'){
+        if(data[i]){
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+        }
+      }
+    }
+    this.setFormData(data)
   }
 
   setFormData(data) {

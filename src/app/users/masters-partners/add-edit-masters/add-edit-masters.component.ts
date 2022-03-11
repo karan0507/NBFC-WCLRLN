@@ -37,9 +37,6 @@ export class AddEditMastersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.addEditProductForm = this.fb.group({
-    //   name: [null, [Validators.required]]
-    // })
     this.createMasterProductForm();
     this.route.queryParams.subscribe(params => {
       if(params['id']){
@@ -96,12 +93,12 @@ export class AddEditMastersComponent implements OnInit {
 
     this.http.getMasterPartnerById(this.masterPartnerId).subscribe((res: any)=> {
       console.log(res);
-      this.setDataForNow(res?.data)
+      this.setRetrievedDataInForm(res?.data)
       // this.createMasterProductForm(res?.data);
     })
   }
 
-  setDataForNow(data){
+  setRetrievedDataInForm(data){
     for( var i in this.addEditProductForm.value){
       if(i == 'business_nature' || i == 'business_type' || i == 'state'){
         data[i] = data[i]?.id;

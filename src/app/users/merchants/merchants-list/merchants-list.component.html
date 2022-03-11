@@ -85,17 +85,17 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item>
-                                            <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
+                                        <li nz-menu-item  (click)="changePassword(data)">
+                                            <span class="m-l-5">Change Password</span>
                                         </li>
-                                        <li nz-menu-item>
-                                            <span class="m-l-5" [routerLink]="['/merchants/list/edit-merchant']" [queryParams]="{id: data.id}">Edit</span>
+                                        <li nz-menu-item  [routerLink]="['/merchants/list/edit-merchant']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="!data.is_deleted">
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Inactive</span>
+                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id)">
+                                            <span class="m-l-5">Inactive</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data.is_deleted">
-                                            <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">Active</span>
+                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id)">
+                                            <span class="m-l-5">Active</span>
                                         </li>
                                         <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade To Master</span>
