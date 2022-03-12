@@ -36,10 +36,11 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { KycDocumentActionComponent } from './kyc-document-action/kyc-document-action.component';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
