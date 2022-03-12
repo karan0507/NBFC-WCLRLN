@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
 import { HttpService } from 'src/app/services/http.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 // import {}
 
 @Component({
@@ -29,7 +30,7 @@ export class EditFormComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe) { }
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message : NzMessageService) { }
 
       ngOnInit(): void {
             this.route.queryParams.subscribe(params => {
@@ -96,6 +97,7 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
+            this.api_calling_loader['accordian'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
             data.append('email', this.personalDetails.value.email);
@@ -106,9 +108,13 @@ export class EditFormComponent implements OnInit {
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
                   if (res?.success) {
-                        this.router.navigateByUrl('/applications/form-filling')
+                        // this.router.navigateByUrl('/applications/form-filling');
+                        this.api_calling_loader['accordian'] = false
+                        this.message.success(res?.message)
+                        this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
-                        this.router.navigateByUrl('/applications/form-filling')
+                        // this.router.navigateByUrl('/applications/form-filling')
+                        this.api_calling_loader['accordian'] = false
                   }
             })
 
