@@ -176,7 +176,6 @@ export class LendersListComponent implements OnInit {
 
   deleteUserByUserId(id, action){
     this.statusOfSelectedLender = action;
-    alert(this?.statusOfSelectedLender)
     this.selectedUserId = id
     this.isDelete = true;
   }
