@@ -105,6 +105,7 @@ export class PartnersListComponent implements OnInit {
     'url': '',
     'title': ''
   }
+  statusOfSelectedLender: any;
   
 
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
@@ -262,12 +263,13 @@ export class PartnersListComponent implements OnInit {
   }
 
   deleteUserByUserId(id, action){
-    if(action === 'delete'){
+    // if(action === 'delete'){
+      this.statusOfSelectedLender = action;
       this.selectedUserId = id;
       this.isDelete = true;
-    } else {
-      this.toggleOnUpgradeUser = true;
-    }
+    // } else {
+    //   this.toggleOnUpgradeUser = true;
+    // }
   }
 
   onClickDownloadSelectedDocument(e){

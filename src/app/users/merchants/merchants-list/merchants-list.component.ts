@@ -46,6 +46,7 @@ export class MerchantsListComponent implements OnInit {
   file: string;
   uploaded_file: any;
   storeDetailId: number;
+  statusOfSelectedLender: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -153,6 +154,7 @@ export class MerchantsListComponent implements OnInit {
 
   deleteUserByUserId(id, action){
     // if(action === 'delete'){
+      this.statusOfSelectedLender = action;
       this.selectedUserId = id;
       this.isDelete = true;
     // } else {

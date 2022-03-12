@@ -186,7 +186,7 @@ export class AddEditMastersComponent implements OnInit {
       document_data:  this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [1, [Validators.required]],
+      master: ['1', [Validators.required]],
     });
     if(data){
       this.setFormData(data);
@@ -335,7 +335,10 @@ export class AddEditMastersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createMasterPartnerForm(data);
@@ -376,7 +379,10 @@ export class AddEditMastersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
@@ -425,7 +431,10 @@ export class AddEditMastersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createPartnerForm(data);

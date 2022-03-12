@@ -47,7 +47,7 @@
                     <thead>
                         <tr>
                             <th rowspan="2" nzWidth="100px">#</th>
-                            <th>Partner's Details</th>
+                            <th>Corporate Details</th>
                             <!-- <th>DOB</th>
                             <th>Type</th> -->
                             <th> Master Partner</th>
@@ -121,10 +121,10 @@
                                           nzPopconfirmTitle="Are you sure delete Employee?"
                                           nzPopconfirmPlacement="topLeft"
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-                                            <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, 'delete')">
+                                            <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
                                                 <span class="m-l-5">Inactive</span>
                                             </li>
-                                            <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, 'delete')">
+                                            <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
                                                 <span class="m-l-5">Active</span>
                                             </li>
                                             <!-- <li nz-menu-item>
@@ -400,9 +400,11 @@
 
 <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup [title]="'You are about to delete an User'"
-            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
-            [icon]="'assets/images/delete-icon.png'" (onOkCall)="confirmationTrigger()"
+        <app-double-confirmation-popup 
+            [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
+            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
+            [icon]="'assets/images/delete-icon.png'"
+            (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
     </ng-container>
@@ -410,7 +412,8 @@
 
 <nz-modal [nzWidth]="400" [(nzVisible)]="toggleOnUpgradeUser" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup [title]="'Upgrade To Master Partner'"
+        <app-double-confirmation-popup
+             [title]="'Upgrade To Master Partner'"
             [subTitle]="'This action will upgrade user in to Master Partner permanently. Are You Sure?'"
             [icon]="'assets/images/upgrade-user.png'" (onOkCall)="confirmationForUpdation()"
             (onCencelCall)="toggleOnUpgradeUser = false;" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'  OK  '">

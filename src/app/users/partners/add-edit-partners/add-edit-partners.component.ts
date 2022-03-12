@@ -175,7 +175,7 @@ export class AddEditPartnersComponent implements OnInit {
       document_data:  this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1  
-      master: [ 0, [Validators.required]],
+      master: [ '0', [Validators.required]],
       partner_nature: [ 'Partner', [Validators.required]],
       partner_master:[data ? data?.master_partner?.id : null]
     });
@@ -343,7 +343,10 @@ export class AddEditPartnersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createPartnerForm(data);
@@ -370,15 +373,6 @@ export class AddEditPartnersComponent implements OnInit {
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
-      // if(this.addEditProductForm.controls[i].status === 'INVALID'){
-      //   alert(this.addEditProductForm.controls[i].status + '  ' + this.addEditProductForm.controls[i].value)
-      //   this.addEditProductForm.controls[i].invalid;
-      //   this.addEditProductForm.controls[i].asyncValidator;
-      //   this.addEditProductForm.controls[i].dirty;
-      //   this.addEditProductForm.controls[i].markAsDirty();
-      //   this.addEditProductForm.controls[i].markAsUntouched();
-      //   this.addEditProductForm.controls[i].setValidators(Validators.required);
-      // }
     }
 
     console.log('Working',this.addEditProductForm.controls);
@@ -391,9 +385,6 @@ export class AddEditPartnersComponent implements OnInit {
       var sendDate = this.addEditProductForm.value
       
       for (var i in sendDate.document_data) {
-        // if(sendDate?.document_data[i]?.documents?.includes('/')){
-        // break;  
-        // }
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
@@ -404,15 +395,16 @@ export class AddEditPartnersComponent implements OnInit {
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
-        // data.append('documents', sendDate?.document_data[i]?.documents)
-        // delete sendDate?.document_data[i]?.documents
       }
   
       for (var i in sendDate) {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createPartnerForm(data);
@@ -454,7 +446,10 @@ export class AddEditPartnersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.partnerId, data) 

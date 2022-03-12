@@ -6,7 +6,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master’s Name</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Master Name!">
-                            <input nz-input type="text" formControlName="name"  placeholder="Master Name"/>
+                            <input nz-input type="text" formControlName="name"  placeholder="Master Name"  (keypress)="omit_special_char($event)"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

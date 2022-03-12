@@ -327,7 +327,10 @@ export class AddEditLendersComponent implements OnInit {
           if (i == "document_data") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
-            data.append(i, sendDate[i]);
+            if(sendDate[i]){
+              data.append(i, sendDate[i])
+            }
+            // data.append(i, sendDate[i]);
           }
         }
         const url = this.http.createNBFCForm(data);
@@ -367,7 +370,10 @@ export class AddEditLendersComponent implements OnInit {
           if (i == "document_data") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
-            data.append(i, sendDate[i]);
+            if(sendDate[i]){
+              data.append(i, sendDate[i])
+            }
+            // data.append(i, sendDate[i]);
           }
         }
         const url = this.http.updateNBFCForm(this.masterPartnerId, data);
@@ -415,7 +421,10 @@ export class AddEditLendersComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const url = this.http.createNBFCForm(data);

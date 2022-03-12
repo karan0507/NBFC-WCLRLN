@@ -43,6 +43,7 @@ export class MasterPartnersListComponent implements OnInit {
   file: string;
   uploaded_file: any;
   storeDetailId: number;
+  statusOfSelectedLender: any;
   
   onExpandChange(id: number, checked: boolean, i): void {
     console.log(checked);
@@ -173,7 +174,8 @@ export class MasterPartnersListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
+  deleteUserByUserId(id, action){
+    this.statusOfSelectedLender = action;
     this.selectedUserId = id
     this.isDelete = true;
   }

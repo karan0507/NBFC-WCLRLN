@@ -160,7 +160,7 @@ export class EmployeeDetailsComponent implements OnInit {
   hasValidationError: boolean;
   branchName: any;
   constructor(private fb: FormBuilder,private router: Router, private message: NzMessageService, 
-    private route: ActivatedRoute, private http: HttpService) { }
+    private route: ActivatedRoute, public http: HttpService) { }
 
   ngOnInit(): void {
     this.fetchPartnerList();
@@ -185,7 +185,8 @@ export class EmployeeDetailsComponent implements OnInit {
     this.uploadSelectedCorporateFile = this.fb.group({
       file: [null, [Validators.required]], 
       partner:[null, [Validators.required]], 
-      branch:[null, [Validators.required]], 
+      branch:[null, [Validators.required]],
+      remarks:[null, [Validators.required]],
       branch_name:[{value: null,disabled: true}, [Validators.required]], 
       section:[this.selectedTab ? this.selectedTab : null, [Validators.required]], 
     })
@@ -376,6 +377,7 @@ export class EmployeeDetailsComponent implements OnInit {
           this.isVisibleModal['previewIsVisible'] = false
           this.isVisibleModal['modalIsVisible'] = false;
           this.message.success('File Uploaded')
+          this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       } else {
         this.isVisibleModal['toggleHeaderText'] = false;
         this.isVisibleModal['previewIsVisible'] = false

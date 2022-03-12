@@ -91,10 +91,10 @@
                                         <li nz-menu-item  [routerLink]="['/merchants/list/edit-merchant']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
                                             <span class="m-l-5">Inactive</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>
                                         </li>
                                         <!-- <li nz-menu-item>
@@ -410,8 +410,8 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'You are about to delete an Merchant'"
-            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
+            [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
+            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
             [icon]="'assets/images/delete-icon.png'"
             (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''"

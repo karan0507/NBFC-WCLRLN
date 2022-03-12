@@ -47,6 +47,7 @@ export class DsaListComponent implements OnInit {
   file: string;
   uploaded_file: any;
   storeDetailId: number;
+  statusOfSelectedLender: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -155,7 +156,8 @@ export class DsaListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
+  deleteUserByUserId(id, action){
+    this.statusOfSelectedLender = action;
     this.selectedUserId = id
     this.isDelete = true;
   }

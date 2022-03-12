@@ -61,7 +61,7 @@
                             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                 {{ i + 1 }}</td>
                             <td>{{ data.name }}</td>
-                            <td>{{ data.type }}</td>
+                            <td>{{ data.dsa_type }}</td>
                             <td>{{ data.created_at | date: 'dd MMM yyyy' }}
                             <td>{{data?.source_id}}</td>
                             <td>{{data?.unique_code}}</td>
@@ -94,18 +94,18 @@
                                         <!-- <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">De-activate</span>
                                         </li> -->
-                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
                                             <span class="m-l-5">Inactive</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
-                                        </li>
+                                        </li> -->
                                         <li nz-menu-item (click)="storeSelectedId(data?.id)">
                                             <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                 [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
@@ -398,8 +398,8 @@
   <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'You are about to De-activate an User'"
-            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
+            [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
+            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
             [icon]="'assets/images/delete-icon.png'"
             (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''"

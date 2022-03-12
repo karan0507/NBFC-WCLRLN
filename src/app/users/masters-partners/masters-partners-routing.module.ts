@@ -9,7 +9,7 @@ const routes: Routes = [
     component: MasterPartnersListComponent,
     data: {
       title: 'Masters Partners',
-      parent: 'Masters Partners',
+      parent: 'Users',
       custom_url: 'masters-partners'
     }
   },
@@ -17,7 +17,7 @@ const routes: Routes = [
     path: '',
     data: {
       title: 'Masters Partners',
-      parent: 'Masters Partners',
+      parent: 'Users',
       custom_url: 'masters-partners'
     },
     // component: LendersComponent,
@@ -27,7 +27,7 @@ const routes: Routes = [
         component: AddEditMastersComponent,
         data: {
           title: 'Add Master Partner',
-          parent: 'Master Partner',
+          parent: 'Users',
           custom_url: 'masters-partners/add'
         }
       },
@@ -36,7 +36,7 @@ const routes: Routes = [
         component: AddEditMastersComponent,
         data: {
           title: 'Edit Master Partner',
-          parent: 'Master Partner',
+          parent: 'Users',
           custom_url: 'masters-partners/edit'
         }
       },
