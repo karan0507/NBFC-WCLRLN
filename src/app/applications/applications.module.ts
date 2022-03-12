@@ -26,8 +26,6 @@ import { EditFormComponent } from './edit-form/edit-form.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { TrackStatusComponent } from './track-status/track-status.component';
-import { RejectedComponent } from './rejected/rejected.component';
-import { DormantComponent } from './dormant/dormant.component';
 import { PerApprovedComponent } from './per-approved/per-approved.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
@@ -38,10 +36,11 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { KycDocumentActionComponent } from './kyc-document-action/kyc-document-action.component';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, RejectedComponent, DormantComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,

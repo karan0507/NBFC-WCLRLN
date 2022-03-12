@@ -61,7 +61,7 @@ export class PerApprovedComponent implements OnInit {
                         this.productList = res?.data
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '9', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
@@ -80,7 +80,7 @@ export class PerApprovedComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
@@ -160,10 +160,6 @@ export class PerApprovedComponent implements OnInit {
             const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
             this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
             this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
-      }
-
-      onMonthChange(event) {
-
       }
 
       updateStatus() {

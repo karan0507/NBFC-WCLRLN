@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -19,7 +20,6 @@ export class UnderwritingComponent implements OnInit {
       _isEditOffer: boolean = false;
       filters: any;
       offerForm: FormGroup;
-      _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
       listOfCurrentPageData: readonly Data[] = [];
@@ -56,7 +56,7 @@ export class UnderwritingComponent implements OnInit {
       // Modal Boolean Values
       _isPullData: boolean = false;
       _isOpenModal: boolean = false;
-      _currentFileName: any ;
+      _currentFileName: any;
       fileList: any = [];
       _isDownload: boolean = false;
       _isVerify: boolean = false;
@@ -72,7 +72,7 @@ export class UnderwritingComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
-      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb : FormBuilder) { }
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb: FormBuilder) { }
 
       ngOnInit(): void {
             this.page = 1
@@ -96,7 +96,7 @@ export class UnderwritingComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '3', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -116,7 +116,7 @@ export class UnderwritingComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -206,15 +206,9 @@ export class UnderwritingComponent implements OnInit {
             this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
       }
 
-      onMonthChange(event) {
-
-      }
-
       updateStatus(type?, data?) {
             this._isUpdateStatus = true;
             this._currentLoanDetails = data;
-            console.log(data);
-            
             switch (type) {
                   case 'status':
                         this._isStatus = true;
@@ -232,7 +226,7 @@ export class UnderwritingComponent implements OnInit {
                         this.api_calling_loader['accordian'] = true;
                         let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': this._currentLoanDetails['id'] }
                         console.log('Edit Offer Params', params);
-                        
+
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     console.log(res);
@@ -268,10 +262,10 @@ export class UnderwritingComponent implements OnInit {
       }
 
       handleOk(type?) {
-            switch(type){
+            switch (type) {
                   case 'offer':
                         let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
-                        
+
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
                                     console.log('res');
@@ -281,59 +275,63 @@ export class UnderwritingComponent implements OnInit {
                                     console.log('error=>', res?.error);
                               }
                         }, error => {
-                              
+
                         })
-      break;
-                  case 'verify' :
-				this.api_calling_loader['button'] = true
+                        break;
+                  case 'verify':
+                        this.api_calling_loader['button'] = true
                         let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
                         console.log('export this file', this._currentModalData, params);
-				this.https.verifyLoanDocument(params).subscribe((res :any)=>{
-					if(res?.success){
-						this.api_calling_loader['button'] = false
-						this.message.success(res?.message);
-						this.handleCancel();
-						this.getIdWiseData(this._currentModalData['application'])
-					}else{
-						this.api_calling_loader['button'] = false
-						this.message.error(res?.message);
-					}
-				},err =>{this.api_calling_loader['button'] = false
-				this.message.error(err);})
-				
+                        this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getIdWiseData(this._currentModalData['application'])
+                              } else {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false
+                              this.message.error(err);
+                        })
+
                         break;
                   case 'uploadDocument':
                         this.api_calling_loader['button'] = true
                         let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
                         console.log(uploadDoc, 'For Upload Document');
 
-                        this.https.uploadLoanDocument(uploadDoc).subscribe((res : any)=>{
-                              if(res?.success){
+                        this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+                              if (res?.success) {
                                     this.api_calling_loader['button'] = false;
                                     this.fileList = [];
-						this.message.success(res?.message)
+                                    this.message.success(res?.message)
                                     this.handleCancel();
-                              }else{
+                              } else {
                                     this.api_calling_loader['button'] = false;
                                     this.fileList = [];
-						this.message.error(res?.message)
+                                    this.message.error(res?.message)
                                     this.handleCancel();
                               }
-                        },err=>{this.api_calling_loader['button'] = false;
-				this.message.error(err)})
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(err)
+                        })
                         break;
-                        case 'StatusModal':
+                  case 'StatusModal':
                         let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
-                        if (res.success) {
-                              this._isUpdateStatus = false;
-                        } else {
-                              console.log('error=>', res?.error);
-                        }
-                  }, error => {
-                  })
-                  break;
-            }    
+                              if (res.success) {
+                                    this._isUpdateStatus = false;
+                              } else {
+                                    console.log('error=>', res?.error);
+                              }
+                        }, error => {
+                        })
+                        break;
+            }
       }
 
       checkDisabledStatus() {
@@ -358,29 +356,30 @@ export class UnderwritingComponent implements OnInit {
       }
 
       openDocumentModal(type?, data?, loanData?) {
-		this._currentModalData = data;
-		this._currentLoanDetails = loanData;
-		if(type == 'download'){
-			let data = { source: 'Onboarding', datapoint: 'download_document','endpoint':'kyc', 'id': this._currentModalData?.id}
-			console.log(data);
-			this.https.downloadDocuments(data).subscribe((res:any)=>{
-if(res?.success){
-	// let url = window.URL.createObjectURL(blob)
-	let pwa = window.open(res?.file);
-}
-			});
-		}else{
-			this._isOpenModal = true;
+            this._currentModalData = data;
+            this._currentLoanDetails = loanData;
+            if (type == 'download') {
+                  let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  console.log(data);
+                  this.https.downloadDocuments(data).subscribe((res: any) => {
+                        if (res?.success) {
+                              // let url = window.URL.createObjectURL(blob)
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
+                        }
+                  });
+            } else {
+                  this._isOpenModal = true;
                   this._isUpdateStatus = true
-			console.log( this._currentModalData);
-			switch (type) {
-				case 'viewDocument': this._isViewDocument = true;
-					// this.generateBase64View(this._currentModalData?.file);
-					break;
-				case 'verify': this._isVerify = true; break;
-				case 'upload': this._isUpload = true; break;
-			}
-		}  
+                  console.log(this._currentModalData);
+                  switch (type) {
+                        case 'viewDocument': this._isViewDocument = true;
+                              // this.generateBase64View(this._currentModalData?.file);
+                              break;
+                        case 'verify': this._isVerify = true; break;
+                        case 'upload': this._isUpload = true; break;
+                  }
+            }
       }
 
       beforeUploadName = (file: NzUploadFile) => {
@@ -409,7 +408,7 @@ if(res?.success){
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
             console.log(data);
-            
+
             this._isUpdateStatus = true
             switch (type) {
                   case 'thirdPartyCibil':
@@ -427,7 +426,7 @@ if(res?.success){
             }
       }
 
-      resetFilters(){
+      resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

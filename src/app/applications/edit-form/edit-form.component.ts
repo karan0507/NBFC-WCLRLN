@@ -2,7 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns/esm';
 import { HttpService } from 'src/app/services/http.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 // import {}
 
 @Component({
@@ -23,7 +25,12 @@ export class EditFormComponent implements OnInit {
       masterIncomeRangeList: any = [];
       partnerList: any = [];
       documentList: any = [];
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe) { }
+      today = new Date();
+      disabledDate = (current: Date): boolean => {
+            // Can not select days before today and today
+            return differenceInCalendarDays(current, this.today) > 0;
+      };
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message : NzMessageService) { }
 
       ngOnInit(): void {
             this.route.queryParams.subscribe(params => {
@@ -34,18 +41,18 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
-                        email: ['', Validators.required],
-                        date_of_birth: [],
-                        income: []
+                        email: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+                        date_of_birth: [null, [Validators.required]],
+                        income: [null, [Validators.required]]
                   })
 
             this.employementDetails = this.fb.group({
-                  company_name: [],
-                  address: []
+                  company_name: [null, [Validators.required]],
+                  address: [null, [Validators.required]]
             })
             this.preApprovedForm = this.fb.group({
-                  limitProcessed: [],
-                  product_name: []
+                  limitProcessed: [null, [Validators.required, Validators.maxLength(6), Validators.min(1)]],
+                  product_name: [null, [Validators.required]]
             })
 
             this.documentForm = this.fb.group({
@@ -60,8 +67,10 @@ export class EditFormComponent implements OnInit {
             // this.personalDetails.get('date_of_birth').setValue(this.datePipe.transform(event, 'yyyy-MM-dd'))
       }
 
-      cancelForm() {
-
+      resetForm() {
+            this.personalDetails.reset();
+            this.employementDetails.reset();
+            this.preApprovedForm.reset();
       }
 
       getFormLoanData() {
@@ -88,6 +97,7 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
+            this.api_calling_loader['listLoader'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
             data.append('email', this.personalDetails.value.email);
@@ -98,9 +108,13 @@ export class EditFormComponent implements OnInit {
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
                   if (res?.success) {
-                        this.router.navigateByUrl('/applications/form-filling')
+                        // this.router.navigateByUrl('/applications/form-filling');
+                        this.api_calling_loader['listLoader'] = false
+                        this.message.success(res?.message)
+                        this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
-                        this.router.navigateByUrl('/applications/form-filling')
+                        // this.router.navigateByUrl('/applications/form-filling')
+                        this.api_calling_loader['listLoader'] = false
                   }
             })
 

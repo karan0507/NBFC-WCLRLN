@@ -80,6 +80,14 @@ export class BorrowersDetailsComponent implements OnInit {
   _isPullData : boolean;
   _isCibil : boolean;
   _currentLoanDetails : any
+  page4: any;
+  globalPageSize4: any;
+  total_count4: any;
+  page5: any;
+  globalPageSize5: any;
+  api_calling_loader5: boolean;
+  total_count5: any;
+  invoiceList: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,
@@ -103,6 +111,7 @@ export class BorrowersDetailsComponent implements OnInit {
     this.fetchTransactionFessList();
     this.createAddPaymentOrChargeFormFunction()
     this.fetchBillStatementList();
+    this.fetchInvoiceList();
   }
 
   createAddPaymentOrChargeFormFunction() {
@@ -216,15 +225,15 @@ export class BorrowersDetailsComponent implements OnInit {
 
   fetchBillStatementList(tabelFilter?) {
     // if (tabelFilter) {
-    //   this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
-    //   this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
+      this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+      this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     // }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationReportDownload',
       source: 'LMS',
-      // page: this.page,
-      // limit: this.globalPageSize,
+      page: this.page4,
+      limit: this.globalPageSize4,
       offer_id: this.borrower_id,
       report_type: 'Bill Statement',
       // search_param: this.search_params,
@@ -233,11 +242,37 @@ export class BorrowersDetailsComponent implements OnInit {
     this.api_calling_loader3 = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader3 = false
-      this.billStatementList = res['data'][0]
-      this.total_count = res.total_count
+      this.billStatementList = res['data']
+      this.total_count4 = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader3 = false
+    })
+  }
+
+  fetchInvoiceList(tabelFilter?) {
+    // if (tabelFilter) {
+      this.page5 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+      this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    // }
+    let data = {
+      datapoint: 'loan_service',
+      endpoint: 'LoanApplicationInvoice',
+      source: 'LMS',
+      page: this.page5,
+      limit: this.globalPageSize5,
+      offer_id: this.borrower_id,
+      // search_param: this.search_params,
+      // id: this.borrower_id
+    }
+    this.api_calling_loader5 = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader5 = false
+      this.invoiceList = res['data']
+      this.total_count5 = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader5 = false
     })
   }
   
@@ -358,6 +393,11 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
 
+  viewInvoice(file, name) {
+    this.pdf_viewer_object_values['title'] = name
+    this.sanatizeUrlToSafe(file) 
+    this.pdf_viewer_object_values['boolean'] = true
+  }
 
   pullDataSMSCibil(type?) {
       this.isPullSMSCibilModal = true      

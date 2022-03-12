@@ -42,18 +42,18 @@ export class TransactionsListComponent implements OnInit {
     this.fetchTransactionList()
   }
   fetchTransactionList(tabelFilter?) {
-    if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
-    }
+    // if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    // }
     let data = {
       datapoint: 'loan_service',
       endpoint: 'LoanApplicationTransactions',
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
-      txn_status: this.selectedStatus,
-      txn_type: this.selectedType,
+      txn_status: this.selectedStatus ? this.selectedStatus : '',
+      txn_type: this.selectedType ? this.selectedType : '',
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue,

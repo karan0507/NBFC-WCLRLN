@@ -7,7 +7,7 @@
                         (click)="updateStatus('status')" [routerLink]="">Update Status ({{_checkedLoanList ?
                         _checkedLoanList?.length
                         : '0'}})</button>
-                  <button nz-button nzType="link" [disabled]="checkDisabledStatus()" (click)="exportData('XLXS')"
+                  <button nz-button nzType="link" [disabled]="checkDisabledStatus()" (click)="exportData('XLSX')"
                         class="ml-3 border" [routerLink]="">Export</button>
             </div>
       </div>
@@ -17,36 +17,45 @@
       <nz-card class="w-100">
             <div class="row">
                   <div class="col-md-4 mb-3 d-flex">
-
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" nz-input placeholder="Search text" />
+                              <input type="text" (keyup.enter)="getFormLoanData()" [(ngModel)]="searchValue" nz-input
+                                    placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                              <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
+                                          nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                         <div>
-                              <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
-                                    nzPlaceHolder="FatakPay">
-                                    <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
-                                    <nz-option nzValue="medic" nzLabel="Medicine 2"></nz-option>
+                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters"
+                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                                    nzPlaceHolder="Product">
+                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                          [nzLabel]="item.name">
+                                    </nz-option>
                               </nz-select>
                         </div>
                   </div>
-                  <div class="col-md-6 mb-3 d-flex justify-content-md-end">
-                        <!-- <nz-date-picker [(ngModel)]="_currentDate" nzFormat="DD,MM,YYYY" [nzDisabledDate]="disabledDate"
-                              (ngModelChange)="onMonthChange($event)"></nz-date-picker> -->
-                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
-                              nzPlaceHolder="Select Status">
-                              <nz-option nzValue="medicine" nzLabel="--"></nz-option>
+                  <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                              (click)="resetFilters()" class="mr-2">
+                              <i nz-icon nzType="undo"></i>
+                        </button>
+                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                                    [nzLabel]="item.status">
+                              </nz-option>
                         </nz-select>
                   </div>
             </div>
 
             <div class="accordianLoanApp">
-                  <nz-table #rowSelectionTable nzShowSizeChanger
-                        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="loanApplicationData"
+                  <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
+                        [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+                        (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
                         [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
@@ -94,6 +103,18 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
+                                          <td>{{data?.master_partner ? data?.master_partner?.name : '--'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '--'}}</td>
+                                          <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
+                                          <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
+                                          <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
+                                          <td>{{ data?.user?.referral_code ? data?.user?.referral_code : '--' }}</td>
                                           <td></td>
                                           <td></td>
                                           <td>{{ data?.user?.partner_id ? data?.user?.partner_id : '--' }}</td>
@@ -113,7 +134,8 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Move to Original Stage </span>
                                                             </li>
-                                                            <li nz-menu-item (click)="moveStageTo('underwriting', data)">
+                                                            <li nz-menu-item
+                                                                  (click)="moveStageTo('underwriting', data)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
                                                             <li nz-menu-item>
@@ -197,10 +219,8 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.income_details?.results[0].employment_type_id?.name
-                                                                              == 'Salaried' ?
-                                                                              data?.expanddata?.income_details.results[0].employer_id?.name
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -210,9 +230,8 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              --
-                                                                              <!-- {{data?.expanddata?.income_details.results[0].employment_type_id?.name == 'Salaried' ? 
-                                                                        data?.expanddata?.income_details.results[0].employment_type_id?.address : '--'}}   -->
+                                                                              {{data?.expanddata?.partner?.address ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -225,110 +244,103 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+                                          <div class="my-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="kycDetails">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              PAN No.
+                                                                        </span>
+                                                                        <div>
+                                                                              <!-- created_at -->
+                                                                              {{data?.expanddata?.pan ?
+                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Aadhaar No.
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.pan ?
+                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #kycDetails>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
+                                                                        nzTheme="outline"></i> KYC Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
                                           <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="document">
                                                 </nz-page-header>
                                                 <nz-card class="mb-md-0"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
+                                                      <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
+                                                            <div class="col-md-4"
+                                                                  *ngFor="let item of data?.expanddata?.kyc_documents?.results">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span class="text-muted">PAN</span>
-                                                                                    <div class="mr-5"
-                                                                                          *ngIf="data?.expanddata?.pan">
-                                                                                          <a class="text-primary"
-                                                                                                (click)="data?.expanddata?.pan ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'PAN Card') : 'null'">
-                                                                                                <i nz-icon nzType="eye"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="check-circle"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="download"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="upload"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details?.results[0]?.pan_no
-                                                                              ?data?.expanddata?.kyc_details?.results[0]?.pan_no
-                                                                              : '--'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">Aadhar:</span>
-                                                                              <div class="mr-5"
-                                                                                    *ngIf="data?.expanddata?.aadhar">
-                                                                                    <a class="text-primary"
-                                                                                          (click)="data?.expanddata?.aadhar ? updateStatus('viewDocument',data?.expanddata?.kyc_documents?.results[0]?.file, 'Aadhaar Card') : 'null'">
+                                                                        <div
+                                                                              class="d-flex flex-wrap justify-content-between">
+                                                                              <label class="text-muted">{{
+                                                                                    item?.document_id?.name + ' '}} <b>
+                                                                                          {{ item?.status }} </b>
+                                                                              </label>
+
+                                                                              <div class="mr-5">
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.file"
+                                                                                          nzTooltipTitle="View Document"
+                                                                                          (click)="openDocumentModal('viewDocument',item, data)">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mx-3">
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.status == 'Pending'"
+                                                                                          nzTooltipTitle="Verify Document"
+                                                                                          (click)="openDocumentModal('verify',item, data)">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"> <i nz-icon
-                                                                                                nzType="download"
+                                                                                    <a class="text-primary mr-3"
+                                                                                          nzTooltipTitle="Download Document"
+                                                                                          (click)="openDocumentModal('download',item)">
+                                                                                          <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mx-3">
+                                                                                    <a class="text-primary"
+                                                                                          nzTooltipTitle="Upload Document"
+                                                                                          (click)="openDocumentModal('upload',item)">
                                                                                           <i nz-icon nzType="upload"
-                                                                                                nzTheme="outline"></i></a>
+                                                                                                nzTheme="outline"></i>
+                                                                                    </a>
                                                                               </div>
                                                                         </div>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details?.results[0]?.aadhar_no
-                                                                              ?data?.expanddata?.kyc_details?.results[0]?.aadhar_no
-                                                                              : '--'}}
+                                                                              {{ item?.reason ? item?.reason : '--'}}
                                                                         </div>
                                                                   </div>
+
+
+
                                                             </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div
-                                                                                    class="d-flex justify-content-between">
-                                                                                    <span
-                                                                                          class="text-muted">Selfie</span>
-                                                                                    <div class="mr-5"
-                                                                                          *ngIf="data?.expanddata?.selfie">
-                                                                                          <a class="text-primary"
-                                                                                                (click)="data?.expanddata?.selfie ? updateStatus('viewDocument',data?.expanddata?.user?.selfie, 'Selfie') : 'null'">
-                                                                                                <i nz-icon nzType="eye"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="check-circle"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary"> <i
-                                                                                                      nz-icon
-                                                                                                      nzType="download"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                          <a class="text-primary mx-3">
-                                                                                                <i nz-icon
-                                                                                                      nzType="upload"
-                                                                                                      nzTheme="outline"></i></a>
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <div>
-                                                                              Doc Name
-                                                                              <!-- {{data?.expanddata?.selfie ? data?.expanddata?.user?.selfie : '--'}} -->
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+
+                                                      </div>
+                                                      <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
+                                                            Documents not uploaded
                                                       </div>
                                                 </nz-card>
                                                 <ng-template #document>
@@ -348,8 +360,9 @@
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
-                                                                                    <span class="text-muted">Cibil
-                                                                                          Score:</span>
+                                                                                    <label class="text-muted">Cibil
+                                                                                          Score: <span>(
+                                                                                                )</span></label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
@@ -360,7 +373,7 @@
                                                                         </h6>
                                                                         <b> <a class="text-primary"
                                                                                     (click)="getCibilScoreData(data?.id)">Fetch
-                                                                                    Details</a> </b>
+                                                                                    Cibil</a> </b>
                                                                         <div>
                                                                         </div>
                                                                   </div>
@@ -387,9 +400,12 @@
                                                                               Cheque Bounce
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata?.underwriting ?
+                                                                              data?.expanddata?.underwriting?.no_of_cheque_bounce
+                                                                              :
+                                                                              (_currentCibilData ?
                                                                               _currentCibilData?.no_of_cheque_bounce :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -401,9 +417,12 @@
                                                                                     months)</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata?.underwriting ?
+                                                                              data?.expanddata?.underwriting?.nach_trans_declined
+                                                                              :
+                                                                              (_currentCibilData ?
                                                                               _currentCibilData?.nach_trans_declined :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -416,9 +435,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata?.underwriting ?
+                                                                              data?.expanddata?.underwriting?.max_delinquent_amount
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.max_delinquent_amount :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -429,9 +451,12 @@
                                                                                     write off cases</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.no_of_write_off_cases
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.no_of_write_off_cases :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -442,9 +467,12 @@
                                                                                     Quality score</span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.data_Quality_score
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.data_Quality_score :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -456,9 +484,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.retail_lending_score
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.retail_lending_score :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -472,9 +503,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_inquiries :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.no_of_inquiries
+                                                                              :
+                                                                              ( _currentCibilData ?
+                                                                              _currentCibilData?.no_of_inquiries : '--')
+                                                                              }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -486,9 +520,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.no_of_negative_events
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.no_of_negative_events :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -500,9 +537,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.avg_salary_credited
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.avg_salary_credited :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -516,9 +556,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.avg_min_balance_Month
+                                                                              :
+                                                                              ( _currentCibilData ?
                                                                               _currentCibilData?.avg_min_balance_Month :
-                                                                              '--' }}
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -531,9 +574,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_cc_applied :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.no_of_cc_applied
+                                                                              :
+                                                                              ( _currentCibilData ?
+                                                                              _currentCibilData?.underwriting?.no_of_cc_applied
+                                                                              : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -546,9 +592,12 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.no_of_loan_applied :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.no_of_loan_applied
+                                                                              :
+                                                                              ( _currentCibilData ?
+                                                                              _currentCibilData?.underwriting?.no_of_loan_applied
+                                                                              : '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -561,9 +610,11 @@
                                                                               </span>
                                                                         </div>
                                                                         <div>
-                                                                              {{ _currentCibilData ?
-                                                                              _currentCibilData?.foir :
-                                                                              '--' }}
+                                                                              {{ data?.expanddata ?
+                                                                              data?.expanddata?.underwriting?.foir :
+                                                                              ( _currentCibilData ?
+                                                                              _currentCibilData?.underwriting?.foir :
+                                                                              '--') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -797,6 +848,13 @@
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="isRejectModal">Reject</label>
+      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
+            }} Document</label>
+      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
+            Document</label>
+      <label *ngIf="_isEditOffer">Edit Offer</label>
+      <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
+                  Party SMS Data</span></label>
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -826,12 +884,12 @@
             <section *ngIf="_isEditOffer">
                   <div class="row" [formGroup]="offerForm">
                         <div class="col-md-12 mb-3">
-                              {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
-                              + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                              {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
+                              + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
-                              <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?
-                                    _currentDocumentReq?.user?.mobile : '--'}}</span>
-                              <span class="mx-2">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id :
+                              <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                    _currentLoanDetails?.user?.mobile : '--'}}</span>
+                              <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                     '--'}}</span>
                         </div>
                         <div class="col-md-4 mb-3">
@@ -859,12 +917,12 @@
             <section *ngIf="isRejectModal">
                   <div class="row">
                         <div class="col-md-12 text-muted">
-                              {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
-                              + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                              {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
+                              + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
-                              <!-- <span class="mx-2">{{ _currentDocumentReq?.user?.mobile ?
-                                    _currentDocumentReq?.user?.mobile : '--'}}</span> -->
-                              <span class="mx-3">{{ _currentDocumentReq?.id ? 'ID-' + _currentDocumentReq?.id :
+                              <!-- <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                    _currentLoanDetails?.user?.mobile : '--'}}</span> -->
+                              <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                     '--'}}</span>
                         </div>
                         <div class="col-md-12 my-4">
@@ -880,15 +938,60 @@
                         </div>
                   </div>
             </section>
-            <ng-template #footerModal>
-                  <button nz-button *ngIf="_isEditOffer" nzType="link" class="border"
-                        (click)="handleCancel()">Reset</button>
-                  <button nz-button *ngIf="isRejectModal" nzType="link" class="border"
-                        (click)="handleCancel()">Cancel</button>
-                  <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2"
-                        (click)="handleOk('status')">Submit</button>
-                  <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2"
-                        (click)="handleOk('offer')">Update</button>
-                  <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2"
-                        (click)="handleOk('reject')">Submit</button>
-            </ng-template>
+
+            <!-- View Document Modal -->
+            <section *ngIf="_isViewDocument">
+                  <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100">
+            </section>
+
+            <!-- Verify Document Modal -->
+            <section *ngIf="_isVerify">
+                  <div class="d-flex flex-column">
+                        <div> Verify {{ _currentModalData?.document_id?.name + ' Document'}}
+                        </div>
+                        <div class="d-flex flex-column">
+                              <div class="my-3">
+                                    <nz-radio-group [(ngModel)]="documentStatus">
+                                          <label nz-radio [nzValue]="1">Accept</label>
+                                          <label nz-radio [nzValue]="2">Reject</label>
+                                    </nz-radio-group>
+                              </div>
+                              <div class="d-flex flex-wrap">
+                                    <label>Remarks: </label>
+                                    <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
+                                    <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
+                                    <textarea rows="4" nz-input></textarea>
+                              </nz-textarea-count> -->
+                              </div>
+                        </div>
+                  </div>
+
+            </section>
+
+            <!-- Upload Document Modal -->
+            <section *ngIf="_isUpload">
+                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+                        <p class="ant-upload-text">Drag and Drop file here</p>
+                        <p class="ant-upload-text">or</p>
+                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                        <!-- (click)="isPreview = true; isUpload = false" -->
+                  </nz-upload>
+            </section>
+      </nz-modal>
+</section>
+<ng-template #footerModal>
+      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
+      <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+      <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
+            (click)="handleCancel()">Cancel</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+      <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
+      <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
+      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
+            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
+            (click)="handleOk('uploadDocument')">Submit</button>
+      <button *ngIf="_isVerify" nz-button nzType="primary"
+            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+</ng-template>

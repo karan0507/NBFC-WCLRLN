@@ -144,6 +144,89 @@ const routes: Routes = [
                               }
                         ]
                   },
+
+                  {
+                        path: 'pre-approved',
+                        data: {
+                              title: 'Pre Approved Offer',
+                              parent: 'Application',
+                              custom_url: '/applications/pre-approved'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                    }
+                              }
+                        ]
+                  },
+                 
+            
+                 
+                  {
+                        path: 'document-upload',
+                        data: {
+                              title: 'Document Upload',
+                              parent: 'Application',
+                              custom_url: '/applications/document-upload'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                    }
+                              }
+                        ]
+                  },
+
+                  {
+                        path: 'underwriting',
+                        data: {
+                              title: 'Underwriting',
+                              parent: 'Application',
+                              custom_url: '/applications/underwriting'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                    }
+                              }
+                        ]
+                  },
             ]
       },
 

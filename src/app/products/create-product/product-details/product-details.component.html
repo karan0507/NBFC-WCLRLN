@@ -10,13 +10,23 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="text-left">Product Code</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24">
+                            <nz-form-label class="text-left" nzNoColon>{{productDetails?.product_code}}</nz-form-label>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Master Product!">
                             <nz-radio-group formControlName="product_master" (ngModelChange)="changeProductMaster($event)">
                                 <label nz-radio nzValue="1">Fatak Pay</label>
-                                <label nz-radio nzValue="2">Fatak Pay EMI</label>
+                                <label nz-radio nzValue="2">Fatak EMI</label>
                               </nz-radio-group>
                         </nz-form-control><nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created at</nz-form-label>
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
@@ -31,16 +41,6 @@
                                 <nz-option *ngFor="let item of nbfcsList" [nzValue]="item.pk" [nzLabel]="item.name"></nz-option>
                             </nz-select>
                         </nz-form-control>
-                    </nz-form-item>
-                </div> -->
-                <!-- <div class="col-md-12">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_code" class="text-left" nzRequired>Product Code</nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Code!">
-                            <input nz-input type="text" formControlName="product_code" />
-                        </nz-form-control>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto">Created at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div> -->
                 <div class="col-md-12">
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left" nzRequired>Remarks</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left">Remarks</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Remarks!">
                             <textarea nz-input formControlName="remarks"></textarea>
                         </nz-form-control>
@@ -117,7 +117,7 @@
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="advance_emi" class="text-left" nzRequired>Advance EMI</nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Advance EMI!">
-                                        <input nz-input type="number" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
+                                        <input nz-input type="number" min="0" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>

@@ -6,6 +6,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 @Component({
       selector: 'app-document-upload',
@@ -86,7 +87,7 @@ export class DocumentUploadComponent implements OnInit {
                         console.log(this.productList);
                   })
             } else if (type == 'status') {
-                  let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
+                  let params = { 'source': 'Onboarding', endpoint: '2', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
@@ -106,7 +107,7 @@ export class DocumentUploadComponent implements OnInit {
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['search_value'] = this.searchValue
+                  data['name'] = this.searchValue
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -218,6 +219,8 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       handleCancel() {
+            console.log('working here');
+            
             this._isOpenModal = false;
             this._isStatus = false;
             this._isDownload = false;
@@ -332,13 +335,8 @@ export class DocumentUploadComponent implements OnInit {
                   console.log(data);
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
-                             
-                              // var downloadURL = window.URL.createObjectURL(res?.data?.file)
-                              var link = document.createElement('a');
-                              link.href = res?.data?.file;
-                              link.download = '';
-                              link.target = '_blank'
-                              link.click();
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
                         }
                   });
             } else {

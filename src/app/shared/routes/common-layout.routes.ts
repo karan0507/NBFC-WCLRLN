@@ -54,6 +54,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/borrowers/borrowers.module').then(m => m.BorrowersModule),
     },
     {
+        path: 'lms/change-bill-date',
+        loadChildren: () => import('../../lms/change-bill-date/change-bill-date.module').then(m => m.ChangeBillDateModule),
+    },
+    {
         path: 'lms',
         loadChildren: () => import('../../lms/transactions/transactions.module').then(m => m.TransactionsModule),
     },

@@ -16,10 +16,11 @@ export class AddEditCouponCodeComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
       }
-      // disabledDate = (current: Date): boolean => {
-
-      //       return differenceInCalendarDays(current,) > 0;
-      //     };
+      today = new Date();
+      disabledDate = (current: Date): boolean => {
+            // Can not select days before today and today
+            return differenceInCalendarDays(this.today,current) > 0;
+      };
       // Optional Select List 
       partnerList: any = [];
       masterList: any = [];
@@ -41,7 +42,7 @@ export class AddEditCouponCodeComponent implements OnInit {
                   }
             });
             this.couponForm = this.fb.group({
-                  coupon_code: [null, [Validators.required]],
+                  coupon_code: [null, [Validators.required, Validators.pattern("^[a-zA-Z0-9_]*$")]],
                   coupon_type: [1, [Validators.required]],
                   coupon_calculation_type: [1, [Validators.required]],
                   value: [null, [Validators.required, Validators.min(1)]],
@@ -89,7 +90,7 @@ export class AddEditCouponCodeComponent implements OnInit {
                         }
                   })
             } else if (type == 'product') {
-                  this.https.getAllProducts().subscribe((res: any) => {
+                  this.https.getProducts().subscribe((res: any) => {
                         if (res) {
                               this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
                         }
