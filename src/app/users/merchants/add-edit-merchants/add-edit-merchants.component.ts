@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-merchants',
@@ -181,6 +182,10 @@ export class AddEditMerchantsComponent implements OnInit {
     if(e?.pointerType == 'mouse'){
       this.isVisible = true;
     }
+  }
+
+  onClickShowUploadedDocument(data){
+    saveAs(data);
   }
 
   omit_special_char(event) {

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-dsa',
@@ -84,6 +85,10 @@ export class AddEditDsaComponent {
       console.log(res);
       this.stateArr = res?.data;
     })
+  }
+
+  onClickShowUploadedDocument(data){
+    saveAs(data);
   }
 
   getListOfMasterPartner(action?){

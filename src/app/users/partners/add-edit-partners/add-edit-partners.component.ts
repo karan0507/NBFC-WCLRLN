@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-partners',
@@ -142,6 +143,9 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
 
+  onClickShowUploadedDocument(data){
+    saveAs(data);
+  }
   
   createMasterProductForm(data?) {
     this.addEditProductForm = this.fb.group({

@@ -47,6 +47,7 @@ export class MerchantsListComponent implements OnInit {
   uploaded_file: any;
   storeDetailId: number;
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -125,12 +126,25 @@ export class MerchantsListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
+      this.selectedIndexOfExpand = i
       this.getMerchantDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
     } else {
       this.expandSet.delete(id);
     }
+  }
+
+  cancel(){
+  }
+
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMasterAndPartner(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getMerchantDetail(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
   }
 
   handleCancel(){

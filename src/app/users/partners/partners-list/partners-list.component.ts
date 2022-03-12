@@ -106,6 +106,7 @@ export class PartnersListComponent implements OnInit {
     'title': ''
   }
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
 
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
@@ -118,6 +119,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   onExpandChange(id: number, checked: boolean, i): void {
+    this.selectedIndexOfExpand = i
     if (checked) {
       this.getPartnerListDetail(this.storeDetailId = id, i);
       this.expandSet.add(id);
@@ -194,28 +196,17 @@ export class PartnersListComponent implements OnInit {
     })
   }
 
-  // onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-  //   this.listOfCurrentPageData = listOfCurrentPageData;
-  //   this.refreshCheckedStatus();
-  // }
+  cancel(){
+  }
 
-  // onItemChecked(id: number, checked: boolean): void {
-  //   this.updateCheckedSet(id, checked);
-  //   this.refreshCheckedStatus();
-  // }
-
-  // onAllChecked(checked: boolean): void {
-  //   this.listOfCurrentPageData
-  //     .filter(({ disabled }) => !disabled)
-  //     .forEach(({ id }) => this.updateCheckedSet(id, checked));
-  //   this.refreshCheckedStatus();
-  // }
-
-  // refreshCheckedStatus(): void {
-  //   const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
-  //   this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
-  //   this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
-  // }
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMasterAndPartner(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getPartnerListDetail(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
+  }
 
   handleCancel(){
     this.isDelete = false;

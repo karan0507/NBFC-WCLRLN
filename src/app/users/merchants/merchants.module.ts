@@ -24,6 +24,7 @@ import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DsaListComponent } from './dsa-list/dsa-list.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzDropDownModule,
     NzCheckboxModule,
     DragDropModule,
-    SharedModule
+    SharedModule,
+    NzPopconfirmModule
   ]
 })
 export class MerchantsModule { }

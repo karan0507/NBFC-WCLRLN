@@ -775,10 +775,13 @@ export class HttpService {
 
       fetchBranchOfChoosenCorporate(id){
             return this._http.get(this.url + `/partner/v1/get-all-branches/${id}`);
-            // /partner/v1/get-all-branches/18
       }
 
+      verifyUploadedKycDocumentForMasterAndPartner(id, data){
+            return this._http.post(this.url + `/partner/v1/verify-kyc-doc/partner/${id}`, data);
+      }
 
-
-      // /partner/v1/view-unsaved-employee-details-file
+      verifyUploadedKycDocumentForMaster(id, data){
+            return this._http.post(this.url + `/partner/v1/verify-kyc-doc/master/${id}`, data);
+      }
 }
