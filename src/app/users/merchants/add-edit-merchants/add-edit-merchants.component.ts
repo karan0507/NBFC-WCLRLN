@@ -154,7 +154,7 @@ export class AddEditMerchantsComponent implements OnInit {
       secondary_upi: [data ? data?.secondary_upi : null],
       mdr: [data ? data?.mdr : null],
       interest_subvention: [data ? data?.interest_subvention : null],
-      payout: [data ? data?.payout : null, [Validators.required]],
+      payout: [data ? data?.payout : null],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
