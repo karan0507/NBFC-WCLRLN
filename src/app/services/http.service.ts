@@ -274,15 +274,17 @@ export class HttpService {
       }
 
       // Get All Products
-      public getAllProducts() {
+      public getProducts() {
             return this._http.get(this.url + `/product/v1/get-all-products`);
       }
-      // Get All Products
+      // Get All Products Fees
       public getProductWiseFees(id?) {
             return this._http.get(this.url + `/product/v1/get-all-product-fees/` + id);
       }
 
-      // /product/v1/get-all-products
+      getAllProducts(){
+         return this._http.get(this.url + `/product/v1/product_master`);   
+      }
       /**
        * createOnboardingRules
        */

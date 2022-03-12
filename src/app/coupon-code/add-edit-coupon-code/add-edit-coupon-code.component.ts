@@ -90,7 +90,7 @@ export class AddEditCouponCodeComponent implements OnInit {
                         }
                   })
             } else if (type == 'product') {
-                  this.https.getAllProducts().subscribe((res: any) => {
+                  this.https.getProducts().subscribe((res: any) => {
                         if (res) {
                               this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
                         }

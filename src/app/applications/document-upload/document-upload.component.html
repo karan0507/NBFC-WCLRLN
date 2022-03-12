@@ -276,36 +276,36 @@
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
                                                             <div class="col-md-4"
-                                                                  *ngFor="let item of data?.expanddata?.kyc_documents?.results">
+                                                                  *ngFor="let item of data?.expanddata?.kyc_documents">
                                                                   <div class="d-flex flex-column">
                                                                         <div class="d-flex flex-wrap justify-content-between">
                                                                               <label class="text-muted">{{
-                                                                                    item?.document_id?.name + ' '}} <b>
+                                                                                    item?.document_master?.name + ' '}} <b>
                                                                                           {{ item?.status }} </b>
                                                                               </label>
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.file"
+                                                                                          *ngIf="item?.id && item.file_url"
                                                                                           nzTooltipTitle="View Document"
                                                                                           (click)="openDocumentModal('viewDocument',item, data)">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.status == 'Pending'"
+                                                                                          *ngIf="item?.id && item?.status == 'Pending'"
                                                                                           nzTooltipTitle="Verify Document"
                                                                                           (click)="openDocumentModal('verify',item, data)">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mr-3"
+                                                                                    <a class="text-primary mr-3" *ngIf="item?.id && item.file_url"
                                                                                           nzTooltipTitle="Download Document"
-                                                                                          (click)="openDocumentModal('download',item)">
+                                                                                          (click)="openDocumentModal('download',item, data)">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
                                                                                           nzTooltipTitle="Upload Document"
-                                                                                          (click)="openDocumentModal('upload',item)">
+                                                                                          (click)="openDocumentModal('upload',item, data)">
                                                                                           <i nz-icon nzType="upload"
                                                                                                 nzTheme="outline"></i>
                                                                                     </a>
@@ -356,30 +356,13 @@
 
             <!-- View Document Modal -->
             <section *ngIf="_isViewDocument">
-                  <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100">
+                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData" [onCancel]="handleCancel()"></app-kyc-document-action>
+                  <!-- <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100"> -->
             </section>
 
             <!-- Verify Document Modal -->
             <section *ngIf="_isVerify">
-                  <div class="d-flex flex-column">
-                        <div> Verify {{ _currentModalData?.document_id?.name + ' Document'}}
-                        </div>
-                        <div class="d-flex flex-column">
-                              <div class="my-3">
-                                    <nz-radio-group [(ngModel)]="documentStatus">
-                                          <label nz-radio [nzValue]="1">Accept</label>
-                                          <label nz-radio [nzValue]="2">Reject</label>
-                                    </nz-radio-group>
-                              </div>
-                              <div class="d-flex flex-wrap">
-                                    <label>Remarks: </label>
-                                    <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
-                                    <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
-                                    <textarea rows="4" nz-input></textarea>
-                              </nz-textarea-count> -->
-                              </div>
-                        </div>
-                  </div>
+                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" [onCancel]="handleCancel()"></app-kyc-document-action>
 
             </section>
 
