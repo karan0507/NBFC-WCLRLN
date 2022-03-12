@@ -185,6 +185,6 @@
 <section>
       <div class="d-flex justify-content-md-end">
             <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
-            <button nz-button nzType="primary" [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false" [nzLoading]="api_calling_loader['accordian']" class="mx-2" (click)="submitForm()">Save</button>
+            <button nz-button nzType="primary" [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false" [nzLoading]="api_calling_loader['listLoader']" class="mx-2" (click)="submitForm()">Save</button>
       </div>
 </section>

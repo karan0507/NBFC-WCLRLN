@@ -97,7 +97,7 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
-            this.api_calling_loader['accordian'] = true
+            this.api_calling_loader['listLoader'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
             data.append('email', this.personalDetails.value.email);
@@ -109,12 +109,12 @@ export class EditFormComponent implements OnInit {
             this.https.editLoanData(data).subscribe((res: any) => {
                   if (res?.success) {
                         // this.router.navigateByUrl('/applications/form-filling');
-                        this.api_calling_loader['accordian'] = false
+                        this.api_calling_loader['listLoader'] = false
                         this.message.success(res?.message)
                         this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
                         // this.router.navigateByUrl('/applications/form-filling')
-                        this.api_calling_loader['accordian'] = false
+                        this.api_calling_loader['listLoader'] = false
                   }
             })
 
