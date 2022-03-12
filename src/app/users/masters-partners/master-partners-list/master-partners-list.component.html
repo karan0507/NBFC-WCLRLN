@@ -121,7 +121,7 @@
                                             nzPopconfirmPlacement="topLeft"
                                             (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                             <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
-                                                <span class="m-l-5" >In-Active</span>
+                                                <span class="m-l-5" >Inactive</span>
                                             </li>
                                             <li nz-menu-item *ngIf="data.is_deleted"  (click)="deleteUserByUserId(data?.id, true)">
                                                 <span class="m-l-5">Active</span>
