@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import * as FileSaver from 'file-saver';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
@@ -106,6 +106,7 @@ export class PartnersListComponent implements OnInit {
     'title': ''
   }
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
 
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
@@ -118,6 +119,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   onExpandChange(id: number, checked: boolean, i): void {
+    this.selectedIndexOfExpand = i
     if (checked) {
       this.getPartnerListDetail(this.storeDetailId = id, i);
       this.expandSet.add(id);
@@ -194,28 +196,17 @@ export class PartnersListComponent implements OnInit {
     })
   }
 
-  // onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-  //   this.listOfCurrentPageData = listOfCurrentPageData;
-  //   this.refreshCheckedStatus();
-  // }
+  cancel(){
+  }
 
-  // onItemChecked(id: number, checked: boolean): void {
-  //   this.updateCheckedSet(id, checked);
-  //   this.refreshCheckedStatus();
-  // }
-
-  // onAllChecked(checked: boolean): void {
-  //   this.listOfCurrentPageData
-  //     .filter(({ disabled }) => !disabled)
-  //     .forEach(({ id }) => this.updateCheckedSet(id, checked));
-  //   this.refreshCheckedStatus();
-  // }
-
-  // refreshCheckedStatus(): void {
-  //   const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
-  //   this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
-  //   this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
-  // }
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMasterAndPartner(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getPartnerListDetail(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
+  }
 
   handleCancel(){
     this.isDelete = false;
@@ -274,12 +265,8 @@ export class PartnersListComponent implements OnInit {
 
   onClickDownloadSelectedDocument(e){
     console.log(e)
-// if(e?.document_file?.includes('pdf')){
-  // alert(true)
-  saveAs(e?.document_file, `${e?.file_name}`);
-// } else {
-  // alert(false)
-// }
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
   }
 
   selectedIdForAgreement: any;

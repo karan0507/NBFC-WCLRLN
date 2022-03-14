@@ -56,7 +56,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Disbursement</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" nzRequired>Minimum Amount (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" nzRequired>Minimum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
                             <input nz-input type="number" min="0" formControlName="disbursement_min_amount"
                                 placeholder="Please input Minimum Amount (₹)!" />
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" nzRequired>Maximum Amount (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" nzRequired>Maximum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
                             <input nz-input type="number" min="0" formControlName="disbursement_max_amount"
                                 placeholder="Please input Maximum Amount (₹)!" />
@@ -75,7 +75,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Interest</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_min_percentage" class="text-left" nzRequired>Minimum Amount (%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_min_percentage" class="text-left" nzRequired>Minimum (%)</nz-form-label>
                         
                         <nz-form-control nzErrorTip="Please input Minimum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" nzRequired>Maximum Amount(%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" nzRequired>Maximum(%)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                 <input nz-input type="number" min="0" name="interest_max_percentage" formControlName="interest_max_percentage"

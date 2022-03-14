@@ -5,7 +5,8 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzUploadFile } from "ng-zorro-antd/upload";
 import { HttpService } from "src/app/services/http.service";
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { saveAs } from 'file-saver';
+import * as FileSaver from 'file-saver'
 
 @Component({
   selector: "app-add-edit-masters",
@@ -248,7 +249,8 @@ export class AddEditMastersComponent implements OnInit {
         label_name: [data?.name],
         documents: [data?.documents],
         document_name:[data?.document_name],
-        is_verified:[ data?.is_verified ? data?.is_verified : false]
+        is_verified:[ data?.is_verified ? data?.is_verified : false],
+        isValid: true
       })
   }
 
@@ -299,21 +301,59 @@ export class AddEditMastersComponent implements OnInit {
   }
 
   onClickSubmitForm(){
-
-    console.log(this.addEditProductForm.controls, 'Validate ')
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+      // let data = new FormData();
+    
+      // var sendDate = this.addEditProductForm.value
 
-    console.log('Working',this.addEditProductForm.value);
+    // for (var i in sendDate.document_data) {
+    //     if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
+    //       // let value = this.addEditProductForm.get('document_data') as FormArray;
+    //       // this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+    //       alert('test Fail' + i)
+    //       // value.controls?.[i]?.value.patchValue({isValid: false});
+    //       this.addEditProductForm.get('document_data')['controls'][i].controls.isValid.setValue(false);
+    //       // console.log(value.controls?.[i]?.value);
+    //       } else {
+    //         // let value = this.addEditProductForm.get('document_data') as FormArray;
+    //         // value.controls?.[i].patchValue({isValid: true});
+    //         alert('test Pass' + i)
+    //         this.addEditProductForm.get('document_data')['controls'][i].controls.isValid.setValue(true);
+    //         // console.log(sendDate.document_data[i], i);
+    //       }
+    //       console.log(sendDate.document_data[i], i);
+    //   }
+
+    //   console.log(sendDate);
+    //   return;
+
       
     if(this.addEditProductForm.valid) {
+      // if(this.addEditProductForm) {
       this.apiLoader['formSave'] = true
       if(!this.isEdit) {
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+      
+      // for (var i in sendDate.document_data) {
+      //   if(sendDate?.document_data[i]?.label_name && sendDate.document_data[i].document_name === null){
+      //     let value = this.addEditProductForm.get('document_data') as FormArray;
+      //     value.controls?.[i].patchValue({isValid: false});
+      //     // console.log(sendDate.document_data[i], i);
+      //     } else {
+      //       let value = this.addEditProductForm.get('document_data') as FormArray;
+      //       value.controls?.[i].patchValue({isValid: true});
+      //       // console.log(sendDate.document_data[i], i);
+      //     }
+      //     console.log(sendDate.document_data[i], i);
+      // }
+
+      // console.log(sendDate);
+      // return;
       
       for (var i in sendDate.document_data) {
         // if(sendDate?.document_data[i]?.documents?.includes('/')){
@@ -326,11 +366,7 @@ export class AddEditMastersComponent implements OnInit {
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
-
-        // data.append('documents', sendDate?.document_data[i]?.documents)
-        
       }
-  
       for (var i in sendDate) {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
@@ -338,7 +374,6 @@ export class AddEditMastersComponent implements OnInit {
           if(sendDate[i]){
             data.append(i, sendDate[i])
           }
-          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createMasterPartnerForm(data);
@@ -360,10 +395,8 @@ export class AddEditMastersComponent implements OnInit {
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
+      console.log(sendDate);
       for (var i in sendDate.document_data) {
-        // console.log(sendDate.document_data[i]?.documents);
-        console.log(sendDate.document_data[i].documents?.['uid']);
-        // console.log('working' + sendDate.document_data +  ' ' +  i);
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
@@ -382,7 +415,6 @@ export class AddEditMastersComponent implements OnInit {
           if(sendDate[i]){
             data.append(i, sendDate[i])
           }
-          // data.append(i, sendDate[i])
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
@@ -464,6 +496,15 @@ export class AddEditMastersComponent implements OnInit {
     this.addEditProductForm.get('document_data')['controls'][index].controls.documents.setValue(e.file.originFileObj)
 
     // console.log(e + '  ' + this.addEditProductForm.controls.document_data['controls'][index].document_master)
+  }
+
+  onClickShowUploadedDocument(e){
+  if(e?.value?.documents?.uid){
+    saveAs(e?.value?.documents);
+  } else {
+    var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+  }
   }
 
   customUpload = (file: NzUploadFile): boolean => {

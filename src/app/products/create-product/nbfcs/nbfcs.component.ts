@@ -127,4 +127,24 @@ export class NbfcsComponent implements OnInit {
     })
   }
 
+  
+  removeMaster(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('nbfcs_arr')
+    console.log(control);
+    if (control.value[slab_index]?.id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
+
+  
+  restrictType(event) {
+    console.log(event.which)
+    if (event.which == 107 || event.which == 109) {
+      return false;
+    }
+  }
 }

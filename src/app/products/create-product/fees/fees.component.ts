@@ -141,16 +141,16 @@ export class FeesComponent implements OnInit {
   public addSlabControls(data?): FormGroup {
     if (data) {
       return this.fb.group({
-        minimum_charge: [ data ? data.minimum_charge : ''],
-        maximum_charge: [ data ? data.maximum_charge : ''],
-        amount: [ data ? data.amount : ''],
+        minimum_charge: [ data ? data.minimum_charge : '', [Validators.required]],
+        maximum_charge: [ data ? data.maximum_charge : '', [Validators.required]],
+        amount: [ data ? data.amount : '', [Validators.required]],
         id: [data ? data.id : '']
       });
     } else {
       return this.fb.group({
-        minimum_charge: [''],
-        maximum_charge: [''],
-        amount: [''],
+        minimum_charge: ['', [Validators.required]],
+        maximum_charge: ['', [Validators.required]],
+        amount: ['', [Validators.required]],
       });
     }
   }
@@ -248,5 +248,34 @@ export class FeesComponent implements OnInit {
       // this.fetchMasterPartnerData(search_param);
     }, 500);
   }
+  restrictType(event) {
+    console.log(event.which)
+    if (event.which == 107 || event.which == 109) {
+      return false;
+    }
+  }
 
+  removeSlab(control, index, slab_index) {
+    control = <FormArray>this.createEditForm.get('fees')['controls'][index].get('slabs');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
+
+  removeFees(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('fees');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
 }

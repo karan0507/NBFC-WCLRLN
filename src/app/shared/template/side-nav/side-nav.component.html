@@ -7,6 +7,9 @@
     >
         <li [ngClass]="item.submenu.length > 0?'ant-menu-submenu ant-menu-submenu-inline':'ant-menu-item'"
             *ngFor="let item of menuItems" 
+            nz-popover
+            [nzPopoverContent]="isFolded ? item.title : ''"
+            [nzPopoverPlacement]="isFolded ? 'topLeft' : ''"
             [routerLinkActive]="item.submenu.length > 0 ? 'ant-menu-submenu-open' : 'ant-menu-item-selected'"
             [routerLinkActiveOptions]="{exact: false}">
             <a href="javascript:void(0);" class="ant-menu-submenu-title" *ngIf="item.submenu.length > 0">

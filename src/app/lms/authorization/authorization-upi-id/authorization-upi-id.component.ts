@@ -109,7 +109,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
       datapoint : "authorization_edit",
       endpoint : [null, [Validators.required]], 
       remarks : ["", [Validators.required]],
-      upi_id :  ["", [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-19]')]]
+      upi_id :  ["", [Validators.required]]
     })
 }
 

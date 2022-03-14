@@ -5,6 +5,7 @@ import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-master-partners-list',
@@ -44,10 +45,10 @@ export class MasterPartnersListComponent implements OnInit {
   uploaded_file: any;
   storeDetailId: number;
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
   onExpandChange(id: number, checked: boolean, i): void {
-    console.log(checked);
-    
+    this.selectedIndexOfExpand = i;
     if (checked) {
       this.getMasterPartnerById(this.storeDetailId = id, i)
       this.expandSet.add(id);
@@ -160,6 +161,18 @@ export class MasterPartnersListComponent implements OnInit {
     this.pdf_viewer_object_values['url'] = ''
   }
 
+  cancel(){
+  }
+
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMaster(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getMasterPartnerById(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
+  }
+
   confirmationTrigger() {
       this.http.deleteMasterUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         if(res?.success){
@@ -237,15 +250,19 @@ export class MasterPartnersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    console.log(e)
-// if(e?.document_file?.includes('pdf')){
-  // alert(true)
-  saveAs(e?.document_file, `${e?.file_name}`);
-// } else {
-  // alert(false)
-// }
+    // console.log(e)
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
+    // saveAs(e?.document_file, `${e?.file_name}`);
   }
 
+  // downloadPdf(base64String, fileName) {
+  //   const source = `data:application/pdf;base64,${base64String}`;
+  //   const link = document.createElement("a");
+  //   link.href = source;
+  //   link.download = `${fileName}.pdf`
+  //   link.click();
+  // }
 
 
   uploadAndShowAgreement(action?){

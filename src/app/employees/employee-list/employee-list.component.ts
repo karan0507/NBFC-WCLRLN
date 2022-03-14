@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -23,6 +24,7 @@ export class EmployeeListComponent implements OnInit {
   isDelete = false;
   isEdit = false
   isChangePassword = false
+  date = ''
   createEditForm: any;
   teamName = [
     {name: 'Admin'},
@@ -91,16 +93,18 @@ export class EmployeeListComponent implements OnInit {
   }
   
   fetchEmployeeList(tabelFilter?) {
-    if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.globalPageSize;
-    }
+    // if (tabelFilter) {
+      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    // }
     let data = {
       page: this.page,
       deactivated: this.deactivated,
       name: this.search_params,
       role: this.roles,
-      limit: this.globalPageSize
+      limit: this.globalPageSize,
+      from_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      to_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
     }
     this.employeeList = null
     this.total_count = null
@@ -128,6 +132,7 @@ export class EmployeeListComponent implements OnInit {
     this.search_params = ''
     this.deactivated = ''
     this.roles = ''
+    this.date = ''
     this.fetchEmployeeList();
   }
 
@@ -165,8 +170,14 @@ export class EmployeeListComponent implements OnInit {
     this.createEditFormFunction(data)
   }
   deleteEmployeeFunction(id) {
-    this.isDelete = true
-    this.idForDeleteEmployee = id
+    this.http.toggleEmployeeStatus(id).subscribe(res => {
+      if (res['success']) {
+        this.message.success(res['message'])
+        this.fetchEmployeeList();
+      } else {
+        this.message.error(res['message'])
+      }
+    })
   }
   deleteEmployee() {
     var data = {id: this.idForDeleteEmployee, is_deleted: true}

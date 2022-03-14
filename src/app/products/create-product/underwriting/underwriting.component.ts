@@ -64,7 +64,7 @@ export class UnderwritingComponent implements OnInit {
       servicable_pincodes: [data ? data.servicable_pincodes : [], [Validators.required]],
       range_entities: this.fb.array([]),
       comparison_entities: this.fb.array([]),
-      validation_entities: this.fb.array([]),
+      // validation_entities: this.fb.array([]),
     })
     this.setFormData(isedit ? data.underwriting_rules : data, isedit)
     
@@ -82,10 +82,10 @@ export class UnderwritingComponent implements OnInit {
         // this.selectedTab = element.employment_type.id
         this.addUnderWritingcomparison_entities(element, isedit)
       });
-      data.validation_entities?.forEach(element => {
-        // this.selectedTab = element.employment_type.id
-        this.addUnderWritingvalidation_entities(element, isedit)
-      });
+      // data.validation_entities?.forEach(element => {
+      //   // this.selectedTab = element.employment_type.id
+      //   this.addUnderWritingvalidation_entities(element, isedit)
+      // });
     }
   }
   get range_entities(): FormArray {
@@ -188,10 +188,10 @@ export class UnderwritingComponent implements OnInit {
       element.employment_type = this.selectedTab
       rule_data.push(element)
     });
-    this.createEditForm.value.validation_entities.forEach(element => {
-      element.employment_type = this.selectedTab
-      rule_data.push(element)
-    });
+    // this.createEditForm.value.validation_entities.forEach(element => {
+    //   element.employment_type = this.selectedTab
+    //   rule_data.push(element)
+    // });
     var form_data = {
       blacklist_pincodes: this.createEditForm.value.blacklist_pincodes,
       servicable_pincodes: this.createEditForm.value.servicable_pincodes,

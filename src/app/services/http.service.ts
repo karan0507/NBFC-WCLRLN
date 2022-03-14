@@ -79,6 +79,12 @@ export class HttpService {
             return this._http.get((this.url + `/user/get-users`), { params: data });
       }
       /**
+       * toggleEmployeeStatus
+       */
+      public toggleEmployeeStatus(id) {
+            return this._http.post((this.url + `/user/change-employee-status/` + id), '');
+      }
+      /**
        * fetchEmployeeManagerList
        */
       public fetchEmployeeManagerList(data) {
@@ -775,10 +781,17 @@ export class HttpService {
 
       fetchBranchOfChoosenCorporate(id){
             return this._http.get(this.url + `/partner/v1/get-all-branches/${id}`);
-            // /partner/v1/get-all-branches/18
       }
 
+      verifyUploadedKycDocumentForMasterAndPartner(id, data){
+            return this._http.post(this.url + `/partner/v1/verify-kyc-doc/partner/${id}`, data);
+      }
 
-
-      // /partner/v1/view-unsaved-employee-details-file
+      verifyUploadedKycDocumentForMaster(id, data){
+            return this._http.post(this.url + `/partner/v1/verify-kyc-doc/master/${id}`, data);
+      }
+      
+      verifyUploadedKycDocumentForNBFC(id, data){
+            return this._http.post(this.url + `/nbfc/v1/verify-doc/${id}`, data);
+      }
 }

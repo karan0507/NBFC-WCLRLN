@@ -17,7 +17,7 @@
                   <nz-form-item>
                       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Entity Name</nz-form-label>
                       <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Entity Name!">
-                          <input nz-input type="text" formControlName="name"  placeholder="Merchant Name"  (keypress)="omit_special_char($event)"/>
+                          <input nz-input type="text" formControlName="name"  placeholder="Merchant Name"/>
                       </nz-form-control>
                   </nz-form-item>
               </div>
@@ -213,12 +213,13 @@
                                       <!-- addEditForm.get('name_doc').value -->
                                       <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                       </nz-upload>
-                                      <label class="ml-3 align-self-center" formControlName="is_verified"  nz-checkbox >Verify</label> 
+                                      <label class="ml-3 align-self-center" [nzDisabled]="item.controls.document_name.value ? false : true" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                   </div>    
                               </nz-form-control>
                           </nz-form-item>
                       </div>
                       <div class="col-md-2 pl-0 mt-2" >
+                        <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="download" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                         <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.document_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
                     </div>
                   </div>

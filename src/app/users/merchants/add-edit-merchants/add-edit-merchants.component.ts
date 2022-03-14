@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import * as FileSaver from 'file-saver'
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-merchants',
@@ -180,6 +182,15 @@ export class AddEditMerchantsComponent implements OnInit {
   onClickOpenPopUp(e){
     if(e?.pointerType == 'mouse'){
       this.isVisible = true;
+    }
+  }
+
+  onClickShowUploadedDocument(e){
+    if(e?.value?.documents?.uid){
+      saveAs(e?.value?.documents);
+    } else {
+      var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
     }
   }
 

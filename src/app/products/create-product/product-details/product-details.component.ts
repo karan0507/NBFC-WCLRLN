@@ -81,20 +81,20 @@ export class ProductDetailsComponent implements OnInit {
         tenure_unit: [ data ? data.tenure_unit : 'Months', [Validators.required]],
         tenure: [ data ? data.tenure : ''],
         no_of_emis: [ data ? data.no_of_emis : ''],
-        rate_of_interest: [ data ? data.rate_of_interest : ''],
+        rate_of_interest: [ data ? data.rate_of_interest : '', [Validators.required]],
         emi_details: [ data ? data.emi_details : ''],
         advance_emi: [ data ? data.advance_emi : ''],
-        // type: [ data ? data.type : '1'],
+        emi_type: [ data ? data.emi_type : 'Single'],
       });
     } else {
       return this.fb.group({
         tenure_unit: ['Months', [Validators.required]],
         tenure: [''],
         no_of_emis: [''],
-        rate_of_interest: [''],
+        rate_of_interest: ['', [Validators.required]],
         emi_details: [''],
         advance_emi: [''],
-        // type: ['1'],
+        emi_type: ['Single'],
       });
     }
   }
@@ -134,6 +134,18 @@ export class ProductDetailsComponent implements OnInit {
       this.editProductDetail(data);
     } else {
       this.createProductDetail(data);
+    }
+    
+  }
+  removeSlab(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('tenures');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
     }
   }
 

@@ -75,12 +75,12 @@ export class PartnersComponent implements OnInit {
       data.forEach((element, index) => {
         this.addMasterPartner(element)
         element.slabs?.forEach(slab => {
-          if (slab.trigger_master.id == 1) {
-            this.setSlabControlsFormData(slab, index)
-          }
-          if (slab.trigger_master.id == 2) {
-            this.setSlabControlsActivationFormData(slab, index)
-          }
+          // if (slab.trigger_master.id == 1) {
+          //   this.setSlabControlsFormData(slab, index)
+          // }
+          // if (slab.trigger_master.id == 2) {
+          //   this.setSlabControlsActivationFormData(slab, index)
+          // }
           if (slab.trigger_master.id == 3) {
             this.setSlabControlsAcquisition_CustomersFormData(slab, index)
           }
@@ -126,25 +126,27 @@ export class PartnersComponent implements OnInit {
       return this.fb.group({
         id: [data.id],
         product: [this.product_id],
-        name: [data.master_partner?.id, [Validators.required]],
+        name: [data.master_partner?.id],
         partnersName: [partners, [Validators.required]],
         // no_of_partner: [data.no_of_partner, [Validators.required]],
         amount_per_partner: [data.amount_per_partner, [Validators.required]],
-        slab_array: this.fb.array([]),
+        // slab_array: this.fb.array([]),
         time_period: [data.time_period, [Validators.required]],
-        slab_array_Activation: this.fb.array([]),
-        slab_array_Acquisition_Customers: this.fb.array([])
+        // slab_array_Activation: this.fb.array([]),
+        slab_array_Acquisition_Customers: this.fb.array([]),
+        amount_include_gst: [data.amount_include_gst]
       });
     } else {
       return this.fb.group({
-        name: ['', [Validators.required]],
+        name: [''],
         partnersName: [[], [Validators.required]],
         // no_of_partner: ['', [Validators.required]],
         amount_per_partner: ['', [Validators.required]],
         slab_array: this.fb.array([this.addSlabControls()]),
         time_period: ['', [Validators.required]],
         slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
-        slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()])
+        slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()]),
+        amount_include_gst: [false]
       });
     }
   }
@@ -246,6 +248,7 @@ export class PartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
     } else {
       return this.fb.group({
@@ -254,6 +257,7 @@ export class PartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
+        commission_calculation_type : ['Variable']
       });
     }
   } 
@@ -275,28 +279,28 @@ export class PartnersComponent implements OnInit {
     let data = []
     this.createEditForm.value.master_partner_arr.forEach(form => {
       slab = []
-      form.slab_array.forEach(element => {
-        slab.push(
-          {
-            trigger_master: element.trigger_master,
-            min_amount: element.min_amount,
-            max_amount: element.max_amount,
-            commission: element.commission,
-            time_period: element.time_period,
-          }
-        )
-      });
-      form.slab_array_Activation.forEach(element => {
-        slab.push(
-          {
-            trigger_master: element.trigger_master,
-            min_amount: element.min_amount,
-            max_amount: element.max_amount,
-            commission: element.commission,
-            time_period: form.time_period,
-          }
-        )
-      });
+      // form.slab_array.forEach(element => {
+      //   slab.push(
+      //     {
+      //       trigger_master: element.trigger_master,
+      //       min_amount: element.min_amount,
+      //       max_amount: element.max_amount,
+      //       commission: element.commission,
+      //       time_period: element.time_period,
+      //     }
+      //   )
+      // });
+      // form.slab_array_Activation.forEach(element => {
+      //   slab.push(
+      //     {
+      //       trigger_master: element.trigger_master,
+      //       min_amount: element.min_amount,
+      //       max_amount: element.max_amount,
+      //       commission: element.commission,
+      //       time_period: form.time_period,
+      //     }
+      //   )
+      // });
       form.slab_array_Acquisition_Customers.forEach(element => {
         slab.push(
           {
@@ -305,6 +309,7 @@ export class PartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: element.time_period,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -315,6 +320,7 @@ export class PartnersComponent implements OnInit {
           amount_per_partner: form.amount_per_partner,
           partner_ids: form.partnersName,
           slabs: slab,
+          amount_include_gst: form.amount_include_gst
         }
       )
     });
@@ -338,32 +344,32 @@ export class PartnersComponent implements OnInit {
     let data = []
     this.createEditForm.value.master_partner_arr.forEach(form => {
       slab = []
-      form.slab_array.forEach(element => {
-        slab.push(
-          {
-            id: element.id,
-            trigger_master: element.trigger_master,
-            min_amount: element.min_amount,
-            max_amount: element.max_amount,
-            commission: element.commission,
-            time_period: element.time_period,
-            is_deleted: element.is_deleted,
-          }
-        )
-      });
-      form.slab_array_Activation.forEach(element => {
-        slab.push(
-          {
-            id: element.id,
-            trigger_master: element.trigger_master,
-            min_amount: element.min_amount,
-            max_amount: element.max_amount,
-            commission: element.commission,
-            time_period: form.time_period,
-            is_deleted: element.is_deleted,
-          }
-        )
-      });
+      // form.slab_array.forEach(element => {
+      //   slab.push(
+      //     {
+      //       id: element.id,
+      //       trigger_master: element.trigger_master,
+      //       min_amount: element.min_amount,
+      //       max_amount: element.max_amount,
+      //       commission: element.commission,
+      //       time_period: element.time_period,
+      //       is_deleted: element.is_deleted,
+      //     }
+      //   )
+      // });
+      // form.slab_array_Activation.forEach(element => {
+      //   slab.push(
+      //     {
+      //       id: element.id,
+      //       trigger_master: element.trigger_master,
+      //       min_amount: element.min_amount,
+      //       max_amount: element.max_amount,
+      //       commission: element.commission,
+      //       time_period: form.time_period,
+      //       is_deleted: element.is_deleted,
+      //     }
+      //   )
+      // });
       form.slab_array_Acquisition_Customers.forEach(element => {
         slab.push(
           {
@@ -374,6 +380,7 @@ export class PartnersComponent implements OnInit {
             commission: element.commission,
             time_period: element.time_period,
             is_deleted: element.is_deleted,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -385,6 +392,7 @@ export class PartnersComponent implements OnInit {
           amount_per_partner: form.amount_per_partner,
           partner_ids: form.partnersName,
           slabs: slab,
+          amount_include_gst: form.amount_include_gst
         }
       )
     });
@@ -442,6 +450,17 @@ export class PartnersComponent implements OnInit {
     control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Acquisition_Customers');
     console.log(control);
     if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
+  removeMaster(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('master_partner_arr')
+    console.log(control);
+    if (control.value[slab_index]?.id) {
       control.value[slab_index].is_deleted = true;
       control.controls.splice(slab_index, 1)
     } else {

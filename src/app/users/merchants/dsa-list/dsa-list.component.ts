@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import * as FileSaver from 'file-saver';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -48,6 +48,7 @@ export class DsaListComponent implements OnInit {
   uploaded_file: any;
   storeDetailId: number;
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
   
   updateCheckedSet(id: number, checked: boolean): void {
@@ -75,6 +76,18 @@ export class DsaListComponent implements OnInit {
   getResultBasedOnSearch(){
     this.page = 1;
     this.getPartnerDSAList();
+  }
+
+  cancel(){
+  }
+
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMasterAndPartner(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getMerchantDetail(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
   }
 
   getMerchantDetail(id, i?){
@@ -128,6 +141,7 @@ export class DsaListComponent implements OnInit {
 
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
+      this.selectedIndexOfExpand = i
       this.getMerchantDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
@@ -220,13 +234,8 @@ export class DsaListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    console.log(e)
-    // if(e?.document_file?.includes('pdf')){
-    // alert(true)
-    saveAs(e?.document_file, `${e?.file_name}`);
-    // } else {
-    // alert(false)
-    // }
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
   }
 
 

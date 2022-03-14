@@ -4,7 +4,13 @@
             <ng-container *ngFor="let item of get_fees(createEditForm); let k = index;"
                 formArrayName="fees">
                 <nz-divider *ngIf="k > 0"></nz-divider>
-                <nz-form-label class="w-100 text-left" nzNoColon>Type {{k+1}}</nz-form-label>
+                <div class="d-flex justify-content-between">
+                    <nz-form-label class="text-left" nzNoColon>Type {{k+1}}</nz-form-label>
+                    <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure remove Type?"
+                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeFees(item, k)" *ngIf="k > 0">
+                        <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                    </label>
+                </div>
                 <div class="row mb-3" [formGroupName]="k">
                     <div class="col-md-6">
                         <nz-form-item>
@@ -89,8 +95,14 @@
                     <div class="col-md-12" *ngIf="item.controls.slab_specific.value">
                         <ng-container *ngFor="let slab_item of get_slabs(item); let i = index;" formArrayName="slabs">
                             <div class="row" [formGroupName]="i">
-                                <nz-form-label class="w-100 text-left" nzRequired>Slab {{i + 1}}
-                                </nz-form-label>
+                                <div class="col-12 d-flex justify-content-between">
+                                    <nz-form-label class="text-left" nzRequired>Slab {{i + 1}}
+                                    </nz-form-label>
+                                    <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure remove Slab?"
+                                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, k, i)" *ngIf="i > 0">
+                                        <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                                    </label>
+                                </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
                                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum Amt.</nz-form-label>
@@ -124,14 +136,11 @@
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
-                                <!-- <div class="row mx-0 d-flex align-items-center"> -->
-                                    <!-- <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0"> -->
-                                    <!-- <span class="font-size-24"></span></label> -->
-                                    <!-- <label class="text-left d-flex mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure delete Slab?"
-                                    nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, i)" *ngIf="i > 0">
-                                            <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
-                                    </label> -->
-                                <!-- </div> -->
+                                <!-- <div class="row mx-0 d-flex align-items-end">
+                                    <label class="text-left d-flex mx-2 pointer" *ngIf="i == 0">
+                                    <span class="font-size-24"></span></label>
+                                    
+                                </div> -->
                             </div>
                         </ng-container>
                         <button nz-button nzType="link" class="mb-3" (click)="addSlabpartners(k)">+ Add more
@@ -157,8 +166,8 @@
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_rate" class="text-left" nzRequired>GST(%)</nz-form-label>
                             <nz-form-control nzErrorTip="Please input GST(%)!">
                                 <!-- <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" /> -->
-                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" />
+                                <nz-input-group>
+                                    <input nz-input type="number" min="0" (keydown)="restrictType($event)" formControlName="gst_rate" placeholder="Please input GST(%)!" />
                                 </nz-input-group>
                             
                                 <ng-template #addOnAfterTemplateforamt>
