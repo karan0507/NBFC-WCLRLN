@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import * as FileSaver from 'file-saver';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -242,13 +242,8 @@ export class MerchantsListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    console.log(e)
-    // if(e?.document_file?.includes('pdf')){
-    // alert(true)
-    saveAs(e?.document_file, `${e?.file_name}`);
-    // } else {
-    // alert(false)
-    // }
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
   }
 
 

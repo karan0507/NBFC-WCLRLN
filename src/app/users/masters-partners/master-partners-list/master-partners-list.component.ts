@@ -5,6 +5,7 @@ import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-master-partners-list',
@@ -249,15 +250,19 @@ export class MasterPartnersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    console.log(e)
-// if(e?.document_file?.includes('pdf')){
-  // alert(true)
-  saveAs(e?.document_file, `${e?.file_name}`);
-// } else {
-  // alert(false)
-// }
+    // console.log(e)
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
+    // saveAs(e?.document_file, `${e?.file_name}`);
   }
 
+  // downloadPdf(base64String, fileName) {
+  //   const source = `data:application/pdf;base64,${base64String}`;
+  //   const link = document.createElement("a");
+  //   link.href = source;
+  //   link.download = `${fileName}.pdf`
+  //   link.click();
+  // }
 
 
   uploadAndShowAgreement(action?){

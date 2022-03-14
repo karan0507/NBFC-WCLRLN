@@ -260,19 +260,30 @@
                                                 <div>
                                                     <span *ngIf="data?.document_file">
                                                         <a>Submitted </a>
+                                                        &
                                                     </span>
                                                     <span *ngIf="!data?.document_file">
-                                                        Not Submitted &
+                                                        Document Not Submitted
                                                     </span>
                                                     <span *ngIf="data?.is_verified">
                                                         Verified
                                                     </span>
-                                                    <span *ngIf="!data?.is_verified">
-                                                        Not Verified
+                                                    <span *ngIf="!data?.is_verified && data?.document_file">
+                                                        <a 
+                                                            nz-popconfirm
+                                                            nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                            nzPopconfirmPlacement="bottom"                                              
+                                                            (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                            (nzOnCancel)="cancel()"
+                                                            >
+                                                            Plz Click to verify
+                                                            </a>
                                                     </span>
                                                 </div>
                                                 <div class="mt-3">
-                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
+                                                    <!-- <a href={{ data?.document_file }} target="_blank" >Trusted URL</a><br><br> -->
+                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)">
+                                                    </i>
                                                     <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
                                                 </div>
                                             </div>

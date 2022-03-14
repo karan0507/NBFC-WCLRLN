@@ -784,4 +784,8 @@ export class HttpService {
       verifyUploadedKycDocumentForMaster(id, data){
             return this._http.post(this.url + `/partner/v1/verify-kyc-doc/master/${id}`, data);
       }
+      
+      verifyUploadedKycDocumentForNBFC(id, data){
+            return this._http.post(this.url + `/nbfc/v1/verify-doc/${id}`, data);
+      }
 }

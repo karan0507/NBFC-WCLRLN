@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { saveAs } from 'file-saver';
+import * as FileSaver from 'file-saver'
 
 @Component({
   selector: 'app-add-edit-partners',
@@ -143,8 +144,13 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
 
-  onClickShowUploadedDocument(data){
-    saveAs(data);
+  onClickShowUploadedDocument(e){
+    if(e?.value?.documents?.uid){
+      saveAs(e?.value?.documents);
+    } else {
+      var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+    }
   }
   
   createMasterProductForm(data?) {
@@ -484,6 +490,7 @@ export class AddEditPartnersComponent implements OnInit {
     // console.log(e + '  ' + this.addEditProductForm.controls.document_data['controls'][index].document_master)
   }
 
+  
   customUpload = (file: NzUploadFile): boolean => {
     const data = []
     // data.push({documents: file});

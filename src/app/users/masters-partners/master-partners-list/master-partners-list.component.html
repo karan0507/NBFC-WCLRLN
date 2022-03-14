@@ -321,6 +321,7 @@
                                                         </span> -->
                                                     </div>
                                                     <div class="mt-3">
+                                                        <!-- <a href="{{ data?.document_file }}" target="_self" download >Trusted URL</a><br><br> -->
                                                         <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
                                                         <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
                                                     </div>
