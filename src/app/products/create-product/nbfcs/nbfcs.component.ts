@@ -140,4 +140,11 @@ export class NbfcsComponent implements OnInit {
     }
   }
 
+  
+  restrictType(event) {
+    console.log(event.which)
+    if (event.which == 107 || event.which == 109) {
+      return false;
+    }
+  }
 }

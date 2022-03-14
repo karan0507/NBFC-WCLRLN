@@ -32,7 +32,7 @@
                                 <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="interest_rate" class="text-left" nzRequired>
                                     Interest Rate(%) (annual)</nz-form-label>
                                 <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input Interest Rate(%) (annual)!">
-                                    <input nz-input type="number" min="0" formControlName="interest_rate"
+                                    <input nz-input type="number" (keydown)="restrictType($event)" min="0" formControlName="interest_rate"
                                         placeholder="Please input Interest Rate(%) (annual)!" />
                                 </nz-form-control>
                             </nz-form-item>
@@ -42,7 +42,7 @@
                                 <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="credit_line" class="text-left text-wrap"
                                     nzRequired>Credit Line (commitment)</nz-form-label>
                                 <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input Credit Line (commitment)!">
-                                    <input nz-input type="number" min="0" formControlName="credit_line"
+                                    <input nz-input type="number" (keydown)="restrictType($event)" min="0" formControlName="credit_line"
                                         placeholder="Please input Credit Line (commitment)!" />
                                     <!-- <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
                                                 <input nz-input type="number" min="0" formControlName="credit_line"
