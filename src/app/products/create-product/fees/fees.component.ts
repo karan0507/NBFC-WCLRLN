@@ -141,16 +141,16 @@ export class FeesComponent implements OnInit {
   public addSlabControls(data?): FormGroup {
     if (data) {
       return this.fb.group({
-        minimum_charge: [ data ? data.minimum_charge : ''],
-        maximum_charge: [ data ? data.maximum_charge : ''],
-        amount: [ data ? data.amount : ''],
+        minimum_charge: [ data ? data.minimum_charge : '', [Validators.required]],
+        maximum_charge: [ data ? data.maximum_charge : '', [Validators.required]],
+        amount: [ data ? data.amount : '', [Validators.required]],
         id: [data ? data.id : '']
       });
     } else {
       return this.fb.group({
-        minimum_charge: [''],
-        maximum_charge: [''],
-        amount: [''],
+        minimum_charge: ['', [Validators.required]],
+        maximum_charge: ['', [Validators.required]],
+        amount: ['', [Validators.required]],
       });
     }
   }
