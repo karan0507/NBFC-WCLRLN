@@ -51,7 +51,10 @@
                                 </nz-input-group>
 
                                 <ng-template #addOnAfterTemplateforamt>
-                                    <span>excluding GST</span>
+                                    <nz-select formControlName="amount_include_gst">
+                                        <nz-option [nzLabel]="'excluding GST'" [nzValue]="false"></nz-option>
+                                        <nz-option [nzLabel]="'including GST'" [nzValue]="true"></nz-option>
+                                    </nz-select>
                                 </ng-template>
                             </nz-form-control>
                         </nz-form-item>
@@ -89,7 +92,10 @@
                                                     </nz-input-group>
                         
                                                     <ng-template #addOnAfterTemplate>
-                                                        <span>%</span>
+                                                        <nz-select formControlName="commission_calculation_type">
+                                                            <nz-option [nzLabel]="'₹'" [nzValue]="'Flat'"></nz-option>
+                                                            <nz-option [nzLabel]="'%'" [nzValue]="'Variable'"></nz-option>
+                                                        </nz-select>
                                                     </ng-template>
                                                 </nz-form-control>
                                             </div>
@@ -151,7 +157,10 @@
                                                     </nz-input-group>
                         
                                                     <ng-template #addOnAfterTemplate>
-                                                        <span>%</span>
+                                                        <nz-select formControlName="commission_calculation_type">
+                                                            <nz-option [nzLabel]="'₹'" [nzValue]="'Flat'"></nz-option>
+                                                            <nz-option [nzLabel]="'%'" [nzValue]="'Variable'"></nz-option>
+                                                        </nz-select>
                                                     </ng-template>
                                                 </nz-form-control>
                                             </div>
@@ -206,7 +215,10 @@
                                                         </nz-input-group>
     
                                                         <ng-template #addOnAfterTemplate>
-                                                            <span>₹</span>
+                                                            <nz-select formControlName="commission_calculation_type">
+                                                                <nz-option [nzLabel]="'₹'" [nzValue]="'Flat'"></nz-option>
+                                                                <nz-option [nzLabel]="'%'" [nzValue]="'Variable'"></nz-option>
+                                                            </nz-select>
                                                         </ng-template>
                                                     </nz-form-control>
                                                 </div>

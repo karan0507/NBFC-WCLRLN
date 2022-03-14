@@ -87,7 +87,8 @@ export class MasterPartnersComponent implements OnInit {
         slab_array: this.fb.array([]),
         time_period: [data.time_period, [Validators.required]],
         slab_array_Activation: this.fb.array([]),
-        slab_array_Acquisition_Customers: this.fb.array([])
+        slab_array_Acquisition_Customers: this.fb.array([]),
+        amount_include_gst: [data.amount_include_gst]
       });
     } else {
       
@@ -98,7 +99,8 @@ export class MasterPartnersComponent implements OnInit {
         slab_array: this.fb.array([this.addSlabControls()]),
         time_period: ['', [Validators.required]],
         slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
-        slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()])
+        slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()]),
+        amount_include_gst: [0]
       });
     }
   }
@@ -161,6 +163,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
       });
     } else {
       return this.fb.group({
@@ -169,6 +172,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
+        commission_calculation_type: ['%']
       });
     }
   }
@@ -187,6 +191,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
       });
     } else {
       return this.fb.group({
@@ -195,6 +200,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
+        commission_calculation_type: ['%']
       });
     }
   }
@@ -213,6 +219,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
       });
     } else {
       return this.fb.group({
@@ -221,6 +228,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
+        commission_calculation_type: ['%']
       });
     }
   }
@@ -250,6 +258,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: element.time_period,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -261,6 +270,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: form.time_period,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -272,6 +282,7 @@ export class MasterPartnersComponent implements OnInit {
             max_amount: element.max_amount,
             commission: element.commission,
             time_period: element.time_period,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -282,6 +293,7 @@ export class MasterPartnersComponent implements OnInit {
           no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           slabs: slab,
+          amount_include_gst: form.amount_include_gst
         }
       )
     });
@@ -313,6 +325,7 @@ export class MasterPartnersComponent implements OnInit {
             commission: element.commission,
             time_period: element.time_period,
             is_deleted: element.is_deleted,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -326,6 +339,7 @@ export class MasterPartnersComponent implements OnInit {
             commission: element.commission,
             time_period: form.time_period,
             is_deleted: element.is_deleted,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -339,6 +353,7 @@ export class MasterPartnersComponent implements OnInit {
             commission: element.commission,
             time_period: element.time_period,
             is_deleted: element.is_deleted,
+            commission_calculation_type : element.commission_calculation_type
           }
         )
       });
@@ -350,6 +365,7 @@ export class MasterPartnersComponent implements OnInit {
           no_of_partner: form.no_of_partner,
           amount_per_partner: form.amount_per_partner,
           slabs: slab,
+          amount_include_gst: form.amount_include_gst
         }
       )
     });
