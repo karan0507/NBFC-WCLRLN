@@ -28,7 +28,8 @@
                                 <label nz-radio nzValue="1">Fatak Pay</label>
                                 <label nz-radio nzValue="2">Fatak EMI</label>
                               </nz-radio-group>
-                        </nz-form-control><nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created at</nz-form-label>
+                        </nz-form-control>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created at</nz-form-label>
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
@@ -78,6 +79,17 @@
                     <ng-container *ngFor="let item of get_tenures(createEditForm); let k = index;" formArrayName="tenures">
                         <div class="row mx-0" [formGroupName]="k">
                             <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                                
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_type" class="text-left" nzRequired>EMI Type
+                                    </nz-form-label>
+                                    <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Type!">
+                                        <nz-radio-group formControlName="emi_type" (ngModelChange)="changeProductMaster($event)">
+                                            <label nz-radio [nzValue]="'Single'">Single</label>
+                                            <label nz-radio [nzValue]="'Multiple'">Multiple</label>
+                                        </nz-radio-group>
+                                    </nz-form-control>
+                                </nz-form-item>
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="tenure" class="text-left" nzRequired>Select Tenure
                                     </nz-form-label>
@@ -107,7 +119,7 @@
                             </div>
                             <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                                 <nz-form-item>
-                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_details" class="text-left" nzRequired>EMI Details</nz-form-label>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_details" class="text-left">EMI Details</nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Details!">
                                         <textarea nz-input formControlName="emi_details" placeholder="Please input EMI Details"></textarea>
                                     </nz-form-control>
@@ -115,7 +127,7 @@
                             </div>
                             <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                                 <nz-form-item>
-                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="advance_emi" class="text-left" nzRequired>Advance EMI</nz-form-label>
+                                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="advance_emi" class="text-left">Advance EMI</nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Advance EMI!">
                                         <input nz-input type="number" min="0" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
                                     </nz-form-control>
