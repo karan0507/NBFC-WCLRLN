@@ -78,7 +78,7 @@
                 <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                     <ng-container *ngFor="let item of get_tenures(createEditForm); let k = index;" formArrayName="tenures">
                         <div class="row mx-0" [formGroupName]="k">
-                            <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
+                            <div class="col-md-11" *ngIf="createEditForm.get('product_master').value == '2'">
                                 
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_type" class="text-left" nzRequired>EMI Type
@@ -103,6 +103,11 @@
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
+                            
+                            <label class="text-left d-flex mx-2 pointer" *ngIf="k > 0" nz-popconfirm nzPopconfirmTitle="Are you sure remove tenure?"
+                                nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeSlab(item, k)">
+                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                            </label>
                             <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="rate_of_interest" class="text-left" nzRequired>Interest Rate(%)
