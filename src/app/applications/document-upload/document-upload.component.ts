@@ -219,6 +219,8 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       handleCancel() {
+            console.log('working here');
+            
             this._isOpenModal = false;
             this._isStatus = false;
             this._isDownload = false;
