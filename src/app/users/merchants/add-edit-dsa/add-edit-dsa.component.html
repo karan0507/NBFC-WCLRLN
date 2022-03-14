@@ -219,7 +219,7 @@
                           </nz-form-item>
                       </div>
                       <div class="col-md-2 pl-0 mt-2" >
-                        <i class="mx-3" (click)='onClickShowUploadedDocument(item.controls.documents.value)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                        <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="download" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                         <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.document_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
                     </div>
                   </div>

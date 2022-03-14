@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import * as FileSaver from 'file-saver';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
@@ -45,9 +45,11 @@ export class LendersListComponent implements OnInit {
   selectedUserData: any;
   storeDetailId: number;
   statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   onExpandChange(id: number, checked: boolean, i): void {
     if (checked) {
       this.selectedId = id;
+      this.selectedIndexOfExpand = i;
       this.getNBFCDetail(this.storeDetailId = id, i)
       this.expandSet.add(id);
       // alert('Clicked On Expand ' + id)
@@ -159,6 +161,18 @@ export class LendersListComponent implements OnInit {
     this.pdf_viewer_object_values['url'] = ''
   }
 
+  cancel(){
+  }
+
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForNBFC(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getNBFCDetail(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
+  }
+
   confirmationTrigger(value: any) {
     console.log(value);
       this.http.deleteNBFCUserByUserId(this.selectedUserId).subscribe((res :any)=> {
@@ -237,13 +251,8 @@ export class LendersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    console.log(e)
-// if(e?.document_file?.includes('pdf')){
-  // alert(true)
-  saveAs(e?.document_file, `${e?.file_name}`);
-// } else {
-  // alert(false)
-// }
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(data,  `${e?.file_name}`);
   }
 
 

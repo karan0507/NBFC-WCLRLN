@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import * as FileSaver from 'file-saver'
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -87,8 +88,13 @@ export class AddEditDsaComponent {
     })
   }
 
-  onClickShowUploadedDocument(data){
-    saveAs(data);
+  onClickShowUploadedDocument(e){
+    if(e?.value?.documents?.uid){
+      saveAs(e?.value?.documents);
+    } else {
+      var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+    }
   }
 
   getListOfMasterPartner(action?){
