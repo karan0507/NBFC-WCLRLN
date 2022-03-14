@@ -254,4 +254,28 @@ export class FeesComponent implements OnInit {
       return false;
     }
   }
+
+  removeSlab(control, index, slab_index) {
+    control = <FormArray>this.createEditForm.get('fees')['controls'][index].get('slabs');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
+
+  removeFees(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('fees');
+    console.log(control);
+    if (control.value[slab_index].id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
 }
