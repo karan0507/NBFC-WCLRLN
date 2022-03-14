@@ -5,7 +5,14 @@
             <div class="row mb-3">
                 <ng-container *ngFor="let item of get_nbfcs_arr(createEditForm); let k = index;" formArrayName="nbfcs_arr">
                     <div class="col-md-6" [formGroupName]="k">
-                        <nz-form-label class="w-100 text-left" nzNoColon>Priority {{k+1}}</nz-form-label>
+                        <div class="col-12 d-flex justify-content-between">
+                            <nz-form-label class="text-left" nzNoColon>Priority {{k+1}}</nz-form-label>
+                        
+                            <label class="text-left d-flex ml-auto mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure remove NBFC?"
+                                nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeMaster(item, k)" *ngIf="k > 0">
+                                <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                            </label>
+                        </div>
                         <div class="col-md-12">
                             <nz-form-item>
                                 <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="nbfc" class="text-left" nzRequired>NBFC Name
