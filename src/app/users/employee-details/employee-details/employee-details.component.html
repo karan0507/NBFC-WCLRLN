@@ -1,7 +1,10 @@
 <div class="header_breadcrumb_section">
     <div class="d-flex justify-content-md-between flex-wrap w-100">
           <div></div>
-          <div> <button nz-button nzType="primary" class="ml-auto px-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> Upload </button>
+          <div> 
+            <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
+              <button nz-button nzType="primary" class="ml-auto mr-3"  nzSize="small" (click)="http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')">Sample File Download<i nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
+              <button nz-button nzType="primary" class="ml-auto px-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> Upload </button>
                 <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
           </div>
     </div>
@@ -114,17 +117,10 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Select Partner</nz-form-label>
                             <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <nz-select class="mx-1" formControlName="partner" style="width: 15rem;"
+                                <nz-select class="mx-1" formControlName="partner"
                                            nzAllowClear nzPlaceHolder="Partner Name" (ngModelChange)="onClickSelectFireBranchAPI($event)">
                                                 <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
                                 </nz-select>
-                                <!-- <nz-select (ngModelChange)="onClickSelectFireBranchAPI($event)"  nzAllowClear
-                                 (nzOnSearch)="getResultWithSelectedFilter($event)" 
-                                class="mx-1" formControlName="partner" style="width: 15rem;"
-                                    nzPlaceHolder="Filter By Corporate">
-                                    <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
-                                    </nz-option>
-                                </nz-select> -->
                             </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -136,6 +132,15 @@
                             </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="remarks" nzRequired>Remarks</nz-form-label>
+                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
+                                <textarea nz-input formControlName="remarks" placeholder="Controlled autosize" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+                            </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!--  -->
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="file"  nzRequired>Insert File</nz-form-label>

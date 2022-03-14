@@ -251,17 +251,15 @@
                                     [nzTitle]="kycDocument">
                                 </nz-page-header>
                                 <nz-card class="mb-md-5"  [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
-                                    <div class="row">
+                                    <div class="row"  *ngIf="data?.expandSet?.documents?.length > 0">
                                         <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column"
-                                                *ngIf="data?.expandSet?.documents?.length >= 0">
+                                            <div class="d-flex flex-column">
                                                 <h6>
                                                     {{data?.document_master?.name}}
                                                 </h6>
                                                 <div>
                                                     <span *ngIf="data?.document_file">
                                                         <a>Submitted </a>
-                                                        &
                                                     </span>
                                                     <span *ngIf="!data?.document_file">
                                                         Not Submitted &
@@ -278,13 +276,14 @@
                                                     <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-column"
-                                                *ngIf="data?.expandSet?.documents?.length < 0">
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.expandSet?.documents?.length <= 0">
+                                        <div class="col-md-6">
                                                 <h6>
                                                     No Documents To show
                                                 </h6>
                                             </div>
-                                        </div>
                                     </div>
                                 </nz-card>
                             </div>

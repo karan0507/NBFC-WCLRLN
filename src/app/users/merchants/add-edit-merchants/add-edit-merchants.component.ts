@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-merchants',
@@ -154,7 +155,7 @@ export class AddEditMerchantsComponent implements OnInit {
       secondary_upi: [data ? data?.secondary_upi : null],
       mdr: [data ? data?.mdr : null],
       interest_subvention: [data ? data?.interest_subvention : null],
-      payout: [data ? data?.payout : null, [Validators.required]],
+      payout: [data ? data?.payout : null],
 
       // Attribute Type under business detail
       // business_type: [data ? data?.name : null, [Validators.required]],
@@ -167,7 +168,7 @@ export class AddEditMerchantsComponent implements OnInit {
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      master: [0, [Validators.required]],
+      master: ['0', [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['Merchant', [Validators.required]],
       
@@ -181,6 +182,10 @@ export class AddEditMerchantsComponent implements OnInit {
     if(e?.pointerType == 'mouse'){
       this.isVisible = true;
     }
+  }
+
+  onClickShowUploadedDocument(data){
+    saveAs(data);
   }
 
   omit_special_char(event) {
@@ -324,7 +329,10 @@ export class AddEditMerchantsComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createPartnerForm(data);
@@ -364,7 +372,10 @@ export class AddEditMerchantsComponent implements OnInit {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
@@ -410,10 +421,15 @@ export class AddEditMerchantsComponent implements OnInit {
       }
   
       for (var i in sendDate) {
+        console.log(i);
+        console.log(sendDate);
+        console.log(sendDate[i]);
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
         }
       }
       const  url = this.http.createPartnerForm(data);

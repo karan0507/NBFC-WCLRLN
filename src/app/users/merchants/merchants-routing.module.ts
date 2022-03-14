@@ -14,8 +14,8 @@ const routes: Routes = [
                         path: "DSA",
                         component: DsaListComponent,
                         data: {
-                              title: "Partner DSA",
-                              parent: "Merchants",
+                              title: "Partner DSA List",
+                              parent: "Users",
                               custom_url: '/merchants/DSA'
                         },
                         children: [
@@ -24,8 +24,8 @@ const routes: Routes = [
                   {
                         path: "DSA",
                         data: {
-                              title: "Partner DSA",
-                              parent: "Merchants",
+                              title: "Partner DSA List",
+                              parent: "Users",
                               custom_url : '/merchants/DSA'
                         },
                         children: [
@@ -34,7 +34,7 @@ const routes: Routes = [
                                     component: AddEditDsaComponent,
                                     data: {
                                           title: "Add DSA",
-                                          parent: "Merchants",
+                                          parent: "Users",
                                           custom_url: "add-dsa",
                                     },
                               },
@@ -54,7 +54,7 @@ const routes: Routes = [
                         component: MerchantsListComponent,
                         data: {
                               title: "Merchant List",
-                              parent: "Merchants",
+                              parent: "Users",
                               custom_url: "list",
                         },
                         children: [],
@@ -63,7 +63,7 @@ const routes: Routes = [
                         path: "list",
                         data: {
                               title: 'Merchant List',
-                              parent: 'Merchants',
+                              parent: 'Users',
                               custom_url: "merchants/list",
                         },
                         children: [
@@ -72,7 +72,7 @@ const routes: Routes = [
                                     component: AddEditMerchantsComponent,
                                     data: {
                                           title: "Add Merchant",
-                                          parent: "Merchant",
+                                          parent: "Users",
                                           custom_url: "add-merchant",
                                     },
                               },
@@ -81,7 +81,7 @@ const routes: Routes = [
                                     component: AddEditMerchantsComponent,
                                     data: {
                                           title: "Edit Merchant",
-                                          parent: "Merchant",
+                                          parent: "Users",
                                           custom_url: "add-merchant",
                                     },
                               },

@@ -234,32 +234,19 @@
                                         </nz-upload>
                                         <label class="ml-3 align-self-center" [nzDisabled]="item.controls.document_name.value ? false : true" formControlName="is_verified"  nz-checkbox >Verify</label> 
                                     </div>
-                                    <!-- (nzChange)="onUpload($event)"[nzBeforeUpload]="beforeUpload" [nzBeforeUpload]="beforeUpload" <input type="file" formControlName="documents" > -->
-                                    <!-- <input nz-input type="number" min="0" formControlName="label_name"
-                                            placeholder="Please input {{item.controls.label_name.value}}!" /> -->
-                                    <!-- <input type="file" /> -->
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div class="col-md-2 pl-0 mt-2" >
+                            <i class="mx-3" (click)='onClickShowUploadedDocument(item.controls.documents.value)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                             <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.document_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
                         </div>
-                        <!-- <div class="col-md-6">
-                                <nz-form-item>
-                                    <nz-form-label nzFor="max" class="text-left" nzRequired>{{item.controls.max_label.value}}</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please input {{item.controls.max_label.value}}!">
-                                        <input nz-input type="number" min="0" formControlName="max"
-                                            placeholder="Please input {{item.controls.max_label.value}}!" />
-                                    </nz-form-control>
-                                </nz-form-item>
-                            </div> -->
                     </div>
                 </div>
             </ng-container>
             <div class="row no-gutters">
                 <div class="col-12 d-flex justify-content-between">
                     <button nz-button nzType="link" class="pl-0" (click)="onClickOpenPopUp($event)">+Add Document</button>
-                    <!-- <button nz-button nzType="primary" [disabled]="createEditForm.invalid" (click)="submitForm()">Submit</button> -->
                 </div>
             </div>
 

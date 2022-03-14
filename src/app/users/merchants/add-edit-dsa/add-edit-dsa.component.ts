@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-add-edit-dsa',
@@ -66,7 +67,7 @@ export class AddEditDsaComponent {
 
   setRetrievedDataInForm(data){
     for( var i in this.addEditProductForm.value){
-      if(i == 'state'){
+      if(i == 'partner_master' || i == 'state'){
         data[i] = data[i]?.id;
       }
       if(i != 'document_data'){
@@ -84,6 +85,10 @@ export class AddEditDsaComponent {
       console.log(res);
       this.stateArr = res?.data;
     })
+  }
+
+  onClickShowUploadedDocument(data){
+    saveAs(data);
   }
 
   getListOfMasterPartner(action?){
@@ -168,7 +173,7 @@ export class AddEditDsaComponent {
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      master: [0, [Validators.required]],
+      master: ['0', [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
       partner_master:[data ? data?.master_partner?.id : null],
@@ -305,7 +310,10 @@ export class AddEditDsaComponent {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createMasterPartnerForm(data);
@@ -346,7 +354,10 @@ export class AddEditDsaComponent {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url =  this.http.updateMasterPartnerForm(this.masterPartnerId, data) 
@@ -394,7 +405,10 @@ export class AddEditDsaComponent {
         if(i == 'document_data'){
           data.append(i, JSON.stringify(sendDate[i]))
         } else {
-          data.append(i, sendDate[i])
+          if(sendDate[i]){
+            data.append(i, sendDate[i])
+          }
+          // data.append(i, sendDate[i])
         }
       }
       const  url = this.http.createMasterPartnerForm(data);

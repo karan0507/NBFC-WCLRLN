@@ -43,12 +43,13 @@
                 <thead>
                     <tr>
                     <th rowspan="2" nzWidth="100px">#</th>
-                    <th >Merchant Name</th>
+                    <th>Merchant Name</th>
+                    <th>Display Name</th>
                     <th >Type</th>
                     <th >Regd. On</th>
-                    <th>Source ID</th>
+                    <!-- <th>Source ID</th> -->
                     <th>Merchant ID</th>
-                    <th>Refer Id</th>
+                    <!-- <th>Refer Id</th> -->
                     <th>Registered</th>
                     <!-- <th>Transaction Status</th> -->
                     <th>System Status</th>
@@ -61,11 +62,12 @@
                             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                 {{ i + 1 }}</td>
                             <td>{{ data.name }}</td>
-                            <td>{{ data.type }}</td>
+                            <td>{{ data.display_name }}</td>
+                            <td>{{ data.dsa_type }}</td>
                             <td>{{ data.created_at | date: 'dd MMM yyyy' }}
-                            <td>{{data?.source_id}}</td>
+                            <!-- <td>{{data?.source_id}}</td> -->
                             <td>{{data?.unique_code}}</td>
-                            <td>{{data?.refer_id}}</td>
+                            <!-- <td>{{data?.refer_id}}</td> -->
                             <td *ngIf="data?.registered ">
                                 <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
                             </td>
@@ -94,18 +96,18 @@
                                         <!-- <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">De-activate</span>
                                         </li> -->
-                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
                                             <span class="m-l-5">Inactive</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id)">
+                                        <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
-                                        </li>
+                                        </li> -->
                                         <li nz-menu-item (click)="storeSelectedId(data?.id)">
                                             <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                 [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
@@ -267,14 +269,24 @@
                                                         &
                                                     </span>
                                                     <span *ngIf="!data?.document_file">
-                                                        Not Submitted &
+                                                        Document Not Submitted
                                                     </span>
                                                     <span *ngIf="data?.is_verified">
                                                         Verified
                                                     </span>
-                                                    <span *ngIf="!data?.is_verified">
-                                                        Not Verified
+                                                    <span *ngIf="!data?.is_verified && data?.document_file">
+                                                        <a nz-popconfirm
+                                                            nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                            nzPopconfirmPlacement="bottom"                                              
+                                                            (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                            (nzOnCancel)="cancel()"
+                                                            >
+                                                            Plz Click to verify
+                                                            </a>
                                                     </span>
+                                                    <!-- <span *ngIf="!data?.is_verified && !data?.document_file">
+                                                            Plz Submit Document to verify
+                                                    </span> -->
                                                 </div>
                                                 <div class="mt-3">
                                                     <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
@@ -398,9 +410,9 @@
   <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'You are about to De-activate an User'"
-            [subTitle]="'This action will delete the details permanently. Are You Sure?'"
-            [icon]="'assets/images/delete-icon.png'"
+            [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
+            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
+            [icon]="'assets/images/activate.png'"
             (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''"
             [cancelBtnTxt]="'Cancel'"

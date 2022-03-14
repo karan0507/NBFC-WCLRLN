@@ -9,7 +9,7 @@ const routes: Routes = [
     component: PartnersListComponent,
     data: {
       title: 'Corporate List',
-      parent: 'Corporate',
+      parent: 'Users',
       custom_url: 'partners'
     }
   },
@@ -17,7 +17,7 @@ const routes: Routes = [
     path: '',
     data: {
       title: 'Corporate List',
-      parent: 'Corporate',
+      parent: 'Users',
       custom_url: 'partners'
     },
     // component: LendersComponent,
@@ -27,7 +27,7 @@ const routes: Routes = [
         component: AddEditPartnersComponent,
         data: {
           title: 'Add Corporate',
-          parent: 'Corporate',
+          parent: 'Users',
           custom_url: 'partner/add'
         }
       },
@@ -36,7 +36,7 @@ const routes: Routes = [
         component: AddEditPartnersComponent,
         data: {
           title: 'Edit Corporate',
-          parent: 'Corporate',
+          parent: 'Users',
           custom_url: 'partner/edit'
         }
       },

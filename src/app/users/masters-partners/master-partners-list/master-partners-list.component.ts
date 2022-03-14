@@ -43,10 +43,11 @@ export class MasterPartnersListComponent implements OnInit {
   file: string;
   uploaded_file: any;
   storeDetailId: number;
+  statusOfSelectedLender: any;
+  selectedIndexOfExpand: any;
   
   onExpandChange(id: number, checked: boolean, i): void {
-    console.log(checked);
-    
+    this.selectedIndexOfExpand = i;
     if (checked) {
       this.getMasterPartnerById(this.storeDetailId = id, i)
       this.expandSet.add(id);
@@ -159,6 +160,18 @@ export class MasterPartnersListComponent implements OnInit {
     this.pdf_viewer_object_values['url'] = ''
   }
 
+  cancel(){
+  }
+
+  onClickVerifyDoc(id){
+    let data
+    this.http.verifyUploadedKycDocumentForMaster(id,data).subscribe((res: any)=> {
+    this.message.success(res?.message);
+      this.getMasterPartnerById(this.storeDetailId, this.selectedIndexOfExpand)
+      console.log(res);
+    })
+  }
+
   confirmationTrigger() {
       this.http.deleteMasterUserByUserId(this.selectedUserId).subscribe((res :any)=> {
         if(res?.success){
@@ -173,7 +186,8 @@ export class MasterPartnersListComponent implements OnInit {
       })
   }
 
-  deleteUserByUserId(id){
+  deleteUserByUserId(id, action){
+    this.statusOfSelectedLender = action;
     this.selectedUserId = id
     this.isDelete = true;
   }

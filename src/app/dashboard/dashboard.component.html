@@ -180,17 +180,22 @@
                         <tr>
                             <td>1</td>
                             <td>Total</td>
-                            <td>{{fetchedList['authorization']?.total ? ('₹ ' + fetchedList['authorization']?.total) : ' 0 '}}</td>
+                            <td>{{fetchedList['authorization']?.table_data[0]?.total ? fetchedList['authorization']?.table_data[0]?.total : 0}}</td>
+                            <td>{{fetchedList['authorization']?.table_data[0]?.total_amount ? fetchedList['authorization']?.table_data[0]?.total_amount : 0 }}</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Failed</td>
-                            <td>{{fetchedList['authorization']?.failed ? ('₹ ' + fetchedList['authorization']?.failed) : ' 0 '}}</td>
+                            <td>Success</td>
+                            <td>{{fetchedList['authorization']?.table_data[1]?.success ? fetchedList['authorization']?.table_data[1]?.success : 0}}</td>
+                            <td>{{fetchedList['authorization']?.table_data[1]?.total_amount ? fetchedList['authorization']?.table_data[1]?.total_amount : 0}}</td>
+                            <!-- <td>{{fetchedList['authorization']?.failed ? ('₹ ' + fetchedList['authorization']?.failed) : ' 0 '}}</td> -->
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td>Successful</td>
-                            <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td>
+                            <td>Failed</td>
+                            <td>{{fetchedList['authorization']?.table_data[2]?.failed ? fetchedList['authorization']?.table_data[1]?.failed : 0}}</td>
+                            <td>{{fetchedList['authorization']?.table_data[2]?.total_amount ? fetchedList['authorization']?.table_data[1]?.total_amount : 0}}</td>
+                            <!-- <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td> -->
                         </tr>
                     </ng-container>
                     </tbody>
@@ -203,11 +208,11 @@
                         <h5 class="m-b-0">Failed/Total Transaction </h5>
                     </div>
                     <div class="col-md-3">
-                        <h5 class="m-b-0">2,500/5,000</h5>
+                        <h5 class="m-b-0">{{(fetchedList['authorization']?.failiure_ratio?.failed + '/' + fetchedList['authorization']?.failiure_ratio?.total)}}</h5>
                     </div>
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                         <h5 class="m-b-0">50%</h5>
-                    </div>
+                    </div> -->
                 </div>
             </nz-card>
             

@@ -210,7 +210,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="total_commitment" class="text-left" nzRequired>Total Commitment</nz-form-label>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="total_commitment" class="text-left">Total Commitment</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Commitment!">
                             <input nz-input type="number" formControlName="total_commitment"  placeholder="Total Commitment."/>
                         </nz-form-control>
@@ -219,16 +219,21 @@
 
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi" class="text-left" nzRequired>ROI</nz-form-label>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi" class="text-left">ROI</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI!">
-                            <input nz-input type="text" formControlName="roi"  placeholder="ROI" />
+                        <!-- <nz-input-group [nzAddOnAfter]="addOnAfterTemplate"> -->
+                            <input nz-input type="number" formControlName="roi"  placeholder="ROI" />
+                        <!-- </nz-input-group> -->
                         </nz-form-control>
                     </nz-form-item>
+                    <!-- <ng-template #addOnAfterTemplate>
+                          <i nz-icon nzType="percentage"></i>
+                      </ng-template> -->
                 </div>
 
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fldg" class="text-left" nzRequired>FLDG</nz-form-label>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fldg" class="text-left">FLDG</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid FLDG!">
                             <input nz-input type="text" formControlName="fldg"  placeholder="FLDG" />
                         </nz-form-control>
