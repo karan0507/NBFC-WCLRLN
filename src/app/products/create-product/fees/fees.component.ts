@@ -248,5 +248,10 @@ export class FeesComponent implements OnInit {
       // this.fetchMasterPartnerData(search_param);
     }, 500);
   }
-
+  restrictType(event) {
+    console.log(event.which)
+    if (event.which == 107 || event.which == 109) {
+      return false;
+    }
+  }
 }

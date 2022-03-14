@@ -157,8 +157,8 @@
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_rate" class="text-left" nzRequired>GST(%)</nz-form-label>
                             <nz-form-control nzErrorTip="Please input GST(%)!">
                                 <!-- <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" /> -->
-                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" />
+                                <nz-input-group>
+                                    <input nz-input type="number" min="0" (keydown)="restrictType($event)" formControlName="gst_rate" placeholder="Please input GST(%)!" />
                                 </nz-input-group>
                             
                                 <ng-template #addOnAfterTemplateforamt>
