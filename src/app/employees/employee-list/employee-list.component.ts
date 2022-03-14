@@ -170,8 +170,14 @@ export class EmployeeListComponent implements OnInit {
     this.createEditFormFunction(data)
   }
   deleteEmployeeFunction(id) {
-    this.isDelete = true
-    this.idForDeleteEmployee = id
+    this.http.toggleEmployeeStatus(id).subscribe(res => {
+      if (res['success']) {
+        this.message.success(res['message'])
+        this.fetchEmployeeList();
+      } else {
+        this.message.error(res['message'])
+      }
+    })
   }
   deleteEmployee() {
     var data = {id: this.idForDeleteEmployee, is_deleted: true}

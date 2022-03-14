@@ -79,6 +79,12 @@ export class HttpService {
             return this._http.get((this.url + `/user/get-users`), { params: data });
       }
       /**
+       * toggleEmployeeStatus
+       */
+      public toggleEmployeeStatus(id) {
+            return this._http.post((this.url + `/user/change-employee-status/` + id), '');
+      }
+      /**
        * fetchEmployeeManagerList
        */
       public fetchEmployeeManagerList(data) {

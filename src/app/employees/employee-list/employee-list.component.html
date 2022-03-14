@@ -72,13 +72,20 @@
                                             <span class="m-l-5">Edit</span>
                                         </li>
 
-                                        <li nz-menu-item (click)="deleteEmployeeFunction(data.id)">
+                                        <!-- <li nz-menu-item (click)="deleteEmployeeFunction(data.id)">
                                             <span class="m-l-5">Delete</span>
-                                        </li>
+                                        </li> -->
                                         
                                         <!-- <li nz-menu-item>
                                             <span class="m-l-5">Edit Permissions</span>
                                         </li> -->
+
+                                        <li nz-menu-item nz-popconfirm
+                                        nzPopconfirmTitle="Are you sure {{ data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="deleteEmployeeFunction(data.id)">
+                                            <span class="m-l-5">{{ !data.is_active ? 'Active' : 'Inactive' }}</span>
+                                        </li>
                                     </ul>
                                 </nz-dropdown-menu>
                             </div>
