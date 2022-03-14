@@ -412,6 +412,18 @@ export class MasterPartnersComponent implements OnInit {
       control.removeAt(slab_index)
     }
   }
+
+  removeMaster(control, slab_index) {
+    control = <FormArray>this.createEditForm.get('master_partner_arr')
+    console.log(control);
+    if (control.value[slab_index]?.id) {
+      control.value[slab_index].is_deleted = true;
+      control.controls.splice(slab_index, 1)
+    } else {
+      control.value[slab_index].is_deleted = false;
+      control.removeAt(slab_index)
+    }
+  }
   removeSlabActivation(control, index, slab_index) {
     control = <FormArray>this.createEditForm.get('master_partner_arr')['controls'][index].get('slab_array_Activation');
     console.log(control);

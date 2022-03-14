@@ -5,6 +5,11 @@
                 formArrayName="master_partner_arr">
                 <div class="row" [formGroupName]="k">
                     <nz-divider *ngIf="k > 0"></nz-divider>
+                    
+                    <label class="text-left d-flex ml-auto mx-2 pointer" nz-popconfirm nzPopconfirmTitle="Are you sure remove master partner?"
+                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="removeMaster(item, k)" *ngIf="k > 0">
+                        <i nz-icon nzType="close-circle" class="font-size-24 text-danger" nzTheme="outline"></i>
+                    </label>
                     <div class="col-md-12">
                         <nz-form-item>
                             <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master
