@@ -100,7 +100,7 @@ export class MasterPartnersComponent implements OnInit {
         time_period: ['', [Validators.required]],
         slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
         slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()]),
-        amount_include_gst: [0]
+        amount_include_gst: [false]
       });
     }
   }
@@ -163,7 +163,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
-        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
     } else {
       return this.fb.group({
@@ -172,7 +172,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
-        commission_calculation_type: ['%']
+        commission_calculation_type: ['Variable']
       });
     }
   }
@@ -191,7 +191,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
-        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
     } else {
       return this.fb.group({
@@ -200,7 +200,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
-        commission_calculation_type: ['%']
+        commission_calculation_type: ['Variable']
       });
     }
   }
@@ -219,7 +219,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: [data.max_amount, [Validators.required]],
         commission: [data.commission, [Validators.required]],
         time_period: [data.time_period],
-        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : '%']
+        commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
     } else {
       return this.fb.group({
@@ -228,7 +228,7 @@ export class MasterPartnersComponent implements OnInit {
         max_amount: ['', [Validators.required]],
         commission: ['', [Validators.required]],
         time_period: [0],
-        commission_calculation_type: ['%']
+        commission_calculation_type: ['Variable']
       });
     }
   }
