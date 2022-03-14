@@ -110,6 +110,9 @@ export class TransactionsListComponent implements OnInit {
       datapoint: 'lender_master_export',
       endpoint: 'LoanApplicationTransactions',
       source: 'LMS',
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      txn_status: this.selectedStatus ? this.selectedStatus : '',
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
