@@ -352,7 +352,7 @@
                                                                               </div>
                                                                         </h6>
                                                                         <b> <a class="text-primary"
-                                                                                    (click)="getCibilScoreData(data?.id)">Fetch
+                                                                                    (click)="getCibilScoreData('cibil',data?.id)">Fetch
                                                                                     Cibil</a> </b>
                                                                         <div>
                                                                         </div>
@@ -366,6 +366,46 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+
+                                             <!-- SMS  -->
+                                             <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="smsDetails">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex">
+                                                                                    <label class="text-muted">SMS
+                                                                                          Score: <span>(  )</span></label>
+                                                                                    <div class="mx-3">
+                                                                                          {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
+                                                                                          ?
+                                                                                          data?.expanddata?.cibil_data?.results[0]?.cibil_score
+                                                                                          : '--'}}
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getCibilScoreData('sms',data?.id)">Fetch
+                                                                                    SMS</a> </b>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #smsDetails>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">SMS Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
                                           <!-- UnderWriting Rules -->
                                           <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"

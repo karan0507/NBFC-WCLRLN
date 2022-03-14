@@ -34,7 +34,8 @@ export class StageTriggersComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button' : false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -64,7 +65,7 @@ export class StageTriggersComponent implements OnInit {
       _currentLoanDetails: any;
       verifyRemarks: any;
       _isCibil: boolean = false
-      _isViewDocument : boolean = false
+      _isViewDocument: boolean = false
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -230,6 +231,8 @@ export class StageTriggersComponent implements OnInit {
       }
 
       handleCancel() {
+            this.verifyRemarks = null;
+            this._currentStageStatus = null;
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
@@ -246,17 +249,21 @@ export class StageTriggersComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '11', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
-                        this.https.updateMultipleLoanApp(data).subscribe(res => {
-                              if (res.success) {
-                                    console.log('res');
-                                    this._isUpdateStatus = false;
+                        this.api_calling_loader['button'] = true;
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        this.https.updateMultipleLoanApp(data).subscribe((res :any )=> {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false;
+                                    this.message.success(res?.success)
+                                    this.handleCancel()
+                                    this.getFormLoanData()
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.api_calling_loader['button'] = false;
+                                    this.message.error(res?.message)
                               }
                         }, error => {
-                              console.log(error);
-
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(error)
                         })
                         break;
                   case 'offer':
@@ -368,16 +375,24 @@ export class StageTriggersComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(id?) {
-            console.log('API call');
-            if (id) {
-                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: id }
-                  this.https.getCibilData(id, data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+      getCibilScoreData(type?,id?) {
+            let data = { source: 'Onboarding', endpoint: id }
+            if(type == 'cibil' && id){
+              data['datapoint'] = 'fetch-cibil-from-db'
+                   this.https.getCibilSMSData(data).subscribe(res => {
+                         if (res?.data) {
+                               console.log(res?.data);
+                               this._currentCibilData = res?.data
+                         }
+                   })
+            }else if(type == 'sms' && id){
+             data['datapoint'] = 'fetch-sms-from-db'
+             this.https.getCibilSMSData(data).subscribe(res => {
+                   if (res?.data) {
+                         console.log(res?.data);
+                         this._currentCibilData = res?.data
+                   }
+             })  
             }
       }
 

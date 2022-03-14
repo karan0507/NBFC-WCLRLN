@@ -27,7 +27,8 @@ export class PerApprovedComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button':false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -176,14 +177,22 @@ export class PerApprovedComponent implements OnInit {
       }
 
       handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '9', applications: JSON.stringify(this._checkedLoanList) };
+            this.api_calling_loader['button'] = true
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
+                        this.api_calling_loader['button'] = false
                         this._isUpdateStatus = false;
+                        this.message.success(res?.message);
+                        this.getFormLoanData();
                   } else {
+                        this.message.error(res?.message);
+                        this.api_calling_loader['button'] = false;
+                        this._isUpdateStatus = false;
                   }
             }, error => {
-
+                  this.message.error(error);
+                  this.api_calling_loader['button'] = false;
             })
       }
 

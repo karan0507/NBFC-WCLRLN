@@ -71,7 +71,6 @@ export class DocumentUploadComponent implements OnInit {
       ngOnInit(): void {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
-            console.log(this.globalPageSize);
             this.getFormLoanData();
       }
 
@@ -84,13 +83,11 @@ export class DocumentUploadComponent implements OnInit {
             if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
                         this.productList = res?.data
-                        console.log(this.productList);
                   })
             } else if (type == 'status') {
                   let params = { 'source': 'Onboarding', endpoint: '2', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
-                        console.log(this.stageStatusList);
                   })
             }
       }
@@ -110,19 +107,14 @@ export class DocumentUploadComponent implements OnInit {
                   data['name'] = this.searchValue
             }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
-
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         this.loanApplicationData = res?.data?.results;
@@ -157,11 +149,9 @@ export class DocumentUploadComponent implements OnInit {
             if (checked) {
                   this.expandSet.add(id);
                   this.getIdWiseData(this._currentId = id, index);
-                  // console.log();
 
             } else {
                   this.expandSet.delete(id);
-                  console.log('Deleted array of active ids', this._activeLoans);
             }
       }
 
@@ -197,7 +187,6 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       updateStatus(type?, data?, docType?) {
-            console.log(type, typeof (type), docType);
             if (data) {
                   this._currentDocumentReq = data
             }
@@ -210,7 +199,6 @@ export class DocumentUploadComponent implements OnInit {
                                     this.stageMasterList = res?.data?.results
                               }
                         })
-                        console.log(this._checkedLoanList);
                         break;
                   case 'requestDoc':
                         this.isRequestDoc = true;
@@ -219,8 +207,6 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       handleCancel() {
-            console.log('working here');
-            
             this._isOpenModal = false;
             this._isStatus = false;
             this._isDownload = false;
@@ -233,32 +219,35 @@ export class DocumentUploadComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'DocumentModal':
-                        console.log('Add Document API Logic');
                         break;
                   case 'StatusModal':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '2', applications: JSON.stringify(this._checkedLoanList) };
+                        this.api_calling_loader['button'] = true
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
-                                    console.log('res');
-                                    this._isOpenModal = false;
+                                    this.api_calling_loader['button'] = false
+                                    this.handleCancel()
+                                    this.message.success(res?.message);
+                                    this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false;
+                                    this.handleCancel()
                               }
                         }, error => {
-                              console.log(error);
-
+                              this.message.error(error);
+                              this.api_calling_loader['button'] = false;
                         })
                         break;
                   case 'verify':
                         this.api_calling_loader['button'] = true
                         let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
-                        console.log('export this file', this._currentModalData, params);
                         this.https.verifyLoanDocument(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false
                                     this.message.success(res?.message);
                                     this.handleCancel();
-                                    this.getIdWiseData(this._currentModalData['application'])
+                                    this.getFormLoanData()
                               } else {
                                     this.api_calling_loader['button'] = false
                                     this.message.error(res?.message);
@@ -277,8 +266,6 @@ export class DocumentUploadComponent implements OnInit {
                         uploadDoc.append('application_id', this._currentModalData['application'])
                         uploadDoc.append('kyc_document_id', this._currentModalData?.id)
                         uploadDoc.append('file', this._currentFileName)
-                        console.log(uploadDoc, 'For Upload Document');
-
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false;
@@ -332,7 +319,6 @@ export class DocumentUploadComponent implements OnInit {
             this._currentLoanDetails = loanData;
             if (type == 'download') {
                   let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
-                  console.log(data);
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
@@ -341,7 +327,6 @@ export class DocumentUploadComponent implements OnInit {
                   });
             } else {
                   this._isOpenModal = true;
-                  console.log(this._currentModalData);
                   switch (type) {
                         case 'viewDocument': this._isViewDocument = true;
                               // this.generateBase64View(this._currentModalData?.file);
@@ -356,7 +341,6 @@ export class DocumentUploadComponent implements OnInit {
             this.fileList = [];
             this.fileList = this.fileList.concat(file);
             this._currentFileName = file;
-            console.log(file, this._currentFileName);
             // this.generateBase64View(file)
             return false;
       };

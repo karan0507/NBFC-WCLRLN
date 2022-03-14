@@ -270,7 +270,7 @@ export class OfferAcceptanceComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '5', applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
@@ -386,16 +386,24 @@ export class OfferAcceptanceComponent implements OnInit {
             }
       }
 
-      getCibilScoreData(id?) {
-            console.log('API call');
-            if (id) {
-                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 2 }
-                  this.https.getCibilData(id, data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+      getCibilScoreData(type?,id?) {
+            let data = { source: 'Onboarding', endpoint: id }
+            if(type == 'cibil' && id){
+              data['datapoint'] = 'fetch-cibil-from-db'
+                   this.https.getCibilSMSData(data).subscribe(res => {
+                         if (res?.data) {
+                               console.log(res?.data);
+                               this._currentCibilData = res?.data
+                         }
+                   })
+            }else if(type == 'sms' && id){
+             data['datapoint'] = 'fetch-sms-from-db'
+             this.https.getCibilSMSData(data).subscribe(res => {
+                   if (res?.data) {
+                         console.log(res?.data);
+                         this._currentCibilData = res?.data
+                   }
+             })  
             }
       }
 

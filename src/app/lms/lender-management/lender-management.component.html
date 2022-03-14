@@ -173,6 +173,27 @@
             <!-- Add Commitment Modal -->
             <section *ngIf="isEdit">
                   <div class="row">
+                        <div class="col-md-12 mb-4">
+                              <div class="d-flex flex-wrap">
+                                    <label class="font-size-14 text-muted mr-3">Current Value</label> {{ totalCommitments ? totalCommitments : '0'}}
+                              </div>
+                        </div>
+                        <div class="col-md-12">
+                              <form [formGroup]="commitmentForm">
+                                    <div class="d-flex flex-wrap">
+                                          <div class="align-middle"><label class="font-size-14 text-muted mr-3">Type New
+                                                      Value</label></div>
+                                          <div class="flex-column">
+                                                <div><input type="number" formControlName="newCommitmentValue" nz-input
+                                                            placeholder=""></div>
+                                                <div>
+                                                      ₹ {{ commitmentForm.get('newCommitmentValue').value ?
+                                                      globalservice.amountFromatterFinction(commitmentForm.get('newCommitmentValue').value)
+                                                      : ''}}</div>
+                                          </div>
+                                    </div>
+                              </form>
+                        </div>
                         <div class="col-md-12 text-muted">
                               <label> History</label>
                         </div>
@@ -204,57 +225,12 @@
                                     </tbody>
                               </nz-table>
                         </div>
-                        <div class="col-md-12 my-4">
-                              <div class="d-flex flex-wrap">
-                                    <label class="font-size-14 text-muted mr-3">Current Value</label> {{ totalCommitments ? totalCommitments : '0'}}
-                              </div>
-                        </div>
-                        <div class="col-md-12">
-                              <form [formGroup]="commitmentForm">
-                                    <div class="d-flex flex-wrap">
-                                          <div class="align-middle"><label class="font-size-14 text-muted mr-3">Type New
-                                                      Value</label></div>
-                                          <div class="flex-column">
-                                                <div><input type="number" formControlName="newCommitmentValue" nz-input
-                                                            placeholder=""></div>
-                                                <div>
-                                                      ₹ {{ commitmentForm.get('newCommitmentValue').value ?
-                                                      globalservice.amountFromatterFinction(commitmentForm.get('newCommitmentValue').value)
-                                                      : ''}}</div>
-                                          </div>
-                                    </div>
-                              </form>
-                        </div>
                   </div>
             </section>
 
             <!-- Request and add Funds -->
             <section *ngIf="isRequest">
                   <div class="row">
-                        <div class="col-md-12 text-muted">
-                              <label> Previous Fund Requests {{ editFundsList ? editFundsList.length : '0'}}</label>
-                        </div>
-                        <div class="col-md-12" *ngIf="editFundsList.length > 0">
-                              <nz-table #basicTable [nzData]="editFundsList" [nzShowPagination]="false">
-                                    <thead>
-                                          <tr>
-                                                <th>#</th>
-                                                <th> Amount </th>
-                                                <th>Requested On</th>
-                                                <!-- <th>Requested By</th> -->
-                                          </tr>
-                                    </thead>
-                                    <tbody>
-                                          <tr *ngFor="let data of editFundsList; index as i">
-                                                <td>{{i + 1}}</td>
-                                                <td>{{data?.requested_amount}}</td>
-                                                <td>{{ data?.created_at | date:'dd/MM/yy' }}
-                                                </td>
-                                                <!-- <td></td> -->
-                                          </tr>
-                                    </tbody>
-                              </nz-table>
-                        </div>
                         <section>
                               <form [formGroup]="requestFundForm">
                                     <div class="col-md-12 my-4">
@@ -297,6 +273,31 @@
                                     </div>
                               </form>
                         </section>
+                        <div class="col-md-12 text-muted">
+                              <label> Previous Fund Requests {{ editFundsList ? editFundsList.length : '0'}}</label>
+                        </div>
+                        <div class="col-md-12" *ngIf="editFundsList.length > 0">
+                              <nz-table #basicTable [nzData]="editFundsList" [nzShowPagination]="false">
+                                    <thead>
+                                          <tr>
+                                                <th>#</th>
+                                                <th> Amount </th>
+                                                <th>Requested On</th>
+                                                <!-- <th>Requested By</th> -->
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr *ngFor="let data of editFundsList; index as i">
+                                                <td>{{i + 1}}</td>
+                                                <td>{{data?.requested_amount}}</td>
+                                                <td>{{ data?.created_at | date:'dd/MM/yy' }}
+                                                </td>
+                                                <!-- <td></td> -->
+                                          </tr>
+                                    </tbody>
+                              </nz-table>
+                        </div>
+                       
 
                   </div>
             </section>
@@ -304,6 +305,52 @@
             <!-- Repayment NBFC Modal -->
             <section *ngIf="isNBFC">
                   <div class="row">
+                        
+                        <section class="my-3" *ngIf="!isAddRepayment">
+                              <a class="text-primary" (click)="isAddRepayment = true">
+                                    <h5 class="text-primary">+ Add Repayment</h5>
+                              </a>
+                        </section>
+
+                        <section *ngIf="isAddRepayment">
+                              <form [formGroup]="nbfcRepayment">
+                                    <div class="col-md-12 my-3">
+                                          <div class="d-flex flex-wrap">
+                                                <div class="align-middle"><label
+                                                            class="font-size-14 text-muted mr-3">Amount</label></div>
+                                                <div class="flex-column">
+                                                      <div>
+                                                            <nz-form-item class="mb-0">
+                                                                  <!-- <nz-form-label nzRequired>Select Date</nz-form-label> -->
+                                                                  <nz-form-control nzErrorTip="Please enter amount">
+                                                                        <!-- [nzDisabledDate]="disabledDate" -->
+                                                                        <input type="number" formControlName="amount"
+                                                                              nz-input placeholder="">
+                                                                  </nz-form-control>
+                                                            </nz-form-item>
+                                                      </div>
+                                                      <div>
+                                                            ₹ {{ nbfcRepayment.get('amount').value ?
+                                                            globalservice.amountFromatterFinction(nbfcRepayment.get('amount').value)
+                                                            : ''}}</div>
+                                                </div>
+                                          </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                          <nz-form-item>
+                                                <nz-form-label nzRequired>Repaid On</nz-form-label>
+                                                <nz-form-control nzErrorTip="Please select date">
+                                                      <!-- [nzDisabledDate]="disabledDate" -->
+                                                      <nz-date-picker [nzDisabledDate]="disabledDate" formControlName="repaid_on" class="w-100"
+                                                            [nzFormat]="'yyyy-MM-dd'">
+                                                      </nz-date-picker>
+                                                </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                              </form>
+                        </section>
+
                         <div class="col-md-12 text-muted">
                               <label> History {{ editNBFCList ? editNBFCList.length : '0'}}</label>
                         </div>
@@ -327,52 +374,6 @@
                               </nz-table>
                         </div>
 
-                        <section class="my-3" *ngIf="!isAddRepayment">
-                              <a class="text-primary" (click)="isAddRepayment = true">
-                                    <h5 class="text-primary">+ Add Repayment</h5>
-                              </a>
-                        </section>
-
-                        <section *ngIf="isAddRepayment">
-                              <form [formGroup]="nbfcRepayment">
-                                    <div class="col-md-12 my-3">
-                                          <div class="d-flex flex-wrap">
-                                                <div class="align-middle"><label
-                                                            class="font-size-14 text-muted mr-3">Amount
-                                                            Value</label></div>
-                                                <div class="flex-column">
-                                                      <div>
-                                                            <nz-form-item class="mb-0">
-                                                                  <!-- <nz-form-label nzRequired>Select Date</nz-form-label> -->
-                                                                  <nz-form-control nzErrorTip="Please enter amount">
-                                                                        <!-- [nzDisabledDate]="disabledDate" -->
-                                                                        <input type="number" formControlName="amount"
-                                                                              nz-input placeholder="">
-                                                                  </nz-form-control>
-                                                            </nz-form-item>
-                                                      </div>
-                                                      <div>
-                                                            ₹ {{ nbfcRepayment.get('amount').value ?
-                                                            globalservice.amountFromatterFinction(nbfcRepayment.get('amount').value)
-                                                            : ''}}</div>
-                                                </div>
-                                          </div>
-
-                                    </div>
-                                    <div class="col-md-12">
-                                          <nz-form-item>
-                                                <nz-form-label nzRequired>Select Date</nz-form-label>
-                                                <nz-form-control nzErrorTip="Please select date">
-                                                      <!-- [nzDisabledDate]="disabledDate" -->
-                                                      <nz-date-picker formControlName="repaid_on" class="w-100"
-                                                            [nzFormat]="'yyyy-MM-dd'">
-                                                      </nz-date-picker>
-                                                </nz-form-control>
-                                          </nz-form-item>
-                                    </div>
-                              </form>
-                        </section>
-
                   </div>
             </section>
       </nz-modal>
@@ -386,5 +387,5 @@
             class="mx-2" (click)="getMultipleAction('funds')" [nzLoading]="api_calling_loader['button']">Send
             Request</button>
       <button nz-button *ngIf="isNBFC" [disabled]="nbfcRepayment.valid ? false : true" nzType="primary" class="mx-2"
-            (click)="getMultipleAction('nbfc')" [nzLoading]="api_calling_loader['button']">Save</button>
+            (click)="getMultipleAction('nbfc')" [nzLoading]="api_calling_loader['button']">Repay</button>
 </ng-template>

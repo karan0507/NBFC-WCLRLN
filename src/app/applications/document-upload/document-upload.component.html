@@ -286,13 +286,13 @@
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.id && item.file_url"
+                                                                                          *ngIf="item?.id && item?.file_url"
                                                                                           nzTooltipTitle="View Document"
                                                                                           (click)="openDocumentModal('viewDocument',item, data)">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.id && item?.status == 'Pending'"
+                                                                                          *ngIf="item?.id && item?.file_url && item?.status == 'Pending'"
                                                                                           nzTooltipTitle="Verify Document"
                                                                                           (click)="openDocumentModal('verify',item, data)">
                                                                                           <i nz-icon
@@ -356,13 +356,13 @@
 
             <!-- View Document Modal -->
             <section *ngIf="_isViewDocument">
-                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData" [onCancel]="handleCancel()"></app-kyc-document-action>
+                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action>
                   <!-- <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100"> -->
             </section>
 
             <!-- Verify Document Modal -->
             <section *ngIf="_isVerify">
-                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" [onCancel]="handleCancel()"></app-kyc-document-action>
+                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action>
 
             </section>
 
@@ -372,8 +372,8 @@
                                 <p class="ant-upload-text">Drag and Drop file here</p>
                                 <p class="ant-upload-text">or</p>
                                 <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                                <!-- (click)="isPreview = true; isUpload = false" -->
                             </nz-upload>
+                            <!-- <app-kyc-document-action [action]="'uploadDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action> -->
                             <!-- (nzChange)="" -->
             </section>
             <!-- Status Modal -->
@@ -442,9 +442,9 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2"
+      <button *ngIf="_isDownload" nz-button nzType="primary"  class="mx-2"
             (click)="handleOk('DocumentModal')">Submit</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" [disabled]="!_currentStageStatus ? true : false" class="mx-2"
             (click)="handleOk('StatusModal')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2" [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('uploadDocument')">Submit</button>

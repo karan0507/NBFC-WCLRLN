@@ -232,7 +232,7 @@ export class NbfcApprovalComponent implements OnInit {
 
       handleOk(type?) {
             if (type == 'status') {
-                  let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '10', applications: JSON.stringify(this._checkedLoanList) };
+                  let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                   this.https.updateMultipleLoanApp(data).subscribe(res => {
                         if (res.success) {
                               console.log('res');
@@ -338,16 +338,24 @@ export class NbfcApprovalComponent implements OnInit {
             }
       }
 
-      getCibilScoreData(id?) {
-            console.log('API call');
-            if (id) {
-                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: 10 }
-                  this.https.getCibilData(id, data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+      getCibilScoreData(type?,id?) {
+            let data = { source: 'Onboarding', endpoint: id }
+            if(type == 'cibil' && id){
+              data['datapoint'] = 'fetch-cibil-from-db'
+                   this.https.getCibilSMSData(data).subscribe(res => {
+                         if (res?.data) {
+                               console.log(res?.data);
+                               this._currentCibilData = res?.data
+                         }
+                   })
+            }else if(type == 'sms' && id){
+             data['datapoint'] = 'fetch-sms-from-db'
+             this.https.getCibilSMSData(data).subscribe(res => {
+                   if (res?.data) {
+                         console.log(res?.data);
+                         this._currentCibilData = res?.data
+                   }
+             })  
             }
       }
 

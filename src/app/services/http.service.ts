@@ -112,7 +112,7 @@ export class HttpService {
       /**
        * addEmployee
        */
-       public addEmployee(data) {
+      public addEmployee(data) {
             return this._http.post((this.url + `/user/admin-user/`), data);
       }
 
@@ -282,8 +282,8 @@ export class HttpService {
             return this._http.get(this.url + `/product/v1/get-all-product-fees/` + id);
       }
 
-      getAllProducts(){
-         return this._http.get(this.url + `/product/v1/product_master`);   
+      getAllProducts() {
+            return this._http.get(this.url + `/product/v1/product_master`);
       }
       /**
        * createOnboardingRules
@@ -439,17 +439,26 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
-      // Pull Cibil
-      public getCibilData(id?, data?): any {
+      // fetch Cibil
+      public getCibilSMSData(data): any {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
-            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+            return this._http.get((this.url + `/central-api/v1/call-api`),{params : data});
       }
 
       // Pull cibil from 3rd Party
-      public pullCibilThirdParty(data) : any{
+      public pullCibilThirdParty(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
+      // pull sms from 3rd part
+      public pullSMSThirdParty(data): any {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+
+      // Fetch SMS
+      public fetchSMS(id): any {
+            return this._http.get((this.url + `/loan-application/v1/fetch-data/sms/` + id));
+      }
       // Upload document for loan application
       public uploadLoanDocument(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
@@ -611,7 +620,7 @@ export class HttpService {
 
       public updateLMSAuthorizationList(data) {
             const headers = new HttpHeaders();
-            return this._http.put((this.url + `/central-api/v1/call-api`),data);
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
       }
 
       public deleteUserByUserId(id) {
@@ -765,11 +774,11 @@ export class HttpService {
             return this._http.post(this.url + `/partner/v1/upload-employee-details`, data);
       }
 
-      getDetailForDashboardAPI(data){
+      getDetailForDashboardAPI(data) {
             return this._http.get(this.url + `/central-api/v1/call-api`, { params: data });
       }
 
-      getDetailForDashboardAPIExistingAndAcquisition(action,data){
+      getDetailForDashboardAPIExistingAndAcquisition(action, data) {
             return this._http.get(this.url + `/loan-services/v1/dashboard/get-${action}`, { params: data });
       }
 

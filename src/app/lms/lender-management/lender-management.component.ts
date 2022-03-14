@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { differenceInCalendarDays } from 'date-fns/esm';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { stringify } from 'querystring';
 import { HttpService } from 'src/app/services/http.service';
@@ -41,6 +42,10 @@ export class LenderManagementComponent implements OnInit {
       isNBFC: boolean = false;
       isAddRepayment: boolean = false;
 
+      today = new Date();
+      disabledDate = (current: Date): boolean => {
+            return differenceInCalendarDays(this.today,current) > 0;
+      };
       constructor(private https: HttpService, public message: NzMessageService, public globalservice: GlobalservicesService, public fb: FormBuilder) { }
 
       ngOnInit(): void {
