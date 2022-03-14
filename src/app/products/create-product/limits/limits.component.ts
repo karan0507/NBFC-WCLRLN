@@ -66,6 +66,14 @@ export class LimitsComponent implements OnInit {
   }
 
   submitForm() {
+    if (this.createEditForm.value.disbursement_min_amount >= this.createEditForm.value.disbursement_max_amount) {
+      this.message.error("Minimum Disbursement amount should be less than Maximum Disbursement amount")
+      return false
+    }
+    if (this.createEditForm.value.interest_min_percentage >= this.createEditForm.value.interest_max_percentage) {
+      this.message.error("Minimum interest % should be less than Maximum interest %")
+      return false
+    }
     if (this.productlimit_id) {
       this.editLimits()
     } else {
