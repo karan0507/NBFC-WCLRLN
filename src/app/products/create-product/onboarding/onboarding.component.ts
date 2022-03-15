@@ -255,7 +255,7 @@ export class OnboardingComponent implements OnInit {
       ];
     }
     let data = {
-      product_priority : product_priority,
+      // product_priority : product_priority,
       // field_rules : this.createEditForm.value.field_rules,
       document_rules: this.createEditForm.value.document_rules,
       third_party_calls: this.createEditForm.value.third_party_calls
