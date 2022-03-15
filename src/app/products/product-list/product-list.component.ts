@@ -18,6 +18,7 @@ export class ProductListComponent implements OnInit {
   search_params = '';
   globalPageSize: number;
   draft_status: any;
+  status: any;
 
 
   constructor(public http: HttpService, private message: NzMessageService,
@@ -38,7 +39,8 @@ export class ProductListComponent implements OnInit {
       product_master: this.product_master ? this.product_master : '',
       draft : this.draft_status ? this.draft_status : '',
       name: this.search_params,
-      limit: this.globalPageSize
+      limit: this.globalPageSize,
+      status: this.status ? this.status : 'all'
       // id: this.product_id
     }
     this.productList = null

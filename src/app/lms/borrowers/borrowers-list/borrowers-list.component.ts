@@ -43,7 +43,7 @@ export class BorrowersListComponent implements OnInit {
       product_id: this.master_product_id ? this.master_product_id : '',
       is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params ? this.search_params : '',
-      account_status: this.is_active ? (this.is_active == 1 ? 'Active' : 'Inactive') : '',
+      account_status: this.is_active ? this.is_active : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

@@ -71,8 +71,8 @@ export class OnboardingComponent implements OnInit {
 
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
-      primary_product: [data ? data?.product_priority[0]?.primary_product?.id: '', [Validators.required]],
-      secondary_product: [data ? data?.product_priority[0]?.secondary_product?.id: '', [Validators.required]],
+      // primary_product: [data ? data?.product_priority[0]?.primary_product?.id: '', [Validators.required]],
+      // secondary_product: [data ? data?.product_priority[0]?.secondary_product?.id: '', [Validators.required]],
       // field_rules: this.fb.array([]),
       document_rules: this.fb.array([])
     })
@@ -199,16 +199,16 @@ export class OnboardingComponent implements OnInit {
       product_priority = [
         {
           id: this.product_priority_id,
-          primary_product: this.createEditForm.value.primary_product,
-          secondary_product: this.createEditForm.value.secondary_product,
+          // primary_product: this.createEditForm.value.primary_product,
+          // secondary_product: this.createEditForm.value.secondary_product,
           employment_type: this.selectedTab,
         }
       ];
     } else {
       product_priority = [
         {
-          primary_product: this.createEditForm.value.primary_product,
-          secondary_product: this.createEditForm.value.secondary_product,
+          // primary_product: this.createEditForm.value.primary_product,
+          // secondary_product: this.createEditForm.value.secondary_product,
           employment_type: this.selectedTab,
         }
       ];

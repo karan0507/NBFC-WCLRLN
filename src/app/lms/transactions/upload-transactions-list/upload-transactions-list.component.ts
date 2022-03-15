@@ -33,7 +33,7 @@ export class UploadTransactionsListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   api_calling_loader: boolean;
-  date: any;
+  date = '';
   previewData: any;
   preview_file_name = ''
   approve_id: string | Blob;
