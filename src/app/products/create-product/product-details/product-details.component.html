@@ -84,7 +84,7 @@
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_type" class="text-left" nzRequired>EMI Type
                                     </nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Type!">
-                                        <nz-radio-group formControlName="emi_type" (ngModelChange)="changeProductMaster($event)">
+                                        <nz-radio-group formControlName="emi_type">
                                             <label nz-radio [nzValue]="'Single'">Single</label>
                                             <label nz-radio [nzValue]="'Multiple'">Multiple</label>
                                         </nz-radio-group>

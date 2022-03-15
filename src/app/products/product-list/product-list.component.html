@@ -17,15 +17,20 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style="width: 9rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Draft Status">
                         <nz-option [nzValue]="'yes'" nzLabel="Yes"></nz-option>
                         <nz-option [nzValue]="'no'" nzLabel="No"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="width: 9rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
-                        nzPlaceHolder="Filter By">
+                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                        nzPlaceHolder="Filter By Product Master">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchProductList()"
+                        nzPlaceHolder="Filter By status">
+                        <nz-option nzValue="active" nzLabel="Active"></nz-option>
+                        <nz-option nzValue="inactive" nzLabel="Inactive"></nz-option>
                     </nz-select>
                 </div>
             </div>

@@ -250,7 +250,7 @@ export class AddEditMastersComponent implements OnInit {
         documents: [data?.documents],
         document_name:[data?.document_name],
         is_verified:[ data?.is_verified ? data?.is_verified : false],
-        isValid: true
+        // isValid: null
       })
   }
 
@@ -305,34 +305,14 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
-      // let data = new FormData();
-    
-      // var sendDate = this.addEditProductForm.value
-
-    // for (var i in sendDate.document_data) {
-    //     if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
-    //       // let value = this.addEditProductForm.get('document_data') as FormArray;
-    //       // this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
-    //       alert('test Fail' + i)
-    //       // value.controls?.[i]?.value.patchValue({isValid: false});
-    //       this.addEditProductForm.get('document_data')['controls'][i].controls.isValid.setValue(false);
-    //       // console.log(value.controls?.[i]?.value);
-    //       } else {
-    //         // let value = this.addEditProductForm.get('document_data') as FormArray;
-    //         // value.controls?.[i].patchValue({isValid: true});
-    //         alert('test Pass' + i)
-    //         this.addEditProductForm.get('document_data')['controls'][i].controls.isValid.setValue(true);
-    //         // console.log(sendDate.document_data[i], i);
-    //       }
-    //       console.log(sendDate.document_data[i], i);
-    //   }
-
-    //   console.log(sendDate);
-    //   return;
-
-      
+    var sendDate = this.addEditProductForm.value
+    for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
+          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
+          return;
+          }
+      }
     if(this.addEditProductForm.valid) {
-      // if(this.addEditProductForm) {
       this.apiLoader['formSave'] = true
       if(!this.isEdit) {
       let data = new FormData();
@@ -440,6 +420,14 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+    var sendDate = this.addEditProductForm.value
+    for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
+          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
+          return;
+          }
+      }
+      
     if(this.addEditProductForm.valid) {
       this.apiLoader['saveAddNew'] = true
       let data = new FormData();

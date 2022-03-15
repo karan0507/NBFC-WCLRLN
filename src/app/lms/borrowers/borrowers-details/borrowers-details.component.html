@@ -51,9 +51,9 @@
                                           <li nz-menu-item (click)="isAcClosure = true">
                                                 <a>A/c Closure</a>
                                           </li>
-                                          <li nz-menu-item (click)="isChangeBillDate = true">
+                                          <!-- <li nz-menu-item (click)="isChangeBillDate = true">
                                                 <a>Change Bill Date</a>
-                                          </li>
+                                          </li> -->
                                           <!-- <li nz-menu-item>
                                 <a>Update UMRN No.</a>
                             </li> -->
@@ -88,14 +88,14 @@
       <div class="row mb-md-3">
             <div class="col-md-6 mb-md-0">
                   <!-- <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'> -->
-                  <nz-radio-group [(ngModel)]="selectedTab">
+                  <!-- <nz-radio-group [(ngModel)]="selectedTab">
                         <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
                               [nzDisabled]="selectedTab == '2'" nzValue="1">Product - FatakPay</label>
                         <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
-                              [nzDisabled]="selectedTab == '1'" nzValue="2">Product - FatakPayEMI</label>
+                              [nzDisabled]="selectedTab == '1'" nzValue="2">Product - FatakPayEMI</label> -->
                         <!-- <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
                     nzValue="3">App Downloads</label> -->
-                  </nz-radio-group>
+                  <!-- </nz-radio-group> -->
             </div>
       </div>
 </section>
@@ -355,21 +355,25 @@
                                                       [nzDropdownMenu]="latestUploadDropDown">
                                                       <i nz-icon nzType="ellipsis" theme="outline"></i>
                                                 </a>
-                                                <!-- <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                    <ul nz-menu>
-                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);">
-                                            <span class="m-l-5">Reverse Charges</span>
-                                        </li>
-    
-                                        <li nz-menu-item (click)="refundTransactionToggle(data?.id);">
-                                            <span class="m-l-5">Refund Transaction</span>
-                                        </li>
-                                        
-                                        <li nz-menu-item (click)="waiveOffToggle(data?.id);">
-                                            <span class="m-l-5">Waive off Charges</span>
-                                        </li>
-                                    </ul>
-                                </nz-dropdown-menu> -->
+                                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                                      <ul nz-menu>
+                                                            <li nz-menu-item (click)="reverseChargesToggle(data.id)">
+                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                  <span class="m-l-5">Reverse Charges</span>
+                                                            </li>
+
+                                                            <li nz-menu-item
+                                                                  (click)="refundTransactionToggle(data?.id)">
+                                                                  <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
+                                                                  <span class="m-l-5">Refund Transaction</span>
+                                                            </li>
+
+                                                            <li nz-menu-item (click)="waiveOffToggle(data?.id)">
+                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                  <span class="m-l-5">Waive off Charges</span>
+                                                            </li>
+                                                      </ul>
+                                                </nz-dropdown-menu>
                                           </div>
                                     </td>
                               </tr>
@@ -682,6 +686,6 @@
       (nzOnOk)="pdfViewerAndDownload('Transaction Statement', 1)" nzOkText="Download"
       [nzOkDisabled]="!selectedDateforStatement">
       <ng-container *nzModalContent>
-            <nz-range-picker [(ngModel)]="selectedDateforStatement"></nz-range-picker>
+            <nz-range-picker [(ngModel)]="selectedDateforStatement" [nzDisabledDate]="disabledDate"></nz-range-picker>
       </ng-container>
 </nz-modal>

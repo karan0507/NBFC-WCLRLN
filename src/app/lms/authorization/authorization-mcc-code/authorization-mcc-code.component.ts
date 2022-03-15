@@ -74,6 +74,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
     'list': false,
     'onOk': false
   }
+  globalPageSize: any = 30;
   page = 1;
 
   total_count: any;
@@ -87,6 +88,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
   constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
+    this.globalPageSize = 30
     this.createUpdateDetailForm();
     this.getAuthorizationList();
   }
@@ -124,7 +126,12 @@ export class AuthorizationMccCodeComponent implements OnInit {
       this.apiLoader['onOk'] = true;
       const data = this.updateMCCDetails.value;
       this.http.updateStatusForAuthorization(data).subscribe((res)=> {
-        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message);
+        } else {
+          this.message.error(res?.message);
+        }
+        this.updateMCCDetails.reset()
         this.apiLoader['onOk'] = false;
         this.isVisible = false;
         this.getAuthorizationList();
@@ -139,7 +146,9 @@ export class AuthorizationMccCodeComponent implements OnInit {
     this.isVisible= true
     this.oldDetail= data;
     this.updateMCCDetails.patchValue({
-      endpoint: `Mcccodes/${this.oldDetail?.id}` 
+      endpoint: `Mcccodes/${this.oldDetail?.id}`,
+      source:'LMS',
+      datapoint:'authorization_edit' 
     })
     console.log(data);
   }
@@ -153,18 +162,29 @@ export class AuthorizationMccCodeComponent implements OnInit {
   };
 
   updateMCCCodeWithUploadingFile(){
+    this.apiLoader['list'] = true;
     let data = new FormData();
     data.append('source', 'LMS'),
     data.append('datapoint', 'authorization_upload'),
     data.append('endpoint', 'Mcccodes'),
     data.append('file', this.uploaded_file)
-    this.http.uploadMCCFile(data).subscribe((res)=>{
-      console.log(res);
+    this.http.uploadMCCFile(data).subscribe((res: any)=>{
+      if(res?.success){
+        this.apiLoader['list'] = false;
+        this.message.success('File Uploaded ');
+      } else {
+        this.apiLoader['list'] = false;
+        this.message.error(res?.message);
+      }
+      this.apiLoader['list'] = false;
       this.getAuthorizationList()
+    }, err=> {
+      this.apiLoader['list'] = false;
     })
   }
 
   toggleStatusBasedOnAction(id,action){
+    this.apiLoader['list'] = true;
     let data;
     if(action == 'inactive'){
       data = {
@@ -184,13 +204,15 @@ export class AuthorizationMccCodeComponent implements OnInit {
     }
     this.http.updateStatusForAuthorization(data).subscribe((res)=> {
       // , private message: NzMessageService
+      this.apiLoader['list'] = false;
       if(res?.success){
-        this.message.success('MCC Code Updated ')
+        this.message.success(res?.message)
       } else {
-        this.message.error('Unable to Updated MCC Code....! ')
+        this.message.error(res?.message)
       }
       this.getAuthorizationList();
     }, err => {
+      this.apiLoader['list'] = false;
       console.log(err);
     })
 
@@ -200,13 +222,17 @@ export class AuthorizationMccCodeComponent implements OnInit {
     // this.listOfData;
     if(this.apiLoader['list']){return}
     this.apiLoader['list'] = true;
+    if(e){
+      this.page = e?.pageIndex;
+      this.globalPageSize = e?.pageSize
+    } 
     let data = {
       'source': 'LMS',
       'datapoint':'authorization_get',
       'endpoint':'Mcccodes',
       'keyword': this.searchValue,
-      'page': 1,
-      'size': 30
+      'page': this.page,
+      'limit': this.globalPageSize
     }
     // this.listOfData;
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {

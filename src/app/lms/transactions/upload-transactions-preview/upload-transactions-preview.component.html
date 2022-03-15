@@ -33,8 +33,18 @@
                         <td>{{ data?.Remarks}}</td>
                         <td>{{ data?.Transaction_ID}}</td>
                         <td *ngIf="!file_upload_success">
-                            <span *ngIf="data.line_status == 'Error'" class="text-danger">Error</span>
+                            <span *ngIf="data.line_status == 'Error'" class="text-danger">Error &nbsp;
+                                <i nz-icon nzType="info-circle" nzTheme="outline"
+                                nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                            </span>
                             <span *ngIf="data.line_status == 'Success'" class="text-success">Success</span>
+                            <ng-template #contentTemplate>
+                                <div class="px-3">
+                                    <ul *ngFor="let item of data.message">
+                                        <li class="text-danger">{{item}}</li>
+                                    </ul>
+                                </div>
+                            </ng-template>
                         </td>
                     </tr>
                 </ng-container>

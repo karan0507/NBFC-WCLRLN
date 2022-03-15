@@ -16,13 +16,20 @@
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
-                        <nz-option [nzValue]="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option [nzValue]="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
-                        <nz-option [nzValue]="false" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="true" nzLabel="Blocked"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'Inactive'" nzLabel="Inactive"></nz-option>
+                        <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
+                        <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
                     </nz-select>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">

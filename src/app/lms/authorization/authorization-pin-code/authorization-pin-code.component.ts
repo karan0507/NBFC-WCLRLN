@@ -111,7 +111,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
       datapoint : "authorization_edit",
       endpoint : [null, [Validators.required]], 
       remarks : ["", [Validators.required]],
-      pincode :  ["", [Validators.required, Validators.maxLength(6)]]
+      pincode: ["", [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
     })
 }
 
@@ -119,7 +119,9 @@ export class AuthorizationPinCodeComponent implements OnInit {
     this.isVisible= true
     this.oldDetail= data;
     this.updatePINDetails.patchValue({
-      endpoint: `Pincodes/${this.oldDetail?.id}` 
+      endpoint: `Pincodes/${this.oldDetail?.id}` ,
+      source:'LMS',
+      datapoint:'authorization_edit'
     })
   }
 
@@ -134,7 +136,12 @@ export class AuthorizationPinCodeComponent implements OnInit {
       this.apiLoader['onOk'] = true;
       const data = this.updatePINDetails.value;
       this.http.updateStatusForAuthorization(data).subscribe((res)=> {
-        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message);
+        } else {
+          this.message.error(res?.message);
+        }
+        this.updatePINDetails.reset()
         this.apiLoader['onOk'] = false;
         this.isVisible = false;
         this.getAuthorizationList();
@@ -154,18 +161,29 @@ export class AuthorizationPinCodeComponent implements OnInit {
   };
 
   updateMCCCodeWithUploadingFile() {
+    this.apiLoader['list'] = true;
     let data = new FormData();
     data.append('source', 'LMS'),
     data.append('datapoint', 'authorization_upload'),
     data.append('endpoint', 'Pincodes'),
     data.append('file', this.uploaded_file)
-    this.http.uploadMCCFile(data).subscribe((res)=>{
-      console.log(res);
+    this.http.uploadMCCFile(data).subscribe((res: any)=>{
+      if(res?.success){
+        this.apiLoader['list'] = false;
+        this.message.success('File Uploaded ');
+      } else {
+        this.apiLoader['list'] = false;
+        this.message.error(res?.message);
+      }
+      this.apiLoader['list'] = false;
       this.getAuthorizationList()
+    }, err=> {
+      this.apiLoader['list'] = false;
     })
   }
   
   toggleStatusBasedOnAction(id,action){
+    this.apiLoader['list'] = true;
     let data;
     if(action == 'inactive'){
       data = {
@@ -185,6 +203,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
     }
     this.http.updateStatusForAuthorization(data).subscribe((res)=> {
       // , private message: NzMessageService
+      this.apiLoader['list'] = false;
       if(res?.success){
         this.message.success('PIN Code Updated ')
       } else {
@@ -192,6 +211,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
       }
       this.getAuthorizationList();
     }, err => {
+      this.apiLoader['list'] = false;
       console.log(err);
     })
 

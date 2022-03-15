@@ -22,10 +22,11 @@ export class CreditLineIncDecComponent implements OnInit {
   page: any;
   globalPageSize: any;
   master_product_id = '';
-  is_blocked = '';
+  is_blocked;
   search_params = '';
   selectedLine: any;
   is_change_line: boolean;
+  is_active: number;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,) { }
@@ -56,8 +57,9 @@ export class CreditLineIncDecComponent implements OnInit {
       page: this.page,
       limit: this.globalPageSize,
       product_id: this.master_product_id ? this.master_product_id : '',
-      is_blocked: this.is_blocked ? this.is_blocked : '',
+      is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params,
+      account_status: this.is_active ? (this.is_active == 1 ? 'Active' : 'Inactive') : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

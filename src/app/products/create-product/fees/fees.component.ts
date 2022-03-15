@@ -117,7 +117,10 @@ export class FeesComponent implements OnInit {
         threshold_min : [ data ? data.threshold_min : '', [Validators.required]],
         threshold_max : [ data ? data.threshold_max : '', [Validators.required]],
         slabs: this.fb.array([]),
-        id: [data ? data.id : '']
+        id: [data ? data.id : ''],
+        amount: [data?.amount ? data?.amount : ''],
+        fee_calculation_type: ['Flat'],
+        gst_flag: [ data ? data.gst_flag : true, [Validators.required]],
       });
     } else {
       return this.fb.group({
@@ -134,6 +137,9 @@ export class FeesComponent implements OnInit {
         threshold_min : ['', [Validators.required]],
         threshold_max : ['', [Validators.required]],
         slabs: this.fb.array([this.addSlabControls()]),
+        amount: [''],
+        fee_calculation_type: ['Flat'],
+        gst_flag: [true, [Validators.required]],
       });
     }
   }
@@ -144,13 +150,17 @@ export class FeesComponent implements OnInit {
         minimum_charge: [ data ? data.minimum_charge : '', [Validators.required]],
         maximum_charge: [ data ? data.maximum_charge : '', [Validators.required]],
         amount: [ data ? data.amount : '', [Validators.required]],
-        id: [data ? data.id : '']
+        id: [data ? data.id : ''],
+        amount_include_gst: [data.amount_include_gst],
+        fee_calculation_type: ["Flat"]
       });
     } else {
       return this.fb.group({
         minimum_charge: ['', [Validators.required]],
         maximum_charge: ['', [Validators.required]],
         amount: ['', [Validators.required]],
+        amount_include_gst: [true],
+        fee_calculation_type: ["Flat"]
       });
     }
   }
@@ -192,8 +202,11 @@ export class FeesComponent implements OnInit {
   }
   editProductFees() {
     this.createEditForm.value.fees.forEach(element => {
-      element.gst_rate = element.amount_include_gst ? element.gst_rate : ''
+      element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
+      if (element.slab_specific) {
+        element.amount = ''
+      }
     });
     this.loading = true
     this.http.editProductFees(this.createEditForm.value, this.product_id).subscribe(res => {
@@ -206,8 +219,11 @@ export class FeesComponent implements OnInit {
   }
   createProductFees() {
     this.createEditForm.value.fees.forEach(element => {
-      element.gst_rate = element.amount_include_gst ? element.gst_rate : ''
+      element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
+      if (element.slab_specific) {
+        element.amount = ''
+      }
     });
     this.loading = true
     this.http.createProductFees(this.createEditForm.value, this.product_id).subscribe(res => {

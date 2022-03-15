@@ -251,7 +251,7 @@ export class MasterPartnersListComponent implements OnInit {
 
   onClickDownloadSelectedDocument(e){
     // console.log(e)
-    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+    var data = new Blob([e?.document_file]);
     FileSaver.saveAs(data,  `${e?.file_name}`);
     // saveAs(e?.document_file, `${e?.file_name}`);
   }
@@ -283,7 +283,6 @@ export class MasterPartnersListComponent implements OnInit {
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
-        console.log(res);
         // pdfViewerAndDownload(){
           if(res.success){
             this.pdf_viewer_object_values['title'] = 'Show Agreement'
@@ -295,9 +294,9 @@ export class MasterPartnersListComponent implements OnInit {
             this.message.error('No Reports To Generate..');
           }
         // }
-      }, err => {
-        console.log(err);
+      }, error => {
         this.message.remove(generateloader);
+        console.log(error);
       })
 
     }

@@ -81,7 +81,7 @@
                                         </li> -->
 
                                         <li nz-menu-item nz-popconfirm
-                                        nzPopconfirmTitle="Are you sure {{ data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
+                                        nzPopconfirmTitle="Are you sure {{ !data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="deleteEmployeeFunction(data.id)">
                                             <span class="m-l-5">{{ !data.is_active ? 'Active' : 'Inactive' }}</span>

@@ -5,9 +5,9 @@
 
 <nz-dropdown-menu #fileFormate="nzDropdownMenu">
     <ul nz-menu>
-        <li nz-menu-item (click)="exportGlobalFunction('XLXS')"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        <li nz-menu-item (click)="exportGlobalFunction('.xlsx')"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
             Excel File</li>
-        <li nz-menu-item (click)="exportGlobalFunction('CSV')"><i nz-icon nzType="file" nzTheme="outline"></i> CSV
+        <li nz-menu-item (click)="exportGlobalFunction('csv')"><i nz-icon nzType="file" nzTheme="outline"></i> CSV
             File</li>
     </ul>
 </nz-dropdown-menu>
@@ -44,14 +44,16 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-range-picker [(ngModel)]="date" (ngModelChange)="fetchTransactionList()"></nz-range-picker>
-                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()" nzAllowClear
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"></nz-range-picker>
+                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Type">
                         <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>
                         <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
                         <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                        <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                        <nz-option nzValue="Expense Spend" nzLabel="Expense Spend"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()" nzAllowClear
+                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Status">
                         <nz-option nzValue="Success" nzLabel="Success"></nz-option>
                         <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
@@ -74,6 +76,7 @@
                         <th>Amount (₹)</th>
                         <th>GST Amount</th>
                         <th>Total Amount (₹)</th>
+                        <th>Status</th>
                         <th nzRight> Actions</th>
                     </tr>
                 </thead>
@@ -87,14 +90,15 @@
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                             </td>
-                            <!-- <td>{{ data?.pan }}</td> -->
+                            <!-- <td>{{ 'NA' }}</td> -->
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_type }}</td>
                             <td>{{ data?.details }}</td>
-                            <td>{{ data?.created_at | date: "medium" }}</td>
+                            <td>{{ data?.transaction_datetime | date: "medium" }}</td>
                             <td>{{ data?.txn_amount }}</td>
-                            <td>{{ data?.pan }}</td>
-                            <td>{{ data?.pan }}</td>
+                            <td>{{ 'NA' }}</td>
+                            <td>{{ 'NA' }}</td>
+                            <td>{{ data?.txn_status }}</td>
                             <td nzRight>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"

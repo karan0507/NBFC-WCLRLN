@@ -8,8 +8,8 @@
         </div>
         <form nz-form [formGroup]="createEditForm">
             <div class="row">
-                <nz-form-label class="text-left" nzNoColon>Product Type</nz-form-label>
-                <div class="col-md-12">
+                <!-- <nz-form-label class="text-left" nzNoColon>Product Type</nz-form-label> -->
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="primary_product" class="text-left" nzRequired>Primary Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Primary Product!">
@@ -28,6 +28,28 @@
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>
+                </div> -->
+                <nz-form-label class="text-left">Third party API call</nz-form-label>
+                <div class="col-md-12">
+                    <ng-container *ngFor="let item of get_Third_party(createEditForm); let k = index;" formArrayName="third_party_calls">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12">
+                                <nz-form-item>
+                                    <div class="col-md-5">
+                                        <nz-form-label nzFor="tenure" class="text-left" nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                            <nz-radio-group formControlName="check_type" [nzDisabled]="router.url.includes('view-product')">
+                                                <label [nzDisabled]="router.url.includes('view-product')" nz-radio nzValue="Mandatory">Mandatory</label>
+                                                <label [nzDisabled]="router.url.includes('view-product')" nz-radio nzValue="Not Required">Not Required</label>
+                                              </nz-radio-group>
+                                        </nz-form-control>
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
                 <!-- <nz-form-label class="text-left">Additional Details</nz-form-label>
                 <div class="col-md-12">
@@ -65,7 +87,7 @@
                                         <nz-form-control nzErrorTip="Please select Tenure Unit!">
                                             <nz-radio-group formControlName="check_type" [nzDisabled]="router.url.includes('view-product')">
                                                 <label nz-radio nzValue="Mandatory">Mandatory</label>
-                                                <label nz-radio nzValue="Optional">Optional</label>
+                                                <!-- <label nz-radio nzValue="Optional">Optional</label> -->
                                                 <label nz-radio nzValue="Not Required">Not Required</label>
                                               </nz-radio-group>
                                         </nz-form-control>

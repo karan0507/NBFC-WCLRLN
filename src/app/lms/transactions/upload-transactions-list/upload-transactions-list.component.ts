@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
@@ -32,7 +33,7 @@ export class UploadTransactionsListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   api_calling_loader: boolean;
-  date: any;
+  date = '';
   previewData: any;
   preview_file_name = ''
   approve_id: string | Blob;
@@ -47,6 +48,9 @@ export class UploadTransactionsListComponent implements OnInit {
   is_upload_loading: boolean;
   globalPageSize = 30
 
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -66,7 +70,8 @@ export class UploadTransactionsListComponent implements OnInit {
       datapoint: 'loan_services',
       endpoint: 'fetch-offline-transactions',
       status: this.selectedTab,
-      date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       keyword: this.searchValue,
       page: this.page,
       limit: this.globalPageSize
@@ -165,8 +170,9 @@ export class UploadTransactionsListComponent implements OnInit {
         this.message.error(res.data.message)
       }
     }, (err) => {
+      this.message.remove(generateloader);
       generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
-      this.isImport = true
+      this.isImport = false
       this.message.remove(generateloader);
       this.isFail = true
     })
@@ -184,8 +190,10 @@ export class UploadTransactionsListComponent implements OnInit {
         this.isImport = false
         this.isPreviewBeforeUpload = false;
         this.uploadSuccessfully = true
+        this.getManualTransactionList()
       }, (err) => {
-        this.isImport = true
+        this.isPreviewBeforeUpload = false;
+        this.isFail = true
         this.is_upload_loading = false
       })
     } else {
