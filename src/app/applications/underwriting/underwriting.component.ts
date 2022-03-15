@@ -36,7 +36,8 @@ export class UnderwritingComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -321,14 +322,22 @@ export class UnderwritingComponent implements OnInit {
                         })
                         break;
                   case 'StatusModal':
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '3', applications: JSON.stringify(this._checkedLoanList) };
+                        this.api_calling_loader['button'] = true
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
-                                    this._isUpdateStatus = false;
+                                    this.api_calling_loader['button'] = false
+                                    this.handleCancel()
+                                    this.message.success(res?.message);
+                                    this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false;
+                                    this.handleCancel()
                               }
                         }, error => {
+                              this.message.error(error);
+                              this.api_calling_loader['button'] = false;
                         })
                         break;
             }
@@ -392,17 +401,25 @@ export class UnderwritingComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(id?) {
-            console.log('API call');
-            if (id) {
-                  let data = { source: 'Onboarding', datapoint: 'pull_cibil', endpoint: id }
-                  this.https.getCibilData(id, data).subscribe(res => {
+      getCibilScoreData(type?,id?) {
+            let data = { source: 'Onboarding', endpoint: id }
+           if(type == 'cibil' && id){
+             data['datapoint'] = 'fetch-cibil-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
                         if (res?.data) {
                               console.log(res?.data);
                               this._currentCibilData = res?.data
                         }
                   })
-            }
+           }else if(type == 'sms' && id){
+            data['datapoint'] = 'fetch-sms-from-db'
+            this.https.getCibilSMSData(data).subscribe(res => {
+                  if (res?.data) {
+                        console.log(res?.data);
+                        this._currentCibilData = res?.data
+                  }
+            })  
+           }
       }
 
       // Pull Cibil Methods
