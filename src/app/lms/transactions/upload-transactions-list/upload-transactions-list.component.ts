@@ -165,8 +165,9 @@ export class UploadTransactionsListComponent implements OnInit {
         this.message.error(res.data.message)
       }
     }, (err) => {
+      this.message.remove(generateloader);
       generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
-      this.isImport = true
+      this.isImport = false
       this.message.remove(generateloader);
       this.isFail = true
     })
@@ -184,8 +185,10 @@ export class UploadTransactionsListComponent implements OnInit {
         this.isImport = false
         this.isPreviewBeforeUpload = false;
         this.uploadSuccessfully = true
+        this.getManualTransactionList()
       }, (err) => {
-        this.isImport = true
+        this.isPreviewBeforeUpload = false;
+        this.isFail = true
         this.is_upload_loading = false
       })
     } else {
