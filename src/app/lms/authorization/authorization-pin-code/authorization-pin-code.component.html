@@ -26,7 +26,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
-            [nzShowSizeChanger]="true" [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="false"  [nzPageSize]="globalPageSize"
             [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="pinCodeList">
                 <thead>
                     <tr>
@@ -40,7 +40,9 @@
                 <tbody>
                     <ng-container *ngFor="let data of pinCodeList; index as i">
                         <tr>
-                            <td>{{ i + 1 }}</td>
+                            <!-- <td>{{ i + 1 }}</td> -->
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>{{ data?.pincode }}</td>
                             <td>{{ data?.status  }}</td>
                             <td>{{ data?.remarks ? data?.remarks : ' -- '  }}</td>
@@ -56,11 +58,11 @@
                                         <li nz-menu-item (click)="changeDetail(data)">
                                             <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="!data?.status">
+                                        <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.status">
+                                        <li nz-menu-item *ngIf="data?.status == 'Active'">
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                         </li>
                                     </ul>

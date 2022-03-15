@@ -278,8 +278,9 @@ export class MerchantsListComponent implements OnInit {
             this.message.error('No Reports To Generate..');
           }
         // }
-      }, err => {
-        console.log(err);
+      }, error => {
+        this.message.remove(generateloader);
+        console.log(error);
       })
 
     }
