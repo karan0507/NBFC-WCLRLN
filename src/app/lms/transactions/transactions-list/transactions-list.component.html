@@ -5,9 +5,9 @@
 
 <nz-dropdown-menu #fileFormate="nzDropdownMenu">
     <ul nz-menu>
-        <li nz-menu-item (click)="exportGlobalFunction('XLXS')"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        <li nz-menu-item (click)="exportGlobalFunction('.xlsx')"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
             Excel File</li>
-        <li nz-menu-item (click)="exportGlobalFunction('CSV')"><i nz-icon nzType="file" nzTheme="outline"></i> CSV
+        <li nz-menu-item (click)="exportGlobalFunction('csv')"><i nz-icon nzType="file" nzTheme="outline"></i> CSV
             File</li>
     </ul>
 </nz-dropdown-menu>
@@ -44,7 +44,7 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-range-picker [(ngModel)]="date" (ngModelChange)="fetchTransactionList()"></nz-range-picker>
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"></nz-range-picker>
                     <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Type">
                         <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>

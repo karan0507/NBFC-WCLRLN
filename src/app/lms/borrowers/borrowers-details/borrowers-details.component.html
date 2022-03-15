@@ -51,9 +51,9 @@
                                           <li nz-menu-item (click)="isAcClosure = true">
                                                 <a>A/c Closure</a>
                                           </li>
-                                          <li nz-menu-item (click)="isChangeBillDate = true">
+                                          <!-- <li nz-menu-item (click)="isChangeBillDate = true">
                                                 <a>Change Bill Date</a>
-                                          </li>
+                                          </li> -->
                                           <!-- <li nz-menu-item>
                                 <a>Update UMRN No.</a>
                             </li> -->
@@ -682,6 +682,6 @@
       (nzOnOk)="pdfViewerAndDownload('Transaction Statement', 1)" nzOkText="Download"
       [nzOkDisabled]="!selectedDateforStatement">
       <ng-container *nzModalContent>
-            <nz-range-picker [(ngModel)]="selectedDateforStatement"></nz-range-picker>
+            <nz-range-picker [(ngModel)]="selectedDateforStatement" [nzDisabledDate]="disabledDate"></nz-range-picker>
       </ng-container>
 </nz-modal>

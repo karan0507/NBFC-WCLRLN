@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
@@ -47,6 +48,9 @@ export class UploadTransactionsListComponent implements OnInit {
   is_upload_loading: boolean;
   globalPageSize = 30
 
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -66,7 +70,8 @@ export class UploadTransactionsListComponent implements OnInit {
       datapoint: 'loan_services',
       endpoint: 'fetch-offline-transactions',
       status: this.selectedTab,
-      date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       keyword: this.searchValue,
       page: this.page,
       limit: this.globalPageSize

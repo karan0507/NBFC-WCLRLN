@@ -57,9 +57,9 @@ export class EmployeeListComponent implements OnInit {
     if (data) {
       this.createEditForm = this.fb.group({
         id: [data ? data.id : '', [Validators.required]],
-        first_name: [data ? data.first_name : '', [Validators.required]],
-        last_name: [data ? data.last_name : '', [Validators.required]],
-        unique_code: [data ? data.unique_code : '', [Validators.required]],
+        first_name: [data ? data.first_name : '', [Validators.required, Validators.pattern('[a-A-Z z]+')]],
+        last_name: [data ? data.last_name : '', [Validators.required, Validators.pattern('[a-zA-Z ]+')]],
+        unique_code: [data ? data.unique_code : '', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
         role: [data ? data.role?.id : ''],
         associated_team: [data ? data.associated_team : ''],
         reporting_manager: [data ? data.reporting_manager?.id : ''],
@@ -69,9 +69,9 @@ export class EmployeeListComponent implements OnInit {
       })
     } else {
       this.createEditForm = this.fb.group({
-        first_name: ['', [Validators.required]],
-        last_name: ['', [Validators.required]],
-        unique_code: ['', [Validators.required]],
+        first_name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]+')]],
+        last_name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]+')]],
+        unique_code: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
         role: [''],
         associated_team: [''],
         reporting_manager: [''],
