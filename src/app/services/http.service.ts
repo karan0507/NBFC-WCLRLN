@@ -803,4 +803,12 @@ export class HttpService {
       verifyUploadedKycDocumentForNBFC(id, data){
             return this._http.post(this.url + `/nbfc/v1/verify-doc/${id}`, data);
       }
+
+      downloadEmployeeUserDetail(id){
+            return this._http.get(this.url + `/partner/v1/download-employee-details/${id}`,{ responseType:'blob' });
+      }
+
+      viewSavedFileContent(id){
+            return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`);
+      }
 }

@@ -84,6 +84,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
   file: string;
   uploaded_file: any;
   globalPageSize: any = 30;
+  storeFormData: any;
 
   constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
@@ -105,9 +106,9 @@ export class AuthorizationUpiIdComponent implements OnInit {
 
   createUpdateDetailForm(){
     this.updateUPIDetails = this.fb.group({
-      source : "LMS",
-      datapoint : "authorization_edit",
-      endpoint : [null, [Validators.required]], 
+      source : [this.storeFormData ? 'LMS': 'LMS'],
+      datapoint : [this.storeFormData ? 'authorization_edit' :  'authorization_edit'],
+      endpoint : [this.storeFormData ? this.storeFormData?.endpoint: null, [Validators.required]], 
       remarks : ["", [Validators.required]],
       upi_id :  ["", [Validators.required]]
     })
@@ -117,11 +118,16 @@ export class AuthorizationUpiIdComponent implements OnInit {
     this.isVisible= true
     this.oldDetail= data;
     this.updateUPIDetails.patchValue({
-      endpoint: `Upi/${this.oldDetail?.id}`
+      endpoint: `Upi/${this.oldDetail?.id}`,
+      source:'LMS',
+      datapoint:'authorization_edit'
     })
   }
 
   onClickUpdateDetails(){
+    this.storeFormData = this.updateUPIDetails.value;
+    console.log(this.updateUPIDetails.value)
+    // return;
     this.apiLoader['onOk'] = true;
     for (const i in this.updateUPIDetails.controls) {
       this.updateUPIDetails.controls[ i ].markAsDirty();
@@ -132,6 +138,12 @@ export class AuthorizationUpiIdComponent implements OnInit {
       this.apiLoader['onOk'] = true;
       const data = this.updateUPIDetails.value;
       this.http.updateStatusForAuthorization(data).subscribe((res)=> {
+        if(res?.success){
+          this.message.success(res?.message);
+        } else {
+          this.message.error(res?.message);
+        }
+        this.updateUPIDetails.reset()
         console.log(res);
         this.apiLoader['onOk'] = false;
         this.isVisible = false;
@@ -152,18 +164,26 @@ export class AuthorizationUpiIdComponent implements OnInit {
   };
 
   updateUPIWithUploadingFile() {
+    this.apiLoader['list'] = true;
     let data = new FormData();
     data.append('source', 'LMS'),
     data.append('datapoint', 'authorization_upload'),
     data.append('endpoint', 'Upi'),
     data.append('file', this.uploaded_file)
-    this.http.uploadMCCFile(data).subscribe((res)=>{
-      console.log(res);
+    this.http.uploadMCCFile(data).subscribe((res: any)=>{
+      if(res?.success){
+        this.apiLoader['list'] = false;
+        this.message.success('File Uploaded ');
+      } else {
+        this.apiLoader['list'] = false;
+        this.message.error(res?.message);
+      }
       this.getAuthorizationList()
     })
   }
 
   toggleStatusBasedOnAction(id,action){
+    this.apiLoader['list'] = true;
     let data;
     if(action == 'inactive'){
       data = {
@@ -182,14 +202,16 @@ export class AuthorizationUpiIdComponent implements OnInit {
       } 
     }
     this.http.updateLMSAuthorizationList(data).subscribe((res: any)=> {
-      this.getAuthorizationList();
+      this.apiLoader['list'] = false;
       if(res?.success){
-        this.message.success('UPI ID Updated ')
+        this.message.success(res?.message)
       } else {
-        this.message.error('Unable to Updated....! ')
+        this.message.error(res?.message)
       }
+      this.getAuthorizationList();
       console.log(res);
     }, err => {
+      this.apiLoader['list'] = false;
       console.log(err);
     })
 

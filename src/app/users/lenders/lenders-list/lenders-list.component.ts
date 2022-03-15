@@ -286,9 +286,9 @@ export class LendersListComponent implements OnInit {
         }
         // pdfViewerAndDownload(){
         // }
-      }, err => {
-        console.log(err);
+      }, error => {
         this.message.remove(generateloader);
+        console.log(error);
       })
 
     }

@@ -329,9 +329,9 @@ export class PartnersListComponent implements OnInit {
           this.message.remove(generateloader);
           this.message.error('No Reports To Generate..');
         }
-      }, err => {
+      }, error => {
         this.message.remove(generateloader);
-        console.log(err);
+        console.log(error);
       })
 
     }

@@ -45,7 +45,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of UPIList; index as i">
-                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data?.upi_id }}</td>
                         <td>{{ data?.remarks }}</td>
                         <td>{{ data?.status }}</td>
