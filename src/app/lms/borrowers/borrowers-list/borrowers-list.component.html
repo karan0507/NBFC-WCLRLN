@@ -21,8 +21,13 @@
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
-                        <nz-option [nzValue]="false" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="true" nzLabel="Blocked"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Inactive"></nz-option>
                     </nz-select>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">

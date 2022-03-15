@@ -20,9 +20,10 @@ export class AccountBlockUnblockComponent implements OnInit {
   search_param = '';
   globalPageSize: number;
   master_product_id = '';
-  is_blocked = '';
+  is_blocked;
   search_params = '';
   applications: any;
+  is_active: number;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -45,8 +46,9 @@ export class AccountBlockUnblockComponent implements OnInit {
       page: this.page,
       limit: this.globalPageSize,
       product_id: this.master_product_id ? this.master_product_id : '',
-      is_blocked: this.is_blocked ? this.is_blocked : '',
-      search_param: this.search_params,
+      is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
+      search_param: this.search_params ? this.search_params : '',
+      account_status: this.is_active ? (this.is_active == 1 ? 'Active' : 'Inactive') : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
