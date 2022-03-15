@@ -337,5 +337,5 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button>
+      <button nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"  (click)="handleOk()">Submit</button>
 </ng-template>

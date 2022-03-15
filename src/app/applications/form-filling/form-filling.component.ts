@@ -24,13 +24,13 @@ export class FormFillingComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
-      console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button':false
       };
       productList: any = []
       stageStatusList: any = []
@@ -49,7 +49,6 @@ export class FormFillingComponent implements OnInit {
       ngOnInit(): void {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
-            console.log(this.globalPageSize);
             this.getFormLoanData();
       }
 
@@ -57,13 +56,11 @@ export class FormFillingComponent implements OnInit {
             if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
                         this.productList = res?.data
-                        console.log(this.productList);
                   })
             } else if (type == 'status') {
                   let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
-                        console.log(this.stageStatusList);
                   })
             }
       }
@@ -88,12 +85,9 @@ export class FormFillingComponent implements OnInit {
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
@@ -127,7 +121,6 @@ export class FormFillingComponent implements OnInit {
 
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
-            console.log(id, checked, index);
 
             if (checked) {
                   this.expandSet.add(id);
@@ -146,7 +139,7 @@ export class FormFillingComponent implements OnInit {
             }
       }
 
-      onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
+      onCurrentPageDataChange(listOfCurrentPageData: Data[]): void {
             this.listOfCurrentPageData = listOfCurrentPageData;
             this.refreshCheckedStatus();
       }
@@ -169,10 +162,6 @@ export class FormFillingComponent implements OnInit {
             this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
       }
 
-      onMonthChange(event) {
-
-      }
-
       updateStatus() {
             this._isUpdateStatus = true;
             this.https.getStageMaster().subscribe(res => {
@@ -180,7 +169,6 @@ export class FormFillingComponent implements OnInit {
                         this.stageMasterList = res?.data?.results
                   }
             })
-            console.log(this._checkedLoanList);
       }
 
       handleCancel() {
@@ -188,20 +176,22 @@ export class FormFillingComponent implements OnInit {
       }
 
       handleOk() {
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: '1', applications: JSON.stringify(this._checkedLoanList) };
+            this.api_calling_loader['button'] = true
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
-                        console.log('res');
+                        this.api_calling_loader['button'] = false
                         this._isUpdateStatus = false;
                         this.message.success(res?.message);
                         this.getFormLoanData();
                   } else {
                         this.message.error(res?.message);
-                        console.log('error=>', res?.error);
+                        this.api_calling_loader['button'] = false;
+                        this._isUpdateStatus = false;
                   }
             }, error => {
-                  console.log(error);
-
+                  this.message.error(error);
+                  this.api_calling_loader['button'] = false;
             })
       }
 
@@ -222,17 +212,7 @@ export class FormFillingComponent implements OnInit {
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
                   this.message.remove(generateloader);
-                  console.log(error);
             })
-      }
-
-      generateBase64View(file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            this._exportDocument = file;
-            reader.onload = (e) => {
-                  console.log(reader, this._exportDocument);
-            }
       }
 
       resetFilters(){

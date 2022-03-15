@@ -25,4 +25,12 @@
                   </div>
             </div>
       </section>
+
+      <section *ngIf="action == 'uploadDocument' ? true : false">
+            <nz-upload  nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'" [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList" >
+                  <p class="ant-upload-text">Drag and Drop file here</p>
+                  <p class="ant-upload-text">or</p>
+                  <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+              </nz-upload>
+      </section>
 </nz-card>

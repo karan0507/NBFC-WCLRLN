@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { stringify } from 'querystring';
 
 @Component({
       selector: 'app-kyc-document-action',
@@ -11,6 +13,9 @@ export class KycDocumentActionComponent implements OnInit {
 @Input() documentData;
 documentStatus = 1;
 verifyRemarks = '';
+fileList : any;
+@Output() _currentFileName = new EventEmitter<string>();
+
       constructor(public sanitize : DomSanitizer) { }
       api_calling_loader = {
             'cardLoader' : false
@@ -31,7 +36,14 @@ verifyRemarks = '';
       }
       handleCancel(){
             console.log('In Common Cancel');
-            
       }
+
+      beforeUploadName = (file: NzUploadFile): boolean => {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(file);
+            this._currentFileName.emit(stringify(file))
+            // this.generateBase64View(file)
+            return false;
+      };
 
 }
