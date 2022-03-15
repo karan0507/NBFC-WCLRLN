@@ -27,6 +27,7 @@ export class OnboardingComponent implements OnInit {
   product_priority_id: any;
   api_calling_loader: boolean;
   loading: boolean;
+  thirdPartData: any;
 
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
@@ -74,7 +75,8 @@ export class OnboardingComponent implements OnInit {
       // primary_product: [data ? data?.product_priority[0]?.primary_product?.id: '', [Validators.required]],
       // secondary_product: [data ? data?.product_priority[0]?.secondary_product?.id: '', [Validators.required]],
       // field_rules: this.fb.array([]),
-      document_rules: this.fb.array([])
+      document_rules: this.fb.array([]),
+      third_party_calls: this.fb.array([])
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -90,12 +92,31 @@ export class OnboardingComponent implements OnInit {
     } else {
       this.fetchDocumentMaster()
     }
-    
-    if (this.router.url.includes('view-product')) {
-      this.createEditForm.disable()
-      // this.field_rules.disable()
-      this.document_rules.disable()
-    }
+    // if (data?.document_rules[0]) {
+    //   data?.document_rules.forEach(element => {
+    //     this.addDocumentRules(element, true)  
+    //   });
+    // } else {
+      this.fetchThirdPartyMaster()
+    // }
+  }
+  fetchThirdPartyMaster() {
+    let data;
+    this.http.fetchThirdPartyMaster(data).subscribe(res => {
+      this.thirdPartData = res['data']
+      this.thirdPartData.forEach(element => {
+        this.addThirdParty(element, false)
+      });
+      // this.message.success(res['message'])
+    })
+  }
+
+  get third_party_calls(): FormArray {
+    return <FormArray>this.createEditForm.get('third_party_calls');
+  }
+
+  addThirdParty(data?, bool?) {
+    this.third_party_calls.push(this.addThirdPartyControls(data, bool))
   }
 
   // get field_rules(): FormArray {
@@ -120,6 +141,22 @@ export class OnboardingComponent implements OnInit {
         label_txt: [data ? data.display_name : ''],
         check_type: ['Mandatory'],
         employment_type: [this.selectedTab],
+      });
+    }
+  }
+  public addThirdPartyControls(data, bool): FormGroup {
+    if (data && bool) {
+      return this.fb.group({
+        id: [data.id],
+        third_party: [data.third_party ? data.third_party.id : ''],
+        label_txt: [data.third_party ? data.third_party.name : ''],
+        check_type: [data ? data.check_type : 'Mandatory'],
+      });
+    } else {
+      return this.fb.group({
+        third_party: [data ? data.id :''],
+        label_txt: [data ? data.name : ''],
+        check_type: ['Mandatory'],
       });
     }
   }
@@ -183,6 +220,10 @@ export class OnboardingComponent implements OnInit {
   //   return form.controls.field_rules.controls;
   // }
 
+  get_Third_party(form) {
+    return form.controls.third_party_calls.controls;
+  }
+
   get_document_rules(form) {
     return form.controls.document_rules.controls;
   }
@@ -216,7 +257,8 @@ export class OnboardingComponent implements OnInit {
     let data = {
       product_priority : product_priority,
       // field_rules : this.createEditForm.value.field_rules,
-      document_rules: this.createEditForm.value.document_rules
+      document_rules: this.createEditForm.value.document_rules,
+      third_party_calls: this.createEditForm.value.third_party_calls
     }
     
     if (this.isRuledAdded) {

@@ -220,6 +220,12 @@ export class HttpService {
             return this._http.get((this.url + `/master/fetch-master-data/DocumentMaster`), { params: data });
       }
 
+      /**
+       * fetchThirdPartyMaster
+       */
+       public fetchThirdPartyMaster(data) {
+            return this._http.get((this.url + `/platform_central/v1/get-all-third-party-apis-list`), { params: data });
+      }
 
       /**
        * createLimits
