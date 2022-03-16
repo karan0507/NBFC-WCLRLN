@@ -285,6 +285,13 @@ export class AddEditDsaComponent {
 
   onClickSubmitForm(){
 
+    if(this.addEditProductForm.value.dsa_type === 'Individual'){
+      this.addEditProductForm.patchValue({
+        contact_person_name: this.addEditProductForm.value.name,
+        contact_person_phone: this.addEditProductForm.value.phone
+      })
+    }
+    console.log(this.addEditProductForm.value);
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
@@ -343,6 +350,7 @@ export class AddEditDsaComponent {
       })
     }
      else  {
+
       let data = new FormData();
     
       var sendDate = this.addEditProductForm.value
@@ -390,6 +398,12 @@ export class AddEditDsaComponent {
   }
 
   onClickSaveExistingForm(){
+    if(this.addEditProductForm.value.dsa_type === 'Individual'){
+      this.addEditProductForm.patchValue({
+        contact_person_name: this.addEditProductForm.value.name,
+        contact_person_phone: this.addEditProductForm.value.phone
+      })
+    }
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
