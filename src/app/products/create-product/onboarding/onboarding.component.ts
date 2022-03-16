@@ -92,13 +92,13 @@ export class OnboardingComponent implements OnInit {
     } else {
       this.fetchDocumentMaster()
     }
-    // if (data?.document_rules[0]) {
-    //   data?.document_rules.forEach(element => {
-    //     this.addDocumentRules(element, true)  
-    //   });
-    // } else {
+    if (data?.third_party_calls[0]) {
+      data?.third_party_calls.forEach(element => {
+        this.addThirdParty(element, true)  
+      });
+    } else {
       this.fetchThirdPartyMaster()
-    // }
+    }
   }
   fetchThirdPartyMaster() {
     let data;
