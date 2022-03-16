@@ -265,8 +265,7 @@ export class FeesComponent implements OnInit {
     }, 500);
   }
   restrictType(event) {
-    console.log(event.which)
-    if (event.which == 107 || event.which == 109) {
+    if (event.which == 107 || event.which == 109 || event.which == 69) {
       return false;
     }
   }

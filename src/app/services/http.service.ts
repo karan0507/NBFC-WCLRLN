@@ -827,4 +827,10 @@ export class HttpService {
       viewSavedFileContent(id){
             return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`);
       }
+
+      restrictType(event) {
+            if (event.which == 107 || event.which == 109 || event.which == 69) {
+                  return false;
+            }
+      }
 }

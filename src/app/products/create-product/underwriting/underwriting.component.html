@@ -38,7 +38,7 @@
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="min" class="text-left text-overflow-break pr-md-2 text-capitalize" nzRequired>{{item.controls.min_label.value}}</nz-form-label>
                                     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input {{item.controls.min_label.value}}!">
-                                        <input nz-input type="number" min="0" formControlName="min"
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="min"
                                             placeholder="Please input {{item.controls.min_label.value}}!" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -47,7 +47,7 @@
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="max" class="text-left text-overflow-break pr-md-2 text-capitalize" nzRequired>{{item.controls.max_label.value}}</nz-form-label>
                                     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input {{item.controls.max_label.value}}!">
-                                        <input nz-input type="number" min="0" formControlName="max"
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="max"
                                             placeholder="Please input {{item.controls.max_label.value}}!" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -82,7 +82,7 @@
                                 {{item.controls.name.value}}</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input {{item.controls.name.value}}!">
                                 <nz-input-group nzAddOnBefore="{{item.controls.comparison_operator.value}}">
-                                    <input nz-input type="number" min="0" formControlName="value"
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="value"
                                     placeholder="Please input {{item.controls.name.value}}!" />
                                 </nz-input-group>
                             </nz-form-control>

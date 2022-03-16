@@ -32,7 +32,7 @@
                                 of
                                 Partner committed</nz-form-label>
                             <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input No. of Partners!">
-                                <input nz-input type="number" min="0" formControlName="no_of_partner"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="no_of_partner"
                                     placeholder="Please input No. of Partners!" />
                             </nz-form-control>
                         </nz-form-item>
@@ -43,10 +43,10 @@
                                 nzRequired>Amt. Per Partner (at acquisition)</nz-form-label>
                             <nz-form-control [nzSm]="8" [nzXs]="24"
                                 nzErrorTip="Please input Amt. Per Partner (at acquisition)!">
-                                <!-- <input nz-input type="number" min="0" formControlName="amount_per_partner"
+                                <!-- <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="amount_per_partner"
                                     placeholder="Please input Amt. Per Partner (at acquisition)!" /> -->
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="amount_per_partner"
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="amount_per_partner"
                                         placeholder="Please input Amt. Per Partner (at acquisition)!" />
                                 </nz-input-group>
 
@@ -74,20 +74,20 @@
                                         <div class="row mx-0 d-flex align-items-center">
                                             <div class="col-md-11 d-flex align-items-center">
                                                 <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
+                                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="min_amount" formControlName="min_amount"
                                                         id="min_amount" placeHolder="Start Range">
                                                     <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
                                                 </nz-form-control>
                                                 <label class="text-left d-flex mx-2">To</label>
                                                 <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
+                                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="max_amount" formControlName="max_amount"
                                                         id="max_amount" placeHolder="End Range">
                                                     <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
                                                 </nz-form-control>
                                                 <label class="text-left d-flex mx-2">&</label>
                                                 <nz-form-control>
                                                     <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                        <input nz-input type="number" min="0" name="commission" formControlName="commission"
+                                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="commission" formControlName="commission"
                                                             id="commission" placeHolder="commission %">
                                                     </nz-input-group>
                         
@@ -139,20 +139,20 @@
                                         <div class="row mx-0 d-flex align-items-center">
                                             <div class="col-md-11 d-flex align-items-center">
                                                 <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="min_amount" formControlName="min_amount"
+                                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="min_amount" formControlName="min_amount"
                                                         id="min_amount" placeHolder="Start Range">
                                                     <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
                                                 </nz-form-control>
                                                 <label class="text-left d-flex mx-2">To</label>
                                                 <nz-form-control>
-                                                    <input nz-input type="number" min="1" name="max_amount" formControlName="max_amount"
+                                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="max_amount" formControlName="max_amount"
                                                         id="max_amount" placeHolder="End Range">
                                                     <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
                                                 </nz-form-control>
                                                 <label class="text-left d-flex mx-2">&</label>
                                                 <nz-form-control>
                                                     <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                        <input nz-input type="number" min="0" name="commission" formControlName="commission"
+                                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="commission" formControlName="commission"
                                                             id="commission" placeHolder="commission %">
                                                     </nz-input-group>
                         
@@ -194,14 +194,14 @@
                                             <div class="row mx-0 d-flex align-items-center">
                                                 <div class="col-md-11 d-flex align-items-center">
                                                     <nz-form-control>
-                                                        <input nz-input type="number" min="1" name="min_amount"
+                                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="min_amount"
                                                             formControlName="min_amount" id="min_amount"
                                                             placeHolder="Start Range">
                                                         <!-- <div *ngIf="item.get('min_amount').value" class="mt-2">₹ {{ item.get('min_amount').value ? item.get('min_amount').value : ''}}</div> -->
                                                     </nz-form-control>
                                                     <label class="text-left d-flex mx-2">To</label>
                                                     <nz-form-control>
-                                                        <input nz-input type="number" min="1" name="max_amount"
+                                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="max_amount"
                                                             formControlName="max_amount" id="max_amount"
                                                             placeHolder="End Range">
                                                         <!-- <div *ngIf="item.get('max_amount').value" class="mt-2">₹ {{ item.get('max_amount').value ? item.get('max_amount').value : ''}}</div> -->
@@ -209,7 +209,7 @@
                                                     <label class="text-left d-flex mx-2">&</label>
                                                     <nz-form-control>
                                                         <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                            <input nz-input type="number" min="0" name="commission"
+                                                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="commission"
                                                                 formControlName="commission" id="commission"
                                                                 placeHolder="commission ₹">
                                                         </nz-input-group>
