@@ -20,6 +20,9 @@ export class Login1Component {
       ]
       is_forget : boolean = false;
       is_link_send : boolean;
+      otp = '';
+      new_password = '';
+      retype_password = '';
 
 
       constructor(
@@ -35,30 +38,29 @@ export class Login1Component {
                   password: [null, [Validators.required]]
             });
             this.forgetForm = this.fb.group({
-                  email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+                  email: ['', [Validators.required]],
             });
       }
       submitForm(form): void {
             if (this.is_forget) {
-                  this.is_link_send = true;
                   if (this.forgetForm.invalid) {
                         return;
                   } else {
-                        let data = new FormData();
-                        data.append('email', form.value.email)
-                        // this.api_calling_loader = true
-                        // this.http.UserLogin(data).subscribe((res) => {
-                        //   this.api_calling_loader = false
-                        //   if (res.success) {
-                        //     this.message.success(res.message);  
-                        //   }
-                        //   else {
-                        //     this.message.error(res.message);
-                        //   }
-                        // }, (err) => {
-                        //   this.api_calling_loader = false
-                        //   console.log(err)
-                        // })
+                        let data = {'email': form.value.email}                      
+                        this.api_calling_loader = true,
+                        this.http.sendOtp(data).subscribe((res) => {
+                          this.api_calling_loader = false
+                          if (res.success) {
+                              this.is_link_send = true;
+                            this.message.success(res.message);  
+                          }
+                          else {
+                            this.message.error(res.message);
+                          }
+                        }, (err) => {
+                          this.api_calling_loader = false
+                          console.log(err)
+                        })
                   }
             } else {
                   if (this.loginForm.invalid) {
@@ -88,5 +90,45 @@ export class Login1Component {
                         })
                   }
             }
+      }
+      VerifyOtp() {
+            console.log(this.otp)
+            if (!this.otp) {
+                  this.message.error('Please enter OTP')
+                  return false
+            }
+            if (!this.new_password) {
+                  this.message.error('Pleasen enter new password')
+                  return false
+            }
+            if (!this.retype_password) {
+                  this.message.error('Please retype new password')
+                  return false
+            }
+            if (this.new_password !== this.retype_password) {
+                  this.message.error('new password and retype password should be match')
+                  return false
+            }
+            let data = {
+            'email': this.forgetForm.value.email,
+            'otp': this.otp,
+            'new_password': this.new_password,
+            'retype_password': this.retype_password
+            }
+            this.api_calling_loader = true
+            this.http.VerifyOtptopasswordchange(data).subscribe((res) => {
+                  this.api_calling_loader = false
+                  if (res.success) {
+                        this.message.success(res.message);
+                        this.is_forget = false
+                        this.is_link_send = false
+                  }
+                  else {
+                        this.message.error(res.message);
+                  }
+            }, (err) => {
+                  this.api_calling_loader = false
+                  console.log(err)
+            })
       }
 }    
