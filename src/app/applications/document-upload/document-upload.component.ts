@@ -259,12 +259,17 @@ export class DocumentUploadComponent implements OnInit {
 
                         break;
                   case 'uploadDocument':
+// For Selfie file: application_id datapoint:upload_selfie
+                        this._currentModalData
                         this.api_calling_loader['button'] = true
                         let uploadDoc = new FormData()
                         uploadDoc.append('source', 'Onboarding')
                         uploadDoc.append('datapoint', 'upload_kyc_doc')
                         uploadDoc.append('application_id', this._currentModalData['application'])
-                        uploadDoc.append('kyc_document_id', this._currentModalData?.id)
+                        if(this._currentModalData?.id){
+                              uploadDoc.append('kyc_document_id', this._currentModalData?.id)
+                        }
+                        uploadDoc.append('document_id', this._currentModalData?.document_master?.id) 
                         uploadDoc.append('file', this._currentFileName)
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
                               if (res?.success) {
@@ -316,6 +321,8 @@ export class DocumentUploadComponent implements OnInit {
 
       openDocumentModal(type?, data?, loanData?) {
             this._currentModalData = data;
+            console.log(data);
+            
             this._currentLoanDetails = loanData;
             if (type == 'download') {
                   let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }

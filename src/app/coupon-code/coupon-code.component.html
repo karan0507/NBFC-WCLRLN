@@ -23,8 +23,8 @@
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear (ngModelChange)="getCouponCodeList()"
-                              nzPlaceHolder="Select Status">
+                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
+                              (ngModelChange)="getCouponCodeList()" nzPlaceHolder="Select Status">
                               <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
                               <nz-option [nzValue]="2" nzLabel="In Active"></nz-option>
 
@@ -34,9 +34,10 @@
                   </div>
             </div>
             <!-- [nzTotal]="total_count" -->
-            <div class="accordianLoanApp">
-                  <nz-table #rowSelectionTable [nzData]="couponCodeListData" [nzTotal]="total_count" [nzFrontPagination]="true"
-                        [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
+            <div class="accordianLoanApp totalCount">
+                  <nz-table #rowSelectionTable [nzData]="couponCodeListData" [nzTotal]="total_count"
+                        [nzFrontPagination]="true" [nzShowSizeChanger]="true" [nzPageIndex]="page"
+                        [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
                         (nzQueryParams)="couponCodeListData[0] ? getCouponCodeList($event) : null"
                         [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
@@ -47,6 +48,7 @@
                                     <th>Remaining Coupons</th>
                                     <th>Value</th>
                                     <th>Actions</th>
+                                    <th>Status</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -61,10 +63,23 @@
                                                       [routerLink]="['edit-coupon-code']"
                                                       [queryParams]="{id: data?.id}">Edit</button>
                                           </td>
+                                          <td>
+                                                <div class="d-flex">
+                                                      <label class="font-size-14">In Active</label>
+                                                      <nz-switch class="px-3" *ngIf="data?.id" [(ngModel)]="isActive"
+                                                            (click)="couponSwitch(data)">
+                                                      </nz-switch>
+                                                      <label class="font-size-14">Active</label>
+                                                </div>
+                                          </td>
                                     </tr>
                               </ng-container>
                         </tbody>
                   </nz-table>
+                  <ng-template #botTotalCount>
+                        <div *ngIf="total_count && couponCodeListData[0]"
+                              class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+                  </ng-template>
             </div>
       </nz-card>
 </section>

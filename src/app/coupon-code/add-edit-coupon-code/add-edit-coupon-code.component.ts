@@ -19,7 +19,7 @@ export class AddEditCouponCodeComponent implements OnInit {
       today = new Date();
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
-            return differenceInCalendarDays(this.today,current) > 0;
+            return differenceInCalendarDays(this.today, current) > 0;
       };
       // Optional Select List 
       partnerList: any = [];
@@ -49,7 +49,9 @@ export class AddEditCouponCodeComponent implements OnInit {
                   coupon_expiry: [null, [Validators.required]],
                   total_coupons: [null, [Validators.required, Validators.min(1)]],
                   partner: [],
+                  isAllPartner:[],
                   master: [],
+                  isAllMaster: [],
                   product: [],
                   product_fees: []
             })
@@ -67,7 +69,9 @@ export class AddEditCouponCodeComponent implements OnInit {
                         this.couponForm.get('coupon_expiry').setValue(this.couponDetail?.coupon_expiry)
                         this.couponForm.get('total_coupons').setValue(this.couponDetail?.total_coupons)
                         this.couponForm.get('partner').setValue(this.couponDetail?.partner ? this.couponDetail?.partner.id : null)
+                        this.couponForm.get('isAllPartner').setValue(this.couponDetail?.all_partners ? true : false)
                         this.couponForm.get('master').setValue(this.couponDetail?.master ? this.couponDetail?.master?.id : null)
+                        this.couponForm.get('isAllMaster').setValue(this.couponDetail?.all_masters ? true : false)
                         this.couponForm.get('product').setValue(this.couponDetail?.product ? this.couponDetail?.product?.id : null)
                         this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees ? this.couponDetail?.product_fees?.id : null)
                         this.callMultipleMasters();
@@ -116,13 +120,20 @@ export class AddEditCouponCodeComponent implements OnInit {
             if (this.isEdit) {
                   data['id'] = this.couponDetail?.id
             }
-            if (this.couponForm.get('partner').value) {
-                  data['partner'] = this.couponForm.get('partner').value
+            if (this.couponForm.get('isAllPartner').value) {
+                  data['all_partners'] = this.couponForm.get('isAllPartner').value
 
+            }else if(this.couponForm.get('partner').value && !this.couponForm.get('isAllPartner').value){
+                  data['partner'] = this.couponForm.get('partner').value
             }
-            if (this.couponForm.get('master').value) {
+
+            if(this.couponForm.get('isAllMaster').value){
+                  data['all_masters'] = this.couponForm.get('isAllMaster').value
+            }
+            else if (this.couponForm.get('master').value) {
                   data['master'] = this.couponForm.get('master').value
             }
+
             if (this.couponForm.get('product').value) {
                   data['product'] = this.couponForm.get('product').value
             }
@@ -170,4 +181,5 @@ export class AddEditCouponCodeComponent implements OnInit {
                   }
             })
       }
+
 }
