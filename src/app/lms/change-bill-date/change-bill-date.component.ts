@@ -36,6 +36,7 @@ export class ChangeBillDateComponent implements OnInit {
   isReject: boolean;
   isRejectSuccess: boolean;
   reject_id: any;
+  rejactRemarks = '';
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -185,6 +186,7 @@ export class ChangeBillDateComponent implements OnInit {
     data.append('source', 'LMS')
     data.append('datapoint', 'approve_reject_change_bill_day')
     data.append('status', 'REJECT')
+    data.append('remarks', this.rejactRemarks)
     data.append('id', this.reject_id)
     this.is_approve_loading = true
     this.http.postLoanApplicationApi(data).subscribe(res => {
