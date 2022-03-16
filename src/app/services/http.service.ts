@@ -30,6 +30,16 @@ export class HttpService {
             return this._http.post((this.url + `/user/verify-admin-user/`), data);
       }
 
+      /// Send Otp
+      public sendOtp(data): any {
+            return this._http.post((this.url + `/user/forgot-password/`), data);
+      }
+
+      /// Verify OTP 
+      public VerifyOtptopasswordchange(data): any {
+            return this._http.post((this.url + `/user/forgot-password-validate/`), data);
+      }
+
       public createOnline$() {
             return merge<boolean>(
                   fromEvent(window, 'offline').pipe(map(() => false)),
