@@ -16,13 +16,13 @@
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
-                        <nz-option [nzValue]="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option [nzValue]="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
-                        <nz-option [nzValue]="false" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="true" nzLabel="Blocked"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By A/C Status">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '2200px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
+            [nzScroll]="{ x: '2200px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -50,7 +50,7 @@
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
-                        <th nzRight>Action</th>
+                        <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
