@@ -217,26 +217,35 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-
-                <div class="col-md-6">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi" class="text-left">ROI</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI!">
-                        <!-- <nz-input-group [nzAddOnAfter]="addOnAfterTemplate"> -->
-                            <input nz-input type="number" formControlName="roi"  placeholder="ROI" />
-                        <!-- </nz-input-group> -->
-                        </nz-form-control>
-                    </nz-form-item>
-                    <!-- <ng-template #addOnAfterTemplate>
-                          <i nz-icon nzType="percentage"></i>
-                      </ng-template> -->
-                </div>
-
                 <div class="col-md-6">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fldg" class="text-left">FLDG</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid FLDG!">
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                             <input nz-input type="text" formControlName="fldg"  placeholder="FLDG" />
+                        </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <ng-template #addOnAfterTemplate>
+                        <nz-select formControlName="fldg_calculation_type">
+                            <nz-option [nzLabel]="'₹'" [nzValue]="'Flat'"></nz-option>
+                            <nz-option [nzLabel]="'%'" [nzValue]="'Variable'"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi_utilized_fund" class="text-left">ROI Utilized Fund</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI Utilized Fund!">
+                            <input nz-input type="number" formControlName="roi_utilized_fund"  placeholder="ROI Utilized Fund" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi_unutilized_fund" class="text-left">ROI Unutilized Fund</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI Unutilized Fund!">
+                            <input nz-input type="number" formControlName="roi_unutilized_fund"  placeholder="ROI Unutilized Fund" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>

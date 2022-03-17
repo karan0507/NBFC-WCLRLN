@@ -21,6 +21,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [ AddEditLendersComponent, LendersListComponent],
@@ -44,7 +45,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzDividerModule,
     NzUploadModule,
     NzCheckboxModule,
-    SharedModule
+    SharedModule,
+    NzPopconfirmModule
   ]
 })
 export class LendersModule { }
