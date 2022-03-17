@@ -19,7 +19,7 @@ export class CouponCodeComponent implements OnInit {
       page = 1
       globalPageSize
       total_count: any;
-      isActive : any;
+      isActive: any;
       constructor(public https: HttpService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -29,10 +29,11 @@ export class CouponCodeComponent implements OnInit {
       }
 
       getCouponCodeList(tableFilter?) {
+            this.couponCodeListData = []
             this.api_calling_loader['listLoader'] = true;
             let param = new FormData()
             console.log(this.filters);
-            
+
             if (this.filters) {
                   param['status'] = this.filters == 1 ? 'active' : 'inactive';
             }
@@ -57,11 +58,11 @@ export class CouponCodeComponent implements OnInit {
                         this.total_count = res?.data?.total_count;
                         this.couponCodeListData = res?.data?.results
                         this.api_calling_loader['listLoader'] = false;
-                  } else{
+                  } else {
                         this.api_calling_loader['listLoader'] = false;
                   }
-            },err=>{
-                  this.api_calling_loader['listLoader'] = false;  
+            }, err => {
+                  this.api_calling_loader['listLoader'] = false;
             })
       }
 
@@ -80,7 +81,14 @@ export class CouponCodeComponent implements OnInit {
       }
 
       couponSwitch(data) {
-            console.log(data);
+            if (data?.id) {
+                  let formData = new FormData()
+                  this.https.couponStatusChange(data?.id, formData).subscribe((res: any) => {
+                        if (res.success) {
+                              this.getCouponCodeList();
+                        }
+                  })
+            }
 
       }
 }

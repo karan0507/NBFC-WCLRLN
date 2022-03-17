@@ -74,7 +74,7 @@
                                     <th>Reference Id</th>
                                     <th>Latest Action Performed By</th>
                                     <th>Status</th>
-                                    <th nzRight>Action</th>
+                                    <th nzRight [nzWidth]="'5rem'">Action</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -109,7 +109,7 @@
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td></td>
-                                          <td nzRight>
+                                          <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                       [nzDropdownMenu]="latestUploadDropDown">

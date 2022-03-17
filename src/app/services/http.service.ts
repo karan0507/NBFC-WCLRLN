@@ -464,7 +464,7 @@ export class HttpService {
       // fetch Cibil
       public getCibilSMSData(data): any {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
-            return this._http.get((this.url + `/central-api/v1/call-api`),{params : data});
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
       // Pull cibil from 3rd Party
@@ -745,6 +745,10 @@ export class HttpService {
             return this._http.get((this.url + `/platform_central/v1/coupon-code-details/` + data));
       }
 
+      public couponStatusChange(id, status) {
+            return this._http.put((this.url + `/platform_central/v1/coupon-code-toggle/` + id), status)
+      }
+
       // sample Download
       sampleDownloadGlobalFunction(section) {
             var link = document.createElement('a');
@@ -804,19 +808,19 @@ export class HttpService {
             return this._http.get(this.url + `/loan-services/v1/dashboard/get-${action}`, { params: data });
       }
 
-      fetchBranchOfChoosenCorporate(id){
+      fetchBranchOfChoosenCorporate(id) {
             return this._http.get(this.url + `/partner/v1/get-all-branches/${id}`);
       }
 
-      verifyUploadedKycDocumentForMasterAndPartner(id, data){
+      verifyUploadedKycDocumentForMasterAndPartner(id, data) {
             return this._http.post(this.url + `/partner/v1/verify-kyc-doc/partner/${id}`, data);
       }
 
-      verifyUploadedKycDocumentForMaster(id, data){
+      verifyUploadedKycDocumentForMaster(id, data) {
             return this._http.post(this.url + `/partner/v1/verify-kyc-doc/master/${id}`, data);
       }
-      
-      verifyUploadedKycDocumentForNBFC(id, data){
+
+      verifyUploadedKycDocumentForNBFC(id, data) {
             return this._http.post(this.url + `/nbfc/v1/verify-doc/${id}`, data);
       }
 
