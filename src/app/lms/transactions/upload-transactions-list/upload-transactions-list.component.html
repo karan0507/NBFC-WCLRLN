@@ -39,7 +39,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
-             (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ x: 'auto', y: '45vh' }">
+             (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%', y: '45vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="5rem">#</th>
@@ -51,7 +51,7 @@
                         <th *ngIf="selectedTab == 'rejected'">Rejected By</th>
                         <th *ngIf="selectedTab == 'rejected'">Rejected on</th>
                         <th *ngIf="selectedTab == 'rejected'">Remarks</th>
-                        <th nzRight> Actions</th>
+                        <th [nzWidth]="selectedTab == 'pending' ? '20rem' : '8rem'" nzRight> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
