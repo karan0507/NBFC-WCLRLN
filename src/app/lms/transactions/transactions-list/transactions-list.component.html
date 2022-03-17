@@ -29,7 +29,7 @@
     <div class="row">
         <nz-card class="w-100">
             <div class="row">
-                <div class="col-md-4 mb-3 d-flex">
+                <div class="col-md-3 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                         <input (keyup.enter)="fetchTransactionList()" [(ngModel)]="searchValue" type="text" nz-input
                             placeholder="Search text" />
@@ -39,11 +39,16 @@
                                 nzType="search"></i></button>
                     </ng-template>
                 </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end">
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                        class="mr-2" (click)="resetFilter()">
+                        class="mr-1" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
+                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchTransactionList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+                    </nz-select>
                     <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"></nz-range-picker>
                     <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Type">
@@ -68,7 +73,7 @@
                         <!-- <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
                         <th nzWidth="3rem">#</th>
                         <th nzWidth="15rem">User Details</th>
-                        <!-- <th>User Code</th> -->
+                        <th>Product type</th>
                         <th>Transaction ID</th>
                         <th>Transaction Type</th>
                         <th>Details</th>
@@ -90,7 +95,7 @@
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                             </td>
-                            <!-- <td>{{ 'NA' }}</td> -->
+                            <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_type }}</td>
                             <td>{{ data?.details }}</td>

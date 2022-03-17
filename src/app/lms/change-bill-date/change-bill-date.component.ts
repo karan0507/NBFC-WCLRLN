@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -15,6 +16,9 @@ export class ChangeBillDateComponent implements OnInit {
   isImport = false
   page = 1;
   total_count;
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
   globalPageSize = 30
   api_calling_loader: boolean;
   listOfData;
@@ -26,6 +30,7 @@ export class ChangeBillDateComponent implements OnInit {
   previewData: any;
   uploaded_file: any;
   previewBeforeUpload: any;
+  date = ''
   isLineError: any;
   isPreviewBeforeUpload: boolean;
   isFail: boolean;
@@ -65,6 +70,8 @@ export class ChangeBillDateComponent implements OnInit {
       // date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
       // keyword: this.searchValue,
       page: this.page,
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       limit: this.globalPageSize
     }
     this.api_calling_loader = true

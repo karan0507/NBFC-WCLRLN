@@ -32,6 +32,7 @@ export class TransactionsListComponent implements OnInit {
   isRefundTransaction = false
   reverseId: any;
   is_revese_loading: boolean;
+  master_product_id = ''
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -53,6 +54,7 @@ export class TransactionsListComponent implements OnInit {
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
+      product_type: this.master_product_id ? this.master_product_id : '',
       txn_status: this.selectedStatus ? this.selectedStatus : '',
       txn_type: this.selectedType ? this.selectedType : '',
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
@@ -75,6 +77,7 @@ export class TransactionsListComponent implements OnInit {
     this.selectedType = ''
     this.selectedStatus = ''
     this.date = ''
+    this.master_product_id = ''
     this.fetchTransactionList();
   }
 

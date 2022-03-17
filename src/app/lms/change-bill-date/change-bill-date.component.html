@@ -22,6 +22,44 @@
     </div>
     <div class="row">
         <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="fetchTransactionList()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button (click)="fetchTransactionList()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template> -->
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end">
+                    <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mr-1" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                    </button> -->
+                    <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchTransactionList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+                    </nz-select> -->
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getManualTransactionList()"></nz-range-picker>
+                    <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
+                        nzPlaceHolder="Filter By Type">
+                        <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>
+                        <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
+                        <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                        <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                        <nz-option nzValue="Expense Spend" nzLabel="Expense Spend"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                        <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                        <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                    </nz-select> -->
+                </div>
+            </div>
             <!-- <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -42,7 +80,7 @@
                 </div>
             </div> -->
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
-             (nzQueryParams)="listOfData ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ y: '45vh' }">
+             (nzQueryParams)="listOfData ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ x: 'auto', y: '45vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="5rem">#</th>

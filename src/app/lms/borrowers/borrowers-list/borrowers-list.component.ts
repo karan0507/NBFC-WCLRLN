@@ -40,7 +40,7 @@ export class BorrowersListComponent implements OnInit {
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
-      product_id: this.master_product_id ? this.master_product_id : '',
+      product_type: this.master_product_id ? this.master_product_id : '',
       is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params ? this.search_params : '',
       account_status: this.is_active ? this.is_active : '',

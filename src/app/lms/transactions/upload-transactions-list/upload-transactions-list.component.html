@@ -39,7 +39,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
-             (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ y: '45vh' }">
+             (nzQueryParams)="listOfData[0] ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ x: 'auto', y: '45vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="5rem">#</th>
