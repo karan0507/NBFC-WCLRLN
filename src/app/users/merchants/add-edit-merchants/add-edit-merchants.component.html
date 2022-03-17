@@ -191,7 +191,7 @@
                                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                     <div class="d-flex">
                                     <nz-upload
-                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k)"
                                         >
@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-md-2 pl-0 mt-2" >
                             <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.label_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
-                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="download" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                         </div>
                     </div>
                 </div>

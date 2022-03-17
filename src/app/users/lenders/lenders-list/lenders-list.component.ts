@@ -251,8 +251,9 @@ export class LendersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
-    FileSaver.saveAs(data,  `${e?.file_name}`);
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8;png;JPEG;jpeg' });
+    FileSaver.saveAs(data, 'image.png' );
+    // `${e?.file_name}`
   }
 
 

@@ -6,6 +6,15 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
 import * as FileSaver from 'file-saver'
 import { saveAs } from 'file-saver';
+import { NzImageService } from "ng-zorro-antd/image";
+
+const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
 
 @Component({
   selector: 'app-add-edit-merchants',
@@ -31,7 +40,8 @@ export class AddEditMerchantsComponent implements OnInit {
   debounce: any;
   listOfMasterPartner: any;
 
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute, private message: NzMessageService  ) {
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute, 
+    private message: NzMessageService, private nzImageService: NzImageService  ) {
     this.getListOfDocumentRequired();
   }
 
@@ -186,14 +196,39 @@ export class AddEditMerchantsComponent implements OnInit {
     }
   }
 
-  onClickShowUploadedDocument(e){
-    if(e?.value?.documents?.uid){
-      saveAs(e?.value?.documents);
+  async onClickShowUploadedDocument(e) {
+    if (e?.value?.documents?.uid) {
+      let doc = await getBase64(e?.value?.documents);
+      const images = [];
+      const img = {
+        src: doc,
+        width: "600px",
+        height: "400px",
+        alt: "ng-zorro",
+      };
+      images.push(img);
+      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     } else {
-      var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+      const images = [];
+      const img = {
+        src: e?.value?.documents,
+        width: "600px",
+        height: "400px",
+        alt: "ng-zorro",
+      };
+      images.push(img);
+      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     }
   }
+  
+  // onClickShowUploadedDocument(e){
+  //   if(e?.value?.documents?.uid){
+  //     saveAs(e?.value?.documents);
+  //   } else {
+  //     var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
+  //     FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+  //   }
+  // }
 
   omit_special_char(event) {
     // to avoid special Character
