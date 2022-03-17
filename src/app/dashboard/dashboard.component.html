@@ -13,8 +13,8 @@
                                 <nz-badge nzStatus="default" [nzColor]="cyan" class="h-100 dashboard-badge"></nz-badge>
                                 <div class="m-l-5">
                                     <p class="m-b-0 muted">Registered through App</p>
-                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.app_registered_users_display_count ?
-                                        fetchedList['acquisition']?.app_registered_users_display_count : ' 0 '}}</h4>
+                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.app_registered_users_exact_count ?
+                                        fetchedList['acquisition']?.app_registered_users_exact_count : ' 0 '}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -24,8 +24,8 @@
                                 </nz-badge>
                                 <div class="m-l-5">
                                     <p class="m-b-0 muted">Total Registered Users</p>
-                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.all_registered_users_display_count ?
-                                        fetchedList['acquisition']?.all_registered_users_display_count : ' 0 '}}</h4>
+                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.all_registered_users_exact_count ?
+                                        fetchedList['acquisition']?.all_registered_users_exact_count : ' 0 '}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -34,8 +34,8 @@
                                 <nz-badge nzStatus="default" [nzColor]="gold" class="h-100 dashboard-badge"></nz-badge>
                                 <div class="m-l-5">
                                     <p class="m-b-0 muted">Total Corporate Users</p>
-                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.total_corporate_users_display_count
-                                        ? fetchedList['acquisition']?.total_corporate_users_display_count : 0 }}</h4>
+                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.total_corporate_users_exact_count ?
+                                        fetchedList['acquisition']?.total_corporate_users_exact_count : 0 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -44,19 +44,33 @@
                                 <nz-badge nzStatus="default" [nzColor]="pink" class="h-100 dashboard-badge"></nz-badge>
                                 <div class="m-l-5">
                                     <p class="m-b-0 muted">Active User</p>
-                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.active_users_display_count ?
-                                        fetchedList['acquisition']?.active_users_display_count : ' 0 '}}</h4>
+                                    <h4 class="m-b-0">{{fetchedList['acquisition']?.active_users_exact_count ?
+                                        fetchedList['acquisition']?.active_users_exact_count : ' 0 '}}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7"
+                        *ngIf="fetchedList['acquisition']?.active_users_exact_count && fetchedList['acquisition']?.total_corporate_users_exact_count && fetchedList['acquisition']?.all_registered_users_exact_count && fetchedList['acquisition']?.app_registered_users_exact_count">
                         <div class="text-center chart-container" style="width:220px;height:220px;position:relative;">
-                            <div class="w-100 text-center title"><i nz-icon nzType="user" nzTheme="outline"></i>Total
-                                No. of Employees</div><br>
-                            <b class="w-100 text-center title" style="color: black;">13,000+</b>
-                            <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
-                                [chartType]="customersChartType" [colors]="customersChartColors"
+                        <div class="w-100 text-center title"><i nz-icon nzType="user" nzTheme="outline"></i>Total No. of Employees</div><br>
+                        <b class="w-100 text-center title" style="color: black;">13,000+</b>
+                        <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
+                            [chartType]="customersChartType" [colors]="customersChartColors"
+                            [options]="customersChartOptions" [legend]="false">
+                        </canvas>
+                    </div>
+                        <!-- <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
+                            [chartType]="customersChartType" [colors]="customersChartColors"
+                            [options]="customersChartOptions" [legend]="false">
+                        </canvas> -->
+                    </div>
+                    <div class="col-md-7"
+                        *ngIf="!fetchedList['acquisition']?.active_users_exact_count && !fetchedList['acquisition']?.total_corporate_users_exact_count && !fetchedList['acquisition']?.all_registered_users_exact_count && !fetchedList['acquisition']?.app_registered_users_exact_count">
+                        <div class="text-center chart-container" style="width:220px;height:220px;position:relative;">
+                            <b class="w-100 text-center title" style="color: black;">No Data To Show</b>
+                            <canvas ngChartjs [data]="dummyData" [labels]="dummyDataLabels"
+                                [chartType]="customersChartType" [colors]="dummyDataColors"
                                 [options]="customersChartOptions" [legend]="false">
                             </canvas>
                         </div>
@@ -240,16 +254,16 @@
                         <h5 class="m-b-0">{{(fetchedList['authorization']?.failiure_ratio?.failed + '/' +
                             fetchedList['authorization']?.failiure_ratio?.total)}}</h5>
                     </div>
-                    <!-- <div class="col-md-3">
-                        <h5 class="m-b-0">50%</h5>
-                    </div> -->
+                    <div class="col-md-3">
+                        <h5 class="m-b-0">{{fetchedList['authorization']?.failiure_ratio?.total}}%</h5>
+                    </div>
                 </div>
             </nz-card>
 
         </div>
         <div class="col-md-6 mb-md-3">
             <nz-card [nzTitle]="delinquent" [nzExtra]="delinquentTemplate" class="h-100">
-                <nz-table [nzLoading]="isLoading['delinquent']" [nzData]="fetchedList['delinquent']">
+                <nz-table [nzLoading]="isLoading['delinquent']" nzShowPagination="false" [nzData]="fetchedList['delinquent']">
                     <thead>
                         <tr>
                             <th>#</th>
