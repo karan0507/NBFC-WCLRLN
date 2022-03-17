@@ -12,6 +12,8 @@ import * as Chart from 'chart.js';
 
 export class DashboardComponent implements OnInit {
     themeColors = this.colorConfig.get().colors;
+    // gray
+    gray = this.themeColors.limeLight;
     blue = this.themeColors.blue;
     blueLight = this.themeColors.blueLight;
     pink = this.themeColors.pink;
@@ -22,6 +24,12 @@ export class DashboardComponent implements OnInit {
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
     customersChartData: number[] = [350, 450, 100, 243];
+    dummyData: number[] = [1];
+    dummyDataLabels: string[] = ['No Data To Show'];
+    dummyDataColors: Array<any> =  [{ 
+        backgroundColor: [this.gray],
+        pointBackgroundColor : [this.gray]
+    }];
     customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
     customersChartType = 'doughnut';
     customersChartColors: Array<any> =  [{ 

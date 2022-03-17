@@ -95,3 +95,9 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.totalCount {
+      .ant-pagination-total-text {
+        margin-inline-end: auto;
+      }
+    }

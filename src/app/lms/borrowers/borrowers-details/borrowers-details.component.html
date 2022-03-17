@@ -71,10 +71,10 @@
                                                 <a>Pull SMS from
                                                       Third Party</a>
                                           </li>
-                                          <li nz-menu-item>
+                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = true; ">
                                                 <a>Fetch Cibil Data</a>
                                           </li>
-                                          <li nz-menu-item>
+                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = false">
                                                 <a>Fetch SMS Data</a>
                                           </li>
                                     </ul>
@@ -580,8 +580,16 @@
 
 <nz-modal [(nzVisible)]="isPullSMSCibilModal" nzTitle="Pull Data from third party" (nzOnCancel)="handleCancel()">
       <ng-container *nzModalContent>
-            <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isCibil]="_isCibil ? true : false">
+            <app-common-cibil-sms [_currentLoanDetails]="_isCibil ? borrowertList?.loan_application_id : borrowertList?.user?.user_id" [isCibil]="_isCibil ? true : false">
             </app-common-cibil-sms>
+      </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isFetchCibilSms" nzTitle="Fetch data from data base" (nzOnCancel)="handleCancel()">
+      <ng-container *nzModalContent>
+            <app-common-cibil-sms [_currentLoanDetails]="_isCibil ? borrowertList?.loan_application_id : borrowertList?.user?.user_id"
+            [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
+      </app-common-cibil-sms>
       </ng-container>
 </nz-modal>
 

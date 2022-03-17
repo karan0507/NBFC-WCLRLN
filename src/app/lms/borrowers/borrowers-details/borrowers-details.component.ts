@@ -79,8 +79,7 @@ export class BorrowersDetailsComponent implements OnInit {
   isPullSMSCibilPopup:boolean;
   isPullSMSCibilModal : boolean;
   isPullCibil : boolean;
-  isFetchCibil : boolean;
-  
+  isFetchCibilSms : boolean = false;
   _isPullData : boolean;
   _isCibil : boolean;
   _currentLoanDetails : any
@@ -137,6 +136,9 @@ export class BorrowersDetailsComponent implements OnInit {
   closeAccount(){}
 
   handleCancel() {
+      this.isPullSMSCibilModal = false;
+      this.isFetchCibilSms = false;
+      this.isPullSMSCibilPopup = false;
     this.pdf_viewer_object_values['boolean'] = false
     this.pdf_viewer_object_values['url'] = null
   }

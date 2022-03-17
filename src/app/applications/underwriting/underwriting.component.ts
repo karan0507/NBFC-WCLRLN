@@ -66,6 +66,7 @@ export class UnderwritingComponent implements OnInit {
       _currentLoanDetails: any;
       verifyRemarks: any;
       _isCibil: boolean = false
+      isFetchCibilSms : boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -260,6 +261,7 @@ export class UnderwritingComponent implements OnInit {
             this._isEditOffer = false;
             this._isPullData = false;
             this._isCibil = false;
+            this.isFetchCibilSms = false;
       }
 
       handleOk(type?) {
@@ -301,7 +303,10 @@ export class UnderwritingComponent implements OnInit {
                         break;
                   case 'uploadDocument':
                         this.api_calling_loader['button'] = true
-                        let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
+                        let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'file': this._currentFileName }
+                        if(this._currentModalData?.id){
+                              uploadDoc['kyc_document_id'] = this._currentModalData?.id
+                        }
                         console.log(uploadDoc, 'For Upload Document');
 
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
@@ -402,23 +407,16 @@ export class UnderwritingComponent implements OnInit {
 
       // Get Cibil Data API
       getCibilScoreData(type?,id?) {
-            let data = { source: 'Onboarding', endpoint: id }
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
+           let data = { source: 'Onboarding', endpoint: id}
            if(type == 'cibil' && id){
-             data['datapoint'] = 'fetch-cibil-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                 this._isCibil = true;
+                 this._currentLoanDetails = id
+            
            }else if(type == 'sms' && id){
-            data['datapoint'] = 'fetch-sms-from-db'
-            this.https.getCibilSMSData(data).subscribe(res => {
-                  if (res?.data) {
-                        console.log(res?.data);
-                        this._currentCibilData = res?.data
-                  }
-            })  
+            this._isCibil = false;
+            this._currentLoanDetails = id
            }
       }
 
@@ -427,15 +425,14 @@ export class UnderwritingComponent implements OnInit {
             console.log(data);
 
             this._isUpdateStatus = true
+            this._isPullData = true
             switch (type) {
                   case 'thirdPartyCibil':
-                        this._isPullData = true
                         this._currentLoanDetails = data?.id
                         this._isCibil = true
                         break;
                   case 'downloadCibil': break
                   case 'thirdPartySMS':
-                        this._isPullData = true;
                         this._currentLoanDetails = data?.user?.id
                         this._isCibil = false
                         break

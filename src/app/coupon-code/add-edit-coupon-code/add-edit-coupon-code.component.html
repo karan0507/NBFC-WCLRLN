@@ -65,36 +65,11 @@
                         <nz-form-item>
                               <nz-form-label nzRequired>Total Coupons</nz-form-label>
                               <nz-form-control nzErrorTip="Please check total coupons">
-                                    <input nz-input formControlName="total_coupons" placeholder="Enter total coupons" />
+                                    <input nz-input type="number" formControlName="total_coupons" placeholder="Enter total coupons" />
                               </nz-form-control>
                         </nz-form-item>
                   </div>
-
-                  <!-- Optional Params -->
-                  <div class="col-md-4">
-                        <nz-form-item>
-                              <nz-form-label>Select Partner</nz-form-label>
-                              <nz-form-control nzErrorTip="Check partner selected">
-                                    <nz-select (nzFocus)="onFocusMethod('partner')"
-                                          formControlName="partner" nzAllowClear nzPlaceHolder="Select Partner">
-                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                [nzLabel]="item?.name "></nz-option>
-                                    </nz-select>
-                              </nz-form-control>
-                        </nz-form-item>
-                  </div>
-                  <div class="col-md-4">
-                        <nz-form-item>
-                              <nz-form-label>Select Master</nz-form-label>
-                              <nz-form-control nzErrorTip="Check selected master">
-                                    <nz-select (nzFocus)="onFocusMethod('master')"
-                                          formControlName="master" nzAllowClear nzPlaceHolder="Select Partner">
-                                          <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
-                                                [nzLabel]="item?.name "></nz-option>
-                                    </nz-select>
-                              </nz-form-control>
-                        </nz-form-item>
-                  </div>
+                  
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label>Select Product</nz-form-label>
@@ -106,6 +81,27 @@
                                     </nz-select>
                               </nz-form-control>
                         </nz-form-item>
+                  </div>
+                  <!-- Optional Params -->
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Partner</nz-form-label>
+                              <nz-form-control nzErrorTip="Check partner selected">
+                                    <nz-select (nzFocus)="onFocusMethod('partner')"
+                                          formControlName="partner" nzAllowClear [nzDisabled]="couponForm.get('isAllPartner').value ? true : false" nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label> <label nz-checkbox formControlName="isAllPartner"
+                                    class="align-items-center">All
+                                    Partner</label></nz-form-label>
+                        </nz-form-item>
+                       
                   </div>
                   <div class="col-md-4">
                         <nz-form-item>
@@ -121,6 +117,23 @@
                               </nz-form-control>
                         </nz-form-item>
                   </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Master</nz-form-label>
+                              <nz-form-control nzErrorTip="Check selected master">
+                                    <nz-select (nzFocus)="onFocusMethod('master')"
+                                          formControlName="master" nzAllowClear [nzDisabled]="couponForm.get('isAllMaster').value ? true : false" nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <label nz-checkbox formControlName="isAllMaster"
+                        class="align-items-center">All
+                        Master</label>
+                  </div> 
 
             </div>
       </form>
