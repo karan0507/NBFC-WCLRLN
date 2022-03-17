@@ -42,6 +42,7 @@
                     <tr>
                         <th nzWidth="3rem">#</th>
                         <th>User Name</th>
+                        <th>Product type</th>
                         <th>Loan ID</th>
                         <th>Applied on</th>
                         <th>Previous Credit Line Assigned</th>
@@ -55,6 +56,7 @@
                     <tr *ngFor="let data of borrowertList; index as i">
                         <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{data.user ? data.user.full_name : '-'}}</td>
+                        <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
                         <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td>{{data.loan_amount_provided ? data.loan_amount_provided : 0}}</td>
