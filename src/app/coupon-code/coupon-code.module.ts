@@ -17,6 +17,8 @@ import { AddEditCouponCodeComponent } from './add-edit-coupon-code/add-edit-coup
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [CouponCodeComponent, AddEditCouponCodeComponent],
@@ -35,7 +37,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzSelectModule,
     NzFormModule,
     NzDatePickerModule,
-    NzRadioModule
+    NzRadioModule,
+    NzSwitchModule,
+    NzCheckboxModule
   ]
 })
 export class CouponCodeModule { }

@@ -19,6 +19,7 @@ export class CouponCodeComponent implements OnInit {
       page = 1
       globalPageSize
       total_count: any;
+      isActive : any;
       constructor(public https: HttpService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -53,6 +54,7 @@ export class CouponCodeComponent implements OnInit {
             this.https.getCouponCodeList(param).subscribe((res: any) => {
                   if (res?.success) {
                         console.log(res?.data);
+                        this.total_count = res?.data?.total_count;
                         this.couponCodeListData = res?.data?.results
                         this.api_calling_loader['listLoader'] = false;
                   } else{
@@ -75,5 +77,10 @@ export class CouponCodeComponent implements OnInit {
             this.filters = null;
             this.searchValue = null;
             this.getCouponCodeList()
+      }
+
+      couponSwitch(data) {
+            console.log(data);
+
       }
 }

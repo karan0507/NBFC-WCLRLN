@@ -5,6 +5,8 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
 import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import * as FileSaver from 'file-saver';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 // import {}
 
 @Component({
@@ -26,13 +28,29 @@ export class EditFormComponent implements OnInit {
       partnerList: any = [];
       documentList: any = [];
       today = new Date();
+      productList: any = [];
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message : NzMessageService) { }
+
+      // Document Values:
+      _isViewDocument: boolean = false;
+      _isVerify: boolean = false;
+      _isUpload: boolean = false;
+      _currentModalData: any;
+      isRequestDoc: boolean = false;
+      verifyRemarks: any;
+      _isOpenModal: boolean = false;
+      _currentFileName: any
+      fileList: any = [];
+      documentStatus: any;
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService) { }
 
       ngOnInit(): void {
+            this.fetchProductList();
+            this.fetchMasterIncomeRange();
+            this.fetchPartnerList();
             this.route.queryParams.subscribe(params => {
                   if (params['id']) {
                         this.userId = params['id'];
@@ -41,7 +59,7 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
-                        email: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+                        email: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null, [Validators.required]],
                         income: [null, [Validators.required]]
                   })
@@ -50,17 +68,79 @@ export class EditFormComponent implements OnInit {
                   company_name: [null, [Validators.required]],
                   address: [null, [Validators.required]]
             })
+
             this.preApprovedForm = this.fb.group({
-                  limitProcessed: [null, [Validators.required, Validators.maxLength(6), Validators.min(1)]],
-                  product_name: [null, [Validators.required]]
+                  product_name: [null, [Validators.required]],
+                  limitProcessed: [null, [Validators.required, Validators.min(1), Validators.maxLength(6)]]
             })
 
             this.documentForm = this.fb.group({
                   document_name: ['1'],
                   document_name_2: ['1']
             })
-            this.fetchMasterIncomeRange();
-            this.fetchPartnerList();
+
+      }
+
+
+      handleCancel() {
+            this._isOpenModal = false;
+            this._isViewDocument = false;
+            this._isUpload = false;
+            this._isVerify = false;
+            this.isRequestDoc = false;
+      }
+      handleOk(type?) {
+            switch (type) {
+                  case 'verify':
+                        this.api_calling_loader['button'] = true
+                        let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
+                        this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getFormLoanData()
+                              } else {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false
+                              this.message.error(err);
+                        })
+
+                        break;
+                  case 'uploadDocument':
+                        // For Selfie file: application_id datapoint:upload_selfie
+                        this._currentModalData
+                        this.api_calling_loader['button'] = true
+                        let uploadDoc = new FormData()
+                        uploadDoc.append('source', 'Onboarding')
+                        uploadDoc.append('datapoint', 'upload_kyc_doc')
+                        uploadDoc.append('application_id', this._currentModalData['application'])
+                        if (this._currentModalData?.id) {
+                              uploadDoc.append('kyc_document_id', this._currentModalData?.id)
+                        }
+                        uploadDoc.append('document_id', this._currentModalData?.document_master?.id)
+                        uploadDoc.append('file', this._currentFileName)
+                        this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false;
+                                    this.fileList = [];
+                                    this.message.success(res?.message)
+                                    this.handleCancel();
+                              } else {
+                                    this.api_calling_loader['button'] = false;
+                                    this.fileList = [];
+                                    this.message.error(res?.message)
+                                    this.handleCancel();
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(err)
+                        })
+                        break;
+            }
       }
 
       onChange(event) {
@@ -79,12 +159,17 @@ export class EditFormComponent implements OnInit {
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['accordian'] = false;
-                        this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : '' });
-                        this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : '--' });
-                        this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : '--' });
-                        this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : '' })
-                        this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : '' });
-                        this.documentList = res?.data?.documents;
+                        this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
+                        this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
+                        this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
+                        this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : null })
+                        this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : null });
+                        if (res?.data?.offer) {
+                              this.preApprovedForm.patchValue({ product_name: res?.data?.offer[0]?.id ? res?.data?.offer[0]?.id : null })
+                              this.preApprovedForm.patchValue({ limitProcessed: res?.data?.offer[0]?.amount_offered ? res?.data?.offer[0]?.amount_offered : null })
+                              // this.preApprovedForm.get('product_name').setValue(res?.data?.offer[0]?.id);
+                        }
+                        this.documentList = res?.data?.kyc_documents;
 
                   } else {
                         this.api_calling_loader['accordian'] = false;
@@ -141,4 +226,46 @@ export class EditFormComponent implements OnInit {
             console.log(data);
             this.employementDetails.get('address').setValue(data[0]?.address);
       }
+
+      fetchProductList() {
+            this.https.getAllProducts().subscribe((res: any) => {
+                  this.productList = res?.data
+            })
+      }
+
+      onFocusMethod(event) {
+            console.log(event);
+
+      }
+
+      openDocumentModal(type?, data?) {
+            this._currentModalData = data;
+            console.log(data);
+            if (type == 'download') {
+                  let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  this.https.downloadDocuments(data).subscribe((res: any) => {
+                        if (res?.success) {
+                              var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
+                              FileSaver.saveAs(data, 'text.txt');
+                        }
+                  });
+            } else {
+                  this._isOpenModal = true;
+                  switch (type) {
+                        case 'viewDocument': this._isViewDocument = true;
+                              // this.generateBase64View(this._currentModalData?.file);
+                              break;
+                        case 'verify': this._isVerify = true; break;
+                        case 'upload': this._isUpload = true; break;
+                  }
+            }
+      }
+
+      beforeUploadName = (file: NzUploadFile): boolean => {
+            this.fileList = [];
+            this.fileList = this.fileList.concat(file);
+            this._currentFileName = file;
+            // this.generateBase64View(file)
+            return false;
+      };
 }

@@ -98,7 +98,8 @@
       <nz-page-header class="site-page-header text-center w-100 py-3 px-2 bg-light-orange" [nzTitle]="lenderManagement">
       </nz-page-header>
       <ng-template #lenderManagement>
-            <h6 class="mb-0 pl-3"><img class="mr-2" src="../../../assets/images/Icons/Bag.svg" alt="">Total Lenders - {{ total_count ? total_count : '0'}}</h6>
+            <h6 class="mb-0 pl-3"><img class="mr-2" src="../../../assets/images/Icons/Bag.svg" alt="">Total Lenders - {{
+                  total_count ? total_count : '0'}}</h6>
       </ng-template>
 </section>
 
@@ -175,7 +176,8 @@
                   <div class="row">
                         <div class="col-md-12 mb-4">
                               <div class="d-flex flex-wrap">
-                                    <label class="font-size-14 text-muted mr-3">Current Value</label> {{ totalCommitments ? totalCommitments : '0'}}
+                                    <label class="font-size-14 text-muted mr-3">Current Value</label> {{
+                                    totalCommitments ? totalCommitments : '0'}}
                               </div>
                         </div>
                         <div class="col-md-12">
@@ -219,7 +221,8 @@
                                                       <label class="text-dark font-weight-semibold">Total</label>
                                                 </td>
                                                 <td>
-                                                      <label class="text-dark font-weight-semibold">{{ totalCommitments}}</label>
+                                                      <label class="text-dark font-weight-semibold">{{
+                                                            totalCommitments}}</label>
                                                 </td>
                                           </tr>
                                     </tbody>
@@ -234,42 +237,53 @@
                         <section>
                               <form [formGroup]="requestFundForm">
                                     <div class="col-md-12 my-4">
-                                          <div class="d-flex flex-wrap">
-
-                                                <div>
-                                                      <nz-form-item class="mb-0">
+                                          <div class="row">
+                                                <nz-form-item class="mb-0">
+                                                      <div class="col-md-5">
                                                             <nz-form-label nzRequired>Amount
                                                                   Value</nz-form-label>
-                                                            <nz-form-control nzErrorTip="Please enter amount">
+                                                      </div>
+                                                      <div class="col-md-7">
+                                                            <nz-form-control
+                                                                  nzErrorTip="Please enter amount">
                                                                   <!-- [nzDisabledDate]="disabledDate" -->
                                                                   <div class="flex-column">
                                                                         <div>
                                                                               <input type="number"
-                                                                                    formControlName="amount" nz-input
-                                                                                    placeholder="">
+                                                                                    formControlName="amount"
+                                                                                    nz-input placeholder="">
                                                                         </div>
                                                                         <div>
-                                                                              ₹ {{ requestFundForm.get('amount').value ?
+                                                                              ₹ {{
+                                                                              requestFundForm.get('amount').value
+                                                                              ?
                                                                               globalservice.amountFromatterFinction(requestFundForm.get('amount').value)
                                                                               : ''}}</div>
                                                                   </div>
 
                                                             </nz-form-control>
-                                                      </nz-form-item>
-                                                </div>
+                                                      </div>
+                                                </nz-form-item>
                                           </div>
 
                                     </div>
                                     <div class="col-md-12">
-                                          <nz-form-item>
-                                                <nz-form-label nzRequired>Select Date</nz-form-label>
-                                                <nz-form-control nzErrorTip="Please select date">
-                                                      <!-- [nzDisabledDate]="disabledDate" -->
-                                                      <nz-date-picker formControlName="repaid_on" class="w-100"
-                                                            [nzFormat]="'yyyy-MM-dd'">
-                                                      </nz-date-picker>
-                                                </nz-form-control>
-                                          </nz-form-item>
+                                          <div class="row">
+                                                <nz-form-item>
+                                                      <div class="col-md-5">
+                                                                <nz-form-label nzRequired>Select Date</nz-form-label>
+                                                          </div>
+                                                          <div class="col-md-7">
+                                                                <nz-form-control nzErrorTip="Please select date">
+                                                                      <!-- [nzDisabledDate]="disabledDate" -->
+                                                                      <nz-date-picker [nzDisabledDate]="disabledDate"
+                                                                            formControlName="repaid_on" class="w-100"
+                                                                            [nzFormat]="'yyyy-MM-dd'">
+                                                                      </nz-date-picker>
+                                                                </nz-form-control>
+                                                          </div>
+                                              </nz-form-item>
+                                          </div>
                                     </div>
                               </form>
                         </section>
@@ -297,7 +311,7 @@
                                     </tbody>
                               </nz-table>
                         </div>
-                       
+
 
                   </div>
             </section>
@@ -305,47 +319,60 @@
             <!-- Repayment NBFC Modal -->
             <section *ngIf="isNBFC">
                   <div class="row">
-                        
-                        <section class="my-3" *ngIf="!isAddRepayment">
-                              <a class="text-primary" (click)="isAddRepayment = true">
-                                    <h5 class="text-primary">+ Add Repayment</h5>
-                              </a>
-                        </section>
 
-                        <section *ngIf="isAddRepayment">
+                        <section>
                               <form [formGroup]="nbfcRepayment">
                                     <div class="col-md-12 my-3">
                                           <div class="d-flex flex-wrap">
-                                                <div class="align-middle"><label
-                                                            class="font-size-14 text-muted mr-3">Amount</label></div>
-                                                <div class="flex-column">
-                                                      <div>
-                                                            <nz-form-item class="mb-0">
-                                                                  <!-- <nz-form-label nzRequired>Select Date</nz-form-label> -->
-                                                                  <nz-form-control nzErrorTip="Please enter amount">
-                                                                        <!-- [nzDisabledDate]="disabledDate" -->
-                                                                        <input type="number" formControlName="amount"
-                                                                              nz-input placeholder="">
-                                                                  </nz-form-control>
-                                                            </nz-form-item>
+                                                <div class="row">
+                                                      <div class="col-md-5">
+                                                            <div class="align-middle">
+                                                                  <nz-form-label nzRequired>Amount
+                                                                        Value</nz-form-label>
+                                                            </div>
                                                       </div>
-                                                      <div>
-                                                            ₹ {{ nbfcRepayment.get('amount').value ?
-                                                            globalservice.amountFromatterFinction(nbfcRepayment.get('amount').value)
-                                                            : ''}}</div>
+                                                      <div class="col-md-7">
+                                                            <div class="flex-column">
+                                                                  <div>
+                                                                        <nz-form-item class="mb-0">
+                                                                              <!-- <nz-form-label nzRequired>Select Date</nz-form-label> -->
+                                                                              <nz-form-control
+                                                                                    nzErrorTip="Please enter amount">
+                                                                                    <!-- [nzDisabledDate]="disabledDate" -->
+                                                                                    <input type="number"
+                                                                                          formControlName="amount"
+                                                                                          nz-input placeholder="">
+                                                                              </nz-form-control>
+                                                                        </nz-form-item>
+                                                                  </div>
+                                                                  <div>
+                                                                        ₹ {{ nbfcRepayment.get('amount').value ?
+                                                                        globalservice.amountFromatterFinction(nbfcRepayment.get('amount').value)
+                                                                        : ''}}</div>
+                                                            </div>
+                                                      </div>
+
                                                 </div>
                                           </div>
 
                                     </div>
                                     <div class="col-md-12">
                                           <nz-form-item>
-                                                <nz-form-label nzRequired>Repaid On</nz-form-label>
-                                                <nz-form-control nzErrorTip="Please select date">
-                                                      <!-- [nzDisabledDate]="disabledDate" -->
-                                                      <nz-date-picker [nzDisabledDate]="disabledDate" formControlName="repaid_on" class="w-100"
-                                                            [nzFormat]="'yyyy-MM-dd'">
-                                                      </nz-date-picker>
-                                                </nz-form-control>
+                                                <div class="row">
+                                                      <div class="col-md-5">
+                                                            <nz-form-label nzRequired>Repaid On</nz-form-label>
+                                                      </div>
+                                                      <div class="col-md-7">
+                                                            <nz-form-control nzErrorTip="Please select date">
+                                                                  <!-- [nzDisabledDate]="disabledDate" -->
+                                                                  <nz-date-picker [nzDisabledDate]="disabledDate"
+                                                                        formControlName="repaid_on" class="w-100"
+                                                                        [nzFormat]="'yyyy-MM-dd'">
+                                                                  </nz-date-picker>
+                                                            </nz-form-control>
+                                                      </div>
+                                                </div>
+                                               
                                           </nz-form-item>
                                     </div>
                               </form>

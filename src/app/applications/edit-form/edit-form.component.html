@@ -13,7 +13,8 @@
                               <nz-form-item>
                                     <nz-form-label nzRequired>Email</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your Email!">
-                                          <input nz-input type="email" formControlName="email" placeholder="Enter your Email" />
+                                          <input nz-input type="email" formControlName="email"
+                                                placeholder="Enter your Email" />
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
@@ -22,7 +23,7 @@
                                     <nz-form-label nzRequired>D.O.B</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Date Of Birth!">
                                           <nz-date-picker formControlName="date_of_birth" nzFormat="yyyy-MM-dd"
-                                          [nzDisabledDate]="disabledDate" (ngModelChange)="onChange($event)">
+                                                [nzDisabledDate]="disabledDate" (ngModelChange)="onChange($event)">
                                           </nz-date-picker>
                                     </nz-form-control>
                               </nz-form-item>
@@ -34,7 +35,8 @@
                                           <!-- (nzFocus)="fetchMasterIncomeRange()"  -->
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="income"
                                                 nzAllowClear nzPlaceHolder="Select Amount">
-                                                <nz-option *ngFor="let item of masterIncomeRangeList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+                                                <nz-option *ngFor="let item of masterIncomeRangeList"
+                                                      [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
@@ -59,9 +61,11 @@
                               <nz-form-item>
                                     <nz-form-label nzRequired>Company Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Company Name!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name" 
-                                           nzAllowClear nzPlaceHolder="Company Name" (ngModelChange)="editCompanyName($event)">
-                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
+                                                nzAllowClear nzPlaceHolder="Company Name"
+                                                (ngModelChange)="editCompanyName($event)">
+                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                      [nzLabel]="item?.name"></nz-option>
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
@@ -88,16 +92,18 @@
                   <div> <span class="font-weight-normal font-size-14">Pre Approved Offer Details</span></div>
             </div>
       </ng-template>
-      <nz-card  [nzTitle]="preApprovedDetailModal" [nzLoading]="api_calling_loader['accordian']">
+      <nz-card [nzTitle]="preApprovedDetailModal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="preApprovedForm" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
                                     <nz-form-label nzRequired>Product Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select Product Name!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="product_name"
-                                                nzAllowClear nzPlaceHolder="Product Name">
-                                                <nz-option nzValue="medicine" nzLabel="FatakPay"></nz-option>
+                                          <nz-select class="mx-1 w-100" nzAllowClear formControlName="product_name"
+                                                (ngModelChange)="onFocusMethod($event)" nzPlaceHolder="Product">
+                                                <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                                      [nzLabel]="item.name">
+                                                </nz-option>
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
@@ -106,8 +112,8 @@
                               <nz-form-item>
                                     <nz-form-label nzRequired>Limit Proposed</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter your limit proposed">
-                                          <input nz-input type="number" placeholder="Enter your Limit Proposed"
-                                                formControlName="limitProcessed">
+                                          <input nz-input type="number" formControlName="limitProcessed"
+                                                placeholder="Enter your Limit Proposed">
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
@@ -118,7 +124,16 @@
 
 <!-- Document Details Section -->
 <section>
-      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="documentModal"></nz-page-header> -->
+      <ng-template #modalTitle>
+            <label *ngIf="_isUpload">Upload Document</label>
+            <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ?
+                  _currentModalData?.document_id?.name : ''
+                  }} Document</label>
+            <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
+                  }}
+                  Document</label>
+      </ng-template>
+      <!-- Modal Section -->
       <ng-template #documentModal>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14"> Document Details</span></div>
@@ -127,64 +142,90 @@
       <nz-card [nzTitle]="documentModal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="documentForm" [nzLayout]="'vertical'">
                   <div class="row">
-                        <div class="col-md-6" *ngFor="let item of documentList; index as i">
-                              <nz-form-item>
-                                    <nz-form-label>{{item?.document_master?.name}} Document {{ i + 1}}</nz-form-label>
-                                    <label> {{item?.file_name}}</label>
-                                    <!-- <nz-form-control nzErrorTip="Please select document type!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="document_name"
-                                                nzAllowClear nzPlaceHolder="Document Name">
-                                                <nz-option [nzValue]="item?.document_master?.id" [nzLabel]="item?.document_master?.name"></nz-option>
-                                          </nz-select>
-                                    </nz-form-control> -->
-                              </nz-form-item>
+                        <div class="col-md-4" *ngFor="let item of documentList">
+                              <div class="d-flex flex-column">
+                                    <div class="d-flex flex-wrap justify-content-between">
+                                          <label class="text-muted">{{
+                                                item?.document_master?.name + ' '}} <b>
+                                                      {{ item?.status }} </b>
+                                          </label>
 
-                              <div class="d-flex my-2 justify-content-between px-3">
-                                    <a class="text-primary"> <i nz-icon nzType="eye" nzTheme="outline"></i> View</a>
-                                    <a class="text-primary"> <i nz-icon class="mx-3" nzType="check-circle"
-                                                nzTheme="outline"></i> Verify</a>
-                                    <a class="text-primary"> <i nz-icon nzType="download" nzTheme="outline"></i>
-                                          Download</a>
-                                    <a class="text-primary"> <i nz-icon nzType="upload" nzTheme="outline"></i>
-                                          Uplaod</a>
+                                          <div class="mr-5">
+                                                <a class="text-primary mr-3" *ngIf="item?.id && item?.file_url"
+                                                      nzTooltipTitle="View Document"
+                                                      (click)="openDocumentModal('viewDocument',item)">
+                                                      <i nz-icon nzType="eye" nzTheme="outline"></i></a>
+                                                <a class="text-primary mr-3"
+                                                      *ngIf="item?.id && item?.file_url && item?.status == 'Pending'"
+                                                      nzTooltipTitle="Verify Document"
+                                                      (click)="openDocumentModal('verify',item, data)">
+                                                      <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                                <a class="text-primary mr-3" *ngIf="item?.id && item.file_url"
+                                                      nzTooltipTitle="Download Document"
+                                                      (click)="openDocumentModal('download',item, data)">
+                                                      <i nz-icon nzType="download" nzTheme="outline"></i></a>
+                                                <a class="text-primary" nzTooltipTitle="Upload Document"
+                                                      (click)="openDocumentModal('upload',item, data)">
+                                                      <i nz-icon nzType="upload" nzTheme="outline"></i>
+                                                </a>
+                                          </div>
+                                    </div>
+                                    <div>
+                                          {{ item?.reason ? item?.reason : '--'}}
+                                    </div>
                               </div>
                         </div>
-                        <!-- <div class="col-md-6">
-                              <nz-form-item>
-                                    <nz-form-label class="ml-2">Document 2</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please enter your limit proposed">
-                                          <nz-select class="w-100" style=" width: 8rem;"
-                                                formControlName="document_name_2" nzAllowClear
-                                                nzPlaceHolder="Document Name">
-                                                <nz-option nzValue="1" nzLabel="Aadhaar Card"></nz-option>
-                                          </nz-select>
-                                    </nz-form-control>
-                              </nz-form-item>
-                              <div class="d-flex my-2 justify-content-between">
-                                    <a class="text-primary"> <i nz-icon nzType="eye" nzTheme="outline"></i> View</a>
-                                    <a class="text-primary"> <i nz-icon class="mx-3" nzType="check-circle"
-                                                nzTheme="outline"></i> Verify</a>
-                                    <a class="text-primary"> <i nz-icon nzType="download" nzTheme="outline"></i>
-                                          Download</a>
-                                    <a class="text-primary"> <i nz-icon nzType="upload" nzTheme="outline"></i>
-                                          Uplaod</a>
-                              </div>
-                        </div> -->
                   </div>
             </form>
-            <!-- <div class="row my-3">
-                  <div class="col-md-12">
-                        <a class="text-primary">
-                              <h5 class="text-primary">+ Add Document</h5>
-                        </a>
-                  </div>
-            </div> -->
       </nz-card>
+</section>
+
+<!-- modal section -->
+<section>
+      <nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+            [nzFooter]="footerModal">
+            <section *ngIf="_isViewDocument">
+                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData"
+                        (onCancel)="handleCancel()"></app-kyc-document-action>
+                  <!-- <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100"> -->
+            </section>
+      
+            <!-- Verify Document Modal -->
+            <section *ngIf="_isVerify">
+                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData"
+                        (onCancel)="handleCancel()"></app-kyc-document-action>
+      
+            </section>
+      
+            <!-- Upload Document Modal -->
+            <section *ngIf="_isUpload">
+                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+                        <p class="ant-upload-text">Drag and Drop file here</p>
+                        <p class="ant-upload-text">or</p>
+                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                  </nz-upload>
+                  <!-- <app-kyc-document-action [action]="'uploadDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action> -->
+                  <!-- (nzChange)="" -->
+            </section>
+      </nz-modal>
+     
 </section>
 
 <section>
       <div class="d-flex justify-content-md-end">
             <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
-            <button nz-button nzType="primary" [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false" [nzLoading]="api_calling_loader['listLoader']" class="mx-2" (click)="submitForm()">Save</button>
+            <button nz-button nzType="primary"
+                  [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false"
+                  [nzLoading]="api_calling_loader['listLoader']" class="mx-2" (click)="submitForm()">Save</button>
       </div>
+      <ng-template #footerModal>
+            <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+            <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
+                  [disabled]="!fileList[0] ? true : false" [nzLoading]="api_calling_loader['button']"
+                  (click)="handleOk('uploadDocument')">Submit</button>
+            <button *ngIf="_isVerify" nz-button nzType="primary"
+                  [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+                  [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+      </ng-template>
 </section>
