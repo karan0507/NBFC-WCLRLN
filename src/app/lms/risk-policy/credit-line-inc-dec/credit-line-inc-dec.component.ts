@@ -29,7 +29,11 @@ export class CreditLineIncDecComponent implements OnInit {
   is_active: number;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,) { 
+      http.refreshCreditLine.subscribe(res => {
+        this.fetchLoanApplicationList()
+      })
+    }
 
   ngOnInit(): void {
     this.page = 1;

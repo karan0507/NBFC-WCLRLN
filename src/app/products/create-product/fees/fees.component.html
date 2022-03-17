@@ -67,7 +67,7 @@
                     <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="trigger" class="text-left" nzRequired>Trigger</nz-form-label>
-                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Trigger!">
+                            <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input Trigger!">
                                 <nz-select formControlName="trigger" nzPlaceHolder="Select Trigger!"
                                     (nzFocus)="fetchTriggerMaster()" nzShowSearch nzAllowClear
                                     (nzOnSearch)="searchStaticDataGlobalFunction($event)">
@@ -91,7 +91,29 @@
                             </nz-form-item>
                         </div>
                     </div>
-
+                    
+                    <div class="col-md-12 px-0" *ngIf="!item.controls.slab_specific.value">
+                        <div class="col-md-6">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="10" [nzXs]="24">
+                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="amount" formControlName="amount"
+                                            id="amount" placeHolder="Amount (₹)">
+                                    </nz-input-group>
+                                    
+                                    <ng-template #addOnAfterTemplate>
+                                        <span>₹</span> &nbsp; &nbsp;
+                                        <nz-select formControlName="amount_include_gst">
+                                            <nz-option [nzLabel]="'excluding GST'" [nzValue]="false"></nz-option>
+                                            <nz-option [nzLabel]="'including GST'" [nzValue]="true"></nz-option>
+                                        </nz-select>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
                     <div class="col-md-12" *ngIf="item.controls.slab_specific.value">
                         <ng-container *ngFor="let slab_item of get_slabs(item); let i = index;" formArrayName="slabs">
                             <div class="row" [formGroupName]="i">
@@ -105,19 +127,19 @@
                                 </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
-                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum Amt.</nz-form-label>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum credit line.</nz-form-label>
                                         <nz-form-control [nzSm]="10" [nzXs]="24">
-                                            <input nz-input type="number" min="1" name="minimum_charge" formControlName="minimum_charge" id="minimum_charge"
-                                                placeHolder="Minimum Amt.">
+                                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="minimum_charge" formControlName="minimum_charge" id="minimum_charge"
+                                                placeHolder="Minimum credit line.">
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
-                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="maximum_charge" class="text-left" nzRequired>Maximum Amt.</nz-form-label>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="maximum_charge" class="text-left" nzRequired>Maximum credit line.</nz-form-label>
                                         <nz-form-control [nzSm]="10" [nzXs]="24">
-                                            <input nz-input type="number" min="1" name="maximum_charge" formControlName="maximum_charge" id="maximum_charge"
-                                                placeHolder="Maximum Amt.">
+                                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="maximum_charge" formControlName="maximum_charge" id="maximum_charge"
+                                                placeHolder="Maximum credit line.">
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -126,12 +148,16 @@
                                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount (₹)</nz-form-label>
                                         <nz-form-control [nzSm]="10" [nzXs]="24">
                                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                                <input nz-input type="number" min="0" name="amount" formControlName="amount"
+                                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="amount" formControlName="amount"
                                                     id="amount" placeHolder="Amount (₹)">
                                             </nz-input-group>
                         
                                             <ng-template #addOnAfterTemplate>
-                                                <span>₹</span>
+                                                <span>₹</span> &nbsp; &nbsp;
+                                                <nz-select formControlName="amount_include_gst">
+                                                    <nz-option [nzLabel]="'excluding GST'" [nzValue]="false"></nz-option>
+                                                    <nz-option [nzLabel]="'including GST'" [nzValue]="true"></nz-option>
+                                                </nz-select>
                                             </ng-template>
                                         </nz-form-control>
                                     </nz-form-item>
@@ -150,9 +176,9 @@
                     <div class="col-md-12 px-0">
                         <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount_include_gst" class="text-left" nzRequired>GST</nz-form-label>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_flag" class="text-left" nzRequired>GST</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please select GST!">
-                                <nz-radio-group formControlName="amount_include_gst">
+                                <nz-radio-group formControlName="gst_flag">
                                     <label nz-radio [nzValue]="true">Yes</label>
                                     <label nz-radio [nzValue]="false">No</label>
                                   </nz-radio-group>
@@ -160,14 +186,14 @@
                         </nz-form-item>
                     </div>
                     </div>
-                    <div class="col-md-12 px-0" *ngIf="item.controls.amount_include_gst.value">
+                    <div class="col-md-12 px-0" *ngIf="item.controls.gst_flag.value">
                         <div class="col-md-6">
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="gst_rate" class="text-left" nzRequired>GST(%)</nz-form-label>
                             <nz-form-control nzErrorTip="Please input GST(%)!">
-                                <!-- <input nz-input type="number" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" /> -->
+                                <!-- <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="gst_rate" placeholder="Please input GST(%)!" /> -->
                                 <nz-input-group>
-                                    <input nz-input type="number" min="0" (keydown)="restrictType($event)" formControlName="gst_rate" placeholder="Please input GST(%)!" />
+                                    <input nz-input type="number" min="0" (keydown)="http.restrictType($event)" formControlName="gst_rate" placeholder="Please input GST(%)!" />
                                 </nz-input-group>
                             
                                 <ng-template #addOnAfterTemplateforamt>
@@ -182,7 +208,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="active_start_month" class="text-left" nzRequired>Start Month</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Start Month!">
-                                <input nz-input type="number" min="0" formControlName="active_start_month"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="active_start_month"
                                     placeholder="Please input Start Month!" />
                             </nz-form-control>
                         </nz-form-item>
@@ -191,7 +217,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="active_end_month" class="text-left" nzRequired>End Month</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input End Month!">
-                                <input nz-input type="number" min="0" formControlName="active_end_month"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="active_end_month"
                                     placeholder="Please input End Month!" />
                             </nz-form-control>
                         </nz-form-item>
@@ -201,7 +227,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="threshold_min" class="text-left" nzRequired>Minimum Amt. (₹)</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Minimum Amt. (₹)!">
-                                <input nz-input type="number" min="0" formControlName="threshold_min"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="threshold_min"
                                     placeholder="Please input Minimum Amt. (₹)!" />
                             </nz-form-control>
                         </nz-form-item>
@@ -210,7 +236,7 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="threshold_max" class="text-left" nzRequired>Maximum Amt. (₹)</nz-form-label>
                             <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input Maximum Amt. (₹)!">
-                                <input nz-input type="number" min="0" formControlName="threshold_max"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="threshold_max"
                                     placeholder="Please input Maximum Amt. (₹)!" />
                             </nz-form-control>
                         </nz-form-item>

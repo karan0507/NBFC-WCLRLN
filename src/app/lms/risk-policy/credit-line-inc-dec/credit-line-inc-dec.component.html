@@ -16,13 +16,13 @@
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchLoanApplicationList()"
                         nzPlaceHolder="Filter By Product Master">
-                        <nz-option [nzValue]="1" nzLabel="Fatak Pay"></nz-option>
-                        <nz-option [nzValue]="2" nzLabel="Fatak Pay EMI"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchLoanApplicationList()"
                         nzPlaceHolder="Filter By Card Status">
-                        <nz-option [nzValue]="false" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="true" nzLabel="Blocked"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchLoanApplicationList()"
                         nzPlaceHolder="Filter By A/C Status">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '1200px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchLoanApplicationList($event) : ''">
+            [nzScroll]="{ x: '1800px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchLoanApplicationList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -48,7 +48,7 @@
                         <th>Change of Amount</th>
                         <th>New Credit Line Assigned</th>
                         <th>Activation Date</th>
-                        <th nzRight>Action</th>
+                        <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>

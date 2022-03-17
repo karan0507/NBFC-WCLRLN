@@ -99,7 +99,7 @@
                                         </nz-select>
                                     </nz-form-control>
                                     <nz-form-control [nzSm]="4" [nzXs]="24" nzErrorTip="Please enter Tenure!" class="ml-3">
-                                        <input nz-input type="number" min="0" formControlName="tenure" placeholder="Please enter Tenure" (keyup)="setNoOfEmisValue(k)"/>
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="tenure" placeholder="Please enter Tenure" (keyup)="setNoOfEmisValue(k)"/>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -114,7 +114,7 @@
                                     </nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Interest Rate(%)!">
                                         <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                            <input nz-input type="number" min="0" formControlName="rate_of_interest" />
+                                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="rate_of_interest" />
                                         </nz-input-group>
                                         <ng-template #addOnAfterTemplate>
                                             <span>%</span>
@@ -134,7 +134,7 @@
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="advance_emi" class="text-left">Advance EMI</nz-form-label>
                                     <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Advance EMI!">
-                                        <input nz-input type="number" min="0" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="advance_emi" placeholder="Please input Advance EMI"/>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>

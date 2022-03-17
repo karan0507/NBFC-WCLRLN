@@ -30,6 +30,16 @@ export class HttpService {
             return this._http.post((this.url + `/user/verify-admin-user/`), data);
       }
 
+      /// Send Otp
+      public sendOtp(data): any {
+            return this._http.post((this.url + `/user/forgot-password/`), data);
+      }
+
+      /// Verify OTP 
+      public VerifyOtptopasswordchange(data): any {
+            return this._http.post((this.url + `/user/forgot-password-validate/`), data);
+      }
+
       public createOnline$() {
             return merge<boolean>(
                   fromEvent(window, 'offline').pipe(map(() => false)),
@@ -220,6 +230,12 @@ export class HttpService {
             return this._http.get((this.url + `/master/fetch-master-data/DocumentMaster`), { params: data });
       }
 
+      /**
+       * fetchThirdPartyMaster
+       */
+       public fetchThirdPartyMaster(data) {
+            return this._http.get((this.url + `/platform_central/v1/get-all-third-party-apis-list`), { params: data });
+      }
 
       /**
        * createLimits
@@ -806,5 +822,19 @@ export class HttpService {
 
       verifyUploadedKycDocumentForNBFC(id, data) {
             return this._http.post(this.url + `/nbfc/v1/verify-doc/${id}`, data);
+      }
+
+      downloadEmployeeUserDetail(id){
+            return this._http.get(this.url + `/partner/v1/download-employee-details/${id}`,{ responseType:'blob' });
+      }
+
+      viewSavedFileContent(id){
+            return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`);
+      }
+
+      restrictType(event) {
+            if (event.which == 107 || event.which == 109 || event.which == 69) {
+                  return false;
+            }
       }
 }

@@ -32,7 +32,7 @@
                 </div>
             </div>
             <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            (nzQueryParams)="employeeList ? fetchEmployeeList($event) : ''">
+            (nzQueryParams)="employeeList ? fetchEmployeeList($event) : ''" [nzScroll]="{ y: '40vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -43,7 +43,7 @@
                         <th>Email-ID</th>
                         <th>Regd. On</th>
                         <th>Status</th>
-                        <th nzRight>Action</th>
+                        <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>

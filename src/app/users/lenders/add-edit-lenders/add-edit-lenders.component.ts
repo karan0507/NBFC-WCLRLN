@@ -311,7 +311,13 @@ export class AddEditLendersComponent implements OnInit {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
     }
-
+    var sendDate = this.addEditProductForm.value
+    for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
+          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
+          return;
+          }
+      }
     if (this.addEditProductForm.valid) {
       this.apiLoader['formSave'] = true
       if (!this.isEdit) {
@@ -409,6 +415,13 @@ export class AddEditLendersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+    var sendDate = this.addEditProductForm.value
+    for (var i in sendDate.document_data) {
+        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
+          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
+          return;
+          }
+      }
     if(this.addEditProductForm.valid) {
       this.apiLoader['saveAddNew'] = true
       let data = new FormData();

@@ -50,6 +50,8 @@
                         <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>
                         <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
                         <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                        <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                        <nz-option nzValue="Expense Spend" nzLabel="Expense Spend"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Status">
@@ -60,7 +62,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"  [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
-                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '1500px' }">
+                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '1500px', y: '45vh' }">
                 <thead>
                     <tr>
                         <!-- <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
@@ -75,7 +77,7 @@
                         <th>GST Amount</th>
                         <th>Total Amount (₹)</th>
                         <th>Status</th>
-                        <th nzRight> Actions</th>
+                        <th nzWidth="5.5rem" nzRight> Actions</th>
                     </tr>
                 </thead>
                 <tbody>

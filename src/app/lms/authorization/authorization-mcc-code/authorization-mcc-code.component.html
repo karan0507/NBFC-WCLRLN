@@ -25,7 +25,7 @@
                     <button nz-button nzType="primary" class="ml-3" (click)="http.sampleDownloadGlobalFunction('MCCCODE_UPLOAD')">Sample File Download<i nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
                 </div>
             </div>
-            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']" [nzPageSize]="globalPageSize"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false"
             [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList">
                 <thead>
@@ -41,7 +41,8 @@
                 <tbody>
                     <ng-container *ngFor="let data of UPIList; index as i">
                         <tr>
-                            <td>{{ i + 1 }}</td>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>{{ data?.code }}</td>
                             <td>{{ data?.code_type }}</td>
                             <td>{{ data?.status  }}</td>
@@ -59,11 +60,11 @@
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5" >Edit</span>
                                         </li>
-                                        <li *ngIf="!data?.status" nz-menu-item>
+                                        <li  *ngIf="data?.status == 'Blocked'" nz-menu-item>
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span  class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                         </li>
-                                        <li *ngIf="data?.status" nz-menu-item>
+                                        <li  *ngIf="data?.status == 'Active'" nz-menu-item>
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                         </li>
                                     </ul>

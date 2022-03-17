@@ -9,7 +9,7 @@
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input First Transaction Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="first_txn_limit"
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="first_txn_limit"
                                 placeholder="Please input First Transaction Limit!" />
                                 </nz-input-group>
                                 
@@ -26,7 +26,7 @@
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Global Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="global_txn_limit"
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_txn_limit"
                                 placeholder="Please input Global Limit!" />
                                 </nz-input-group>
                                 
@@ -43,7 +43,7 @@
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Daily Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                    <input nz-input type="number" min="0" formControlName="daily_txn_limit"
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="daily_txn_limit"
                                 placeholder="Please input Daily Limit!" />
                                 </nz-input-group>
                                 
@@ -58,7 +58,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" nzRequired>Minimum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
-                            <input nz-input type="number" min="0" formControlName="disbursement_min_amount"
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="disbursement_min_amount"
                                 placeholder="Please input Minimum Amount (₹)!" />
                         </nz-form-control>
                     </nz-form-item>
@@ -67,7 +67,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" nzRequired>Maximum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
-                            <input nz-input type="number" min="0" formControlName="disbursement_max_amount"
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="disbursement_max_amount"
                                 placeholder="Please input Maximum Amount (₹)!" />
                         </nz-form-control>
                     </nz-form-item>
@@ -79,7 +79,7 @@
                         
                         <nz-form-control nzErrorTip="Please input Minimum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                <input nz-input type="number" min="0" name="interest_min_percentage" formControlName="interest_min_percentage"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="interest_min_percentage" formControlName="interest_min_percentage"
                                     id="interest_min_percentage" placeHolder="Enter Minimum Amount (%)">
                             </nz-input-group>
                         
@@ -94,7 +94,7 @@
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" nzRequired>Maximum(%)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-                                <input nz-input type="number" min="0" name="interest_max_percentage" formControlName="interest_max_percentage"
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="interest_max_percentage" formControlName="interest_max_percentage"
                                     id="interest_max_percentage" placeHolder="Enter Maximum Amount(%)">
                             </nz-input-group>
                         

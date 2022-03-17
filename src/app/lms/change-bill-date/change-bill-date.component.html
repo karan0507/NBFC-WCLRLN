@@ -42,7 +42,7 @@
                 </div>
             </div> -->
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
-             (nzQueryParams)="listOfData ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader">
+             (nzQueryParams)="listOfData ? getManualTransactionList($event) : ''" [nzData]="listOfData" [nzLoading]="api_calling_loader" [nzScroll]="{ y: '45vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="5rem">#</th>
@@ -226,7 +226,7 @@
 
 
 <!-- Reject -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isReject" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isReject = false">
+<!-- <nz-modal [nzWidth]="500" [(nzVisible)]="isReject" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isReject = false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
             [title]="'Do you want to reject?'"
@@ -238,6 +238,25 @@
             [submitBtnTxt]="'Yes'">
         </app-double-confirmation-popup>
     </ng-container>
+</nz-modal> -->
+
+<nz-modal [(nzVisible)]="isReject" nzTitle="Reject" (nzOnCancel)="isReject = false; rejactRemarks=''" [nzFooter]="modalFooter1">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzRequired>Add Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24">
+                        <textarea nz-input nzAutosize [(ngModel)]="rejactRemarks" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #modalFooter1>
+        <button nz-button nzType="default" (click)="isReject = false; rejactRemarks=''">Cancel</button>
+        <button nz-button nzType="primary" (click)="rejectTransaction()" [disabled]="!rejactRemarks" [nzLoading]="is_approve_loading">Submit</button>
+      </ng-template>
 </nz-modal>
 
 

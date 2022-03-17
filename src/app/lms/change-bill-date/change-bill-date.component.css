@@ -4,3 +4,6 @@
     display: flex;
     justify-content: end;
 }
+:host ::ng-deep .ant-table-body {
+    max-height: calc(100vh - 470px) !important;
+}
