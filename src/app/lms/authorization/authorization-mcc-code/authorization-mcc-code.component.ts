@@ -111,7 +111,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
         endpoint : [null, [Validators.required]], 
         // `Mcccodes/${this.oldDetail?.id}` ,
         remarks : ["", [Validators.required]],
-        code :  ["", [Validators.required]]
+        code :  ["", [Validators.required, Validators.pattern('^.{4,4}$')]]
       })
   }
 

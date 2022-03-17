@@ -26,7 +26,11 @@ export class AccountBlockUnblockComponent implements OnInit {
   is_active: number;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      http.refreshAccount.subscribe(res => {
+        this.fetchBorrowerList()
+      })
+     }
 
   ngOnInit(): void {
     this.page = 1;

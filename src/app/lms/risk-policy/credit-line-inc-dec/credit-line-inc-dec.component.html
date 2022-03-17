@@ -37,7 +37,7 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '1200px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchLoanApplicationList($event) : ''">
+            [nzScroll]="{ x: '1800px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchLoanApplicationList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>

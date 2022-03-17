@@ -137,7 +137,8 @@ export class AddEditLendersComponent implements OnInit {
       city: [data ? data?.city : null, [Validators.required]],
       state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
-      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
+      // ^[6-9][0-9]{9}$
 
       bank_name: [data ? data?.bank_name : null],
       account_no: [data ? data?.account_no : null],
@@ -153,7 +154,8 @@ export class AddEditLendersComponent implements OnInit {
       total_commitment: [
         data ? data?.total_commitment : null,
       ],
-      roi: [data ? data?.roi : null],
+      roi_unutilized_fund: [data ? data?.roi_unutilized_fund : null],
+      roi_utilized_fund : [data ? data?.roi_utilized_fund  : null],
       fldg: [data ? data?.fldg : null],
 
       nbfc_user_name: [
@@ -162,8 +164,13 @@ export class AddEditLendersComponent implements OnInit {
       ],
       nbfc_user_mobile: [
         data ? data?.nbfc_user_mobile : null,
-        [Validators.required, Validators.pattern('^[7-9][0-9]{9}$')],
+        [Validators.required, Validators.pattern('^.{1,10}$')],
       ],
+      fldg_calculation_type:[
+        data ? data?.fldg_calculation_type : "Variable",
+        [Validators.required],
+      ],
+      // ^[7-9][0-9]{9}$
       nbfc_user_email: [
         data ? data?.nbfc_user_email : null, 
         [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
@@ -307,6 +314,8 @@ export class AddEditLendersComponent implements OnInit {
   }
 
   onClickSubmitForm() {
+    console.log(this.addEditProductForm.value)
+    return;
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
