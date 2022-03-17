@@ -162,7 +162,7 @@ export class AddEditPartnersComponent implements OnInit {
       state: [data ? data?.state?.id : null, [Validators.required]],
       corporation_category:[data ? data?.corporation_category?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
-      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
       // unique_code: [data ? data?.unique_code : null],
 
 
@@ -177,7 +177,7 @@ export class AddEditPartnersComponent implements OnInit {
       // business_nature: [data ? data?.business_nature : null, [Validators.required]],
       display_name: [data ? data?.display_name : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^.{1,10}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
 
       // employee: [data ? data?.employee : null, [Validators.required]],

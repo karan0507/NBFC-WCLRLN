@@ -39,7 +39,8 @@
             <div class="accordianLoanApp">
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
             [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
-            [nzPageIndex]="page" (nzQueryParams)="getNBFCList($event)" [nzShowSizeChanger]="true" [nzData]="masterPartner" [nzScroll]="{ x: '1500px' }">
+            [nzPageIndex]="page" (nzQueryParams)="getNBFCList($event)" [nzShowSizeChanger]="true" [nzData]="masterPartner" 
+            [nzScroll]="{ x: '1500px', y: '60vh' }">
                 <thead>
                     <tr>
                     <th rowspan="2" nzWidth="100px">#</th>
@@ -51,7 +52,7 @@
                     <th rowspan="2">Registered</th>
                     <!-- <th rowspan="2">Transaction Status</th> -->
                     <th rowspan="2">System Status</th>
-                    <th nzWidth="80px" nzRight>Action</th>
+                    <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,11 +76,11 @@
                             <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                             
                             <!-- <td>{{ data.no_of_partner }}</td> -->
-                            <td nzRight>
+                            <td nzRight  class="pr-0">
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
-                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
