@@ -316,6 +316,10 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
+    }
     var sendDate = this.addEditProductForm.value
     for (var i in sendDate.document_data) {
         if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
@@ -430,6 +434,10 @@ export class AddEditMastersComponent implements OnInit {
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
+    }
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
     }
     var sendDate = this.addEditProductForm.value
     for (var i in sendDate.document_data) {

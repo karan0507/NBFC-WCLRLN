@@ -7,6 +7,8 @@ import { HttpService } from "src/app/services/http.service";
 import * as FileSaver from "file-saver";
 import { saveAs } from "file-saver";
 import { NzImageService } from "ng-zorro-antd/image";
+// import * as jsPDF from 'jspdf';  
+import { DomSanitizer } from '@angular/platform-browser';  
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
         new Promise((resolve, reject) => {
@@ -38,6 +40,7 @@ export class AddEditLendersComponent implements OnInit {
     saveAddNew: false,
   };
   debounce: any;
+  fileName: string;
 
   constructor(
     private fb: FormBuilder,
@@ -45,7 +48,8 @@ export class AddEditLendersComponent implements OnInit {
     private route: ActivatedRoute,
     private message: NzMessageService,
     private router: Router,
-    private nzImageService: NzImageService
+    private nzImageService: NzImageService,
+    private sanitizer: DomSanitizer
   ) {
     this.getListOfDocumentRequired();
   }
@@ -312,6 +316,20 @@ export class AddEditLendersComponent implements OnInit {
   onUpload(e, i) {
     console.log(e);
     console.log(e?.file?.originFileObj);
+    let reader = new FileReader();  
+    // if (event.target.files && event.target.files.length > 0) {  
+  //   if (e?.file?.originFileObj) {  
+  //   let file = e?.file?.originFileObj;  
+  //   reader.readAsDataURL(file);  
+  //   reader.onload = () => {  
+  //     this.fileName = file.name + " " + file.type;  
+  //     const doc = new jsPDF();  
+  //     const base64ImgString = (reader.result as string).split(',')[1];  
+  //     doc.addImage(base64ImgString, 15, 40, 50, 50);  
+  //     this.filePreview = 'data:image/png' + ';base64,' + base64ImgString;  
+  //     doc.save('TestPDF')  
+  //   };  
+  // }  
     // this.index = i;
     let fileName = this.addEditProductForm.get("document_data") as FormArray;
     fileName.controls?.[i].patchValue({ document_name: e?.file?.name });
@@ -370,6 +388,10 @@ export class AddEditLendersComponent implements OnInit {
       this.addEditProductForm.controls[i].updateValueAndValidity();
     }
     var sendDate = this.addEditProductForm.value;
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
+    }
     for (var i in sendDate.document_data) {
       if (
         !sendDate.document_data[i].document_name &&
@@ -487,6 +509,10 @@ export class AddEditLendersComponent implements OnInit {
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
+    }
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
     }
     var sendDate = this.addEditProductForm.value;
     for (var i in sendDate.document_data) {

@@ -334,6 +334,12 @@
                                                 </h6>
                                                 <div class="d-flex">
                                                     {{data?.expandSet?.fldg ? data?.expandSet?.fldg : ' -- '}}
+                                                    <span *ngIf="data?.expandSet?.fldg_calculation_type != 'Flat'">
+                                                        %
+                                                    </span>
+                                                    <span *ngIf="data?.expandSet?.fldg_calculation_type == 'Flat'">
+                                                        ₹
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
