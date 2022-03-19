@@ -226,7 +226,7 @@
                     KYC Documents
                 </h5>
             </div>
-            <ng-container *ngFor="let item of get_underwritingArr(addEditProductForm); let k = index;"
+            <ng-container  *ngFor="let item of get_underwritingArr(addEditProductForm); let k = index;"
                 formArrayName="document_data">
                 <!-- <nz-form-label class="text-left" nzNoColon>{{item.controls.label_name.value?.toString().toUpperCase()}}
               </nz-form-label> -->
@@ -271,7 +271,7 @@
                 </div>
             </div>
 
-            <div class="row mt-2">
+            <div class="row mt-2  border-top">
                 <div class="col-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="employee" class="text-left" nzRequired>Employee

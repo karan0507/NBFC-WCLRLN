@@ -270,15 +270,18 @@ export class MasterPartnersListComponent implements OnInit {
     let endPoint =  'master' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
+      const generateloader = this.message.loading('Uploading Document..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res?: any)=> {
+        this.message.remove(generateloader);
         console.log(res);
         if(res?.success){
           this.message.success(res?.message)
         } else {
           this.message.error(res?.message?.[0])
         }
-      }, err => {
-        console.log(err);
+      }, error => {
+        this.message.remove(generateloader);
+        console.log(error);
       })
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;

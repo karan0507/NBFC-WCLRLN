@@ -104,61 +104,57 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="mt-2">
-                            <h6>
-                                Banking Details (Optional)
-                            </h6>
-                        </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-12">
+                    <div class="mt-2">
+                        <h6>
+                            Banking Details (Optional)
+                        </h6>
                     </div>
-                    
-                    <div class="col-md-6">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left">Bank Name</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
-                                <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name" (keypress)="omit_special_char($event)"/>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-
-                    <div class="col-md-6">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
-                                <input nz-input type="number" formControlName="account_no"  placeholder="Account No."/>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-
-                    <div class="col-md-6">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left">IFSC Code</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid IFsC!">
-                                <input nz-input type="text" formControlName="ifsc"  placeholder="IFSC" />
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-
-                    <div class="col-md-6">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left">Branch</nz-form-label>
-                            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
-                                <input nz-input type="text" formControlName="branch"  placeholder="Branch" (keypress)="omit_special_char($event)" />
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-
                 </div>
+                
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left">Bank Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
+                            <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
+                            <input nz-input type="number" formControlName="account_no"  placeholder="Account No."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left">IFSC Code</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid IFsC!">
+                            <input nz-input type="text" formControlName="ifsc"  placeholder="IFSC" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left">Branch</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
+                            <input nz-input type="text" formControlName="branch"  placeholder="Branch" (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
             </div>
             <div class="mt-2 d-flex">
                 <h5 class="mr-2">
                     KYC Documents 
                 </h5>
-                <span>
-                    (Optional)
-                </span>
             </div>
             <ng-container *ngFor="let item of get_documentArr(addEditProductForm); let k = index;"
                 formArrayName="document_data">
@@ -195,6 +191,8 @@
                             <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.label_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
                             <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                         </div>
+                        <!-- <img [src]='item.controls.documents.value' alt="image" width="104" height="142" target="_self" download> -->
+                        <!-- (click)='onClickShowUploadedDocument(item)'  -->
                     </div>
                 </div>
             </ng-container>
