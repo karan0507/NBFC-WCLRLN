@@ -109,7 +109,7 @@
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td></td>
-                                          <td nzRight [nzWidth]="'5rem'"> 
+                                          <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                       [nzDropdownMenu]="latestUploadDropDown">
@@ -125,11 +125,20 @@
                                                                         Offer</span>
                                                             </li>
 
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5"
-                                                                        (click)="updateStatus('rejectOffer', data)">Reject</span>
+                                                            <li nz-menu-item nz-popconfirm
+                                                                  [nzPopconfirmTitle]="popupTitle"
+                                                                  nzPopconfirmPlacement="bottomRight"
+                                                                  (nzOnConfirm)="updateStatus('rejectOffer', data)"
+                                                                  (nzOnCancel)="cancel()">
+                                                                  <span class="m-l-5" >Reject</span>
                                                             </li>
-
+                                                            <ng-template #popupTitle>
+                                                                  Are you sure you want to reject the offer for {{
+                                                                  data?.user?.first_name ? data?.user?.first_name + ' '
+                                                                  +
+                                                                  (data?.user?.last_name ? data?.user?.last_name : '') :
+                                                                  '' }}
+                                                            </ng-template>
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>
@@ -370,8 +379,8 @@
                                                 </ng-template>
                                           </div>
 
-                                             <!-- SMS  -->
-                                             <div class="mt-3">
+                                          <!-- SMS  -->
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="smsDetails">
                                                 </nz-page-header>
@@ -383,7 +392,8 @@
                                                                         <h6>
                                                                               <div class="d-flex">
                                                                                     <label class="text-muted">SMS
-                                                                                          Score: <span>(  )</span></label>
+                                                                                          Score: <span>(
+                                                                                                )</span></label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
@@ -751,41 +761,74 @@
             </section>
             <section *ngIf="_isEditOffer">
                   <nz-card [nzLoading]="api_calling_loader['accordian']" class="p-0 m-0 border-0">
-                        <div class="row" [formGroup]="offerForm">
-                              <div class="col-md-12 mb-3">
-                                    {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
-                                    + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
-                                    : '')) : '--' }}
-                                    <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
-                                          _currentLoanDetails?.user?.mobile : '--'}}</span>
-                                    <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
-                                          '--'}}</span>
-                              </div>
-                              <div class="col-md-4 mb-3">
-                                    Offer Amount
-                              </div>
-                              <div class="col-md-8 mb-3">
-                                    <input nz-input placeholder="Enter Your Offer Amount" type="number"
-                                          formControlName="amountOffered">
-                              </div>
+                        <form nz-form [formGroup]="offerForm" nzLayout="vertical">
+                              <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                          {{ _currentLoanDetails?.user?.first_name ? (
+                                          _currentLoanDetails?.user?.first_name
+                                          + ' ' + (_currentLoanDetails?.user?.last_name ?
+                                          _currentLoanDetails?.user?.last_name
+                                          : '')) : '--' }}
+                                          <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                                _currentLoanDetails?.user?.mobile : '--'}}</span>
+                                          <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' +
+                                                _currentLoanDetails?.id :
+                                                '--'}}</span>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                          <nz-form-item>
+                                                <div class="row">
+                                                      <div class="col-md-4">
+                                                            <nz-form-label> Offer Amount </nz-form-label>
+                                                      </div>
+                                                      <div class="col-md-8">
+                                                            <nz-form-control
+                                                                  nzErrorTip="Please enter your offer amount">
+                                                                  <input nz-input type="number"
+                                                                        formControlName="amountOffered"
+                                                                        placeholder="Enter Your Offer Amount">
+                                                            </nz-form-control>
+                                                      </div>
+                                                </div>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                          <nz-form-item>
+                                                <div class="row">
+                                                      <div class="col-md-4">
+                                                            <nz-form-label> Validity </nz-form-label>
+                                                      </div>
+                                                      <div class="col-md-8">
+                                                            <nz-form-control>
+                                                                  <input nz-input readonly="readonly"
+                                                                        formControlName="validitiy" placeholder="">
+                                                            </nz-form-control>
+                                                      </div>
+                                                </div>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                          <nz-form-item>
+                                                <div class="row">
+                                                      <div class="col-md-4">
+                                                            <nz-form-label> Interest </nz-form-label>
+                                                      </div>
+                                                      <div class="col-md-8">
+                                                            <nz-form-control>
+                                                                  <nz-input-group nzSuffix="%">
+                                                                        <input type="text" nz-input readonly="readonly"
+                                                                              formControlName="interest"
+                                                                              placeholder="" />
+                                                                  </nz-input-group>
+                                                            </nz-form-control>
+                                                      </div>
+                                                </div>
+                                          </nz-form-item>
 
-                              <div class="col-md-4 mb-3">
-                                    Validity
+                                    </div>
                               </div>
-                              <div class="col-md-8 mb-3">
-                                    <input nz-input readonly="readonly" formControlName="validitiy" placeholder="">
-                              </div>
+                        </form>
 
-                              <div class="col-md-4 mb-3">
-                                    Interest
-                              </div>
-                              <div class="col-md-8 mb-3">
-                                    <nz-input-group nzSuffix="%">
-                                          <input type="text" nz-input readonly="readonly" formControlName="interest"
-                                                placeholder="" />
-                                    </nz-input-group>
-                              </div>
-                        </div>
                   </nz-card>
             </section>
             <section *ngIf="isRejectModal">
@@ -854,17 +897,20 @@
       </nz-modal>
 </section>
 <ng-template #footerModal>
-      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
+      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border"
+            (click)="offerForm.get('amountOffered').setValue('')">Reset</button>
       <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+      <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
+            (click)="handleCancel()">Cancel</button>
+      <button *ngIf="_isStatus" [nzLoading]="api_calling_loader['button']" nz-button nzType="primary" class="mx-2"
+            (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-                  [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-                  (click)="handleOk('uploadDocument')">Submit</button>
-            <button *ngIf="_isVerify" nz-button nzType="primary"
-                  [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-                  [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
+            (click)="handleOk('uploadDocument')">Submit</button>
+      <button *ngIf="_isVerify" nz-button nzType="primary"
+            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
 </ng-template>

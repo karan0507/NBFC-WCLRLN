@@ -228,6 +228,7 @@ export class DocumentUploadComponent implements OnInit {
                                     this.api_calling_loader['button'] = false
                                     this.handleCancel()
                                     this.message.success(res?.message);
+                                    this.global.setApplicationCount();
                                     this.getFormLoanData();
                               } else {
                                     this.message.error(res?.message);
@@ -242,20 +243,22 @@ export class DocumentUploadComponent implements OnInit {
                   case 'verify':
                         this.api_calling_loader['button'] = true
                         let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
-                        this.https.verifyLoanDocument(params).subscribe((res: any) => {
-                              if (res?.success) {
-                                    this.api_calling_loader['button'] = false
-                                    this.message.success(res?.message);
-                                    this.handleCancel();
-                                    this.getFormLoanData()
-                              } else {
-                                    this.api_calling_loader['button'] = false
-                                    this.message.error(res?.message);
-                              }
-                        }, err => {
-                              this.api_calling_loader['button'] = false
-                              this.message.error(err);
-                        })
+                        console.log(this.documentStatus);
+                        
+                        // this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                        //       if (res?.success) {
+                        //             this.api_calling_loader['button'] = false
+                        //             this.message.success(res?.message);
+                        //             this.handleCancel();
+                        //             this.getFormLoanData()
+                        //       } else {
+                        //             this.api_calling_loader['button'] = false
+                        //             this.message.error(res?.message);
+                        //       }
+                        // }, err => {
+                        //       this.api_calling_loader['button'] = false
+                        //       this.message.error(err);
+                        // })
 
                         break;
                   case 'uploadDocument':

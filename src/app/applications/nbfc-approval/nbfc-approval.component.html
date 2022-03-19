@@ -842,7 +842,7 @@
 </section>
       <ng-template #footerModal>
             <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-            <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2"
+            <button *ngIf="_isStatus" [nzLoading]="api_calling_loader['button']" nz-button nzType="primary" class="mx-2"
                   (click)="handleOk('status')">Submit</button>
             <button *ngIf="_isAcceptOffer" nz-button nzType="primary" class="mx-2"
                   (click)="handleOk('accept')">Submit</button>

@@ -189,6 +189,8 @@ export class EditFormComponent implements OnInit {
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
             data.append('company_id', this.employementDetails.value.company_name);
+            data.append('documents_list','')
+            data.append('documents','')
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
