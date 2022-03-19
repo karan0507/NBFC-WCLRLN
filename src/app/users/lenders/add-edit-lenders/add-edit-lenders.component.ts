@@ -365,8 +365,6 @@ export class AddEditLendersComponent implements OnInit {
   }
 
   onClickSubmitForm() {
-    console.log(this.addEditProductForm.value);
-    return;
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
