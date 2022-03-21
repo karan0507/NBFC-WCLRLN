@@ -36,7 +36,8 @@ export class DisbursementComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'butotn' : false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -248,13 +249,18 @@ export class DisbursementComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
+                        this.api_calling_loader['button'] = true
                         let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');
-                                    this._isUpdateStatus = false;
+                                    this.global.setApplicationCount();
+                                    this.message.success(res?.message)
+                                    this.api_calling_loader['button'] = false
+                                    this.handleCancel();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message)
                               }
                         }, error => {
                               console.log(error);

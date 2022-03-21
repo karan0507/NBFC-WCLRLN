@@ -1011,7 +1011,7 @@
       <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
             (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+      <button *ngIf="_isStatus" nz-button [nzLoading]="api_calling_loader['button']" nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"

@@ -245,15 +245,19 @@ export class DsaListComponent implements OnInit {
     let endPoint =  'partner' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
+      const generateloader = this.message.loading('Uplaoding Document..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res: any)=> {
         console.log(res);
         if(res?.success){
+          this.message.remove(generateloader);
           this.message.success(res?.message)
         } else {
+          this.message.remove(generateloader);
           this.message.error(res?.message?.[0])
         }
-      }, err => {
-        console.log(err);
+      }, error => {
+        this.message.remove(generateloader);
+        console.log(error);
       })
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;

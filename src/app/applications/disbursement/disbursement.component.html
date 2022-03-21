@@ -56,7 +56,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -1012,7 +1012,7 @@
       <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
       <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']" (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"

@@ -181,8 +181,9 @@ export class FormFillingComponent implements OnInit {
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['button'] = false
-                        this._isUpdateStatus = false;
+                        this.handleCancel()
                         this.message.success(res?.message);
+                        this.global.setApplicationCount();
                         this.getFormLoanData();
                   } else {
                         this.message.error(res?.message);
@@ -205,7 +206,11 @@ export class FormFillingComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = new FormData() 
+            data.append('source', 'Onboarding');
+            data.append('datapoint', 'export_data')
+            data.append('records', JSON.stringify(this._checkedLoanList))
+            data.append('file_type',file_formate)
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;

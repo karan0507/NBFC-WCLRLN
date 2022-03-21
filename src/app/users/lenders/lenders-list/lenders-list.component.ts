@@ -251,8 +251,9 @@ export class LendersListComponent implements OnInit {
   }
 
   onClickDownloadSelectedDocument(e){
-    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
-    FileSaver.saveAs(data,  `${e?.file_name}`);
+    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8;png;JPEG;jpeg' });
+    FileSaver.saveAs(data, 'image.png' );
+    // `${e?.file_name}`
   }
 
 
@@ -262,15 +263,19 @@ export class LendersListComponent implements OnInit {
     // let endPoint =  'partner' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
+      const generateloader = this.message.loading('Uploading Document..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreementForNBFC('post', this.selectedIdForAgreement, data).subscribe((res: any)=> {
         console.log(res);
         if(res?.success){
+          this.message.remove(generateloader);
           this.message.success(res?.message)
         } else {
+          this.message.remove(generateloader);
           this.message.error(res?.message?.[0])
         }
-      }, err => {
-        console.log(err);
+      },error => {
+        this.message.remove(generateloader);
+        console.log(error);
       })
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;

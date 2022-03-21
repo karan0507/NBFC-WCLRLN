@@ -34,7 +34,8 @@ export class OfferAcceptanceComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button':false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -270,13 +271,19 @@ export class OfferAcceptanceComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
+                        this.api_calling_loader['button'] = true
                         let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
-                                    console.log('res');
-                                    this._isUpdateStatus = false;
+                                    this.api_calling_loader['button'] = false
+                        this.handleCancel()
+                        this.message.success(res?.message);
+                        this.global.setApplicationCount();
+                        this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                        this.api_calling_loader['button'] = false;
+                        this._isUpdateStatus = false;
                               }
                         }, error => {
                               console.log(error);

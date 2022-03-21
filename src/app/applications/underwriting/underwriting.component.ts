@@ -290,6 +290,7 @@ export class UnderwritingComponent implements OnInit {
                                     this.api_calling_loader['button'] = false
                                     this.message.success(res?.message);
                                     this.handleCancel();
+                                    this.global.setApplicationCount()
                                     this.getIdWiseData(this._currentModalData['application'])
                               } else {
                                     this.api_calling_loader['button'] = false

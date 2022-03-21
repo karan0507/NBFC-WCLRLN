@@ -256,6 +256,7 @@ export class StageTriggersComponent implements OnInit {
                                     this.api_calling_loader['button'] = false;
                                     this.message.success(res?.success)
                                     this.handleCancel()
+                                    this.global.setApplicationCount()
                                     this.getFormLoanData()
                               } else {
                                     this.api_calling_loader['button'] = false;

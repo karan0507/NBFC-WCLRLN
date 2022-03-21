@@ -183,6 +183,7 @@ export class PerApprovedComponent implements OnInit {
                   if (res.success) {
                         this.api_calling_loader['button'] = false
                         this._isUpdateStatus = false;
+                        this.global.setApplicationCount();
                         this.message.success(res?.message);
                         this.getFormLoanData();
                   } else {

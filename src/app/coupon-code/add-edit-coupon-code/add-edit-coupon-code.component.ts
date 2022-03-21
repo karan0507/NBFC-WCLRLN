@@ -61,6 +61,7 @@ export class AddEditCouponCodeComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true;
             this.https.getCouponDetail(currentCouponId).subscribe((res: any) => {
                   if (res?.success) {
+                        this.callMultipleMasters();
                         this.couponDetail = res?.data
                         this.couponForm.get('coupon_code').setValue(this.couponDetail?.coupon_code)
                         this.couponForm.get('value').setValue(this.couponDetail?.value)
@@ -74,10 +75,12 @@ export class AddEditCouponCodeComponent implements OnInit {
                         this.couponForm.get('isAllMaster').setValue(this.couponDetail?.all_masters ? true : false)
                         this.couponForm.get('product').setValue(this.couponDetail?.product ? this.couponDetail?.product?.id : null)
                         this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees ? this.couponDetail?.product_fees?.id : null)
-                        this.callMultipleMasters();
                         this.api_calling_loader['listLoader'] = false;
+                        console.log(this.couponForm);
                   }
             })
+           
+            
       }
 
       onFocusMethod(type?) {
@@ -153,8 +156,10 @@ export class AddEditCouponCodeComponent implements OnInit {
       }
 
       callMultipleMasters() {
-            this.https.getAllProducts().subscribe((res: any) => {
+            this.https.getProducts().subscribe((res: any) => {
                   if (res) {
+                        console.log(res);
+                        
                         this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
                   }
             })
