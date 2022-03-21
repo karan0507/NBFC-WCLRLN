@@ -9,32 +9,33 @@ import { stringify } from 'querystring';
       styleUrls: ['./kyc-document-action.component.css']
 })
 export class KycDocumentActionComponent implements OnInit {
-@Input() action;
-@Input() documentData;
-documentStatus = 1;
-verifyRemarks = '';
-fileList : any;
-@Output() _currentFileName = new EventEmitter<string>();
+      @Input() action;
+      @Input() documentData;
 
-      constructor(public sanitize : DomSanitizer) { }
+      @Output() verifyRemarks = new EventEmitter<string>();
+      fileList: any;
+      @Output() _currentFileName = new EventEmitter<string>();
+      @Output() docStatus = new EventEmitter<string>();
+
+      constructor(public sanitize: DomSanitizer) { }
       api_calling_loader = {
-            'cardLoader' : false
+            'cardLoader': false
       }
       ngOnInit(): void {
             // this.api_calling_loader['cardLoader'] = true;
-            console.log(this.action,'<= Action Data =>', this.documentData);
-            
+            console.log(this.action, '<= Action Data =>', this.documentData);
+
       }
 
       sanatizeUrlToSafe(value) {
-            this.api_calling_loader['cardLoader'] = false;            
+            this.api_calling_loader['cardLoader'] = false;
             // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
             return this.sanitize.bypassSecurityTrustResourceUrl(value);
       }
-      handleDocMethod(){
+      handleDocMethod() {
 
       }
-      handleCancel(){
+      handleCancel() {
             console.log('In Common Cancel');
       }
 
@@ -46,4 +47,8 @@ fileList : any;
             return false;
       };
 
+      statusChange(data?) {
+           this.docStatus.emit(data)
+
+      }
 }

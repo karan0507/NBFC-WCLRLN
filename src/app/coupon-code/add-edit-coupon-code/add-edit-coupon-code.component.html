@@ -74,10 +74,9 @@
                         <nz-form-item>
                               <nz-form-label>Select Product</nz-form-label>
                               <nz-form-control nzErrorTip="Check selected products">
-                                    <nz-select (nzFocus)="onFocusMethod('product')"
-                                          formControlName="product" nzAllowClear nzPlaceHolder="Select Product">
-                                          <nz-option *ngFor="let item of productList" [nzValue]="item?.id"
-                                                [nzLabel]="item?.name "></nz-option>
+                                    <nz-select  formControlName="product" (nzFocus)="onFocusMethod('product')"
+                                          nzAllowClear nzPlaceHolder="Select Product">
+                                          <nz-option *ngFor="let item of productList" [nzValue]="item?.id" [nzLabel]="item?.name "></nz-option>
                                     </nz-select>
                               </nz-form-control>
                         </nz-form-item>
@@ -131,7 +130,7 @@
                   </div>
                   <div class="col-md-4">
                         <label nz-checkbox formControlName="isAllMaster"
-                        class="align-items-center">All
+                        class="align-items-center my-2">All
                         Master</label>
                   </div> 
 

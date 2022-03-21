@@ -54,7 +54,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }"  [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -124,9 +124,9 @@
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5">Track Status</span>
                                                             </li>
-                                                            <li nz-menu-item (click)="updateStatus('requestDoc', data)">
+                                                            <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
                                                                   <span class="m-l-5">Request Documents</span>
-                                                            </li>
+                                                            </li> -->
 
                                                       </ul>
                                                 </nz-dropdown-menu>
@@ -362,7 +362,7 @@
 
             <!-- Verify Document Modal -->
             <section *ngIf="_isVerify">
-                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action>
+                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" (documentStatus)="documentStatus = documentStatus"  (onCancel)="handleCancel()"></app-kyc-document-action>
 
             </section>
 

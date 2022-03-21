@@ -10,7 +10,7 @@
                   </div>
                   <div class="d-flex flex-column">
                         <div class="my-3">
-                              <nz-radio-group [(ngModel)]="documentStatus">
+                              <nz-radio-group [(ngModel)]="documentStatus" (ngModelChange)="statusChange($event)">
                                     <label nz-radio [nzValue]="1">Accept</label>
                                     <label nz-radio [nzValue]="2">Reject</label>
                               </nz-radio-group>

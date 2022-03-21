@@ -10,9 +10,9 @@ import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
 @Component({
-  selector: 'app-e-nach-signing',
-  templateUrl: './e-nach-signing.component.html',
-  styleUrls: ['./e-nach-signing.component.css']
+      selector: 'app-e-nach-signing',
+      templateUrl: './e-nach-signing.component.html',
+      styleUrls: ['./e-nach-signing.component.css']
 })
 export class ENachSigningComponent implements OnInit {
       _exportDocument: any;
@@ -34,7 +34,8 @@ export class ENachSigningComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -64,7 +65,7 @@ export class ENachSigningComponent implements OnInit {
       _currentLoanDetails: any;
       verifyRemarks: any;
       _isCibil: boolean = false
-      _isViewDocument : boolean = false
+      _isViewDocument: boolean = false
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -246,13 +247,18 @@ export class ENachSigningComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'status':
+                        this.api_calling_loader['button'] = true
                         let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
-                                    console.log('res');
-                                    this._isUpdateStatus = false;
+                                    this.api_calling_loader['button'] = false
+                                    this.handleCancel()
+                                    this.message.success(res?.message);
+                                    this.global.setApplicationCount();
+                                    this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false;
                               }
                         }, error => {
                               console.log(error);
@@ -368,24 +374,24 @@ export class ENachSigningComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
             let data = { source: 'Onboarding', endpoint: id }
-            if(type == 'cibil' && id){
-              data['datapoint'] = 'fetch-cibil-from-db'
-                   this.https.getCibilSMSData(data).subscribe(res => {
-                         if (res?.data) {
-                               console.log(res?.data);
-                               this._currentCibilData = res?.data
-                         }
-                   })
-            }else if(type == 'sms' && id){
-             data['datapoint'] = 'fetch-sms-from-db'
-             this.https.getCibilSMSData(data).subscribe(res => {
-                   if (res?.data) {
-                         console.log(res?.data);
-                         this._currentCibilData = res?.data
-                   }
-             })  
+            if (type == 'cibil' && id) {
+                  data['datapoint'] = 'fetch-cibil-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            } else if (type == 'sms' && id) {
+                  data['datapoint'] = 'fetch-sms-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
             }
       }
 

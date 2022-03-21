@@ -28,7 +28,8 @@ export class NbfcApprovalComponent implements OnInit {
       today = new Date();
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button': false
       };
       remarks: any = '';
       stageMasterList: any;
@@ -232,17 +233,22 @@ export class NbfcApprovalComponent implements OnInit {
 
       handleOk(type?) {
             if (type == 'status') {
+                  this.api_calling_loader['button'] = true
                   let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                   this.https.updateMultipleLoanApp(data).subscribe(res => {
                         if (res.success) {
-                              console.log('res');
-                              this._isUpdateStatus = false;
+                              this.api_calling_loader['button'] = false
+                              this.handleCancel()
+                              this.message.success(res?.message);
+                              this.global.setApplicationCount();
+                              this.getFormLoanData();
                         } else {
-                              console.log('error=>', res?.error);
+                              this.message.error(res?.message);
+                              this.api_calling_loader['button'] = false;
+                              this._isUpdateStatus = false;
                         }
                   }, error => {
-                        console.log(error);
-
+                        
                   })
             } else if (type == 'accept') {
                   let data = { source: 'LMS', datapoint: 'accept_offer', endpoint: this._currentLoanData?.id, remarks: this.remarks };
@@ -338,24 +344,24 @@ export class NbfcApprovalComponent implements OnInit {
             }
       }
 
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
             let data = { source: 'Onboarding', endpoint: id }
-            if(type == 'cibil' && id){
-              data['datapoint'] = 'fetch-cibil-from-db'
-                   this.https.getCibilSMSData(data).subscribe(res => {
-                         if (res?.data) {
-                               console.log(res?.data);
-                               this._currentCibilData = res?.data
-                         }
-                   })
-            }else if(type == 'sms' && id){
-             data['datapoint'] = 'fetch-sms-from-db'
-             this.https.getCibilSMSData(data).subscribe(res => {
-                   if (res?.data) {
-                         console.log(res?.data);
-                         this._currentCibilData = res?.data
-                   }
-             })  
+            if (type == 'cibil' && id) {
+                  data['datapoint'] = 'fetch-cibil-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            } else if (type == 'sms' && id) {
+                  data['datapoint'] = 'fetch-sms-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
             }
       }
 
