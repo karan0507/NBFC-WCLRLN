@@ -6,6 +6,16 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as FileSaver from 'file-saver';
+// import jsPDF from 'jspdf';
+
+
+const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
 
 @Component({
   selector: 'app-master-partners-list',
@@ -248,13 +258,13 @@ export class MasterPartnersListComponent implements OnInit {
           this.message.remove(generateloader);
     }
   }
-
+  filePreview: string  
   onClickDownloadSelectedDocument(e){
-    // console.log(e)
     var data = new Blob([e?.document_file]);
     FileSaver.saveAs(data,  `${e?.file_name}`);
-    // saveAs(e?.document_file, `${e?.file_name}`);
   }
+
+  
 
   // downloadPdf(base64String, fileName) {
   //   const source = `data:application/pdf;base64,${base64String}`;
@@ -270,15 +280,18 @@ export class MasterPartnersListComponent implements OnInit {
     let endPoint =  'master' 
     data.append('file', this.uploaded_file);
     if(action === 'post' ){
+      const generateloader = this.message.loading('Uploading Document..', { nzDuration: 0 }).messageId;
       this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res?: any)=> {
+        this.message.remove(generateloader);
         console.log(res);
         if(res?.success){
           this.message.success(res?.message)
         } else {
           this.message.error(res?.message?.[0])
         }
-      }, err => {
-        console.log(err);
+      }, error => {
+        this.message.remove(generateloader);
+        console.log(error);
       })
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;

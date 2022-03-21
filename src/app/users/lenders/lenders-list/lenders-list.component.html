@@ -2,7 +2,7 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-6 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
@@ -97,9 +97,9 @@
                                         <li nz-menu-item *ngIf="data.is_deleted"  (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>
                                         </li>
-                                        <li nz-menu-item>
+                                        <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
-                                        </li>
+                                        </li> -->
                                         <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
                                         </li> -->
@@ -282,13 +282,13 @@
                                                     </span>
                                                 </div>
                                                 <div class="mt-3">
-                                                    <!-- <a href={{ data?.document_file }} target="_blank" >Trusted URL</a><br><br> -->
-                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)">
-                                                    </i>
+                                                    <!-- <a href='{{ data?.document_file }}' download='image' >
+                                                        <img [src]='data?.document_file' alt="image" width="104" height="142">
+                                                    </a><br> -->
+                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"> </i>
                                                     <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div>                                        </div>
                                     </div>
                                     <div class="row" *ngIf="data?.expandSet?.documents?.length <= 0">
                                         <div class="col-md-6">
@@ -334,6 +334,12 @@
                                                 </h6>
                                                 <div class="d-flex">
                                                     {{data?.expandSet?.fldg ? data?.expandSet?.fldg : ' -- '}}
+                                                    <span *ngIf="data?.expandSet?.fldg_calculation_type != 'Flat'">
+                                                        %
+                                                    </span>
+                                                    <span *ngIf="data?.expandSet?.fldg_calculation_type == 'Flat'">
+                                                        ₹
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

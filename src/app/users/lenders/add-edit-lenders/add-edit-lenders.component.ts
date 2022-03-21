@@ -4,8 +4,20 @@ import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NzUploadFile } from "ng-zorro-antd/upload";
 import { HttpService } from "src/app/services/http.service";
-import * as FileSaver from 'file-saver'
-import { saveAs } from 'file-saver';
+import * as FileSaver from "file-saver";
+import { saveAs } from "file-saver";
+import { NzImageService } from "ng-zorro-antd/image";
+// import * as jsPDF from 'jspdf';  
+import { DomSanitizer } from '@angular/platform-browser';  
+
+const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+
 
 @Component({
   selector: "app-add-edit-lenders",
@@ -24,10 +36,11 @@ export class AddEditLendersComponent implements OnInit {
   masterPartnerId: any;
   stateArr: any;
   apiLoader = {
-    'formSave': false,
-    'saveAddNew': false
-  } 
+    formSave: false,
+    saveAddNew: false,
+  };
   debounce: any;
+  fileName: string;
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +48,8 @@ export class AddEditLendersComponent implements OnInit {
     private route: ActivatedRoute,
     private message: NzMessageService,
     private router: Router,
+    private nzImageService: NzImageService,
+    private sanitizer: DomSanitizer
   ) {
     this.getListOfDocumentRequired();
   }
@@ -62,41 +77,42 @@ export class AddEditLendersComponent implements OnInit {
   getNBFCDetail() {
     this.http.getNBFCDetail(this.masterPartnerId).subscribe((res: any) => {
       console.log(res);
-      this.setRetrievedDataInForm(res?.data)
+      this.setRetrievedDataInForm(res?.data);
       // this.createMasterProductForm(res?.data);
     });
   }
 
-  setRetrievedDataInForm(data){
-    for( var i in this.addEditProductForm.value){
-      if(i == 'state'){
+  setRetrievedDataInForm(data) {
+    for (var i in this.addEditProductForm.value) {
+      if (i == "state") {
         data[i] = data[i]?.id;
       }
-      if(i != 'document_data'){
-        if(data[i]){
-          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+      if (i != "document_data") {
+        if (data[i]) {
+          this.addEditProductForm.controls[i].setValue(data[i], {
+            emitEvent: false,
+          });
         }
       }
     }
-    this.setFormData(data)
+    this.setFormData(data);
   }
 
-  getListOfStates(){
-    let action = 'get-states'
-    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any)=> {
+  getListOfStates() {
+    let action = "get-states";
+    this.http.fetchDetailForUserModuleDropDown(action).subscribe((res: any) => {
       console.log(res);
       this.stateArr = res?.data;
-    })
+    });
   }
-  
-  onSearchGetList(e, action){
-    // if(action === 'sta'){
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(() => {
-        // this.getListOfCorp(search_param);
-      }, 500);
-    // }
 
+  onSearchGetList(e, action) {
+    // if(action === 'sta'){
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      // this.getListOfCorp(search_param);
+    }, 500);
+    // }
   }
 
   setFormData(data) {
@@ -136,13 +152,22 @@ export class AddEditLendersComponent implements OnInit {
       ],
       city: [data ? data?.city : null, [Validators.required]],
       state: [data ? data?.state?.id : null, [Validators.required]],
-      pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
-      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
+      pincode: [
+        data ? data?.pincode : null,
+        [Validators.required, Validators.pattern("^[1-9][0-9]{5}$")],
+      ],
+      phone: [
+        data ? data?.phone : null,
+        [Validators.required, Validators.pattern("^.{1,10}$")],
+      ],
       // ^[6-9][0-9]{9}$
 
       bank_name: [data ? data?.bank_name : null],
       account_no: [data ? data?.account_no : null],
-      ifsc: [data ? data?.ifsc : null, [ Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")] ],
+      ifsc: [
+        data ? data?.ifsc : null,
+        [Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")],
+      ],
       branch: [data ? data?.branch : null],
       display_name: [data ? data?.display_name : null, [Validators.required]],
 
@@ -151,11 +176,9 @@ export class AddEditLendersComponent implements OnInit {
       // Attribute Nature under business detail
       // business_nature: [data ? data?.name : null, [Validators.required]],
 
-      total_commitment: [
-        data ? data?.total_commitment : null,
-      ],
+      total_commitment: [data ? data?.total_commitment : null],
       roi_unutilized_fund: [data ? data?.roi_unutilized_fund : null],
-      roi_utilized_fund : [data ? data?.roi_utilized_fund  : null],
+      roi_utilized_fund: [data ? data?.roi_utilized_fund : null],
       fldg: [data ? data?.fldg : null],
 
       nbfc_user_name: [
@@ -164,16 +187,19 @@ export class AddEditLendersComponent implements OnInit {
       ],
       nbfc_user_mobile: [
         data ? data?.nbfc_user_mobile : null,
-        [Validators.required, Validators.pattern('^.{1,10}$')],
+        [Validators.required, Validators.pattern("^.{1,10}$")],
       ],
-      fldg_calculation_type:[
+      fldg_calculation_type: [
         data ? data?.fldg_calculation_type : "Variable",
         [Validators.required],
       ],
       // ^[7-9][0-9]{9}$
       nbfc_user_email: [
-        data ? data?.nbfc_user_email : null, 
-        [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+        data ? data?.nbfc_user_email : null,
+        [
+          Validators.required,
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+        ],
       ],
       // employee: [data ? data?.name : null, [Validators.required]],
       // payout: [data ? data?.name : null, [Validators.required]],
@@ -188,18 +214,39 @@ export class AddEditLendersComponent implements OnInit {
     // this.getListOfDocumentRequired();
   }
 
-  onClickOpenPopUp(e){
-    if(e?.pointerType == 'mouse'){
+  onClickOpenPopUp(e) {
+    if (e?.pointerType == "mouse") {
       this.isVisible = true;
     }
   }
 
-  onClickShowUploadedDocument(e){
-    if(e?.value?.documents?.uid){
-      saveAs(e?.value?.documents);
+  previewImage = {
+    e: null,
+    isVisible: false,
+  };
+
+  async onClickShowUploadedDocument(e) {
+    if (e?.value?.documents?.uid) {
+      let doc = await getBase64(e?.value?.documents);
+      const images = [];
+      const img = {
+        src: doc,
+        width: "600px",
+        height: "400px",
+        alt: "ng-zorro",
+      };
+      images.push(img);
+      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     } else {
-      var data = new Blob([e?.value?.documents], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
+      const images = [];
+      const img = {
+        src: e?.value?.documents,
+        width: "600px",
+        height: "400px",
+        alt: "ng-zorro",
+      };
+      images.push(img);
+      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     }
   }
 
@@ -211,11 +258,15 @@ export class AddEditLendersComponent implements OnInit {
 
     // to avoid special Character && Number
     var charCode = event.keyCode;
-    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 32 ||  charCode == 8)
-        return true;
-    else
-        return false;
-}
+    if (
+      (charCode > 64 && charCode < 91) ||
+      (charCode > 96 && charCode < 123) ||
+      charCode == 32 ||
+      charCode == 8
+    )
+      return true;
+    else return false;
+  }
 
   getListOfDocumentRequired() {
     this.http.getListOfDocumentRequired().subscribe((res: any) => {
@@ -265,6 +316,20 @@ export class AddEditLendersComponent implements OnInit {
   onUpload(e, i) {
     console.log(e);
     console.log(e?.file?.originFileObj);
+    let reader = new FileReader();  
+    // if (event.target.files && event.target.files.length > 0) {  
+  //   if (e?.file?.originFileObj) {  
+  //   let file = e?.file?.originFileObj;  
+  //   reader.readAsDataURL(file);  
+  //   reader.onload = () => {  
+  //     this.fileName = file.name + " " + file.type;  
+  //     const doc = new jsPDF();  
+  //     const base64ImgString = (reader.result as string).split(',')[1];  
+  //     doc.addImage(base64ImgString, 15, 40, 50, 50);  
+  //     this.filePreview = 'data:image/png' + ';base64,' + base64ImgString;  
+  //     doc.save('TestPDF')  
+  //   };  
+  // }  
     // this.index = i;
     let fileName = this.addEditProductForm.get("document_data") as FormArray;
     fileName.controls?.[i].patchValue({ document_name: e?.file?.name });
@@ -294,7 +359,9 @@ export class AddEditLendersComponent implements OnInit {
         pk: selectedFile?.document_master,
       };
       this.documentArray.push(document);
-      this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+      this.message.success(
+        fileName.controls?.[i].value?.label_name + " Document Deleted"
+      );
       fileName.removeAt(i);
       this.selectedDocument = null;
     } else {
@@ -306,7 +373,9 @@ export class AddEditLendersComponent implements OnInit {
             pk: selectedFile?.document_master,
           };
           this.documentArray.push(document);
-          this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
+          this.message.success(
+            fileName.controls?.[i].value?.label_name + " Document Deleted"
+          );
           fileName.removeAt(i);
           this.selectedDocument = null;
         });
@@ -314,21 +383,32 @@ export class AddEditLendersComponent implements OnInit {
   }
 
   onClickSubmitForm() {
-    console.log(this.addEditProductForm.value)
-    return;
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
     }
-    var sendDate = this.addEditProductForm.value
+    var sendDate = this.addEditProductForm.value;
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
+    }
     for (var i in sendDate.document_data) {
-        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
-          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
-          return;
-          }
+      if (
+        !sendDate.document_data[i].document_name &&
+        sendDate.document_data[i].label_name
+      ) {
+        this.message.error(
+          " Plz Upload Selected Document " +
+            ` ${sendDate.document_data[i].label_name}` +
+            " at index " +
+            i,
+          { nzDuration: 5000 }
+        );
+        return;
       }
+    }
     if (this.addEditProductForm.valid) {
-      this.apiLoader['formSave'] = true
+      this.apiLoader["formSave"] = true;
       if (!this.isEdit) {
         let data = new FormData();
 
@@ -341,9 +421,9 @@ export class AddEditLendersComponent implements OnInit {
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          if(sendDate?.document_data[i]?.documents){
-            data.append('documents', sendDate?.document_data[i]?.documents)
-            delete sendDate?.document_data[i]?.documents
+          if (sendDate?.document_data[i]?.documents) {
+            data.append("documents", sendDate?.document_data[i]?.documents);
+            delete sendDate?.document_data[i]?.documents;
           }
           // data.append("documents", sendDate?.document_data[i]?.documents);
           // delete sendDate?.document_data[i]?.documents;
@@ -353,25 +433,28 @@ export class AddEditLendersComponent implements OnInit {
           if (i == "document_data") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
-            if(sendDate[i]){
-              data.append(i, sendDate[i])
+            if (sendDate[i]) {
+              data.append(i, sendDate[i]);
             }
             // data.append(i, sendDate[i]);
           }
         }
         const url = this.http.createNBFCForm(data);
-        url.subscribe((res: any)=> {
-          if(res.success){
-            this.apiLoader['formSave'] = false
-            this.message.success(res?.message);
-            this.router.navigate(['lenders']);
-          } else {
-            this.apiLoader['formSave'] = false
-            this.message.error(res?.message);
+        url.subscribe(
+          (res: any) => {
+            if (res.success) {
+              this.apiLoader["formSave"] = false;
+              this.message.success(res?.message);
+              this.router.navigate(["lenders"]);
+            } else {
+              this.apiLoader["formSave"] = false;
+              this.message.error(res?.message);
+            }
+          },
+          (err) => {
+            this.apiLoader["formSave"] = false;
           }
-        }, err => {
-          this.apiLoader['formSave'] = false
-        })
+        );
       } else {
         let data = new FormData();
 
@@ -396,86 +479,106 @@ export class AddEditLendersComponent implements OnInit {
           if (i == "document_data") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
-            if(sendDate[i]){
-              data.append(i, sendDate[i])
+            if (sendDate[i]) {
+              data.append(i, sendDate[i]);
             }
             // data.append(i, sendDate[i]);
           }
         }
         const url = this.http.updateNBFCForm(this.masterPartnerId, data);
-        url.subscribe((res: any)=> {
-          if(res.success){
-            this.message.success(res?.message);
-            this.apiLoader['formSave'] = false
-            this.router.navigate(['lenders']);
-          } else {
-            this.message.error(res?.message);
-            this.apiLoader['formSave'] = false
+        url.subscribe(
+          (res: any) => {
+            if (res.success) {
+              this.message.success(res?.message);
+              this.apiLoader["formSave"] = false;
+              this.router.navigate(["lenders"]);
+            } else {
+              this.message.error(res?.message);
+              this.apiLoader["formSave"] = false;
+            }
+          },
+          (err) => {
+            this.apiLoader["formSave"] = false;
           }
-        }, err => {
-          this.apiLoader['formSave'] = false
-        })
+        );
       }
     }
   }
 
-  onClickSaveExistingForm(){
+  onClickSaveExistingForm() {
     for (const i in this.addEditProductForm.controls) {
-      this.addEditProductForm.controls[ i ].markAsDirty();
-      this.addEditProductForm.controls[ i ].updateValueAndValidity();
+      this.addEditProductForm.controls[i].markAsDirty();
+      this.addEditProductForm.controls[i].updateValueAndValidity();
     }
-    var sendDate = this.addEditProductForm.value
+    if (!this.addEditProductForm.valid) {
+      this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
+      );
+    }
+    var sendDate = this.addEditProductForm.value;
     for (var i in sendDate.document_data) {
-        if(!sendDate.document_data[i].document_name && sendDate.document_data[i].label_name){
-          this.message.error( ' Plz Upload Selected Document ' + ` ${sendDate.document_data[i].label_name}` + ' at index ' + i, { nzDuration: 5000 })
-          return;
-          }
+      if (
+        !sendDate.document_data[i].document_name &&
+        sendDate.document_data[i].label_name
+      ) {
+        this.message.error(
+          " Plz Upload Selected Document " +
+            ` ${sendDate.document_data[i].label_name}` +
+            " at index " +
+            i,
+          { nzDuration: 5000 }
+        );
+        return;
       }
-    if(this.addEditProductForm.valid) {
-      this.apiLoader['saveAddNew'] = true
+    }
+    if (this.addEditProductForm.valid) {
+      this.apiLoader["saveAddNew"] = true;
       let data = new FormData();
-    
-      var sendDate = this.addEditProductForm.value
-      
+
+      var sendDate = this.addEditProductForm.value;
+
       for (var i in sendDate.document_data) {
-        if(!sendDate.document_data[i].id){
+        if (!sendDate.document_data[i].id) {
           delete sendDate?.document_data[i]?.id;
         }
-        if(!sendDate.unique_code){
+        if (!sendDate.unique_code) {
           delete sendDate?.unique_code;
         }
-        if(sendDate?.document_data[i]?.documents){
-          data.append('documents', sendDate?.document_data[i]?.documents)
-          delete sendDate?.document_data[i]?.documents
+        if (sendDate?.document_data[i]?.documents) {
+          data.append("documents", sendDate?.document_data[i]?.documents);
+          delete sendDate?.document_data[i]?.documents;
         }
       }
-  
+
       for (var i in sendDate) {
-        if(i == 'document_data'){
-          data.append(i, JSON.stringify(sendDate[i]))
+        if (i == "document_data") {
+          data.append(i, JSON.stringify(sendDate[i]));
         } else {
-          if(sendDate[i]){
-            data.append(i, sendDate[i])
+          if (sendDate[i]) {
+            data.append(i, sendDate[i]);
           }
           // data.append(i, sendDate[i])
         }
       }
       const url = this.http.createNBFCForm(data);
-      url.subscribe((res: any)=> {
-        if(res.success){
-          this.message.success(res?.message);
-          this.apiLoader['saveAddNew'] = false
-        let newRouterLink = '/lenders/add';
-        this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
-        } else {
-          this.message.error(res?.message);
-          this.apiLoader['saveAddNew'] = false
+      url.subscribe(
+        (res: any) => {
+          if (res.success) {
+            this.message.success(res?.message);
+            this.apiLoader["saveAddNew"] = false;
+            let newRouterLink = "/lenders/add";
+            this.router.navigate(["/"]).then(() => {
+              this.router.navigate([newRouterLink]);
+            });
+          } else {
+            this.message.error(res?.message);
+            this.apiLoader["saveAddNew"] = false;
+          }
+        },
+        (err) => {
+          this.apiLoader["saveAddNew"] = false;
         }
-      }, err =>{
-        this.apiLoader['saveAddNew'] = false
-      })
+      );
     }
-
   }
 
   handleChange(e, index) {

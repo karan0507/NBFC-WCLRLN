@@ -1,7 +1,7 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-6 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' nzButtonStyle="solid">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
@@ -314,7 +314,8 @@
                                                         </span> -->
                                                     </div>
                                                     <div class="mt-3">
-                                                        <!-- <a href="{{ data?.document_file }}" target="_self" download >Trusted URL</a><br><br> -->
+                                                        <!-- <a [href]="data?.document_file" download="download" target="_blank" >Trusted URL</a><br><br> -->
+                                                        <!-- <a href="assets/images/activate.png" download="testing">Download</a> -->
                                                         <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
                                                         <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
                                                     </div>

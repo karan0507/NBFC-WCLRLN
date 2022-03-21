@@ -20,7 +20,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
@@ -46,7 +46,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzModalModule,
     NzCheckboxModule,
     SharedModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzDatePickerModule
   ]
 })
 export class EmployeeDetailsModule { }

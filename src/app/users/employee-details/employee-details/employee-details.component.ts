@@ -6,6 +6,8 @@ import { NzUploadFile } from "ng-zorro-antd/upload";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { saveAs } from "file-saver";
 import { error } from "@angular/compiler/src/util";
+import { differenceInCalendarDays, setHours } from "date-fns";
+import * as moment from "moment";
 
 @Component({
   selector: "app-employee-details",
@@ -160,6 +162,12 @@ export class EmployeeDetailsComponent implements OnInit {
   fileName: any;
   hasValidationError: boolean;
   branchName: any;
+  today = new Date();
+  disabledDate = (current: Date): boolean => {
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+  date: any = [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -239,8 +247,10 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   getResultWithSelectedFilter(e) {
-    console.log(e);
     if (e && e != "All") {
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    } else {
+      this.selectedCorporate = null;
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     }
   }
@@ -281,6 +291,12 @@ export class EmployeeDetailsComponent implements OnInit {
     }
   }
 
+
+  onChange(e){
+    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    console.log(e);
+  }
+
   downloadFile(data){
     saveAs(data, "USEr_EMPLOYEE_DETAIL.xlsx");
   }
@@ -299,7 +315,12 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
+      from_date: moment(this.date[0]).format("YYYY-MM-DD"),
+      to_date: moment(this.date[1]).format("YYYY-MM-DD"),
     };
+    // data.append(
+      //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
+      // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
     if (this.selectedCorporate) {
       data["partner"] = this.selectedCorporate;
     }
