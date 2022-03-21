@@ -155,7 +155,7 @@ export class AddEditMerchantsComponent implements OnInit {
       display_name: [data ? data?.display_name : null, [Validators.required]],
       state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
-      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[0-9]{8,10}$')]],
 
 
       bank_name: [data ? data?.bank_name : null],
@@ -178,7 +178,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
       partner_master:[data ? data?.partner_master?.id : null],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
-      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
+      contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('^[0-9]{8,10}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       master: ['0', [Validators.required]],
       document_data:  this.fb.array([]),

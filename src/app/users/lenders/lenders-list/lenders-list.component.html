@@ -300,6 +300,49 @@
                                 </nz-card>
                             </div>
 
+                            <div class="justify-content-center" *ngIf="data?.expandSet?.all_previous_roi_mappings.length > 0">
+                                <nz-page-header
+                                    class="site-page-header acc-bg-light mb-2"
+                                    [nzTitle]="roiDetails">
+                                </nz-page-header>
+                                <nz-card class="mb-md-5"  [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null" >
+                                <!-- <div> -->
+                                    <div class="row my-2" *ngFor="let data of data?.expandSet?.all_previous_roi_mappings">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <h6>
+                                                    ROI Utilised Fund
+                                                </h6>
+                                                <div>
+                                                    {{data?.roi_utilized_fund ? data?.roi_utilized_fund : ' -- '}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <h6>
+                                                    ROI Unutilised Fund
+                                                </h6>
+                                                <div>
+                                                    {{data?.roi_unutilized_fund ? data?.roi_unutilized_fund : ' -- '}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <h6>
+                                                    Created At
+                                                </h6>
+                                                <div>
+                                                    {{data?.created_at ? (data?.created_at | date: 'dd MMM yyyy, HH:mm:ss a' ) : ' -- '}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                                </nz-card>
+                            </div>
+
                             <div class="justify-content-center">
                                 <nz-page-header
                                     class="site-page-header acc-bg-light mb-2"
@@ -384,6 +427,12 @@
         <h6 class="mb-0">Other Details</h6>
     </div>
 </ng-template>
+<ng-template #roiDetails>
+    <div class="ml-md-2">
+        <h6 class="mb-0">ROI Details</h6>
+    </div>
+</ng-template>
+
 
   <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
