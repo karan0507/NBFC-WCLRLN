@@ -151,12 +151,12 @@
                                           </label>
 
                                           <div class="mr-5">
-                                                <a class="text-primary mr-3" *ngIf="item?.id && item?.file_url"
+                                                <a class="text-primary mr-3" *ngIf="item?.file_url"
                                                       nzTooltipTitle="View Document"
                                                       (click)="openDocumentModal('viewDocument',item)">
                                                       <i nz-icon nzType="eye" nzTheme="outline"></i></a>
                                                 <a class="text-primary mr-3"
-                                                      *ngIf="item?.id && item?.file_url && item?.status == 'Pending'"
+                                                      *ngIf="item?.file_url && item?.status == 'Pending'"
                                                       nzTooltipTitle="Verify Document"
                                                       (click)="openDocumentModal('verify',item, data)">
                                                       <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
