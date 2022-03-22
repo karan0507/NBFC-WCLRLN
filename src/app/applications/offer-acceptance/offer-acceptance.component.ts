@@ -28,6 +28,7 @@ export class OfferAcceptanceComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      currentOfferId: any
       console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
@@ -35,7 +36,7 @@ export class OfferAcceptanceComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button':false
+            'button': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -55,28 +56,28 @@ export class OfferAcceptanceComponent implements OnInit {
       _isDocument: boolean = false;
       _isStatus: boolean = false;
 
-        // Modal Boolean Values
-        _isPullData: boolean = false;
-        _isOpenModal: boolean = false;
-        _currentFileName: any;
-        fileList: any = [];
-        _isDownload: boolean = false;
-        _isVerify: boolean = false;
-        _isUpload: boolean = false;
-        _currentModalData: any;
-        _currentLoanDetails: any;
-        _isViewDocument : boolean = false
-        verifyRemarks: any;
-        _isCibil: boolean = false
-        documentStatus = 1
-        // Page Filters and Pagination Data
-        page = 1
-        globalPageSize: any;
-        productList: any = []
-        stageStatusList: any = []
-      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global : GlobalservicesService, public sanitize : DomSanitizer) { }
+      // Modal Boolean Values
+      _isPullData: boolean = false;
+      _isOpenModal: boolean = false;
+      _currentFileName: any;
+      fileList: any = [];
+      _isDownload: boolean = false;
+      _isVerify: boolean = false;
+      _isUpload: boolean = false;
+      _currentModalData: any;
+      _currentLoanDetails: any;
+      _isViewDocument: boolean = false
+      verifyRemarks: any;
+      _isCibil: boolean = false
+      documentStatus = 1
+      // Page Filters and Pagination Data
+      page = 1
+      globalPageSize: any;
+      productList: any = []
+      stageStatusList: any = []
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
-     
+
       ngOnInit(): void {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
@@ -227,10 +228,11 @@ export class OfferAcceptanceComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
+                        let params = { 'source': 'LMS', 'datapoint': 'fetch_accepted_offer', 'endpoint': data?.id }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     console.log(res);
+                                    this.currentOfferId = res?.data?.offer_id
                                     this.api_calling_loader['accordian'] = false;
                                     this.offerForm.get('amountOffered').setValue(res?.data?.amount);
                                     this.offerForm.get('validitiy').setValue(res?.data?.validity);
@@ -245,7 +247,6 @@ export class OfferAcceptanceComponent implements OnInit {
                         }, err => { this.message.error(err) }
                         )
 
-                        break;
                         break;
                   case 'rejectOffer': this.isRejectModal = true; break;
 
@@ -276,14 +277,14 @@ export class OfferAcceptanceComponent implements OnInit {
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     this.api_calling_loader['button'] = false
-                        this.handleCancel()
-                        this.message.success(res?.message);
-                        this.global.setApplicationCount();
-                        this.getFormLoanData();
+                                    this.handleCancel()
+                                    this.message.success(res?.message);
+                                    this.global.setApplicationCount();
+                                    this.getFormLoanData();
                               } else {
                                     this.message.error(res?.message);
-                        this.api_calling_loader['button'] = false;
-                        this._isUpdateStatus = false;
+                                    this.api_calling_loader['button'] = false;
+                                    this._isUpdateStatus = false;
                               }
                         }, error => {
                               console.log(error);
@@ -291,14 +292,17 @@ export class OfferAcceptanceComponent implements OnInit {
                         })
                         break;
                   case 'offer':
-                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
+                        this.api_calling_loader['button'] = true
+                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint:this.currentOfferId, amount: this.offerForm.get('amountOffered').value };
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
-                                    console.log('res');
+                                    this.message.success(res?.message);
+                                    this.api_calling_loader['button'] = false
                                     this.handleCancel();
                                     this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false
                               }
                         }, error => {
                               console.log(error);
@@ -306,13 +310,16 @@ export class OfferAcceptanceComponent implements OnInit {
 
                         break;
                   case 'reject':
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanDetails?.id, remarks: this.remarks };
+                        this.api_calling_loader['button'] = true
+                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this.currentOfferId, remarks: this.remarks };
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
+                                    this.api_calling_loader['button'] = false
                                     this.message.success(res?.message);
                                     this.handleCancel();
                                     this.getFormLoanData();
                               } else {
+                                    this.api_calling_loader['button'] = false
                                     this.message.error(res?.message)
                               }
                         });
@@ -393,24 +400,24 @@ export class OfferAcceptanceComponent implements OnInit {
             }
       }
 
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
             let data = { source: 'Onboarding', endpoint: id }
-            if(type == 'cibil' && id){
-              data['datapoint'] = 'fetch-cibil-from-db'
-                   this.https.getCibilSMSData(data).subscribe(res => {
-                         if (res?.data) {
-                               console.log(res?.data);
-                               this._currentCibilData = res?.data
-                         }
-                   })
-            }else if(type == 'sms' && id){
-             data['datapoint'] = 'fetch-sms-from-db'
-             this.https.getCibilSMSData(data).subscribe(res => {
-                   if (res?.data) {
-                         console.log(res?.data);
-                         this._currentCibilData = res?.data
-                   }
-             })  
+            if (type == 'cibil' && id) {
+                  data['datapoint'] = 'fetch-cibil-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
+            } else if (type == 'sms' && id) {
+                  data['datapoint'] = 'fetch-sms-from-db'
+                  this.https.getCibilSMSData(data).subscribe(res => {
+                        if (res?.data) {
+                              console.log(res?.data);
+                              this._currentCibilData = res?.data
+                        }
+                  })
             }
       }
 

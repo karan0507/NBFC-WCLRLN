@@ -27,6 +27,7 @@ export class UnderwritingComponent implements OnInit {
       loanApplicationData: any = [];
       total_count: any;
       _currentDate: any;
+      currentOfferId: any;
       _currentId: any;
       _currentDocType: any;
       _isViewDocument: any;
@@ -66,7 +67,7 @@ export class UnderwritingComponent implements OnInit {
       _currentLoanDetails: any;
       verifyRemarks: any;
       _isCibil: boolean = false
-      isFetchCibilSms : boolean = false;
+      isFetchCibilSms: boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -231,7 +232,7 @@ export class UnderwritingComponent implements OnInit {
 
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
-                                    console.log(res);
+                                    this.currentOfferId = res?.data?.offer_id
                                     this.offerForm.get('amountOffered').setValue(res?.data?.amount);
                                     this.offerForm.get('validitiy').setValue(res?.data?.validity);
                                     this.offerForm.get('interest').setValue(res?.data?.interest);
@@ -267,18 +268,20 @@ export class UnderwritingComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'offer':
-                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
-
+                        this.api_calling_loader['button'] = true
+                        let value = { source: 'LMS', datapoint: 'edit_proposed_offers', endpoint: this.currentOfferId, amount: this.offerForm.get('amountOffered').value };
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
-                                    console.log('res');
+                                    this.message.success(res?.message);
+                                    this.api_calling_loader['button'] = false
                                     this.handleCancel();
                                     this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false
                               }
                         }, error => {
-
+                              
                         })
                         break;
                   case 'verify':
@@ -305,7 +308,7 @@ export class UnderwritingComponent implements OnInit {
                   case 'uploadDocument':
                         this.api_calling_loader['button'] = true
                         let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'file': this._currentFileName }
-                        if(this._currentModalData?.id){
+                        if (this._currentModalData?.id) {
                               uploadDoc['kyc_document_id'] = this._currentModalData?.id
                         }
                         console.log(uploadDoc, 'For Upload Document');
@@ -407,18 +410,18 @@ export class UnderwritingComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
             this._isUpdateStatus = true
             this.isFetchCibilSms = true;
-           let data = { source: 'Onboarding', endpoint: id}
-           if(type == 'cibil' && id){
-                 this._isCibil = true;
-                 this._currentLoanDetails = id
-            
-           }else if(type == 'sms' && id){
-            this._isCibil = false;
-            this._currentLoanDetails = id
-           }
+            let data = { source: 'Onboarding', endpoint: id }
+            if (type == 'cibil' && id) {
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
+            } else if (type == 'sms' && id) {
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
+            }
       }
 
       // Pull Cibil Methods

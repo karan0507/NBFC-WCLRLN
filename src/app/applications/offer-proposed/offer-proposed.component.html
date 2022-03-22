@@ -904,7 +904,7 @@
             (click)="handleCancel()">Cancel</button>
       <button *ngIf="_isStatus" [nzLoading]="api_calling_loader['button']" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('status')">Submit</button>
-      <button *ngIf="_isEditOffer" [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2"
+      <button *ngIf="_isEditOffer"  [nzLoading]="api_calling_loader['button']" [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
