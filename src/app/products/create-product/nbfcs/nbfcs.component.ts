@@ -37,6 +37,21 @@ export class NbfcsComponent implements OnInit {
     this.createEditFormFuction()
   }
 
+  amountFromatterFinction(value){
+    var val : any
+    val = Math.abs(value)
+    if (val >= 10000000) {
+      val = (val / 10000000).toFixed(2) + ' Cr';
+    } else if (val >= 100000) {
+      val = (val / 100000).toFixed(2) + ' Lacs';
+    }
+    if(typeof val == 'string'){
+    } else{
+      val = val.toFixed(2)
+    }
+    return val;
+  }
+
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
       nbfcs_arr: this.fb.array([]),
@@ -65,6 +80,7 @@ export class NbfcsComponent implements OnInit {
     return <FormArray>this.createEditForm.get('nbfcs_arr');
   }
 
+  
   addNbfcs_arr(data?) {
     this.nbfcs_arr.push(this.addSlabControlsnbfcs(data))
   }
