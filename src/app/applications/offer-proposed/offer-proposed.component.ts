@@ -29,6 +29,7 @@ export class OfferProposedComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      currentOfferId : any;
       console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
@@ -81,7 +82,7 @@ export class OfferProposedComponent implements OnInit {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.offerForm = this.fb.group({
-                  amountOffered: [null, [Validators.required, Validators.min(1)],{updateOn : blur}],
+                  amountOffered: [null, [Validators.required, Validators.min(1)]],
                   validitiy: [null],
                   interest: [null]
             })
@@ -230,13 +231,11 @@ export class OfferProposedComponent implements OnInit {
                         let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
-                                    console.log(res);
-                                    this.offerForm.get('amountOffered').setValue(res?.data?.amount);
-                                    this.offerForm.get('validitiy').setValue(res?.data?.validity);
-                                    this.offerForm.get('interest').setValue(res?.data?.interest);
-
+                                    this.currentOfferId = res?.data?.offer_id
                                     this.api_calling_loader['accordian'] = false;
-
+                                    this.offerForm.get('amountOffered').setValue(res?.data?.amount);
+                                    this.offerForm.get('validitiy').patchValue(res?.data?.validity);
+                                    this.offerForm.get('interest').patchValue(res?.data?.interest);
                               } else {
                                     this.message.error(res?.error)
                                     this.api_calling_loader['accordian'] = false;
@@ -292,14 +291,17 @@ export class OfferProposedComponent implements OnInit {
                         })
                         break;
                   case 'offer':
-                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this._currentLoanDetails?.id, amount: this.offerForm.get('amountOffered').value };
+                        this.api_calling_loader['button'] = true
+                        let value = { source: 'LMS', datapoint: 'edit_proposed_offers', endpoint: this.currentOfferId, amount: this.offerForm.get('amountOffered').value };
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
-                                    console.log('res');
+                                    this.message.success(res?.message);
+                                    this.api_calling_loader['button'] = false
                                     this.handleCancel();
                                     this.getFormLoanData();
                               } else {
-                                    console.log('error=>', res?.error);
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['button'] = false
                               }
                         }, error => {
                               console.log(error);
@@ -307,7 +309,8 @@ export class OfferProposedComponent implements OnInit {
 
                         break;
                   case 'reject':
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanDetails?.id, remarks: this.remarks };
+                        this.api_calling_loader['button'] = true
+                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this.currentOfferId, remarks: this.remarks };
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);
@@ -315,6 +318,7 @@ export class OfferProposedComponent implements OnInit {
                                     this.getFormLoanData();
                               } else {
                                     this.message.error(res?.message)
+                                    this.api_calling_loader['button'] = false
                               }
                         });
                         break;

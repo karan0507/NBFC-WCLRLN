@@ -111,17 +111,22 @@ export class EditFormComponent implements OnInit {
 
                         break;
                   case 'uploadDocument':
-                        // For Selfie file: application_id datapoint:upload_selfie
-                        this._currentModalData
+                  
                         this.api_calling_loader['button'] = true
                         let uploadDoc = new FormData()
                         uploadDoc.append('source', 'Onboarding')
-                        uploadDoc.append('datapoint', 'upload_kyc_doc')
+                        if( this._currentModalData?.document_master?.id){
+                              uploadDoc.append('datapoint', 'upload_kyc_doc')
+                        }else if( this._currentModalData?.document_master?.name == "Selfie"){
+                              uploadDoc.append('datapoint', 'upload_selfie')
+                        }
                         uploadDoc.append('application_id', this._currentModalData['application'])
                         if (this._currentModalData?.id) {
                               uploadDoc.append('kyc_document_id', this._currentModalData?.id)
                         }
-                        uploadDoc.append('document_id', this._currentModalData?.document_master?.id)
+                        if(this._currentModalData?.document_master?.id){
+                              uploadDoc.append('document_id', this._currentModalData?.document_master?.id)
+                        }
                         uploadDoc.append('file', this._currentFileName)
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
                               if (res?.success) {
@@ -189,8 +194,8 @@ export class EditFormComponent implements OnInit {
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
             data.append('company_id', this.employementDetails.value.company_name);
-            data.append('documents_list','')
-            data.append('documents','')
+            // data.append('documents_list','')
+            // data.append('documents','')
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {

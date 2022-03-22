@@ -26,7 +26,7 @@
                         <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
                               (ngModelChange)="getCouponCodeList()" nzPlaceHolder="Select Status">
                               <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
-                              <nz-option [nzValue]="2" nzLabel="In Active"></nz-option>
+                              <nz-option [nzValue]="2" nzLabel="Inactive"></nz-option>
 
                         </nz-select>
                         <button nz-button nzType="primary" class="ml-md-3" [routerLink]="['add-coupon-code']">Add New
@@ -65,7 +65,7 @@
                                           </td>
                                           <td>
                                                 <div class="d-flex">
-                                                      <label class="font-size-14">In Active</label>
+                                                      <label class="font-size-14">Inactive</label>
                                                       <nz-switch class="px-3" [(ngModel)]="data.is_active"
                                                             (click)="couponSwitch(data)">
                                                       </nz-switch>
