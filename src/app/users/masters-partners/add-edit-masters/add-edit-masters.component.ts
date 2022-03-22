@@ -176,7 +176,7 @@ export class AddEditMastersComponent implements OnInit {
       city: [data ? data?.city : null, [Validators.required]],
       state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
-      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^.{1,10}$')]],
+      phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('^[0-9]{8,10}$')]],
 
 
       bank_name: [data ? data?.bank_name : null],
@@ -191,7 +191,7 @@ export class AddEditMastersComponent implements OnInit {
       // Attribute Nature under business detail
       business_nature: [data ? data?.business_nature?.id : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]],
-      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^.{1,10}$')]],
+      contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('^[0-9]{8,10}$')]],
       contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       employee: [data ? data?.employee : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],

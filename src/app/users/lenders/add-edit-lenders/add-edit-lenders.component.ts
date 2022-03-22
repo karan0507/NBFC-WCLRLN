@@ -158,7 +158,7 @@ export class AddEditLendersComponent implements OnInit {
       ],
       phone: [
         data ? data?.phone : null,
-        [Validators.required, Validators.pattern("^.{1,10}$")],
+        [Validators.required, Validators.pattern("^[0-9]{8,10}$")],
       ],
       // ^[6-9][0-9]{9}$
 
@@ -187,7 +187,7 @@ export class AddEditLendersComponent implements OnInit {
       ],
       nbfc_user_mobile: [
         data ? data?.nbfc_user_mobile : null,
-        [Validators.required, Validators.pattern("^.{1,10}$")],
+        [Validators.required, Validators.pattern("^[0-9]{8,10}$")],
       ],
       fldg_calculation_type: [
         data ? data?.fldg_calculation_type : "Variable",

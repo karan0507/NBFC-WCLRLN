@@ -11,10 +11,33 @@
  } */
  
  .title{
-   position: absolute;
+   /* position: relative;
    display: flex;
    justify-content: center;
-   align-items: center;
-   height: 100%;
-   font-size: 12px;
+   align-items: center;   
+   top: 140px;
+   font-size: 12px; */
+   position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 161px;
+    font-size: 14px;
+    left: 4px;
+}
+
+.no-data-title{
+   /* position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;   
+   top: 140px;
+   font-size: 12px; */
+   position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 127px;
+    font-size: 14px;
+    left: 4px;
 }
