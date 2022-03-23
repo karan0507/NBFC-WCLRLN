@@ -44,14 +44,7 @@
                                 <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please input Credit Line (commitment)!">
                                     <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="credit_line"
                                         placeholder="Please input Credit Line (commitment)!" />
-                                    <!-- <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
-                                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="credit_line"
-                                                    placeholder="Please input Credit Line (commitment)!" />
-                                            </nz-input-group>
-            
-                                            <ng-template #addOnAfterTemplateforamt>
-                                                <span>excluding GST</span>
-                                            </ng-template> -->
+                                        <div *ngIf="item.get('credit_line').value" class="mt-2">₹ {{ item.get('credit_line').value ? amountFromatterFinction(item.get('credit_line').value) : ''}}</div>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
