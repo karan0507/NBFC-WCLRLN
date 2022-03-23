@@ -207,8 +207,8 @@ export class EditFormComponent implements OnInit {
             data.append('company_id', this.employementDetails.value.company_name);
             if ((this.documentsList) && (this.filesArray[0])) {
                   console.log(this.documentsList);
-                  data.append('documents_list', JSON.stringify(this.documentsList))
-                  data.append('documents', this.filesArray)
+                  // data.append('documents_list', JSON.stringify(this.documentsList))
+                  // data.append('documents', this.filesArray)
             }
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
