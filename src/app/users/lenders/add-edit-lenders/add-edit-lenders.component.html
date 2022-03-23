@@ -173,10 +173,6 @@
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k)"
                                         >
-                                        <!-- <button nz-button>
-                                            <i nz-icon nzType="upload"></i>
-                                            Click to Upload
-                                        </button> -->
                                         <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                         </nz-upload>
                                         <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
