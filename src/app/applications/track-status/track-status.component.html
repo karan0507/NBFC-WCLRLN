@@ -6,44 +6,46 @@
 <section>
       <nz-card>
             <div class="row">
-                  <div class="col-md-12" *ngIf="loanStatusData.length == 0">No Status Update</div>
-                  <div class="col-md-6">
-                        <div class="d-flex flex-column">
-                              <div>
-                                    <h5 class="mb-4">Status</h5>
-                              </div>
-                              <div>
-                                    <nz-steps [nzCurrent]="1" nzProgressDot nzDirection="vertical">
-                                          <nz-step *ngFor="let item of loanStatusData" [nzTitle]="item?.status"></nz-step>
-                                    </nz-steps>
-                              </div>
-                        </div>
-                  </div>
-                  <div class="col-md-3">
-                        <div class="d-flex flex-column">
-                              <div>
-                                    <h5 class="mb-4">Date</h5>
-                              </div>
-                              <div>
-                                    <ul nz-menu>
-                                          <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
-                                                {{ loanStatusData ? item?.date : '--'}} </li>
-                                    </ul>
+                  <div class="col-md-12" *ngIf="!loanStatusData">No Status Update</div>
+                  <div class="col-md-12 d-flex flex-wrap" *ngIf="loanStatusData">
+                        <div class="col-md-6">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Status</h5>
+                                    </div>
+                                    <div>
+                                          <nz-steps [nzCurrent]="1" nzProgressDot nzDirection="vertical">
+                                                <nz-step *ngFor="let item of loanStatusData" [nzTitle]="item?.status"></nz-step>
+                                          </nz-steps>
+                                    </div>
                               </div>
                         </div>
-                  </div>
-                  <div class="col-md-3">
-                        <div class="d-flex flex-column">
-                              <div>
-                                    <h5 class="mb-4">Time</h5>
+                        <div class="col-md-3">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Date</h5>
+                                    </div>
+                                    <div>
+                                          <ul nz-menu>
+                                                <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                      {{ loanStatusData ? item?.date : '--'}} </li>
+                                          </ul>
+                                    </div>
                               </div>
-                              <div>
-                                    <ul nz-menu>
-
-                                          <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
-                                                {{ loanStatusData ? item?.time : '--'}}
-                                          </li>
-                                    </ul>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Time</h5>
+                                    </div>
+                                    <div>
+                                          <ul nz-menu>
+      
+                                                <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                      {{ loanStatusData ? item?.time : '--'}}
+                                                </li>
+                                          </ul>
+                                    </div>
                               </div>
                         </div>
                   </div>

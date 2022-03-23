@@ -1,7 +1,10 @@
-<nz-card class="p-0" [nzLoading]="api_calling_loader['cardData']">
-      <section>
+<nz-card class="p-0 border-0" [nzLoading]="api_calling_loader['cardData']">
+      <section *ngIf="cibilData">
             <pre>
                         {{ cibilData ? (cibilData | json ) : ''}}
             </pre>
+      </section>
+      <section *ngIf="!cibilData">
+           <h6> No Data Found</h6>
       </section>
 </nz-card>

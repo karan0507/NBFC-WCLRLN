@@ -42,7 +42,10 @@
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                        <nz-date-picker class="mx-2" [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
+                        [(ngModel)]="currentDate" (ngModelChange)="getFormLoanData()" ></nz-date-picker>
+
+                        <nz-select class="w-60"  nzMode="multiple"  (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
                               (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                     [nzLabel]="item.status">
@@ -123,7 +126,8 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
-                                                            <li nz-menu-item>
+                                                            <li nz-menu-item [routerLink]="['track-status']"
+                                                            [queryParams]="{id: data?.id}">
                                                                   <span class="m-l-5">Track Application</span>
                                                             </li>
                                                             <li nz-menu-item>

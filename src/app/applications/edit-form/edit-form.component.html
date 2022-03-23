@@ -13,7 +13,7 @@
                               <nz-form-item>
                                     <nz-form-label nzRequired>Email</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your Email!">
-                                          <input nz-input type="email" formControlName="email"
+                                          <input nz-input ui-mask="****"  type="email" formControlName="email"
                                                 placeholder="Enter your Email" />
                                     </nz-form-control>
                               </nz-form-item>
@@ -111,7 +111,7 @@
                         <div class="col-md-8">
                               <nz-form-item>
                                     <nz-form-label nzRequired>Limit Proposed</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please enter your limit proposed">
+                                    <nz-form-control nzErrorTip="Please validate your limit proposed">
                                           <input nz-input type="number" formControlName="limitProcessed"
                                                 placeholder="Enter your Limit Proposed">
                                     </nz-form-control>
@@ -149,7 +149,6 @@
                                                 item?.document_master?.name + ' '}} <b>
                                                       {{ item?.status }} </b>
                                           </label>
-
                                           <div class="mr-5">
                                                 <a class="text-primary mr-3" *ngIf="item?.file_url"
                                                       nzTooltipTitle="View Document"
@@ -169,6 +168,18 @@
                                                       <i nz-icon nzType="upload" nzTheme="outline"></i>
                                                 </a>
                                           </div>
+                                    </div>
+                                    <div *ngIf="item?.document_master?.name == 'Aadhar Card'">
+                                          
+                                          <p>
+                                                <label>Aadhar No: {{ global.maskingDigits(item?.aadhar_no) }} </label>
+                                          </p>
+                                    </div>
+                                    <div *ngIf="item?.document_master?.name == 'Pan'">
+                                          
+                                          <p>
+                                                <label>PAN No: {{item?.pan_no}} </label>
+                                          </p>
                                     </div>
                                     <div>
                                           {{ item?.reason ? item?.reason : '--'}}
@@ -217,15 +228,15 @@
             <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
             <button nz-button nzType="primary"
                   [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false"
-                  [nzLoading]="api_calling_loader['listLoader']" class="mx-2" (click)="submitForm()">Save</button>
+                  [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="submitForm()">Save</button>
       </div>
       <ng-template #footerModal>
             <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
             <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-                  [disabled]="!fileList[0] ? true : false" [nzLoading]="api_calling_loader['button']"
+                  [disabled]="!fileList[0] ? true : false" [nzLoading]="api_calling_loader['modalButton']"
                   (click)="handleOk('uploadDocument')">Submit</button>
             <button *ngIf="_isVerify" nz-button nzType="primary"
                   [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-                  [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+                  [nzLoading]="api_calling_loader['modalButton']" (click)="handleOk('verify')">Submit</button>
       </ng-template>
 </section>

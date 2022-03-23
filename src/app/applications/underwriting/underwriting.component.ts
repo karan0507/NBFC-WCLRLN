@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as FileSaver from 'file-saver';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -47,7 +48,7 @@ export class UnderwritingComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
-
+      currentDate = new Date();
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
@@ -120,6 +121,9 @@ export class UnderwritingComponent implements OnInit {
             }
             if (this.searchValue) {
                   data['name'] = this.searchValue
+            }
+            if (this.currentDate) {
+                  data['date_filter'] = moment(this.currentDate).format("yyyy-MM-DD")
             }
             if (tableFilter) {
                   console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
@@ -281,7 +285,7 @@ export class UnderwritingComponent implements OnInit {
                                     this.api_calling_loader['button'] = false
                               }
                         }, error => {
-                              
+
                         })
                         break;
                   case 'verify':
