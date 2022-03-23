@@ -385,7 +385,10 @@ export class AddEditPartnersComponent implements OnInit {
     return form.controls.document_data.controls;
   }
 
+  indexOfLatestNach: any;
   get_nachArr(form) {
+    this.indexOfLatestNach = form.controls.nach_date_time_mappings.controls?.length;
+    // console.log(form.controls.nach_date_time_mappings.controls[this.indexOfLatestNach - 1]?.controls?.value);
     return form.controls.nach_date_time_mappings.controls;
   }
 
@@ -443,6 +446,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSaveExistingForm() {
+    const storeData = this.addEditProductForm.valid 
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -523,6 +527,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSubmitForm() {
+    const storeData = this.addEditProductForm.value;
     console.log(this.addEditProductForm.value);
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
@@ -534,7 +539,13 @@ export class AddEditPartnersComponent implements OnInit {
     var sendDate = this.addEditProductForm.value;
     
     for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings[i].time_of_day && sendDate.nach_date_time_mappings[i].day_of_month){
       sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
+    } else {
+      delete sendDate.nach_date_time_mappings[i]
+      // delete sendDate.nach_date_time_mappings[i].day_of_month
+      this.deleteNachByKey(i);
+    }
     }
 
     for (var i in sendDate.document_data) {
@@ -591,6 +602,14 @@ export class AddEditPartnersComponent implements OnInit {
               this.apiLoader["formSave"] = false;
               this.router.navigate(["partners"]);
             } else {
+              const control = <FormArray>this.addEditProductForm.controls['nach_date_time_mappings'];
+              for(let i = control.length-1; i >= 0; i--) {
+              control.removeAt(i)
+              }
+              // this.invoiceForm.controls['invoiceparticulars']).clear()
+              // this.newNach();
+              this.setFormData(storeData);
+              this.setFormDataForNach(storeData);
               this.message.error(res?.message);
               this.apiLoader["formSave"] = false;
             }

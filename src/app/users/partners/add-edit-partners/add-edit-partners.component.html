@@ -187,7 +187,12 @@
             </ng-container>
             <div class="row no-gutters">
                 <div class="col-12 d-flex justify-content-between">
-                    <button nz-button nzType="link" class="pl-0" (click)="addNach()">+Add Nach</button>
+                    <button nz-button nzType="link" *ngIf="addEditProductForm.get('nach_date_time_mappings')?.controls.length != 0"
+                    [disabled]="!addEditProductForm.get('nach_date_time_mappings')?.controls[indexOfLatestNach - 1]?.controls?.day_of_month.value || !addEditProductForm.controls.nach_date_time_mappings?.controls[indexOfLatestNach - 1]?.controls?.time_of_day.value" (click)="addNach()">+Add Nach</button>
+                    <button nz-button nzType="link" *ngIf="addEditProductForm.get('nach_date_time_mappings')?.controls.length == 0"
+                     (click)="addNach()">+Add Nach</button>
+                    <!-- <button nz-button nzType="link" *ngIf="addEditProductForm.controls.nach_date_time_mappings?.controls.length == 0"
+                    class="pl-0" (click)="addNach()">+Add Nach</button> -->
                 </div>
             </div>
                 </div>
