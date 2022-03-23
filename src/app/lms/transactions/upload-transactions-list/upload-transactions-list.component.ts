@@ -161,10 +161,11 @@ export class UploadTransactionsListComponent implements OnInit {
     var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
-      if (res.data.list[0]) {
+      if (res.data.file_content.list[0]) {
         this.isImport = false
-        this.previewBeforeUpload = res['data'].list
-        this.isLineError = res['data'].status
+        this.previewBeforeUpload = res.data.file_content.list
+        this.preview_file_name = res.data.file_name
+        this.isLineError = res.data.file_content.status
         this.isPreviewBeforeUpload = true;
       } else {
         this.message.error(res.data.message)
