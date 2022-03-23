@@ -117,13 +117,13 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item (click)="offerMethods(data, 'approve')">
+                                                            <!-- (click)="offerMethods(data, 'approve')" -->
+                                                            <li nz-menu-item >
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Approve Offer</span>
                                                             </li>
-
-                                                            <li nz-menu-item (click)="offerMethods(data, 'reject')">
+                                                            <!-- (click)="offerMethods(data, 'reject')" -->
+                                                            <li nz-menu-item >
                                                                   <span class="m-l-5">Disapprove Offer</span>
                                                             </li>
 

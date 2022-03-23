@@ -258,6 +258,7 @@ export class DisbursementComponent implements OnInit {
                                     this.message.success(res?.message)
                                     this.api_calling_loader['button'] = false
                                     this.handleCancel();
+                                    this.getFormLoanData();
                               } else {
                                     this.api_calling_loader['button'] = false
                                     this.message.error(res?.message)

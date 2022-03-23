@@ -7,6 +7,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import * as FileSaver from 'file-saver';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 // import {}
 
 @Component({
@@ -20,9 +21,13 @@ export class EditFormComponent implements OnInit {
       preApprovedForm: FormGroup;
       documentForm: FormGroup;
       userId: any;
+      documentsList: any = []
+      filesArray : any = []
       api_calling_loader = {
             'listLoader': false,
-            'accordian': false
+            'accordian': false,
+            'button': false,
+            'modalButton': false
       };
       masterIncomeRangeList: any = [];
       partnerList: any = [];
@@ -45,7 +50,7 @@ export class EditFormComponent implements OnInit {
       _currentFileName: any
       fileList: any = [];
       documentStatus: any;
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService) { }
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global : GlobalservicesService) { }
 
       ngOnInit(): void {
             this.fetchProductList();
@@ -71,7 +76,7 @@ export class EditFormComponent implements OnInit {
 
             this.preApprovedForm = this.fb.group({
                   product_name: [null, [Validators.required]],
-                  limitProcessed: [null, [Validators.required, Validators.min(1), Validators.maxLength(6)]]
+                  limitProcessed: [null, [Validators.required, Validators.min(1), Validators.pattern("^[1-9][0-9]{5}$"), Validators.maxLength(6)]]
             })
 
             this.documentForm = this.fb.group({
@@ -92,56 +97,62 @@ export class EditFormComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'verify':
-                        this.api_calling_loader['button'] = true
+                        this.api_calling_loader['modalButton'] = true
                         let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
                         this.https.verifyLoanDocument(params).subscribe((res: any) => {
                               if (res?.success) {
-                                    this.api_calling_loader['button'] = false
+                                    this.api_calling_loader['modalButton'] = false
                                     this.message.success(res?.message);
                                     this.handleCancel();
                                     this.getFormLoanData()
                               } else {
-                                    this.api_calling_loader['button'] = false
+                                    this.api_calling_loader['modalButton'] = false
                                     this.message.error(res?.message);
                               }
                         }, err => {
-                              this.api_calling_loader['button'] = false
+                              this.api_calling_loader['modalButton'] = false
                               this.message.error(err);
                         })
 
                         break;
                   case 'uploadDocument':
-                  
-                        this.api_calling_loader['button'] = true
+
+                        this.api_calling_loader['modalButton'] = true
                         let uploadDoc = new FormData()
                         uploadDoc.append('source', 'Onboarding')
-                        if( this._currentModalData?.document_master?.id){
+                        if (this._currentModalData?.document_master?.id) {
                               uploadDoc.append('datapoint', 'upload_kyc_doc')
-                        }else if( this._currentModalData?.document_master?.name == "Selfie"){
+                              this.documentsList = { 'document_master': this._currentModalData?.document_master?.id, 'document_name': this.fileList[0]['name'], 'doc_type': 'KYC' }
+                              this.filesArray = this._currentFileName
+                        } else if (this._currentModalData?.document_master?.name == "Selfie") {
                               uploadDoc.append('datapoint', 'upload_selfie')
+                              this.documentsList = { 'document_master': 0, 'document_name': this.fileList[0]['name'], 'doc_type': 'SELFIE' }
+                              this.filesArray = this._currentFileName
                         }
                         uploadDoc.append('application_id', this._currentModalData['application'])
                         if (this._currentModalData?.id) {
                               uploadDoc.append('kyc_document_id', this._currentModalData?.id)
                         }
-                        if(this._currentModalData?.document_master?.id){
+                        if (this._currentModalData?.document_master?.id) {
                               uploadDoc.append('document_id', this._currentModalData?.document_master?.id)
                         }
                         uploadDoc.append('file', this._currentFileName)
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
                               if (res?.success) {
-                                    this.api_calling_loader['button'] = false;
+                                    this.api_calling_loader['modalButton'] = false;
+                                    console.log(this.documentsList, '<==== Document List is here && File List ====>', this.fileList);
+
                                     this.fileList = [];
                                     this.message.success(res?.message)
                                     this.handleCancel();
                               } else {
-                                    this.api_calling_loader['button'] = false;
+                                    this.api_calling_loader['modalButton'] = false;
                                     this.fileList = [];
                                     this.message.error(res?.message)
                                     this.handleCancel();
                               }
                         }, err => {
-                              this.api_calling_loader['button'] = false;
+                              this.api_calling_loader['modalButton'] = false;
                               this.message.error(err)
                         })
                         break;
@@ -187,26 +198,29 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
-            this.api_calling_loader['listLoader'] = true
+            this.api_calling_loader['button'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
             data.append('email', this.personalDetails.value.email);
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
             data.append('company_id', this.employementDetails.value.company_name);
-            // data.append('documents_list','')
-            // data.append('documents','')
+            if ((this.documentsList) && (this.filesArray[0])) {
+                  console.log(this.documentsList);
+                  // data.append('documents_list', JSON.stringify(this.documentsList))
+                  // data.append('documents', this.filesArray)
+            }
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
                   if (res?.success) {
                         // this.router.navigateByUrl('/applications/form-filling');
-                        this.api_calling_loader['listLoader'] = false
+                        this.api_calling_loader['button'] = false
                         this.message.success(res?.message)
                         this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
                         // this.router.navigateByUrl('/applications/form-filling')
-                        this.api_calling_loader['listLoader'] = false
+                        this.api_calling_loader['button'] = false
                   }
             })
 

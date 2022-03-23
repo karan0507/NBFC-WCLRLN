@@ -25,7 +25,7 @@ export class TrackStatusComponent implements OnInit {
       getLoanApplicationData() {
             let data = { 'source': 'Onboarding', 'datapoint' : 'track_application_status', 'endpoint' : this.currentLoanId}
             this.https.trackApplicationStatus(data).subscribe((res: any) => {
-                  if (res) {
+                  if (res?.success) {
                         console.log(res);
                         this.loanStatusData = res?.data;
                   }

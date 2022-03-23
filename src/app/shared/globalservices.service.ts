@@ -35,4 +35,8 @@ export class GlobalservicesService {
             }
             return val;
       }
+
+      maskingDigits(str){
+            return str.replace(/\d{4}(?= \d{4})/g, "****")
+      }
 }

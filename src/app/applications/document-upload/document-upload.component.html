@@ -121,7 +121,8 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
-                                                            <li nz-menu-item>
+                                                            <li nz-menu-item   [routerLink]="['track-status']"
+                                                            [queryParams]="{id: data?.id}">
                                                                   <span class="m-l-5">Track Status</span>
                                                             </li>
                                                             <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
