@@ -161,7 +161,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
-        commission: [data.commission, [Validators.required]],
+        commission: [data.commission],
         time_period: [data.time_period],
         commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
@@ -170,7 +170,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: ['1'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
-        commission: ['', [Validators.required]],
+        commission: [''],
         time_period: [0],
         commission_calculation_type: ['Variable']
       });
@@ -189,7 +189,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
-        commission: [data.commission, [Validators.required]],
+        commission: [data.commission],
         time_period: [data.time_period],
         commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
@@ -198,7 +198,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: ['2'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
-        commission: ['', [Validators.required]],
+        commission: [''],
         time_period: [0],
         commission_calculation_type: ['Variable']
       });
@@ -217,7 +217,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: [data.trigger_master.id],
         min_amount: [data.min_amount, [Validators.required]],
         max_amount: [data.max_amount, [Validators.required]],
-        commission: [data.commission, [Validators.required]],
+        commission: [data.commission],
         time_period: [data.time_period],
         commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
       });
@@ -226,7 +226,7 @@ export class MasterPartnersComponent implements OnInit {
         trigger_master: ['3'],
         min_amount: ['', [Validators.required]],
         max_amount: ['', [Validators.required]],
-        commission: ['', [Validators.required]],
+        commission: [''],
         time_period: [0],
         commission_calculation_type: ['Variable']
       });

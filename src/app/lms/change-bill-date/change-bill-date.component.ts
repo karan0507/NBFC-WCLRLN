@@ -131,10 +131,15 @@ export class ChangeBillDateComponent implements OnInit {
     var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
-      this.isImport = false
-      this.previewBeforeUpload = res['data'].list
-      this.isLineError = res['data'].status
-      this.isPreviewBeforeUpload = true;
+      if (res['data'].list[0]) {
+        this.isImport = false
+        this.previewBeforeUpload = res['data'].list
+        this.isLineError = res['data'].status
+        this.isPreviewBeforeUpload = true;
+      } else {
+        this.message.error('File is empty')
+      }
+      
     }, (err) => {
       generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
       this.isImport = true

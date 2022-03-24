@@ -541,12 +541,12 @@
                         Employment Type :
                     </div>
                     <div class="col-md-8">
-                        {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name ? productDetails?.product_onboarding?.product_priority[0]?.employment_type?.name : '-') : '-'}}
+                        {{productDetails?.product_onboarding?.document_rules ? (productDetails?.product_onboarding?.document_rules[0]?.employment_type?.name ? productDetails?.product_onboarding?.document_rules[0]?.employment_type?.name : '-') : '-'}}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -564,6 +564,43 @@
                     </div>
                     <div class="col-md-8">
                         {{productDetails?.product_onboarding?.product_priority ? (productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name ? productDetails?.product_onboarding?.product_priority[0]?.secondary_product?.name : '-') : '-'}}
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <h5 class="w-100">Validation rule</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Aadhar card
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_onboarding?.aadhar_pan_rules?.aadhar_check}}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Pan card
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_onboarding?.aadhar_pan_rules?.pan_check}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="productDetails?.product_onboarding?.third_party_calls[0]">
+            <h5 class="w-100">Third party API call</h5>
+            <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_onboarding?.third_party_calls">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        {{item.third_party?.name}}
+                    </div>
+                    <div class="col-md-8">
+                        {{item.check_type}}
                     </div>
                 </div>
             </div>
