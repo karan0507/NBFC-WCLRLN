@@ -29,6 +29,36 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div> -->
+                <nz-form-label class="text-left">Validation rule</nz-form-label>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <div class="col-md-5">
+                            <nz-form-label nzFor="aadhar_check" class="text-left" nzRequired>Aadhar card</nz-form-label>
+                        </div>
+                        <div class="col-md-7">
+                            <nz-form-control nzErrorTip="Please select Aadhar card!">
+                                <nz-radio-group formControlName="aadhar_check">
+                                    <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                    <label nz-radio nzValue="Not Required">Not Required</label>
+                                  </nz-radio-group>
+                            </nz-form-control>
+                        </div>
+                    </nz-form-item>
+                    
+                    <nz-form-item>
+                        <div class="col-md-5">
+                            <nz-form-label nzFor="pan_check" class="text-left" nzRequired>Pan card</nz-form-label>
+                        </div>
+                        <div class="col-md-7">
+                            <nz-form-control nzErrorTip="Please select Pan card!">
+                                <nz-radio-group formControlName="pan_check">
+                                    <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                    <label nz-radio nzValue="Not Required">Not Required</label>
+                                  </nz-radio-group>
+                            </nz-form-control>
+                        </div>
+                    </nz-form-item>
+                </div>
                 <nz-form-label class="text-left">Third party API call</nz-form-label>
                 <div class="col-md-12">
                     <ng-container *ngFor="let item of get_Third_party(createEditForm); let k = index;" formArrayName="third_party_calls">

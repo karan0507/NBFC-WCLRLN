@@ -92,6 +92,7 @@ export class AuthorizationRulesComponent implements OnInit {
         }
         this.isVisible = false;
         this.apiLoader['onOk'] = false;
+        this.getAuthorizationList();
       }, error => {
         this.isVisible = false;
         this.apiLoader['onOk'] = false;

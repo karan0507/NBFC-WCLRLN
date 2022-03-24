@@ -9,7 +9,7 @@
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="pending">Pending</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="approved">Approved</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="reject">Rejected</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="rejected">Rejected</label>
             </nz-radio-group>
         </div>
     </div>
@@ -89,9 +89,9 @@
                         <th>Added By</th>
                         <th *ngIf="selectedTab == 'approved'">Approved By</th>
                         <th *ngIf="selectedTab == 'approved'">Approved on</th>
-                        <th *ngIf="selectedTab == 'reject'">Rejected By</th>
-                        <th *ngIf="selectedTab == 'reject'">Rejected on</th>
-                        <th *ngIf="selectedTab == 'reject'">Remarks</th>
+                        <th *ngIf="selectedTab == 'rejected'">Rejected By</th>
+                        <th *ngIf="selectedTab == 'rejected'">Rejected on</th>
+                        <th *ngIf="selectedTab == 'rejected'">Remarks</th>
                         <th [nzWidth]="selectedTab == 'pending' ? '20rem' : '8rem'" nzRight> Actions</th>
                     </tr>
                 </thead>
@@ -110,12 +110,12 @@
                                 <span>Contact No: {{data.verified_by_phone ? data.verified_by_phone : '-'}}</span>
                             </td>
                             <td *ngIf="selectedTab == 'approved'">{{ data?.updated_at | date: 'medium' }}</td>
-                            <td *ngIf="selectedTab == 'reject'">
+                            <td *ngIf="selectedTab == 'rejected'">
                                 <h5>{{data?.verified_by ? data?.verified_by : '-'}}</h5>
                                 <span>Contact No: {{data.verified_by_phone ? data.verified_by_phone : '-'}}</span>
                             </td>
-                            <td *ngIf="selectedTab == 'reject'">{{ data?.updated_at | date: 'medium' }}</td>
-                            <td *ngIf="selectedTab == 'reject'">{{ data?.remarks  ? data?.remarks  : '-'}}</td>
+                            <td *ngIf="selectedTab == 'rejected'">{{ data?.updated_at | date: 'medium' }}</td>
+                            <td *ngIf="selectedTab == 'rejected'">{{ data?.remarks  ? data?.remarks  : '-'}}</td>
                             <td nzRight>
                                 <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a>
                                 <a class="mr-3" [href]="data?.imported_file" download>Download</a>

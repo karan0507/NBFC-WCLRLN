@@ -131,7 +131,7 @@ export class PartnersComponent implements OnInit {
         // no_of_partner: [data.no_of_partner, [Validators.required]],
         amount_per_partner: [data.amount_per_partner, [Validators.required]],
         // slab_array: this.fb.array([]),
-        time_period: [data.time_period, [Validators.required]],
+        // time_period: [data.time_period, [Validators.required]],
         // slab_array_Activation: this.fb.array([]),
         slab_array_Acquisition_Customers: this.fb.array([]),
         amount_include_gst: [data.amount_include_gst]
@@ -142,9 +142,9 @@ export class PartnersComponent implements OnInit {
         partnersName: [[], [Validators.required]],
         // no_of_partner: ['', [Validators.required]],
         amount_per_partner: ['', [Validators.required]],
-        slab_array: this.fb.array([this.addSlabControls()]),
-        time_period: ['', [Validators.required]],
-        slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
+        // slab_array: this.fb.array([this.addSlabControls()]),
+        // time_period: ['', [Validators.required]],
+        // slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
         slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()]),
         amount_include_gst: [false]
       });
