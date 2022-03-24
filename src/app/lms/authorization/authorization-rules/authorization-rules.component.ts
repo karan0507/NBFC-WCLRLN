@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -10,16 +12,32 @@ export class AuthorizationRulesComponent implements OnInit {
 
   apiLoader = {
     'list': false,
-  }
+    'onOk': false
+  };
+  isVisible: boolean;
   page = 1;
 
   total_count;
   authorizationRulesList: any;
+  oldDetail: any;
+  updateRuleDetails!: FormGroup
 
-  constructor(private http: HttpService) { }
+  constructor(private fb: FormBuilder,private http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.getAuthorizationList();
+    this.createRulesForm();
+  }
+
+  storeFormData
+  createRulesForm(){
+    this.updateRuleDetails = this.fb.group({
+      source : [null],
+      datapoint : [null],
+      endpoint : [null, [Validators.required]], 
+      value :  [null, [Validators.required]],
+      rules: [null],
+    })
   }
 
   getResultBasedOnSearch(){
@@ -28,6 +46,59 @@ export class AuthorizationRulesComponent implements OnInit {
 
   resetFilter(){
 
+  }
+
+  onClickEditForm(data){
+    this.apiLoader['onOk'] = true;
+    this.oldDetail = data;
+    let body = {
+      'source':'LMS',
+      'datapoint':'authorization_detailed',
+      'endpoint': `AuthorizationRules/${data?.id}`
+    } 
+    
+    this.http.getLMSAuthorizationList(body).subscribe((res)=>{
+      this.apiLoader['onOk'] = false;
+      console.log(res);
+      this.updateRuleDetails.patchValue({
+      source:'LMS',
+      datapoint:'authorization_edit',
+      endpoint: `AuthorizationRules/${res?.data?.id}`,
+      value: res?.data?.value,
+      rules: res?.data?.rule_text
+      })
+      console.log(this.updateRuleDetails.value)
+      this.isVisible = true
+    }, error =>{
+      this.apiLoader['onOk'] = false;
+    })
+  }
+  // updateLMSAuthorizationList
+
+  onClickUpdateDetails(){
+    for (const i in this.updateRuleDetails.controls) {
+      this.updateRuleDetails.controls[ i ].markAsDirty();
+      this.updateRuleDetails.controls[ i ].updateValueAndValidity();
+      this.apiLoader['onOk'] = false;
+    }
+    if(this.updateRuleDetails.valid){
+      this.apiLoader['onOk'] = true;
+      this.http.updateLMSAuthorizationList(this.updateRuleDetails.value).subscribe((res: any)=>{
+        if(res?.success){
+          this.message.success('Rules Updated');
+          this.isVisible = false;
+        } else {
+          this.message.error(res?.message);
+        }
+        this.isVisible = false;
+        this.apiLoader['onOk'] = false;
+        this.getAuthorizationList();
+      }, error => {
+        this.isVisible = false;
+        this.apiLoader['onOk'] = false;
+      })
+    }
+    
   }
 
   getAuthorizationList(e?){

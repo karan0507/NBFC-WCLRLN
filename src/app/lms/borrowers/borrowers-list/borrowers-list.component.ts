@@ -59,6 +59,7 @@ export class BorrowersListComponent implements OnInit {
     this.search_params = ''
     this.is_blocked = ''
     this.master_product_id = ''
+    this.is_active = ''
     this.fetchBorrowerList()
   }
 

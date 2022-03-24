@@ -317,29 +317,10 @@ export class AddEditLendersComponent implements OnInit {
     console.log(e);
     console.log(e?.file?.originFileObj);
     let reader = new FileReader();  
-    // if (event.target.files && event.target.files.length > 0) {  
-  //   if (e?.file?.originFileObj) {  
-  //   let file = e?.file?.originFileObj;  
-  //   reader.readAsDataURL(file);  
-  //   reader.onload = () => {  
-  //     this.fileName = file.name + " " + file.type;  
-  //     const doc = new jsPDF();  
-  //     const base64ImgString = (reader.result as string).split(',')[1];  
-  //     doc.addImage(base64ImgString, 15, 40, 50, 50);  
-  //     this.filePreview = 'data:image/png' + ';base64,' + base64ImgString;  
-  //     doc.save('TestPDF')  
-  //   };  
-  // }  
-    // this.index = i;
     let fileName = this.addEditProductForm.get("document_data") as FormArray;
     fileName.controls?.[i].patchValue({ document_name: e?.file?.name });
     let value = this.addEditProductForm.get("document_data") as FormArray;
     value.controls?.[i].patchValue({ documents: e?.file?.originFileObj });
-    // value.setValue(e.target.files[0])
-    // if(value){
-    //   this.addEditProductForm.addControl('documents',e.target.files[0])
-    // }
-    // this.addEditProductForm.get('document_data')['controls'][i].controls.documents.setValue(e.target.files[0])
   }
 
   addSkills(data?) {

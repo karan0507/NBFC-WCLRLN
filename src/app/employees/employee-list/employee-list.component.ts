@@ -57,7 +57,7 @@ export class EmployeeListComponent implements OnInit {
     if (data) {
       this.createEditForm = this.fb.group({
         id: [data ? data.id : '', [Validators.required]],
-        first_name: [data ? data.first_name : '', [Validators.required, Validators.pattern('[a-A-Z z]+')]],
+        first_name: [data ? data.first_name : '', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
         last_name: [data ? data.last_name : '', [Validators.required, Validators.pattern('[a-zA-Z ]+')]],
         unique_code: [data ? data.unique_code : '', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
         role: [data ? data.role?.id : ''],
@@ -187,7 +187,7 @@ export class EmployeeListComponent implements OnInit {
   fetchEmployeeManagerList() {
     let data;
     this.http.fetchEmployeeManagerList(data).subscribe(res => {
-      this.employeeManagerList = res['data'].results
+      this.employeeManagerList = res['data']?.results
     })
   }
 

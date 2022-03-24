@@ -335,6 +335,70 @@
                                         </div>
                                     </nz-card>
                                 </div>
+                                <div class="justify-content-center">
+                                    <nz-page-header
+                                        class="site-page-header acc-bg-light mb-2"
+                                        [nzTitle]="nachDetails">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"  [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row my-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Bill Date
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.bill_date ?
+                                                        (data?.expandSet?.bill_date + ' Date') : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Salary Date
+                                                    </h6>
+                                                    <div class="d-flex">
+                                                        {{data?.expandSet?.salary_date ? (data?.expandSet?.salary_date  + ' Date') : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Due Date
+                                                    </h6>
+                                                    <div class="d-flex">
+                                                        {{data?.expandSet?.due_date ? (data?.expandSet?.due_date + ' Date') : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2" *ngFor="let data of data?.expandSet?.nach_date_time_mappings">
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Day Of Months
+                                                    </h6>
+                                                    <div class="d-flex">
+                                                        {{data?.day_of_month ? (data?.day_of_month  + ' Days') : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Time Of Day
+                                                    </h6>
+                                                    <div class="d-flex">
+                                                        {{data?.time_of_day ? data?.time_of_day : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </nz-card>
+                                </div>
 
                                 <div class="justify-content-center">
                                     <nz-page-header
@@ -403,6 +467,11 @@
 <ng-template #otherDetails>
     <div class="ml-md-2">
         <h6 class="mb-0">Other Details</h6>
+    </div>
+</ng-template>
+<ng-template #nachDetails>
+    <div class="ml-md-2">
+        <h6 class="mb-0">Nach Details</h6>
     </div>
 </ng-template>
 

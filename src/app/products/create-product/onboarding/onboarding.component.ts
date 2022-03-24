@@ -76,7 +76,9 @@ export class OnboardingComponent implements OnInit {
       // secondary_product: [data ? data?.product_priority[0]?.secondary_product?.id: '', [Validators.required]],
       // field_rules: this.fb.array([]),
       document_rules: this.fb.array([]),
-      third_party_calls: this.fb.array([])
+      third_party_calls: this.fb.array([]),
+      aadhar_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.aadhar_check : 'Mandatory') : 'Mandatory'],
+      pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory']
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -254,11 +256,27 @@ export class OnboardingComponent implements OnInit {
         }
       ];
     }
+    var aadhar_pan_rules;
+    if (this.onboardingRuleData?.aadhar_pan_rules) {
+      aadhar_pan_rules = {
+        id: this.onboardingRuleData?.aadhar_pan_rules.id,
+        aadhar_check : this.createEditForm.value.aadhar_check,
+        pan_check: this.createEditForm.value.pan_check,
+        employment_type: this.selectedTab
+      }
+    } else {
+      aadhar_pan_rules = {
+        aadhar_check : this.createEditForm.value.aadhar_check,
+        pan_check: this.createEditForm.value.pan_check,
+        employment_type: this.selectedTab
+      }
+    }
     let data = {
       // product_priority : product_priority,
       // field_rules : this.createEditForm.value.field_rules,
       document_rules: this.createEditForm.value.document_rules,
-      third_party_calls: this.createEditForm.value.third_party_calls
+      third_party_calls: this.createEditForm.value.third_party_calls,
+      aadhar_pan_rules: aadhar_pan_rules
     }
     
     if (this.isRuledAdded) {
