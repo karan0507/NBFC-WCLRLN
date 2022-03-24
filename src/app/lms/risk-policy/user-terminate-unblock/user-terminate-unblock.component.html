@@ -51,6 +51,7 @@
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
+                        <th>User Status</th>
                         <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
@@ -71,6 +72,7 @@
                         <td>{{data.fees_or_charges_amount}}</td>
                         <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
                         <td>{{data?.account_status}}</td>
+                        <td>{{data?.is_user_blocked ? 'Block' : 'Active'}}</td>
                         <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -80,11 +82,11 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="applications = data?.id; isTerminate = true">
+                                        <li nz-menu-item *ngIf="!data?.is_user_blocked" (click)="applications = data?.id; isTerminate = true">
                                             <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                             <span class="m-l-5">Terminate User</span>
                                         </li>
-                                        <li nz-menu-item (click)="applications = data?.id; isUnblock = true">
+                                        <li nz-menu-item *ngIf="data?.is_user_blocked" (click)="applications = data?.id; isUnblock = true">
                                             <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
                                             <span class="m-l-5">Unblock User</span>
                                         </li>
@@ -107,7 +109,7 @@
             [title]="'Do you want to Terminate account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="toggleUserLineStatus()"
+            (onOkCall)="toggleUserLineStatus('true')"
             (onCencelCall)="isTerminate = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Terminate'">
@@ -121,7 +123,7 @@
             [title]="'Do you want to Unblock account?'"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
-            (onOkCall)="toggleUserLineStatus()"
+            (onOkCall)="toggleUserLineStatus('false')"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'Unblock'">

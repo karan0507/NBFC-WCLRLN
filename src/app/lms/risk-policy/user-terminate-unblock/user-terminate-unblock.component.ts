@@ -12,7 +12,7 @@ export class UserTerminateUnblockComponent implements OnInit {
 
   borrowertList
   isUnblock = false
-  isTerminate = false
+  isTerminate
   page : any
   api_calling_loader: boolean;
   total_count = 0;
@@ -64,14 +64,14 @@ export class UserTerminateUnblockComponent implements OnInit {
     })
   }
 
-  toggleUserLineStatus() {
+  toggleUserLineStatus(value) {
     let data = new FormData
-      data.append('datapoint', 'update_multi_application_status'),
+      data.append('datapoint', 'toggle_risk_policy'),
       // endpoint: 'LoanApplicationAcceptedProduct',
-      data.append('source', 'Onboarding'),
-      data.append('stage_id', '14'),
-      data.append('applications', JSON.stringify([this.applications])),
-      data.append('remarks', ''),
+      data.append('source', 'LMS'),
+      data.append('toggle_type', 'USER'),
+      data.append('accepted_loan_application', this.applications),
+      data.append('toggle_value', value),
 
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       if (res.success) {
