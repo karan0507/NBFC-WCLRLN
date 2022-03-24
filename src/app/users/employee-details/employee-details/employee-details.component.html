@@ -71,7 +71,7 @@
                                 <div *ngIf="item?.name">{{item?.name}}</div>
                             </nz-option>
                         </nz-select>
-                        <nz-range-picker class="'ml-3" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        <nz-range-picker class="'ml-3" [(ngModel)]="date" [nzDisabledDate]="disabledDate" nzAllowClear="false"
                             (ngModelChange)="onChange($event)"></nz-range-picker>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                             <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Select
                                 Partner</nz-form-label>
                             <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <nz-select class="mx-1" formControlName="partner" nzAllowClear
+                                <nz-select formControlName="partner" nzAllowClear
                                     nzPlaceHolder="Partner Name" (ngModelChange)="onClickSelectFireBranchAPI($event)">
                                     <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk"
                                         [nzLabel]="item?.name"></nz-option>

@@ -316,6 +316,7 @@ export class AddEditMastersComponent implements OnInit {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
     }
+    const saveDoc = [];
     if (!this.addEditProductForm.valid) {
       this.message.error('Mandatory Fields Are missing ',{ nzDuration: 5000 }
       );
@@ -334,30 +335,12 @@ export class AddEditMastersComponent implements OnInit {
     
       var sendDate = this.addEditProductForm.value
       
-      // for (var i in sendDate.document_data) {
-      //   if(sendDate?.document_data[i]?.label_name && sendDate.document_data[i].document_name === null){
-      //     let value = this.addEditProductForm.get('document_data') as FormArray;
-      //     value.controls?.[i].patchValue({isValid: false});
-      //     // console.log(sendDate.document_data[i], i);
-      //     } else {
-      //       let value = this.addEditProductForm.get('document_data') as FormArray;
-      //       value.controls?.[i].patchValue({isValid: true});
-      //       // console.log(sendDate.document_data[i], i);
-      //     }
-      //     console.log(sendDate.document_data[i], i);
-      // }
-
-      // console.log(sendDate);
-      // return;
-      
       for (var i in sendDate.document_data) {
-        // if(sendDate?.document_data[i]?.documents?.includes('/')){
-        // break;  
-        // }
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
         if(sendDate?.document_data[i]?.documents){
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
@@ -379,10 +362,18 @@ export class AddEditMastersComponent implements OnInit {
           this.apiLoader['formSave'] = false;
           this.router.navigate(['masters-partners']);
         } else {
+          for (var i in saveDoc) {
+            let value = this.addEditProductForm.get("document_data") as FormArray;
+            value.controls?.[i].patchValue({ documents: saveDoc[i] });
+            }
           this.message.error(res?.message);
           this.apiLoader['formSave'] = false;
         }
-      }, err => {
+      }, error => {
+        for (var i in saveDoc) {
+          let value = this.addEditProductForm.get("document_data") as FormArray;
+          value.controls?.[i].patchValue({ documents: saveDoc[i] });
+          }
         this.apiLoader['formSave'] = false
       })
     }
@@ -431,6 +422,7 @@ export class AddEditMastersComponent implements OnInit {
   }
 
   onClickSaveExistingForm(){
+    const saveDoc = [];
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[ i ].markAsDirty();
       this.addEditProductForm.controls[ i ].updateValueAndValidity();
@@ -461,6 +453,7 @@ export class AddEditMastersComponent implements OnInit {
           delete sendDate?.unique_code;
         }
         if(sendDate?.document_data[i]?.documents){
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
@@ -485,10 +478,18 @@ export class AddEditMastersComponent implements OnInit {
           let newRouterLink = '/masters-partners/add';
         this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
         } else {
+          for (var i in saveDoc) {
+            let value = this.addEditProductForm.get("document_data") as FormArray;
+            value.controls?.[i].patchValue({ documents: saveDoc[i] });
+            }
           this.message.error(res?.message);
           this.apiLoader['saveAddNew'] = false;
         }
-      }, err =>{
+      }, error =>{
+        for (var i in saveDoc) {
+          let value = this.addEditProductForm.get("document_data") as FormArray;
+          value.controls?.[i].patchValue({ documents: saveDoc[i] });
+          }
         this.apiLoader['saveAddNew'] = false
       })
     }
