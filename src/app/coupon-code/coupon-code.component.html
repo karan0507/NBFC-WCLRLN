@@ -36,7 +36,7 @@
             <!-- [nzTotal]="total_count" -->
             <div class="accordianLoanApp totalCount">
                   <nz-table #rowSelectionTable [nzData]="couponCodeListData" [nzTotal]="total_count"
-                        [nzFrontPagination]="true" [nzShowSizeChanger]="true" [nzPageIndex]="page"
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
                         (nzQueryParams)="couponCodeListData[0] ? getCouponCodeList($event) : null"
                         [nzLoading]="api_calling_loader['listLoader']">
@@ -55,6 +55,7 @@
                               <ng-container *ngFor="let data of couponCodeListData; index as i">
                                     <tr>
                                           <td [nzWidth]="'4rem'">{{i + 1}}</td>
+                                          <!-- <td *ngIf="page > 1">{{( (page-1) * globalPageSize) + (i+1)}}</td> -->
                                           <td>{{ data?.coupon_code ? data?.coupon_code : '--'}}</td>
                                           <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
                                           <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>

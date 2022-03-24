@@ -213,6 +213,8 @@ export class OfferProposedComponent implements OnInit {
       updateStatus(type?, data?) {
             this._isUpdateStatus = true;
             this._currentLoanDetails = data;
+            console.log(this._currentLoanDetails);
+            
             switch (type) {
                   case 'status':
                         this._isStatus = true;
@@ -310,7 +312,7 @@ export class OfferProposedComponent implements OnInit {
                         break;
                   case 'reject':
                         this.api_calling_loader['button'] = true
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this.currentOfferId, remarks: this.remarks };
+                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanDetails?.id, remarks: this.remarks };
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);
