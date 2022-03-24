@@ -442,16 +442,14 @@
                 <td>
                   {{
                     fetchedList["authorization"]?.table_data[2]?.failed
-                      ? fetchedList["authorization"]?.table_data[1]?.failed
+                      ? fetchedList["authorization"]?.table_data[2]?.failed
                       : 0
                   }}
                 </td>
                 <td>
                   {{
                     fetchedList["authorization"]?.table_data[2]?.total_amount
-                      ? fetchedList["authorization"]?.table_data[1]
-                          ?.total_amount
-                      : 0
+                      ? fetchedList["authorization"]?.table_data[2]?.total_amount: 0
                   }}
                 </td>
                 <!-- <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td> -->
