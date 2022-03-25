@@ -213,6 +213,7 @@
                               <th>Transaction ID</th>
                               <th>Transaction Type</th>
                               <th>Details</th>
+                              <th>Payment method</th>
                               <th>Date & Time</th>
                               <th>Amount (₹)</th>
                               <th>GST Amount</th>
@@ -233,6 +234,7 @@
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <td>{{ data?.txn_type }}</td>
                                     <td>{{ data?.details }}</td>
+                                    <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
                                     <td>{{ data?.txn_amount }}</td>
                                     <td>{{ data?.pan }}</td>
@@ -324,6 +326,7 @@
                               <th>Transaction ID</th>
                               <th>Transaction Type</th>
                               <th>Details</th>
+                              <th>Payment method</th>
                               <th>Date & Time</th>
                               <th>Amount (₹)</th>
                               <th>GST Amount</th>
@@ -344,6 +347,7 @@
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <td>{{ data?.txn_type }}</td>
                                     <td>{{ data?.details }}</td>
+                                    <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
                                     <td>{{ data?.txn_amount }}</td>
                                     <td>{{ data?.pan }}</td>
