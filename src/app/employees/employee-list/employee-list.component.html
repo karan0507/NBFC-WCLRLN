@@ -17,7 +17,7 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-range-picker [(ngModel)]="date" (ngModelChange)="fetchEmployeeList()"></nz-range-picker>
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchEmployeeList()"></nz-range-picker>
                     <nz-select class="mx-1" style="width: 15rem;" [(ngModel)]="roles"
                         (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Role" (nzFocus)="fetchRoles()">
                         <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
