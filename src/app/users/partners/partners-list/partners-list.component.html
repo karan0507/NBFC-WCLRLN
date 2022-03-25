@@ -475,11 +475,12 @@
     </div>
 </ng-template>
 
-<nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
             [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
-            [subTitle]="statusOfSelectedLender ? 'if required, you can activate this account after 15 days. Are your sure ?' : 'if required, you can Deactivate this account after 15 days. Are your sure ?'"
+            [subTitle]="!statusOfSelectedLender ? 'if  required, you can activate this account after 15 days.' : 'if required, you can Deactivate this account after 15 days.'"
+            [alertWarning]="statusOfSelectedLender ? 'Are your sure ?' : 'Are your sure ?'"
             [icon]="'assets/images/activate.png'"
             (onOkCall)="confirmationTrigger()"
             (onCencelCall)="isDelete = false; selectedUserId = ''" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
