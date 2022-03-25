@@ -111,6 +111,10 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   submitForm() {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+      this.message.warning('data saved already')
+      return false
+    }
     let data;
     if (this.createEditForm.value.tenures[0]) {
       data = {

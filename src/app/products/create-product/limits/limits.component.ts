@@ -74,6 +74,10 @@ export class LimitsComponent implements OnInit {
       this.message.error("Minimum interest % should be less than Maximum interest %")
       return false
     }
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+      this.message.warning('data saved already')
+      return false
+    }
     if (this.productlimit_id) {
       this.editLimits()
     } else {

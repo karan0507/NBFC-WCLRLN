@@ -110,6 +110,7 @@ export class FeesComponent implements OnInit {
         buffer_months : [ data ? data.buffer_months : '', [Validators.required]],
         trigger : [ data ? data.trigger.id : '', [Validators.required]],
         slab_specific : [ data ? data.slab_specific : true, [Validators.required]],
+        fees_based_on : [ data ? data.fees_based_on : 'Transaction Amount', [Validators.required]],
         amount_include_gst : [ data ? data.amount_include_gst : true, [Validators.required]],
         gst_rate : [ data ? data.gst_rate : ''],
         active_start_month : [ data ? data.active_start_month : '', [Validators.required]],
@@ -130,6 +131,7 @@ export class FeesComponent implements OnInit {
         buffer_months : ['', [Validators.required]],
         trigger : ['', [Validators.required]],
         slab_specific : [true, [Validators.required]],
+        fees_based_on : ['Transaction Amount', [Validators.required]],
         amount_include_gst : [true, [Validators.required]],
         gst_rate : [''],
         active_start_month : ['', [Validators.required]],
@@ -147,18 +149,18 @@ export class FeesComponent implements OnInit {
   public addSlabControls(data?): FormGroup {
     if (data) {
       return this.fb.group({
-        minimum_charge: [ data ? data.minimum_charge : '', [Validators.required]],
-        maximum_charge: [ data ? data.maximum_charge : '', [Validators.required]],
-        amount: [ data ? data.amount : '', [Validators.required]],
+        minimum_charge: [ data ? data.minimum_charge : ''],
+        maximum_charge: [ data ? data.maximum_charge : ''],
+        amount: [ data ? data.amount : ''],
         id: [data ? data.id : ''],
         amount_include_gst: [data.amount_include_gst],
         fee_calculation_type: ["Flat"]
       });
     } else {
       return this.fb.group({
-        minimum_charge: ['', [Validators.required]],
-        maximum_charge: ['', [Validators.required]],
-        amount: ['', [Validators.required]],
+        minimum_charge: [''],
+        maximum_charge: [''],
+        amount: [''],
         amount_include_gst: [true],
         fee_calculation_type: ["Flat"]
       });
@@ -194,6 +196,10 @@ export class FeesComponent implements OnInit {
   }
   
   submitForm() {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+      this.message.warning('data saved already')
+      return false
+    }
     if (this.isFeesCreated) {
       this.editProductFees()
     } else {
@@ -292,5 +298,7 @@ export class FeesComponent implements OnInit {
       control.value[slab_index].is_deleted = false;
       control.removeAt(slab_index)
     }
+  }
+  removevalidators(k) {
   }
 }

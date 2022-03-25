@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -18,7 +20,11 @@ export class ProductListComponent implements OnInit {
   search_params = '';
   globalPageSize: number;
   draft_status: any;
+  date = ''
   status: any;
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
 
 
   constructor(public http: HttpService, private message: NzMessageService,
@@ -40,6 +46,8 @@ export class ProductListComponent implements OnInit {
       draft : this.draft_status ? this.draft_status : '',
       name: this.search_params,
       limit: this.globalPageSize,
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       status: this.status ? this.status : 'all'
       // id: this.product_id
     }

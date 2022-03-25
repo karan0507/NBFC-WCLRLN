@@ -231,6 +231,10 @@ export class OnboardingComponent implements OnInit {
   }
 
   submitForm() {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+      this.message.warning('data saved already')
+      return false
+    }
     this.createEditForm.value.document_rules.forEach(element => {
       element.employment_type = this.selectedTab
     });
