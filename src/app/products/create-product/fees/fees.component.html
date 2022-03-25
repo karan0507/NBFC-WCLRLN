@@ -81,9 +81,22 @@
                     <div class="col-md-12 px-0">
                         <div class="col-md-6">
                             <nz-form-item>
+                                <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fees_based_on" class="text-left" nzRequired>Fees based on</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please select Fees based on!">
+                                    <nz-radio-group formControlName="fees_based_on">
+                                        <label nz-radio [nzValue]="'Transaction Amount'">Transaction Amount</label>
+                                        <label nz-radio [nzValue]="'Credit Line'">Credit Line</label>
+                                      </nz-radio-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <div class="col-md-6">
+                            <nz-form-item>
                                 <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="slab_specific" class="text-left" nzRequired>Slab Wise</nz-form-label>
                                 <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please select Slab Wise!">
-                                    <nz-radio-group formControlName="slab_specific">
+                                    <nz-radio-group formControlName="slab_specific" (ngModelChange)="removevalidators(k)">
                                         <label nz-radio [nzValue]="true">Yes</label>
                                         <label nz-radio [nzValue]="false">No</label>
                                       </nz-radio-group>
@@ -97,7 +110,7 @@
                             <nz-form-item>
                                 <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount
                                 </nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24">
+                                <nz-form-control [nzSm]="14" [nzXs]="24">
                                     <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                         <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="amount" formControlName="amount"
                                             id="amount" placeHolder="Amount (₹)">
