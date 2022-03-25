@@ -17,17 +17,18 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchProductList()"></nz-range-picker>
+                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Draft Status">
                         <nz-option [nzValue]="'yes'" nzLabel="Yes"></nz-option>
                         <nz-option [nzValue]="'no'" nzLabel="No"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option nzValue="1" nzLabel="FatakPay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="min-width: 12rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By status">
                         <nz-option nzValue="active" nzLabel="Active"></nz-option>
                         <nz-option nzValue="inactive" nzLabel="Inactive"></nz-option>
@@ -61,12 +62,52 @@
                         <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data.name ? data.name : '-' }}</td>
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
-                        <td>{{ data.master_partners >= 0 ? data.master_partners : '-' }}</td>
-                        <td>{{ data.partners >= 0 ? data.partners : '-' }}</td>
-                        <td>{{ data.nbfcs >= 0 ? data.nbfcs : '-' }}</td>
+                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.master_partners > 0"
+                                nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>
+                            <ng-template #contentTemplate1>
+                                    <div class="px-3">
+                                        <ul *ngFor="let item of data.master_partners_list">
+                                            <li>{{item.display_name}}</li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                                <span *ngIf="data.master_partners <= 0">{{data.master_partners == 0 ? data.master_partners: '-'}}</span>
+                        </td>
+                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.partners > 0"
+                                nz-popover [nzPopoverContent]="contentTemplate2" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.partners > 0 ? data.partners : '-' }}</span>
+                            <ng-template #contentTemplate2>
+                                    <div class="px-3">
+                                        <ul *ngFor="let item of data.partners_list">
+                                            <li>{{item.display_name}}</li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                                <span *ngIf="data.partners <= 0">{{data.partners == 0 ? data.partners: '-'}}</span>
+                        </td>
+                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.nbfcs > 0"
+                                nz-popover [nzPopoverContent]="contentTemplate3" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.nbfcs > 0 ? data.nbfcs : '-' }}</span>
+                            <ng-template #contentTemplate3>
+                                    <div class="px-3">
+                                        <ul *ngFor="let item of data.nbfc_list">
+                                            <li>{{item.display_name}}</li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                                <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
+                        </td>
                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                         <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
-                        <td>{{ data.is_draft ? 'Draft' : 'Complete'  }}</td>
+                        <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
+                            <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft"
+                                nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                                <ng-template #contentTemplate>
+                                    <div class="px-3">
+                                        <ul *ngFor="let item of data.draft_reason">
+                                            <li class="text-danger">{{item}}</li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                        </td>
                         <td>{{ data.activation_date | date: "mediumDate" }}</td>
                         <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
                         <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
