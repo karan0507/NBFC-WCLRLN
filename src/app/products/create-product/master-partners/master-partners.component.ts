@@ -239,6 +239,10 @@ export class MasterPartnersComponent implements OnInit {
   // **************** At the time of acquisition of customers End ****************** //
 
   submitForm() {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+      this.message.warning('data saved already')
+      return false
+    }
     if (this.isMasterCreated) {
       this.editMasterProduct()
     } else {
