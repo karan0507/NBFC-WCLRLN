@@ -79,15 +79,30 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item *ngIf="data?.account_status == 'Active'" (click)="applications = data?.id; isblock = true">
-                                            <span class="m-l-5">Block A/c</span>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Active'" (click)="applications = data?.id; isUnblock = 'Active'; statusTitle = 'Do you want to Active account?'">
+                                            <span class="m-l-5">Active A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status == 'Inactive'" (click)="applications = data?.id; isUnblock = true">
-                                            <span class="m-l-5">Unblock A/c</span>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Dormant'" (click)="applications = data?.id; isUnblock = 'Dormant'; statusTitle = 'Do you want to Dormant account?'">
+                                            <span class="m-l-5">Dormant A/c</span>
                                         </li>
-                                        <!-- <li nz-menu-item (click)="isRestructure = true">
-                                            <span class="m-l-5">Restructure A/c</span>
-                                        </li> -->
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Delinquent'" (click)="applications = data?.id; isUnblock = 'Delinquent'; statusTitle = 'Do you want to Delinquent account?'">
+                                            <span class="m-l-5">Delinquent A/c</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Write Off'" (click)="applications = data?.id; isUnblock = 'Write Off'; statusTitle = 'Do you want to Write Off account?'">
+                                            <span class="m-l-5">Write Off A/c</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Involuntary Closure'" (click)="applications = data?.id; isUnblock = 'Involuntary Closure'; statusTitle = 'Do you want to Involuntary Closure account?'">
+                                            <span class="m-l-5">Involuntary Closure A/c</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Voluntary Closure Restructuring'" (click)="applications = data?.id; isUnblock = 'Voluntary Closure Restructuring'; statusTitle = 'Do you want to Voluntary Closure Restructuring account?'">
+                                            <span class="m-l-5">Voluntary Closure Restructuring A/c</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="data?.account_status != 'Offer Acceptance'" (click)="applications = data?.id; isUnblock = 'Offer Acceptance'; statusTitle = 'Do you want to Offer Acceptance account?'">
+                                            <span class="m-l-5">Offer Acceptance A/c</span>
+                                        </li>
+                                        <li nz-menu-item (click)="data?.account_status != 'Rejected'" (click)="applications = data?.id; isUnblock = 'Rejected'; statusTitle = 'Do you want to Rejected account?'">
+                                            <span class="m-l-5">Rejected A/c</span>
+                                        </li>
                                     </ul>
                                 </nz-dropdown-menu>
                         </td>
@@ -118,13 +133,13 @@
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock account?'"
+            [title]="statusTitle"
             [subTitle]="''"
             [icon]="'assets/images/accloser.png'"
             (onOkCall)="toggleUserLineStatus()"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Unblock'">
+            [submitBtnTxt]="isUnblock">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>

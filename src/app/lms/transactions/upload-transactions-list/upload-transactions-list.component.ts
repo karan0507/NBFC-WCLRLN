@@ -168,7 +168,7 @@ export class UploadTransactionsListComponent implements OnInit {
         this.isLineError = res.data.file_content.status
         this.isPreviewBeforeUpload = true;
       } else {
-        this.message.error(res.data.message)
+        this.message.error(res.data.file_content.message)
       }
     }, (err) => {
       this.message.remove(generateloader);
@@ -220,7 +220,7 @@ export class UploadTransactionsListComponent implements OnInit {
           this.isApprove = true;
         }
         this.message.remove(generateloader);
-        this.previewData = res['data']
+        this.previewData = res.data.file_content
       }
       
       this.message.remove(generateloader);

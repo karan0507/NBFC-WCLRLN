@@ -11,8 +11,9 @@ import { HttpService } from 'src/app/services/http.service';
 export class AccountBlockUnblockComponent implements OnInit {
 
   borrowertList
+  statusTitle;
   isRestructure = false
-  isUnblock = false
+  isUnblock;
   isblock = false
   page : any
   api_calling_loader: boolean;
@@ -66,12 +67,12 @@ export class AccountBlockUnblockComponent implements OnInit {
   }
   toggleUserLineStatus() {
     let data = new FormData
-      data.append('datapoint', 'update_multi_application_status'),
+      data.append('datapoint', 'toggle_risk_policy'),
       // endpoint: 'LoanApplicationAcceptedProduct',
-      data.append('source', 'Onboarding'),
-      data.append('stage_id', '13'),
-      data.append('applications', JSON.stringify([this.applications])),
-      data.append('remarks', ''),
+      data.append('source', 'LMS'),
+      data.append('toggle_type', 'ACCOUNT'),
+      data.append('accepted_loan_application', this.applications),
+      data.append('status_value', this.isUnblock),
 
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       if (res.success) {

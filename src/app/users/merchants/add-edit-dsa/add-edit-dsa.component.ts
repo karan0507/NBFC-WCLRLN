@@ -318,7 +318,7 @@ export class AddEditDsaComponent {
   }
 
   onClickSubmitForm(){
-
+    const saveDoc = [];
     if(this.addEditProductForm.value.dsa_type === 'Individual'){
       this.addEditProductForm.patchValue({
         contact_person_name: this.addEditProductForm.value.name,
@@ -356,6 +356,7 @@ export class AddEditDsaComponent {
           delete sendDate?.document_data[i]?.id;
         }
         if(sendDate?.document_data[i]?.documents){
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
@@ -380,10 +381,18 @@ export class AddEditDsaComponent {
           this.apiLoader['formSave'] = false
           this.router.navigate(['merchants/DSA']);
         } else {
+          for (var i in saveDoc) {
+            let value = this.addEditProductForm.get("document_data") as FormArray;
+            value.controls?.[i].patchValue({ documents: saveDoc[i] });
+            }
           this.message.error(res?.message);
           this.apiLoader['formSave'] = false
         }
-      }, err => {
+      }, error => {
+        for (var i in saveDoc) {
+          let value = this.addEditProductForm.get("document_data") as FormArray;
+          value.controls?.[i].patchValue({ documents: saveDoc[i] });
+          }
         this.apiLoader['formSave'] = false
       })
     }
@@ -436,6 +445,7 @@ export class AddEditDsaComponent {
   }
 
   onClickSaveExistingForm(){
+    const saveDoc = [];
     if(this.addEditProductForm.value.dsa_type === 'Individual'){
       this.addEditProductForm.patchValue({
         contact_person_name: this.addEditProductForm.value.name,
@@ -471,6 +481,7 @@ export class AddEditDsaComponent {
           delete sendDate?.unique_code;
         }
         if(sendDate?.document_data[i]?.documents){
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append('documents', sendDate?.document_data[i]?.documents)
           delete sendDate?.document_data[i]?.documents
         }
@@ -494,10 +505,18 @@ export class AddEditDsaComponent {
           let newRouterLink = '/merchants/DSA/add-dsa';
           this.router.navigate(['/']).then(() => { this.router.navigate([newRouterLink ]); })
         } else {
+          for (var i in saveDoc) {
+            let value = this.addEditProductForm.get("document_data") as FormArray;
+            value.controls?.[i].patchValue({ documents: saveDoc[i] });
+            }
           this.message.error(res?.message);
           this.apiLoader['saveAddNew'] = false
         }
       }, err =>{
+        for (var i in saveDoc) {
+          let value = this.addEditProductForm.get("document_data") as FormArray;
+          value.controls?.[i].patchValue({ documents: saveDoc[i] });
+          }
         this.apiLoader['saveAddNew'] = false
       })
     }

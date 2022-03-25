@@ -53,6 +53,7 @@
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
+                        <th>User Status</th>
                         <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
@@ -86,7 +87,17 @@
                                 <i nz-icon nzType="check-circle"></i>
                                 <span>Active</span>
                               </nz-tag>
-                              <nz-tag nzColor="orange" *ngIf="data?.account_status == 'Inactive'">
+                              <nz-tag nzColor="orange" *ngIf="data?.account_status != 'Active'">
+                                <i nz-icon nzType="close-circle"></i>
+                                <span>Inactive</span>
+                              </nz-tag>
+                        </td>
+                        <td>
+                            <nz-tag nzColor="green" *ngIf="!data?.is_user_blocked">
+                                <i nz-icon nzType="check-circle"></i>
+                                <span>Active</span>
+                              </nz-tag>
+                              <nz-tag nzColor="orange" *ngIf="data?.is_user_blocked">
                                 <i nz-icon nzType="close-circle"></i>
                                 <span>Inactive</span>
                               </nz-tag>

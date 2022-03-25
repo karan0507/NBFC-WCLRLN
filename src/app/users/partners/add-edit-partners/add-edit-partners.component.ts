@@ -153,18 +153,17 @@ export class AddEditPartnersComponent implements OnInit {
     this.setFormDataForNach(data);
   }
 
-  setFormDataForNach(data){
+  setFormDataForNach(data) {
     if (data) {
       const nachArray = [];
       data.nach_date_time_mappings?.forEach((element) => {
         var date1 = new Date("2020-06-24" + element?.time_of_day);
         const nachDateTime = {
           day_of_month: element?.day_of_month,
-          time_of_day: moment('2020-06-24 ' + element?.time_of_day),
+          time_of_day: moment("2020-06-24 " + element?.time_of_day),
         };
         this.addNach(nachDateTime);
       });
-      
     }
   }
   setFormData(data) {
@@ -387,7 +386,8 @@ export class AddEditPartnersComponent implements OnInit {
 
   indexOfLatestNach: any;
   get_nachArr(form) {
-    this.indexOfLatestNach = form.controls.nach_date_time_mappings.controls?.length;
+    this.indexOfLatestNach =
+      form.controls.nach_date_time_mappings.controls?.length;
     // console.log(form.controls.nach_date_time_mappings.controls[this.indexOfLatestNach - 1]?.controls?.value);
     return form.controls.nach_date_time_mappings.controls;
   }
@@ -396,7 +396,7 @@ export class AddEditPartnersComponent implements OnInit {
     console.log("Selected Time: ", result);
   }
 
-  onOk(i,time: Date | null){
+  onOk(i, time: Date | null) {
     // const momentTime = moment(time).format("HH:mm:ss");
     // console.log(result && result.toTimeString());
     // console.log(time && time.toTimeString());
@@ -431,7 +431,7 @@ export class AddEditPartnersComponent implements OnInit {
     console.log(data);
     // const datePipe = new DatePipe('en-US');
     return this.fb.group({
-      day_of_month: [data ? data?.day_of_month  : null],
+      day_of_month: [data ? data?.day_of_month : null],
       time_of_day: [data ? data?.time_of_day : null],
     });
     // moment(data?.time_of_day).format('yyyy-mm ,HH:mm:ss')
@@ -441,12 +441,13 @@ export class AddEditPartnersComponent implements OnInit {
     this.skills.removeAt(i);
   }
 
-  deleteNachByKey(i){
+  deleteNachByKey(i) {
     this.nach.removeAt(i);
   }
 
   onClickSaveExistingForm() {
-    const storeData = this.addEditProductForm.valid 
+    const storeData = this.addEditProductForm.valid;
+    const saveDoc = [];
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -455,8 +456,22 @@ export class AddEditPartnersComponent implements OnInit {
       this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
     }
     var sendDate = this.addEditProductForm.value;
+    // for (var i in sendDate.nach_date_time_mappings) {
+    //   sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
+    // }
     for (var i in sendDate.nach_date_time_mappings) {
-      sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        // delete sendDate.nach_date_time_mappings[i].day_of_month
+        this.deleteNachByKey(i);
+      }
     }
     for (var i in sendDate.document_data) {
       if (
@@ -484,7 +499,7 @@ export class AddEditPartnersComponent implements OnInit {
           delete sendDate?.document_data[i]?.id;
         }
         if (sendDate?.document_data[i]?.documents) {
-          // delete sendDate?.document_data[i]?.id;
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append("documents", sendDate?.document_data[i]?.documents);
           delete sendDate?.document_data[i]?.documents;
         }
@@ -495,7 +510,7 @@ export class AddEditPartnersComponent implements OnInit {
       }
 
       for (var i in sendDate) {
-        if (i == "document_data") {
+        if (i == "document_data" || i == "nach_date_time_mappings") {
           data.append(i, JSON.stringify(sendDate[i]));
         } else {
           if (sendDate[i]) {
@@ -515,11 +530,27 @@ export class AddEditPartnersComponent implements OnInit {
               this.router.navigate([newRouterLink]);
             });
           } else {
+            const control = <FormArray>(
+              this.addEditProductForm.controls["nach_date_time_mappings"]
+            );
+            for (let i = control.length - 1; i >= 0; i--) {
+              control.removeAt(i);
+            }
+            for (var i in saveDoc) {
+              let value = this.addEditProductForm.get("document_data") as FormArray;
+              value.controls?.[i].patchValue({ documents: saveDoc[i] });
+              }
+            this.setFormData(storeData);
+            this.setFormDataForNach(storeData);
             this.apiLoader["saveAddNew"] = false;
             this.message.error(res?.message);
           }
         },
-        (err) => {
+        error => {
+          for (var i in saveDoc) {
+            let value = this.addEditProductForm.get("document_data") as FormArray;
+            value.controls?.[i].patchValue({ documents: saveDoc[i] });
+            }
           this.apiLoader["saveAddNew"] = false;
         }
       );
@@ -536,15 +567,24 @@ export class AddEditPartnersComponent implements OnInit {
     if (!this.addEditProductForm.valid) {
       this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
     }
+    const saveDoc = [];
     var sendDate = this.addEditProductForm.value;
-    
     for (var i in sendDate.nach_date_time_mappings) {
-      if(sendDate.nach_date_time_mappings[i].time_of_day && sendDate.nach_date_time_mappings[i].day_of_month){
-      sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
-    } else {
-      delete sendDate.nach_date_time_mappings[i]
-      // delete sendDate.nach_date_time_mappings[i].day_of_month
-      this.deleteNachByKey(i);
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        // delete sendDate.nach_date_time_mappings[i].day_of_month
+        this.deleteNachByKey(i);
+      }
     }
     }
 
@@ -579,6 +619,7 @@ export class AddEditPartnersComponent implements OnInit {
             delete sendDate?.unique_code;
           }
           if (sendDate?.document_data[i]?.documents) {
+            saveDoc.push(sendDate?.document_data[i]?.documents)
             data.append("documents", sendDate?.document_data[i]?.documents);
             delete sendDate?.document_data[i]?.documents;
           }
@@ -602,25 +643,33 @@ export class AddEditPartnersComponent implements OnInit {
               this.apiLoader["formSave"] = false;
               this.router.navigate(["partners"]);
             } else {
-              const control = <FormArray>this.addEditProductForm.controls['nach_date_time_mappings'];
-              for(let i = control.length-1; i >= 0; i--) {
-              control.removeAt(i)
+              const control = <FormArray>(
+                this.addEditProductForm.controls["nach_date_time_mappings"]
+              );
+              for (let i = control.length - 1; i >= 0; i--) {
+                control.removeAt(i);
               }
-              // this.invoiceForm.controls['invoiceparticulars']).clear()
-              // this.newNach();
+              for (var i in saveDoc) {
+              let value = this.addEditProductForm.get("document_data") as FormArray;
+              value.controls?.[i].patchValue({ documents: saveDoc[i] });
+              }
               this.setFormData(storeData);
               this.setFormDataForNach(storeData);
               this.message.error(res?.message);
               this.apiLoader["formSave"] = false;
             }
           },
-          (err) => {
+          error => {
+            for (var i in saveDoc) {
+              let value = this.addEditProductForm.get("document_data") as FormArray;
+              value.controls?.[i].patchValue({ documents: saveDoc[i] });
+              }
             this.apiLoader["formSave"] = false;
           }
         );
       } else {
         let data = new FormData();
-        console.log(this.addEditProductForm.value)
+        console.log(this.addEditProductForm.value);
         var sendDate = this.addEditProductForm.value;
         // for (var i in sendDate.nach_date_time_mappings) {
         //   alert(moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss'));
@@ -648,7 +697,7 @@ export class AddEditPartnersComponent implements OnInit {
             //   data.append(sendDate.nach_date_time_mappings[i]?.time_of_day, moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss'));
             // }
             // if(i == "nach_date_time_mappings"){
-            //   data.append(i, JSON.stringify(sendDate[i]));  
+            //   data.append(i, JSON.stringify(sendDate[i]));
             // }
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
