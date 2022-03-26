@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class DoubleConfirmationPopupComponent implements OnInit {
 
   @Input() title;
+  @Input() alertWarning;
   @Input() subTitle;
   @Input() submitBtnTxt;
   @Input() cancelBtnTxt;
