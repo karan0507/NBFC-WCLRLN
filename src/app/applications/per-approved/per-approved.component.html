@@ -23,13 +23,14 @@
                                     placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon nzType="search"></i></button>
+                              <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
+                                          nzType="search"></i></button>
                         </ng-template>
                   </div>
                   <div class="col-md-3">
                         <div>
-                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters" (nzFocus)="onFocusMethod('product')"
-                                    (ngModelChange)="getFormLoanData()" 
+                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters"
+                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
                                     nzPlaceHolder="Product">
                                     <nz-option *ngFor="let item of productList" [nzValue]="item.id"
                                           [nzLabel]="item.name">
@@ -38,13 +39,14 @@
                         </div>
                   </div>
                   <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                              (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
-                          </button>
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
-                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status
-                              ">
+                        </button>
+                        <nz-select class="w-60" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -122,7 +124,7 @@
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
                                                             <li nz-menu-item [routerLink]="['track-status']"
-                                                            [queryParams]="{id: data?.id}" >
+                                                                  [queryParams]="{id: data?.id}">
                                                                   <span class="m-l-5">Track Status</span>
                                                             </li>
 
@@ -198,7 +200,8 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.partner?.name ? data?.expanddata?.partner?.name : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -208,7 +211,9 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{ data?.expanddata?.partner ? data?.expanddata?.partner?.address : '--'}}
+                                                                              {{ data?.expanddata?.partner ?
+                                                                              data?.expanddata?.partner?.address :
+                                                                              '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -234,7 +239,9 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.pan ? data?.expanddata?.kyc_details?.results[0]?.pan_no : '--'}}
+                                                                              {{data?.expanddata?.pan ?
+                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -244,7 +251,9 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ? data?.expanddata?.kyc_details?.results[0]?.aadhar_no : '--'}}
+                                                                              {{data?.expanddata?.pan ?
+                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -319,7 +328,7 @@
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
                                           [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>
@@ -338,5 +347,6 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"  (click)="handleOk()">Submit</button>
+      <button nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
+            (click)="handleOk()">Submit</button>
 </ng-template>

@@ -1,0 +1,10 @@
+<nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+    [nzFooter]="footerModal">
+    <section *ngIf="action == 'viewDocument'">
+        <embed [src]="sanatizeUrlToSafe(documentData.file_url)" class="w-100 h-100">
+    </section>
+</nz-modal>
+<!-- Title Section/  -->
+<ng-template #modalTitle></ng-template>
+
+<ng-template #footerModal></ng-template>

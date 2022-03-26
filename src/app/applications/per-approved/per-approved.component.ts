@@ -165,9 +165,9 @@ export class PerApprovedComponent implements OnInit {
 
       updateStatus() {
             this._isUpdateStatus = true;
-            this.https.getStageMaster().subscribe(res => {
+            this.https.getStageMaster(9).subscribe(res => {
                   if (res?.success) {
-                        this.stageMasterList = res?.data?.results
+                        this.stageMasterList = res?.data
                   }
             })
       }

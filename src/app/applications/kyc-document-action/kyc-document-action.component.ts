@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { stringify } from 'querystring';
@@ -8,16 +8,19 @@ import { stringify } from 'querystring';
       templateUrl: './kyc-document-action.component.html',
       styleUrls: ['./kyc-document-action.component.css']
 })
-export class KycDocumentActionComponent implements OnInit {
+export class KycDocumentActionComponent implements OnInit, OnDestroy {
       @Input() action;
       @Input() documentData;
-
+      remarks: any;
       @Output() verifyRemarks = new EventEmitter<string>();
       fileList: any;
       @Output() _currentFileName = new EventEmitter<string>();
       @Output() docStatus = new EventEmitter<string>();
 
       constructor(public sanitize: DomSanitizer) { }
+      ngOnDestroy(): void {
+            throw new Error('Method not implemented.');
+      }
       api_calling_loader = {
             'cardLoader': false
       }
@@ -48,7 +51,7 @@ export class KycDocumentActionComponent implements OnInit {
       };
 
       statusChange(data?) {
-           this.docStatus.emit(data)
-
+            this.docStatus.emit(data)
       }
+
 }

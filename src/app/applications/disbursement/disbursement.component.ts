@@ -217,9 +217,9 @@ export class DisbursementComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this._isStatus = true;
-                        this.https.getStageMaster().subscribe(res => {
+                        this.https.getStageMaster(1).subscribe(res => {
                               if (res?.success) {
-                                    this.stageMasterList = res?.data?.results
+                                    this.stageMasterList = res?.data
                               }
                         })
                         console.log(this._checkedLoanList);
