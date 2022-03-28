@@ -62,35 +62,68 @@
                         <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data.name ? data.name : '-' }}</td>
                         <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
-                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.master_partners > 0"
+                        <td><span class="pointer text-blue" *ngIf="data.master_partners > 0"
                                 nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>
                             <ng-template #contentTemplate1>
-                                    <div class="px-3">
-                                        <ul *ngFor="let item of data.master_partners_list">
-                                            <li>{{item.display_name}}</li>
-                                        </ul>
+                                    <div>
+                                        <nz-table #basicTable [nzData]="data.master_partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Master partner</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                    <td>{{ k + 1}}</td>
+                                                    <td>{{item.display_name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </nz-table>
                                     </div>
                                 </ng-template>
                                 <span *ngIf="data.master_partners <= 0">{{data.master_partners == 0 ? data.master_partners: '-'}}</span>
                         </td>
-                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.partners > 0"
+                        <td><span class="pointer text-blue" *ngIf="data.partners > 0"
                                 nz-popover [nzPopoverContent]="contentTemplate2" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.partners > 0 ? data.partners : '-' }}</span>
                             <ng-template #contentTemplate2>
-                                    <div class="px-3">
-                                        <ul *ngFor="let item of data.partners_list">
-                                            <li>{{item.display_name}}</li>
-                                        </ul>
+                                    <div>
+                                        <nz-table #basicTable [nzData]="data.partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>partner</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                    <td>{{ k + 1}}</td>
+                                                    <td>{{item.display_name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </nz-table>
                                     </div>
                                 </ng-template>
                                 <span *ngIf="data.partners <= 0">{{data.partners == 0 ? data.partners: '-'}}</span>
                         </td>
-                        <td><span class="pointer" style="text-decoration: underline;" *ngIf="data.nbfcs > 0"
+                        <td><span class="pointer text-blue" *ngIf="data.nbfcs > 0"
                                 nz-popover [nzPopoverContent]="contentTemplate3" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.nbfcs > 0 ? data.nbfcs : '-' }}</span>
                             <ng-template #contentTemplate3>
-                                    <div class="px-3">
-                                        <ul *ngFor="let item of data.nbfc_list">
-                                            <li>{{item.display_name}}</li>
-                                        </ul>
+                                    <div>
+                                        <nz-table #basicTable [nzData]="data.nbfc_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>NBFC</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                    <td>{{ k + 1}}</td>
+                                                    <td>{{item.display_name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </nz-table>
                                     </div>
                                 </ng-template>
                                 <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>

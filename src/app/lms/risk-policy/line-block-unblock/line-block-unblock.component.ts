@@ -22,7 +22,7 @@ export class LineBlockUnblockComponent implements OnInit {
   is_blocked;
   search_params = '';
   accepted_loan_application: any;
-  is_active: number;
+  is_active: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) {
@@ -51,7 +51,7 @@ export class LineBlockUnblockComponent implements OnInit {
       product_type: this.master_product_id ? this.master_product_id : '',
       is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params,
-      account_status: this.is_active ? (this.is_active == 1 ? 'Active' : 'Inactive') : '',
+      account_status: this.is_active ? this.is_active : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -67,6 +67,7 @@ export class LineBlockUnblockComponent implements OnInit {
     this.search_params = ''
     this.is_blocked = ''
     this.master_product_id = ''
+    this.is_active = ''
     this.fetchBorrowerList()
   }
 
