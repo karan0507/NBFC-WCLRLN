@@ -429,8 +429,6 @@ export class UnderwritingComponent implements OnInit {
 
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
-            console.log(data);
-
             this._isUpdateStatus = true
             this._isPullData = true
             switch (type) {

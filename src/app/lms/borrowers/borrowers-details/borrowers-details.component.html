@@ -593,7 +593,7 @@
 
 <nz-modal [(nzVisible)]="isFetchCibilSms" nzTitle="Fetch data from data base" (nzOnCancel)="handleCancel()"  [nzFooter]="footerModal">
       <ng-container *nzModalContent>
-            <app-common-cibil-sms [_currentLoanDetails]="_isCibil ? borrowertList?.loan_application_id : borrowertList?.user?.user_id"
+            <app-common-cibil-sms [_currentLoanDetails]="_isCibil ? borrowertList?.loan_application_id : borrowertList?.loan_application_id"
             [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
       </app-common-cibil-sms>
       </ng-container>
