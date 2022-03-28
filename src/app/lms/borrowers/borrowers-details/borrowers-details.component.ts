@@ -23,6 +23,8 @@ export class BorrowersDetailsComponent implements OnInit {
   isAcClosure = false
   isAcClosureError = false
   isReverseCharges = false
+  reverse_type;
+  reverse_amount;
   isRefundTransaction = false
   isWaiveOff = false
   isChangeBillDate = false
@@ -91,6 +93,9 @@ export class BorrowersDetailsComponent implements OnInit {
   api_calling_loader5: boolean;
   total_count5: any;
   invoiceList: any;
+  final_reverse_amount: any;
+  is_set_amt: boolean;
+  reverse_sub_title: string;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,
@@ -371,9 +376,45 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
   reverseChargesToggle(id) {
-    this.isReverseCharges = true
+    // this.isReverseCharges = true
     this.reverseId = id
+    this.getTnxAmount()
   }
+  
+  getTnxAmount() {
+    let data = {
+      datapoint: 'get_transaction_amount',
+      endpoint: this.reverseId,
+      source: 'LMS',
+    }
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      if (res.data.amount > 0) {
+        this.isReverseCharges = true
+        this.final_reverse_amount = res.data.amount
+      } else {
+        this.message.warning("You don't have amount for reverse transaction.")
+      }
+    }, (err) => {
+    })
+  }
+  
+  setTypeandAmt() {
+    if (!this.reverse_type) {
+      this.message.error('Please select reverse type')
+      return false
+    }
+    if (!this.reverse_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.reverse_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount+ '<br/> Are you sure about performing this action?'
+  }
+  
   refundTransactionToggle(id) {
     this.isRefundTransaction = true
     this.refundId = id
@@ -388,10 +429,12 @@ export class BorrowersDetailsComponent implements OnInit {
     data.append('source', 'LMS'),
     data.append('datapoint', 'reverse_transaction'),
     data.append('endpoint', this.reverseId)
+    data.append('amount', this.reverse_amount)
     this.is_revese_loading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.is_revese_loading = false
       this.isReverseCharges = false
+      this.is_set_amt = false
       this.message.success(res['message'])
       this.fetchTransactionTxnList()
     }, (err) => {

@@ -59,7 +59,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -155,9 +155,9 @@
                                                                   (click)="getCibilScoreData('sms',data?.user?.id)">
                                                                   <span class="m-l-5">Fetch SMS</span>
                                                             </li>
-                                                            <li nz-menu-item>
+                                                            <!-- <li nz-menu-item>
                                                                   <span class="m-l-5">Pull Black Box Data</span>
-                                                            </li>
+                                                            </li> -->
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5"
                                                                         (click)="updateStatus('editOffer', data)">Edit
@@ -403,6 +403,41 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="blackBox">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex">
+                                                                                    <label class="text-muted">Application :{{blackBoxData?.application_score}}
+                                                                                          </label>
+                                                                                    <div class="mx-3  text-muted">
+                                                                                          Data: {{blackBoxData?.data}}
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getBlackBoxData(data?.id)">Pull BlackBox </a> </b>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #blackBox>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Blackbox Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
 
                                           <!-- UnderWriting Rules -->
                                           <div class="mt-3">
@@ -702,7 +737,7 @@
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
                                           [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>

@@ -24,7 +24,8 @@ export class AccountBlockUnblockComponent implements OnInit {
   is_blocked;
   search_params = '';
   applications: any;
-  is_active: number;
+  is_active: any;
+  statusChangeLoader: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) {
@@ -53,7 +54,7 @@ export class AccountBlockUnblockComponent implements OnInit {
       product_type: this.master_product_id ? this.master_product_id : '',
       is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params ? this.search_params : '',
-      account_status: this.is_active ? (this.is_active == 1 ? 'Active' : 'Inactive') : '',
+      account_status: this.is_active ? this.is_active : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -73,8 +74,9 @@ export class AccountBlockUnblockComponent implements OnInit {
       data.append('toggle_type', 'ACCOUNT'),
       data.append('accepted_loan_application', this.applications),
       data.append('status_value', this.isUnblock),
-
+    this.statusChangeLoader = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.statusChangeLoader = false
       if (res.success) {
         this.isblock = false
         this.isUnblock = false
@@ -84,12 +86,14 @@ export class AccountBlockUnblockComponent implements OnInit {
         this.message.error(res['message'])
       }
     }, (err) => {
+      this.statusChangeLoader = false
     })
   }
   resetFilters() {
     this.search_params = ''
     this.is_blocked = ''
     this.master_product_id = ''
+    this.is_active = ''
     this.fetchBorrowerList()
   }
 

@@ -27,12 +27,13 @@ export class UnderwritingComponent implements OnInit {
       setOfCheckedId = new Set<number>();
       loanApplicationData: any = [];
       total_count: any;
-      _currentDate: any;
+      currentDate: any;
       currentOfferId: any;
       _currentId: any;
       _currentDocType: any;
       _isViewDocument: any;
       console = console;
+      blackBoxData: any;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -48,7 +49,6 @@ export class UnderwritingComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
-      currentDate = new Date();
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
@@ -154,6 +154,7 @@ export class UnderwritingComponent implements OnInit {
 
 
       getIdWiseData(id?, index?) {
+            this.blackBoxData = null;
             this.api_calling_loader['accordian'] = true;
             let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
@@ -219,9 +220,9 @@ export class UnderwritingComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this._isStatus = true;
-                        this.https.getStageMaster().subscribe(res => {
+                        this.https.getStageMaster(3).subscribe(res => {
                               if (res?.success) {
-                                    this.stageMasterList = res?.data?.results
+                                    this.stageMasterList = res?.data
                               }
                         })
                         console.log(this._checkedLoanList);
@@ -231,9 +232,7 @@ export class UnderwritingComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': this._currentLoanDetails['id'] }
-                        console.log('Edit Offer Params', params);
-
+                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': this._currentLoanDetails['id'], 'section':'underwriting' }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.currentOfferId = res?.data?.offer_id
@@ -430,8 +429,6 @@ export class UnderwritingComponent implements OnInit {
 
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
-            console.log(data);
-
             this._isUpdateStatus = true
             this._isPullData = true
             switch (type) {
@@ -446,6 +443,16 @@ export class UnderwritingComponent implements OnInit {
                         break
 
             }
+      }
+
+      // Pull BlackBox Data
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
       }
 
       resetFilters() {

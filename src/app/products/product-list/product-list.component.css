@@ -6,3 +6,6 @@
 :host ::ng-deep .ant-table-body {
     max-height: calc(100vh - 400px) !important;
 }
+.text-blue {
+    color: blue !important;
+}

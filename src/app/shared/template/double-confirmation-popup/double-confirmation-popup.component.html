@@ -5,8 +5,11 @@
     <div class="col-md-12 d-flex justify-content-center mb-3" *ngIf="title">
         <h4 class="h4 text-center">{{title}}</h4>
     </div>
-    <div class="col-md-12 text-center mb-5" *ngIf="subTitle">
-        <p [innerHtml]="subTitle"></p>
+    <div [class]="alertWarning ? 'col-md-12 mb-0 text-center' : 'col-md-12 text-center mb-5'" *ngIf="subTitle">
+        <p class="mb-0" [innerHtml]="subTitle"></p>
+    </div>
+    <div class="col-md-12 text-center mb-5" *ngIf="alertWarning">
+        <p [innerHtml]="alertWarning"></p>
     </div>
     <div class="col-md-12 d-flex justify-content-center">
         <button nz-button nzType="primary" nzGhost (click)="onCencelCall.emit()" *ngIf="cancelBtnTxt"

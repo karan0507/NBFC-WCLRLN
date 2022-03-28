@@ -194,9 +194,9 @@ export class DocumentUploadComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this._isStatus = true;
-                        this.https.getStageMaster().subscribe(res => {
+                        this.https.getStageMaster(2).subscribe(res => {
                               if (res?.success) {
-                                    this.stageMasterList = res?.data?.results
+                                    this.stageMasterList = res?.data
                               }
                         })
                         break;
@@ -342,7 +342,7 @@ export class DocumentUploadComponent implements OnInit {
                         }
                   });
             } else {
-                  this._isOpenModal = true;
+                  // this._isOpenModal = true;
                   switch (type) {
                         case 'viewDocument': this._isViewDocument = true;
                               // this.generateBase64View(this._currentModalData?.file);
@@ -366,5 +366,12 @@ export class DocumentUploadComponent implements OnInit {
             this.filters = null;
             this.searchValue = null;
             this.getFormLoanData()
+      }
+
+
+      // testing
+      test(){
+            this._isViewDocument = true
+            // alert('Testing working')
       }
 }

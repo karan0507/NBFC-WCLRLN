@@ -26,8 +26,14 @@
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchLoanApplicationList()"
                         nzPlaceHolder="Filter By A/C Status">
-                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="2" nzLabel="Inactive"></nz-option>
+                        <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
+                        <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
+                        <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
+                        <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
+                        <nz-option [nzValue]="'Voluntary Closure Restructuring'" nzLabel="Voluntary Closure Restructuring"></nz-option>
+                        <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
+                        <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
                     </nz-select>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">

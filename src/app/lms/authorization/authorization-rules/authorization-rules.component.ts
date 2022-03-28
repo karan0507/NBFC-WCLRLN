@@ -86,13 +86,13 @@ export class AuthorizationRulesComponent implements OnInit {
       this.http.updateLMSAuthorizationList(this.updateRuleDetails.value).subscribe((res: any)=>{
         if(res?.success){
           this.message.success('Rules Updated');
+          this.getAuthorizationList();
           this.isVisible = false;
         } else {
           this.message.error(res?.message);
         }
         this.isVisible = false;
         this.apiLoader['onOk'] = false;
-        this.getAuthorizationList();
       }, error => {
         this.isVisible = false;
         this.apiLoader['onOk'] = false;
@@ -117,7 +117,7 @@ export class AuthorizationRulesComponent implements OnInit {
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {
       this.authorizationRulesList = res?.data?.results;
       this.total_count = res?.data?.total_count;
-      this.apiLoader['list'] = true;
+      this.apiLoader['list'] = false;
       console.log(this.authorizationRulesList, 'this.authorizationRulesList');
     }, err => {
       console.log(err);

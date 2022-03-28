@@ -37,6 +37,6 @@ export class GlobalservicesService {
       }
 
       maskingDigits(str){
-            return str.replace(/\d{4}(?= \d{4})/g, "****")
+            return str.replace(/\S(?=\S{4})/g, "*")
       }
 }

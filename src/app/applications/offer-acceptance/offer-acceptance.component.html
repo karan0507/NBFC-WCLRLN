@@ -42,10 +42,9 @@
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                        <nz-select class="w-60"  nzMode="multiple" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
                               (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
-                                    [nzLabel]="item.status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -758,7 +757,7 @@
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
                                           [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>
@@ -845,7 +844,7 @@
             </section>
             <section *ngIf="isRejectModal">
                   <div class="row">
-                        <div class="col-md-12 text-muted">
+                        <div class="col-md-12 mb-3 text-muted">
                               {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
                               + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
@@ -854,9 +853,9 @@
                               <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                     '--'}}</span>
                         </div>
-                        <div class="col-md-12 my-4">
+                        <!-- <div class="col-md-12 my-4">
                               Are you sure about rejecting the offer?
-                        </div>
+                        </div> -->
                         <div class="col-md-4 text-muted">
                               Remarks, if any
                         </div>

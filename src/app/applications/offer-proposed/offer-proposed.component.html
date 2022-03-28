@@ -403,7 +403,7 @@
                                                                               </div>
                                                                         </h6>
                                                                         <b> <a class="text-primary"
-                                                                                    (click)="getCibilScoreData('sms',data?.id)">Fetch
+                                                                                    (click)="getCibilScoreData('sms',data?.user?.id)">Fetch
                                                                                     SMS</a> </b>
                                                                         <div>
                                                                         </div>
@@ -833,7 +833,7 @@
             </section>
             <section *ngIf="isRejectModal">
                   <div class="row">
-                        <div class="col-md-12 text-muted">
+                        <div class="col-md-12 mb-3 text-muted">
                               {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
                               + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
@@ -893,6 +893,15 @@
                         <button class="mt-md-4" nz-button nzType="primary">Browse</button>
                         <!-- (click)="isPreview = true; isUpload = false" -->
                   </nz-upload>
+            </section>
+            <section *ngIf="_isPullData">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
+            </section>
+            <section *ngIf="isFetchCibilSms">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails"
+                        [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
             </section>
       </nz-modal>
 </section>
