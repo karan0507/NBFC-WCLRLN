@@ -367,4 +367,11 @@ export class DocumentUploadComponent implements OnInit {
             this.searchValue = null;
             this.getFormLoanData()
       }
+
+
+      // testing
+      test(){
+            this._isViewDocument = true
+            // alert('Testing working')
+      }
 }

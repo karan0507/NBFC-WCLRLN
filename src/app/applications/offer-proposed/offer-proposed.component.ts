@@ -55,6 +55,7 @@ export class OfferProposedComponent implements OnInit {
       _isDocument: boolean = false;
       _isStatus: boolean = false;
       _currentCibilData: any;
+      isFetchCibilSms : boolean = false
 
       // Modal Boolean Values
       _isPullData: boolean = false;
@@ -230,7 +231,7 @@ export class OfferProposedComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': data?.id }
+                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': data?.id, 'section':'offer proposed' }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.currentOfferId = res?.data?.offer_id
@@ -312,7 +313,7 @@ export class OfferProposedComponent implements OnInit {
                         break;
                   case 'reject':
                         this.api_calling_loader['button'] = true
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this._currentLoanDetails?.id, remarks: this.remarks };
+                        let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, offer_id: this._currentLoanDetails?.offer_id,'section' : 'offer proposed','remarks': this.remarks };
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);

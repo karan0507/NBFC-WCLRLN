@@ -232,9 +232,7 @@ export class UnderwritingComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_proposed_offer_for_admin', 'endpoint': this._currentLoanDetails['id'] }
-                        console.log('Edit Offer Params', params);
-
+                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': this._currentLoanDetails['id'], 'section':'underwriting' }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.currentOfferId = res?.data?.offer_id

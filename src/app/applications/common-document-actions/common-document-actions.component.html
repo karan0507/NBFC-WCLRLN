@@ -1,10 +1,61 @@
-<nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
-    [nzFooter]="footerModal">
-    <section *ngIf="action == 'viewDocument'">
-        <embed [src]="sanatizeUrlToSafe(documentData.file_url)" class="w-100 h-100">
-    </section>
+<nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" [nzFooter]="footerModal">
+    <nz-card class="border-0" [nzLoading]="api_calling_loader['cardLoader']">
+        <!-- View Document -->
+        <section *ngIf="action == 'viewDocument'">
+            <embed [src]="sanatizeUrlToSafe(documentData.file_url)" class="w-100 h-100">
+        </section>
+        <!-- Verify Document -->
+        <section *ngIf="action == 'verifyDocument' ? true : false">
+            <div class="d-flex flex-column">
+                <div> Verify {{ documentData?.document_master?.name + ' Document'}}
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="my-3">
+                        <nz-radio-group [(ngModel)]="documentStatus">
+                            <label nz-radio [nzValue]="1">Accept</label>
+                            <label nz-radio [nzValue]="2">Reject</label>
+                        </nz-radio-group>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                        <label>Remarks: </label>
+                        <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
+                        <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
+                      <textarea rows="4" nz-input></textarea>
+                </nz-textarea-count> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section *ngIf="action == 'uploadDocument' ? true : false">
+            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+                <p class="ant-upload-text">Drag and Drop file here</p>
+                <p class="ant-upload-text">or</p>
+                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+            </nz-upload>
+        </section>
+    </nz-card>
+
 </nz-modal>
 <!-- Title Section/  -->
-<ng-template #modalTitle></ng-template>
+<ng-template #modalTitle>
+    <label *ngIf="action == 'viewDocument'">
+        <i nz-icon nzType="eye" class="mr-3" nzTheme="outline"></i> View Document
+    </label>
+    <label *ngIf="action == 'verifyDocument'">
+        <i nz-icon nzType="check-circle" class="mr-3" nzTheme="outline"></i> Verify Document
+    </label>
+    <label *ngIf="action == 'uploadDocument'">
+        <i nz-icon nzType="upload" class="mr-3" nzTheme="outline"> </i>Upload Document
+    </label>
+</ng-template>
 
-<ng-template #footerModal></ng-template>
+<ng-template #footerModal>
+    <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+    <button *ngIf="action == 'verifyDocument' ? true : false" nz-button nzType="primary"
+        [nzLoading]="api_calling_loader['button']" [disabled]="!documentStatus ? true : false" class="mx-2"
+        (click)="handleOk('verify')">Submit</button>
+    <button *ngIf="action == 'uploadDocument'" nz-button nzType="primary" class="mx-2" [disabled]="!fileList ? true : false"
+        [nzLoading]="api_calling_loader['button']" (click)="handleOk('uploadDocument')">Submit</button>
+</ng-template>
