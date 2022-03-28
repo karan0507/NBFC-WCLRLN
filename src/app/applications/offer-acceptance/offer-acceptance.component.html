@@ -844,7 +844,7 @@
             </section>
             <section *ngIf="isRejectModal">
                   <div class="row">
-                        <div class="col-md-12 text-muted">
+                        <div class="col-md-12 mb-3 text-muted">
                               {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
                               + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
                               : '')) : '--' }}
@@ -853,9 +853,9 @@
                               <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
                                     '--'}}</span>
                         </div>
-                        <div class="col-md-12 my-4">
+                        <!-- <div class="col-md-12 my-4">
                               Are you sure about rejecting the offer?
-                        </div>
+                        </div> -->
                         <div class="col-md-4 text-muted">
                               Remarks, if any
                         </div>

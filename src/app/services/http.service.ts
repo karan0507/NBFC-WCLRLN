@@ -519,7 +519,7 @@ export class HttpService {
 
       // Fetch Admin Proposed Offer
       public fetchEditofferData(data?) {
-            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
             //** */ ?source=LMS&datapoint=fetch_proposed_offers&endpoint=1
             //** */ ?source=LMS&datapoint=fetch_accepted_offers&endpoint=1
       }

@@ -228,7 +228,7 @@ export class OfferAcceptanceComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_accepted_offers', 'endpoint': data?.id }
+                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': data?.id, 'section':'offer accepted' }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     console.log(res);
@@ -311,7 +311,8 @@ export class OfferAcceptanceComponent implements OnInit {
                         break;
                   case 'reject':
                         this.api_calling_loader['button'] = true
-                        let params = { source: 'LMS', datapoint: 'reject_offer', endpoint: this.currentOfferId, remarks: this.remarks };
+                        let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, 'offer_id': this._currentLoanDetails?.offer_id,'section' : 'offer accepted','remarks': this.remarks };
+
                         this.https.acceptLoanOffer(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false

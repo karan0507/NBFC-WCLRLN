@@ -45,7 +45,8 @@
                         <nz-select class="w-60" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear
                               nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                                    [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -292,27 +293,27 @@
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.id && item?.file_url"
+                                                                                          *ngIf="item?.file_url"
                                                                                           nzTooltipTitle="View Document"
-                                                                                          (click)="openDocumentModal('viewDocument',item, data)">
+                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.id && item?.file_url && item?.status == 'Pending'"
+                                                                                          *ngIf="item?.file_url && item?.status == 'Pending'"
                                                                                           nzTooltipTitle="Verify Document"
-                                                                                          (click)="openDocumentModal('verify',item, data)">
+                                                                                          (click)="_isVerify = true; _currentModalData = item">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.id && item.file_url"
+                                                                                          *ngIf="item.file_url"
                                                                                           nzTooltipTitle="Download Document"
                                                                                           (click)="openDocumentModal('download',item, data)">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
                                                                                           nzTooltipTitle="Upload Document"
-                                                                                          (click)="openDocumentModal('upload',item, data)">
+                                                                                          (click)="_isUpload = true; _currentModalData = item">
                                                                                           <i nz-icon nzType="upload"
                                                                                                 nzTheme="outline"></i>
                                                                                     </a>
@@ -347,12 +348,28 @@
       </nz-card>
 </section>
 
+<section *ngIf="_isViewDocument"> 
+      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+            [documentData]="_currentModalData"  (close)="_isViewDocument = false"></app-common-document-actions>
+</section>
+
+<section *ngIf="_isVerify">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false" [documentData]="_currentModalData"
+            (close)="_isVerify = false">
+      </app-common-document-actions>
+
+</section>
+<section *ngIf="_isUpload">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false" [documentData]="_currentModalData"
+            (close)="_isUpload = false">
+      </app-common-document-actions>
+</section>
+
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="isRequestDoc">Request Document</label>
-      <label *ngIf="_isUpload">Upload Document</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
+      <!-- <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' -->
+      <!-- }} Document</label> -->
       <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
             Document</label>
 </ng-template>
@@ -360,32 +377,6 @@
 <section>
       <nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
-
-            <!-- View Document Modal -->
-            <section *ngIf="_isViewDocument">
-                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData"
-                        (onCancel)="handleCancel()"></app-kyc-document-action>
-            </section>
-
-            <!-- Verify Document Modal -->
-            <section *ngIf="_isVerify">
-                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData"
-                        (documentStatus)="documentStatus = documentStatus" (onCancel)="handleCancel()">
-                  </app-kyc-document-action>
-
-            </section>
-
-            <!-- Upload Document Modal -->
-            <section *ngIf="_isUpload">
-                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
-                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
-                        <p class="ant-upload-text">Drag and Drop file here</p>
-                        <p class="ant-upload-text">or</p>
-                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                  </nz-upload>
-                  <!-- <app-kyc-document-action [action]="'uploadDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action> -->
-                  <!-- (nzChange)="" -->
-            </section>
             <!-- Status Modal -->
             <section *ngIf="_isStatus">
                   <div class="row">
