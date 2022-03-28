@@ -192,16 +192,16 @@ export class PartnersComponent implements OnInit {
       return this.fb.group({
         id: [data.id],
         trigger_master: [data.trigger_master.id],
-        min_amount: [data.min_amount, [Validators.required]],
-        max_amount: [data.max_amount, [Validators.required]],
+        min_amount: [data.min_amount],
+        max_amount: [data.max_amount],
         commission: [data.commission],
         time_period: [data.time_period],
       });
     } else {
       return this.fb.group({
         trigger_master: ['1'],
-        min_amount: ['', [Validators.required]],
-        max_amount: ['', [Validators.required]],
+        min_amount: [''],
+        max_amount: [''],
         commission: [''],
         time_period: [0],
       });
@@ -218,16 +218,16 @@ export class PartnersComponent implements OnInit {
       return this.fb.group({
         id: [data.id],
         trigger_master: [data.trigger_master.id],
-        min_amount: [data.min_amount, [Validators.required]],
-        max_amount: [data.max_amount, [Validators.required]],
+        min_amount: [data.min_amount],
+        max_amount: [data.max_amount],
         commission: [data.commission],
         time_period: [data.time_period],
       });
     } else {
       return this.fb.group({
         trigger_master: ['2'],
-        min_amount: ['', [Validators.required]],
-        max_amount: ['', [Validators.required]],
+        min_amount: [''],
+        max_amount: [''],
         commission: [''],
         time_period: [0],
       });
@@ -244,8 +244,8 @@ export class PartnersComponent implements OnInit {
       return this.fb.group({
         id: [data.id],
         trigger_master: [data.trigger_master.id],
-        min_amount: [data.min_amount, [Validators.required]],
-        max_amount: [data.max_amount, [Validators.required]],
+        min_amount: [data.min_amount],
+        max_amount: [data.max_amount],
         commission: [data.commission],
         time_period: [data.time_period],
         commission_calculation_type: [data.commission_calculation_type ? data.commission_calculation_type : 'Variable']
@@ -253,8 +253,8 @@ export class PartnersComponent implements OnInit {
     } else {
       return this.fb.group({
         trigger_master: ['3'],
-        min_amount: ['', [Validators.required]],
-        max_amount: ['', [Validators.required]],
+        min_amount: [''],
+        max_amount: [''],
         commission: [''],
         time_period: [0],
         commission_calculation_type : ['Variable']

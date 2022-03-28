@@ -113,7 +113,7 @@
     </ng-template>
 </nz-modal>
 <!-- Approve Success -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isApprovedSuccess" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isApprovedSuccess = false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isApprovedSuccess" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isApprovedSuccess = false; getManualTransactionList()">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
             [title]="'Approved Successfully!'"
