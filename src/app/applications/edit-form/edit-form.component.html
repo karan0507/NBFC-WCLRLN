@@ -111,8 +111,9 @@
                         <div class="col-md-8">
                               <nz-form-item>
                                     <nz-form-label nzRequired>Limit Proposed</nz-form-label>
-                                    <nz-form-control nzErrorTip="Pplease enter the valid limit proposed">
-                                          <input nz-input type="number" formControlName="limitProcessed"
+                                    <nz-form-control nzErrorTip="Please enter the valid limit proposed">
+                                          <input nz-input type="text"  pattern="\d{1,6}"  
+                                          maxlength="7" formControlName="limitProcessed"
                                                 placeholder="Enter your Limit Proposed">
                                     </nz-form-control>
                               </nz-form-item>
@@ -172,13 +173,13 @@
                                     <div *ngIf="item?.document_master?.name == 'Aadhar Card'">
                                           
                                           <p>
-                                                <label>Aadhar No: {{ global.maskingDigits(item?.aadhar_no) }} </label>
+                                                <label>Aadhar No: {{ item?.aadhar_no ? global.maskingDigits(item?.aadhar_no) : ''}} </label>
                                           </p>
                                     </div>
                                     <div *ngIf="item?.document_master?.name == 'Pan'">
                                           
                                           <p>
-                                                <label>PAN No: {{item?.pan_no}} </label>
+                                                <label>PAN No: {{item?.pan_no ? global.maskingDigits(item?.pan_no) : ''}} </label>
                                           </p>
                                     </div>
                                     <div>
@@ -203,7 +204,7 @@
       
             <!-- Verify Document Modal -->
             <section *ngIf="_isVerify">
-                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData"
+                  <app-kyc-document-action [action]="'verifyDocument'" (docStatus)="documentStatus" [documentData]="_currentModalData"
                         (onCancel)="handleCancel()"></app-kyc-document-action>
       
             </section>

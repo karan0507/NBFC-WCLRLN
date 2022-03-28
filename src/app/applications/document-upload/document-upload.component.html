@@ -38,13 +38,14 @@
                         </div>
                   </div>
                   <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                              (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
-                          </button>
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
-                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status
-                              ">
+                        </button>
+                        <nz-select class="w-60" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -54,7 +55,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px', y: '60vh' }"  [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -121,8 +122,8 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
-                                                            <li nz-menu-item   [routerLink]="['track-status']"
-                                                            [queryParams]="{id: data?.id}">
+                                                            <li nz-menu-item [routerLink]="['track-status']"
+                                                                  [queryParams]="{id: data?.id}">
                                                                   <span class="m-l-5">Track Status</span>
                                                             </li>
                                                             <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
@@ -201,7 +202,8 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.partner?.name ? data?.expanddata?.partner?.name : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -211,7 +213,8 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.partner?.address ? data?.expanddata?.partner?.name : '--'}}
+                                                                              {{data?.expanddata?.partner?.address ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -279,9 +282,11 @@
                                                             <div class="col-md-4"
                                                                   *ngFor="let item of data?.expanddata?.kyc_documents">
                                                                   <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-wrap justify-content-between">
+                                                                        <div
+                                                                              class="d-flex flex-wrap justify-content-between">
                                                                               <label class="text-muted">{{
-                                                                                    item?.document_master?.name + ' '}} <b>
+                                                                                    item?.document_master?.name + ' '}}
+                                                                                    <b>
                                                                                           {{ item?.status }} </b>
                                                                               </label>
 
@@ -299,7 +304,8 @@
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mr-3" *ngIf="item?.id && item.file_url"
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.id && item.file_url"
                                                                                           nzTooltipTitle="Download Document"
                                                                                           (click)="openDocumentModal('download',item, data)">
                                                                                           <i nz-icon nzType="download"
@@ -357,25 +363,28 @@
 
             <!-- View Document Modal -->
             <section *ngIf="_isViewDocument">
-                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action>
-                  <!-- <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100"> -->
+                  <app-kyc-document-action [action]="'viewDocument'" [documentData]="_currentModalData"
+                        (onCancel)="handleCancel()"></app-kyc-document-action>
             </section>
 
             <!-- Verify Document Modal -->
             <section *ngIf="_isVerify">
-                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData" (documentStatus)="documentStatus = documentStatus"  (onCancel)="handleCancel()"></app-kyc-document-action>
+                  <app-kyc-document-action [action]="'verifyDocument'" [documentData]="_currentModalData"
+                        (documentStatus)="documentStatus = documentStatus" (onCancel)="handleCancel()">
+                  </app-kyc-document-action>
 
             </section>
 
             <!-- Upload Document Modal -->
             <section *ngIf="_isUpload">
-                            <nz-upload  nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'" [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList" >
-                                <p class="ant-upload-text">Drag and Drop file here</p>
-                                <p class="ant-upload-text">or</p>
-                                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                            </nz-upload>
-                            <!-- <app-kyc-document-action [action]="'uploadDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action> -->
-                            <!-- (nzChange)="" -->
+                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+                        <p class="ant-upload-text">Drag and Drop file here</p>
+                        <p class="ant-upload-text">or</p>
+                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                  </nz-upload>
+                  <!-- <app-kyc-document-action [action]="'uploadDocument'" [documentData]="_currentModalData" (onCancel)="handleCancel()"></app-kyc-document-action> -->
+                  <!-- (nzChange)="" -->
             </section>
             <!-- Status Modal -->
             <section *ngIf="_isStatus">
@@ -386,7 +395,7 @@
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
                                           [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>
@@ -443,14 +452,16 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isDownload" nz-button nzType="primary"  class="mx-2"
+      <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('DocumentModal')">Submit</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']"
+            [disabled]="!_currentStageStatus ? true : false" class="mx-2"
             (click)="handleOk('StatusModal')">Submit</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2" [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
+      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
+            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary" 
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('verify')">Submit</button>
+      <button *ngIf="_isVerify" nz-button nzType="primary"
+            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>

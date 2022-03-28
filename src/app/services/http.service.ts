@@ -439,8 +439,8 @@ export class HttpService {
             return this._http.get(this.url + (`/central-api/v1/call-api`), {params : data})
       }
       //  Fetch All Stages**/
-      public getStageMaster(data?): any {
-            return this._http.get((this.url + `/master/fetch-master-data/StageMaster`));
+      public getStageMaster(id?): any {
+            return this._http.get((this.url + `/platform_central/v1/get-allowed-stages/`+id));
       }
 
       public getStatusStageWise(data?): any {
@@ -485,6 +485,13 @@ export class HttpService {
       public fetchSMS(id): any {
             return this._http.get((this.url + `/loan-application/v1/fetch-data/sms/` + id));
       }
+
+      // Pull BlackBox Data
+
+      public pullBlackBoxData(data): any {
+            return this._http.get((this.url + `/central-api/v1/call-api`),{params : data});
+      }
+
       // Upload document for loan application
       public uploadLoanDocument(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);

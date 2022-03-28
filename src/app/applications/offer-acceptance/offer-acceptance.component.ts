@@ -216,9 +216,9 @@ export class OfferAcceptanceComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this._isStatus = true;
-                        this.https.getStageMaster().subscribe(res => {
+                        this.https.getStageMaster(5).subscribe(res => {
                               if (res?.success) {
-                                    this.stageMasterList = res?.data?.results
+                                    this.stageMasterList = res?.data
                               }
                         })
                         console.log(this._checkedLoanList);
@@ -228,7 +228,7 @@ export class OfferAcceptanceComponent implements OnInit {
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'LMS', 'datapoint': 'fetch_accepted_offer', 'endpoint': data?.id }
+                        let params = { 'source': 'LMS', 'datapoint': 'fetch_accepted_offers', 'endpoint': data?.id }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
                                     console.log(res);

@@ -42,10 +42,9 @@
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-1 w-auto w-auto" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
+                        <nz-select class="w-60"  nzMode="multiple" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
                               (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
-                                    [nzLabel]="item.status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -56,7 +55,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -733,7 +732,7 @@
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.pk"
+                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
                                           [nzLabel]="item?.name"></nz-option>
                               </nz-select>
                         </div>

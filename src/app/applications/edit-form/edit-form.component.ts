@@ -76,7 +76,7 @@ export class EditFormComponent implements OnInit {
 
             this.preApprovedForm = this.fb.group({
                   product_name: [null, [Validators.required]],
-                  limitProcessed: [null, [Validators.required, Validators.min(1), Validators.pattern("^[1-9][0-9]{5}$"), Validators.maxLength(6)]]
+                  limitProcessed: [null, [Validators.required, Validators.min(1)]]
             })
 
             this.documentForm = this.fb.group({
@@ -97,22 +97,24 @@ export class EditFormComponent implements OnInit {
       handleOk(type?) {
             switch (type) {
                   case 'verify':
-                        this.api_calling_loader['modalButton'] = true
-                        let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
-                        this.https.verifyLoanDocument(params).subscribe((res: any) => {
-                              if (res?.success) {
-                                    this.api_calling_loader['modalButton'] = false
-                                    this.message.success(res?.message);
-                                    this.handleCancel();
-                                    this.getFormLoanData()
-                              } else {
-                                    this.api_calling_loader['modalButton'] = false
-                                    this.message.error(res?.message);
-                              }
-                        }, err => {
-                              this.api_calling_loader['modalButton'] = false
-                              this.message.error(err);
-                        })
+                        console.log(this.documentStatus, this.verifyRemarks);
+                        
+                        // this.api_calling_loader['modalButton'] = true
+                        // let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
+                        // this.https.verifyLoanDocument(params).subscribe((res: any) => {
+                        //       if (res?.success) {
+                        //             this.api_calling_loader['modalButton'] = false
+                        //             this.message.success(res?.message);
+                        //             this.handleCancel();
+                        //             this.getFormLoanData()
+                        //       } else {
+                        //             this.api_calling_loader['modalButton'] = false
+                        //             this.message.error(res?.message);
+                        //       }
+                        // }, err => {
+                        //       this.api_calling_loader['modalButton'] = false
+                        //       this.message.error(err);
+                        // })
 
                         break;
                   case 'uploadDocument':
