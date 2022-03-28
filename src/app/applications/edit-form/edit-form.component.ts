@@ -21,6 +21,7 @@ export class EditFormComponent implements OnInit {
       preApprovedForm: FormGroup;
       documentForm: FormGroup;
       userId: any;
+      personalInfo : any
       documentsList: any = []
       filesArray : any = []
       api_calling_loader = {
@@ -187,6 +188,7 @@ export class EditFormComponent implements OnInit {
                               this.preApprovedForm.patchValue({ limitProcessed: res?.data?.offer[0]?.amount_offered ? res?.data?.offer[0]?.amount_offered : null })
                               // this.preApprovedForm.get('product_name').setValue(res?.data?.offer[0]?.id);
                         }
+                        this.personalInfo = res?.data?.user_info
                         this.documentList = res?.data?.kyc_documents;
 
                   } else {

@@ -11,15 +11,27 @@
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>User Name:</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please check your Email!">
+                                    <nz-form-label>User Name:</nz-form-label>
+                                    <nz-form-control>
                                           <label>
-                                                <!-- {{data }}  -->
+                                                {{personalInfo?.name | titlecase}} 
                                           </label>
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
+                        <div class="col-md-4">
+                              <nz-form-item>
+                                    <nz-form-label>Mobile No:</nz-form-label>
+                                    <nz-form-control>
+                                          <label>
+                                                {{personalInfo?.contact}} 
+                                          </label>
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4">
 
+                        </div>
                         <div class="col-md-4">
                               <nz-form-item>
                                     <nz-form-label nzRequired>Email</nz-form-label>
