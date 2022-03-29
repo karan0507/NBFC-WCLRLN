@@ -314,7 +314,7 @@ export class OfferProposedComponent implements OnInit {
                   case 'reject':
                         this.api_calling_loader['button'] = true
                         let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, offer_id: this._currentLoanDetails?.offer_id,'section' : 'offer proposed','remarks': this.remarks };
-                        this.https.acceptLoanOffer(params).subscribe((res: any) => {
+                        this.https.rejectedOffersAd(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);
                                     this.handleCancel();
