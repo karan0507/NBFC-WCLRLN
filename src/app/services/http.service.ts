@@ -552,12 +552,8 @@ export class HttpService {
       }
 
       // Admin Rejected Offers
-      public rejectedOffersAd(id?) {
-            return this._http.put((this.url + `/central-api/v1/call-api`), id);
-            //**Form Body      "source" : "LMS",
-            //     "datapoint" : "reject_offer",
-            //     "endpoint" : "8",
-            //     "remarks" : "Offer was not useful"
+      public rejectedOffersAd(data?) {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
       public moveApplication(data?) {

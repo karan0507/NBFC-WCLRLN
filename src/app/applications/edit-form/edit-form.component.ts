@@ -267,7 +267,12 @@ export class EditFormComponent implements OnInit {
             this._currentModalData = data;
             console.log(data);
             if (type == 'download') {
-                  let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  if(this._currentModalData?.document_master?.id){
+                        let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  }else if(this._currentModalData?.document_master?.name == "Selfie"){
+                        let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'selfie', 'id': this._currentModalData?.application }
+                  }
+                  
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });

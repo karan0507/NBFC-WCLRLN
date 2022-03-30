@@ -219,9 +219,9 @@ export class OfferProposedComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this._isStatus = true;
-                        this.https.getStageMaster().subscribe(res => {
+                        this.https.getStageMaster(4).subscribe(res => {
                               if (res?.success) {
-                                    this.stageMasterList = res?.data?.results
+                                    this.stageMasterList = res?.data
                               }
                         })
                         console.log(this._checkedLoanList);
@@ -314,7 +314,7 @@ export class OfferProposedComponent implements OnInit {
                   case 'reject':
                         this.api_calling_loader['button'] = true
                         let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, offer_id: this._currentLoanDetails?.offer_id,'section' : 'offer proposed','remarks': this.remarks };
-                        this.https.acceptLoanOffer(params).subscribe((res: any) => {
+                        this.https.rejectedOffersAd(params).subscribe((res: any) => {
                               if (res?.success) {
                                     this.message.success(res?.message);
                                     this.handleCancel();

@@ -28,13 +28,14 @@ export class SideNavComponent {
             this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
             this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);
             this.themeService.isSideNavDarkChanges.subscribe(isDark => this.isSideNavDark = isDark);
+            this.global.setApplicationCount();
             this.global.applicationStageCount.subscribe(res => {
                  if(res){
                   this.applicationCount = res;
                   console.log(this.applicationCount);
                  }
             })
-            this.global.setApplicationCount();
+            
       }
 
       closeMobileMenu(): void {
