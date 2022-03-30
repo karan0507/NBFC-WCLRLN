@@ -122,6 +122,10 @@ export class TransactionsListComponent implements OnInit {
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       txn_status: this.selectedStatus ? this.selectedStatus : '',
+      product_type: this.master_product_id ? this.master_product_id : '',
+      txn_type: this.selectedType ? this.selectedType : '',
+      search_param: this.searchValue,
+      // tab_filter: this.selectedTab,
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;

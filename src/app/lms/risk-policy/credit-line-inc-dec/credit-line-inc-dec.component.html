@@ -66,7 +66,7 @@
                         <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td>{{data.loan_amount_provided ? data.loan_amount_provided : 0}}</td>
-                        <td>{{data.creditline_data?.length > 0 ? (data.creditline_data[0]?.change_type == '+' ? (convertToFloat(data.creditline_data[0]?.amount_change) + convertToFloat(data.loan_amount_provided)) : (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided))) : 0}}</td>
+                        <td>{{data.creditline_data?.length > 0 ? (data.creditline_data[0]?.change_type == '+' ? (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided)) : (convertToFloat(data.creditline_data[0]?.amount_change) - convertToFloat(data.loan_amount_provided))) : 0}}</td>
                         <td>{{data.creditline_data?.length > 0 ?.amount_change ? data.creditline_data[0]?.amount_change : 0}}</td>
                         <td>{{data.created_at | date: "medium"}}</td>
                         <td nzRight>
@@ -94,7 +94,8 @@
         </nz-card>
     </div>
 </section>
-<nz-modal [(nzVisible)]="isIncLine" nzTitle="Change Credit Line" (nzOnCancel)="isIncLine = false" nzOkText="Save" (nzOnOk)="isIncLine = false">
+<nz-modal [(nzVisible)]="isIncLine" nzTitle="Change Credit Line" (nzOnCancel)="isIncLine = false" nzOkText="Save" 
+(nzOnOk)="changeCreditLineFunction()" [nzOkDisabled]="createIncLine.invalid">
     <ng-container *nzModalContent>
         <form [formGroup]="createIncLine">
             <div class="row">
@@ -106,7 +107,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="amount" class="text-left">Previous Credit Line</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount!">
-                            {{selectedLine.loan_amount_provided ? selectedLine.loan_amount_provided : '-'}}
+                            {{selectedLine.loan_amount_provided }}
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -132,7 +133,7 @@
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="activation_from" class="text-left" nzRequired>Activate from
                         </nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Activate from!">
-                            <nz-date-picker formControlName="activation_from" [nzFormat]="'YYYY-MM-dd'" nzPlaceHolder="Please input Activate from!"></nz-date-picker>
+                            <nz-date-picker formControlName="activation_from" [nzDisabledDate]="disabledDate" [nzFormat]="'YYYY-MM-dd'" nzPlaceHolder="Please input Activate from!"></nz-date-picker>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -26,6 +28,9 @@ export class CreditLineIncDecComponent implements OnInit {
   search_params = '';
   selectedLine: any;
   is_change_line: boolean;
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) < 0;
   is_active: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -44,8 +49,8 @@ export class CreditLineIncDecComponent implements OnInit {
 
   createIncLineFunction() {
     this.createIncLine = this.fb.group({
-      incBy: [],
-      activation_from: []
+      incBy: ['', [Validators.required]],
+      activation_from: ['', [Validators.required]]
     })
   }
   
@@ -98,11 +103,13 @@ export class CreditLineIncDecComponent implements OnInit {
     data.append('datapoint', 'change_credit_line')
     data.append('accepted_loan_application', this.selectedLine.id)
     data.append('amount_change', String(this.convertToFloat(this.selectedLine.loan_amount_provided) + this.convertToFloat(this.createIncLine.get('incBy').value ? this.createIncLine.get('incBy').value : 0)))
-    data.append('activation_date', this.createIncLine.get('activation_from').value)
+    data.append('activation_date', this.createIncLine.get('activation_from').value ? moment(this.createIncLine.get('activation_from').value).format("YYYY-MM-DD 00:00") : '')
     this.is_change_line = true
     this.http.postLoanApplicationApi(data).subscribe(res => {
       this.isIncLine = false
       this.is_change_line = false
+      this.fetchLoanApplicationList()
+      this.createIncLine.reset()
     }, (err) => {
       this.is_change_line = false
     })
