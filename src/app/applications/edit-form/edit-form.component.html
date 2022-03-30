@@ -224,7 +224,7 @@
 
 <section *ngIf="_isVerify">
       <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
-            [documentData]="_currentModalData" (close)="_isVerify = false">
+            [documentData]="_currentModalData" (close)="_isVerify = false; ngOnInit()">
       </app-common-document-actions>
 
 </section>
@@ -238,7 +238,7 @@
       <div class="d-flex justify-content-md-end">
             <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
             <button nz-button nzType="primary"
-                  [disabled]="(personalDetails.invalid && employementDetails.invalid && preApprovedForm.invalid) ? true : false"
+                  [disabled]="( !personalDetails.valid ? true : ( !employementDetails.valid ? true : ( !preApprovedForm.valid ? true : false)))"
                   [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="submitForm()">Save</button>
       </div>
       <ng-template #footerModal>
