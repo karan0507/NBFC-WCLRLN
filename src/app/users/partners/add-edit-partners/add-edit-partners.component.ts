@@ -27,7 +27,7 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 export class AddEditPartnersComponent implements OnInit {
   addEditProductForm!: FormGroup;
   documentBasedForm: FormGroup;
-  documentArray: any;
+  documentArray : any = [];
   index: any;
   isVisible;
   selectedDocument;
@@ -167,51 +167,173 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
   setFormData(data) {
+    // if (data) {
+    //   const documentArray = [];
+    //   data.documents?.forEach((element) => {
+    //     const documents = {
+    //       pk: element?.document_master["id"],
+    //       documents: element?.document_file,
+    //       name: element?.document_master["name"],
+    //       document_name: element?.file_name,
+    //       id: element?.id,
+    //       is_verified: element?.is_verified,
+    //     };
+    //     documentArray.push(documents);
+    //     this.documentArray?.forEach((entity, index) => {
+    //       if (entity.pk == element?.document_master["id"]) {
+    //         this.documentArray.splice(index, 1);
+    //       }
+    //     });
+    //     this.addSkills(documents);
+    //   });
+    // }
     if (data) {
       const documentArray = [];
       data.documents?.forEach((element) => {
-        const documents = {
-          pk: element?.document_master["id"],
-          documents: element?.document_file,
-          name: element?.document_master["name"],
-          document_name: element?.file_name,
-          id: element?.id,
-          is_verified: element?.is_verified,
-        };
-        documentArray.push(documents);
+        let documents;
+        if(element?.document_master?.require_front_back){
+            documents = {
+              pk: element?.document_master["id"],
+              name: element?.document_master["name"],
+              document_name: null,
+              document_name_front: element?.front_file_name,
+              document_name_back: element?.back_file_name,
+              documents: null,
+              documents_front: element?.document_file_front ? element?.document_file_front : null,
+              documents_back:  element?.document_file_back ? element?.document_file_back : null,
+              id: element?.id,
+              is_verified: element?.is_verified,
+              front_back_flag: element?.document_master?.require_front_back,
+              display_name: null,
+              display_name_front:  element?.document_master?.name + " Front",
+              display_name_back:   element?.document_master?.name + " Back",
+              isdelete: false,
+            };
+            documentArray.push(documents);
+            this.addSkills(documents);
+        } else if(!element?.document_master?.require_front_back) {
+          documents = {
+            pk: element?.document_master["id"],
+            name: element?.document_master["name"],
+            document_name: element?.file_name ? element?.file_name : null,
+            document_name_front: null,
+            document_name_back: null,
+            documents: element?.document_file ? element?.document_file : null,
+            documents_front: null,
+            documents_back:  null,
+            id: element?.id,
+            is_verified: element?.is_verified,
+            front_back_flag: element?.document_master?.require_front_back,
+            display_name: element?.document_master?.name,
+            display_name_front:  null,
+            display_name_back: null,
+            isdelete: false,
+          };
+          documentArray.push(documents);
+          this.addSkills(documents);
+        }
         this.documentArray?.forEach((entity, index) => {
           if (entity.pk == element?.document_master["id"]) {
             this.documentArray.splice(index, 1);
           }
         });
-        this.addSkills(documents);
+        // this.addSkills(documents);
       });
     }
   }
 
-  async onClickShowUploadedDocument(e) {
-    if (e?.value?.documents?.uid) {
-      let doc = await getBase64(e?.value?.documents);
-      const images = [];
-      const img = {
-        src: doc,
-        width: "600px",
-        height: "400px",
-        alt: "ng-zorro",
-      };
-      images.push(img);
-      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-    } else {
-      const images = [];
-      const img = {
-        src: e?.value?.documents,
-        width: "600px",
-        height: "400px",
-        alt: "ng-zorro",
-      };
-      images.push(img);
-      this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  async onClickShowUploadedDocument(e, action?) {
+    // if (e?.value?.documents?.uid) {
+    //   let doc = await getBase64(e?.value?.documents);
+    //   const images = [];
+    //   const img = {
+    //     src: doc,
+    //     width: "600px",
+    //     height: "400px",
+    //     alt: "ng-zorro",
+    //   };
+    //   images.push(img);
+    //   this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+    // } else {
+    //   const images = [];
+    //   const img = {
+    //     src: e?.value?.documents,
+    //     width: "600px",
+    //     height: "400px",
+    //     alt: "ng-zorro",
+    //   };
+    //   images.push(img);
+    //   this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+    // }
+    const images = [];
+    if(action == 'documents'){
+      if (e?.value?.documents?.uid) {
+        let doc = await getBase64(e?.value?.documents);
+        const img = {
+          src: doc,
+          width: "600px",
+          height: "400px",
+          alt: "ng-zorro",
+        };
+        images.push(img);
+        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+      } else {
+    const img = {
+      src: e?.value?.documents,
+      width: "600px",
+      height: "400px",
+      alt: "ng-zorro",
+    };
+    images.push(img);
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
+    } else if(action == 'documents_front'){
+      if (e?.value?.documents_front?.uid) {
+        let doc = await getBase64(e?.value?.documents_front);
+        // const images = [];
+        const img = {
+          src: doc,
+          width: "600px",
+          height: "400px",
+          alt: "ng-zorro",
+        };
+        images.push(img);
+        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+      } else {
+      // const images = [];
+    const img = {
+      src: e?.value?.documents_front,
+      width: "600px",
+      height: "400px",
+      alt: "ng-zorro",
+    };
+    images.push(img);
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
+    } else if(action == 'documents_back'){
+      if (e?.value?.documents_back?.uid) {
+        let doc = await getBase64(e?.value?.documents_back);
+        // const images = [];
+        const img = {
+          src: doc,
+          width: "600px",
+          height: "400px",
+          alt: "ng-zorro",
+        };
+        images.push(img);
+        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+      } else {
+      // const images = [];
+    const img = {
+      src: e?.value?.documents_back,
+      width: "600px",
+      height: "400px",
+      alt: "ng-zorro",
+    };
+    images.push(img);
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     }
+  }
   }
 
   createMasterProductForm(data?) {
@@ -240,7 +362,7 @@ export class AddEditPartnersComponent implements OnInit {
       ],
       phone: [
         data ? data?.phone : null,
-        [Validators.required, Validators.pattern("^[0-9]{8,10}$")],
+        [Validators.required, Validators.pattern("([0-9]{8}|[0-9]{10})")],
       ],
       // ^.{1,10}$
       // unique_code: [data ? data?.unique_code : null],
@@ -260,7 +382,7 @@ export class AddEditPartnersComponent implements OnInit {
       ],
       contact_person_phone: [
         data ? data?.contact_person_phone : null,
-        [Validators.required, Validators.pattern("^[0-9]{8,10}$")],
+        [Validators.required, Validators.pattern("([0-9]{8}|[0-9]{10})")],
       ],
       contact_person_email: [
         data ? data?.contact_person_email : null,
@@ -315,11 +437,17 @@ export class AddEditPartnersComponent implements OnInit {
 
   deleteDocumentByDocumentId(i) {
     let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    const master = fileName.controls?.[i].value?.document_master;
     const selectedFile = fileName.controls?.[i].value;
     if (!fileName.controls?.[i].value?.id) {
       const document = {
         name: selectedFile?.label_name,
         pk: selectedFile?.document_master,
+        front_back_flag: selectedFile?.front_back_flag,
+        display_name: null,
+        display_name_front:  selectedFile?.name + " Front",
+        display_name_back: selectedFile?.name + " Back",
+        isdelete: false,
       };
       this.documentArray.push(document);
       this.message.success(
@@ -334,6 +462,7 @@ export class AddEditPartnersComponent implements OnInit {
           const document = {
             name: selectedFile?.label_name,
             pk: selectedFile?.document_master,
+            front_back_flag: selectedFile?.front_back_flag
           };
           this.documentArray.push(document);
           this.message.success(
@@ -345,18 +474,56 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
 
+  listOfDocumentWithFlag: any = [];
   getListOfDocumentRequired() {
     this.http.getListOfDocumentRequired().subscribe((res: any) => {
       this.documentArray = res?.data?.results;
     });
   }
-
+  
+  documentFlagArray = [];
   addRule() {
-    if (this.documentArray.includes(this.selectedDocument)) {
-      const index = this.documentArray.indexOf(this.selectedDocument);
-      this.documentArray.splice(index, 1);
+    // if (this.documentArray.includes(this.selectedDocument)) {
+    //   const index = this.documentArray.indexOf(this.selectedDocument);
+    //   this.documentArray.splice(index, 1);
+    // }
+    // this.addSkills(this.selectedDocument);
+    // this.isVisible = false;
+    this.documentFlagArray.push(this.selectedDocument);
+    const storeSelectedData = this.selectedDocument
+    if(this.selectedDocument?.front_back_flag){
+      let data
+      data = {
+        front_back_flag: storeSelectedData?.front_back_flag,
+        name: storeSelectedData?.name,
+        display_name: null,
+        isdelete: false,
+        display_name_front:  storeSelectedData?.name + " Front",
+        display_name_back: storeSelectedData?.name + " Back",
+        pk: storeSelectedData?.pk
+      }
+      this.addSkills(data);
+      // data = {
+      //   front_back_flag: storeSelectedData?.front_back_flag,
+      //   name: storeSelectedData?.name,
+      //   display_name: storeSelectedData?.name + " Back",
+      //   isdelete: true,
+      //   pk: storeSelectedData?.pk
+      // }
+      // this.addSkills(data);
+    } else {
+      let data;
+      data = {
+        front_back_flag: storeSelectedData?.front_back_flag,
+        name: storeSelectedData?.name,
+        display_name: storeSelectedData?.name,
+        display_name_front: null,
+        display_name_back: null,
+        isdelete: false,
+        pk: storeSelectedData?.pk
+      }
+      this.addSkills(data); 
     }
-    this.addSkills(this.selectedDocument);
     this.isVisible = false;
   }
 
@@ -369,16 +536,35 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   newSkill(data?): FormGroup {
+    // this.selectedDocument = null;
+    // return this.fb.group({
+    //   id: [data ? data?.id : null],
+    //   document_master: [data?.pk],
+    //   label_name: [data?.name],
+    //   documents: [data?.documents],
+    //   document_name: [data?.document_name ? data?.document_name : ""],
+    //   is_verified: [data?.is_verified ? data?.is_verified : false],
+    // });
     this.selectedDocument = null;
     return this.fb.group({
       id: [data ? data?.id : null],
+      front_back_flag: [data ? data?.front_back_flag : null],
       document_master: [data?.pk],
+      display_name_front:[data?.display_name_front],
+      display_name_back:[data?.display_name_back],
+      display_name:[data?.display_name],
+      isdelete: data?.isdelete ? data?.isdelete : false,
       label_name: [data?.name],
       documents: [data?.documents],
-      document_name: [data?.document_name ? data?.document_name : ""],
+      documents_front:[data?.documents_front],
+      documents_back:[data?.documents_back],
+      document_name: [data?.document_name],
+      document_name_front: [data?.document_name_front],
+      document_name_back: [data?.document_name_front],
       is_verified: [data?.is_verified ? data?.is_verified : false],
     });
   }
+  
   selectedDate: any;
   get_underwritingArr(form) {
     return form.controls.document_data.controls;
@@ -411,11 +597,23 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onUpload(e, i, action) {
-    if (action == "upload") {
-      let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    // if (action == "upload") {
+    //   let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    //   fileName.controls?.[i].patchValue({ document_name: e?.file?.name });
+    //   let value = this.addEditProductForm.get("document_data") as FormArray;
+    //   value.controls?.[i].patchValue({ documents: e?.file?.originFileObj });
+    // }
+    let fileName = this.addEditProductForm.get("document_data") as FormArray;
+    let value = this.addEditProductForm.get("document_data") as FormArray;
+    if(action=='name'){
       fileName.controls?.[i].patchValue({ document_name: e?.file?.name });
-      let value = this.addEditProductForm.get("document_data") as FormArray;
       value.controls?.[i].patchValue({ documents: e?.file?.originFileObj });
+    } else if(action == 'name_front'){
+      fileName.controls?.[i].patchValue({ document_name_front: e?.file?.name });
+      value.controls?.[i].patchValue({ documents_front: e?.file?.originFileObj });
+    } else if(action == 'name_back'){
+      fileName.controls?.[i].patchValue({ document_name_back: e?.file?.name });
+      value.controls?.[i].patchValue({ documents_back: e?.file?.originFileObj });
     }
   }
 
@@ -474,18 +672,34 @@ export class AddEditPartnersComponent implements OnInit {
       }
     }
     for (var i in sendDate.document_data) {
-      if (
-        !sendDate.document_data[i].document_name &&
-        sendDate.document_data[i].label_name
-      ) {
+      // if (
+      //   !sendDate.document_data[i].document_name &&
+      //   sendDate.document_data[i].label_name
+      // ) {
+      //   this.message.error(
+      //     " Plz Upload Selected Document " +
+      //       ` ${sendDate.document_data[i].label_name}` +
+      //       " at index " +
+      //       i,
+      //     { nzDuration: 5000 }
+      //   );
+      //   return;
+      // }
+      if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
           " Plz Upload Selected Document " +
-            ` ${sendDate.document_data[i].label_name}` +
-            " at index " +
-            i,
-          { nzDuration: 5000 }
+            ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
         );
         return;
+      } 
+      if (!sendDate.document_data[i].front_back_flag && 
+        !sendDate.document_data[i].document_name){
+          this.message.error(
+            " Plz Upload Selected Document " +
+              ` ${sendDate.document_data[i].label_name}`,
+            { nzDuration: 5000 }
+          );
+          return;
       }
     }
     if (this.addEditProductForm.valid) {
@@ -498,15 +712,27 @@ export class AddEditPartnersComponent implements OnInit {
         if (!sendDate.document_data[i].id) {
           delete sendDate?.document_data[i]?.id;
         }
-        if (sendDate?.document_data[i]?.documents) {
-          saveDoc.push(sendDate?.document_data[i]?.documents)
-          data.append("documents", sendDate?.document_data[i]?.documents);
-          delete sendDate?.document_data[i]?.documents;
-        }
-        // if(sendDate.documents == null){
-        //   delete sendDate?.documents;
+        // if (sendDate?.document_data[i]?.documents) {
+        //   saveDoc.push(sendDate?.document_data[i]?.documents)
+        //   data.append("documents", sendDate?.document_data[i]?.documents);
+        //   delete sendDate?.document_data[i]?.documents;
         // }
-        // documents
+        if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
+          this.message.error(
+            " Plz Upload Selected Document " +
+              ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
+          );
+          return;
+        } 
+        if (!sendDate.document_data[i].front_back_flag && 
+          !sendDate.document_data[i].document_name){
+            this.message.error(
+              " Plz Upload Selected Document " +
+                ` ${sendDate.document_data[i].label_name}`,
+              { nzDuration: 5000 }
+            );
+            return;
+        }
       }
 
       for (var i in sendDate) {
@@ -589,18 +815,33 @@ export class AddEditPartnersComponent implements OnInit {
     }
 
     for (var i in sendDate.document_data) {
-      if (
-        !sendDate.document_data[i].document_name &&
-        sendDate.document_data[i].label_name
-      ) {
+      // if (
+      //   !sendDate.document_data[i].document_name &&
+      //   sendDate.document_data[i].label_name
+      // ) {
+      //   this.message.error(
+      //     " Plz Upload Selected Document " +
+      //       ` ${sendDate.document_data[i].label_name}` +
+      //       " at index " +
+      //       i,
+      //     { nzDuration: 5000 }
+      //   );
+      //   return;
+      // }
+      if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
           " Plz Upload Selected Document " +
-            ` ${sendDate.document_data[i].label_name}` +
-            " at index " +
-            i,
-          { nzDuration: 5000 }
+            ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
         );
         return;
+      } 
+      if (!sendDate.document_data[i].front_back_flag && 
+        !sendDate.document_data[i].document_name){
+          this.message.error(
+            " Plz Upload Selected Document " +
+              ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
+          );
+          return;
       }
     }
 
@@ -615,11 +856,25 @@ export class AddEditPartnersComponent implements OnInit {
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          if (!sendDate.unique_code) {
-            delete sendDate?.unique_code;
-          }
-          if (sendDate?.document_data[i]?.documents) {
-            saveDoc.push(sendDate?.document_data[i]?.documents)
+          // if (sendDate?.document_data[i]?.documents) {
+          //   saveDoc.push(sendDate?.document_data[i]?.documents)
+          //   data.append("documents", sendDate?.document_data[i]?.documents);
+          //   delete sendDate?.document_data[i]?.documents;
+          // }
+          if (sendDate?.document_data[i]?.front_back_flag) {
+            // saveDoc.push(sendDate?.document_data[i]?.documents)
+            if(sendDate?.document_data[i]?.document_name_front) {
+              data.append("documents", sendDate?.document_data[i]?.documents_front);
+              delete sendDate?.document_data[i]?.documents_front;
+            }
+            if(sendDate?.document_data[i]?.document_name_back) {
+              data.append("documents", sendDate?.document_data[i]?.documents_back);
+              delete sendDate?.document_data[i]?.documents_back;
+            }
+            // data.append("documents", sendDate?.document_data[i]?.documents);
+            // delete sendDate?.document_data[i]?.documents;
+          } 
+          if(!sendDate?.document_data[i]?.front_back_flag) {
             data.append("documents", sendDate?.document_data[i]?.documents);
             delete sendDate?.document_data[i]?.documents;
           }
@@ -679,16 +934,38 @@ export class AddEditPartnersComponent implements OnInit {
           if (!sendDate.unique_code) {
             delete sendDate?.unique_code;
           }
-          console.log(sendDate.document_data[i].documents?.["uid"]);
           // console.log('working' + sendDate.document_data +  ' ' +  i);
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          if (sendDate.document_data[i].documents?.["uid"]) {
-            data.append("documents", sendDate?.document_data[i]?.documents);
-            delete sendDate?.document_data[i]?.documents;
-          } else {
-            delete sendDate?.document_data[i]?.documents;
+          // if (sendDate.document_data[i].documents?.["uid"]) {
+          //   data.append("documents", sendDate?.document_data[i]?.documents);
+          //   delete sendDate?.document_data[i]?.documents;
+          // } else {
+          //   delete sendDate?.document_data[i]?.documents;
+          // }
+          if (sendDate?.document_data[i]?.front_back_flag) {
+            // saveDoc.push(sendDate?.document_data[i]?.documents)
+            if(sendDate?.document_data[i]?.documents_front?.["uid"]) {
+              data.append("documents", sendDate?.document_data[i]?.documents_front);
+              delete sendDate?.document_data[i]?.documents_front;
+            } else {
+              delete sendDate?.document_data[i]?.documents_front;
+            }
+            if(sendDate?.document_data[i]?.documents_back?.["uid"]) {
+              data.append("documents", sendDate?.document_data[i]?.documents_back);
+              delete sendDate?.document_data[i]?.documents_back;
+            } else {
+              delete sendDate?.document_data[i]?.documents_back;
+            }
+          } 
+          if(!sendDate?.document_data[i]?.front_back_flag) {
+            if(sendDate?.document_data[i]?.documents?.["uid"]) {
+              data.append("documents", sendDate?.document_data[i]?.documents);
+              delete sendDate?.document_data[i]?.documents;
+            } else {
+                  delete sendDate?.document_data[i]?.documents;
+              }
           }
         }
         for (var i in sendDate) {
