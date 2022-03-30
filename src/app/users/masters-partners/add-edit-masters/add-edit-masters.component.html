@@ -214,7 +214,7 @@
                 formArrayName="document_data">
                 <!-- <nz-form-label class="text-left" nzNoColon>{{item.controls.label_name.value?.toString().toUpperCase()}}
                 </nz-form-label> -->
-                <div class="col-md-12" [formGroupName]="k">
+                <!-- <div class="col-md-12" [formGroupName]="k">
                     <div class="row">
                         <div class="col-md-7 pl-0">
                             <nz-form-item>
@@ -227,10 +227,6 @@
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'upload')"
                                         >
-                                        <!-- <button nz-button>
-                                            <i nz-icon nzType="upload"></i>
-                                            Click to Upload
-                                        </button> -->
                                         <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
                                         </nz-upload>
                                         <label class="ml-3 align-self-center" [nzDisabled]="item.controls.document_name.value ? false : true" formControlName="is_verified"  nz-checkbox >Verify</label> 
@@ -244,11 +240,141 @@
                             <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
                         </div>
                     </div>
+                </div> -->
+                <div class="col-md-12" [formGroupName]="k">
+                    <div class="row">
+                        <div class="col-md-12" *ngIf="!item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span>
+                                                <i class=" text-primary"  (click)="onClickShowUploadedDocument(item, 'documents')" *ngIf="item.controls.document_name.value" 
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_front.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_front')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name_front.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name_front.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_front')" *ngIf="item.controls.document_name_front.value"
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i  class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_back.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_back')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.documents_back.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <!-- <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.documents_back.value ? false : true"  nz-checkbox >Verify</label>  -->
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_back')" *ngIf="item.controls.documents_back.value"
+                                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4"  *ngIf="item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_front.value">
+                                    <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_front.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                            <div class="row">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="!item.controls.front_back_flag.value">
+                            <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" 
+                            nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 49px;"></i>
+                        </div> -->
+                    </div>
                 </div>
             </ng-container>
             <div class="row no-gutters">
                 <div class="col-12 d-flex justify-content-between">
-                    <button nz-button nzType="link" class="pl-0" (click)="onClickOpenPopUp($event)">+Add Document</button>
+                    <button nz-button nzType="link" class="" (click)="onClickOpenPopUp($event)">+Add Document</button>
                 </div>
             </div>
 
@@ -260,7 +386,6 @@
                             <nz-radio-group formControlName='employee'>
                                 <label nz-radio nzValue="yes">Yes</label>
                                 <label nz-radio nzValue="no">No</label>
-                                <!-- <label nz-radio nzValue="na">N/A</label> -->
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -274,7 +399,6 @@
                             <nz-radio-group formControlName='payout'>
                                 <label nz-radio nzValue="yes">Yes</label>
                                 <label nz-radio nzValue="no">No</label>
-                                <!-- <label nz-radio nzValue="na">N/A</label> -->
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -324,8 +448,12 @@
     <ng-container *nzModalContent>
         <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
         <nz-select class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Document !" style="min-width: 13rem;">
-            <nz-option *ngFor="let item of documentArray" [nzValue]="item" [nzLabel]="item.name">
-            </nz-option>
+            <!-- <nz-option *ngFor="let item of documentArray" [nzValue]="item" [nzLabel]="item.name">
+            </nz-option> -->
+            <ng-container *ngFor="let item of documentArray; index as i"  (ngModelChange)="checkItem($event)">
+                <nz-option [nzValue]="item" [nzLabel]="item.name" *ngIf="!documentFlagArray.includes(item)">
+                </nz-option>
+             </ng-container>
         </nz-select>
     </ng-container>
 </nz-modal>
