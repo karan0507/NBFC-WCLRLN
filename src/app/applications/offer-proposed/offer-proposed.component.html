@@ -130,7 +130,7 @@
                                                                   nzPopconfirmPlacement="bottomRight"
                                                                   (nzOnConfirm)="updateStatus('rejectOffer', data)"
                                                                   (nzOnCancel)="cancel()">
-                                                                  <span class="m-l-5" >Reject</span>
+                                                                  <span class="m-l-5">Reject</span>
                                                             </li>
                                                             <ng-template #popupTitle>
                                                                   Are you sure you want to reject the offer for {{
@@ -380,7 +380,7 @@
                                           </div>
 
                                           <!-- SMS  -->
-                                          <div class="mt-3">
+                                          <!-- <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="smsDetails">
                                                 </nz-page-header>
@@ -416,7 +416,7 @@
                                                             <h6 class="mb-0">SMS Details</h6>
                                                       </div>
                                                 </ng-template>
-                                          </div>
+                                          </div> -->
 
                                           <!-- UnderWriting Rules -->
                                           <div class="mt-3">
@@ -733,6 +733,10 @@
             }} Document</label>
       <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
             Document</label>
+      <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
+                  Party SMS Data</span></label>
+      <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
+                  Data</span></label>
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -913,7 +917,8 @@
             (click)="handleCancel()">Cancel</button>
       <button *ngIf="_isStatus" [nzLoading]="api_calling_loader['button']" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('status')">Submit</button>
-      <button *ngIf="_isEditOffer"  [nzLoading]="api_calling_loader['button']" [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2"
+      <button *ngIf="_isEditOffer" [nzLoading]="api_calling_loader['button']"
+            [disabled]="offerForm.invalid ? true : false" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
