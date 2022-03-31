@@ -21,6 +21,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzCheckboxModule,
     SharedModule,
     NzPaginationModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    DemoNgZorroAntdModule
   ]
 })
 export class EmployeeDetailsModule { }

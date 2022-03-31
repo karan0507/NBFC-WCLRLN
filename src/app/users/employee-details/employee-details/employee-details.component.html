@@ -1,391 +1,1010 @@
 <div class="header_breadcrumb_section">
-    <div class="d-flex justify-content-md-between flex-wrap w-100">
-        <div></div>
-        <div>
-            <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
-            <button nz-button class="ml-auto mr-3 text-primary" nzSize="small"
-                (click)="http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')">Sample File Download<i
-                    nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
-            <button nz-button class="ml-auto px-3 text-primary" nzSize="small"
-                (click)="onClickUploadSelectedFileOfCurrentSection()"> Upload </button>
-            <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
-        </div>
+  <div class="d-flex justify-content-md-between flex-wrap w-100">
+    <div></div>
+    <div>
+      <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
+      <button
+        nz-button
+        class="ml-auto mr-3 text-primary"
+        nzSize="small"
+        (click)="sampleDownload()"
+      >
+        Sample File Download<i
+          nz-icon
+          nzType="cloud-download"
+          nzTheme="outline"
+        ></i>
+      </button>
+      <button
+        nz-button
+        class="ml-auto px-3 text-primary"
+        nzSize="small"
+        (click)="onClickUploadSelectedFileOfCurrentSection()"
+      >
+        Upload
+      </button>
+      <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
     </div>
-
+  </div>
 </div>
 <section>
-    <div class="row mb-md-3">
-        <div class="col-md-12 mb-md-0">
-            <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Employee Database">Employee
-                    Database</label>
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="New Joinees">New
-                    Joinees</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"
-                    nzValue="Attendance">Attendance</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Exit Employee">Exit
-                    Employee</label>
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Notice Period">Notice
-                    Period</label>
-            </nz-radio-group>
-        </div>
+  <div class="row mb-md-3">
+    <div class="col-md-12 mb-md-0">
+      <nz-radio-group
+        (ngModelChange)="onClickChangeTab($event)"
+        [(ngModel)]="selectedTab"
+      >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="Employee Database"
+          >Employee Database</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="New Joinees"
+          >New Joinees</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="Attendance"
+          >Attendance</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="Exit Employee"
+          >Exit Employee</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="Notice Period"
+          >Notice Period</label
+        >
+      </nz-radio-group>
     </div>
+  </div>
 </section>
 
 <section
-    *ngIf="selectedTab === 'New Joinees' || selectedTab === 'Employee Database' || selectedTab === 'Exit Employee' || selectedTab === 'Attendance' ||  selectedTab === 'Notice Period'">
-    <section>
+  *ngIf="
+    selectedTab === 'New Joinees' ||
+    selectedTab === 'Employee Database' ||
+    selectedTab === 'Exit Employee' ||
+    selectedTab === 'Attendance' ||
+    selectedTab === 'Notice Period'
+  "
+>
+  <section>
+    <div class="row">
+      <nz-card class="w-100">
         <div class="row">
-            <nz-card class="w-100">
-                <div class="row">
-                    <div class="col-md-4 mb-3 d-flex">
-                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                            <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text"
-                                nz-input placeholder="Search text" />
-                        </nz-input-group>
-                        <!-- <ng-template #suffixIconButton>
+          <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                (keyup.enter)="getResultBasedOnSearch()"
+                [(ngModel)]="searchValue"
+                type="text"
+                nz-input
+                placeholder="Search text"
+              />
+            </nz-input-group>
+            <!-- <ng-template #suffixIconButton>
                             <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                         </ng-template> -->
-                        <ng-template #suffixIconButton>
-                            <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
-                                    nzType="search"></i></button>
-                        </ng-template>
-                        <button nz-button nzType="default" [disabled]="selectedCorporate || searchValue ? false : true"
-                            nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="mx-3"
-                            (click)="resetFilter()">
-                            <i nz-icon nzType="undo"></i>
-                        </button>
-                    </div>
+            <ng-template #suffixIconButton>
+              <button
+                (click)="getResultBasedOnSearch()"
+                nz-button
+                nzType="secondary"
+                nzSearch
+              >
+                <i nz-icon nzType="search"></i>
+              </button>
+            </ng-template>
+            <button
+              nz-button
+              nzType="default"
+              [disabled]="selectedCorporate || searchValue ? false : true"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Reset Filter"
+              class="mx-3"
+              (click)="resetFilter()"
+            >
+              <i nz-icon nzType="undo"></i>
+            </button>
+          </div>
 
-                    <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                        <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
+          <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
                         (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
                         </nz-option>
                         <nz-option nzValue="All" nzLabel="all">
                         </nz-option>
                     </nz-select> -->
-                        <nz-select class="mx-1" [(ngModel)]="selectedCorporate" nzAllowClear nzPlaceHolder="Select Corporate" (nzFocus)="fetchPartnerList()" style="min-width: 13rem;" 
-                            (ngModelChange)="getResultWithSelectedFilter($event)">
-                            <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
-                                <div *ngIf="item?.name">{{item?.name}}</div>
-                            </nz-option>
-                        </nz-select>
-                        <nz-range-picker class="'ml-3" [(ngModel)]="date" [nzDisabledDate]="disabledDate" nzAllowClear="false"
-                            (ngModelChange)="onChange($event)"></nz-range-picker>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <nz-table [nzTotal]="total_count" [nzLoading]="apiLoader['list']" [nzFrontPagination]="true"
-                            [nzPageIndex]="page" [nzPageSize]="size"
-                            (nzQueryParams)="getEmployeeDetailWithEmployeeTypeAndCorporateId($event)"
-                            [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2">#</th>
-                                    <th nzWidth="14rem">Partner Name</th>
-                                    <th nzWidth="13rem">Added on</th>
-                                    <th>Added By</th>
-                                    <th nzWidth="13rem">Remarks</th>
-                                    <th nzWidth="14rem" nzRight> Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of listOfEmployee; index as i">
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{ data?.partner_name ? data?.partner_name : ' -- ' }}</td>
-                                    <td>
-                                        <div>
-                                            {{ data?.created_at ? (data?.created_at | date :'dd/MM/yy') : ' --/--/-- '}}
-                                        </div>
-                                        <div>
-                                            {{ data?.created_at ? (data?.created_at | date :'h:mm a') : ' -:--: - ' }}
-                                        </div>
-                                    </td>
-                                    <td>{{data?.uploaded_by?.name ? data?.uploaded_by?.name : ' '}}
-                                    </td>
-                                    <td>{{data?.remarks ? data?.remarks : ' '}}</td>
-                                    <td nzRight>
-                                        <a nz-button class="primary" nzType="link"
-                                            (click)="onClickGetUploadedDocDetail(data?.id, 'view')">View</a>
-                                        <a nz-button nzType="link"
-                                            (click)="onClickGetUploadedDocDetail(data?.id, 'download')">Download</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </nz-table>
-                    </div>
-                </div>
-            </nz-card>
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedCorporate"
+              nzAllowClear
+              nzPlaceHolder="Select Corporate"
+              (nzFocus)="fetchPartnerList()"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of corporateList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item?.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+            <nz-range-picker
+              class="'ml-3"
+              [(ngModel)]="date"
+              [nzDisabledDate]="disabledDate"
+              nzAllowClear="false"
+              (ngModelChange)="onChange($event)"
+            ></nz-range-picker>
+          </div>
         </div>
-    </section>
-
+        <div class="row">
+          <div class="col-12">
+            <nz-table
+              [nzTotal]="total_count" [nzFrontPagination]="false"
+              [nzPageIndex]="page"
+              [nzLoading]="apiLoader['list']"
+              [nzPageSize]="size"
+              (nzQueryParams)="
+                getEmployeeDetailWithEmployeeTypeAndCorporateId($event)
+              "
+              [nzShowSizeChanger]="true"
+              [nzData]="listOfEmployee"
+            >
+              <thead>
+                <tr>
+                  <th rowspan="2">#</th>
+                  <th nzWidth="14rem">Partner Name</th>
+                  <th nzWidth="13rem">Added on</th>
+                  <th>Added By</th>
+                  <th nzWidth="13rem">Remarks</th>
+                  <th nzWidth="14rem" nzRight>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of listOfEmployee; index as i">
+                  <!-- <td>{{ i + 1 }}</td> -->
+                  <td *ngIf="page === 1">{{ i + 1 }}</td>
+                  <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
+                  <td>
+                    {{ data?.partner_name ? data?.partner_name : " -- " }}
+                  </td>
+                  <td>
+                    <div>
+                      {{
+                        data?.created_at
+                          ? (data?.created_at | date: "dd/MM/yy")
+                          : " --/--/-- "
+                      }}
+                    </div>
+                    <div>
+                      {{
+                        data?.created_at
+                          ? (data?.created_at | date: "h:mm a")
+                          : " -:--: - "
+                      }}
+                    </div>
+                  </td>
+                  <td>
+                    {{
+                      data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
+                    }}
+                  </td>
+                  <td>{{ data?.remarks ? data?.remarks : " " }}</td>
+                  <td nzRight>
+                    <a
+                      nz-button
+                      class="primary"
+                      nzType="link"
+                      (click)="onClickGetUploadedDocDetail(data?.id, 'view')"
+                      >View</a
+                    >
+                    <a
+                      nz-button
+                      nzType="link"
+                      (click)="
+                        onClickGetUploadedDocDetail(data?.id, 'download')
+                      "
+                      >Download</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </section>
 </section>
 
+<!-- For FIle Uplaod and preview -->
+
 <section>
-    <nz-modal [nzWidth]="isVisibleModal['previewIsVisible'] ? '1100px' : '500px'"
-        [(nzVisible)]="isVisibleModal['modalIsVisible']"
-        [nzTitle]="('Upload File for Selected Section ' + selectedTab) " (nzOnCancel)="handleCancel()"
-        [nzFooter]="footerModal">
-        <ng-container *nzModalContent>
-            <form *ngIf="!isVisibleModal['previewIsVisible']" [formGroup]="uploadSelectedCorporateFile">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Select
-                                Partner</nz-form-label>
-                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <nz-select formControlName="partner" nzAllowClear
-                                    nzPlaceHolder="Partner Name" (ngModelChange)="onClickSelectFireBranchAPI($event)">
-                                    <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk"
-                                        [nzLabel]="item?.name"></nz-option>
-                                </nz-select>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="partner" nzRequired>Selected
-                                Branch</nz-form-label>
-                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <input nz-input type="text" placeholder="Branch" formControlName="branch_name"
-                                    [disabled]='true' />
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="remarks" nzRequired>Remarks
-                            </nz-form-label>
-                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid Corporate'>
-                                <textarea nz-input formControlName="remarks" placeholder="Controlled autosize"
-                                    [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <!--  -->
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="file" nzRequired>Insert File
-                            </nz-form-label>
-                            <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip='Please Select Valid File'>
-                                <nz-upload [nzMultiple]="'false'" [nzAccept]="'.xlsx, .xls'"
-                                    [nzCustomRequest]="customUpload" (nzChange)="onUpload($event, k, 'upload')">
-                                    <button nz-button nzType="link"><i nz-icon
-                                            nzType="upload"></i>{{uploadSelectedCorporateFile.controls.file.value ? '
-                                        Re-Upload File' : 'Upload File'}}</button>
-                                </nz-upload>
-                            </nz-form-control>
-                        </nz-form-item>
-                        <!-- <input type='file' formControlName="file"/> -->
-                    </div>
-                </div>
-            </form>
-            <div class="row" *ngIf="isVisibleModal['previewIsVisible']">
-                <div class="col-12">
-                    <h4>Preview For : {{fileName}} </h4>
-                </div>
-                <div class="col-12" style="overflow-x: auto;">
-                    <nz-table [nzLoading]="apiLoader['list']" [nzFrontPagination]="false" [nzShowSizeChanger]="true"
-                        [nzData]="retrievedFileResponse">
-                        <thead>
+  <nz-modal
+    [nzWidth]="isVisibleModal['previewIsVisible'] ? '1100px' : '800px'"
+    [(nzVisible)]="isVisibleModal['modalIsVisible']"
+    [nzTitle]="'Upload File for Selected Section ' + selectedTab"
+    (nzOnCancel)="handleCancel()"
+    [nzFooter]="footerModal"
+  >
+    <ng-container *nzModalContent>
+      <form
+        *ngIf="!isVisibleModal['hideUpload']"
+        [formGroup]="uploadSelectedCorporateFile"
+      >
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="7"
+                [nzXs]="24"
+                class="text-left"
+                nzFor="partner"
+                nzRequired
+                >Select Partner</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="17"
+                [nzXs]="24"
+                nzErrorTip="Please Select Valid Corporate"
+              >
+                <nz-select
+                  formControlName="partner"
+                  nzAllowClear
+                  nzPlaceHolder="Partner Name"
+                  (ngModelChange)="onClickSelectFireBranchAPI($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of corporateList"
+                    [nzValue]="item?.pk"
+                    [nzLabel]="item?.name"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="7"
+                [nzXs]="24"
+                class="text-left"
+                nzFor="partner"
+                nzRequired
+                >Selected Branch</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="17"
+                [nzXs]="24"
+                nzErrorTip="Please Select Valid Corporate"
+              >
+                <input
+                  nz-input
+                  type="text"
+                  placeholder="Branch"
+                  formControlName="branch_name"
+                  [disabled]="true"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="7"
+                [nzXs]="24"
+                class="text-left"
+                nzFor="remarks"
+                nzRequired
+                >Remarks
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="17"
+                [nzXs]="24"
+                nzErrorTip="Please Select Valid Corporate"
+              >
+                <textarea
+                  nz-input
+                  formControlName="remarks"
+                  placeholder="Controlled autosize"
+                  [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+                ></textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <!--  -->
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="7"
+                [nzXs]="24"
+                class="text-left"
+                nzFor="file"
+                nzRequired
+                >Insert File
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="17"
+                [nzXs]="24"
+                nzErrorTip="Please Select Valid File"
+              >
+                <nz-upload
+                  [nzMultiple]="'false'"
+                  [nzAccept]="'.xlsx, .xls'"
+                  [nzCustomRequest]="customUpload"
+                  (nzChange)="onUpload($event, k, 'upload')"
+                >
+                  <button nz-button nzType="link">
+                    <i nz-icon nzType="upload"></i
+                    >{{
+                      uploadSelectedCorporateFile.controls.file.value
+                        ? "
+                                        Re-Upload File"
+                        : "Upload File"
+                    }}
+                  </button>
+                </nz-upload>
+              </nz-form-control>
+            </nz-form-item>
+            <!-- <input type='file' formControlName="file"/> -->
+          </div>
+        </div>
+      </form>
+      <div class="row" *ngIf="isVisibleModal['previewIsVisible']">
+        <div class="col-12">
+          <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-12" style="overflow-x: auto">
+          <nz-table
+            [nzLoading]="apiLoader['list']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="retrievedFileResponse"
+          >
+            <!-- <thead>
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th *ngFor="let data of retrievedFileResponseKey; index as i">{{data}}</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of retrievedFileResponse?.data; index as i">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ data?.First_Name ? data?.First_Name : ' ' }}</td>
-                                <td>{{ data?.Middle_Name ? data?.Middle_Name : ' ' }}</td>
-                                <td>{{ data?.Last_Name ? data?.Last_Name : ' ' }}</td>
-                                <td>{{ data?.Emp_ID ? data?.Emp_ID : ' -- ' }}</td>
-                                <td> {{data?.Sex ? data?.Sex : ' - ' }} </td>
-                                <td> {{data?.DOB ? (data?.DOB | date : 'dd-MM-yy') : ' - '}} </td>
-                                <td> {{data?.Joining_Date ? (data?.Joining_Date | date : 'dd-MM-yy') : ' - ' }}</td>
-                                <td> {{data?.Gross_Monthly_income ? data?.Gross_Monthly_income : ' - ' }} </td>
-                                <td> {{data?.Net_monthly_income ? data?.Net_monthly_income : ' '}} </td>
-                                <td> {{data?.Advance_salary_from_company ? data?.Advance_salary_from_company : ' -- ' }}
-                                </td>
-                                <td> {{data?.Marital_Status ? data?.Marital_Status : ' -- ' }} </td>
-                                <td> {{data?.No_of_Children ? data?.No_of_Children : ' - '}} </td>
-                                <td> {{data?.Father_Name ? data?.Father_Name : ' - '}} </td>
-                                <td> {{data?.Dependant ? data?.Dependant : ' - ' }} </td>
-                                <td> {{data?.Office_Tel_No ? data?.Office_Tel_No : ' - '}} </td>
-                                <td> {{data?.Office_Extn_No ? data?.Office_Extn_No : ' '}} </td>
-                                <td> {{data?.official_Email_ID ? data?.official_Email_ID : ' - '}} </td>
-                                <td>{{data?.Mobile_no ? data?.Mobile_no : ' - '}}</td>
-                                <td>{{data?.Home_no ? data?.Home_no : ' - '}}</td>
-                                <td>{{data?.Personal_Email_id ? data?.Personal_Email_id: ' - '}}</td>
-                                <td>{{ data?.Employee_Type ? data?.Employee_Type : ' -- ' }}</td>
-                                <td> {{data?.Active_Status ? data?.Active_Status : ' - '}} </td>
-                                <td> {{data?.Branch_Name ? data?.Branch_Name : ' - ' }} </td>
-                                <td> {{data?.Branch_Address ? data?.Branch_Address : ' - '}} </td>
-                                <td> {{data?.Department_Name ? data?.Department_Name : ' - '}} </td>
-                                <td> {{data?.Manager_Name ? data?.Manager_Name : ' -- '}} </td>
-                                <td> {{data?.Designation_Name ? data?.Designation_Name : ' - '}} </td>
-                                <td> {{data?.Division_Name ? data?.Division_Name : ' - '}} </td>
-                                <td> {{data?.Crspnd_Street_No ? data?.Crspnd_Street_No : ' - '}} </td>
-                                <td> {{data?.Crspnd_Street ? data?.Crspnd_Street : ' - '}} </td>
-                                <td> {{data?.Crspnd_Block ? data?.Crspnd_Block : ' - ' }} </td>
-                                <td> {{data?.Crspnd_Building ? data?.Crspnd_Building : ' - '}} </td>
-                                <td> {{data?.Crspnd_PS ? data?.Crspnd_PS : ' - '}} </td>
-                                <td> {{data?.Crspnd_PO ? data?.Crspnd_PO : ' - '}} </td>
-                                <td> {{data?.Crspnd_Landmark ? data?.Crspnd_Landmark : ' - '}}</td>
-                                <td> {{data?.Crspnd_City ? data?.Crspnd_City : ' - ' }}</td>
-                                <td> {{data?.Crspnd_ZIP ? data?.Crspnd_ZIP : ' - '}} </td>
-                                <td> {{data?.Crspnd_State ? data?.Crspnd_State : ' - '}} </td>
-                                <td> {{data?.Crspnd_State_Name ? data?.Crspnd_State_Name : ' - '}} </td>
-                                <td> {{data?.Crspnd_Country ? data?.Crspnd_Country : ' - ' }} </td>
-                                <td> {{data?.Crspnd_Country_Name ? data?.Crspnd_Country_Name : ' - '}} </td>
-                                <td> {{data?.Prmnt_Street_No ? data?.Prmnt_Street_No : ' - '}} </td>
-                                <td> {{data?.Prmnt_Street ? data?.Prmnt_Street : ' - '}} </td>
-                                <td> {{data?.Prmnt_Block ? data?.Prmnt_Block : ' - '}} </td>
-                                <td> {{data?.Prmnt_Building ? data?.Prmnt_Building : ' - '}} </td>
-                                <td> {{data?.Prmnt_PS ? data?.Prmnt_PS : ' - '}} </td>
-                                <td> {{data?.Prmnt_PO ? data?.Prmnt_PO : ' - '}} </td>
-                                <td> {{data?.Prmnt_Landmark ? data?.Prmnt_Landmark : ' - '}} </td>
-                                <td> {{data?.Prmnt_City ? data?.Prmnt_City : ' ' }}</td>
-                                <td> {{data?.Prmnt_ZIP ? data?.Prmnt_ZIP : ' - '}} </td>
-                                <td> {{data?.Prmnt_State ? data?.Prmnt_State : ' '}} </td>
-                                <td> {{data?.Prmnt_State_Name ? data?.Prmnt_State_Name : ' - '}} </td>
-                                <td> {{data?.Prmnt_Country ? data?.Prmnt_Country : ' - '}} </td>
-                                <td> {{data?.Prmnt_Country1 ? data?.Prmnt_Country1 : ' - '}} </td>
-                                <td> {{data?.Bank_Name ? data?.Bank_Name: ' - '}} </td>
-                                <td> {{data?.IFSC_Code ? data?.IFSC_Code : ' - '}} </td>
-                                <td> {{data?.Bank_Branch ? data?.Bank_Branch : ' - '}} </td>
-                                <td> {{data?.Bank_Account ? data?.Bank_Account : ' -- '}} </td>
-                                <td> {{data?.Name_in_Bank ? data?.Name_in_Bank : ' -- '}} </td>
-                                <td> {{data?.Benificiary_Name ? data?.Benificiary_Name : ' -- '}} </td>
-                                <td> {{data?.Confirmation_Date ? data?.Confirmation_Date : ' -- '}} </td>
-                                <td> {{data?.Resignation_Date ? data?.Resignation_Date : ' -- ' }}</td>
-                                <td> {{data?.Last_Working_Date ? data?.Last_Working_Date : ' - '}} </td>
-                                <td> {{data?.GratuityNominee ? data?.GratuityNominee : ' - '}} </td>
-                                <td> {{data?.PFNominee ? data?.PFNominee : ' '}} </td>
-                                <td> {{data?.Aadhar_No ? data?.Aadhar_No : ' '}} </td>
-                                <td> {{data?.Driving_License_No ? data?.Driving_License_No : ' - '}} </td>
-                                <td> {{data?.Passport_No ? data?.Passport_No : ' -- '}} </td>
-                                <td> {{data?.Pan_no ? data?.Pan_no : ' -- '}} </td>
-                                <!-- <td> {{data?.Photo  </td> -->
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                </div>
-            </div>
-
-        </ng-container>
-    </nz-modal>
+                        </thead> -->
+            <thead>
+              <tr>
+                <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
+                  <th *ngIf=" i == 0" rowspan="2">#</th>
+                  <th  *ngIf="data != 'Photo' && data != 'errors' ">
+                    {{ data }}
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of retrievedFileResponse; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.First_Name ? data?.First_Name : " " }}</td>
+                <td>{{ data?.Middle_Name ? data?.Middle_Name : " " }}</td>
+                <td>{{ data?.Last_Name ? data?.Last_Name : " " }}</td>
+                <td>{{ data?.Emp_ID ? data?.Emp_ID : " -- " }}</td>
+                <td>{{ data?.Sex ? data?.Sex : " - " }}</td>
+                <td>
+                  {{ data?.DOB ? (data?.DOB | date: "dd-MM-yy") : " - " }}
+                </td>
+                <td>
+                  {{
+                    data?.Joining_Date
+                      ? (data?.Joining_Date | date: "dd-MM-yy")
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Gross_Monthly_income
+                      ? data?.Gross_Monthly_income
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Net_monthly_income ? data?.Net_monthly_income : " "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Advance_salary_from_company
+                      ? data?.Advance_salary_from_company
+                      : " -- "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Marital_Status ? data?.Marital_Status : " -- " }}
+                </td>
+                <td>
+                  {{ data?.No_of_Children ? data?.No_of_Children : " - " }}
+                </td>
+                <td>{{ data?.Father_Name ? data?.Father_Name : " - " }}</td>
+                <td>{{ data?.Dependant ? data?.Dependant : " - " }}</td>
+                <td>{{ data?.Office_Tel_No ? data?.Office_Tel_No : " - " }}</td>
+                <td>{{ data?.Office_Extn_No ? data?.Office_Extn_No : " " }}</td>
+                <td>
+                  {{
+                    data?.official_Email_ID ? data?.official_Email_ID : " - "
+                  }}
+                </td>
+                <td>{{ data?.Mobile_no ? data?.Mobile_no : " - " }}</td>
+                <td>{{ data?.Home_no ? data?.Home_no : " - " }}</td>
+                <td>
+                  {{
+                    data?.Personal_Email_id ? data?.Personal_Email_id : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Employee_Type ? data?.Employee_Type : " -- " }}
+                </td>
+                <td>{{ data?.Active_Status ? data?.Active_Status : " - " }}</td>
+                <td>{{ data?.Branch_Name ? data?.Branch_Name : " - " }}</td>
+                <td>
+                  {{ data?.Branch_Address ? data?.Branch_Address : " - " }}
+                </td>
+                <td>
+                  {{ data?.Department_Name ? data?.Department_Name : " - " }}
+                </td>
+                <td>{{ data?.Manager_Name ? data?.Manager_Name : " -- " }}</td>
+                <td>
+                  {{ data?.Designation_Name ? data?.Designation_Name : " - " }}
+                </td>
+                <td>{{ data?.Division_Name ? data?.Division_Name : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Street_No ? data?.Crspnd_Street_No : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_Street ? data?.Crspnd_Street : " - " }}</td>
+                <td>{{ data?.Crspnd_Block ? data?.Crspnd_Block : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Building ? data?.Crspnd_Building : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_PS ? data?.Crspnd_PS : " - " }}</td>
+                <td>{{ data?.Crspnd_PO ? data?.Crspnd_PO : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Landmark ? data?.Crspnd_Landmark : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_City ? data?.Crspnd_City : " - " }}</td>
+                <td>{{ data?.Crspnd_ZIP ? data?.Crspnd_ZIP : " - " }}</td>
+                <td>{{ data?.Crspnd_State ? data?.Crspnd_State : " - " }}</td>
+                <td>
+                  {{
+                    data?.Crspnd_State_Name ? data?.Crspnd_State_Name : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Crspnd_Country ? data?.Crspnd_Country : " - " }}
+                </td>
+                <td>
+                  {{
+                    data?.Crspnd_Country_Name
+                      ? data?.Crspnd_Country_Name
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Prmnt_Street_No ? data?.Prmnt_Street_No : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_Street ? data?.Prmnt_Street : " - " }}</td>
+                <td>{{ data?.Prmnt_Block ? data?.Prmnt_Block : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Building ? data?.Prmnt_Building : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_PS ? data?.Prmnt_PS : " - " }}</td>
+                <td>{{ data?.Prmnt_PO ? data?.Prmnt_PO : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Landmark ? data?.Prmnt_Landmark : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_City ? data?.Prmnt_City : " " }}</td>
+                <td>{{ data?.Prmnt_ZIP ? data?.Prmnt_ZIP : " - " }}</td>
+                <td>{{ data?.Prmnt_State ? data?.Prmnt_State : " " }}</td>
+                <td>
+                  {{ data?.Prmnt_State_Name ? data?.Prmnt_State_Name : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_Country ? data?.Prmnt_Country : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Country1 ? data?.Prmnt_Country1 : " - " }}
+                </td>
+                <td>{{ data?.Bank_Name ? data?.Bank_Name : " - " }}</td>
+                <td>{{ data?.IFSC_Code ? data?.IFSC_Code : " - " }}</td>
+                <td>{{ data?.Bank_Branch ? data?.Bank_Branch : " - " }}</td>
+                <td>{{ data?.Bank_Account ? data?.Bank_Account : " -- " }}</td>
+                <td>{{ data?.Name_in_Bank ? data?.Name_in_Bank : " -- " }}</td>
+                <td>
+                  {{ data?.Benificiary_Name ? data?.Benificiary_Name : " -- " }}
+                </td>
+                <td>
+                  {{
+                    data?.Confirmation_Date ? data?.Confirmation_Date : " -- "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Resignation_Date ? data?.Resignation_Date : " -- " }}
+                </td>
+                <td>
+                  {{
+                    data?.Last_Working_Date ? data?.Last_Working_Date : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.GratuityNominee ? data?.GratuityNominee : " - " }}
+                </td>
+                <td>{{ data?.PFNominee ? data?.PFNominee : " " }}</td>
+                <td>{{ data?.Aadhar_No ? data?.Aadhar_No : " " }}</td>
+                <td>
+                  {{
+                    data?.Driving_License_No ? data?.Driving_License_No : " - "
+                  }}
+                </td>
+                <td>{{ data?.Passport_No ? data?.Passport_No : " -- " }}</td>
+                <td>{{ data?.Pan_no ? data?.Pan_no : " -- " }}</td>
+                <td>
+                  <span *ngIf="!data?.row_status" class="text-danger"
+                    >Error &nbsp;
+                    <i
+                      nz-icon
+                      nzType="info-circle"
+                      nzTheme="outline"
+                      style="cursor: pointer"
+                      nz-popover
+                      [nzPopoverContent]="contentTemplate"
+                      nzPopoverPlacement="top"
+                    ></i>
+                  </span>
+                  <span *ngIf="data?.row_status" class="text-success"
+                    >Success</span
+                  >
+                  <ng-template #contentTemplate>
+                    <div class="px-3">
+                      <ul *ngFor="let item of data.errors">
+                        <li class="text-danger">{{ item }}</li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                </td>
+                <!-- <td> {{data?.row_status ? data?.row_status : ' -- '}} </td> -->
+                <!-- <td> {{data?.Photo  </td> -->
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+      <div class="row" *ngIf="isVisibleModal['previewForExitEmployee']">
+        <div class="col-12">
+          <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-12" style="overflow-x: auto">
+          <nz-table
+            [nzLoading]="apiLoader['list']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="retrievedFileResponse"
+          >
+            <thead>
+              <tr>
+                <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
+                  <th *ngIf=" i == 0" rowspan="2">#</th>
+                  <th  *ngIf="data != 'Photo' && data != 'errors' ">
+                    {{ data }}
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of retrievedFileResponse; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.Employee_ID ? data?.Employee_ID : " " }}</td>
+                <td>{{ data?.Last_working_date ? data?.Last_working_date : " " }}</td>
+                <td>
+                  <span *ngIf="!data?.row_status" class="text-danger"
+                    >Error &nbsp;
+                    <i
+                      nz-icon
+                      nzType="info-circle"
+                      nzTheme="outline"
+                      style="cursor: pointer"
+                      nz-popover
+                      [nzPopoverContent]="contentTemplate"
+                      nzPopoverPlacement="top"
+                    ></i>
+                  </span>
+                  <span *ngIf="data?.row_status" class="text-success"
+                    >Success</span
+                  >
+                  <ng-template #contentTemplate>
+                    <div class="px-3">
+                      <ul *ngFor="let item of data.errors">
+                        <li class="text-danger">{{ item }}</li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+      <div class="row" *ngIf="isVisibleModal['previewForAttandance']">
+        <div class="col-12">
+          <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-12" style="overflow-x: auto">
+          <nz-table
+            [nzLoading]="apiLoader['list']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="retrievedFileResponse"
+          >
+            <thead>
+              <tr>
+                <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
+                  <th *ngIf=" i == 0" rowspan="2">#</th>
+                  <th  *ngIf="data != 'Photo' && data != 'errors' ">
+                    {{ data }}
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of retrievedFileResponse; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.Employee_ID ? data?.Employee_ID : " " }}</td>
+                <td>{{ data?.Date ? data?.Date : " " }}</td>
+                <td>{{ data?.Number_of_working_hours ? data?.Number_of_working_hours : " " }}</td>
+                <td>
+                  <span *ngIf="!data?.row_status" class="text-danger"
+                    >Error &nbsp;
+                    <i
+                      nz-icon
+                      nzType="info-circle"
+                      nzTheme="outline"
+                      style="cursor: pointer"
+                      nz-popover
+                      [nzPopoverContent]="contentTemplate"
+                      nzPopoverPlacement="top"
+                    ></i>
+                  </span>
+                  <span *ngIf="data?.row_status" class="text-success"
+                    >Success</span
+                  >
+                  <ng-template #contentTemplate>
+                    <div class="px-3">
+                      <ul *ngFor="let item of data.errors">
+                        <li class="text-danger">{{ item }}</li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
 </section>
 
+<!-- For FIle Uplaod and preview -->
 <ng-template #footerModal>
-    <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" class="mx-2" *ngIf="!isVisibleModal['previewIsVisible']"
-        [nzLoading]="isVisibleModal['previewButtonLoading']" nzGhost [disabled]="!uploadSelectedCorporateFile.valid"
-        (click)="handleOk()">Click to Preview </button>
-    <button nz-button nzType="primary" class="mx-2" *ngIf="isVisibleModal['previewIsVisible']"
-        [nzLoading]="isVisibleModal['uploadButtonLoading']" (click)="onClickUploadFile()">Upload File</button>
+<div *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'">
+  <button nz-button nzType="link" class="border" (click)="handleCancel()">
+    Cancel
+  </button>
+  <button
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    *ngIf="!isVisibleModal['previewIsVisible']"
+    [nzLoading]="isVisibleModal['previewButtonLoading']"
+    nzGhost
+    [disabled]="!uploadSelectedCorporateFile.valid"
+    (click)="handleOk()"
+  >
+    Click to Preview
+  </button>
+  <button
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    *ngIf="isVisibleModal['previewIsVisible']"
+    [nzLoading]="isVisibleModal['uploadButtonLoading']"
+    (click)="onClickUploadFile()"
+  >
+    Upload File
+  </button>
+</div>
+<div *ngIf="selectedTab == 'Attendance'">
+    <button nz-button nzType="link" class="border" (click)="handleCancel()">
+      Cancel
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mx-2"
+      *ngIf="!isVisibleModal['previewForAttandance']"
+      [nzLoading]="isVisibleModal['previewButtonLoading']"
+      nzGhost
+      [disabled]="!uploadSelectedCorporateFile.valid"
+      (click)="handleOk()"
+    >
+      Click to Preview
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mx-2"
+      *ngIf="isVisibleModal['previewForAttandance']"
+      [nzLoading]="isVisibleModal['previewButtonLoading']"
+      (click)="onClickUploadFile()"
+    >
+      Upload File
+    </button>
+</div>
+<div *ngIf="selectedTab == 'Exit Employee'">
+    <button nz-button nzType="link" class="border" (click)="handleCancel()">
+      Cancel
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mx-2"
+      *ngIf="!isVisibleModal['previewForExitEmployee']"
+      [nzLoading]="isVisibleModal['previewButtonLoading']"
+      nzGhost
+      [disabled]="!uploadSelectedCorporateFile.valid"
+      (click)="handleOk()"
+    >
+      Click to Preview
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mx-2"
+      *ngIf="isVisibleModal['previewForExitEmployee']"
+      [nzLoading]="isVisibleModal['uploadButtonLoading']"
+      (click)="onClickUploadFile()"
+    >
+      Upload File
+    </button>
+</div>
 </ng-template>
 
-
-
 <section>
-    <nz-modal [nzWidth]=" '1100px'" [(nzVisible)]="isViewUploadedData" nzTitle="USER_EMPLOYEE_DETAIL"
-        (nzOnCancel)="isViewUploadedData = false" (nzOnOk)="isViewUploadedData = false">
-        <ng-container *nzModalContent>
-            <div class="row">
-                <div class="col-12" style="overflow-x: auto;">
-                    <nz-table [nzLoading]="isViewLoader['isVisible']" [nzFrontPagination]="false"
-                        [nzShowSizeChanger]="true" [nzData]="isViewLoader['viewContent']">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">#</th>
-                                <th *ngFor="let data of isViewLoader['viewContent']?.keys; index as i">
-                                    <label *ngIf="data != 'Photo'">{{data}}</label>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of isViewLoader['viewContent']?.data; index as i">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ data?.First_Name ? data?.First_Name : ' ' }}</td>
-                                <td>{{ data?.Middle_Name ? data?.Middle_Name : ' ' }}</td>
-                                <td>{{ data?.Last_Name ? data?.Last_Name : ' ' }}</td>
-                                <td>{{ data?.Emp_ID ? data?.Emp_ID : ' -- ' }}</td>
-                                <td> {{data?.Sex ? data?.Sex : ' - ' }} </td>
-                                <td> {{data?.DOB ? (data?.DOB | date : 'dd-MM-yy') : ' - '}} </td>
-                                <td> {{data?.Joining_Date ? (data?.Joining_Date | date : 'dd-MM-yy') : ' - ' }}</td>
-                                <td> {{data?.Gross_Monthly_income ? data?.Gross_Monthly_income : ' - ' }} </td>
-                                <td> {{data?.Net_monthly_income ? data?.Net_monthly_income : ' '}} </td>
-                                <td> {{data?.Advance_salary_from_company ? data?.Advance_salary_from_company : ' -- ' }}
-                                </td>
-                                <td> {{data?.Marital_Status ? data?.Marital_Status : ' -- ' }} </td>
-                                <td> {{data?.No_of_Children ? data?.No_of_Children : ' - '}} </td>
-                                <td> {{data?.Father_Name ? data?.Father_Name : ' - '}} </td>
-                                <td> {{data?.Dependant ? data?.Dependant : ' - ' }} </td>
-                                <td> {{data?.Office_Tel_No ? data?.Office_Tel_No : ' - '}} </td>
-                                <td> {{data?.Office_Extn_No ? data?.Office_Extn_No : ' '}} </td>
-                                <td> {{data?.official_Email_ID ? data?.official_Email_ID : ' - '}} </td>
-                                <td>{{data?.Mobile_no ? data?.Mobile_no : ' - '}}</td>
-                                <td>{{data?.Home_no ? data?.Home_no : ' - '}}</td>
-                                <td>{{data?.Personal_Email_id ? data?.Personal_Email_id: ' - '}}</td>
-                                <td>{{ data?.Employee_Type ? data?.Employee_Type : ' -- ' }}</td>
-                                <td> {{data?.Active_Status ? data?.Active_Status : ' - '}} </td>
-                                <td> {{data?.Branch_Name ? data?.Branch_Name : ' - ' }} </td>
-                                <td> {{data?.Branch_Address ? data?.Branch_Address : ' - '}} </td>
-                                <td> {{data?.Department_Name ? data?.Department_Name : ' - '}} </td>
-                                <td> {{data?.Manager_Name ? data?.Manager_Name : ' -- '}} </td>
-                                <td> {{data?.Designation_Name ? data?.Designation_Name : ' - '}} </td>
-                                <td> {{data?.Division_Name ? data?.Division_Name : ' - '}} </td>
-                                <td> {{data?.Crspnd_Street_No ? data?.Crspnd_Street_No : ' - '}} </td>
-                                <td> {{data?.Crspnd_Street ? data?.Crspnd_Street : ' - '}} </td>
-                                <td> {{data?.Crspnd_Block ? data?.Crspnd_Block : ' - ' }} </td>
-                                <td> {{data?.Crspnd_Building ? data?.Crspnd_Building : ' - '}} </td>
-                                <td> {{data?.Crspnd_PS ? data?.Crspnd_PS : ' - '}} </td>
-                                <td> {{data?.Crspnd_PO ? data?.Crspnd_PO : ' - '}} </td>
-                                <td> {{data?.Crspnd_Landmark ? data?.Crspnd_Landmark : ' - '}}</td>
-                                <td> {{data?.Crspnd_City ? data?.Crspnd_City : ' - ' }}</td>
-                                <td> {{data?.Crspnd_ZIP ? data?.Crspnd_ZIP : ' - '}} </td>
-                                <td> {{data?.Crspnd_State ? data?.Crspnd_State : ' - '}} </td>
-                                <td> {{data?.Crspnd_State_Name ? data?.Crspnd_State_Name : ' - '}} </td>
-                                <td> {{data?.Crspnd_Country ? data?.Crspnd_Country : ' - ' }} </td>
-                                <td> {{data?.Crspnd_Country_Name ? data?.Crspnd_Country_Name : ' - '}} </td>
-                                <td> {{data?.Prmnt_Street_No ? data?.Prmnt_Street_No : ' - '}} </td>
-                                <td> {{data?.Prmnt_Street ? data?.Prmnt_Street : ' - '}} </td>
-                                <td> {{data?.Prmnt_Block ? data?.Prmnt_Block : ' - '}} </td>
-                                <td> {{data?.Prmnt_Building ? data?.Prmnt_Building : ' - '}} </td>
-                                <td> {{data?.Prmnt_PS ? data?.Prmnt_PS : ' - '}} </td>
-                                <td> {{data?.Prmnt_PO ? data?.Prmnt_PO : ' - '}} </td>
-                                <td> {{data?.Prmnt_Landmark ? data?.Prmnt_Landmark : ' - '}} </td>
-                                <td> {{data?.Prmnt_City ? data?.Prmnt_City : ' ' }}</td>
-                                <td> {{data?.Prmnt_ZIP ? data?.Prmnt_ZIP : ' - '}} </td>
-                                <td> {{data?.Prmnt_State ? data?.Prmnt_State : ' '}} </td>
-                                <td> {{data?.Prmnt_State_Name ? data?.Prmnt_State_Name : ' - '}} </td>
-                                <td> {{data?.Prmnt_Country ? data?.Prmnt_Country : ' - '}} </td>
-                                <td> {{data?.Prmnt_Country1 ? data?.Prmnt_Country1 : ' - '}} </td>
-                                <td> {{data?.Bank_Name ? data?.Bank_Name: ' - '}} </td>
-                                <td> {{data?.IFSC_Code ? data?.IFSC_Code : ' - '}} </td>
-                                <td> {{data?.Bank_Branch ? data?.Bank_Branch : ' - '}} </td>
-                                <td> {{data?.Bank_Account ? data?.Bank_Account : ' -- '}} </td>
-                                <td> {{data?.Name_in_Bank ? data?.Name_in_Bank : ' -- '}} </td>
-                                <td> {{data?.Benificiary_Name ? data?.Benificiary_Name : ' -- '}} </td>
-                                <td> {{data?.Confirmation_Date ? data?.Confirmation_Date : ' -- '}} </td>
-                                <td> {{data?.Resignation_Date ? data?.Resignation_Date : ' -- ' }}</td>
-                                <td> {{data?.Last_Working_Date ? data?.Last_Working_Date : ' - '}} </td>
-                                <td> {{data?.GratuityNominee ? data?.GratuityNominee : ' - '}} </td>
-                                <td> {{data?.PFNominee ? data?.PFNominee : ' '}} </td>
-                                <td> {{data?.Aadhar_No ? data?.Aadhar_No : ' '}} </td>
-                                <td> {{data?.Driving_License_No ? data?.Driving_License_No : ' - '}} </td>
-                                <td> {{data?.Passport_No ? data?.Passport_No : ' -- '}} </td>
-                                <td> {{data?.Pan_no ? data?.Pan_no : ' -- '}} </td>
-                                <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                </div>
-            </div>
-
-        </ng-container>
-    </nz-modal>
+  <nz-modal
+    [nzWidth]="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period' ? '1100px' : '800px'"
+    [(nzVisible)]="isViewUploadedData"
+    nzTitle="Employee Details"
+    (nzOnCancel)="isViewUploadedData = false"
+    (nzOnOk)="isViewUploadedData = false"
+  >
+    <ng-container *nzModalContent>
+      <div class="row">
+        <div class="col-12" style="overflow-x: auto">
+          <nz-table
+            [nzLoading]="isViewLoader['isVisible']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="isViewLoader['viewContent']"
+          >
+            <thead>
+              <tr>
+                <th rowspan="2">#</th>
+                <th
+                  *ngFor="
+                    let data of isViewLoader['viewContent']?.keys;
+                    index as i
+                  "
+                >
+                  <label *ngIf="data != 'Photo'">{{ data }}</label>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let data of isViewLoader['viewContent']?.data;
+                  index as i
+                "
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.First_Name ? data?.First_Name : " " }}</td>
+                <td>{{ data?.Middle_Name ? data?.Middle_Name : " " }}</td>
+                <td>{{ data?.Last_Name ? data?.Last_Name : " " }}</td>
+                <td>{{ data?.Emp_ID ? data?.Emp_ID : " -- " }}</td>
+                <td>{{ data?.Sex ? data?.Sex : " - " }}</td>
+                <td>
+                  {{ data?.DOB ? (data?.DOB | date: "dd-MM-yy") : " - " }}
+                </td>
+                <td>
+                  {{
+                    data?.Joining_Date
+                      ? (data?.Joining_Date | date: "dd-MM-yy")
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Gross_Monthly_income
+                      ? data?.Gross_Monthly_income
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Net_monthly_income ? data?.Net_monthly_income : " "
+                  }}
+                </td>
+                <td>
+                  {{
+                    data?.Advance_salary_from_company
+                      ? data?.Advance_salary_from_company
+                      : " -- "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Marital_Status ? data?.Marital_Status : " -- " }}
+                </td>
+                <td>
+                  {{ data?.No_of_Children ? data?.No_of_Children : " - " }}
+                </td>
+                <td>{{ data?.Father_Name ? data?.Father_Name : " - " }}</td>
+                <td>{{ data?.Dependant ? data?.Dependant : " - " }}</td>
+                <td>{{ data?.Office_Tel_No ? data?.Office_Tel_No : " - " }}</td>
+                <td>{{ data?.Office_Extn_No ? data?.Office_Extn_No : " " }}</td>
+                <td>
+                  {{
+                    data?.official_Email_ID ? data?.official_Email_ID : " - "
+                  }}
+                </td>
+                <td>{{ data?.Mobile_no ? data?.Mobile_no : " - " }}</td>
+                <td>{{ data?.Home_no ? data?.Home_no : " - " }}</td>
+                <td>
+                  {{
+                    data?.Personal_Email_id ? data?.Personal_Email_id : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Employee_Type ? data?.Employee_Type : " -- " }}
+                </td>
+                <td>{{ data?.Active_Status ? data?.Active_Status : " - " }}</td>
+                <td>{{ data?.Branch_Name ? data?.Branch_Name : " - " }}</td>
+                <td>
+                  {{ data?.Branch_Address ? data?.Branch_Address : " - " }}
+                </td>
+                <td>
+                  {{ data?.Department_Name ? data?.Department_Name : " - " }}
+                </td>
+                <td>{{ data?.Manager_Name ? data?.Manager_Name : " -- " }}</td>
+                <td>
+                  {{ data?.Designation_Name ? data?.Designation_Name : " - " }}
+                </td>
+                <td>{{ data?.Division_Name ? data?.Division_Name : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Street_No ? data?.Crspnd_Street_No : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_Street ? data?.Crspnd_Street : " - " }}</td>
+                <td>{{ data?.Crspnd_Block ? data?.Crspnd_Block : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Building ? data?.Crspnd_Building : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_PS ? data?.Crspnd_PS : " - " }}</td>
+                <td>{{ data?.Crspnd_PO ? data?.Crspnd_PO : " - " }}</td>
+                <td>
+                  {{ data?.Crspnd_Landmark ? data?.Crspnd_Landmark : " - " }}
+                </td>
+                <td>{{ data?.Crspnd_City ? data?.Crspnd_City : " - " }}</td>
+                <td>{{ data?.Crspnd_ZIP ? data?.Crspnd_ZIP : " - " }}</td>
+                <td>{{ data?.Crspnd_State ? data?.Crspnd_State : " - " }}</td>
+                <td>
+                  {{
+                    data?.Crspnd_State_Name ? data?.Crspnd_State_Name : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Crspnd_Country ? data?.Crspnd_Country : " - " }}
+                </td>
+                <td>
+                  {{
+                    data?.Crspnd_Country_Name
+                      ? data?.Crspnd_Country_Name
+                      : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Prmnt_Street_No ? data?.Prmnt_Street_No : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_Street ? data?.Prmnt_Street : " - " }}</td>
+                <td>{{ data?.Prmnt_Block ? data?.Prmnt_Block : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Building ? data?.Prmnt_Building : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_PS ? data?.Prmnt_PS : " - " }}</td>
+                <td>{{ data?.Prmnt_PO ? data?.Prmnt_PO : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Landmark ? data?.Prmnt_Landmark : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_City ? data?.Prmnt_City : " " }}</td>
+                <td>{{ data?.Prmnt_ZIP ? data?.Prmnt_ZIP : " - " }}</td>
+                <td>{{ data?.Prmnt_State ? data?.Prmnt_State : " " }}</td>
+                <td>
+                  {{ data?.Prmnt_State_Name ? data?.Prmnt_State_Name : " - " }}
+                </td>
+                <td>{{ data?.Prmnt_Country ? data?.Prmnt_Country : " - " }}</td>
+                <td>
+                  {{ data?.Prmnt_Country1 ? data?.Prmnt_Country1 : " - " }}
+                </td>
+                <td>{{ data?.Bank_Name ? data?.Bank_Name : " - " }}</td>
+                <td>{{ data?.IFSC_Code ? data?.IFSC_Code : " - " }}</td>
+                <td>{{ data?.Bank_Branch ? data?.Bank_Branch : " - " }}</td>
+                <td>{{ data?.Bank_Account ? data?.Bank_Account : " -- " }}</td>
+                <td>{{ data?.Name_in_Bank ? data?.Name_in_Bank : " -- " }}</td>
+                <td>
+                  {{ data?.Benificiary_Name ? data?.Benificiary_Name : " -- " }}
+                </td>
+                <td>
+                  {{
+                    data?.Confirmation_Date ? data?.Confirmation_Date : " -- "
+                  }}
+                </td>
+                <td>
+                  {{ data?.Resignation_Date ? data?.Resignation_Date : " -- " }}
+                </td>
+                <td>
+                  {{
+                    data?.Last_Working_Date ? data?.Last_Working_Date : " - "
+                  }}
+                </td>
+                <td>
+                  {{ data?.GratuityNominee ? data?.GratuityNominee : " - " }}
+                </td>
+                <td>{{ data?.PFNominee ? data?.PFNominee : " " }}</td>
+                <td>{{ data?.Aadhar_No ? data?.Aadhar_No : " " }}</td>
+                <td>
+                  {{
+                    data?.Driving_License_No ? data?.Driving_License_No : " - "
+                  }}
+                </td>
+                <td>{{ data?.Passport_No ? data?.Passport_No : " -- " }}</td>
+                <td>{{ data?.Pan_no ? data?.Pan_no : " -- " }}</td>
+                <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
 </section>
+
+
+
+<nz-modal [(nzVisible)]="isFail" [nzFooter]="null" [nzClosable]="false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup 
+            [title]="''"
+            [subTitle]="'Errors found in the uploaded sheet. Please try again'"
+            [icon]="'assets/images/fail.png'"
+            (onOkCall)="isVisibleModal['previewIsVisible'] = false;isFail = false; isVisibleModal['modalIsVisible'] = true"
+            (onCencelCall)="isFail = false"
+            [cancelBtnTxt]="'Cancel'"
+            [submitBtnTxt]="'Import Excel'">
+        </app-double-confirmation-popup>
+    </ng-container>
+</nz-modal>
