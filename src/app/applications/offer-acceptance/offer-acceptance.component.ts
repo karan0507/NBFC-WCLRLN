@@ -69,6 +69,7 @@ export class OfferAcceptanceComponent implements OnInit {
       _isViewDocument: boolean = false
       verifyRemarks: any;
       _isCibil: boolean = false
+      isFetchCibilSms:boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       page = 1
@@ -402,23 +403,16 @@ export class OfferAcceptanceComponent implements OnInit {
       }
 
       getCibilScoreData(type?, id?) {
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
             let data = { source: 'Onboarding', endpoint: id }
             if (type == 'cibil' && id) {
-                  data['datapoint'] = 'fetch-cibil-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
             } else if (type == 'sms' && id) {
-                  data['datapoint'] = 'fetch-sms-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
             }
       }
 

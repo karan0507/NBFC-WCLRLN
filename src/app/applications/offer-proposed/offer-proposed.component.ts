@@ -262,8 +262,7 @@ export class OfferProposedComponent implements OnInit {
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
-
-
+            this.isFetchCibilSms = false
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
