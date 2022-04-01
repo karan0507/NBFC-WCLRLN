@@ -525,7 +525,7 @@
 <!-- Account Closure -->
 <nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosure" [nzFooter]="null" [nzClosable]="false">
       <ng-container *nzModalContent>
-            <app-double-confirmation-popup [title]="'Do you want to close Akshays account permanently?'"
+            <app-double-confirmation-popup [title]="'Do you want to close account permanently?'"
                   [subTitle]="'This action is irreversible. Are You Sure? '" [icon]="'assets/images/accloser.png'"
                   (onOkCall)="closeAccount(); isAcClosure = false; isAcClosureError = true"
                   (onCencelCall)="isAcClosure = false;" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">

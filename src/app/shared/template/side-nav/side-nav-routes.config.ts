@@ -270,6 +270,14 @@ export const ROUTES: SideNavInterface[] = [
         ]
     },
     {
+        path: '/black-box',
+        title: 'Black box testing',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'file',
+        submenu: []
+    },
+    {
       path: 'coupon-code',
       title: 'Coupon Code',
       iconType: 'nzIcon',

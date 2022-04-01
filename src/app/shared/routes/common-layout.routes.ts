@@ -76,5 +76,9 @@ export const CommonLayout_ROUTES: Routes = [
     {
       path: 'coupon-code',
       loadChildren: () => import('../../coupon-code/coupon-code.module').then(m => m.CouponCodeModule),
-  },
+    },
+    {
+        path: 'black-box',
+        loadChildren: () => import('../../black-box-testing/black-box-testing.module').then(m => m.BlackBoxTestingModule),
+    },
 ];
