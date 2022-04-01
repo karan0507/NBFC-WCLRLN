@@ -22,14 +22,24 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     'cardLoader': false,
     'button': false
   }
+  isDoubleSide: boolean = false;
+  _currentFileName2 : any;
+  fileListSecond : any = []
+  currentDocumentType : any = 1;
   constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService) { }
   ngOnDestroy(): void {
-    // throw new Error('Method not implemented.');
     this.close.emit(false)
   }
 
   ngOnInit(): void {
     console.log(this.documentData);
+    if(this.documentData?.document_master?.require_front_back == 1){
+      // this._currentFileName = this.documentData?.front_file_url
+      // this.fileList[0] = this._currentFileName
+      this.isDoubleSide = true;
+    }else{
+      this.isDoubleSide = false;
+    }
 
   }
 
@@ -96,7 +106,16 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         if (this.documentData?.document_master?.id) {
           uploadDoc.append('document_id', this.documentData?.document_master?.id)
         }
-        uploadDoc.append('file', this._currentFileName)
+        if(this.isDoubleSide && (this.currentDocumentType == 1)){
+          uploadDoc.append('side', 'front')
+          uploadDoc.append('file', this._currentFileName)
+        }else if(this.isDoubleSide && (this.currentDocumentType == 2)){
+          uploadDoc.append('side', 'back')
+          uploadDoc.append('file', this._currentFileName2)
+        }else{
+          uploadDoc.append('file', this._currentFileName)
+        }
+        
         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
           if (res?.success) {
             this.api_calling_loader['button'] = false;
@@ -123,6 +142,14 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     this.fileList = [];
     this.fileList = this.fileList.concat(file);
     this._currentFileName = file;
+    // this.generateBase64View(file)
+    return false;
+  };
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileListSecond = [];
+    this.fileListSecond = this.fileListSecond.concat(file);
+    this._currentFileName2 = file;
     // this.generateBase64View(file)
     return false;
   };
