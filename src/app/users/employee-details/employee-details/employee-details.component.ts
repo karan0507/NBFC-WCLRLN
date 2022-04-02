@@ -362,8 +362,6 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   sampleDownload(){
-    console.log(this.selectedTab);
-    return
     if(this.selectedTab == 'Employee Database' || this.selectedTab == 'New Joinees'){
       this.http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')
     } else if (this.selectedTab == 'Exit Employee'){
