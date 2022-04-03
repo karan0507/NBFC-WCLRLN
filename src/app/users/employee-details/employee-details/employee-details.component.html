@@ -791,13 +791,12 @@
     [nzWidth]="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period' ? '1100px' : '800px'"
     [(nzVisible)]="isViewUploadedData"
     nzTitle="Employee Details"
-    (nzOnCancel)="isViewUploadedData = false"
-    (nzOnOk)="isViewUploadedData = false"
+    [nzFooter]="footerModalView"
   >
     <ng-container *nzModalContent>
       <div class="row">
         <div class="col-12" style="overflow-x: auto">
-          <nz-table
+          <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'"
             [nzLoading]="isViewLoader['isVisible']"
             [nzFrontPagination]="false"
             [nzShowSizeChanger]="true"
@@ -987,11 +986,83 @@
               </tr>
             </tbody>
           </nz-table>
+          <nz-table *ngIf="selectedTab == 'Attendance'"
+            [nzLoading]="isViewLoader['isVisible']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="isViewLoader['viewContent']"
+          >
+            <thead>
+              <tr>
+                <th rowspan="2">#</th>
+                <th
+                  *ngFor="
+                    let data of isViewLoader['viewContent']?.keys;
+                    index as i
+                  "
+                >
+                  <label *ngIf="data != 'Photo'">{{ data }}</label>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let data of isViewLoader['viewContent']?.data;
+                  index as i
+                "
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.Employee_ID ? data?.Employee_ID : " " }}</td>
+                <td>{{ data?.Date ? (data?.Date | date: 'dd MMM yyyy') : " " }}</td>
+                <td>{{ data?.Number_of_working_hours ? data?.Number_of_working_hours : " " }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+          <nz-table *ngIf="selectedTab == 'Exit Employee'"
+            [nzLoading]="isViewLoader['isVisible']"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true"
+            [nzData]="isViewLoader['viewContent']"
+          >
+            <thead>
+              <tr>
+                <th rowspan="2">#</th>
+                <th
+                  *ngFor="
+                    let data of isViewLoader['viewContent']?.keys;
+                    index as i
+                  "
+                >
+                  <label *ngIf="data != 'Photo'">{{ data }}</label>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let data of isViewLoader['viewContent']?.data;
+                  index as i
+                "
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ data?.Employee_ID ? data?.Employee_ID : " " }}</td>
+                <td>{{ data?.Last_working_date ? (data?.Last_working_date | date: 'dd MMM yyyy'): " " }}</td>
+                <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
+              </tr>
+            </tbody>
+          </nz-table>
         </div>
       </div>
     </ng-container>
   </nz-modal>
 </section>
+
+<ng-template #footerModalView>
+  <button nz-button nzType="link" class="border" (click)="isViewUploadedData = false">
+    Ok
+  </button>
+</ng-template>
 
 
 
