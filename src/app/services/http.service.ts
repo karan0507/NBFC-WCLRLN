@@ -859,7 +859,8 @@ export class HttpService {
       }
 
       restrictType(event) {
-            if (event.which == 107 || event.which == 109 || event.which == 69) {
+            console.log(event.which)
+            if (event.which == 107 || event.which == 109 || event.which == 69 || event.which == 187 || event.which == 189) {
                   return false;
             }
       }

@@ -420,6 +420,27 @@
                     </div>
                 </div>
             </div>
+            <h5 class="w-100">Limit</h5>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Minimum Amount (%) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.global_min_limit ? productDetails?.product_limits?.global_min_limit : '-'}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Maximum Amount(%) :
+                    </div>
+                    <div class="col-md-8">
+                        {{productDetails?.product_limits?.global_max_limit ? productDetails?.product_limits?.global_max_limit : '-'}}
+                    </div>
+                </div>
+            </div>
         </div>
     </nz-card>
 </section>
