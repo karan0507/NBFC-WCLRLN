@@ -745,6 +745,8 @@
             }} Document</label>
       <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
             Document</label>
+      <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS Data</span></label>
+
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -906,6 +908,17 @@
                         <!-- (click)="isPreview = true; isUpload = false" -->
                   </nz-upload>
             </section>
+
+            <section *ngIf="_isPullData">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
+            </section>
+            <section *ngIf="isFetchCibilSms">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails"
+                        [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
+            </section>
+
       </nz-modal>
 </section>
 <ng-template #footerModal>
