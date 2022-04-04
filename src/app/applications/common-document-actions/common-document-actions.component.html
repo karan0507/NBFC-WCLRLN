@@ -2,7 +2,26 @@
     <nz-card class="border-0" [nzLoading]="api_calling_loader['cardLoader']">
         <!-- View Document -->
         <section *ngIf="action == 'viewDocument'">
-            <embed [src]="sanatizeUrlToSafe(documentData.file_url)" class="w-100 h-100">
+            <div class="row">
+                <div class="col-md-12 mb-3" *ngIf="isDoubleSide">
+                    <h6>View {{ documentData?.document_master?.name }}</h6>
+                    <nz-radio-group [(ngModel)]="currentDocumentType" nzButtonStyle="solid">
+                        <label class="mb-3 mb-md-0" nz-radio [nzValue]="1">Front View</label>
+                        <label class="mb-3 mx-3 mb-md-0" nz-radio [nzValue]="2">Back View</label>
+                        <!-- <label *ngIf="incentiveType === 'Target'" class="mb-3 mb-md-0" nz-radio nzValue="logs">Logs</label> -->
+                    </nz-radio-group>
+                </div>
+                <div class="col-md-12"
+                    *ngIf="isDoubleSide ? isDoubleSide && (currentDocumentType == 1) : currentDocumentType == 1">
+                    <embed
+                        [src]="sanatizeUrlToSafe((isDoubleSide ? (isDoubleSide && (currentDocumentType == 1) ? documentData?.front_file_url : documentData?.back_file_url) : documentData?.file_url))"
+                        class="w-100 h-100">
+                </div>
+                <div class="col-md-12"
+                    *ngIf="isDoubleSide ? isDoubleSide && (currentDocumentType == 2) : currentDocumentType == 2">
+                    <embed [src]="sanatizeUrlToSafe(documentData?.back_file_url)" class="w-100 h-100">
+                </div>
+            </div>
         </section>
         <!-- Verify Document -->
         <section *ngIf="action == 'verifyDocument' ? true : false">
@@ -10,7 +29,7 @@
                 <div> Verify {{ documentData?.document_master?.name + ' Document'}}
                 </div>
                 <div class="d-flex flex-column">
-                    <div class="my-3">
+                    <div>
                         <nz-radio-group [(ngModel)]="documentStatus">
                             <label nz-radio [nzValue]="1">Accept</label>
                             <label nz-radio [nzValue]="2">Reject</label>
@@ -28,12 +47,43 @@
         </section>
 
         <section *ngIf="action == 'uploadDocument' ? true : false">
-            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
-                [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
-                <p class="ant-upload-text">Drag and Drop file here</p>
-                <p class="ant-upload-text">or</p>
-                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-            </nz-upload>
+            <div class="row">
+                <div class="col-md-12 mb-3" *ngIf="isDoubleSide">
+                    <h6>{{ documentData?.document_master?.name }}</h6>
+                    <nz-radio-group [(ngModel)]="currentDocumentType" nzButtonStyle="solid">
+                        <label class="mb-3 mb-md-0" nz-radio [nzValue]="1">Front Document</label>
+                        <label class="mb-3 mx-3 mb-md-0" nz-radio [nzValue]="2">Back Document</label>
+                        <!-- <label *ngIf="incentiveType === 'Target'" class="mb-3 mb-md-0" nz-radio nzValue="logs">Logs</label> -->
+                    </nz-radio-group>
+                </div>
+                <div class="col-md-12 h-50"
+                    *ngIf="isDoubleSide ? isDoubleSide && (currentDocumentType == 1) : currentDocumentType == 1">
+                    <!-- <embed *ngIf="_currentFileName" class="my-3" [src]="sanatizeUrlToSafe(documentData?.front_file_url)" class="w-100 h-100"> -->
+
+                    <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+                        <p class="ant-upload-text">Drag and Drop file here</p>
+                        <p class="ant-upload-text">or</p>
+                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                    </nz-upload>
+                </div>
+                <div class="col-md-12 h-50" *ngIf="currentDocumentType == 2 ">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
+                                [nzBeforeUpload]="beforeUpload" [nzMultiple]="false" [(nzFileList)]="fileListSecond">
+                                <p class="ant-upload-text">Drag and Drop file here</p>
+                                <p class="ant-upload-text">or</p>
+                                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+                            </nz-upload>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </nz-card>
 
@@ -56,6 +106,10 @@
     <button *ngIf="action == 'verifyDocument' ? true : false" nz-button nzType="primary"
         [nzLoading]="api_calling_loader['button']" [disabled]="!documentStatus ? true : false" class="mx-2"
         (click)="handleOk('verify')">Submit</button>
-    <button *ngIf="action == 'uploadDocument'" nz-button nzType="primary" class="mx-2" [disabled]="!fileList ? true : false"
+    <button *ngIf="action == 'uploadDocument' && (isDoubleSide ? (currentDocumentType == 1 ? true : false) : true)"
+        nz-button nzType="primary" class="mx-2" [disabled]="!_currentFileName ? true : false"
+        [nzLoading]="api_calling_loader['button']" (click)="handleOk('uploadDocument')">Submit</button>
+    <button *ngIf="action == 'uploadDocument' && (isDoubleSide ? (currentDocumentType == 2 ? true : false) : false)"
+        nz-button nzType="primary" class="mx-2" [disabled]="!_currentFileName2 ? true : false"
         [nzLoading]="api_calling_loader['button']" (click)="handleOk('uploadDocument')">Submit</button>
 </ng-template>

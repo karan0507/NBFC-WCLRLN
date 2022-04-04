@@ -38,6 +38,7 @@ export class DocumentUploadComponent implements OnInit {
       stageMasterList: any;
       documentStatus = 1
       _currentStageStatus: any = null;
+      currentDropDownId : any
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -148,7 +149,7 @@ export class DocumentUploadComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
 
             } else {
                   this.expandSet.delete(id);
