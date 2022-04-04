@@ -183,6 +183,13 @@ export class HttpService {
       }
 
       /**
+       * createBlackBox
+       */
+       public createBlackBox(data) {
+            return this._http.post((this.url + `/platform_central/v1/black-box-test`), data);
+      }
+
+      /**
        * editLimits
        */
       public editLimits(data, id) {
@@ -221,6 +228,13 @@ export class HttpService {
        */
       public fetchEmploymentType(data) {
             return this._http.get((this.url + `/master/fetch-master-data/EmploymentTypeMaster`), { params: data });
+      }
+      
+      /**
+       * fetchCorporationCategory
+       */
+       public fetchCorporationCategory(data) {
+            return this._http.get((this.url + `/platform_central/v1/get-corporation-category`), { params: data });
       }
 
       /**
