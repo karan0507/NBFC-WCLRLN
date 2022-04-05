@@ -7,10 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AppSideChangeBillDateComponent } from './app-side-change-bill-date/app-side-change-bill-date.component';
 
 
 @NgModule({
-  declarations: [ChangeBillDateComponent],
+  declarations: [ChangeBillDateComponent, AppSideChangeBillDateComponent],
   imports: [
     CommonModule,
     ChangeBillDateRoutingModule,
