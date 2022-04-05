@@ -244,10 +244,9 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              <!-- created_at -->
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
-                                                                              : '--'}}
+                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
+                                                                                    : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -258,8 +257,8 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
-                                                                              : '--'}}
+                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
+                                                                                    : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
