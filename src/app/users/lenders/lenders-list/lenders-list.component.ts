@@ -237,22 +237,38 @@ export class LendersListComponent implements OnInit {
     return this.sanitized.bypassSecurityTrustResourceUrl(value);
   }
 
-  storeSelectedId(id, action){
+  storeSelectedId(id, action, type){
     this.selectedIdForAgreement = id;
     if(action === 'get'){
       this.uploadAndShowAgreement('get');
     } else if(action === 'submitted'){
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
       this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
-          this.pdf_viewer_object_values['url'] = id?.document_file
+      if(type == 'single'){
+        this.pdf_viewer_object_values['url'] = id?.document_file
+      } else if(type == 'front'){
+        this.pdf_viewer_object_values['url'] = id?.document_file_front
+      } else if(type == 'back'){
+        this.pdf_viewer_object_values['url'] = id?.document_file_back
+      }
           this.pdf_viewer_object_values['boolean'] = true
           this.message.remove(generateloader);
     }
   }
 
-  onClickDownloadSelectedDocument(e){
-    var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8;png;JPEG;jpeg' });
-    FileSaver.saveAs(data, 'image.png' );
+  onClickDownloadSelectedDocument(e, action){
+    // var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8;png;JPEG;jpeg' });
+    // FileSaver.saveAs(data, 'image.png' );
+    if(action== 'front'){
+      var data = new Blob([e?.document_file_front], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `Front_Doc`);
+    } else if(action == 'back'){
+      var data = new Blob([e?.document_file_back], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `Back_Doc`);
+    } else if(action == 'single'){
+      var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
+      FileSaver.saveAs(data,  `Document_Preview`);
+    }
     // `${e?.file_name}`
   }
 
