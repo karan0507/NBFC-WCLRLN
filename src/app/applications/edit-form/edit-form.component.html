@@ -217,20 +217,20 @@
       </nz-card>
 </section>
 
-<section *ngIf="_isViewDocument">
+<section *ngIf="_isViewDocument"> 
       <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
-            [documentData]="_currentModalData" (close)="_isViewDocument = false"></app-common-document-actions>
+            [documentData]="_currentModalData"  (close)="_isViewDocument = false "></app-common-document-actions>
 </section>
 
 <section *ngIf="_isVerify">
-      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
-            [documentData]="_currentModalData" (close)="_isVerify = false; ngOnInit()">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false" [documentData]="_currentModalData"
+            (close)="_isVerify = false; getFormLoanData()">
       </app-common-document-actions>
 
 </section>
 <section *ngIf="_isUpload">
-      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
-            [documentData]="_currentModalData" (close)="_isUpload = false">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false" [documentData]="_currentModalData"
+            (close)="_isUpload = false; getFormLoanData()">
       </app-common-document-actions>
 </section>
 

@@ -34,8 +34,8 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log(this.documentData);
     if(this.documentData?.document_master?.require_front_back == 1){
-      // this._currentFileName = this.documentData?.front_file_url
-      // this.fileList[0] = this._currentFileName
+      this._currentFileName = this.documentData?.front_file_url
+      // this.fileList[0] = this.documentData?.front_file_name
       this.isDoubleSide = true;
     }else{
       this.isDoubleSide = false;
@@ -45,7 +45,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
 
   handleCancel() {
     this._isOpenModal = false;
-    this.close.emit()
+    this.close.emit(false)
   }
 
   sanatizeUrlToSafe(value) {
@@ -106,13 +106,13 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         if (this.documentData?.document_master?.id) {
           uploadDoc.append('document_id', this.documentData?.document_master?.id)
         }
-        if(this.isDoubleSide && (this.currentDocumentType == 1)){
-          uploadDoc.append('side', 'front')
-          uploadDoc.append('file', this._currentFileName)
-        }else if(this.isDoubleSide && (this.currentDocumentType == 2)){
-          uploadDoc.append('side', 'back')
-          uploadDoc.append('file', this._currentFileName2)
-        }else{
+        if(this.isDoubleSide && this._currentFileName){
+          uploadDoc.append('front_file', this._currentFileName)
+        }
+        if(this.isDoubleSide && this._currentFileName2){
+          uploadDoc.append('back_file', this._currentFileName2)
+        }
+        if(!this.isDoubleSide && this._currentFileName){
           uploadDoc.append('file', this._currentFileName)
         }
         

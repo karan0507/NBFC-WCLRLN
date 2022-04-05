@@ -336,10 +336,13 @@ export class DocumentUploadComponent implements OnInit {
             this._currentLoanDetails = loanData;
             if (type == 'download') {
                   let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
+                  if(this._currentModalData?.document_master?.require_front_back == 1){
+                        data['side'] = 'front'
+                  }
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
-                              FileSaver.saveAs(data, 'text.txt');
+                              FileSaver.saveAs(data);
                         }
                   });
             } else {
