@@ -443,7 +443,7 @@
                 </div>
             </div>
 
-            <div class="row border-top mt-2">
+            <div class="row border-top border-bottom mt-2">
                 <div class="col-md-6 mt-4">
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="corporation_category" class="text-left" nzRequired>Corp Category</nz-form-label>
@@ -467,6 +467,90 @@
                                 <label nz-radio nzValue="no">No</label>
                                 <label nz-radio nzValue="na">N/A</label>
                             </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Corporate Limit Setting
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="payout" class="text-left">Flag</nz-form-label>
+                    <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                            <nz-radio-group formControlName='flag'>
+                                <label nz-radio nzValue="Card">Card</label>
+                                <label nz-radio nzValue="EWA">EWA</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!-- max_salary_percent -->
+                <div class="col-md-6"  *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="ewa_percent" class="text-left">EWA Percentage.</nz-form-label>
+                        <nz-form-control [nzSm]="13" [nzXs]="24" nzErrorTip="Please Add Valid EWA Percent!">
+                            <input nz-input type="number" formControlName="ewa_percent"  placeholder="EWA Percentage."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="ewa_percent" class="text-left">Max Salary Percent.</nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please Add Valid  Percent!">
+                            <input nz-input type="number" formControlName="max_salary_percent"  placeholder="Max Percentage."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="permanent_min" class="text-left">CORPORATE PERMANENT MAX LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="13" [nzXs]="24" nzErrorTip="Please Add Valid Limit!">
+                            <input nz-input type="number" formControlName="permanent_min"  placeholder="PERMANENT MAX LIMIT"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="permanent_agreed" class="text-left">CORPORATE PERMANENT AGREED LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Agreed Limit!">
+                            <input nz-input type="number" formControlName="permanent_agreed"  placeholder="Permanent Agreed Limit"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="permanent_max" class="text-left">CORPORATE PERMANENT MIN LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="13" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Min Limit!">
+                            <input nz-input type="number" formControlName="permanent_max"  placeholder="PERMANENT MIN LIMIT"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="contractual_max" class="text-left">CORPORATE CONTRACTUAL MAX LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Max Limit!">
+                            <input nz-input type="number" formControlName="contractual_max"  placeholder="Contractual Max Limit"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="contractual_min" class="text-left">CORPORATE CONTRACTUAL MIN LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="13" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Min!">
+                            <input nz-input type="number" formControlName="contractual_min"  placeholder="Contractual Min"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="contractual_agreed" class="text-left">CORPORATE CONTRACTUAL AGREED LIMIT</nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Agreed!">
+                            <input nz-input type="number" formControlName="contractual_agreed"  placeholder="Contractual Agreed"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

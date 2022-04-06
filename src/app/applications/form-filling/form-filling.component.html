@@ -37,12 +37,15 @@
                         </div>
                   </div>
                   <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                              (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
-                          </button>
-                        <nz-select class="w-60"  nzMode="multiple" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
-                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
+                        </button>
+                        <nz-select class="w-60" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                                    [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -82,7 +85,8 @@
                                           <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)"
                                                 [nzDisabled]="data.disabled"
                                                 (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                          <td>{{i+1}}</td>
+                                          <td *ngIf="page == 1">{{i+1}}</td>
+                                          <td *ngIf="page > 1">{{( (page-1) * globalPageSize) + (i+1)}}</td>
                                           <td>{{ data?.id }}</td>
                                           <td nzWidth="14rem">
                                                 <div class="d-flex flex-column">
@@ -204,7 +208,8 @@
                                                                         </span>
                                                                         <div>
                                                                               <!-- created_at -->
-                                                                              {{data?.expanddata?.partner?.name ? data?.expanddata?.partner?.name : '--'}}
+                                                                              {{data?.expanddata?.partner?.name ?
+                                                                              data?.expanddata?.partner?.name : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -214,7 +219,9 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{ data?.expanddata?.partner ? data?.expanddata?.partner?.address : '--'}}
+                                                                              {{ data?.expanddata?.partner ?
+                                                                              data?.expanddata?.partner?.address :
+                                                                              '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -242,9 +249,8 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              <!-- created_at -->
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -256,7 +262,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -309,5 +315,6 @@
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="handleOk()">Submit</button>
+      <button nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
+            (click)="handleOk()">Submit</button>
 </ng-template>

@@ -243,9 +243,8 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              <!-- created_at -->
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
+                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -257,7 +256,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
+                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -308,7 +307,8 @@
                                                                                     <a class="text-primary mr-3"
                                                                                           *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="Download Document"
-                                                                                          (click)="openDocumentModal('download',item, data)">
+                                                                                          href="{{ item?.front_file_url }}" download
+                                                                                          target="_blank">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
@@ -348,19 +348,21 @@
       </nz-card>
 </section>
 
-<section *ngIf="_isViewDocument"> 
+<section *ngIf="_isViewDocument">
       <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
-            [documentData]="_currentModalData"  (close)="_isViewDocument = false "></app-common-document-actions>
+            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
 </section>
 
 <section *ngIf="_isVerify">
-      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false" [documentData]="_currentModalData"
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+            [documentData]="_currentModalData"
             (close)="_isVerify = false; getIdWiseData(_currentId ,currentDropDownId)">
       </app-common-document-actions>
 
 </section>
 <section *ngIf="_isUpload">
-      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false" [documentData]="_currentModalData"
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+            [documentData]="_currentModalData"
             (close)="_isUpload = false; getIdWiseData(_currentId ,currentDropDownId)">
       </app-common-document-actions>
 </section>

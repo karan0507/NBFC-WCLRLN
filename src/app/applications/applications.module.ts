@@ -38,6 +38,7 @@ import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.com
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { KycDocumentActionComponent } from './kyc-document-action/kyc-document-action.component';
 import { CommonDocumentActionsComponent } from './common-document-actions/common-document-actions.component';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 // import { HttpService } from '../services/http.service';
 
 @NgModule({
@@ -65,7 +66,8 @@ import { CommonDocumentActionsComponent } from './common-document-actions/common
     NzPopoverModule,
     NzPopconfirmModule,
     NzImageModule,
-    NzRadioModule
+    NzRadioModule,
+    NzDividerModule
   ],
   providers:[
     // HttpService
