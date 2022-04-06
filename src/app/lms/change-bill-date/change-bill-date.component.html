@@ -1,9 +1,20 @@
-<div class="header_breadcrumb_section">
+<div class="header_breadcrumb_section" *ngIf="changeBillTab == '1'">
     <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
     <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
 </div>
 
 <section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="changeBillTab" (ngModelChange)="onchangeBillTab()">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1">Change bill date</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2">App side change bill date</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="changeBillTab == '1'">
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()">
@@ -16,9 +27,9 @@
 </section>
 
 
-<section>
+<section *ngIf="changeBillTab == '1'">
     <div class="row mb-md-3">
-        <span>{{listOfData?.length}} Results Found</span>
+        <span>{{total_count}} Results Found</span>
     </div>
     <div class="row">
         <nz-card class="w-100">
@@ -130,7 +141,9 @@
     </div>
 </section>
 
-
+<section *ngIf="changeBillTab == '2'">
+    <app-app-side-change-bill-date></app-app-side-change-bill-date>
+</section>
 <!-- Import excel -->
 <nz-modal [(nzVisible)]="isImport" nzTitle="Import Excel" [nzFooter]="null" (nzOnCancel)="isImport = false" nzOkText="Submit">
     <ng-container *nzModalContent>

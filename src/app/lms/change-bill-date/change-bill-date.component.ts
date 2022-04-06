@@ -42,6 +42,7 @@ export class ChangeBillDateComponent implements OnInit {
   isRejectSuccess: boolean;
   reject_id: any;
   rejactRemarks = '';
+  changeBillTab = '1';
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -211,6 +212,10 @@ export class ChangeBillDateComponent implements OnInit {
     }, (err) => {
       this.is_approve_loading = false
     })
+  }
+
+  onchangeBillTab() {
+
   }
 }
 
