@@ -148,6 +148,17 @@ export class AddEditPartnersComponent implements OnInit {
           });
         }
       }
+      this.addEditProductForm.patchValue({
+        flag:data ? data?.corporate_limit_settings?.flag :  data?.corporate_limit_settings?.flag,
+        max_salary_percent: data ? data?.corporate_limit_settings?.max_salary_percent : null,
+        ewa_percent: data ? data?.corporate_limit_settings?.ewa_percent : null,
+        permanent_min:data ? data?.corporate_limit_settings?.permanent_min : null,
+        permanent_max:data ? data?.corporate_limit_settings?.permanent_max : null,
+        contractual_min:data ? data?.corporate_limit_settings?.contractual_min : null,
+        contractual_max: data ? data?.corporate_limit_settings?.contractual_max : null,
+        permanent_agreed: data ? data?.corporate_limit_settings?.permanent_agreed : null,
+        contractual_agreed: data ? data?.corporate_limit_settings?.contractual_agreed : null,
+      })
     }
     this.setFormData(data);
     this.setFormDataForNach(data);
@@ -395,12 +406,22 @@ export class AddEditPartnersComponent implements OnInit {
       // employee: [data ? data?.employee : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],
       document_data: this.fb.array([]),
+      corporate_limit_settings: {},
       nach_date_time_mappings: this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1
       master: ["0", [Validators.required]],
       partner_nature: ["Partner", [Validators.required]],
       partner_master: [data ? data?.master_partner?.id : null],
+      flag:[data ? data?.corporate_limit_settings?.flag : 'Card'],
+      max_salary_percent: [data ? data?.corporate_limit_settings?.max_salary_percent : null],
+      ewa_percent: [data ? data?.corporate_limit_settings?.ewa_percent : null],
+      permanent_min:[data ? data?.corporate_limit_settings?.permanent_min : null],
+      permanent_max:[data ? data?.corporate_limit_settings?.permanent_max : null],
+      contractual_min:[data ? data?.corporate_limit_settings?.contractual_min : null],
+      contractual_max:[data ? data?.corporate_limit_settings?.contractual_max : null],
+      permanent_agreed:[data ? data?.corporate_limit_settings?.permanent_agreed : null],
+      contractual_agreed:[data ? data?.corporate_limit_settings?.contractual_agreed : null],
     });
     if (data) {
       this.setFormData(data);
@@ -644,8 +665,34 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSaveExistingForm() {
+    let corporate_limit_settings;
     const storeData = this.addEditProductForm.valid;
     const saveDoc = [];
+    if(this.addEditProductForm.value.flag === 'Card'){
+      corporate_limit_settings = {
+        flag: this.addEditProductForm.value?.flag,
+        max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+        permanent_min: this.addEditProductForm.value?.permanent_min ? this.addEditProductForm.value?.permanent_min : null, 
+        permanent_max: this.addEditProductForm.value?.permanent_max ? this.addEditProductForm.value?.permanent_max : null,
+        contractual_min: this.addEditProductForm.value?.contractual_min ? this.addEditProductForm.value?.contractual_min : null,
+        contractual_max: this.addEditProductForm.value?.contractual_max ? this.addEditProductForm.value?.contractual_max : null,
+        permanent_agreed: this.addEditProductForm.value?.permanent_agreed ? this.addEditProductForm.value?.permanent_agreed : null,
+        contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null
+      }
+      this.addEditProductForm.patchValue({
+        // corporate_limit_settings: corporate_limit_settings
+        corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+      })
+    } else {
+      corporate_limit_settings = {
+        flag: this.addEditProductForm.value?.flag,
+        ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
+        max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+      }
+      this.addEditProductForm.patchValue({
+        corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+      })
+    }
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -654,9 +701,6 @@ export class AddEditPartnersComponent implements OnInit {
       this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
     }
     var sendDate = this.addEditProductForm.value;
-    // for (var i in sendDate.nach_date_time_mappings) {
-    //   sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
-    // }
     for (var i in sendDate.nach_date_time_mappings) {
       if (
         sendDate.nach_date_time_mappings[i].time_of_day &&
@@ -672,19 +716,6 @@ export class AddEditPartnersComponent implements OnInit {
       }
     }
     for (var i in sendDate.document_data) {
-      // if (
-      //   !sendDate.document_data[i].document_name &&
-      //   sendDate.document_data[i].label_name
-      // ) {
-      //   this.message.error(
-      //     " Plz Upload Selected Document " +
-      //       ` ${sendDate.document_data[i].label_name}` +
-      //       " at index " +
-      //       i,
-      //     { nzDuration: 5000 }
-      //   );
-      //   return;
-      // }
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
           " Plz Upload Selected Document " +
@@ -707,16 +738,19 @@ export class AddEditPartnersComponent implements OnInit {
       let data = new FormData();
 
       var sendDate = this.addEditProductForm.value;
-
+      delete this.addEditProductForm.value?.permanent_min;
+        delete this.addEditProductForm.value?.permanent_max;
+        delete this.addEditProductForm.value?.contractual_min;
+        delete this.addEditProductForm.value?.contractual_max;
+        delete this.addEditProductForm.value?.permanent_agreed;
+        delete this.addEditProductForm.value?.contractual_agreed;
+        delete this.addEditProductForm.value?.flag;
+        delete this.addEditProductForm.value?.ewa_percent;  
+        delete this.addEditProductForm.value?.max_salary_percent;  
       for (var i in sendDate.document_data) {
         if (!sendDate.document_data[i].id) {
           delete sendDate?.document_data[i]?.id;
         }
-        // if (sendDate?.document_data[i]?.documents) {
-        //   saveDoc.push(sendDate?.document_data[i]?.documents)
-        //   data.append("documents", sendDate?.document_data[i]?.documents);
-        //   delete sendDate?.document_data[i]?.documents;
-        // }
         if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
           this.message.error(
             " Plz Upload Selected Document " +
@@ -784,8 +818,34 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSubmitForm() {
+    let corporate_limit_settings;
     const storeData = this.addEditProductForm.value;
     console.log(this.addEditProductForm.value);
+    if(this.addEditProductForm.value.flag === 'Card'){
+      corporate_limit_settings = {
+        flag: this.addEditProductForm.value?.flag,
+        max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+        permanent_min: this.addEditProductForm.value?.permanent_min ? this.addEditProductForm.value?.permanent_min : null, 
+        permanent_max: this.addEditProductForm.value?.permanent_max ? this.addEditProductForm.value?.permanent_max : null,
+        contractual_min: this.addEditProductForm.value?.contractual_min ? this.addEditProductForm.value?.contractual_min : null,
+        contractual_max: this.addEditProductForm.value?.contractual_max ? this.addEditProductForm.value?.contractual_max : null,
+        permanent_agreed: this.addEditProductForm.value?.permanent_agreed ? this.addEditProductForm.value?.permanent_agreed : null,
+        contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null
+      }
+      this.addEditProductForm.patchValue({
+        corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+      })
+    } else {
+      corporate_limit_settings = {
+        flag: this.addEditProductForm.value?.flag,
+        ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
+        max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+      }
+      this.addEditProductForm.patchValue({
+        corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+      })
+    }
+    console.log(this.addEditProductForm.value, ' <== Value')
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -795,6 +855,15 @@ export class AddEditPartnersComponent implements OnInit {
     }
     const saveDoc = [];
     var sendDate = this.addEditProductForm.value;
+        delete this.addEditProductForm.value?.permanent_min;
+        delete this.addEditProductForm.value?.permanent_max;
+        delete this.addEditProductForm.value?.contractual_min;
+        delete this.addEditProductForm.value?.contractual_max;
+        delete this.addEditProductForm.value?.permanent_agreed;
+        delete this.addEditProductForm.value?.contractual_agreed;
+        delete this.addEditProductForm.value?.flag;
+        delete this.addEditProductForm.value?.ewa_percent;  
+        delete this.addEditProductForm.value?.max_salary_percent;  
     for (var i in sendDate.nach_date_time_mappings) {
       if(sendDate.nach_date_time_mappings.length == 0){
         sendDate.nach_date_time_mappings = null;
@@ -808,26 +877,12 @@ export class AddEditPartnersComponent implements OnInit {
         ).format("HH:mm:ss");
       } else {
         delete sendDate.nach_date_time_mappings[i];
-        // delete sendDate.nach_date_time_mappings[i].day_of_month
         this.deleteNachByKey(i);
       }
     }
     }
 
     for (var i in sendDate.document_data) {
-      // if (
-      //   !sendDate.document_data[i].document_name &&
-      //   sendDate.document_data[i].label_name
-      // ) {
-      //   this.message.error(
-      //     " Plz Upload Selected Document " +
-      //       ` ${sendDate.document_data[i].label_name}` +
-      //       " at index " +
-      //       i,
-      //     { nzDuration: 5000 }
-      //   );
-      //   return;
-      // }
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
           " Plz Upload Selected Document " +
@@ -856,13 +911,7 @@ export class AddEditPartnersComponent implements OnInit {
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          // if (sendDate?.document_data[i]?.documents) {
-          //   saveDoc.push(sendDate?.document_data[i]?.documents)
-          //   data.append("documents", sendDate?.document_data[i]?.documents);
-          //   delete sendDate?.document_data[i]?.documents;
-          // }
           if (sendDate?.document_data[i]?.front_back_flag) {
-            // saveDoc.push(sendDate?.document_data[i]?.documents)
             if(sendDate?.document_data[i]?.document_name_front) {
               data.append("documents", sendDate?.document_data[i]?.documents_front);
               delete sendDate?.document_data[i]?.documents_front;
@@ -871,25 +920,26 @@ export class AddEditPartnersComponent implements OnInit {
               data.append("documents", sendDate?.document_data[i]?.documents_back);
               delete sendDate?.document_data[i]?.documents_back;
             }
-            // data.append("documents", sendDate?.document_data[i]?.documents);
-            // delete sendDate?.document_data[i]?.documents;
           } 
           if(!sendDate?.document_data[i]?.front_back_flag) {
             data.append("documents", sendDate?.document_data[i]?.documents);
             delete sendDate?.document_data[i]?.documents;
-          }
+             }
         }
         console.log(sendDate);
 
         for (var i in sendDate) {
-          if (i == "document_data" || i == "nach_date_time_mappings") {
+          if (i == "document_data" || i == "nach_date_time_mappings" || i == "corporate_limit_settings") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
             if (sendDate[i]) {
+              delete sendDate?.flag;
               data.append(i, sendDate[i]);
             }
           }
+          // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
         }
+        data.append("corporate_limit_settings", corporate_limit_settings);
         const url = this.http.createPartnerForm(data);
         url.subscribe(
           (res: any) => {
@@ -926,26 +976,23 @@ export class AddEditPartnersComponent implements OnInit {
         let data = new FormData();
         console.log(this.addEditProductForm.value);
         var sendDate = this.addEditProductForm.value;
-        // for (var i in sendDate.nach_date_time_mappings) {
-        //   alert(moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss'));
-        //   sendDate.nach_date_time_mappings[i].time_of_day = moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss')
-        // }
+            delete this.addEditProductForm.value?.permanent_min;
+            delete this.addEditProductForm.value?.permanent_max;
+            delete this.addEditProductForm.value?.contractual_min;
+            delete this.addEditProductForm.value?.contractual_max;
+            delete this.addEditProductForm.value?.permanent_agreed;
+            delete this.addEditProductForm.value?.contractual_agreed;
+            delete this.addEditProductForm.value?.flag;
+            delete this.addEditProductForm.value?.ewa_percent;  
+            delete this.addEditProductForm.value?.max_salary_percent
         for (var i in sendDate.document_data) {
           if (!sendDate.unique_code) {
             delete sendDate?.unique_code;
           }
-          // console.log('working' + sendDate.document_data +  ' ' +  i);
           if (!sendDate.document_data[i].id) {
             delete sendDate?.document_data[i]?.id;
           }
-          // if (sendDate.document_data[i].documents?.["uid"]) {
-          //   data.append("documents", sendDate?.document_data[i]?.documents);
-          //   delete sendDate?.document_data[i]?.documents;
-          // } else {
-          //   delete sendDate?.document_data[i]?.documents;
-          // }
           if (sendDate?.document_data[i]?.front_back_flag) {
-            // saveDoc.push(sendDate?.document_data[i]?.documents)
             if(sendDate?.document_data[i]?.documents_front?.["uid"]) {
               data.append("documents", sendDate?.document_data[i]?.documents_front);
               delete sendDate?.document_data[i]?.documents_front;
@@ -969,13 +1016,7 @@ export class AddEditPartnersComponent implements OnInit {
           }
         }
         for (var i in sendDate) {
-          if (i == "document_data" || i == "nach_date_time_mappings") {
-            // if (sendDate.nach_date_time_mappings[i]?.time_of_day) {
-            //   data.append(sendDate.nach_date_time_mappings[i]?.time_of_day, moment(sendDate.nach_date_time_mappings[i]?.time_of_day).format('HH:mm:ss'));
-            // }
-            // if(i == "nach_date_time_mappings"){
-            //   data.append(i, JSON.stringify(sendDate[i]));
-            // }
+          if (i == "document_data" || i == "nach_date_time_mappings" ) {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
             if (sendDate[i]) {
@@ -1004,28 +1045,15 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   handleChange(e, index) {
-    // console.log('in Progress', i);
     console.log(index, "index");
     this.index = index;
-    // console.log(this.addEditProductForm.get('document_data')['controls'][index].controls.document_master.value)
     this.addEditProductForm
       .get("document_data")
       ["controls"][index].controls.documents.setValue(e.file.originFileObj);
-
-    // console.log(e + '  ' + this.addEditProductForm.controls.document_data['controls'][index].document_master)
   }
 
   customUpload = (file: NzUploadFile): boolean => {
     const data = [];
-    // data.push({documents: file});
-    // let value = this.addEditProductForm.get('document_data') as FormArray;
-    // value.controls?.[this.index].patchValue({documents:file});
-    // console.log(file)
-    // console.log(this.addEditProductForm.get('document_data')['controls'])
-    // this.addEditProductForm.get('document_data')['controls'][this.index].controls.documents.setValue(file)
-
-    // this.addEditProductForm.get('document_data')['controls']['documents'].setValue(file)
-    console.log(file);
     return false;
   };
 }

@@ -183,6 +183,13 @@ export class HttpService {
       }
 
       /**
+       * createBlackBox
+       */
+       public createBlackBox(data) {
+            return this._http.post((this.url + `/platform_central/v1/black-box-test`), data);
+      }
+
+      /**
        * editLimits
        */
       public editLimits(data, id) {
@@ -221,6 +228,13 @@ export class HttpService {
        */
       public fetchEmploymentType(data) {
             return this._http.get((this.url + `/master/fetch-master-data/EmploymentTypeMaster`), { params: data });
+      }
+      
+      /**
+       * fetchCorporationCategory
+       */
+       public fetchCorporationCategory(data) {
+            return this._http.get((this.url + `/platform_central/v1/get-corporation-category`), { params: data });
       }
 
       /**
@@ -845,7 +859,8 @@ export class HttpService {
       }
 
       restrictType(event) {
-            if (event.which == 107 || event.which == 109 || event.which == 69) {
+            console.log(event.which)
+            if (event.which == 107 || event.which == 109 || event.which == 69 || event.which == 187 || event.which == 189) {
                   return false;
             }
       }

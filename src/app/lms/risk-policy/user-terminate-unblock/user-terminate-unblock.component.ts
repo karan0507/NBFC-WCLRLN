@@ -10,7 +10,7 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class UserTerminateUnblockComponent implements OnInit {
 
-  borrowertList
+  borrowertList = []
   isUnblock = false
   isTerminate
   page : any

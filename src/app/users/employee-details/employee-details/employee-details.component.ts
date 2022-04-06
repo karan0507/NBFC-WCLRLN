@@ -157,6 +157,9 @@ export class EmployeeDetailsComponent implements OnInit {
     previewButtonLoading: false,
     uploadButtonLoading: false,
     toggleHeaderText: false,
+    previewForExitEmployee: false,
+    previewForAttandance: false,
+    hideUpload : false
   };
   isViewUploadedData = false
   fileName: any;
@@ -210,6 +213,8 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   onClickChangeTab(e) {
+    this.page = 1;
+    this.size = 30;
     this.selectedTab = e;
     this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     this.router.navigate(["/employeeDetail"], {
@@ -324,18 +329,16 @@ export class EmployeeDetailsComponent implements OnInit {
     if (this.selectedCorporate) {
       data["partner"] = this.selectedCorporate;
     }
-    if (event) {
-      this.page = event?.pageIndex;
-      this.size = event?.pageSize;
-    }
+    
 
     if (this.selectedTab === "Employee Database") {
-      delete data["section"];
+      // delete data["section"];
+      data["section"] = 'New Joinees';
     }
     this.apiLoader["list"] = true;
     this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data).subscribe(
       (res?: any) => {
-        this.total_count = res?.total_count;
+        this.total_count = res?.data?.total_count;
         this.listOfEmployee = res?.data?.results;
         this.apiLoader["list"] = false;
       },
@@ -347,7 +350,25 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   onClickUploadSelectedFileOfCurrentSection() {
-    this.isVisibleModal["modalIsVisible"] = true;
+    // if(this.selectedTab == 'Employee Database' || this.selectedTab == 'New Joinees'){
+      // this.http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')
+      this.isVisibleModal["modalIsVisible"] = true;
+      this.isVisibleModal["hideUpload"] = false;
+    // } else if (this.selectedTab == 'Exit Employee'){
+    //   this.http.sampleDownloadGlobalFunction('Exit_Employee')
+    // } else if (this.selectedTab == 'Attendance'){
+    //   this.http.sampleDownloadGlobalFunction('Attendance_Data')
+    // }
+  }
+
+  sampleDownload(){
+    if(this.selectedTab == 'Employee Database' || this.selectedTab == 'New Joinees'){
+      this.http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')
+    } else if (this.selectedTab == 'Exit Employee'){
+      this.http.sampleDownloadGlobalFunction('Exit_Employee')
+    } else if (this.selectedTab == 'Attendance'){
+      this.http.sampleDownloadGlobalFunction('Attendance_Data')
+    }
   }
 
   handleCancel() {
@@ -357,8 +378,13 @@ export class EmployeeDetailsComponent implements OnInit {
     this.fileName = null;
     this.isVisibleModal["toggleHeaderText"] = false;
     this.isVisibleModal["previewIsVisible"] = false;
+    this.isVisibleModal["previewForAttandance"] = false;
+    this.isVisibleModal["previewForExitEmployee"] = false;
     this.isVisibleModal["modalIsVisible"] = false;
+    this.isVisibleModal['hideUpload'] = false;
   }
+
+  
 
   onUpload(e) {
     console.log(e?.file?.originFileObj);
@@ -375,37 +401,55 @@ export class EmployeeDetailsComponent implements OnInit {
     return false;
   };
 
+  overallFileStatus = true;
   handleOk() {
-    console.log(this.uploadSelectedCorporateFile.value);
     this.uploadSelectedCorporateFile.patchValue({
       section: this.selectedTab,
     });
     const file = this.uploadSelectedCorporateFile.get("file");
     // console.log(file?.value.name)
     this.fileName = file?.value?.name;
-    console.log();
     if (this.uploadSelectedCorporateFile.valid) {
+      this.retrievedFileResponse = null;
+      this.retrievedFileResponseKey = null;
+      this.isVisibleModal["hideUpload"] = true;
       this.isVisibleModal["previewButtonLoading"] = true;
-      console.log(this.uploadSelectedCorporateFile.value);
-      let data = new FormData();
-      let sendDate = this.uploadSelectedCorporateFile.value;
-      for (var i in sendDate) {
-        data.append(i, sendDate[i]);
+      if(this.selectedTab == 'New Joinees' || this.selectedTab == 'Employee Database'  || this.selectedTab == 'Notice Period'){
+        this.isVisibleModal["previewIsVisible"] = true;
+        this.isVisibleModal['previewForAttandance'] = false;
+        this.isVisibleModal['previewForExitEmployee'] = false;
+      } else if(this.selectedTab == 'Attendance'){
+        this.isVisibleModal['previewForAttandance'] = true;
+        this.isVisibleModal["previewIsVisible"] = false;
+        this.isVisibleModal['previewForExitEmployee'] = false;
+      } else if(this.selectedTab == 'Exit Employee'){
+        this.isVisibleModal['previewForExitEmployee'] = true;
+        this.isVisibleModal['previewForAttandance'] = false;
+        this.isVisibleModal["previewIsVisible"] = false;
       }
-      this.http.viewFileBeforeSaving(data).subscribe((res: any) => {
-        if (res?.success) {
-          this.retrievedFileResponse = res?.data;
-          this.retrievedFileResponseKey = res?.data?.keys;
-          this.isVisibleModal["toggleHeaderText"] = true;
-          this.isVisibleModal["previewButtonLoading"] = false;
-          this.isVisibleModal["previewIsVisible"] = true;
-        } else {
-          this.isVisibleModal["previewButtonLoading"] = false;
-          this.isVisibleModal["previewIsVisible"] = false;
-          this.isVisibleModal["toggleHeaderText"] = false;
+        console.log(this.uploadSelectedCorporateFile.value);
+        let data = new FormData();
+        let sendDate = this.uploadSelectedCorporateFile.value;
+        for (var i in sendDate) {
+          data.append(i, sendDate[i]);
         }
-        console.log(res?.data);
-      });
+        this.http.viewFileBeforeSaving(data).subscribe((res: any) => {
+          if (res?.success) {
+            this.overallFileStatus = res?.data?.overall_status;
+            this.retrievedFileResponse = res?.data?.data?.data;
+            this.retrievedFileResponseKey = res?.data?.data?.keys;
+            this.isVisibleModal["toggleHeaderText"] = true;
+            this.isVisibleModal["previewButtonLoading"] = false;
+            // this.isVisibleModal["previewIsVisible"] = true;
+          } else {
+            this.isVisibleModal["previewButtonLoading"] = false;
+            this.isVisibleModal["previewIsVisible"] = false;
+            this.isVisibleModal["toggleHeaderText"] = false;
+            this.isVisibleModal['previewForAttandance'] = false;
+            this.isVisibleModal['previewForExitEmployee'] = false;
+          }
+          console.log(res?.data);
+        });
     } else {
       for (const i in this.uploadSelectedCorporateFile.controls) {
         this.uploadSelectedCorporateFile.controls[i].markAsDirty();
@@ -436,7 +480,24 @@ export class EmployeeDetailsComponent implements OnInit {
     }
   }
 
+  isFail = false;
   onClickUploadFile() {
+    if(!this.overallFileStatus){
+      this.isFail = true;
+      this.isVisibleModal["toggleHeaderText"] = false;
+      this.isVisibleModal["uploadButtonLoading"] = false;
+      this.isVisibleModal["previewIsVisible"] = false;
+      this.isVisibleModal["previewForAttandance"] = false;
+      this.isVisibleModal["previewForExitEmployee"] = false;
+      this.isVisibleModal["hideUpload"] = false;
+      this.isVisibleModal["modalIsVisible"] = false;
+      this.uploadSelectedCorporateFile.controls["partner"].reset();
+      this.uploadSelectedCorporateFile.controls["remarks"].reset();
+      this.uploadSelectedCorporateFile.controls["branch"].reset();
+      this.uploadSelectedCorporateFile.controls["file"].reset();
+      this.fileName = null;
+      return;
+    }
     if (this.uploadSelectedCorporateFile.valid) {
       this.isVisibleModal["uploadButtonLoading"] = true;
       let data = new FormData();
@@ -452,11 +513,17 @@ export class EmployeeDetailsComponent implements OnInit {
           this.isVisibleModal["uploadButtonLoading"] = false;
           this.isVisibleModal["previewIsVisible"] = false;
           this.isVisibleModal["modalIsVisible"] = false;
+          this.isVisibleModal["previewForAttandance"] = false;
+          this.isVisibleModal["previewForExitEmployee"] = false;
+          this.isVisibleModal["hideUpload"] = false;
           this.message.success("File Uploaded");
           this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
         } else {
           this.isVisibleModal["toggleHeaderText"] = false;
           this.isVisibleModal["previewIsVisible"] = false;
+          this.isVisibleModal["previewForAttandance"] = false;
+          this.isVisibleModal["previewForExitEmployee"] = false;
+          this.isVisibleModal["hideUpload"] = false;
           this.isVisibleModal["uploadButtonLoading"] = false;
           this.message.error("Unable to File Uploaded");
         }

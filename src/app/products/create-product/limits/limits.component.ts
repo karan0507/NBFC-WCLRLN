@@ -58,6 +58,8 @@ export class LimitsComponent implements OnInit {
       disbursement_max_amount: [this.productlimitData ? this.productlimitData.disbursement_max_amount : '', [Validators.required]],
       interest_min_percentage: [this.productlimitData ? this.productlimitData.interest_min_percentage : '', [Validators.required]],
       interest_max_percentage: [this.productlimitData ? this.productlimitData.interest_max_percentage : '', [Validators.required]],
+      global_min_limit: [this.productlimitData ? this.productlimitData.global_min_limit : '', [Validators.required]],
+      global_max_limit: [this.productlimitData ? this.productlimitData.global_max_limit : '', [Validators.required]],
     })
     
     if (this.router.url.includes('view-product')) {
@@ -71,6 +73,10 @@ export class LimitsComponent implements OnInit {
       return false
     }
     if (this.createEditForm.value.interest_min_percentage >= this.createEditForm.value.interest_max_percentage) {
+      this.message.error("Minimum interest % should be less than Maximum interest %")
+      return false
+    }
+    if (this.createEditForm.value.global_min_limit >= this.createEditForm.value.global_max_limit) {
       this.message.error("Minimum interest % should be less than Maximum interest %")
       return false
     }

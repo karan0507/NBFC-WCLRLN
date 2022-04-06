@@ -104,6 +104,25 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Limit</nz-form-label>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_min_limit" class="text-left" nzRequired>Minimum (₹)</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_min_limit"
+                                placeholder="Please input Minimum Amount (₹)!" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_max_limit" class="text-left" nzRequired>Maximum (₹)</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_max_limit"
+                                placeholder="Please input Maximum Amount (₹)!" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
         </form>
     </nz-card>

@@ -257,24 +257,26 @@
                                 </nz-page-header>
                                 <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
                                     <div class="row"  *ngIf="data?.expandSet?.documents?.length > 0">
-                                        <div class="col-md-6" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column">
+                                        <div class="col-md-6 mb-2" *ngFor="let data of data?.expandSet?.documents">
+                                            <div class="d-flex flex-column" *ngIf="data?.document_master?.require_front_back">
+                                            <div class="mb-2">
                                                 <h6>
-                                                    {{data?.document_master?.name}}
+                                                    {{data?.document_master?.name + ' Front'}}
                                                 </h6>
-                                                <div>
-                                                    <span *ngIf="data?.document_file">
+                                                <div class="d-flex">
+                                                    <span *ngIf="data?.document_file_front">
                                                         <a>Submitted </a>
-                                                        &
+                                                        & &nbsp;
                                                     </span>
-                                                    <span *ngIf="!data?.document_file">
+                                                    <span *ngIf="!data?.document_file_front">
                                                         Document Not Submitted
                                                     </span>
                                                     <span *ngIf="data?.is_verified">
                                                         Verified
                                                     </span>
-                                                    <span *ngIf="!data?.is_verified && data?.document_file">
-                                                        <a nz-popconfirm
+                                                    <span *ngIf="!data?.is_verified && data?.document_file_front">
+                                                        <a 
+                                                            nz-popconfirm
                                                             nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
                                                             nzPopconfirmPlacement="bottom"                                              
                                                             (nzOnConfirm)="onClickVerifyDoc(data?.id)"
@@ -283,15 +285,64 @@
                                                             Plz Click to verify
                                                             </a>
                                                     </span>
-                                                    <!-- <span *ngIf="!data?.is_verified && !data?.document_file">
-                                                            Plz Submit Document to verify
-                                                    </span> -->
-                                                </div>
-                                                <div class="mt-3">
-                                                    <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data)"></i>
-                                                    <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted')"></i>
+                                                    <div class="mx-2">
+                                                        <i style="cursor: pointer;"  *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'front')"></i>
+                                                        <i style="cursor: pointer;" *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'front')"></i>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div>
+                                                <h6>
+                                                    {{data?.document_master?.name + ' Back'}}
+                                                </h6>
+                                                <div  class="d-flex">
+                                                    <span *ngIf="data?.document_file_back">
+                                                        <a>Submitted </a>
+                                                    </span>
+                                                    <span *ngIf="!data?.document_file_back">
+                                                        Document Not Submitted
+                                                    </span>
+                                                    <div class="mx-2">
+                                                        <i style="cursor: pointer;"  *ngIf="data?.document_file_back" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'back')"></i>
+                                                        <i style="cursor: pointer;" *ngIf="data?.document_file_back" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'back')"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="d-flex flex-column" *ngIf="!data?.document_master?.require_front_back">
+                                                <div>
+                                                    <h6>
+                                                        {{data?.document_master?.name}}
+                                                    </h6>
+                                                    <div class="d-flex">
+                                                        <span *ngIf="data?.document_file">
+                                                            <a>Submitted </a>
+                                                            & &nbsp;
+                                                        </span>
+                                                        <span *ngIf="!data?.document_file">
+                                                            Document Not Submitted
+                                                        </span>
+                                                        <span *ngIf="data?.is_verified">
+                                                            Verified
+                                                        </span>
+                                                        <span *ngIf="!data?.is_verified && data?.document_file">
+                                                            <a 
+                                                                nz-popconfirm
+                                                                nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                                nzPopconfirmPlacement="bottom"                                              
+                                                                (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                                (nzOnCancel)="cancel()"
+                                                                >
+                                                                Plz Click to verify
+                                                                </a>
+                                                        </span>
+                                                        <div class="mx-2">
+                                                            <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'single')"></i>
+                                                            <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'single')"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="data?.expandSet?.documents?.length <= 0">
