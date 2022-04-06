@@ -39,7 +39,8 @@ export class AddEditMastersComponent implements OnInit {
   stateArr: any;
   apiLoader = {
     'formSave': false,
-    'saveAddNew': false
+    'saveAddNew': false,
+    'nature': false,
   } 
   debounce: any;
 
@@ -67,6 +68,29 @@ export class AddEditMastersComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
+  }
+
+  addItem(e: HTMLInputElement){
+    const value = e.value;
+    console.log('Working', value);
+    if(value){
+      this.apiLoader['nature'] = true;
+      let data = {
+        "name" : value
+      }
+      this.http.createNewBusinessNature(data).subscribe((res: any)=>{
+        if(res?.success){
+          this.apiLoader['nature'] = false;
+        this.getListOfBusinessNature();
+        this.message.success(res?.message)     
+      } else {
+        this.apiLoader['nature'] = false;
+        this.message.error(res?.message);     
+      } 
+      })
+    } else {
+      this.message.error('Plz add Valid Business Nature');     
+    }
   }
 
   getListOfBusinessNature(){

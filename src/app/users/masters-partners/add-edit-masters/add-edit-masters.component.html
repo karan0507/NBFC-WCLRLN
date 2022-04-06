@@ -109,12 +109,24 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="business_nature" class="text-left" nzRequired>Nature</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Nature">
-                            <nz-select formControlName="business_nature" nzPlaceHolder="Select Nature"
+                            <nz-select formControlName="business_nature" nzPlaceHolder="Select Nature" [nzDropdownRender]="renderTemplate"
                                 (nzFocus)="getListOfBusinessNature()" nzShowSearch nzAllowClear
                                 (nzOnSearch)="onSearchGetList($event, 'state')">
                                 <nz-option *ngFor="let item of businessNatureArr" [nzValue]="item.id"
                                     [nzLabel]="item.business_nature">
                                 </nz-option>
+                                <ng-template #renderTemplate>
+                                    <nz-divider class="mt-0 mb-2"></nz-divider>
+                                    <div class="row"  style="align-items: center;">
+                                        <div class="col-7 ml-2">
+                                            <input type="text" nz-input #inputElement />
+                                        </div>
+                                        <div class="col" style="text-align: center;">
+                                              <button type="submit" (click)="addItem(inputElement)" [nzLoading]="apiLoader['nature']"
+                                               [disabled]="!inputElement.value" nz-button nzType="primary">Add Nature</button>
+                                        </div>
+                                    </div>
+                                  </ng-template>
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>
