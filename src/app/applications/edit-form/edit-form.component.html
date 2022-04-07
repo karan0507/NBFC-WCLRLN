@@ -174,23 +174,32 @@
                                                       {{ item?.status }} </b>
                                           </label>
                                           <div class="mr-5">
-                                                <a class="text-primary mr-3" *ngIf="item?.file_url"
-                                                      nzTooltipTitle="View Document"
-                                                      (click)="_isViewDocument = true;_currentModalData = item;">
-                                                      <i nz-icon nzType="eye" nzTheme="outline"></i></a>
                                                 <a class="text-primary mr-3"
-                                                      *ngIf="item?.file_url && item?.status == 'Pending'"
-                                                      nzTooltipTitle="Verify Document"
-                                                      (click)="_isVerify = true; _currentModalData = item">
-                                                      <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
-                                                <a class="text-primary mr-3" *ngIf="item.file_url"
-                                                      nzTooltipTitle="Download Document"
-                                                      (click)="openDocumentModal('download',item, data)">
-                                                      <i nz-icon nzType="download" nzTheme="outline"></i></a>
-                                                <a class="text-primary" nzTooltipTitle="Upload Document"
-                                                      (click)="_isUpload = true; _currentModalData = item">
-                                                      <i nz-icon nzType="upload" nzTheme="outline"></i>
-                                                </a>
+                                                *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
+                                                nzTooltipTitle="View Document"
+                                                (click)="_isViewDocument = true;_currentModalData = item;">
+                                                <i nz-icon nzType="eye"
+                                                      nzTheme="outline"></i></a>
+                                          <a class="text-primary mr-3"
+                                                *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
+                                                nzTooltipTitle="Verify Document"
+                                                (click)="_isVerify = true; _currentModalData = item">
+                                                <i nz-icon
+                                                      nzType="check-circle"
+                                                      nzTheme="outline"></i></a>
+                                          <a class="text-primary mr-3"
+                                                *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
+                                                nzTooltipTitle="Download Document"
+                                                href="{{ item?.front_file_url }}" download
+                                                target="_blank">
+                                                <i nz-icon nzType="download"
+                                                      nzTheme="outline"></i></a>
+                                          <a class="text-primary"
+                                                nzTooltipTitle="Upload Document"
+                                                (click)="_isUpload = true; _currentModalData = item">
+                                                <i nz-icon nzType="upload"
+                                                      nzTheme="outline"></i>
+                                          </a>
                                           </div>
                                     </div>
                                     <div *ngIf="item?.document_master?.name == 'Aadhar Card'">
