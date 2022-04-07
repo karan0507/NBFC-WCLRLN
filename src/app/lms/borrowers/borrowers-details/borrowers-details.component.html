@@ -7,18 +7,22 @@
                         <div>
                               <h4 class="h4">{{borrowertList?.user?.full_name}} <img src="assets/images/rupee-br.svg"
                                           alt=""></h4>
-                              <span class="mr-3"><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Loan ID -
+                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Loan ID -
                                     {{borrowertList?.loan_unique_id}}</span>
-                              <span class="mr-3"><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
+                                    <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
                                     Status - {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
-                              <span class="mr-3"><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; A/c
+                                    <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; A/c
                                     Status - {{borrowertList?.account_status}}</span>
-                              <span class="mr-3"><i nz-icon nzType="user" nzTheme="outline"></i> &nbsp; Contact -
+                                    <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="user" nzTheme="outline"></i> &nbsp; Contact -
                                     {{borrowertList?.user?.mobile}}</span>
-                              <span class="mr-3"><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -
+                                    <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -
                                     {{borrowertList?.user?.email}}</span>
                         </div>
-                        <div class="col d-flex align-items-center" *ngIf="selectedTab == '1'">
+                        <div class="col d-flex" *ngIf="selectedTab == '1'">
                               <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3">
                                     Download/View
                                     <i nz-icon nzType="down"></i>
@@ -198,6 +202,7 @@
                               (ngModelChange)="fetchTransactionTxnList()" nzAllowClear nzPlaceHolder="Filter By Status">
                               <nz-option nzValue="Success" nzLabel="Success"></nz-option>
                               <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                              <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
                         </nz-select>
                   </div>
             </div>
@@ -218,6 +223,7 @@
                               <th>Amount (₹)</th>
                               <th>GST Amount</th>
                               <th>Total Amount (₹)</th>
+                              <th>Status</th>
                               <th nzWidth="5rem" nzRight>Action</th>
                         </tr>
                   </thead>
@@ -236,9 +242,10 @@
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
-                                    <td>{{ data?.txn_amount }}</td>
+                                    <td>₹{{ data?.txn_amount }}</td>
                                     <td>{{ data?.pan }}</td>
                                     <td>{{ data?.pan }}</td>
+                                    <td>{{ data?.txn_status }}</td>
                                     <td nzRight>
                                           <div>
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
@@ -311,6 +318,7 @@
                               nzPlaceHolder="Filter By Status">
                               <nz-option nzValue="Success" nzLabel="Success"></nz-option>
                               <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                              <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
                         </nz-select>
                   </div>
             </div>
@@ -331,6 +339,7 @@
                               <th>Amount (₹)</th>
                               <th>GST Amount</th>
                               <th>Total Amount (₹)</th>
+                              <th>Status</th>
                               <th nzWidth="5rem" nzRight>Action</th>
                         </tr>
                   </thead>
@@ -349,9 +358,10 @@
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
-                                    <td>{{ data?.txn_amount }}</td>
+                                    <td>₹{{ data?.txn_amount }}</td>
                                     <td>{{ data?.pan }}</td>
                                     <td>{{ data?.pan }}</td>
+                                    <td>{{ data?.txn_status }}</td>
                                     <td nzRight>
                                           <div>
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
@@ -574,7 +584,7 @@
                       <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
                       </nz-form-label>
                       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
-                          <input [(ngModel)]="reverse_amount" type="number" nz-input placeholder="Please Enter amount" />
+                          <input [(ngModel)]="reverse_amount" [disabled]="reverse_type == 2" type="number" nz-input placeholder="Please Enter amount" />
                       </nz-form-control>
                   </nz-form-item>
               </div>
