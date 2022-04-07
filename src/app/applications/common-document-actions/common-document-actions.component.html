@@ -4,7 +4,7 @@
         <section *ngIf="action == 'viewDocument'">
             <div class="row">
                 <div class="col-md-12 mb-3" *ngIf="isDoubleSide">
-                    <h6>View {{ documentData?.document_master?.name }}</h6>
+                    <h6> {{ documentData?.document_master?.name }}</h6>
                     <nz-radio-group [(ngModel)]="currentDocumentType" nzButtonStyle="solid">
                         <label class="mb-3 mb-md-0" nz-radio [nzValue]="1">Front View</label>
                         <label class="mb-3 mx-3 mb-md-0" nz-radio [nzValue]="2">Back View</label>
