@@ -356,14 +356,14 @@
 <section *ngIf="_isVerify">
       <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
             [documentData]="_currentModalData"
-            (close)="_isVerify = false; getIdWiseData(_currentId ,currentDropDownId)">
+            (close)="_isVerify = false; getIdWiseData(_currentModalData?.id ,currentDropDownId)">
       </app-common-document-actions>
 
 </section>
 <section *ngIf="_isUpload">
       <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
             [documentData]="_currentModalData"
-            (close)="_isUpload = false; getIdWiseData(_currentId ,currentDropDownId)">
+            (close)="_isUpload = false; getIdWiseData(_currentModalData?.id ,currentDropDownId)">
       </app-common-document-actions>
 </section>
 

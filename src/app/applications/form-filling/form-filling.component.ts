@@ -30,7 +30,7 @@ export class FormFillingComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button':false
+            'button': false
       };
       productList: any = []
       stageStatusList: any = []
@@ -90,12 +90,13 @@ export class FormFillingComponent implements OnInit {
             }
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.data) {
+                  if (res?.success) {
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
                   } else {
                         this.api_calling_loader['listLoader'] = false
+                        this.total_count = null
                   }
             }, (err) => {
                   this.api_calling_loader['listLoader'] = false
@@ -206,11 +207,11 @@ export class FormFillingComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = new FormData() 
+            let data = new FormData()
             data.append('source', 'Onboarding');
             data.append('datapoint', 'export_data')
             data.append('records', JSON.stringify(this._checkedLoanList))
-            data.append('file_type',file_formate)
+            data.append('file_type', file_formate)
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
@@ -220,7 +221,7 @@ export class FormFillingComponent implements OnInit {
             })
       }
 
-      resetFilters(){
+      resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

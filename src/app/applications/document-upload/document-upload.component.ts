@@ -378,4 +378,9 @@ export class DocumentUploadComponent implements OnInit {
             this._isViewDocument = true
             // alert('Testing working')
       }
+
+      // openModal(id){
+      //     this._currentId = id
+      //     this._isUpload = true;
+      // }
 }

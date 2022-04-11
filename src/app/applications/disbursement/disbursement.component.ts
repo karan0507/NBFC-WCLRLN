@@ -144,6 +144,7 @@ export class DisbursementComponent implements OnInit {
                         this.api_calling_loader['listLoader'] = false
                   } else {
                         this.api_calling_loader['listLoader'] = false
+                        this.total_count = null
                   }
             }, (err) => {
                   this.api_calling_loader['listLoader'] = false

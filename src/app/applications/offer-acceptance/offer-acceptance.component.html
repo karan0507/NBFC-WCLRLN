@@ -250,7 +250,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
+                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[1]?.pan_no)
                                                                                     : '--'}}
                                                                         </div>
                                                                   </div>
@@ -261,8 +261,8 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
+                                                                              {{data?.expanddata?.aadhar ?
+                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[1]?.aadhar_no)
                                                                                     : '--'}}
                                                                         </div>
                                                                   </div>
