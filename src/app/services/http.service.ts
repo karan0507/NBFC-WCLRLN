@@ -175,6 +175,10 @@ export class HttpService {
             return this._http.get((this.url + `/product/v1/create-edit-partnerpayout`), { params: data });
       }
 
+      public createNewBusinessNature(data){
+            return this._http.post((this.url + `/platform_central/v1/add-business-nature`), data );
+      }
+
       /**
        * createLimits
        */
