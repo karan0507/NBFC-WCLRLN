@@ -264,11 +264,25 @@ export class EmployeeDetailsComponent implements OnInit {
     'isVisible': false,
     'viewContent': null
   }
-  onClickGetUploadedDocDetail(id, action) {
+  viewTotalCount: any;
+  viewPageCount = 1;
+  viewPageSize = 30
+  selectedIdForView: any
+
+  onClickGetUploadedDocDetail(id, action, e?) {
     if (action === "view") {
-      this.isViewLoader['isVisible'] = true;
+      if(this.isViewLoader['isVisible']){return;}
       this.isViewUploadedData = true;
-      this.http.viewSavedFileContent(id).subscribe(
+      this.isViewLoader['isVisible'] = true;
+      if(e){
+        this.viewPageCount = e?.pageIndex
+        this.viewPageSize = e?.pageSize
+      }
+      let data = {
+        'page': this.viewPageCount,
+        'limit': this.viewPageSize
+      }
+      this.http.viewSavedFileContent(this.selectedIdForView,data).subscribe(
         (res: any) => {
           this.isViewLoader['isVisible'] = false;
           this.isViewLoader['viewContent'] = res?.data;
