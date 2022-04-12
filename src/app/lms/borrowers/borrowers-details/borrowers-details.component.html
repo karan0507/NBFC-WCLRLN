@@ -3,7 +3,7 @@
             <div class="row">
                   <div class="mr-3"><i nz-icon nzType="arrow-left" [routerLink]="['../']" class="pointer"
                               nzTheme="outline"></i></div>
-                  <div class="col d-flex justify-contents-between px-0">
+                  <div class="col d-flex px-0" style="justify-content: space-between;">
                         <div>
                               <h4 class="h4">{{borrowertList?.user?.full_name}} <img src="assets/images/rupee-br.svg"
                                           alt=""></h4>
@@ -22,7 +22,7 @@
                               <span><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -
                                     {{borrowertList?.user?.email}}</span>
                         </div>
-                        <div class="col d-flex" *ngIf="selectedTab == '1'">
+                        <div class="d-flex" *ngIf="selectedTab == '1'">
                               <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3">
                                     Download/View
                                     <i nz-icon nzType="down"></i>
@@ -553,7 +553,7 @@
       </ng-container>
 </nz-modal>
 <!-- Reverse Charges -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges"  [nzFooter]="!is_set_amt ? modalFooter : null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges"  [nzFooter]="!is_set_amt ? modalFooter101 : null" [nzClosable]="false">
       <ng-container *nzModalContent>
           <app-double-confirmation-popup *ngIf="is_set_amt"
               [title]="'Do you want to reverse the applied charges?'"
@@ -590,7 +590,7 @@
               </div>
           </div>
       </ng-container>
-      <ng-template #modalFooter>
+      <ng-template #modalFooter101>
             <button nz-button (click)="isReverseCharges = false; is_set_amt = false">Close</button>
             <button nz-button nzType="primary" (click)="setTypeandAmt()">Submit</button>
       </ng-template>

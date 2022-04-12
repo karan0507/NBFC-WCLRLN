@@ -4,54 +4,54 @@
             <div class="row">
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="income" class="text-left" nzRequired>Income</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Income!">
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="income" class="text-left" nzRequired>Income per month</nz-form-label>
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Income per month">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="income"
-                                placeholder="Please input Income!" />
+                                placeholder="Please input Income per month" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cibil_score" class="text-left" nzRequired>Cibil score</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Cibil score!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Cibil score">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="cibil_score"
-                                placeholder="Please input Cibil score!" />
+                                placeholder="Please input Cibil score" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="age" class="text-left" nzRequired>Age</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Age!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Age">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="age"
-                                placeholder="Please input Age!" />
+                                placeholder="Please input Age" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sms_score" class="text-left" nzRequired>SMS score</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input SMS score!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input SMS score">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="sms_score"
-                                placeholder="Please input SMS score!" />
+                                placeholder="Please input SMS score" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="vintage_in_company" class="text-left" nzRequired>Vintage in company</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Vintage in company!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Vintage in company">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="vintage_in_company"
-                                placeholder="Please input Vintage in company!" />
+                                placeholder="Please input Vintage in company" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_category" class="text-left" nzRequired>Corporate category</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate category!">
-                            <nz-select formControlName="corporate_category" nzPlaceHolder="Select Corporate category!" (nzFocus)="fetchCorporateCategory()"
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate category">
+                            <nz-select formControlName="corporate_category" nzPlaceHolder="Select Corporate category" (nzFocus)="fetchCorporateCategory()"
                                 nzShowSearch nzAllowClear (nzOnSearch)="searchStaticDataGlobalFunction($event)">
                                 <nz-option *ngFor="let item of corporateData" [nzValue]="item.id" [nzLabel]="item.category_name">
                                 </nz-option>
@@ -62,8 +62,8 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="employment_type" class="text-left" nzRequired>Employement type</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Employement type!">
-                            <nz-select formControlName="employment_type" nzPlaceHolder="Select Employement type!" (nzFocus)="fetchEmployementType()"
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Employement type">
+                            <nz-select formControlName="employment_type" nzPlaceHolder="Select Employement type" (nzFocus)="fetchEmployementType()"
                                 nzShowSearch nzAllowClear (nzOnSearch)="searchStaticDataGlobalFunction($event)">
                                 <nz-option *ngFor="let item of employementData" [nzValue]="item.pk" [nzLabel]="item.name">
                                 </nz-option>
@@ -74,7 +74,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="employee_type" class="text-left" nzRequired>Employee type</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please select Employee type!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please select Employee type">
                             <nz-radio-group formControlName="employee_type">
                                 <label nz-radio [nzValue]="'permanent'">permanent</label>
                                 <label nz-radio [nzValue]="'contractual'">contractual</label>
@@ -85,7 +85,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="flag" class="text-left" nzRequired>Flag</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please select Flag!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please select Flag">
                             <nz-radio-group formControlName="flag">
                                 <label nz-radio [nzValue]="'card'">card</label>
                                 <label nz-radio [nzValue]="'ewa'">ewa</label>
@@ -96,111 +96,111 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="global_product_min" class="text-left">Global product minimum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Global product minimum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Global product minimum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_product_min"
-                                placeholder="Please input Global product minimum!" />
+                                placeholder="Please input Global product minimum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="global_product_max" class="text-left">Global product maximum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Global product maximum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Global product maximum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_product_max"
-                                placeholder="Please input Global product maximum!" />
+                                placeholder="Please input Global product maximum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_permanent_min" class="text-left">Corporate permanent minimum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent minimum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent minimum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_permanent_min"
-                                placeholder="Please input Corporate permanent minimum!" />
+                                placeholder="Please input Corporate permanent minimum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_permanent_max" class="text-left">Corporate permanent maximum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent maximum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent maximum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_permanent_max"
-                                placeholder="Please input Corporate permanent maximum!" />
+                                placeholder="Please input Corporate permanent maximum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_permanent_agreed" class="text-left">Corporate permanent agreed</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent agreed!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate permanent agreed">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_permanent_agreed"
-                                placeholder="Please input Corporate permanent agreed!" />
+                                placeholder="Please input Corporate permanent agreed" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_contractual_min" class="text-left">Corporate contractual minimum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual minimum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual minimum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_contractual_min"
-                                placeholder="Please input Corporate contractual minimum!" />
+                                placeholder="Please input Corporate contractual minimum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_contractual_max" class="text-left">Corporate contractual maximum</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual maximum!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual maximum">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_contractual_max"
-                                placeholder="Please input Corporate contractual maximum!" />
+                                placeholder="Please input Corporate contractual maximum" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="corporate_contractual_agreed" class="text-left">Corporate contractual agreed</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual agreed!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Corporate contractual agreed">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="corporate_contractual_agreed"
-                                placeholder="Please input Corporate contractual agreed!" />
+                                placeholder="Please input Corporate contractual agreed" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="max_salary_percent" class="text-left">Max salary %</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Max salary %!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Max salary %">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="max_salary_percent"
-                                placeholder="Please input Max salary %!" />
+                                placeholder="Please input Max salary %" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ewa_percent" class="text-left">EWA %</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input EWA %!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input EWA %">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="ewa_percent"
-                                placeholder="Please input EWA %!" />
+                                placeholder="Please input EWA %" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="number_of_worked_days" class="text-left">No. of worked days</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input No. of worked days!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input No. of worked days">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="number_of_worked_days"
-                                placeholder="Please input No. of worked days!" />
+                                placeholder="Please input No. of worked days" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="total_days" class="text-left">Total days</nz-form-label>
-                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Total days!">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzErrorTip="Please input Total days">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="total_days"
-                                placeholder="Please input Total days!" />
+                                placeholder="Please input Total days" />
                         </nz-form-control>
                     </nz-form-item>
-                </div>
+                </div> -->
             </div>
         </form>
     </nz-card>
@@ -212,3 +212,12 @@
         </div>
     </ng-template>
 </section>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'Black box result'" (nzOnCancel)="isVisible = false"
+    [nzFooter]="null">
+    <ng-container *nzModalContent>
+        <div>Application Score : {{testResult.application_score}}</div>
+        <div>Product limit : {{testResult.product_limit_final}}</div>
+        <div>Max product limit : {{testResult.product_limit_final_max}}</div>
+    </ng-container>
+</nz-modal>

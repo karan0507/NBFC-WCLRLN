@@ -15,6 +15,8 @@ export class BlackBoxTestingComponent implements OnInit {
   loading: boolean;
   employementData;
   corporateData;
+  isVisible: boolean;
+  testResult: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -45,7 +47,7 @@ export class BlackBoxTestingComponent implements OnInit {
       max_salary_percent: [''],
       ewa_percent: [''],
       number_of_worked_days: [''],
-      total_days: ['']
+      // total_days: ['']
 
     })
   }
@@ -77,7 +79,9 @@ export class BlackBoxTestingComponent implements OnInit {
     this.http.createBlackBox(this.createEditForm.value).subscribe(res => {
       this.loading = false
       if (res['success']) {
-        this.message.success('Application Score : ' + res['data'].application_score + ', Product limit : ' + res['data'].product_limit)
+        this.isVisible = true
+        this.testResult = res['data']
+        // this.message.success('Application Score : ' + res['data'].application_score + ',  : ' + res['data'].product_limit)
       } else {
         this.message.success(res['message'])
       }
