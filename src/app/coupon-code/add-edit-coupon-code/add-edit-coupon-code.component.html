@@ -121,7 +121,7 @@
                               <nz-form-label>Select Master</nz-form-label>
                               <nz-form-control nzErrorTip="Check selected master">
                                     <nz-select (nzFocus)="onFocusMethod('master')"
-                                          formControlName="master" nzAllowClear [nzDisabled]="couponForm.get('isAllMaster').value ? true : false" nzPlaceHolder="Select Partner">
+                                          formControlName="master" nzAllowClear [nzDisabled]="couponForm.get('isAllMaster').value ? true : false" nzPlaceHolder="Select Master">
                                           <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
                                     </nz-select>

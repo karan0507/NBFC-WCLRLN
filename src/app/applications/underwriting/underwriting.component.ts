@@ -76,6 +76,7 @@ export class UnderwritingComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
+      currentDropDownId : any
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb: FormBuilder) { }
 
       ngOnInit(): void {
@@ -174,7 +175,7 @@ export class UnderwritingComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {

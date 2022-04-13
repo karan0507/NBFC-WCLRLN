@@ -8,9 +8,10 @@ import { map } from 'rxjs/operators';
       providedIn: 'root'
 })
 export class HttpService {
-      url = 'https://devadminapi.fatakpay.com'
+      // url = 'https://devadminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url1 = 'https://devonboardingapi.fatakpay.com'
+      // url1 = 'https://devonboardingapi.fatakpay.com'
 
       globalProductData = new ReplaySubject<any>();
       refreshBorrower = new ReplaySubject<any>();
