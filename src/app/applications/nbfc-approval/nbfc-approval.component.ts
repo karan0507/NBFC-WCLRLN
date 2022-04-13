@@ -72,7 +72,7 @@ export class NbfcApprovalComponent implements OnInit {
       verifyRemarks: any;
       _isCibil: boolean = false
       documentStatus = 1
-
+      currentDropDownId : any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -153,7 +153,7 @@ export class NbfcApprovalComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {

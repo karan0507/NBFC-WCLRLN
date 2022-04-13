@@ -227,4 +227,5 @@ export class FormFillingComponent implements OnInit {
             this.searchValue = null;
             this.getFormLoanData()
       }
+
 }

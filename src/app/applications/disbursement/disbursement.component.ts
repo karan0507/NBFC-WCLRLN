@@ -75,6 +75,7 @@ export class DisbursementComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
+      currentDropDownId : any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -172,7 +173,7 @@ export class DisbursementComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {

@@ -274,9 +274,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -286,9 +284,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.aadhar ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -766,11 +762,6 @@
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
-      <label *ngIf="_isUpload">Upload Document</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
-      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
-            Document</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
                   Party SMS Data</span></label>
@@ -863,10 +854,4 @@
             (click)="handleOk('StatusModal')">Submit</button>
       <button nz-button nzType="primary" class="mx-2" *ngIf="_isEditOffer" (click)="handleOk('offer')"
             [disabled]="offerForm.invalid ? true : false">Update</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
 </ng-template>

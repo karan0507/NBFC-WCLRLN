@@ -77,6 +77,7 @@ export class OfferProposedComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       searchValue: any;
+      currentDropDownId : any
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
@@ -171,7 +172,7 @@ export class OfferProposedComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {

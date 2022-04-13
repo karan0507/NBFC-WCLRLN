@@ -35,8 +35,13 @@ export class GlobalservicesService {
             }
             return val;
       }
-
-      maskingDigits(str){
-            return str.replace(/\S(?=\S{4})/g, "*")
-      }
+      
+      maskedValue(data, type){
+            if(data && type == 'pan'){
+             return data[data.length-1]['pan_no']
+            }else if(data && type == 'aadhar'){
+             return data[data.length-1]['aadhar_no']
+            }
+       }
+       
 }

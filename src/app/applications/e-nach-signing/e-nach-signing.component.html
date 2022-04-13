@@ -244,10 +244,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              <!-- created_at -->
-                                                                              {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pan_no
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -257,9 +254,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.aadhar_no
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -291,26 +286,28 @@
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.file"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="View Document"
-                                                                                          (click)="openDocumentModal('viewDocument',item, data)">
+                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.status == 'Pending'"
+                                                                                          *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
                                                                                           nzTooltipTitle="Verify Document"
-                                                                                          (click)="openDocumentModal('verify',item, data)">
+                                                                                          (click)="_isVerify = true; _currentModalData = item">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="Download Document"
-                                                                                          (click)="openDocumentModal('download',item)">
+                                                                                          href="{{ item?.front_file_url }}"
+                                                                                          download target="_blank">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
                                                                                           nzTooltipTitle="Upload Document"
-                                                                                          (click)="openDocumentModal('upload',item)">
+                                                                                          (click)="_isUpload = true; _currentModalData = item">
                                                                                           <i nz-icon nzType="upload"
                                                                                                 nzTheme="outline"></i>
                                                                                     </a>
@@ -374,8 +371,8 @@
                                                 </ng-template>
                                           </div>
 
-                                             <!-- SMS  -->
-                                             <div class="mt-3">
+                                          <!-- SMS  -->
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="smsDetails">
                                                 </nz-page-header>
@@ -387,7 +384,8 @@
                                                                         <h6>
                                                                               <div class="d-flex">
                                                                                     <label class="text-muted">SMS
-                                                                                          Score: <span>(  )</span></label>
+                                                                                          Score: <span>(
+                                                                                                )</span></label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
@@ -861,12 +859,80 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
-                                    </tr>
-                              </ng-container>
+
+                                          <div class="my-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="response">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <nz-table #colSpanTable [nzFrontPagination]="false"
+                                                            [nzShowSizeChanger]="false"
+                                                            [nzData]="data?.expanddata?.api_calls_response" nzBordered>
+                                                            <thead>
+                                                                  <tr>
+                                                                        <th></th>
+                                                                        <th
+                                                                              *ngFor="let item of data?.expanddata?.api_calls_response">
+                                                                              {{item?.name }} </th>
+
+                                                                  </tr>
+                                                            </thead>
+                        <tbody>
+
+                              <tr>
+                                    <td class="font-weight-semibold">API Call</td>
+                                    <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                                          <i *ngIf="item?.called" nz-icon nzType="check-circle" nzTheme="fill"
+                                                class="text-success"></i>
+                                          <i *ngIf="!(item?.called)" nz-icon nzType="close-circle" nzTheme="fill"
+                                                class="text-danger"></i>
+                                    </td>
+                              </tr>
+                              <tr>
+
+                                    <td>Response came</td>
+                                    <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                                          <i *ngIf="item?.response" nz-icon nzType="check-circle" nzTheme="fill"
+                                                class="text-success"></i>
+                                          <i *ngIf="!(item?.response)" nz-icon nzType="close-circle" nzTheme="fill"
+                                                class="text-danger"></i>
+                                    </td>
+                              </tr>
                         </tbody>
                   </nz-table>
-            </div>
       </nz-card>
+      <ng-template #response>
+            <div class="ml-md-2">
+                  <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> API response</h6>
+            </div>
+      </ng-template>
+      </div>
+      </tr>
+      </ng-container>
+      </tbody>
+      </nz-table>
+      </div>
+      </nz-card>
+</section>
+
+<section *ngIf="_isViewDocument">
+      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
+</section>
+
+<section *ngIf="_isVerify">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isVerify = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
+
+</section>
+<section *ngIf="_isUpload">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isUpload = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
 </section>
 
 <!-- Modal Section -->
@@ -874,10 +940,6 @@
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="isRejectModal">Reject</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
-      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
-            Document</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
                   Party SMS Data</span></label>
@@ -964,54 +1026,13 @@
                         </div>
                   </div>
             </section>
-
-            <!-- View Document Modal -->
-            <section *ngIf="_isViewDocument">
-                  <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100">
-            </section>
-
-            <!-- Verify Document Modal -->
-            <section *ngIf="_isVerify">
-                  <div class="d-flex flex-column">
-                        <div> Verify {{ _currentModalData?.document_id?.name + ' Document'}}
-                        </div>
-                        <div class="d-flex flex-column">
-                              <div class="my-3">
-                                    <nz-radio-group [(ngModel)]="documentStatus">
-                                          <label nz-radio [nzValue]="1">Accept</label>
-                                          <label nz-radio [nzValue]="2">Reject</label>
-                                    </nz-radio-group>
-                              </div>
-                              <div class="d-flex flex-wrap">
-                                    <label>Remarks: </label>
-                                    <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
-                                    <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
-                                    <textarea rows="4" nz-input></textarea>
-                              </nz-textarea-count> -->
-                              </div>
-                        </div>
-                  </div>
-
-            </section>
-
-            <!-- Upload Document Modal -->
-            <section *ngIf="_isUpload">
-                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
-                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
-                        <p class="ant-upload-text">Drag and Drop file here</p>
-                        <p class="ant-upload-text">or</p>
-                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                        <!-- (click)="isPreview = true; isUpload = false" -->
-                  </nz-upload>
-            </section>
-      </nz-modal>
-</section>
 <ng-template #footerModal>
       <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
       <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
             (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isStatus" nz-button [nzLoading]="api_calling_loader['button']" nzType="primary" class="mx-2" (click)="handleOk('status')">Submit</button>
+      <button *ngIf="_isStatus" nz-button [nzLoading]="api_calling_loader['button']" nzType="primary" class="mx-2"
+            (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"

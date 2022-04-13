@@ -76,6 +76,7 @@ export class OfferAcceptanceComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
+      currentDropDownId :any
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -171,7 +172,7 @@ export class OfferAcceptanceComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {

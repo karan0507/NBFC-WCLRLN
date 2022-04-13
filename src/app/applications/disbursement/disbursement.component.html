@@ -244,9 +244,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
-                                                                                    : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -256,9 +254,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
-                                                                                    : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -917,15 +913,31 @@
       </nz-card>
 </section>
 
+
+<section *ngIf="_isViewDocument">
+      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
+</section>
+
+<section *ngIf="_isVerify">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isVerify = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
+
+</section>
+<section *ngIf="_isUpload">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isUpload = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
+</section>
+
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="isRejectModal">Reject</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
-      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
-            Document</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
                   Party SMS Data</span></label>
@@ -1013,46 +1025,6 @@
                   </div>
             </section>
 
-            <!-- View Document Modal -->
-            <section *ngIf="_isViewDocument">
-                  <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100">
-            </section>
-
-            <!-- Verify Document Modal -->
-            <section *ngIf="_isVerify">
-                  <div class="d-flex flex-column">
-                        <div> Verify {{ _currentModalData?.document_id?.name + ' Document'}}
-                        </div>
-                        <div class="d-flex flex-column">
-                              <div class="my-3">
-                                    <nz-radio-group [(ngModel)]="documentStatus">
-                                          <label nz-radio [nzValue]="1">Accept</label>
-                                          <label nz-radio [nzValue]="2">Reject</label>
-                                    </nz-radio-group>
-                              </div>
-                              <div class="d-flex flex-wrap">
-                                    <label>Remarks: </label>
-                                    <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
-                                    <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
-                                    <textarea rows="4" nz-input></textarea>
-                              </nz-textarea-count> -->
-                              </div>
-                        </div>
-                  </div>
-
-            </section>
-
-            <!-- Upload Document Modal -->
-            <section *ngIf="_isUpload">
-                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
-                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
-                        <p class="ant-upload-text">Drag and Drop file here</p>
-                        <p class="ant-upload-text">or</p>
-                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                        <!-- (click)="isPreview = true; isUpload = false" -->
-                  </nz-upload>
-            </section>
-
       </nz-modal>
 </section>
 
@@ -1063,10 +1035,4 @@
       <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']" (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
 </ng-template>

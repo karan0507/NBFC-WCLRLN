@@ -243,9 +243,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -255,9 +253,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -496,11 +492,5 @@
       <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']"
             [disabled]="!_currentStageStatus ? true : false" class="mx-2"
             (click)="handleOk('StatusModal')">Submit</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>
