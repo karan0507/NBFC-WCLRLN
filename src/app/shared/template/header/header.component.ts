@@ -12,10 +12,12 @@ export class HeaderComponent{
     quickViewVisible : boolean = false;
     isFolded : boolean;
     isExpand : boolean;
+    userDetails: any;
 
     constructor( private themeService: ThemeConstantService) {}
 
     ngOnInit(): void {
+        this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);
     }

@@ -859,8 +859,8 @@ export class HttpService {
             return this._http.get(this.url + `/partner/v1/download-employee-details/${id}`,{ responseType:'blob' });
       }
 
-      viewSavedFileContent(id){
-            return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`);
+      viewSavedFileContent(id, data){
+            return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`, {params: data});
       }
 
       restrictType(event) {
