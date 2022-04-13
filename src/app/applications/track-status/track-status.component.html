@@ -7,47 +7,43 @@
       <nz-card>
             <div class="row">
                   <div class="col-md-12" *ngIf="!loanStatusData">No Status Update</div>
-                  <div class="col-md-12 d-flex flex-wrap" *ngIf="loanStatusData">
-                        <div class="col-md-6">
-                              <div class="d-flex flex-column">
-                                    <div>
-                                          <h5 class="mb-4">Status</h5>
-                                    </div>
-                                    <div>
-                                          <nz-steps  [nzCurrent]="loanStatusData.length" nzProgressDot nzDirection="vertical">
-                                                <nz-step *ngFor="let item of loanStatusData" [nzTitle]="item?.status"></nz-step>
-                                          </nz-steps>
-                                    </div>
-                              </div>
+                  <div class="col-md-12" *ngIf="loanStatusData">
+                        <div class="d-flex justify-content-between flex-wrap">
+<!-- <div class="align-middle">
+
+</div> -->
                         </div>
-                        <div class="col-md-3">
-                              <div class="d-flex flex-column">
-                                    <div>
-                                          <h5 class="mb-4">Date</h5>
-                                    </div>
-                                    <div>
-                                          <ul nz-menu>
-                                                <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
-                                                      {{ loanStatusData ? item?.date : '--'}} </li>
-                                          </ul>
-                                    </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3">
-                              <div class="d-flex flex-column">
-                                    <div>
-                                          <h5 class="mb-4">Time</h5>
-                                    </div>
-                                    <div>
-                                          <ul nz-menu>
-      
-                                                <li class="pl-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                        <nz-table #colSpanTable [nzFrontPagination]="false" [nzShowSizeChanger]="false">
+                              <thead>
+                                    <tr>
+                                          <th>Status</th>
+                                          <th>Date</th>
+                                          <th>Time</th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr *ngFor="let item of loanStatusData">
+                                          <td class="font-weight-semibold">
+                                                <nz-steps [nzCurrent]="loanStatusData.length" nzProgressDot
+                                                      nzDirection="vertical">
+                                                      <nz-step
+                                                            [nzTitle]="item?.status">
+                                                      </nz-step>
+                                                </nz-steps>
+                                          </td>
+                                          <td>
+                                                <label> {{ loanStatusData ?
+                                                      item?.date : '--'}}</label>
+                                          </td>
+                                          <td>
+                                                <label>
                                                       {{ loanStatusData ? item?.time : '--'}}
-                                                </li>
-                                          </ul>
-                                    </div>
-                              </div>
-                        </div>
+                                                </label>
+                                          </td>
+                                    </tr>
+                              </tbody>
+                        </nz-table>
                   </div>
             </div>
       </nz-card>
