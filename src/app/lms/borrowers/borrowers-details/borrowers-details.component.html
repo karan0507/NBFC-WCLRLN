@@ -124,7 +124,7 @@
                   </div>
                   <div class="col-md brr-detail-section-border">
                         <p class="mb-0">Outstanding</p>
-                        <h5>₹ {{borrowertList?.loan_amount_provided - borrowertList?.credit_utilization_amount}} <i
+                        <h5>₹ {{borrowertList?.outstanding_amount}} <i
                                     nz-icon nzType="info-circle" nzTheme="outline" class="ml-1" nz-popover
                                     nzPopoverTitle="" [nzPopoverContent]="contentTemplate"></i></h5>
                         <ng-template #contentTemplate>
@@ -242,7 +242,7 @@
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
-                                    <td>₹{{ data?.txn_amount }}</td>
+                                    <td>₹ {{data?.txn_type == 'Repayment' ? '+' : '-'}} {{ data?.txn_amount }}</td>
                                     <td>{{ data?.pan }}</td>
                                     <td>{{ data?.pan }}</td>
                                     <td>{{ data?.txn_status }}</td>
