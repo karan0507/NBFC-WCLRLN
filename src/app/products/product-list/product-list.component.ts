@@ -25,6 +25,8 @@ export class ProductListComponent implements OnInit {
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
+  partnerData: any;
+  partner;
 
 
   constructor(public http: HttpService, private message: NzMessageService,
@@ -48,7 +50,8 @@ export class ProductListComponent implements OnInit {
       limit: this.globalPageSize,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      status: this.status ? this.status : 'all'
+      status: this.status ? this.status : 'all',
+      partner: this.partner ? this.partner : ''
       // id: this.product_id
     }
     this.productList = null
@@ -75,6 +78,15 @@ export class ProductListComponent implements OnInit {
     this.http.activeInactiveProduct(id).subscribe(res => {
       this.message.success(res['message'])
       this.fetchProductList()
+    })
+  }
+
+  
+  fetchPartnerData() {
+    let data;
+    this.http.fetchPartner(data).subscribe(res => {
+      this.partnerData = res['data'].results
+      // this.message.success(res['message'])
     })
   }
 }
