@@ -85,6 +85,9 @@ export class FormFillingComponent implements OnInit {
             if (this.searchValue) {
                   data['name'] = this.searchValue
             }
+            if(this.partner){
+                  data['company'] = this.partner
+            }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
@@ -231,7 +234,9 @@ export class FormFillingComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
+            
       }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
@@ -11,7 +11,7 @@ import * as moment from 'moment';
       templateUrl: './add-edit-coupon-code.component.html',
       styleUrls: ['./add-edit-coupon-code.component.css']
 })
-export class AddEditCouponCodeComponent implements OnInit {
+export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
       couponForm: FormGroup
       api_calling_loader = {
             'listLoader': false,
@@ -29,7 +29,14 @@ export class AddEditCouponCodeComponent implements OnInit {
       isEdit: boolean = false;
       currentCouponId: any;
       couponDetail: any;
+      api_service_stack : any = [];
       constructor(public https: HttpService, public fb: FormBuilder, public router: Router, public route: ActivatedRoute, public message: NzMessageService) { }
+      
+      ngOnDestroy(): void {
+            this.api_service_stack.forEach(element => {
+                  element.unsubscribe()
+            });
+      }
 
       ngOnInit(): void {
 
@@ -84,11 +91,13 @@ export class AddEditCouponCodeComponent implements OnInit {
 
       onFocusMethod(type?) {
             if (type == 'partner') {
-                  this.https.fetchPartner().subscribe((res: any) => {
-                        if (res) {
-                              this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
-                        }
-                  })
+                  this.api_service_stack.push(
+                        this.https.fetchPartner().subscribe((res: any) => {
+                              if (res) {
+                                    this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                              }
+                        })
+                  )
             } else if (type == 'master') {
                   this.https.fetchMasterPartner().subscribe((res: any) => {
                         if (res) {
@@ -175,11 +184,13 @@ export class AddEditCouponCodeComponent implements OnInit {
                   }
             })
 
+           this.api_service_stack.push(
             this.https.fetchPartner().subscribe((res: any) => {
                   if (res) {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   }
             })
+           )
       }
 
 }

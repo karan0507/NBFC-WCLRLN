@@ -37,7 +37,7 @@
                                           [nzLabel]="item.name">
                                     </nz-option>
                               </nz-select>
-                        <nz-select (nzFocus)="onFocusMethod('partner')" class="mr-3 w-60" [(ngModel)]="partner" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-60" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
                                     </nz-select>

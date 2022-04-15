@@ -124,7 +124,7 @@
                   </div>
                   <div class="col-md brr-detail-section-border">
                         <p class="mb-0">Outstanding</p>
-                        <h5>₹ {{borrowertList?.loan_amount_provided - borrowertList?.credit_utilization_amount}} <i
+                        <h5>₹ {{borrowertList?.outstanding_amount}} <i
                                     nz-icon nzType="info-circle" nzTheme="outline" class="ml-1" nz-popover
                                     nzPopoverTitle="" [nzPopoverContent]="contentTemplate"></i></h5>
                         <ng-template #contentTemplate>
@@ -215,14 +215,14 @@
                               <th nzWidth="3rem">#</th>
                               <th nzWidth="15rem">User Details</th>
                               <!-- <th>User Code</th> -->
-                              <th>Transaction ID</th>
+                              <!-- <th>Transaction ID</th> -->
                               <th>Transaction Type</th>
                               <th>Details</th>
                               <th>Payment method</th>
                               <th>Date & Time</th>
                               <th>Amount (₹)</th>
-                              <th>GST Amount</th>
-                              <th>Total Amount (₹)</th>
+                              <!-- <th>GST Amount</th>
+                              <th>Total Amount (₹)</th> -->
                               <th>Status</th>
                               <th nzWidth="5rem" nzRight>Action</th>
                         </tr>
@@ -237,14 +237,14 @@
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
                                     <!-- <td>{{ data?.pan }}</td> -->
-                                    <td>{{ data?.txn_unique_id }}</td>
+                                    <!-- <td>{{ data?.txn_unique_id }}</td> -->
                                     <td>{{ data?.txn_type }}</td>
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
-                                    <td>₹{{ data?.txn_amount }}</td>
-                                    <td>{{ data?.pan }}</td>
-                                    <td>{{ data?.pan }}</td>
+                                    <td>₹ {{data?.txn_type == 'Repayment' ? '+' : '-'}} {{ data?.txn_amount }}</td>
+                                    <!-- <td>{{ data?.pan }}</td>
+                                    <td>{{ data?.pan }}</td> -->
                                     <td>{{ data?.txn_status }}</td>
                                     <td nzRight>
                                           <div>
@@ -331,14 +331,14 @@
                               <th nzWidth="3rem">#</th>
                               <th nzWidth="15rem">User Details</th>
                               <!-- <th>User Code</th> -->
-                              <th>Transaction ID</th>
+                              <!-- <th>Transaction ID</th> -->
                               <th>Transaction Type</th>
                               <th>Details</th>
                               <th>Payment method</th>
                               <th>Date & Time</th>
                               <th>Amount (₹)</th>
-                              <th>GST Amount</th>
-                              <th>Total Amount (₹)</th>
+                              <!-- <th>GST Amount</th>
+                              <th>Total Amount (₹)</th> -->
                               <th>Status</th>
                               <th nzWidth="5rem" nzRight>Action</th>
                         </tr>
@@ -353,14 +353,14 @@
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
                                     <!-- <td>{{ data?.pan }}</td> -->
-                                    <td>{{ data?.txn_unique_id }}</td>
+                                    <!-- <td>{{ data?.txn_unique_id }}</td> -->
                                     <td>{{ data?.txn_type }}</td>
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
                                     <td>₹{{ data?.txn_amount }}</td>
-                                    <td>{{ data?.pan }}</td>
-                                    <td>{{ data?.pan }}</td>
+                                    <!-- <td>{{ data?.pan }}</td>
+                                    <td>{{ data?.pan }}</td> -->
                                     <td>{{ data?.txn_status }}</td>
                                     <td nzRight>
                                           <div>

@@ -86,8 +86,7 @@
                         <nz-form-item>
                               <nz-form-label>Select Partner</nz-form-label>
                               <nz-form-control nzErrorTip="Check partner selected">
-                                    <nz-select (nzFocus)="onFocusMethod('partner')"
-                                          formControlName="partner" nzAllowClear [nzDisabled]="couponForm.get('isAllPartner').value ? true : false" nzPlaceHolder="Select Partner">
+                                    <nz-select formControlName="partner" [nzDisabled]="couponForm.get('isAllPartner').value ? true : false" nzAllowClear    (nzFocus)="onFocusMethod('partner')" nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
                                     </nz-select>

@@ -77,6 +77,8 @@ export class OfferAcceptanceComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       currentDropDownId :any
+      partner : any
+      partnerList : any = []
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -95,17 +97,20 @@ export class OfferAcceptanceComponent implements OnInit {
             // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
             return this.sanitize.bypassSecurityTrustResourceUrl(value);
       }
+
       onFocusMethod(type) {
             if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
                         this.productList = res?.data
-                        console.log(this.productList);
                   })
             } else if (type == 'status') {
                   let params = { 'source': 'Onboarding', endpoint: '5', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
-                        console.log(this.stageStatusList);
+                  })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
       }
@@ -124,19 +129,18 @@ export class OfferAcceptanceComponent implements OnInit {
             if (this.searchValue) {
                   data['name'] = this.searchValue
             }
+            if(this.partner){
+                  data['company'] = this.partner
+            }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
@@ -458,6 +462,7 @@ export class OfferAcceptanceComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
       }
 }
