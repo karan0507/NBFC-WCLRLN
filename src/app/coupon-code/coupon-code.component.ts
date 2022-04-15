@@ -32,7 +32,6 @@ export class CouponCodeComponent implements OnInit {
             this.couponCodeListData = []
             this.api_calling_loader['listLoader'] = true;
             let param = new FormData()
-            console.log(this.filters);
 
             if (this.filters) {
                   param['status'] = this.filters == 1 ? 'active' : 'inactive';
@@ -41,20 +40,16 @@ export class CouponCodeComponent implements OnInit {
                   param['keyword'] = this.searchValue
             }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   param['page'] = tableFilter?.pageIndex
                   param['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   param['page'] = this.page
                   param['limit'] = this.globalPageSize
             }
             this.https.getCouponCodeList(param).subscribe((res: any) => {
                   if (res?.success) {
-                        console.log(res?.data);
                         this.total_count = res?.data?.total_count;
                         this.couponCodeListData = res?.data?.results
                         this.api_calling_loader['listLoader'] = false;

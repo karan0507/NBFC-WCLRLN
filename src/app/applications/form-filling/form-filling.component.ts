@@ -24,6 +24,8 @@ export class FormFillingComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      partner : any
+      partnerList : any = []
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -61,6 +63,10 @@ export class FormFillingComponent implements OnInit {
                   let params = { 'source': 'Onboarding', endpoint: '1', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
+                  })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
       }

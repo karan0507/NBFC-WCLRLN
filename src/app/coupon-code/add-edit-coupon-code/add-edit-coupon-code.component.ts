@@ -76,7 +76,6 @@ export class AddEditCouponCodeComponent implements OnInit {
                         this.couponForm.get('product').setValue(this.couponDetail?.product ? this.couponDetail?.product?.id : null)
                         this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees ? this.couponDetail?.product_fees?.id : null)
                         this.api_calling_loader['listLoader'] = false;
-                        console.log(this.couponForm);
                   }
             })
            
@@ -143,10 +142,8 @@ export class AddEditCouponCodeComponent implements OnInit {
             if (this.couponForm.get('product_fees').value) {
                   data['product_fees'] = this.couponForm.get('product_fees').value
             }
-            console.log('you are about to call API', data, this.couponForm.value);
             this.https.addEditCouponCode(data).subscribe((res: any) => {
                   if (res?.success) {
-                        console.log('');
                         this.message.success(res?.message)
                         this.router.navigateByUrl(`/coupon-code`);
                   } else {
@@ -158,8 +155,6 @@ export class AddEditCouponCodeComponent implements OnInit {
       callMultipleMasters() {
             this.https.getProducts().subscribe((res: any) => {
                   if (res) {
-                        console.log(res);
-                        
                         this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
                   }
             })
