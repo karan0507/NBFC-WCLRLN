@@ -85,9 +85,9 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="changePassword(data)">
+                                        <!-- <li nz-menu-item (click)="changePassword(data)">
                                             <span class="m-l-5" >Change Password</span>
-                                        </li>
+                                        </li> -->
                                         <li nz-menu-item  [routerLink]="['../lenders/edit']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li>

@@ -101,10 +101,9 @@
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                         <ul nz-menu>
                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                            <li nz-menu-item>
-                                                <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <!-- <li nz-menu-item>
                                                 <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
-                                            </li>
+                                            </li> -->
                                             <li nz-menu-item [routerLink]="['../masters-partners/edit']" [queryParams]="{id: data.id}">
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Edit</span>
