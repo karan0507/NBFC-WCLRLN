@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ClosedComponent } from './closed/closed.component';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
@@ -106,6 +107,14 @@ const routes: Routes = [
                         component: StageTriggersComponent,
                         data: {
                               title: 'Dormant',
+                              parent: 'Application',
+                        }
+                  },
+                  {
+                        path: 'closed',
+                        component: ClosedComponent,
+                        data: {
+                              title: 'Closed',
                               parent: 'Application',
                         }
                   },

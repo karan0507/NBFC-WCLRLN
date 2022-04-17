@@ -77,6 +77,8 @@ export class UnderwritingComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       currentDropDownId : any
+      partner : any
+      partnerList : any = []
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, public fb: FormBuilder) { }
 
       ngOnInit(): void {
@@ -106,6 +108,10 @@ export class UnderwritingComponent implements OnInit {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
                   })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                  })
             }
       }
 
@@ -122,6 +128,9 @@ export class UnderwritingComponent implements OnInit {
             }
             if (this.searchValue) {
                   data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['company'] = this.partner
             }
             if (this.currentDate) {
                   data['date_filter'] = moment(this.currentDate).format("yyyy-MM-DD")
@@ -460,6 +469,7 @@ export class UnderwritingComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
       }
 }

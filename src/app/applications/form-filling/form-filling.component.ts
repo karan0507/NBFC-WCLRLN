@@ -24,6 +24,8 @@ export class FormFillingComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      partner : any
+      partnerList : any = []
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -62,6 +64,10 @@ export class FormFillingComponent implements OnInit {
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                  })
             }
       }
 
@@ -78,6 +84,9 @@ export class FormFillingComponent implements OnInit {
             }
             if (this.searchValue) {
                   data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['company'] = this.partner
             }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
@@ -225,7 +234,9 @@ export class FormFillingComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
+            
       }
 
 }

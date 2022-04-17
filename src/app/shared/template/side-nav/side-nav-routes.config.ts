@@ -201,6 +201,14 @@ export const ROUTES: SideNavInterface[] = [
                 icon: '',
                 iconTheme: '',
                 submenu: [] 
+            },
+            { 
+                path: 'applications/closed',
+                title: 'Closed ', 
+                iconType: '', 
+                icon: '',
+                iconTheme: '',
+                submenu: [] 
             }
         ]
     },

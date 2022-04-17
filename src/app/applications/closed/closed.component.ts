@@ -74,6 +74,8 @@ export class ClosedComponent implements OnInit {
   productList: any = []
   stageStatusList: any = []
   currentDropDownId: any;
+  partner : any
+  partnerList : any = []
   constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -105,7 +107,11 @@ export class ClosedComponent implements OnInit {
                     this.stageStatusList = res?.data
                     console.log(this.stageStatusList);
               })
-        }
+        }else if(type == 'partner'){
+            this.https.fetchPartner().subscribe((res:any)=>{
+                  this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+            })
+      }
   }
 
   getFormLoanData(tableFilter?) {
@@ -122,6 +128,9 @@ export class ClosedComponent implements OnInit {
         if (this.searchValue) {
               data['name'] = this.searchValue
         }
+        if(this.partner){
+            data['company'] = this.partner
+      }
         if (tableFilter) {
               console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
               this.page = tableFilter?.pageIndex
@@ -422,6 +431,7 @@ export class ClosedComponent implements OnInit {
         this.productFilters = null;
         this.filters = null;
         this.searchValue = null;
+        this.partner = null
         this.getFormLoanData()
   }
 }
