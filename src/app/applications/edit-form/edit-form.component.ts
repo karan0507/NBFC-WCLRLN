@@ -248,7 +248,6 @@ export class EditFormComponent implements OnInit {
 
       editCompanyName(value?) {
             let data = this.partnerList.filter(res => res.pk == value);
-            console.log(data);
             this.employementDetails.get('address').setValue(data[0]?.address);
       }
 
@@ -259,7 +258,6 @@ export class EditFormComponent implements OnInit {
       }
 
       onFocusMethod(event) {
-            console.log(event);
 
       }
 
