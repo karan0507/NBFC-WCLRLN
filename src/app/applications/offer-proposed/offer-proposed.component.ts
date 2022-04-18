@@ -78,6 +78,8 @@ export class OfferProposedComponent implements OnInit {
       stageStatusList: any = []
       searchValue: any;
       currentDropDownId : any
+      partner : any
+      partnerList : any = []
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
@@ -107,6 +109,10 @@ export class OfferProposedComponent implements OnInit {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
                   })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                  })
             }
       }
 
@@ -120,6 +126,9 @@ export class OfferProposedComponent implements OnInit {
             }
             if (this.productFilters) {
                   data['product_master'] = this.productFilters
+            }
+            if(this.partner){
+                  data['company'] = this.partner
             }
             if (this.searchValue) {
                   data['name'] = this.searchValue
@@ -478,6 +487,7 @@ export class OfferProposedComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
       }
 }

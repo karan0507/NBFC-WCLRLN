@@ -88,9 +88,9 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item  (click)="changePassword(data)">
+                                        <!-- <li nz-menu-item  (click)="changePassword(data)">
                                             <span class="m-l-5">Change Password</span>
-                                        </li>
+                                        </li> -->
                                         <li nz-menu-item  [routerLink]="['/merchants/list/edit-merchant']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li>

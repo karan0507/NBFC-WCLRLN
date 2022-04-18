@@ -99,9 +99,9 @@
           <div
             class="col-md-7 d-flex justify-content-center"
             *ngIf="
-              fetchedList['acquisition']?.active_users_exact_count &&
-              fetchedList['acquisition']?.total_corporate_users_exact_count &&
-              fetchedList['acquisition']?.all_registered_users_exact_count &&
+              fetchedList['acquisition']?.active_users_exact_count ||
+              fetchedList['acquisition']?.total_corporate_users_exact_count ||
+              fetchedList['acquisition']?.all_registered_users_exact_count ||
               fetchedList['acquisition']?.app_registered_users_exact_count
             "
           >
