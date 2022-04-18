@@ -81,7 +81,7 @@ export class MasterPartnersComponent implements OnInit {
       return this.fb.group({
         id: [data.id],
         product: [this.product_id],
-        name: [data.master_partner?.id, [Validators.required]],
+        name: [data.master_partner?.id],
         no_of_partner: [data.no_of_partner, [Validators.required]],
         amount_per_partner: [data.amount_per_partner, [Validators.required]],
         slab_array: this.fb.array([]),

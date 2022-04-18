@@ -19,6 +19,8 @@
                                 <nz-select formControlName="name" nzPlaceHolder="Select Master Partner's  Name!"
                                     (nzFocus)="fetchMasterPartnerData()" nzShowSearch nzAllowClear
                                     (nzOnSearch)="searchStaticDataGlobalFunction($event)">
+                                    <nz-option nzValue="" nzLabel="No master">
+                                    </nz-option>
                                     <nz-option *ngFor="let item of masterParnerData" [nzValue]="item.pk"
                                         [nzLabel]="item.name">
                                     </nz-option>
