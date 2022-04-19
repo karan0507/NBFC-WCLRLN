@@ -421,6 +421,9 @@ export class AddEditPartnersComponent implements OnInit {
       partner_nature: ["Partner", [Validators.required]],
       partner_master: [data ? data?.master_partner?.id : null],
       flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
+      relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
+      relationship_manager_contact:[data ? data?.relationship_manager_contact : null, [Validators.required, , Validators.pattern("^[1-9][0-9]{9}$")]],
+      relationship_manager_email:[data ? data?.relationship_manager_email : null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]],
       max_salary_percent: [data ? data?.corporate_limit_settings?.max_salary_percent : null],
       ewa_percent: [data ? data?.corporate_limit_settings?.ewa_percent : null],
       permanent_min:[data ? data?.corporate_limit_settings?.permanent_min : null],
@@ -952,7 +955,7 @@ export class AddEditPartnersComponent implements OnInit {
         console.log(sendDate);
 
         for (var i in sendDate) {
-          if (i == "document_data" || i == "nach_date_time_mappings" || i == "corporate_limit_settings") {
+          if (i == "document_data" || i == "nach_date_time_mappings") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
             if (sendDate[i]) {
@@ -962,7 +965,7 @@ export class AddEditPartnersComponent implements OnInit {
           }
           // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
         }
-        data.append("corporate_limit_settings", corporate_limit_settings);
+        // data.append("corporate_limit_settings", corporate_limit_settings);
         const url = this.http.createPartnerForm(data);
         url.subscribe(
           (res: any) => {
