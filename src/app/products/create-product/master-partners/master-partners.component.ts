@@ -93,7 +93,7 @@ export class MasterPartnersComponent implements OnInit {
     } else {
       
       return this.fb.group({
-        name: ['', [Validators.required]],
+        name: [''],
         no_of_partner: ['', [Validators.required]],
         amount_per_partner: ['', [Validators.required]],
         slab_array: this.fb.array([this.addSlabControls()]),
