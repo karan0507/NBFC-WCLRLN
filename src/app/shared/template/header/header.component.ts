@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalservicesService } from '../../globalservices.service';
 import { ThemeConstantService } from '../../services/theme-constant.service';
 
 @Component({
@@ -14,10 +15,26 @@ export class HeaderComponent{
     isExpand : boolean;
     userDetails: any;
 
-    constructor( private themeService: ThemeConstantService) {}
+    constructor( private themeService: ThemeConstantService, private globalFunction :GlobalservicesService) {}
 
     ngOnInit(): void {
-        this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+        this.globalFunction.globalUserData.subscribe(res => {
+            console.log(res);
+            this.userDetails = res;
+        })
+        // this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'));
+        // if(!this.userDetails){
+        //     this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+        //     console.log(this?.userDetails);
+        // } 
+        // else {
+            // setTimeout(function () {
+            //     // ...
+            //     this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+            // }, 10000);
+            // this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+            // console.log(this?.userDetails);
+        // }
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);
     }
