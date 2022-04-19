@@ -476,7 +476,7 @@
                     Corporate Limit Setting
                 </h5>
             </div>
-            <div class="row">
+            <div class="row border-bottom">
                 <div class="col-md-12 mt-4">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="payout" class="text-left">Flag</nz-form-label>
@@ -551,6 +551,37 @@
                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="contractual_agreed" class="text-left">CORPORATE CONTRACTUAL AGREED LIMIT</nz-form-label>
                         <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Agreed!">
                             <input nz-input type="number" formControlName="contractual_agreed"  placeholder="Contractual Agreed"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Relationship Manager Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="relationship_manager_name" class="text-left" nzRequired>Relationship Manager Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter Valid Name">
+                            <input nz-input type="text" formControlName="relationship_manager_name"  placeholder="Relationship Manager Name" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="relationship_manager_contact" class="text-left" nzRequired>Relationship Manager Contact No</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter Valid Number">
+                            <input nz-input type="number" formControlName="relationship_manager_contact"  placeholder="Relationship Manager Number"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="relationship_manager_email" class="text-left" nzRequired>Relationship Manager Email</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Email">
+                            <input nz-input type="text" formControlName="relationship_manager_email"  placeholder="Relationship Manager Name"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
