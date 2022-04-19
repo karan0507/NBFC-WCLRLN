@@ -8,10 +8,25 @@ import { map } from 'rxjs/operators';
       providedIn: 'root'
 })
 export class HttpService {
+      //dev admin 
       // url = 'https://devadminapi.fatakpay.com'
-      url =  'https://adminapi.fatakpay.com'
+
+      // dev production
+      // url =  'https://adminapi.fatakpay.com'
       // url = 'https://adminapi.fatakpay.com'
 
+      url = this.valueFunction()
+
+      valueFunction(){
+      var dynamic_url;
+
+      if (location.origin == 'https://admin.fatakpay.com' || location.origin == 'http://admin.fatakpay.com') {
+            dynamic_url = 'https://adminapi.fatakpay.com'
+      } else {
+            dynamic_url = 'https://devadminapi.fatakpay.com'
+      }
+      return dynamic_url
+      }
       // url1 = 'https://devonboardingapi.fatakpay.com'
 
       globalProductData = new ReplaySubject<any>();
