@@ -420,7 +420,7 @@ export class AddEditPartnersComponent implements OnInit {
       master: ["0", [Validators.required]],
       partner_nature: ["Partner", [Validators.required]],
       partner_master: [data ? data?.master_partner?.id : null],
-      flag:[data ? data?.corporate_limit_settings?.flag : 'Card'],
+      flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
       max_salary_percent: [data ? data?.corporate_limit_settings?.max_salary_percent : null],
       ewa_percent: [data ? data?.corporate_limit_settings?.ewa_percent : null],
       permanent_min:[data ? data?.corporate_limit_settings?.permanent_min : null],
