@@ -18,12 +18,12 @@ export class Login1Component {
             "assets/images/image (4).png",
             "assets/images/image (2).png",
       ]
-      is_forget : boolean = false;
-      is_link_send : boolean;
+      is_forget: boolean = false;
+      is_link_send: boolean;
       otp = '';
       new_password = '';
       retype_password = '';
-
+      isView: boolean = false;
 
       constructor(
             private fb: FormBuilder,
@@ -46,21 +46,21 @@ export class Login1Component {
                   if (this.forgetForm.invalid) {
                         return;
                   } else {
-                        let data = {'email': form.value.email}                      
+                        let data = { 'email': form.value.email }
                         this.api_calling_loader = true,
-                        this.http.sendOtp(data).subscribe((res) => {
-                          this.api_calling_loader = false
-                          if (res.success) {
-                              this.is_link_send = true;
-                            this.message.success(res.message);  
-                          }
-                          else {
-                            this.message.error(res.message);
-                          }
-                        }, (err) => {
-                          this.api_calling_loader = false
-                          console.log(err)
-                        })
+                              this.http.sendOtp(data).subscribe((res) => {
+                                    this.api_calling_loader = false
+                                    if (res.success) {
+                                          this.is_link_send = true;
+                                          this.message.success(res.message);
+                                    }
+                                    else {
+                                          this.message.error(res.message);
+                                    }
+                              }, (err) => {
+                                    this.api_calling_loader = false
+                                    console.log(err)
+                              })
                   }
             } else {
                   if (this.loginForm.invalid) {
@@ -110,10 +110,10 @@ export class Login1Component {
                   return false
             }
             let data = {
-            'email': this.forgetForm.value.email,
-            'otp': this.otp,
-            'new_password': this.new_password,
-            'retype_password': this.retype_password
+                  'email': this.forgetForm.value.email,
+                  'otp': this.otp,
+                  'new_password': this.new_password,
+                  'retype_password': this.retype_password
             }
             this.api_calling_loader = true
             this.http.VerifyOtptopasswordchange(data).subscribe((res) => {
@@ -130,5 +130,13 @@ export class Login1Component {
                   this.api_calling_loader = false
                   console.log(err)
             })
+      }
+
+      hidePassword() {
+            if (this.isView) {
+                  this.isView = false;
+            } else {
+                  this.isView = true
+            }
       }
 }    
