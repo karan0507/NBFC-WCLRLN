@@ -8,6 +8,8 @@ import { HttpService } from '../services/http.service';
 export class GlobalservicesService {
       public globalPageSize = 30;
       public applicationStageCount = new ReplaySubject<any>();
+      public globalUserData = new ReplaySubject<any>();
+
       constructor(public http: HttpService) { }
 
      setApplicationCount() {
@@ -35,6 +37,10 @@ export class GlobalservicesService {
             }
             return val;
       }
+
+      sendUserData(data:any){
+            this.globalUserData.next(data);
+          }
       
       maskedValue(data, type){
             if(data && type == 'pan'){

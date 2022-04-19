@@ -74,7 +74,7 @@
                         <th nzWidth="3rem">#</th>
                         <th nzWidth="15rem">User Details</th>
                         <th>Product type</th>
-                        <!-- <th>Transaction ID</th> -->
+                        <th>Transaction ID</th>
                         <th>Transaction Type</th>
                         <th>Details</th>
                         <th>Date & Time</th>
@@ -96,7 +96,7 @@
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                             </td>
                             <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
-                            <!-- <td>{{ data?.txn_unique_id }}</td> -->
+                            <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_type }}</td>
                             <td>{{ data?.details }}</td>
                             <td>{{ data?.transaction_datetime | date: "medium" }}</td>
