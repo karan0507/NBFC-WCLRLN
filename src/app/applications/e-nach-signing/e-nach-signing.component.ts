@@ -132,21 +132,21 @@ export class ENachSigningComponent implements OnInit {
                   data['company'] = this.partner
             }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
-                  this.page = tableFilter?.pageIndex
+                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
-
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
+                        if(this._activeLoans){
+                              this._activeLoans.forEach(element => {
+                                    this.expandSet.delete(element?.id)    
+                               });  
+                        }
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
