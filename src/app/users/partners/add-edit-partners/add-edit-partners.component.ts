@@ -955,7 +955,7 @@ export class AddEditPartnersComponent implements OnInit {
         console.log(sendDate);
 
         for (var i in sendDate) {
-          if (i == "document_data" || i == "nach_date_time_mappings" || i == "corporate_limit_settings") {
+          if (i == "document_data" || i == "nach_date_time_mappings") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
             if (sendDate[i]) {
@@ -965,7 +965,7 @@ export class AddEditPartnersComponent implements OnInit {
           }
           // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
         }
-        data.append("corporate_limit_settings", corporate_limit_settings);
+        // data.append("corporate_limit_settings", corporate_limit_settings);
         const url = this.http.createPartnerForm(data);
         url.subscribe(
           (res: any) => {
