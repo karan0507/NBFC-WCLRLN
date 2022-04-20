@@ -71,6 +71,9 @@ export class ProductListComponent implements OnInit {
     this.search_params = ''
     this.product_master = ''
     this.draft_status = ''
+    this.date = ''
+    this.status = ''
+    this.partner = ''
     this.fetchProductList();
   }
 
