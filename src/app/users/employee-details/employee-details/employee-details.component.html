@@ -108,7 +108,6 @@
             <button
               nz-button
               nzType="default"
-              [disabled]="selectedCorporate || searchValue ? false : true"
               nzShape="circle"
               nz-tooltip
               nzTooltipTitle="Reset Filter"
@@ -130,9 +129,9 @@
             <nz-select
               class="mx-1"
               [(ngModel)]="selectedCorporate"
-              nzAllowClear
+              nzAllowClear nzShowSearch
               nzPlaceHolder="Select Corporate"
-              (nzFocus)="fetchPartnerList()"
+              (nzOnSearch)="OnTypeSearchList($event)"
               style="min-width: 13rem"
               (ngModelChange)="getResultWithSelectedFilter($event)"
             >
@@ -141,7 +140,7 @@
                 [nzValue]="item?.pk"
                 [nzLabel]="item?.name"
               >
-                <div *ngIf="item?.name">{{ item?.name }}</div>
+                <div *ngIf="item.name">{{ item?.name }}</div>
               </nz-option>
             </nz-select>
             <nz-range-picker
