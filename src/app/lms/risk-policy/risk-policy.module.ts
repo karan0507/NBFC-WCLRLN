@@ -10,6 +10,7 @@ import { CreditLineIncDecComponent } from './credit-line-inc-dec/credit-line-inc
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DemoNgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class RiskPolicyModule { }

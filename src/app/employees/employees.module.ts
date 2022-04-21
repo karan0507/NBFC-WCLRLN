@@ -8,6 +8,7 @@ import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../shared/template/template.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TemplateModule } from '../shared/template/template.module';
     DemoNgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class EmployeesModule { }

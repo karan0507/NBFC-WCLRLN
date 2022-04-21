@@ -10,6 +10,7 @@ import { ProductListComponent } from './product-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     DemoNgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class ProductListModule { }

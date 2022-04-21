@@ -23,6 +23,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzModalModule,
     NzDividerModule,
     NzUploadModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class AuthorizationModule { }

@@ -13,6 +13,7 @@ import { DoubleConfirmationPopupComponent } from './template/double-confirmation
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
     exports: [
@@ -35,7 +36,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
         DemoNgZorroAntdModule,
         NzFormModule,
         ReactiveFormsModule,
-        NzInputModule 
+        NzInputModule,
+        // NgxPermissionsModule
     ],
     declarations: [
         SearchPipe,

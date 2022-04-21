@@ -40,6 +40,7 @@ export class ClosedComponent implements OnInit {
   stageMasterList: any;
   _currentStageStatus: any;
   offerForm: FormGroup
+  isFetchCibilSms : boolean = false;
   disabledDate = (current: Date): boolean => {
         // Can not select days before today and today
         return differenceInCalendarDays(current, this.today) > 0;
@@ -76,6 +77,7 @@ export class ClosedComponent implements OnInit {
   currentDropDownId: any;
   partner : any
   partnerList : any = []
+      blackBoxData: any;
   constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -146,12 +148,13 @@ export class ClosedComponent implements OnInit {
             data['company'] = this.partner
       }
         this.https.fetchLoanApplicationList(data).subscribe(res => {
-              if (res?.data) {
+              if (res?.success) {
                   if(this._activeLoans){
                         this._activeLoans.forEach(element => {
                               this.expandSet.delete(element?.id) 
                          });  
                   }
+                  this.global.setApplicationCount();
                     this.loanApplicationData = res?.data?.results;
                     this.total_count = res?.data?.total_count;
                     this.api_calling_loader['listLoader'] = false
@@ -246,19 +249,18 @@ export class ClosedComponent implements OnInit {
   }
 
   handleCancel() {
-        this.verifyRemarks = null;
-        this._currentStageStatus = null;
-        this._isUpdateStatus = false;
-        this._isStatus = false;
-        this._isDocument = false;
-        this._isEditOffer = false;
-        this.isRejectModal = false;
-        this._isOpenModal = false;
-        this._isViewDocument = false;
-        this._isUpload = false;
-        this._isVerify = false;
-        this._isPullData = false;
-        this._isCibil = false;
+      this._isOpenModal = false;
+      this._isViewDocument = false;
+      this._isUpload = false;
+      this._isVerify = false;
+      this._isPullData = false;
+      this._isCibil = false;
+      this.isFetchCibilSms = false
+      this._isUpdateStatus = false;
+      this._isStatus = false;
+      this._isDocument = false;
+      this._isEditOffer = false;
+      this.isRejectModal = false;
   }
 
   handleOk(type?) {
@@ -390,26 +392,19 @@ export class ClosedComponent implements OnInit {
   };
 
   // Get Cibil Data API
-  getCibilScoreData(type?,id?) {
-        let data = { source: 'Onboarding', endpoint: id }
-        if(type == 'cibil' && id){
-          data['datapoint'] = 'fetch-cibil-from-db'
-               this.https.getCibilSMSData(data).subscribe(res => {
-                     if (res?.data) {
-                           console.log(res?.data);
-                           this._currentCibilData = res?.data
-                     }
-               })
-        }else if(type == 'sms' && id){
-         data['datapoint'] = 'fetch-sms-from-db'
-         this.https.getCibilSMSData(data).subscribe(res => {
-               if (res?.data) {
-                     console.log(res?.data);
-                     this._currentCibilData = res?.data
-               }
-         })  
-        }
-  }
+  getCibilScoreData(type?, id?) {
+      this._isUpdateStatus = true
+      this.isFetchCibilSms = true;
+      let data = { source: 'Onboarding', endpoint: id }
+      if (type == 'cibil' && id) {
+            this._isCibil = true;
+            this._currentLoanDetails = id
+
+      } else if (type == 'sms' && id) {
+            this._isCibil = false;
+            this._currentLoanDetails = id
+      }
+}
 
   // Pull Cibil Methods
   pullDataSMSCibil(type?, data?) {
@@ -431,6 +426,16 @@ export class ClosedComponent implements OnInit {
 
         }
   }
+
+  getBlackBoxData(id) {
+      let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+      this.https.pullBlackBoxData(data).subscribe((res: any) => {
+            if (res?.success) {
+                  this.blackBoxData = res?.data
+            }
+      })
+} 
+
 
   resetFilters() {
         this.productFilters = null;

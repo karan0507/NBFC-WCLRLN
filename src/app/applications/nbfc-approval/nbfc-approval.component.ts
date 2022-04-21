@@ -75,6 +75,7 @@ export class NbfcApprovalComponent implements OnInit {
       currentDropDownId : any;
       partner : any
       partnerList : any = []
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -133,12 +134,13 @@ export class NbfcApprovalComponent implements OnInit {
             }
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.data) {
+                  if (res?.success) {
                         if(this._activeLoans){
                               this._activeLoans.forEach(element => {
                                     this.expandSet.delete(element?.id)    
                                });  
                         }
+                        this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
@@ -434,6 +436,15 @@ export class NbfcApprovalComponent implements OnInit {
             return false;
       };
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      }
+      
       resetFilters() {
             this.productFilters = null;
             this.filters = null;

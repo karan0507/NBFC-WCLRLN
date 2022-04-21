@@ -12,6 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ApplicationsModule } from 'src/app/applications/applications.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [BorrowersComponent, BorrowersListComponent, BorrowersDetailsComponent, AppDownloadsComponent],
@@ -24,7 +25,8 @@ import { ApplicationsModule } from 'src/app/applications/applications.module';
     SharedModule,
     NzPopoverModule,
     NzTagModule,
-    ApplicationsModule
+    ApplicationsModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class BorrowersModule { }

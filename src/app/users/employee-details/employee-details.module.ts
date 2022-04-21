@@ -22,6 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
     SharedModule,
     NzPaginationModule,
     NzDatePickerModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class EmployeeDetailsModule { }

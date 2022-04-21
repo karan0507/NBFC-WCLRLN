@@ -14,6 +14,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     FormsModule, 
     ReactiveFormsModule,
     NzFormModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class LenderManagementModule { }
