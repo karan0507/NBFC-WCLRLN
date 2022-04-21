@@ -636,6 +636,7 @@ export class AddEditLendersComponent implements OnInit {
             // delete sendDate?.document_data[i]?.documents;
           }
           if (!sendDate?.document_data[i]?.front_back_flag) {
+            saveDoc.push(sendDate?.document_data[i]?.documents)
             data.append("documents", sendDate?.document_data[i]?.documents);
             delete sendDate?.document_data[i]?.documents;
           }
@@ -766,7 +767,7 @@ export class AddEditLendersComponent implements OnInit {
   }
 
   onClickSaveExistingForm() {
-    const saveDoc = [];
+    const storeData = this.addEditProductForm.value;
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -774,6 +775,7 @@ export class AddEditLendersComponent implements OnInit {
     if (!this.addEditProductForm.valid) {
       this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
     }
+    const saveDoc = [];
     var sendDate = this.addEditProductForm.value;
     for (var i in sendDate.document_data) {
       // if (
@@ -850,6 +852,7 @@ export class AddEditLendersComponent implements OnInit {
           // delete sendDate?.document_data[i]?.documents;
         }
         if (!sendDate?.document_data[i]?.front_back_flag) {
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append("documents", sendDate?.document_data[i]?.documents);
           delete sendDate?.document_data[i]?.documents;
         }
@@ -877,9 +880,7 @@ export class AddEditLendersComponent implements OnInit {
             });
           } else {
             for (var i in saveDoc) {
-              let value = this.addEditProductForm.get(
-                "document_data"
-              ) as FormArray;
+              let value = this.addEditProductForm.get("document_data") as FormArray;
               value.controls?.[i].patchValue({ documents: saveDoc[i] });
             }
             this.message.error(res?.message);
