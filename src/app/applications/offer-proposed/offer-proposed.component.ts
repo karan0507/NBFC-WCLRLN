@@ -80,6 +80,7 @@ export class OfferProposedComponent implements OnInit {
       currentDropDownId : any
       partner : any
       partnerList : any = []
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
@@ -431,27 +432,14 @@ export class OfferProposedComponent implements OnInit {
             }
       }
 
-      // getCibilScoreData(type?, id?) {
-      //       let data = { source: 'Onboarding', endpoint: id }
-      //       if (type == 'cibil' && id) {
-      //             data['datapoint'] = 'fetch-cibil-from-db'
-      //             this.https.getCibilSMSData(data).subscribe(res => {
-      //                   if (res?.data) {
-      //                         console.log(res?.data);
-      //                         this._currentCibilData = res?.data
-      //                   }
-      //             })
-      //       } else if (type == 'sms' && id) {
-      //             data['datapoint'] = 'fetch-sms-from-db'
-      //             this.https.getCibilSMSData(data).subscribe(res => {
-      //                   if (res?.data) {
-      //                         console.log(res?.data);
-      //                         this._currentCibilData = res?.data
-      //                   }
-      //             })
-      //       }
-      // }
-
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      }
       openDocumentModal(type?, data?, loanData?) {
             this._currentModalData = data;
             this._currentLoanDetails = loanData;

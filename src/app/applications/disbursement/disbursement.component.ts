@@ -78,6 +78,8 @@ export class DisbursementComponent implements OnInit {
       currentDropDownId : any;
       partner : any
       partnerList : any = []
+      isFetchCibilSms : boolean = false;
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -250,17 +252,18 @@ export class DisbursementComponent implements OnInit {
       }
 
       handleCancel() {
-            this._isUpdateStatus = false;
-            this._isStatus = false;
-            this._isDocument = false;
-            this._isEditOffer = false;
-            this.isRejectModal = false;
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
+            this.isFetchCibilSms = false
+            this._isUpdateStatus = false;
+            this._isStatus = false;
+            this._isDocument = false;
+            this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
@@ -394,27 +397,29 @@ export class DisbursementComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
             let data = { source: 'Onboarding', endpoint: id }
-            if(type == 'cibil' && id){
-              data['datapoint'] = 'fetch-cibil-from-db'
-                   this.https.getCibilSMSData(data).subscribe(res => {
-                         if (res?.data) {
-                               console.log(res?.data);
-                               this._currentCibilData = res?.data
-                         }
-                   })
-            }else if(type == 'sms' && id){
-             data['datapoint'] = 'fetch-sms-from-db'
-             this.https.getCibilSMSData(data).subscribe(res => {
-                   if (res?.data) {
-                         console.log(res?.data);
-                         this._currentCibilData = res?.data
-                   }
-             })  
+            if (type == 'cibil' && id) {
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
+            } else if (type == 'sms' && id) {
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
             }
       }
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
+       
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
             console.log(data);
