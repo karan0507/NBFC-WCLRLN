@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row mb-md-3">
-        <span>{{masterPartner?.length}} Results Found</span>
+        <span>{{total_count ? total_count : ' 0 '}} Results Found</span>
     </div>
     <div class="row">
         <nz-card class="w-100">
@@ -28,11 +28,14 @@
                     <ng-template #suffixIconButton>
                         <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                       </ng-template>
-                </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                      <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mx-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                       </button>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                      </button> -->
                     <!-- <nz-select class="mx-1" style=" width: 8rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By">
                         <nz-option nzValue="medicine" nzLabel="Medicine 1"></nz-option>
@@ -76,8 +79,10 @@
                     <tbody>
                         <ng-container *ngFor="let data of masterPartner; index as i">
                             <tr>
-                                <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
+                                <td *ngIf="page == 1" [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                     {{ i + 1 }}</td>
+                                <td *ngIf="page > 1" [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
+                                    {{  ((page-1)*globalPageSize)+(i+1) }}</td>
                                 <td>{{ data.name }}</td>
                                 <td>{{ data.display_name }}</td>
                                 <td>{{data?.business_type?.business_type}}</td>

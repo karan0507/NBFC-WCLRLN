@@ -87,7 +87,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left">Refereed By</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
-                        <nz-select nzAllowClear nzShowSearch class="mr-2 width" [nzAllowClear]='false' nzPlaceHolder="Select Master Partner"
+                        <nz-select nzAllowClear nzShowSearch class="mr-2 width" nzAllowClear="true" nzPlaceHolder="Select Master Partner"
                          (keyup)="getListOfMasterPartner($event?.target.value)" formControlName="partner_master">
                         <ng-container *ngFor="let item of listOfMasterPartner" nzCustomContent>
                             <nz-option *ngIf="item?.name"  [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
@@ -317,7 +317,7 @@
                                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                             <div class="d-flex">
                                                 <nz-upload
-                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                                 [nzCustomRequest]="customUpload"
                                                 (nzChange)="onUpload($event, k, 'name')"
                                                 >
@@ -329,8 +329,8 @@
                                     </nz-form-item>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="row">
-                                        <div class="col-3">
+                                    <div class="row mt-2" >
+                                        <div class="col-1">
                                             <span>
                                                 <i class=" text-primary"  (click)="onClickShowUploadedDocument(item, 'documents')" *ngIf="item.controls.document_name.value" 
                                                 nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
@@ -346,7 +346,7 @@
                             </div>
                         </div>
                         <div class="col-md-12" *ngIf="item.controls.front_back_flag.value">
-                            <div class="row">
+                            <div class="row  mt-2">
                                 <div class="col-md-7">
                                     <nz-form-item>
                                         <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
@@ -366,8 +366,8 @@
                                     </nz-form-item>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="row">
-                                        <div class="col-3">
+                                    <div class="row mt-2">
+                                        <div class="col-1">
                                             <span>
                                                 <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_front')" *ngIf="item.controls.document_name_front.value"
                                                 nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
@@ -400,7 +400,7 @@
                                 </div>
                                 <div class="col-md-5">
                                     <div class="row">
-                                        <div class="col-3">
+                                        <div class="col-1">
                                             <span>
                                                 <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_back')" *ngIf="item.controls.documents_back.value"
                                                     nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
@@ -501,38 +501,38 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Max Salary Percent.</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid  Percent!">
-                            <input nz-input type="number" formControlName="max_salary_percent"  placeholder="Max Percentage."/>
+                            <input nz-input type="number" formControlName="max_salary_percent"  placeholder="Max Salary Percentage"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
 
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_min" class="text-left">CORPORATE PERMANENT MAX LIMIT</nz-form-label>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_min" class="text-left">Corporate Permanent Max Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Limit!">
-                            <input nz-input type="number" formControlName="permanent_min"  placeholder="PERMANENT MAX LIMIT"/>
+                            <input nz-input type="number" formControlName="permanent_min"  placeholder="Permanent Max Limit"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_max" class="text-left">CORPORATE PERMANENT MIN LIMIT</nz-form-label>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_max" class="text-left">Corporate Permanent Min Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Min Limit!">
-                            <input nz-input type="number" formControlName="permanent_max"  placeholder="PERMANENT MIN LIMIT"/>
+                            <input nz-input type="number" formControlName="permanent_max"  placeholder="Permanent Min Limit"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_agreed" class="text-left">CORPORATE CONTRACTUAL AGREED LIMIT</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Agreed!">
-                            <input nz-input type="number" formControlName="contractual_agreed"  placeholder="Contractual Agreed"/>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_agreed" class="text-left">Corporate Contractual Agreed Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Agreed Limit!">
+                            <input nz-input type="number" formControlName="contractual_agreed"  placeholder="Contractual Agreed Limit"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_agreed" class="text-left">CORPORATE PERMANENT AGREED LIMIT</nz-form-label>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_agreed" class="text-left">Corporate Permanent Agreed Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Agreed Limit!">
                             <input nz-input type="number" formControlName="permanent_agreed"  placeholder="Permanent Agreed Limit"/>
                         </nz-form-control>
@@ -540,7 +540,7 @@
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_max" class="text-left">CORPORATE CONTRACTUAL MAX LIMIT</nz-form-label>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_max" class="text-left">Corporate Contractual Max Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Max Limit!">
                             <input nz-input type="number" formControlName="contractual_max"  placeholder="Contractual Max Limit"/>
                         </nz-form-control>
@@ -548,9 +548,9 @@
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_min" class="text-left">CORPORATE CONTRACTUAL MIN LIMIT</nz-form-label>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_min" class="text-left">Corporate Contractual Min Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Min!">
-                            <input nz-input type="number" formControlName="contractual_min"  placeholder="Contractual Min"/>
+                            <input nz-input type="number" formControlName="contractual_min"  placeholder="Contractual Min Limit"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

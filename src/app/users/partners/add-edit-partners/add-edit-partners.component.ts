@@ -994,6 +994,12 @@ export class AddEditPartnersComponent implements OnInit {
             }
           },
           error => {
+            const control = <FormArray>(
+              this.addEditProductForm.controls["nach_date_time_mappings"]
+            );
+            for (let i = control.length - 1; i >= 0; i--) {
+              control.removeAt(i);
+            }
             for (var i in saveDoc) {
               let value = this.addEditProductForm.get("document_data") as FormArray;
               value.controls?.[i].patchValue({ documents: saveDoc[i] });

@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row mb-md-3">
-        <span>{{masterPartner?.length}} Results Found</span>
+        <span>{{total_count ? total_count : ' 0 '}} Results Found</span>
     </div>
     <div class="row">
         <nz-card class="w-100">
@@ -29,12 +29,15 @@
                     <ng-template #suffixIconButton>
                         <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                       </ng-template>
-                </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                      <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mx-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                       </button>
                 </div>
+                <!-- <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                      </button>
+                </div> -->
             </div>
             <div class="accordianLoanApp">
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"

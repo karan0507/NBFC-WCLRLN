@@ -154,6 +154,7 @@
         </div>
         <div class="row">
           <div class="col-12">
+            <!-- <div class="totalCount"> -->
             <nz-table
               [nzTotal]="total_count" [nzFrontPagination]="false"
               [nzPageIndex]="page"
@@ -225,6 +226,13 @@
                 </tr>
               </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+              <b>Total Count : </b>{{total_count}}
+            </div>
+            <!-- <ng-template #botTotalCount>
+              <div *ngIf="total_count && listOfEmployee[0]" class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+            </ng-template> -->
+          <!-- </div> -->
           </div>
         </div>
       </nz-card>
