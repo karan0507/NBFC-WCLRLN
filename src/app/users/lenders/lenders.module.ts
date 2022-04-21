@@ -22,6 +22,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [ AddEditLendersComponent, LendersListComponent],
@@ -46,7 +47,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzUploadModule,
     NzCheckboxModule,
     SharedModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class LendersModule { }

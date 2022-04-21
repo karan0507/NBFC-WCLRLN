@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class TransactionsModule { }

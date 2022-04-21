@@ -23,6 +23,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     NzCheckboxModule,
     SharedModule,
     NzPopconfirmModule,
-    NzTimePickerModule
+    NzTimePickerModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class PartnersModule { }
