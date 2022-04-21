@@ -82,10 +82,10 @@ export class MasterPartnersComponent implements OnInit {
         id: [data.id],
         product: [this.product_id],
         name: [data.master_partner?.id],
-        no_of_partner: [data.no_of_partner, [Validators.required]],
-        amount_per_partner: [data.amount_per_partner, [Validators.required]],
+        no_of_partner: [data.no_of_partner],
+        amount_per_partner: [data.amount_per_partner],
         slab_array: this.fb.array([]),
-        time_period: [data.time_period, [Validators.required]],
+        time_period: [data.time_period],
         slab_array_Activation: this.fb.array([]),
         slab_array_Acquisition_Customers: this.fb.array([]),
         amount_include_gst: [data.amount_include_gst]
@@ -94,10 +94,10 @@ export class MasterPartnersComponent implements OnInit {
       
       return this.fb.group({
         name: [''],
-        no_of_partner: ['', [Validators.required]],
-        amount_per_partner: ['', [Validators.required]],
+        no_of_partner: [''],
+        amount_per_partner: [''],
         slab_array: this.fb.array([this.addSlabControls()]),
-        time_period: ['', [Validators.required]],
+        time_period: [''],
         slab_array_Activation: this.fb.array([this.addSlabControlsActivation()]),
         slab_array_Acquisition_Customers: this.fb.array([this.addSlabControlsAcquisition_Customers()]),
         amount_include_gst: [false]
@@ -239,7 +239,7 @@ export class MasterPartnersComponent implements OnInit {
   // **************** At the time of acquisition of customers End ****************** //
 
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine && this.masterParnerPayout[0]) {
       this.message.warning('data saved already')
       return false
     }

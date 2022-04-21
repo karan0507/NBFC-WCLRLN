@@ -87,14 +87,15 @@
                             </nz-tag>
                         </td>
                         <td>
-                            <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
+                            {{data?.account_status}}
+                            <!-- <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
                                 <i nz-icon nzType="check-circle"></i>
                                 <span>Active</span>
                               </nz-tag>
                               <nz-tag nzColor="orange" *ngIf="data?.account_status != 'Active'">
                                 <i nz-icon nzType="close-circle"></i>
                                 <span>{{data?.account_status}}</span>
-                              </nz-tag>
+                              </nz-tag> -->
                         </td>
                         <td>
                             <nz-tag nzColor="green" *ngIf="!data?.is_user_blocked">
