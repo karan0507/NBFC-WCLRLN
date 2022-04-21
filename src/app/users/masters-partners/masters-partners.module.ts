@@ -22,6 +22,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -50,7 +51,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzModalModule,
     NzCheckboxModule,
     SharedModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class MastersPartnersModule { }

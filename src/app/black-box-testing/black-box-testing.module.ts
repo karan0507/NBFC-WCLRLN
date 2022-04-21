@@ -8,6 +8,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
     FormsModule, ReactiveFormsModule,
     NzFormModule,
     DemoNgZorroAntdModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class BlackBoxTestingModule { }
