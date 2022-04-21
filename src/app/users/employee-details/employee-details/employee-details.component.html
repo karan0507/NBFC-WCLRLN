@@ -108,7 +108,6 @@
             <button
               nz-button
               nzType="default"
-              [disabled]="selectedCorporate || searchValue ? false : true"
               nzShape="circle"
               nz-tooltip
               nzTooltipTitle="Reset Filter"
@@ -130,9 +129,9 @@
             <nz-select
               class="mx-1"
               [(ngModel)]="selectedCorporate"
-              nzAllowClear
+              nzAllowClear nzShowSearch
               nzPlaceHolder="Select Corporate"
-              (nzFocus)="fetchPartnerList()"
+              (nzOnSearch)="OnTypeSearchList($event)"
               style="min-width: 13rem"
               (ngModelChange)="getResultWithSelectedFilter($event)"
             >
@@ -141,7 +140,7 @@
                 [nzValue]="item?.pk"
                 [nzLabel]="item?.name"
               >
-                <div *ngIf="item?.name">{{ item?.name }}</div>
+                <div *ngIf="item.name">{{ item?.name }}</div>
               </nz-option>
             </nz-select>
             <nz-range-picker
@@ -394,8 +393,64 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of retrievedFileResponse; index as i">
-                <td>{{ i + 1 }}</td>
+              <!-- <ng-container *ngFor="let item of retrievedFileResponse; index as i"> -->
+                <tr *ngFor="let item of retrievedFileResponse; index as i">
+                  <td>{{ i + 1 }}</td>
+                  <td *ngFor="let data of item | keyvalue; index as i">
+                    <label *ngIf="data.key !== 'Photo' && data.key != 'errors' && data.key != 'row_status'">
+                       {{data?.value}}
+                    </label>
+                    <label *ngIf="data.key == 'errors'">
+                      <span *ngIf="!data.key?.row_status" class="text-danger"
+                        >Error &nbsp;
+                        <i
+                          nz-icon
+                          nzType="info-circle"
+                          nzTheme="outline"
+                          style="cursor: pointer"
+                          nz-popover
+                          [nzPopoverContent]="contentTemplate"
+                          nzPopoverPlacement="top"
+                        ></i>
+                      </span>
+                      <span *ngIf="data.key?.row_status" class="text-success"
+                        >Success</span
+                      >
+                      <ng-template #contentTemplate>
+                        <div class="px-3">
+                          <ul *ngFor="let err of data.value">
+                            <li class="text-danger">{{ err }}</li>
+                          </ul>
+                        </div>
+                      </ng-template>
+                    </label>
+                    </td>
+                    <!-- <td>
+                      <span *ngIf="!data?.row_status" class="text-danger"
+                        >Error &nbsp;
+                        <i
+                          nz-icon
+                          nzType="info-circle"
+                          nzTheme="outline"
+                          style="cursor: pointer"
+                          nz-popover
+                          [nzPopoverContent]="contentTemplate"
+                          nzPopoverPlacement="top"
+                        ></i>
+                      </span>
+                      <span *ngIf="data?.row_status" class="text-success"
+                        >Success</span
+                      >
+                      <ng-template #contentTemplate>
+                        <div class="px-3">
+                          <ul *ngFor="let item of data.errors">
+                            <li class="text-danger">{{ item }}</li>
+                          </ul>
+                        </div>
+                      </ng-template>
+                    </td> -->
+                  <!-- </ng-container>  {{ data.key  }},-->
+                <!-- <td>{{ i + 1 }}</td>
                 <td>{{ data?.First_Name ? data?.First_Name : " " }}</td>
                 <td>{{ data?.Middle_Name ? data?.Middle_Name : " " }}</td>
                 <td>{{ data?.Last_Name ? data?.Last_Name : " " }}</td>
@@ -578,10 +633,10 @@
                       </ul>
                     </div>
                   </ng-template>
-                </td>
+                </td> -->
                 <!-- <td> {{data?.row_status ? data?.row_status : ' -- '}} </td> -->
                 <!-- <td> {{data?.Photo  </td> -->
-              </tr>
+              <!-- </tr> -->
             </tbody>
           </nz-table>
         </div>

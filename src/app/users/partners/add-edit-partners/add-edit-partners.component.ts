@@ -406,7 +406,9 @@ export class AddEditPartnersComponent implements OnInit {
         data ? data?.contact_person_email : null,
         [
           Validators.required,
-          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+          Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$")
+          // ^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$
+          // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-90-9._%+-]+\.[a-zA-Z0-9-.]+$
         ],
       ],
 
@@ -423,7 +425,7 @@ export class AddEditPartnersComponent implements OnInit {
       flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
       relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
       relationship_manager_contact:[data ? data?.relationship_manager_contact : null, [Validators.required, , Validators.pattern("^[1-9][0-9]{9}$")]],
-      relationship_manager_email:[data ? data?.relationship_manager_email : null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]],
+      relationship_manager_email:[data ? data?.relationship_manager_email : null, [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$"),]],
       max_salary_percent: [data ? data?.corporate_limit_settings?.max_salary_percent : null],
       ewa_percent: [data ? data?.corporate_limit_settings?.ewa_percent : null],
       permanent_min:[data ? data?.corporate_limit_settings?.permanent_min : null],
@@ -691,6 +693,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSaveExistingForm() {
+    console.log(this.addEditProductForm.value);
     let corporate_limit_settings;
     const storeData = this.addEditProductForm.valid;
     const saveDoc = [];
