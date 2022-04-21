@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: EmployeeDetailsComponent,
     data: {
-      title: 'Employee List',
+      title: 'Employee Details',
       parent: 'Users',
       custom_url: 'employeeDetail'
     }

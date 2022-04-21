@@ -276,7 +276,7 @@ export class AddEditMastersComponent implements OnInit {
       business_nature: [data ? data?.business_nature?.id : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]],
       contact_person_phone: [data ? data?.contact_person_phone : null,  [Validators.required, Validators.pattern('([0-9]{8}|[0-9]{10})')]],
-      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$')]],
       employee: [data ? data?.employee : null, [Validators.required]],
       payout: [data ? data?.payout : null, [Validators.required]],
       document_data:  this.fb.array([]),

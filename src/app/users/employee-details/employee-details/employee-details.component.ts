@@ -149,7 +149,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   total_count = 10;
   UPIList: any;
-  corporateList: any;
+  corporateList: any = [];
   selectedCorporate: any;
   isVisibleModal = {
     modalIsVisible: false,
@@ -228,24 +228,45 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   resetFilter() {
-    if (this.searchValue || this.selectedCorporate) {
+    // if (this.searchValue || this.selectedCorporate) {
       this.page = 1;
       this.searchValue = "";
       this.selectedCorporate = null;
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
-    }
+    // }
     // this.getAuthorizationList();
   }
 
-  fetchPartnerList() {
+  debounce: any;
+
+  
+  OnTypeSearchList(event){
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      this.fetchPartnerList(event);
+    }, 500);
+  }
+
+  fetchPartnerList(e?) {
     let data = {
-      page: this.page,
+      page: 1,
+      size: 30,
       partner_nature: "Partner",
       status: "all",
     };
-    this.http.fetchPartner().subscribe((res: any) => {
+    if(e){
+      data['name'] = e;
+    }
+    this.http.fetchPartner(data).subscribe((res: any) => {
       if (res?.success) {
-        this.corporateList = res?.data?.results;
+        this.corporateList = [];
+        res?.data?.results.map((res: any)=>{
+          if(res?.name){
+            this.corporateList.push(res)    
+          }
+        })
+        // this.corporateList = res?.data?.results;
+        console.log(this.corporateList);
       }
     });
     // }
@@ -334,9 +355,14 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
-      from_date: moment(this.date[0]).format("YYYY-MM-DD"),
-      to_date: moment(this.date[1]).format("YYYY-MM-DD"),
     };
+    if(this.date){
+      // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
+      // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
+      data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
+      data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+      // this.date = [new Date(new Date().getFullYear(), 0, 1), new Date()]
+    }
     // data.append(
       //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
       // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
