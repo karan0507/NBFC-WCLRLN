@@ -226,6 +226,9 @@ MIT
 ngx-perfect-scrollbar
 MIT
 
+ngx-permissions
+MIT
+
 perfect-scrollbar
 MIT
 The MIT License (MIT) Copyright (c) 2012-2019 Hyunje Jun, MDBootstrap.com and other contributors
