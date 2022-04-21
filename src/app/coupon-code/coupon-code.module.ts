@@ -19,6 +19,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [CouponCodeComponent, AddEditCouponCodeComponent],
@@ -39,7 +40,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzDatePickerModule,
     NzRadioModule,
     NzSwitchModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class CouponCodeModule { }

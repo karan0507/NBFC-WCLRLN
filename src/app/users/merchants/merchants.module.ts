@@ -18,6 +18,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { AddEditDsaComponent } from './add-edit-dsa/add-edit-dsa.component';
@@ -51,7 +52,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzCheckboxModule,
     DragDropModule,
     SharedModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class MerchantsModule { }

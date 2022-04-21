@@ -19,6 +19,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -44,8 +45,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NzDividerModule,
     NzUploadModule,
     NzCheckboxModule,
-    SharedModule
-
+    SharedModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class PayoutStructureModule { }

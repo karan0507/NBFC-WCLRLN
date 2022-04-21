@@ -20,6 +20,7 @@ import { Error1Component } from './error-1/error-1.component';
 import { Error2Component } from './error-2/error-2.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 const antdModule= [
     NzFormModule,
@@ -37,7 +38,8 @@ const antdModule= [
         ReactiveFormsModule,
         AuthenticationRoutingModule,
         FormsModule,
-        ...antdModule
+        ...antdModule,
+        NgxPermissionsModule.forChild()
     ],
     declarations: [
         Login1Component,

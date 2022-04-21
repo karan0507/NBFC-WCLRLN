@@ -34,12 +34,18 @@ export class HttpService {
       refreshUser = new ReplaySubject<any>();
       refreshAccount = new ReplaySubject<any>();
       refreshCreditLine = new ReplaySubject<any>();
+      globalUserPermissionsData = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
       public UserLogin(data): any {
             return this._http.post((this.url + `/user/auth/`), data);
       }
+
+      public setPermissionValue(data): any {
+            this.globalUserPermissionsData.next(data);
+      }
+      
 
       /// Verify API 
       public VerifyUser(): any {

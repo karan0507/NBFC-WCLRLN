@@ -24,6 +24,7 @@ import { CustomHttpInterceptor } from './services/custom-http-interceptor';
 import { ArrayFilterPipe } from './shared/pipes/arrayFilter.pipe';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { HttpService } from './services/http.service';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 registerLocaleData(en);
@@ -42,7 +43,8 @@ registerLocaleData(en);
         TemplateModule,
         SharedModule,
         NgChartjsModule,
-        DemoNgZorroAntdModule
+        DemoNgZorroAntdModule,
+        NgxPermissionsModule.forRoot()
     ],
     providers: [
         { 

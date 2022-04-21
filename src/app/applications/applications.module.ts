@@ -41,6 +41,7 @@ import { CommonDocumentActionsComponent } from './common-document-actions/common
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ClosedComponent } from './closed/closed.component';
 // import { HttpService } from '../services/http.service';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent],
@@ -68,7 +69,8 @@ import { ClosedComponent } from './closed/closed.component';
     NzPopconfirmModule,
     NzImageModule,
     NzRadioModule,
-    NzDividerModule
+    NzDividerModule,
+    NgxPermissionsModule.forChild()
   ],
   providers:[
     // HttpService

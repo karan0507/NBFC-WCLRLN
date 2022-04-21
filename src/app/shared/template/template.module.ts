@@ -26,6 +26,7 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { DoubleConfirmationPopupComponent } from './double-confirmation-popup/double-confirmation-popup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 const antdModule = [
     NzAvatarModule,
@@ -59,7 +60,8 @@ const antdModule = [
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        ...antdModule
+        ...antdModule,
+        NgxPermissionsModule.forChild()
     ],
     declarations: [
         HeaderComponent,
