@@ -5,7 +5,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="first_txn_limit" class="text-left text-wrap"
-                            nzRequired>First Transaction Limit</nz-form-label>
+                            >First Transaction Limit</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input First Transaction Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="global_txn_limit" class="text-left text-wrap"
-                            nzRequired>Global Limit</nz-form-label>
+                            >Global Limit</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Global Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
@@ -39,7 +39,7 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="daily_txn_limit" class="text-left text-wrap"
-                            nzRequired>Number of Transactions</nz-form-label>
+                            >Number of Transactions</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Number of Transactions!">
                                 <nz-input-group>
@@ -56,7 +56,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Disbursement</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" nzRequired>Minimum (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_min_amount" class="text-left" >Minimum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="disbursement_min_amount"
                                 placeholder="Please input Minimum Amount (₹)!" />
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" nzRequired>Maximum (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="disbursement_max_amount" class="text-left" >Maximum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="disbursement_max_amount"
                                 placeholder="Please input Maximum Amount (₹)!" />
@@ -75,7 +75,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Interest</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_min_percentage" class="text-left" nzRequired>Minimum (%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_min_percentage" class="text-left" >Minimum (%)</nz-form-label>
                         
                         <nz-form-control nzErrorTip="Please input Minimum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" nzRequired>Maximum(%)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="interest_max_percentage" class="text-left" >Maximum(%)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (%)!">
                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                 <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="interest_max_percentage" formControlName="interest_max_percentage"
@@ -107,7 +107,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left text-wrap">Limit</nz-form-label>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_min_limit" class="text-left" nzRequired>Minimum (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_min_limit" class="text-left" >Minimum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Minimum Amount (₹)!">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_min_limit"
                                 placeholder="Please input Minimum Amount (₹)!" />
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-md-6">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_max_limit" class="text-left" nzRequired>Maximum (₹)</nz-form-label>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="global_max_limit" class="text-left" >Maximum (₹)</nz-form-label>
                         <nz-form-control nzErrorTip="Please input Maximum Amount (₹)!">
                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_max_limit"
                                 placeholder="Please input Maximum Amount (₹)!" />
