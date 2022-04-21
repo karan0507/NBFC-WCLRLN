@@ -111,6 +111,7 @@ export class FormFillingComponent implements OnInit {
                                      
                                });  
                         }
+                        this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
