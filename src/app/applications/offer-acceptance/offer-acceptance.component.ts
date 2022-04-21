@@ -79,6 +79,7 @@ export class OfferAcceptanceComponent implements OnInit {
       currentDropDownId :any
       partner : any
       partnerList : any = []
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -148,12 +149,13 @@ export class OfferAcceptanceComponent implements OnInit {
             }
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.data) {
+                  if (res?.success) {
                         if(this._activeLoans){
                               this._activeLoans.forEach(element => {
                                     this.expandSet.delete(element?.id)    
                                });  
                         }
+                        this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
@@ -276,8 +278,7 @@ export class OfferAcceptanceComponent implements OnInit {
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
-
-
+            this.isFetchCibilSms = false
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
@@ -468,6 +469,15 @@ export class OfferAcceptanceComponent implements OnInit {
             return false;
       };
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
+      
       resetFilters() {
             this.productFilters = null;
             this.filters = null;

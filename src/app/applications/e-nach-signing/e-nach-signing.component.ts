@@ -32,6 +32,7 @@ export class ENachSigningComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
+      isFetchCibilSms : boolean = false
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
@@ -44,6 +45,7 @@ export class ENachSigningComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
+      blackBoxData: any;
 
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
@@ -246,17 +248,18 @@ export class ENachSigningComponent implements OnInit {
       }
 
       handleCancel() {
-            this._isUpdateStatus = false;
-            this._isStatus = false;
-            this._isDocument = false;
-            this._isEditOffer = false;
-            this.isRejectModal = false;
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
+            this.isFetchCibilSms = false
+            this._isUpdateStatus = false;
+            this._isStatus = false;
+            this._isDocument = false;
+            this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
@@ -390,26 +393,18 @@ export class ENachSigningComponent implements OnInit {
 
       // Get Cibil Data API
       getCibilScoreData(type?, id?) {
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
             let data = { source: 'Onboarding', endpoint: id }
             if (type == 'cibil' && id) {
-                  data['datapoint'] = 'fetch-cibil-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
             } else if (type == 'sms' && id) {
-                  data['datapoint'] = 'fetch-sms-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
             }
       }
-
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
             console.log(data);
@@ -430,6 +425,15 @@ export class ENachSigningComponent implements OnInit {
 
             }
       }
+
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
 
       resetFilters() {
             this.productFilters = null;
