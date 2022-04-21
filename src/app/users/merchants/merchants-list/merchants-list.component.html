@@ -476,7 +476,7 @@
     </div>
 </ng-template>
 
-<nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isDelete = false; selectedUserId = ''">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
             [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"

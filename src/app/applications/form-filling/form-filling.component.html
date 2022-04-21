@@ -65,7 +65,7 @@
                                           (nzCheckedChange)="loanApplicationData[0] ? onAllChecked($event) : false">
                                     </th>
                                     <th nzWidth="100px">#</th>
-                                    <th>Loan ID</th>
+                                    <th>Application Id</th>
                                     <th nzWidth="14rem">User Details</th>
                                     <th>Apply Date & Time</th>
                                     <th>Master Partner</th>
@@ -87,7 +87,7 @@
                                                 (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                           <td *ngIf="page == 1">{{i+1}}</td>
                                           <td *ngIf="page > 1">{{( (page-1) * globalPageSize) + (i+1)}}</td>
-                                          <td>{{ data?.id }}</td>
+                                          <td>{{ data?.application_code }}</td>
                                           <td nzWidth="14rem">
                                                 <div class="d-flex flex-column">
                                                       <div>{{ data?.user?.first_name ? data?.user?.first_name + ' ' +
