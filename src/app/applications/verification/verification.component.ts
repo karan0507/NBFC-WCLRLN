@@ -66,6 +66,7 @@ export class VerificationComponent implements OnInit {
       verifyRemarks: any;
       _isCibil: boolean = false
       _isViewDocument: boolean = false
+      isFetchCibilSms : boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -76,6 +77,7 @@ export class VerificationComponent implements OnInit {
       currentDropDownId: any;
       partner : any
       partnerList : any = []
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -246,19 +248,18 @@ export class VerificationComponent implements OnInit {
       }
 
       handleCancel() {
-            this.verifyRemarks = null;
-            this._currentStageStatus = null;
-            this._isUpdateStatus = false;
-            this._isStatus = false;
-            this._isDocument = false;
-            this._isEditOffer = false;
-            this.isRejectModal = false;
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
+            this.isFetchCibilSms = false
+            this._isUpdateStatus = false;
+            this._isStatus = false;
+            this._isDocument = false;
+            this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
@@ -390,24 +391,17 @@ export class VerificationComponent implements OnInit {
       };
 
       // Get Cibil Data API
-      getCibilScoreData(type?,id?) {
+      getCibilScoreData(type?, id?) {
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
             let data = { source: 'Onboarding', endpoint: id }
-            if(type == 'cibil' && id){
-              data['datapoint'] = 'fetch-cibil-from-db'
-                   this.https.getCibilSMSData(data).subscribe(res => {
-                         if (res?.data) {
-                               console.log(res?.data);
-                               this._currentCibilData = res?.data
-                         }
-                   })
-            }else if(type == 'sms' && id){
-             data['datapoint'] = 'fetch-sms-from-db'
-             this.https.getCibilSMSData(data).subscribe(res => {
-                   if (res?.data) {
-                         console.log(res?.data);
-                         this._currentCibilData = res?.data
-                   }
-             })  
+            if (type == 'cibil' && id) {
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
+            } else if (type == 'sms' && id) {
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
             }
       }
 
@@ -432,6 +426,16 @@ export class VerificationComponent implements OnInit {
             }
       }
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
+
+      
       resetFilters() {
             this.productFilters = null;
             this.filters = null;

@@ -32,19 +32,20 @@
                               <i nz-icon nzType="undo"></i>
                         </button>
                         <nz-select class="mx-3 w-100" nzAllowClear [(ngModel)]="productFilters"
-                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                                    nzPlaceHolder="Select Product">
-                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
-                                          [nzLabel]="item.name">
-                                    </nz-option>
-                              </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
-                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                [nzLabel]="item?.name "></nz-option>
-                                    </nz-select>
+                              (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                              nzPlaceHolder="Select Product">
+                              <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
+                              </nz-option>
+                        </nz-select>
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')"
+                              class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Partner">
+                              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
+                              </nz-option>
+                        </nz-select>
                         <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
-                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
-                              nzPlaceHolder="Select Status">
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1"
+                              [nzSize]="'small'" nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                     [nzLabel]="item.status">
                               </nz-option>
@@ -156,7 +157,8 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy')
+                                                                              (data?.expanddata?.user?.dob | date:'dd
+                                                                              MMM, yyyy')
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -272,37 +274,40 @@
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
                                                             <div class="col-md-4"
-                                                                  *ngFor="let item of data?.expanddata?.kyc_documents?.results">
+                                                                  *ngFor="let item of data?.expanddata?.kyc_documents">
                                                                   <div class="d-flex flex-column">
                                                                         <div
                                                                               class="d-flex flex-wrap justify-content-between">
                                                                               <label class="text-muted">{{
-                                                                                    item?.document_id?.name + ' '}} <b>
+                                                                                    item?.document_master?.name + ' '}}
+                                                                                    <b>
                                                                                           {{ item?.status }} </b>
                                                                               </label>
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.file"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="View Document"
-                                                                                          (click)="openDocumentModal('viewDocument',item, data)">
+                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.status == 'Pending'"
+                                                                                          *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
                                                                                           nzTooltipTitle="Verify Document"
-                                                                                          (click)="openDocumentModal('verify',item, data)">
+                                                                                          (click)="_isVerify = true; _currentModalData = item">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="Download Document"
-                                                                                          (click)="openDocumentModal('download',item)">
+                                                                                          href="{{ item?.front_file_url }}"
+                                                                                          download target="_blank">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
                                                                                           nzTooltipTitle="Upload Document"
-                                                                                          (click)="openDocumentModal('upload',item)">
+                                                                                          (click)="_isUpload = true; _currentModalData = item">
                                                                                           <i nz-icon nzType="upload"
                                                                                                 nzTheme="outline"></i>
                                                                                     </a>
@@ -328,6 +333,8 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+                                          <!-- CibiL Data  -->
                                           <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="bureau">
@@ -335,18 +342,20 @@
                                                 <nz-card class="mb-md-0"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
                                                                                     <label class="text-muted">Cibil
-                                                                                          Score: <span>(
-                                                                                                )</span></label>
+                                                                                          Score: </label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
                                                                                           data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          : '--'}}
+                                                                                          : '--'}} <span>(Last Pulled :
+                                                                                                {{data?.expanddata?.cibil_data?.results[0]?.created_at
+                                                                                                | date : 'short'}}
+                                                                                                )</span>
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
@@ -366,8 +375,44 @@
                                                 </ng-template>
                                           </div>
 
-                                           <!-- SMS  -->
-                                           <div class="mt-3">
+                                          <!-- Black Box Data  -->
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="blackBox">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex">
+                                                                                    <label class="text-muted">Application
+                                                                                          :{{blackBoxData?.application_score}}
+                                                                                    </label>
+                                                                                    <div class="mx-3  text-muted">
+                                                                                          <!-- Data: {{blackBoxData?.data}} -->
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getBlackBoxData(data?.id)">Pull
+                                                                                    BlackBox </a> </b>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #blackBox>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Blackbox Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
+                                          <!-- SMS  -->
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="smsDetails">
                                                 </nz-page-header>
@@ -376,18 +421,6 @@
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex">
-                                                                                    <label class="text-muted">SMS
-                                                                                          Score: <span>(  )</span></label>
-                                                                                    <div class="mx-3">
-                                                                                          {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          ?
-                                                                                          data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          : '--'}}
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
                                                                         <b> <a class="text-primary"
                                                                                     (click)="getCibilScoreData('sms',data?.id)">Fetch
                                                                                     SMS</a> </b>
@@ -889,6 +922,8 @@
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
                   Party SMS Data</span></label>
+      <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
+                  Data</span></label>
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -972,6 +1007,15 @@
                         </div>
                   </div>
             </section>
+            <section *ngIf="_isPullData">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
+            </section>
+            <section *ngIf="isFetchCibilSms">
+                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails"
+                        [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
+                  </app-common-cibil-sms>
+            </section>
       </nz-modal>
 </section>
 <ng-template #footerModal>
@@ -979,8 +1023,10 @@
       <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
             (click)="handleCancel()">Cancel</button>
-      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="handleOk('status')">Submit</button>
-      <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']" (click)="handleOk('offer')">Update</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
+            (click)="handleOk('status')">Submit</button>
+      <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
+            (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
       <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
             [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
