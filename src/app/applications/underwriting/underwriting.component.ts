@@ -120,21 +120,6 @@ export class UnderwritingComponent implements OnInit {
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
 
-            if (this.filters) {
-                  data['status'] = this.filters
-            }
-            if (this.productFilters) {
-                  data['product_master'] = this.productFilters
-            }
-            if (this.searchValue) {
-                  data['name'] = this.searchValue
-            }
-            if(this.partner){
-                  data['company'] = this.partner
-            }
-            if (this.currentDate) {
-                  data['date_filter'] = moment(this.currentDate).format("yyyy-MM-DD")
-            }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
@@ -143,6 +128,23 @@ export class UnderwritingComponent implements OnInit {
             } else {
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
+            }
+
+            if (this.filters) {
+                  data['page'] = 1
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['page'] = 1
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['page'] = 1
+                  data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['page'] = 1
+                  data['company'] = this.partner
             }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
