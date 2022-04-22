@@ -38,6 +38,12 @@
         <label
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="Corporate Employee Details"
+          >Employee Database</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Employee Database"
           >Employee Database</label
         >
@@ -150,7 +156,7 @@
               [nzDisabledDate]="disabledDate"
               nzAllowClear="false"
               (ngModelChange)="onChange($event)"
-            ></nz-range-picker>
+             [nzRanges]="customRanges"></nz-range-picker>
           </div>
         </div>
         <div class="row">

@@ -349,4 +349,19 @@ export class DashboardComponent implements OnInit {
               barPercentage: 0.5,
             }]
     }
+    resetFilters() {
+        this.selectedTab ={
+            'delinquent': 'Today',
+            'nbfc': 'Today',
+            'authorization': 'Today',
+            'existing': 'today',
+            'acquisition': 'today',
+        } 
+        this.getDelinquentList();
+        this.getNBFCList();
+        this.getAuthorizationList();
+        this.getExistingList();
+        this.getAcquisitionList();
+        
+    }
 }
