@@ -128,3 +128,6 @@ input[type=number] {
     background: rgba(85, 38, 142, 0.1);
     border-color: transparent;
   }
+  .ant-card-extra {
+      z-index: 9 !important;
+  }
