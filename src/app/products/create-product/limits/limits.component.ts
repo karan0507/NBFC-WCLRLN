@@ -51,15 +51,15 @@ export class LimitsComponent implements OnInit {
   createEditFormFuction() {
     this.createEditForm = this.fb.group({
       product: [this.product_id],
-      first_txn_limit: [this.productlimitData ? this.productlimitData.first_txn_limit : '', [Validators.required]],
-      global_txn_limit: [this.productlimitData ? this.productlimitData.global_txn_limit : '', [Validators.required]],
-      daily_txn_limit: [this.productlimitData ? this.productlimitData.daily_txn_limit : '', [Validators.required]],
-      disbursement_min_amount: [this.productlimitData ? this.productlimitData.disbursement_min_amount : '', [Validators.required]],
-      disbursement_max_amount: [this.productlimitData ? this.productlimitData.disbursement_max_amount : '', [Validators.required]],
-      interest_min_percentage: [this.productlimitData ? this.productlimitData.interest_min_percentage : '', [Validators.required]],
-      interest_max_percentage: [this.productlimitData ? this.productlimitData.interest_max_percentage : '', [Validators.required]],
-      global_min_limit: [this.productlimitData ? this.productlimitData.global_min_limit : '', [Validators.required]],
-      global_max_limit: [this.productlimitData ? this.productlimitData.global_max_limit : '', [Validators.required]],
+      first_txn_limit: [this.productlimitData ? this.productlimitData.first_txn_limit : ''],
+      global_txn_limit: [this.productlimitData ? this.productlimitData.global_txn_limit : ''],
+      daily_txn_limit: [this.productlimitData ? this.productlimitData.daily_txn_limit : ''],
+      disbursement_min_amount: [this.productlimitData ? this.productlimitData.disbursement_min_amount : ''],
+      disbursement_max_amount: [this.productlimitData ? this.productlimitData.disbursement_max_amount : ''],
+      interest_min_percentage: [this.productlimitData ? this.productlimitData.interest_min_percentage : ''],
+      interest_max_percentage: [this.productlimitData ? this.productlimitData.interest_max_percentage : ''],
+      global_min_limit: [this.productlimitData ? this.productlimitData.global_min_limit : ''],
+      global_max_limit: [this.productlimitData ? this.productlimitData.global_max_limit : ''],
     })
     
     if (this.router.url.includes('view-product')) {
@@ -80,7 +80,7 @@ export class LimitsComponent implements OnInit {
       this.message.error("Minimum interest % should be less than Maximum interest %")
       return false
     }
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine && this.productlimit_id) {
       this.message.warning('data saved already')
       return false
     }

@@ -482,7 +482,7 @@
 </ng-template>
 
 
-  <nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
+  <nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="true" (nzOnCancel)="isDelete = false; selectedUserId = ''">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup 
             [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
@@ -497,13 +497,13 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [nzWidth]="400" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="400" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" (nzOnCancel)="toggleChangePassword = false; selectedUserId = ''">
     <ng-container *nzModalContent>
         <app-change-password>
             [userData]="selectedUserData"
             
             (onOkCall)="onClickChangePassword()"
-            (onCencelCall)="isDelete = false; selectedUserId = ''"
+            (onCencelCall)="isDelete = false; toggleChangePassword = false; selectedUserId = ''"
             [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">
         </app-change-password>

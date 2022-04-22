@@ -692,11 +692,10 @@ export class AddEditPartnersComponent implements OnInit {
     this.nach.removeAt(i);
   }
 
+  // this method is used to add new after submitting existing one
   onClickSaveExistingForm() {
-    console.log(this.addEditProductForm.value);
     let corporate_limit_settings;
-    const storeData = this.addEditProductForm.valid;
-    const saveDoc = [];
+    const storeData = this.addEditProductForm.value;
     if(this.addEditProductForm.value.flag === 'Card'){
       corporate_limit_settings = {
         flag: this.addEditProductForm.value?.flag,
@@ -709,7 +708,6 @@ export class AddEditPartnersComponent implements OnInit {
         contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null
       }
       this.addEditProductForm.patchValue({
-        // corporate_limit_settings: corporate_limit_settings
         corporate_limit_settings: JSON.stringify(corporate_limit_settings)
       })
     } else {
@@ -729,8 +727,21 @@ export class AddEditPartnersComponent implements OnInit {
     if (!this.addEditProductForm.valid) {
       this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
     }
+    const saveDoc = [];
     var sendDate = this.addEditProductForm.value;
+        delete this.addEditProductForm.value?.permanent_min;
+        delete this.addEditProductForm.value?.permanent_max;
+        delete this.addEditProductForm.value?.contractual_min;
+        delete this.addEditProductForm.value?.contractual_max;
+        delete this.addEditProductForm.value?.permanent_agreed;
+        delete this.addEditProductForm.value?.contractual_agreed;
+        delete this.addEditProductForm.value?.flag;
+        delete this.addEditProductForm.value?.ewa_percent;  
+        delete this.addEditProductForm.value?.max_salary_percent;  
     for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
       if (
         sendDate.nach_date_time_mappings[i].time_of_day &&
         sendDate.nach_date_time_mappings[i].day_of_month
@@ -740,10 +751,11 @@ export class AddEditPartnersComponent implements OnInit {
         ).format("HH:mm:ss");
       } else {
         delete sendDate.nach_date_time_mappings[i];
-        // delete sendDate.nach_date_time_mappings[i].day_of_month
         this.deleteNachByKey(i);
       }
     }
+    }
+
     for (var i in sendDate.document_data) {
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
@@ -756,100 +768,263 @@ export class AddEditPartnersComponent implements OnInit {
         !sendDate.document_data[i].document_name){
           this.message.error(
             " Plz Upload Selected Document " +
-              ` ${sendDate.document_data[i].label_name}`,
-            { nzDuration: 5000 }
+              ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
           );
           return;
       }
     }
+
     if (this.addEditProductForm.valid) {
       this.apiLoader["saveAddNew"] = true;
       let data = new FormData();
 
-      var sendDate = this.addEditProductForm.value;
-      delete this.addEditProductForm.value?.permanent_min;
-        delete this.addEditProductForm.value?.permanent_max;
-        delete this.addEditProductForm.value?.contractual_min;
-        delete this.addEditProductForm.value?.contractual_max;
-        delete this.addEditProductForm.value?.permanent_agreed;
-        delete this.addEditProductForm.value?.contractual_agreed;
-        delete this.addEditProductForm.value?.flag;
-        delete this.addEditProductForm.value?.ewa_percent;  
-        delete this.addEditProductForm.value?.max_salary_percent;  
-      for (var i in sendDate.document_data) {
-        if (!sendDate.document_data[i].id) {
-          delete sendDate?.document_data[i]?.id;
-        }
-        if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
-          this.message.error(
-            " Plz Upload Selected Document " +
-              ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
-          );
-          return;
-        } 
-        if (!sendDate.document_data[i].front_back_flag && 
-          !sendDate.document_data[i].document_name){
-            this.message.error(
-              " Plz Upload Selected Document " +
-                ` ${sendDate.document_data[i].label_name}`,
-              { nzDuration: 5000 }
-            );
-            return;
-        }
-      }
+        var sendDate = this.addEditProductForm.value;
 
-      for (var i in sendDate) {
-        if (i == "document_data" || i == "nach_date_time_mappings") {
-          data.append(i, JSON.stringify(sendDate[i]));
-        } else {
-          if (sendDate[i]) {
-            data.append(i, sendDate[i]);
+        for (var i in sendDate.document_data) {
+          if (!sendDate.document_data[i].id) {
+            delete sendDate?.document_data[i]?.id;
           }
+          if (sendDate?.document_data[i]?.front_back_flag) {
+            if(sendDate?.document_data[i]?.document_name_front) {
+              // saveDoc.push(sendDate?.document_data[i]?.documents_front)
+              data.append("documents", sendDate?.document_data[i]?.documents_front);
+              delete sendDate?.document_data[i]?.documents_front;
+            }
+            if(sendDate?.document_data[i]?.document_name_back) {
+              data.append("documents", sendDate?.document_data[i]?.documents_back);
+              delete sendDate?.document_data[i]?.documents_back;
+            }
+          } 
+          if(!sendDate?.document_data[i]?.front_back_flag) {
+            saveDoc.push(sendDate?.document_data[i]?.documents)
+            data.append("documents", sendDate?.document_data[i]?.documents);
+            delete sendDate?.document_data[i]?.documents;
+             }
         }
-      }
-      const url = this.http.createPartnerForm(data);
-      url.subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.apiLoader["saveAddNew"] = false;
-            this.message.success(res?.message);
-            let newRouterLink = "/partners/add";
-            this.router.navigate(["/"]).then(() => {
-              this.router.navigate([newRouterLink]);
-            });
+        for (var i in sendDate) {
+          if (i == "document_data" || i == "nach_date_time_mappings") {
+            data.append(i, JSON.stringify(sendDate[i]));
           } else {
+            if (sendDate[i]) {
+              delete sendDate?.flag;
+              data.append(i, sendDate[i]);
+            }
+          }
+          // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
+        }
+        const url = this.http.createPartnerForm(data);
+        url.subscribe(
+          (res: any) => {
+            if (res.success) {
+                this.apiLoader["saveAddNew"] = false;
+                this.message.success(res?.message);
+                let newRouterLink = "/partners/add";
+                this.router.navigate(["/"]).then(() => {
+                this.router.navigate([newRouterLink]);
+              });
+            } else {
+              const control = <FormArray>(
+                this.addEditProductForm.controls["nach_date_time_mappings"]
+              );
+              for (let i = control.length - 1; i >= 0; i--) {
+                control.removeAt(i);
+              }
+              for (var i in saveDoc) {
+              let value = this.addEditProductForm.get("document_data") as FormArray;
+              value.controls?.[i].patchValue({ documents: saveDoc[i] });
+              }
+              // this.setFormData(storeData);
+              this.setFormDataForNach(storeData);
+              this.message.error(res?.message);
+              this.apiLoader["saveAddNew"] = false;
+            }
+          },
+          error => {
             const control = <FormArray>(
               this.addEditProductForm.controls["nach_date_time_mappings"]
             );
             for (let i = control.length - 1; i >= 0; i--) {
               control.removeAt(i);
             }
+            // this.message.error(res?.message);
             for (var i in saveDoc) {
               let value = this.addEditProductForm.get("document_data") as FormArray;
               value.controls?.[i].patchValue({ documents: saveDoc[i] });
               }
-            this.setFormData(storeData);
-            this.setFormDataForNach(storeData);
-            this.apiLoader["saveAddNew"] = false;
-            this.message.error(res?.message);
+              this.setFormDataForNach(storeData);
+            this.apiLoader["formSave"] = false;
           }
-        },
-        error => {
-          for (var i in saveDoc) {
-            let value = this.addEditProductForm.get("document_data") as FormArray;
-            value.controls?.[i].patchValue({ documents: saveDoc[i] });
-            }
-          this.apiLoader["saveAddNew"] = false;
-        }
-      );
+        );
     }
+    // console.log(this.addEditProductForm.value);
+    // let corporate_limit_settings;
+    // const storeData = this.addEditProductForm.valid;
+    // const saveDoc = [];
+    // if(this.addEditProductForm.value.flag === 'Card'){
+    //   corporate_limit_settings = {
+    //     flag: this.addEditProductForm.value?.flag,
+    //     max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+    //     permanent_min: this.addEditProductForm.value?.permanent_min ? this.addEditProductForm.value?.permanent_min : null, 
+    //     permanent_max: this.addEditProductForm.value?.permanent_max ? this.addEditProductForm.value?.permanent_max : null,
+    //     contractual_min: this.addEditProductForm.value?.contractual_min ? this.addEditProductForm.value?.contractual_min : null,
+    //     contractual_max: this.addEditProductForm.value?.contractual_max ? this.addEditProductForm.value?.contractual_max : null,
+    //     permanent_agreed: this.addEditProductForm.value?.permanent_agreed ? this.addEditProductForm.value?.permanent_agreed : null,
+    //     contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null
+    //   }
+    //   this.addEditProductForm.patchValue({
+    //     // corporate_limit_settings: corporate_limit_settings
+    //     corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+    //   })
+    // } else {
+    //   corporate_limit_settings = {
+    //     flag: this.addEditProductForm.value?.flag,
+    //     ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
+    //     max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+    //   }
+    //   this.addEditProductForm.patchValue({
+    //     corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+    //   })
+    // }
+    // for (const i in this.addEditProductForm.controls) {
+    //   this.addEditProductForm.controls[i].markAsDirty();
+    //   this.addEditProductForm.controls[i].updateValueAndValidity();
+    // }
+    // if (!this.addEditProductForm.valid) {
+    //   this.message.error("Mandatory Fields Are missing ", { nzDuration: 5000 });
+    // }
+    // var sendDate = this.addEditProductForm.value;
+    // for (var i in sendDate.nach_date_time_mappings) {
+    //   if (
+    //     sendDate.nach_date_time_mappings[i].time_of_day &&
+    //     sendDate.nach_date_time_mappings[i].day_of_month
+    //   ) {
+    //     sendDate.nach_date_time_mappings[i].time_of_day = moment(
+    //       sendDate.nach_date_time_mappings[i]?.time_of_day
+    //     ).format("HH:mm:ss");
+    //   } else {
+    //     delete sendDate.nach_date_time_mappings[i];
+    //     // delete sendDate.nach_date_time_mappings[i].day_of_month
+    //     this.deleteNachByKey(i);
+    //   }
+    // }
+    // for (var i in sendDate.document_data) {
+    //   if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
+    //     this.message.error(
+    //       " Plz Upload Selected Document " +
+    //         ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
+    //     );
+    //     return;
+    //   } 
+    //   if (!sendDate.document_data[i].front_back_flag && 
+    //     !sendDate.document_data[i].document_name){
+    //       this.message.error(
+    //         " Plz Upload Selected Document " +
+    //           ` ${sendDate.document_data[i].label_name}`,
+    //         { nzDuration: 5000 }
+    //       );
+    //       return;
+    //   }
+    // }
+    // if (this.addEditProductForm.valid) {
+    //   this.apiLoader["saveAddNew"] = true;
+    //   let data = new FormData();
+
+    //   // var sendDate = this.addEditProductForm.value;
+    //   // delete this.addEditProductForm.value?.permanent_min;
+    //   //   delete this.addEditProductForm.value?.permanent_max;
+    //   //   delete this.addEditProductForm.value?.contractual_min;
+    //   //   delete this.addEditProductForm.value?.contractual_max;
+    //   //   delete this.addEditProductForm.value?.permanent_agreed;
+    //   //   delete this.addEditProductForm.value?.contractual_agreed;
+    //   //   delete this.addEditProductForm.value?.flag;
+    //   //   delete this.addEditProductForm.value?.ewa_percent;  
+    //   //   delete this.addEditProductForm.value?.max_salary_percent;  
+    //   for (var i in sendDate.document_data) {
+    //     if (!sendDate.document_data[i].id) {
+    //       delete sendDate?.document_data[i]?.id;
+    //     }
+    //     if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
+    //       this.message.error(
+    //         " Plz Upload Selected Document " +
+    //           ` ${sendDate.document_data[i].label_name}`,{ nzDuration: 5000 }
+    //       );
+    //       return;
+    //     } 
+    //     if (!sendDate.document_data[i].front_back_flag && 
+    //       !sendDate.document_data[i].document_name){
+    //         this.message.error(
+    //           " Plz Upload Selected Document " +
+    //             ` ${sendDate.document_data[i].label_name}`,
+    //           { nzDuration: 5000 }
+    //         );
+    //         return;
+    //     }
+    //   }
+
+    //   for (var i in sendDate) {
+    //     if (i == "document_data" || i == "nach_date_time_mappings") {
+    //       data.append(i, JSON.stringify(sendDate[i]));
+    //     } else {
+    //       if (sendDate[i]) {
+    //         data.append(i, sendDate[i]);
+    //       }
+    //     }
+    //   }
+    //   const url = this.http.createPartnerForm(data);
+    //   url.subscribe(
+    //     (res: any) => {
+    //       console.log(res);
+    //       if (res.success) {
+    //         this.apiLoader["saveAddNew"] = false;
+    //         this.message.success(res?.message);
+    //         let newRouterLink = "/partners/add";
+    //         this.router.navigate(["/"]).then(() => {
+    //           this.router.navigate([newRouterLink]);
+    //         });
+    //       } else {
+    //         const control = <FormArray>(
+    //           this.addEditProductForm.controls["nach_date_time_mappings"]
+    //         );
+    //         for (let i = control.length - 1; i >= 0; i--) {
+    //           control.removeAt(i);
+    //         }
+    //         for (var i in saveDoc) {
+    //           let value = this.addEditProductForm.get("document_data") as FormArray;
+    //           value.controls?.[i].patchValue({ documents: saveDoc[i] });
+    //           }
+    //         // this.setFormData(storeData);
+    //         this.setFormDataForNach(storeData);
+    //         this.apiLoader["saveAddNew"] = false;
+    //         this.message.error(res?.message);
+    //       }
+    //     },
+    //     error => {
+    //       const control = <FormArray>(
+    //         this.addEditProductForm.controls["nach_date_time_mappings"]
+    //       );
+    //       for (let i = control.length - 1; i >= 0; i--) {
+    //         control.removeAt(i);
+    //       }
+    //       for (var i in saveDoc) {
+    //         let value = this.addEditProductForm.get("document_data") as FormArray;
+    //         value.controls?.[i].patchValue({ documents: saveDoc[i] });
+    //         }
+    //       this.apiLoader["saveAddNew"] = false;
+    //     }
+    //   );
+    // }
   }
 
+  // this.apiLoader["saveAddNew"] = false;
+  //           this.message.success(res?.message);
+  //           let newRouterLink = "/partners/add";
+  //           this.router.navigate(["/"]).then(() => {
+  //             this.router.navigate([newRouterLink]);
+
   onClickSubmitForm() {
+    console.log(this.addEditProductForm.value, ' <== Value')
     let corporate_limit_settings;
     const storeData = this.addEditProductForm.value;
-    console.log(this.addEditProductForm.value);
     if(this.addEditProductForm.value.flag === 'Card'){
       corporate_limit_settings = {
         flag: this.addEditProductForm.value?.flag,
@@ -874,7 +1049,6 @@ export class AddEditPartnersComponent implements OnInit {
         corporate_limit_settings: JSON.stringify(corporate_limit_settings)
       })
     }
-    console.log(this.addEditProductForm.value, ' <== Value')
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
       this.addEditProductForm.controls[i].updateValueAndValidity();
@@ -942,6 +1116,7 @@ export class AddEditPartnersComponent implements OnInit {
           }
           if (sendDate?.document_data[i]?.front_back_flag) {
             if(sendDate?.document_data[i]?.document_name_front) {
+              // saveDoc.push(sendDate?.document_data[i]?.documents_front)
               data.append("documents", sendDate?.document_data[i]?.documents_front);
               delete sendDate?.document_data[i]?.documents_front;
             }
@@ -951,12 +1126,11 @@ export class AddEditPartnersComponent implements OnInit {
             }
           } 
           if(!sendDate?.document_data[i]?.front_back_flag) {
+            saveDoc.push(sendDate?.document_data[i]?.documents)
             data.append("documents", sendDate?.document_data[i]?.documents);
             delete sendDate?.document_data[i]?.documents;
              }
         }
-        console.log(sendDate);
-
         for (var i in sendDate) {
           if (i == "document_data" || i == "nach_date_time_mappings") {
             data.append(i, JSON.stringify(sendDate[i]));
@@ -968,7 +1142,6 @@ export class AddEditPartnersComponent implements OnInit {
           }
           // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
         }
-        // data.append("corporate_limit_settings", corporate_limit_settings);
         const url = this.http.createPartnerForm(data);
         url.subscribe(
           (res: any) => {
@@ -987,7 +1160,9 @@ export class AddEditPartnersComponent implements OnInit {
               let value = this.addEditProductForm.get("document_data") as FormArray;
               value.controls?.[i].patchValue({ documents: saveDoc[i] });
               }
-              this.setFormData(storeData);
+              console.log(saveDoc)
+              console.log(storeData)
+              // this.setFormData(storeData);
               this.setFormDataForNach(storeData);
               this.message.error(res?.message);
               this.apiLoader["formSave"] = false;
@@ -1007,7 +1182,8 @@ export class AddEditPartnersComponent implements OnInit {
             this.apiLoader["formSave"] = false;
           }
         );
-      } else {
+      } 
+      else {
         let data = new FormData();
         console.log(this.addEditProductForm.value);
         var sendDate = this.addEditProductForm.value;

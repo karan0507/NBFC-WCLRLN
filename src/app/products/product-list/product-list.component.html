@@ -17,7 +17,6 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchProductList()"></nz-range-picker>
                     <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Draft Status">
                         <nz-option [nzValue]="'yes'" nzLabel="Yes"></nz-option>
@@ -38,6 +37,8 @@
                         <nz-option *ngFor="let item of partnerData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
+                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchProductList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"

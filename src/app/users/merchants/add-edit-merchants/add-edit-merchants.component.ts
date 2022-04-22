@@ -612,6 +612,7 @@ export class AddEditMerchantsComponent implements OnInit {
           // delete sendDate?.document_data[i]?.documents;
         } 
         if(!sendDate?.document_data[i]?.front_back_flag) {
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append("documents", sendDate?.document_data[i]?.documents);
           delete sendDate?.document_data[i]?.documents;
         }
@@ -785,6 +786,7 @@ export class AddEditMerchantsComponent implements OnInit {
           // delete sendDate?.document_data[i]?.documents;
         } 
         if(!sendDate?.document_data[i]?.front_back_flag) {
+          saveDoc.push(sendDate?.document_data[i]?.documents)
           data.append("documents", sendDate?.document_data[i]?.documents);
           delete sendDate?.document_data[i]?.documents;
         }
