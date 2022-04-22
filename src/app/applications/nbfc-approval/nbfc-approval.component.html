@@ -18,7 +18,7 @@
             <div class="row">
                   <div class="col-md-4 mb-3 d-flex">
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" (keyup.enter)="getFormLoanData()" [(ngModel)]="searchValue" nz-input
+                              <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
                                     placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
@@ -26,25 +26,27 @@
                                           nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-3">
-                        <div>
-                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters"
-                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                                    nzPlaceHolder="Product">
-                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
-                                          [nzLabel]="item.name">
-                                    </nz-option>
-                              </nz-select>
-                        </div>
-                  </div>
-                  <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                  <div class="col-md-8 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
                         <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="w-60"  nzMode="multiple" (nzFocus)="onFocusMethod('status')" [(ngModel)]="filters"
-                              (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id" [nzLabel]="item.status">
+                        <nz-select class="mx-3 w-100" nzAllowClear [(ngModel)]="productFilters"
+                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                                    nzPlaceHolder="Select Product">
+                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                          [nzLabel]="item.name">
+                                    </nz-option>
+                              </nz-select>
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
+                              nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                                    [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
                   </div>
@@ -107,7 +109,7 @@
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
-                                          <td></td>
+                                          <td>{{data?.status ? data?.status : '--'}}</td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -156,7 +158,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                              data?.expanddata?.user?.dob
+                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy')
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -236,9 +238,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
-                                                                                    : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -248,9 +248,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
-                                                                                    : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -282,26 +280,28 @@
 
                                                                               <div class="mr-5">
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.file"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="View Document"
-                                                                                          (click)="openDocumentModal('viewDocument',item, data)">
+                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
                                                                                           <i nz-icon nzType="eye"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.status == 'Pending'"
+                                                                                          *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
                                                                                           nzTooltipTitle="Verify Document"
-                                                                                          (click)="openDocumentModal('verify',item, data)">
+                                                                                          (click)="_isVerify = true; _currentModalData = item">
                                                                                           <i nz-icon
                                                                                                 nzType="check-circle"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                                                           nzTooltipTitle="Download Document"
-                                                                                          (click)="openDocumentModal('download',item)">
+                                                                                          href="{{ item?.front_file_url }}"
+                                                                                          download target="_blank">
                                                                                           <i nz-icon nzType="download"
                                                                                                 nzTheme="outline"></i></a>
                                                                                     <a class="text-primary"
                                                                                           nzTooltipTitle="Upload Document"
-                                                                                          (click)="openDocumentModal('upload',item)">
+                                                                                          (click)="_isUpload = true; _currentModalData = item">
                                                                                           <i nz-icon nzType="upload"
                                                                                                 nzTheme="outline"></i>
                                                                                     </a>
@@ -334,18 +334,20 @@
                                                 <nz-card class="mb-md-0"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
                                                                                     <label class="text-muted">Cibil
-                                                                                          Score: <span>(
-                                                                                                )</span></label>
+                                                                                          Score: </label>
                                                                                     <div class="mx-3">
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
                                                                                           data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          : '--'}}
+                                                                                          : '--'}} <span>(Last Pulled :
+                                                                                                {{data?.expanddata?.cibil_data?.results[0]?.created_at
+                                                                                                | date : 'short'}}
+                                                                                                )</span>
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
@@ -364,6 +366,43 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="blackBox">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <div class="d-flex flex-column">
+                                                                        <h6>
+                                                                              <div class="d-flex">
+                                                                                    <label class="text-muted">Application
+                                                                                          :{{blackBoxData?.application_score}}
+                                                                                    </label>
+                                                                                    <div class="mx-3  text-muted">
+                                                                                          Data: {{blackBoxData?.data}}
+                                                                                    </div>
+                                                                              </div>
+                                                                        </h6>
+                                                                        <b> <a class="text-primary"
+                                                                                    (click)="getBlackBoxData(data?.id)">Pull
+                                                                                    BlackBox </a> </b>
+                                                                        <div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #blackBox>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Blackbox Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
 
 
                                              <!-- SMS  -->
@@ -757,17 +796,29 @@
             </div>
       </nz-card>
 </section>
+<section *ngIf="_isViewDocument">
+      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
+</section>
 
+<section *ngIf="_isVerify">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isVerify = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
+
+</section>
+<section *ngIf="_isUpload">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isUpload = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
+      </app-common-document-actions>
+</section>
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
       <label *ngIf="_isAcceptOffer">Accept</label>
       <label *ngIf="isRejectOffer">Reject</label>
-      <label *ngIf="_isUpload">Upload Document</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
-      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
-            Document</label>
 </ng-template>
 <section>
       <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -844,47 +895,6 @@
 
                   </div>
             </section>
-
-
-            <!-- View Document Modal -->
-            <section *ngIf="_isViewDocument">
-                  <embed [src]="sanatizeUrlToSafe(_currentModalData?.file)" class="w-100 h-100">
-            </section>
-
-            <!-- Verify Document Modal -->
-            <section *ngIf="_isVerify">
-                  <div class="d-flex flex-column">
-                        <div> Verify {{ _currentModalData?.document_id?.name + ' Document'}}
-                        </div>
-                        <div class="d-flex flex-column">
-                              <div class="my-3">
-                                    <nz-radio-group [(ngModel)]="documentStatus">
-                                          <label nz-radio [nzValue]="1">Accept</label>
-                                          <label nz-radio [nzValue]="2">Reject</label>
-                                    </nz-radio-group>
-                              </div>
-                              <div class="d-flex flex-wrap">
-                                    <label>Remarks: </label>
-                                    <textarea rows="4" nz-input [(ngModel)]="verifyRemarks"></textarea>
-                                    <!-- <nz-textarea-count class="mx-3 w-100" [(ngModel)]="verifyRemarks" [nzMaxCharacterCount]="200">
-                                    <textarea rows="4" nz-input></textarea>
-                              </nz-textarea-count> -->
-                              </div>
-                        </div>
-                  </div>
-
-            </section>
-
-            <!-- Upload Document Modal -->
-            <section *ngIf="_isUpload">
-                  <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx, .pdf, .img, .jpeg'"
-                        [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
-                        <p class="ant-upload-text">Drag and Drop file here</p>
-                        <p class="ant-upload-text">or</p>
-                        <button class="mt-md-4" nz-button nzType="primary">Browse</button>
-                        <!-- (click)="isPreview = true; isUpload = false" -->
-                  </nz-upload>
-            </section>
       </nz-modal>
 </section>
       <ng-template #footerModal>
@@ -895,10 +905,4 @@
                   (click)="handleOk('accept')">Submit</button>
             <button *ngIf="isRejectOffer" nz-button nzType="primary" class="mx-2"
                   (click)="handleOk('reject')">Submit</button>
-            <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-                  [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-                  (click)="handleOk('uploadDocument')">Submit</button>
-            <button *ngIf="_isVerify" nz-button nzType="primary"
-                  [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-                  [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
       </ng-template>

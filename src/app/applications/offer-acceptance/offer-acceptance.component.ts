@@ -76,6 +76,10 @@ export class OfferAcceptanceComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
+      currentDropDownId :any
+      partner : any
+      partnerList : any = []
+      blackBoxData: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -94,17 +98,20 @@ export class OfferAcceptanceComponent implements OnInit {
             // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
             return this.sanitize.bypassSecurityTrustResourceUrl(value);
       }
+
       onFocusMethod(type) {
             if (type == 'product') {
                   this.https.getAllProducts().subscribe((res: any) => {
                         this.productList = res?.data
-                        console.log(this.productList);
                   })
             } else if (type == 'status') {
                   let params = { 'source': 'Onboarding', endpoint: '5', 'datapoint': 'get-stage-statuses' }
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
-                        console.log(this.stageStatusList);
+                  })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
       }
@@ -114,31 +121,41 @@ export class OfferAcceptanceComponent implements OnInit {
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=5', 'source': 'Onboarding' }
 
-            if (this.filters) {
-                  data['status'] = this.filters
-            }
-            if (this.productFilters) {
-                  data['product_master'] = this.productFilters
-            }
-            if (this.searchValue) {
-                  data['name'] = this.searchValue
-            }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
+
+            if (this.filters) {
+                  data['page'] = 1
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['page'] = 1
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['page'] = 1
+                  data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['page'] = 1
+                  data['company'] = this.partner
+            }
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.data) {
+                  if (res?.success) {
+                        if(this._activeLoans){
+                              this._activeLoans.forEach(element => {
+                                    this.expandSet.delete(element?.id)    
+                               });  
+                        }
+                        this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
@@ -171,7 +188,7 @@ export class OfferAcceptanceComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {
@@ -261,8 +278,7 @@ export class OfferAcceptanceComponent implements OnInit {
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
-
-
+            this.isFetchCibilSms = false
             this._isUpdateStatus = false;
             this._isStatus = false;
             this._isDocument = false;
@@ -453,10 +469,20 @@ export class OfferAcceptanceComponent implements OnInit {
             return false;
       };
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
+      
       resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
       }
 }

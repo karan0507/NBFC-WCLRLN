@@ -39,17 +39,17 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="daily_txn_limit" class="text-left text-wrap"
-                            nzRequired>Daily Limit</nz-form-label>
+                            nzRequired>Number of Transactions</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
-                            nzErrorTip="Please input Daily Limit!">
-                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                            nzErrorTip="Please input Number of Transactions!">
+                                <nz-input-group>
                                     <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="daily_txn_limit"
-                                placeholder="Please input Daily Limit!" />
+                                placeholder="Please input Number of Transactions!" />
                                 </nz-input-group>
                                 
-                                <ng-template #addOnAfterTemplateforamt>
+                                <!-- <ng-template #addOnAfterTemplateforamt>
                                     <span>₹</span>
-                                </ng-template>
+                                </ng-template> -->
                         </nz-form-control>
                     </nz-form-item>
                 </div>

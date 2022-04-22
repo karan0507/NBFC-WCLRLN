@@ -8,6 +8,8 @@ import { HttpService } from '../services/http.service';
 export class GlobalservicesService {
       public globalPageSize = 30;
       public applicationStageCount = new ReplaySubject<any>();
+      public globalUserData = new ReplaySubject<any>();
+
       constructor(public http: HttpService) { }
 
      setApplicationCount() {
@@ -36,7 +38,16 @@ export class GlobalservicesService {
             return val;
       }
 
-      maskingDigits(str){
-            return str.replace(/\S(?=\S{4})/g, "*")
-      }
+      sendUserData(data:any){
+            this.globalUserData.next(data);
+          }
+      
+      maskedValue(data, type){
+            if(data && type == 'pan'){
+             return data[data.length-1]['pan_no']
+            }else if(data && type == 'aadhar'){
+             return data[data.length-1]['aadhar_no']
+            }
+       }
+       
 }

@@ -32,6 +32,7 @@ export class ENachSigningComponent implements OnInit {
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
+      isFetchCibilSms : boolean = false
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
@@ -44,6 +45,7 @@ export class ENachSigningComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
+      blackBoxData: any;
 
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
@@ -73,6 +75,9 @@ export class ENachSigningComponent implements OnInit {
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
+      currentDropDownId :any
+      partner : any
+      partnerList : any = []
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -104,6 +109,10 @@ export class ENachSigningComponent implements OnInit {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
                   })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                  })
             }
       }
 
@@ -112,31 +121,39 @@ export class ENachSigningComponent implements OnInit {
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=6', 'source': 'Onboarding' }
 
-            if (this.filters) {
-                  data['status'] = this.filters
-            }
-            if (this.productFilters) {
-                  data['product_master'] = this.productFilters
-            }
-            if (this.searchValue) {
-                  data['name'] = this.searchValue
-            }
             if (tableFilter) {
-                  console.log(tableFilter?.page, tableFilter?.globalPageSize, tableFilter);
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
                   data['page'] = tableFilter?.pageIndex
                   data['limit'] = tableFilter?.pageSize
             } else {
-                  console.log(this.globalPageSize);
-
                   data['page'] = this.page
                   data['limit'] = this.globalPageSize
             }
-            console.log(data);
 
+            if (this.filters) {
+                  data['page'] = 1
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['page'] = 1
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['page'] = 1
+                  data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['page'] = 1
+                  data['company'] = this.partner
+            }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
+                        if(this._activeLoans){
+                              this._activeLoans.forEach(element => {
+                                    this.expandSet.delete(element?.id)    
+                               });  
+                        }
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
@@ -169,7 +186,7 @@ export class ENachSigningComponent implements OnInit {
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, index);
+                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
                   // console.log();
 
             } else {
@@ -231,17 +248,18 @@ export class ENachSigningComponent implements OnInit {
       }
 
       handleCancel() {
-            this._isUpdateStatus = false;
-            this._isStatus = false;
-            this._isDocument = false;
-            this._isEditOffer = false;
-            this.isRejectModal = false;
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
             this._isVerify = false;
             this._isPullData = false;
             this._isCibil = false;
+            this.isFetchCibilSms = false
+            this._isUpdateStatus = false;
+            this._isStatus = false;
+            this._isDocument = false;
+            this._isEditOffer = false;
+            this.isRejectModal = false;
       }
 
       handleOk(type?) {
@@ -375,26 +393,18 @@ export class ENachSigningComponent implements OnInit {
 
       // Get Cibil Data API
       getCibilScoreData(type?, id?) {
+            this._isUpdateStatus = true
+            this.isFetchCibilSms = true;
             let data = { source: 'Onboarding', endpoint: id }
             if (type == 'cibil' && id) {
-                  data['datapoint'] = 'fetch-cibil-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = true;
+                  this._currentLoanDetails = id
+
             } else if (type == 'sms' && id) {
-                  data['datapoint'] = 'fetch-sms-from-db'
-                  this.https.getCibilSMSData(data).subscribe(res => {
-                        if (res?.data) {
-                              console.log(res?.data);
-                              this._currentCibilData = res?.data
-                        }
-                  })
+                  this._isCibil = false;
+                  this._currentLoanDetails = id
             }
       }
-
       // Pull Cibil Methods
       pullDataSMSCibil(type?, data?) {
             console.log(data);
@@ -416,10 +426,20 @@ export class ENachSigningComponent implements OnInit {
             }
       }
 
+      getBlackBoxData(id) {
+            let data = { source: 'Onboarding', datapoint: 'pull_black_box', endpoint: id }
+            this.https.pullBlackBoxData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.blackBoxData = res?.data
+                  }
+            })
+      } 
+
       resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
       }
 }

@@ -16,22 +16,27 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchProductList()"></nz-range-picker>
-                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchProductList()"></nz-range-picker>
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="draft_status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Draft Status">
                         <nz-option [nzValue]="'yes'" nzLabel="Yes"></nz-option>
                         <nz-option [nzValue]="'no'" nzLabel="No"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_master" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option nzValue="1" nzLabel="FatakPay"></nz-option>
                         <nz-option nzValue="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="min-width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchProductList()"
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchProductList()"
                         nzPlaceHolder="Filter By status">
                         <nz-option nzValue="active" nzLabel="Active"></nz-option>
                         <nz-option nzValue="inactive" nzLabel="Inactive"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="partner" (ngModelChange)="fetchProductList()"
+                        nzPlaceHolder="Filter By Partner"(nzFocus)="fetchPartnerData()" nzShowSearch>
+                        <nz-option *ngFor="let item of partnerData" [nzValue]="item.pk" [nzLabel]="item.name">
+                        </nz-option>
                     </nz-select>
                 </div>
             </div>

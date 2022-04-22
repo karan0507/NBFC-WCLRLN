@@ -18,7 +18,7 @@
             <div class="row">
                   <div class="col-md-4 mb-3 d-flex">
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" (keyup.enter)="getFormLoanData()" [(ngModel)]="searchValue" nz-input
+                              <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
                                     placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
@@ -26,27 +26,24 @@
                                           nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-3">
-                        <div>
-                              <nz-select class="mx-1 w-100" nzAllowClear [(ngModel)]="productFilters"
-                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                                    nzPlaceHolder="Product">
-                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
-                                          [nzLabel]="item.name">
-                                    </nz-option>
-                              </nz-select>
-                        </div>
-                  </div>
-                  <div class="col-md-5 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                  <div class="col-md-8 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
                         <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
                               (click)="resetFilters()" class="mr-2">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-date-picker class="mx-2" [nzDisabledDate]="disabledDate" nzFormat="dd/MM/yyyy"
-                              [(ngModel)]="currentDate" (ngModelChange)="getFormLoanData()"></nz-date-picker>
-
-                        <nz-select class="w-60" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
-                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear
+                        <nz-select class="mx-3 w-100" nzAllowClear [(ngModel)]="productFilters"
+                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                                    nzPlaceHolder="Select Product">
+                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                          [nzLabel]="item.name">
+                                    </nz-option>
+                              </nz-select>
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
                               nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                     [nzLabel]="item.status">
@@ -112,7 +109,7 @@
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
-                                          <td></td>
+                                          <td>{{data?.status ? data?.status : '--'}}</td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -194,7 +191,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                              data?.expanddata?.user?.dob
+                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy')
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -274,9 +271,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.pan_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -286,9 +281,7 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.aadhar ?
-                                                                              global.maskingDigits(data?.expanddata?.kyc_details?.results[0]?.aadhar_no)
-                                                                              : '--'}}
+                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -426,7 +419,7 @@
                                                                                           :{{blackBoxData?.application_score}}
                                                                                     </label>
                                                                                     <div class="mx-3  text-muted">
-                                                                                          Data: {{blackBoxData?.data}}
+                                                                                          <!-- Data: {{blackBoxData?.data}} -->
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
@@ -766,11 +759,6 @@
 <!-- Modal Section -->
 <ng-template #modalTitle>
       <label *ngIf="_isStatus">Update Status</label>
-      <label *ngIf="_isUpload">Upload Document</label>
-      <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : ''
-            }} Document</label>
-      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
-            Document</label>
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
                   Party SMS Data</span></label>
@@ -863,10 +851,4 @@
             (click)="handleOk('StatusModal')">Submit</button>
       <button nz-button nzType="primary" class="mx-2" *ngIf="_isEditOffer" (click)="handleOk('offer')"
             [disabled]="offerForm.invalid ? true : false">Update</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
 </ng-template>

@@ -240,14 +240,21 @@ export class AddEditPartnersComponent implements OnInit {
             display_name_back: null,
             isdelete: false,
           };
-          documentArray.push(documents);
+          // documentArray.push(documents);
+          if(documents?.pk == 3){
+            this.documentArray?.forEach((entity, index) => {
+              if (entity.pk == element?.document_master["id"]) {
+                this.documentArray.splice(index, 1);
+              }
+            });
+          }
           this.addSkills(documents);
         }
-        this.documentArray?.forEach((entity, index) => {
-          if (entity.pk == element?.document_master["id"]) {
-            this.documentArray.splice(index, 1);
-          }
-        });
+        // this.documentArray?.forEach((entity, index) => {
+        //   if (entity.pk == element?.document_master["id"]) {
+        //     this.documentArray.splice(index, 1);
+        //   }
+        // });
         // this.addSkills(documents);
       });
     }
@@ -399,7 +406,9 @@ export class AddEditPartnersComponent implements OnInit {
         data ? data?.contact_person_email : null,
         [
           Validators.required,
-          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+          Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$")
+          // ^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$
+          // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-90-9._%+-]+\.[a-zA-Z0-9-.]+$
         ],
       ],
 
@@ -413,7 +422,10 @@ export class AddEditPartnersComponent implements OnInit {
       master: ["0", [Validators.required]],
       partner_nature: ["Partner", [Validators.required]],
       partner_master: [data ? data?.master_partner?.id : null],
-      flag:[data ? data?.corporate_limit_settings?.flag : 'Card'],
+      flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
+      relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
+      relationship_manager_contact:[data ? data?.relationship_manager_contact : null, [Validators.required, , Validators.pattern("^[1-9][0-9]{9}$")]],
+      relationship_manager_email:[data ? data?.relationship_manager_email : null, [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$"),]],
       max_salary_percent: [data ? data?.corporate_limit_settings?.max_salary_percent : null],
       ewa_percent: [data ? data?.corporate_limit_settings?.ewa_percent : null],
       permanent_min:[data ? data?.corporate_limit_settings?.permanent_min : null],
@@ -470,7 +482,9 @@ export class AddEditPartnersComponent implements OnInit {
         display_name_back: selectedFile?.name + " Back",
         isdelete: false,
       };
-      this.documentArray.push(document);
+      if (document?.pk == 3) {
+        this.documentArray.push(document);
+      }
       this.message.success(
         fileName.controls?.[i].value?.label_name + " Document Deleted"
       );
@@ -485,7 +499,9 @@ export class AddEditPartnersComponent implements OnInit {
             pk: selectedFile?.document_master,
             front_back_flag: selectedFile?.front_back_flag
           };
-          this.documentArray.push(document);
+          if (document?.pk == 3) {
+            this.documentArray.push(document);
+          }
           this.message.success(
             fileName.controls?.[i].value?.label_name + " Document Deleted"
           );
@@ -498,7 +514,17 @@ export class AddEditPartnersComponent implements OnInit {
   listOfDocumentWithFlag: any = [];
   getListOfDocumentRequired() {
     this.http.getListOfDocumentRequired().subscribe((res: any) => {
-      this.documentArray = res?.data?.results;
+      const data = res?.data?.results;
+      data.map((res) => {
+        if (res?.pk == 7 || res?.pk == 3) {
+          let otherDoc = {
+            pk: res?.pk,
+            name: res?.name,
+            front_back_flag: res?.front_back_flag,
+          };
+          this.documentArray.push(otherDoc);
+        }
+      });
     });
   }
   
@@ -510,7 +536,9 @@ export class AddEditPartnersComponent implements OnInit {
     // }
     // this.addSkills(this.selectedDocument);
     // this.isVisible = false;
-    this.documentFlagArray.push(this.selectedDocument);
+    if (this.selectedDocument?.pk == 3) {
+      this.documentFlagArray.push(this.selectedDocument);
+    }
     const storeSelectedData = this.selectedDocument
     if(this.selectedDocument?.front_back_flag){
       let data
@@ -665,6 +693,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   onClickSaveExistingForm() {
+    console.log(this.addEditProductForm.value);
     let corporate_limit_settings;
     const storeData = this.addEditProductForm.valid;
     const saveDoc = [];
@@ -929,7 +958,7 @@ export class AddEditPartnersComponent implements OnInit {
         console.log(sendDate);
 
         for (var i in sendDate) {
-          if (i == "document_data" || i == "nach_date_time_mappings" || i == "corporate_limit_settings") {
+          if (i == "document_data" || i == "nach_date_time_mappings") {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
             if (sendDate[i]) {
@@ -939,7 +968,7 @@ export class AddEditPartnersComponent implements OnInit {
           }
           // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
         }
-        data.append("corporate_limit_settings", corporate_limit_settings);
+        // data.append("corporate_limit_settings", corporate_limit_settings);
         const url = this.http.createPartnerForm(data);
         url.subscribe(
           (res: any) => {
@@ -965,6 +994,12 @@ export class AddEditPartnersComponent implements OnInit {
             }
           },
           error => {
+            const control = <FormArray>(
+              this.addEditProductForm.controls["nach_date_time_mappings"]
+            );
+            for (let i = control.length - 1; i >= 0; i--) {
+              control.removeAt(i);
+            }
             for (var i in saveDoc) {
               let value = this.addEditProductForm.get("document_data") as FormArray;
               value.controls?.[i].patchValue({ documents: saveDoc[i] });

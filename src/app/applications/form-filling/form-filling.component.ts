@@ -24,6 +24,8 @@ export class FormFillingComponent implements OnInit {
       total_count: any;
       _currentDate: any;
       _currentId: any;
+      partner : any
+      partnerList : any = []
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -62,6 +64,10 @@ export class FormFillingComponent implements OnInit {
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
+            }else if(type == 'partner'){
+                  this.https.fetchPartner().subscribe((res:any)=>{
+                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                  })
             }
       }
 
@@ -70,15 +76,6 @@ export class FormFillingComponent implements OnInit {
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
 
-            if (this.filters) {
-                  data['status'] = this.filters
-            }
-            if (this.productFilters) {
-                  data['product_master'] = this.productFilters
-            }
-            if (this.searchValue) {
-                  data['name'] = this.searchValue
-            }
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
                   this.globalPageSize = tableFilter?.pageSize
@@ -89,8 +86,32 @@ export class FormFillingComponent implements OnInit {
                   data['limit'] = this.globalPageSize
             }
 
+            if (this.filters) {
+                  data['page'] = 1
+                  data['status'] = this.filters
+            }
+            if (this.productFilters) {
+                  data['page'] = 1
+                  data['product_master'] = this.productFilters
+            }
+            if (this.searchValue) {
+                  data['page'] = 1
+                  data['name'] = this.searchValue
+            }
+            if(this.partner){
+                  data['page'] = 1
+                  data['company'] = this.partner
+            }
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
+                        if(this._activeLoans){
+                              this._activeLoans.forEach(element => {
+                                    this.expandSet.delete(element?.id)
+                                     
+                               });  
+                        }
+                        this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
@@ -225,6 +246,9 @@ export class FormFillingComponent implements OnInit {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
+            this.partner = null
             this.getFormLoanData()
+            
       }
+
 }

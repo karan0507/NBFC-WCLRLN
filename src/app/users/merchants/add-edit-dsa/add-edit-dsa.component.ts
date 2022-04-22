@@ -289,14 +289,21 @@ export class AddEditDsaComponent {
             display_name_back: null,
             isdelete: false,
           };
-          documentArray.push(documents);
+          if(documents?.pk == 3){
+            this.documentArray?.forEach((entity, index) => {
+              if (entity.pk == element?.document_master["id"]) {
+                this.documentArray.splice(index, 1);
+              }
+            });
+          }
+          // documentArray.push(documents);
           this.addSkills(documents);
         }
-        this.documentArray?.forEach((entity, index) => {
-          if (entity.pk == element?.document_master["id"]) {
-            this.documentArray.splice(index, 1);
-          }
-        });
+        // this.documentArray?.forEach((entity, index) => {
+        //   if (entity.pk == element?.document_master["id"]) {
+        //     this.documentArray.splice(index, 1);
+        //   }
+        // });
         // this.addSkills(documents);
       });
     }
@@ -334,7 +341,7 @@ export class AddEditDsaComponent {
       display_name: [data ? data?.display_name : null, [Validators.required]],
       contact_person_name: [data ? data?.contact_person_name : null, [Validators.required]],
       contact_person_phone: [data ? data?.contact_person_phone : null, [Validators.required, Validators.pattern('([0-9]{8}|[0-9]{10})')]],
-      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      contact_person_email: [data ? data?.contact_person_email : null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$')]],
       master: ['0', [Validators.required]],
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
@@ -360,7 +367,9 @@ export class AddEditDsaComponent {
         display_name_back: selectedFile?.name + " Back",
         isdelete: false,
       };
-      this.documentArray.push(document);
+      if (document?.pk == 3) {
+        this.documentArray.push(document);
+      }
       this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
       fileName.removeAt(i);
       this.selectedDocument = null;
@@ -373,7 +382,9 @@ export class AddEditDsaComponent {
             pk: selectedFile?.document_master,
             front_back_flag: selectedFile?.front_back_flag
           };
-          this.documentArray.push(document);
+          if(document?.pk == 3){
+            this.documentArray.push(document);
+          }
           this.message.success(fileName.controls?.[i].value?.label_name + " Document Deleted");
           fileName.removeAt(i);
         });
@@ -384,20 +395,27 @@ export class AddEditDsaComponent {
   listOfDocumentWithFlag: any = [];
   getListOfDocumentRequired(){
     this.http.getListOfDocumentRequired().subscribe((res: any)=>{
-      this.documentArray = res?.data?.results;
+      const data = res?.data?.results;
+      data.map((res) => {
+        if (res?.pk == 7 || res?.pk == 3) {
+          let otherDoc = {
+            pk: res?.pk,
+            name: res?.name,
+            front_back_flag: res?.front_back_flag,
+          };
+          this.documentArray.push(otherDoc);
+        }
+      });
+      // this.documentArray = res?.data?.results;
     })
   }
 
   documentFlagArray = [];
   addRule() {
-    // if (this.documentArray.includes(this.selectedDocument)) {
-    //   const index = this.documentArray.indexOf(this.selectedDocument)
-    //   this.documentArray.splice(index,1)
-    // }
-    // // this.addUnderWriting(this.selectedDocument, false)
-    //   this.addSkills(this.selectedDocument);
-    // this.isVisible = false
-    this.documentFlagArray.push(this.selectedDocument);
+    if (this.selectedDocument?.pk == 3) {
+      this.documentFlagArray.push(this.selectedDocument);
+    }
+    // this.documentFlagArray.push(this.selectedDocument);
     const storeSelectedData = this.selectedDocument
     if(this.selectedDocument?.front_back_flag){
       let data

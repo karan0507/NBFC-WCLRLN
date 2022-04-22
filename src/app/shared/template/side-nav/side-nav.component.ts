@@ -63,6 +63,7 @@ export class SideNavComponent {
                   case 'Disbursement': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Disbursement')?.applications : 0
                   case 'Rejected': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Rejected')?.applications : 0
                   case 'Dormant ': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Dormant')?.applications : 0
+                  case 'Closed ': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Closed')?.applications : 0
             }
 
       }

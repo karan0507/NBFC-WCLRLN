@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable } from "rxjs";
 import { distinctUntilChanged, filter, map, startWith } from "rxjs/operators";
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { IBreadcrumb } from "../../shared/interfaces/breadcrumb.type";
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
 
@@ -24,7 +25,7 @@ export class CommonLayoutComponent  {
     showBreadCrumb: any;
 
     constructor(public router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
-        private message: NzMessageService,) {
+        private message: NzMessageService, private globaldata: GlobalservicesService) {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
             map(() => {
@@ -107,6 +108,7 @@ export class CommonLayoutComponent  {
           if(res.success){
             // this.http.setPermissionValue(res.data.data.permissions_slug_list)
             localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+            this.globaldata.sendUserData(res?.data);
             // if(res.data.data.icon){
             // //   this.http.setBrandLogoValueOnChange(res.data.data.icon)
             // }
