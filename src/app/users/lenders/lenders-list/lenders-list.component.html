@@ -1,8 +1,8 @@
 
 <section>
     <div class="row mb-md-3">
-        <div class="col-md-6 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'>
+        <div class="col-md-6 mb-md-0"> 
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' *ngxPermissionsOnly="['toggle_lender']">
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
@@ -10,7 +10,7 @@
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
-            <button nz-button class='text-primary' [routerLink]="['/lenders/add']">+ Add Lender/NBFC</button>
+            <button nz-button class='text-primary' [routerLink]="['/lenders/add']" *ngxPermissionsOnly="['add_lender']">+ Add Lender/NBFC</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -95,10 +95,10 @@
                                         <!-- <li nz-menu-item (click)="changePassword(data)">
                                             <span class="m-l-5" >Change Password</span>
                                         </li> -->
-                                        <li nz-menu-item  [routerLink]="['../lenders/edit']" [queryParams]="{id: data.id}">
+                                        <li nz-menu-item  [routerLink]="['../lenders/edit']" *ngxPermissionsOnly="['edit_lender']"  [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
+                                        <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
                                             <span class="m-l-5">InActive</span>
                                         </li>
                                         <li nz-menu-item *ngIf="data.is_deleted"  (click)="deleteUserByUserId(data?.id, true)">

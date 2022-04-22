@@ -1,7 +1,7 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-6 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'>
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)' *ngxPermissionsOnly="['toggle_master_partner']">
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
@@ -9,7 +9,7 @@
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
-            <button nz-button class='text-primary' [routerLink]="['/masters-partners/add']">+ Add Master</button>
+            <button nz-button class='text-primary' [routerLink]="['/masters-partners/add']" *ngxPermissionsOnly="['add_master_partner']">+ Add Master</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -109,7 +109,7 @@
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5" (click)="changePassword(data)">Change Password</span>
                                             </li> -->
-                                            <li nz-menu-item [routerLink]="['../masters-partners/edit']" [queryParams]="{id: data.id}">
+                                            <li nz-menu-item [routerLink]="['../masters-partners/edit']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_master_partner']">
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Edit</span>
                                             </li>

@@ -35,7 +35,7 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getManualTransactionList()"></nz-range-picker>
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getManualTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"

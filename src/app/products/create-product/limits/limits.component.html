@@ -5,12 +5,12 @@
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="first_txn_limit" class="text-left text-wrap"
-                            >First Transaction Limit</nz-form-label>
+                            >First Transaction Max Limit</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
-                            nzErrorTip="Please input First Transaction Limit!">
+                            nzErrorTip="Please input First Transaction Max Limit!">
                                 <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
                                     <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="first_txn_limit"
-                                placeholder="Please input First Transaction Limit!" />
+                                placeholder="Please input First Transaction Max Limit!" />
                                 </nz-input-group>
                                 
                                 <ng-template #addOnAfterTemplateforamt>

@@ -60,8 +60,8 @@ export class UnderwritingComponent implements OnInit {
   }
   createEditFormFuction(data?, isedit?) {
     this.createEditForm = this.fb.group({
-      blacklist_pincodes: [data ? data.blacklist_pincodes : [], [Validators.required]],
-      servicable_pincodes: [data ? data.servicable_pincodes : [], [Validators.required]],
+      blacklist_pincodes: [data ? data.blacklist_pincodes : []],
+      servicable_pincodes: [data ? data.servicable_pincodes : []],
       range_entities: this.fb.array([]),
       comparison_entities: this.fb.array([]),
       // validation_entities: this.fb.array([]),
@@ -186,10 +186,12 @@ export class UnderwritingComponent implements OnInit {
     var rule_data = []
     this.createEditForm.value.comparison_entities.forEach(element => {
       element.employment_type = this.selectedTab
+      element.product = this.product_id
       rule_data.push(element)
     });
     this.createEditForm.value.range_entities.forEach(element => {
       element.employment_type = this.selectedTab
+      element.product = this.product_id
       rule_data.push(element)
     });
     // this.createEditForm.value.validation_entities.forEach(element => {

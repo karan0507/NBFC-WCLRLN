@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['../product/create-product']">+ Create Product</button>
+    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['../product/create-product']" *ngxPermissionsOnly="['add_product']">+ Create Product</button>
 </div>
 <section>
     <div class="row">
@@ -164,7 +164,7 @@
                                             <span class="m-l-5">View</span>
                                         </li> 
                                         <li nz-menu-item [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
-                                            <span class="m-l-5">Edit</span>
+                                            <span class="m-l-5" *ngxPermissionsOnly="['edit_product']">Edit</span>
                                         </li> 
                                         <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
                                         nzPopconfirmPlacement="topLeft"
