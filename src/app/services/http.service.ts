@@ -750,6 +750,21 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/get/partner`), { params: data });
       }
 
+      public getUserEmployeeDetails(data) {
+            return this._http.get((this.url + `/partner/v1/admin-fetch-corporate-uploads-list`), { params: data });
+      }
+
+      public getDetailsOfUploadedFile(id,data) {
+            return this._http.get((this.url + `/partner/v1/view-corporate-uploads/${id}`), { params: data });
+      }
+
+      public downloadUploadedUserDetailFile(id,data) {
+            return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { params: data });
+      }
+
+      public 
+      // /partner/v1/view-corporate-uploads/1?page=1&limit=10
+
       public getPartnerListDetail(id) {
             return this._http.get((this.url + `/partner/v1/get-detail/partner/${id}`));
       }
