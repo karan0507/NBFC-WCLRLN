@@ -21,7 +21,7 @@ const antdModule = [
         DashboardRoutingModule,
         ...antdModule,
         NgChartjsModule,
-        NgxPermissionsModule.forChild()
+        NgxPermissionsModule.forChild(),
     ],
     exports: [],
     declarations: [

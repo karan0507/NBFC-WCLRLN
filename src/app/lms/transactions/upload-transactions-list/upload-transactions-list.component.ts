@@ -43,6 +43,18 @@ export class UploadTransactionsListComponent implements OnInit {
   previewBeforeUpload: any;
   isPreviewBeforeUpload: boolean;
   isLineError: any;
+  customRanges = {
+    Today: [new Date(), new Date()],
+    'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+    'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date()],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6)],
+    'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+    // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+    'Last Year': [new Date(new Date().getFullYear() - 1, new Date().getMonth(), 0).setDate(1), new Date(new Date().getFullYear() - 1, 11, 31)],
+    // d.setMonth(d.getMonth() - 3);
+};
   uploaded_file: any;
   uploadSuccessfully: boolean;
   is_upload_loading: boolean;

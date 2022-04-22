@@ -20,6 +20,7 @@
         class="ml-auto px-3 text-primary"
         nzSize="small"
         (click)="onClickUploadSelectedFileOfCurrentSection()"
+        *ngxPermissionsOnly="['upload_user_employee']"
       >
         Upload
       </button>
@@ -155,7 +156,7 @@
               [nzDisabledDate]="disabledDate"
               nzAllowClear="false"
               (ngModelChange)="onChange($event)"
-            ></nz-range-picker>
+             [nzRanges]="customRanges"></nz-range-picker>
           </div>
         </div>
         <div class="row">
