@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true; modalTitle = 'Add Employee'">+ Add Employee</button>
+    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true; modalTitle = 'Add Employee'" *ngxPermissionsOnly="['add_employees']">+ Add Employee</button>
 </div>
 <section>
     <div class="row">
@@ -64,11 +64,11 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="changePasswordFunction(data)">
+                                        <li nz-menu-item (click)="changePasswordFunction(data)" *ngxPermissionsOnly="['change_password_employees']">
                                             <span class="m-l-5">Change Password</span>
                                         </li>
     
-                                        <li nz-menu-item (click)="editEmployeeFunction(data)">
+                                        <li nz-menu-item (click)="editEmployeeFunction(data)" *ngxPermissionsOnly="['edit_employees']">
                                             <span class="m-l-5">Edit</span>
                                         </li>
 

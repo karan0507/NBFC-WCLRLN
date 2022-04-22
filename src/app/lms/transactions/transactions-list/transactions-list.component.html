@@ -1,6 +1,6 @@
 <div class="header_breadcrumb_section">
     <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
-    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost>Export</button>
+    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost *ngxPermissionsOnly="['export_transaction']">Export</button>
 </div>
 
 <nz-dropdown-menu #fileFormate="nzDropdownMenu">
@@ -113,10 +113,10 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);">
+                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
-                                        <li nz-menu-item (click)="isRefundTransaction = true">
+                                        <li nz-menu-item (click)="isRefundTransaction = true" *ngxPermissionsOnly="['refund_transaction']">
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>
                                     </ul>

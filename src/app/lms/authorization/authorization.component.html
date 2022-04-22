@@ -1,7 +1,7 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
-            <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid">
+            <nz-radio-group (ngModelChange)='onClickChangeTab($event)' [(ngModel)]="selectedTab" nzButtonStyle="solid" *ngxPermissionsOnly="['toggle_athorization_policy']">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="upi">UPI ID</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="mcc">MCC Code</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2"

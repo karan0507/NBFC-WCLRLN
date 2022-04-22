@@ -1,14 +1,14 @@
 <div class="header_breadcrumb_section" *ngIf="changeBillTab == '1'">
     <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
-    <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
+    <button nz-button nzType="default" class="ml-1" (click)="isImport = true" *ngxPermissionsOnly="['upload_change_bill_date']">Import Excel</button>
 </div>
 
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="changeBillTab" (ngModelChange)="onchangeBillTab()">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1">Change bill date</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2">App side change bill date</label>
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1" *ngxPermissionsOnly="['toggle_change_bill_date']">Change bill date</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2" *ngxPermissionsOnly="['toggle_app_change_bill_date']" >App side change bill date</label>
             </nz-radio-group>
         </div>
     </div>
@@ -128,7 +128,7 @@
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.updated_at | date: 'medium' }}</td>
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.remarks  ? data?.remarks  : '-'}}</td>
                             <td nzRight>
-                                <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a>
+                                <span *ngxPermissionsOnly="['view_app_change_bill_date']"><a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a></span>
                                 <a class="mr-3" [href]="data?.imported_file" download>Download</a>
                                 <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, false)">Approve </a>
                                 <a *ngIf="selectedTab == 'pending'" (click)="clickOnReject(data.id)">Reject </a>

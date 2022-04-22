@@ -8,7 +8,7 @@
                         _checkedLoanList?.length
                         : '0'}})</button>
                   <button nz-button nzType="link" [disabled]="checkDisabledStatus()" (click)="exportData('xlsx')"
-                        class="ml-3 border" [routerLink]="">Export</button>
+                        class="ml-3 border" [routerLink]="" *ngxPermissionsOnly="['export_application']">Export</button>
             </div>
       </div>
 </div>

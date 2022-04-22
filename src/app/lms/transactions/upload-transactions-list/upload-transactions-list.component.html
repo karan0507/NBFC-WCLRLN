@@ -1,11 +1,11 @@
 <div class="header_breadcrumb_section">
     <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
-    <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
+    <button nz-button nzType="default" class="ml-1" (click)="isImport = true" *ngxPermissionsOnly="['upload_manual_transaction']">Import Excel</button>
 </div>
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()" *ngxPermissionsOnly="['toggle_manual_transaction']">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="pending">Pending</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="approved">Approved</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="rejected">Rejected</label>

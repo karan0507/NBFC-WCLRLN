@@ -23,7 +23,7 @@
                                     {{borrowertList?.user?.email}}</span>
                         </div>
                         <div class="d-flex" *ngIf="selectedTab == '1'">
-                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3">
+                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3" *ngxPermissionsOnly="['download_reports']">
                                     Download/View
                                     <i nz-icon nzType="down"></i>
                               </button>
