@@ -114,7 +114,8 @@
 </nz-modal>
 
 <nz-modal [(nzVisible)]="isEdit" [nzTitle]="modalTitle" (nzOnCancel)="isEdit = false; createEditForm.reset()" (nzOnOk)="editEmployee(createEditForm.value)"
-    nzOkText="Save" [nzOkDisabled]="createEditForm.invalid">
+    nzOkText="Save">
+    <!-- [nzOkDisabled]="createEditForm.invalid" -->
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
             <form [formGroup]="createEditForm">
@@ -148,12 +149,12 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="role" class="text-left">Designation
-                            </nz-form-label>
-                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Designation!">
-                                <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Designation"
-                                    (nzFocus)="fetchRoles()">
-                                    <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="associated_team" class="text-left">
+                                Associated Team</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Associated Team!">
+                                <nz-select nzAllowClear formControlName="associated_team"
+                                    nzPlaceHolder="Please select Associated Team" (nzFocus)="fetchRoles()">
+                                    <nz-option *ngFor="let item of teamName" [nzValue]="item.name" [nzLabel]="item.name">
                                     </nz-option>
                                 </nz-select>
                             </nz-form-control>
@@ -161,12 +162,12 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="associated_team" class="text-left">
-                                Associated Team</nz-form-label>
-                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Associated Team!">
-                                <nz-select nzAllowClear formControlName="associated_team"
-                                    nzPlaceHolder="Please select Associated Team" (nzFocus)="fetchRoles()">
-                                    <nz-option *ngFor="let item of teamName" [nzValue]="item.name" [nzLabel]="item.name">
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="role" class="text-left">Designation
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Designation!">
+                                <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Designation"
+                                    (nzFocus)="fetchRoles()">
+                                    <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
                                     </nz-option>
                                 </nz-select>
                             </nz-form-control>
