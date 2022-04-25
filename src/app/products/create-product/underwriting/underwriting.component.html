@@ -28,9 +28,9 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <nz-divider></nz-divider>
                 <ng-container *ngFor="let item of get_underwritingArr(createEditForm); let k = index;"
                     formArrayName="range_entities">
+                    <nz-divider></nz-divider>
                     <nz-form-label class="text-left" nzNoColon>{{item.controls.name.value?.toString().toUpperCase()}}</nz-form-label>
                     <div class="col-md-12" [formGroupName]="k">
                         <div class="row">
