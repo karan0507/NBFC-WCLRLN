@@ -140,26 +140,26 @@
                                 </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
-                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum credit line.</nz-form-label>
+                                        <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="minimum_charge" class="text-left" nzRequired>Minimum {{item?.get('fees_based_on')?.value}}.</nz-form-label>
                                         <nz-form-control [nzSm]="10" [nzXs]="24">
                                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="minimum_charge" formControlName="minimum_charge" id="minimum_charge"
-                                                placeHolder="Minimum credit line.">
+                                                placeHolder="Minimum {{item?.get('fees_based_on')?.value}}.">
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
-                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="maximum_charge" class="text-left" nzRequired>Maximum credit line.</nz-form-label>
+                                        <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="maximum_charge" class="text-left" nzRequired>Maximum {{item?.get('fees_based_on')?.value}}.</nz-form-label>
                                         <nz-form-control [nzSm]="10" [nzXs]="24">
                                             <input nz-input type="number" (keydown)="http.restrictType($event)" min="1" name="maximum_charge" formControlName="maximum_charge" id="maximum_charge"
-                                                placeHolder="Maximum credit line.">
+                                                placeHolder="Maximum {{item?.get('fees_based_on')?.value}}.">
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
                                 <div class="col-md-6">
                                     <nz-form-item>
                                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount (₹)</nz-form-label>
-                                        <nz-form-control [nzSm]="10" [nzXs]="24">
+                                        <nz-form-control [nzSm]="14" [nzXs]="24">
                                             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
                                                 <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" name="amount" formControlName="amount"
                                                     id="amount" placeHolder="Amount (₹)">

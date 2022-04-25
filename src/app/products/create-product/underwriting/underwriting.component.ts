@@ -221,6 +221,7 @@ export class UnderwritingComponent implements OnInit {
   fetchEntityData() {
     let data;
     this.http.fetchUnderWritingSpecificEntity().subscribe(res => {
+      console.log(res['data'])
       this.entityData = res['data']
       this.createEditFormFuction(this.entityData, false)
       // this.message.success(res['message'])
@@ -230,6 +231,7 @@ export class UnderwritingComponent implements OnInit {
   fetchEmploymentTypeData() {
     let data;
     this.http.fetchEmploymentType(data).subscribe(res => {
+      console.log(res['data'].results)
       this.employmentTypeData = res['data'].results
       // this.message.success(res['message'])
     })
