@@ -153,7 +153,9 @@ export class EmployeeDetailsComponent implements OnInit {
 
   apiLoader = {
     list: false,
+    previewList: false
   };
+  // this.apiLoader['previewList'] = true;
   page = 1;
   size = 30;
   uploadSelectedCorporateFile!: FormGroup;
@@ -227,7 +229,10 @@ export class EmployeeDetailsComponent implements OnInit {
   onClickChangeTab(e) {
     this.page = 1;
     this.size = 30;
+    this.viewPageCount = 1;
+    this.viewPageSize = 30;
     this.selectedTab = e;
+    this.listOfEmployee = [];
     this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     this.router.navigate(["/employeeDetail"], {
       queryParams: { id: this.selectedId, targetCategory: this.selectedTab },
@@ -295,7 +300,8 @@ export class EmployeeDetailsComponent implements OnInit {
 
   isViewLoader={
     'isVisible': false,
-    'viewContent': null
+    'viewContent': null,
+    'keyContent': null,
   }
   viewTotalCount: any;
   viewPageCount = 1;
@@ -306,19 +312,32 @@ export class EmployeeDetailsComponent implements OnInit {
     if (action === "view") {
       if(this.isViewLoader['isVisible']){return;}
       this.isViewUploadedData = true;
-      this.isViewLoader['isVisible'] = true;
       if(e){
         this.viewPageCount = e?.pageIndex
         this.viewPageSize = e?.pageSize
+      } else {
+        this.viewPageCount = 1;
+        this.viewPageSize = 30;
       }
       let data = {
         'page': this.viewPageCount,
         'limit': this.viewPageSize
       }
-      this.http.viewSavedFileContent(this.selectedIdForView,data).subscribe(
+          // alert(this.viewTotalCount + ' <= BS Page Count ');
+          // alert(this.viewPageSize + ' <= BS Page Count ');
+          // alert(this.viewPageCount + ' <= BS Page Count ');
+      this.isViewLoader['isVisible'] = true;
+      const url = this.selectedTab == 'corporate' ? this.http.getDetailsOfUploadedFile(this.selectedIdForView,data) : this.http.viewSavedFileContent(this.selectedIdForView,data);
+      url.subscribe(
         (res: any) => {
           this.isViewLoader['isVisible'] = false;
-          this.isViewLoader['viewContent'] = res?.data;
+          this.viewTotalCount = res?.data?.total_count;
+          this.isViewLoader['viewContent'] = this.selectedTab == 'corporate' ?  res?.data?.results : res?.data?.data;
+          this.isViewLoader['keyContent'] = res?.data;
+          // alert(this.viewTotalCount);
+          // alert(this.viewPageSize);
+          // alert(this.viewPageCount + '<= Page Count ');
+          // viewPageSize
         },
         (err) => {
           this.isViewLoader['isVisible'] = false;
@@ -341,6 +360,16 @@ export class EmployeeDetailsComponent implements OnInit {
           console.log(error);
         });
     }
+  }
+
+  returnZero(){
+    return 0;
+  }
+
+  returnPixel(axes, columns){
+    const columns_count =  columns['keys'].length;
+    const pixel =  columns_count * 150
+    return  pixel.toString() + 'px'
   }
 
 
@@ -388,7 +417,7 @@ export class EmployeeDetailsComponent implements OnInit {
       delete data["section"];
     }
     this.apiLoader["list"] = true;
-    const url = this.selectedTab == 'corporate' ? this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data) : this.http.getUserEmployeeDetails(data)
+    const url = this.selectedTab !== 'corporate' ? this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data) : this.http.getUserEmployeeDetails(data)
     url.subscribe(
       (res?: any) => {
         this.total_count = res?.data?.total_count;
@@ -463,6 +492,7 @@ export class EmployeeDetailsComponent implements OnInit {
     // console.log(file?.value.name)
     this.fileName = file?.value?.name;
     if (this.uploadSelectedCorporateFile.valid) {
+      this.apiLoader['previewList'] = true;
       this.retrievedFileResponse = null;
       this.retrievedFileResponseKey = null;
       this.isVisibleModal["hideUpload"] = true;
@@ -488,6 +518,7 @@ export class EmployeeDetailsComponent implements OnInit {
         }
         this.http.viewFileBeforeSaving(data).subscribe((res: any) => {
           if (res?.success) {
+            this.apiLoader['previewList'] = false;
             this.overallFileStatus = res?.data?.overall_status;
             this.retrievedFileResponse = res?.data?.data?.data;
             this.retrievedFileResponseKey = res?.data?.data?.keys;
@@ -495,6 +526,7 @@ export class EmployeeDetailsComponent implements OnInit {
             this.isVisibleModal["previewButtonLoading"] = false;
             // this.isVisibleModal["previewIsVisible"] = true;
           } else {
+            this.apiLoader['previewList'] = false;
             this.isVisibleModal["previewButtonLoading"] = false;
             this.isVisibleModal["previewIsVisible"] = false;
             this.isVisibleModal["toggleHeaderText"] = false;

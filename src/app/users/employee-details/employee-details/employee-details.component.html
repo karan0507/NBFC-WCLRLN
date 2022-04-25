@@ -1,9 +1,13 @@
 <div class="header_breadcrumb_section">
   <div class="d-flex justify-content-md-between flex-wrap w-100">
     <div></div>
-    <div>
+    <!--  -->
+    <div *ngIf="selectedTab == 'corporate'" style="min-height: 32px;">
+      
+    </div>
+    <div *ngIf="selectedTab !== 'corporate'">
       <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
-      <button
+      <button  
         nz-button
         class="ml-auto mr-3 text-primary"
         nzSize="small"
@@ -82,7 +86,8 @@
     selectedTab === 'Employee Database' ||
     selectedTab === 'Exit Employee' ||
     selectedTab === 'Attendance' ||
-    selectedTab === 'Notice Period'
+    selectedTab === 'Notice Period' ||
+    selectedTab === 'corporate'
   "
 >
   <section>
@@ -179,7 +184,7 @@
                   <th nzWidth="14rem">Partner Name</th>
                   <th nzWidth="13rem">Added on</th>
                   <th>Added By</th>
-                  <th nzWidth="13rem">Remarks</th>
+                  <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
                   <th nzWidth="14rem" nzRight>Actions</th>
                 </tr>
               </thead>
@@ -212,7 +217,7 @@
                       data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
                     }}
                   </td>
-                  <td>{{ data?.remarks ? data?.remarks : " " }}</td>
+                  <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td nzRight>
                     <a
                       nz-button
@@ -384,11 +389,11 @@
         <div class="col-12">
           <h4>Preview For : {{ fileName }}</h4>
         </div>
-        <div class="col-12" style="overflow-x: auto">
           <nz-table
-            [nzLoading]="apiLoader['list']"
+            [nzLoading]="apiLoader['previewList']"
             [nzFrontPagination]="false"
             [nzShowSizeChanger]="true"
+            [nzScroll]="{x: '9200px', y: '55vh'}"
             [nzData]="retrievedFileResponse"
           >
             <!-- <thead>
@@ -397,7 +402,61 @@
                                 <th *ngFor="let data of retrievedFileResponseKey; index as i">{{data}}</th>
                             </tr>
                         </thead> -->
-            <thead>
+                        <thead>
+                          <tr>
+                            <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
+                              <th *ngIf=" i == 0" rowspan="2">#</th>
+                              <th *ngIf="data != 'Photo' && data != 'errors' ">
+                                {{ data }}
+                              </th>
+                            </ng-container>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of retrievedFileResponse; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <ng-container *ngFor="let data of item | keyvalue: 0; index as i">
+                              <td *ngIf=" data.key !== 'Photo' && data.key != 'errors'">
+                                <label *ngIf=" data.key !== 'Photo' && data.key != 'errors' && data.key != 'row_status'" >
+                                  {{ data?.value }}
+                                </label>
+                                <label *ngIf="data.key == 'row_status'">
+                                  <span *ngIf="!data.key?.row_status" class="text-danger"
+                                    >Error &nbsp;
+                                    <i
+                                      nz-icon
+                                      nzType="info-circle"
+                                      nzTheme="outline"
+                                      style="cursor: pointer"
+                                      nz-popover
+                                      [nzPopoverContent]="contentTemplate"
+                                      nzPopoverPlacement="top"
+                                    ></i>
+                                  </span>
+                                  <span *ngIf="data.key?.row_status" class="text-success"
+                                    >Success</span
+                                  >
+                                  <ng-template #contentTemplate>
+                                    <div class="px-3">
+                                      <ul *ngFor="let err of item?.errors; index as i">
+                                        <li class="text-danger">{{ err }}</li>
+                                      </ul>
+                                    </div>
+                                  </ng-template>
+                                </label>
+                              </td>  
+                            </ng-container>
+                          </tr>
+                          <!-- <tr *ngFor="let item of retrievedFileResponse; index as i">
+                            <td>{{ i + 1 }}</td>
+                              <td *ngFor="let sub_item of item| keyvalue : returnZero">
+                                <label>
+                                  {{ sub_item?.value ? sub_item?.value : ' - ' }}
+                                </label>
+                              </td>  
+                          </tr> -->
+                        </tbody>
+            <!-- <thead>
               <tr>
                 <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
                   <th *ngIf=" i == 0" rowspan="2">#</th>
@@ -406,9 +465,9 @@
                   </th>
                 </ng-container>
               </tr>
-            </thead>
-            <tbody>
-              <!-- <ng-container *ngFor="let item of retrievedFileResponse; index as i"> -->
+            </thead> -->
+            <!-- <ng-container *ngFor="let item of retrievedFileResponse; index as i"> -->
+            <!-- <tbody>
                 <tr *ngFor="let item of retrievedFileResponse; index as i">
                   <td>{{ i + 1 }}</td>
                   <td *ngFor="let data of item | keyvalue; index as i">
@@ -440,7 +499,8 @@
                       </ng-template>
                     </label>
                     </td>
-                    <!-- <td>
+            </tbody> -->
+            <!-- <td>
                       <span *ngIf="!data?.row_status" class="text-danger"
                         >Error &nbsp;
                         <i
@@ -652,9 +712,7 @@
                 <!-- <td> {{data?.row_status ? data?.row_status : ' -- '}} </td> -->
                 <!-- <td> {{data?.Photo  </td> -->
               <!-- </tr> -->
-            </tbody>
           </nz-table>
-        </div>
       </div>
       <div class="row" *ngIf="isVisibleModal['previewForExitEmployee']">
         <div class="col-12">
@@ -662,8 +720,8 @@
         </div>
         <div class="col-12" style="overflow-x: auto">
           <nz-table
-            [nzLoading]="apiLoader['list']"
-            [nzFrontPagination]="false"
+            [nzLoading]="apiLoader['previewList']"
+            [nzFrontPagination]="true"
             [nzShowSizeChanger]="true"
             [nzData]="retrievedFileResponse"
           >
@@ -717,8 +775,8 @@
         </div>
         <div class="col-12" style="overflow-x: auto">
           <nz-table
-            [nzLoading]="apiLoader['list']"
-            [nzFrontPagination]="false"
+            [nzLoading]="apiLoader['previewList']"
+            [nzFrontPagination]="true"
             [nzShowSizeChanger]="true"
             [nzData]="retrievedFileResponse"
           >
@@ -866,18 +924,42 @@
   >
     <ng-container *nzModalContent>
       <div class="row">
-        <div class="col-12" style="overflow-x: auto">
-          <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'"
+        <!-- class="col-12" style="overflow-x: auto" -->
+        <!-- <div> -->
+          <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'  || selectedTab == 'corporate'"
             [nzLoading]="isViewLoader['isVisible']"
             [nzFrontPagination]="true"
             [nzShowSizeChanger]="true"
             [nzTotal]="viewTotalCount"
-            [viewPageCount]="page"
+            [viewPageCount]="viewPageCount"
+            [nzScroll]="{x: returnPixel('x', isViewLoader['keyContent']), y: '55vh'}"
             [nzPageSize]="viewPageSize"
-            (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
-            [nzData]="isViewLoader['viewContent']?.data"
+            (nzQueryParams)="isViewLoader['viewContent'][0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
+            [nzData]="isViewLoader['viewContent']"
           >
-            <thead>
+          <thead>
+            <tr>
+              <ng-container  *ngFor="let data of isViewLoader['keyContent']?.keys; index as i">
+                <th *ngIf=" i == 0" rowspan="2">#</th>
+                <th>
+                  {{ data }}
+                </th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of isViewLoader['viewContent']; index as i">
+              <td>{{ i + 1 }}</td>
+                <td *ngFor="let sub_item of item| keyvalue : returnZero">
+                  <label>
+                    {{ sub_item?.value }}
+                  </label>
+                </td>  
+            </tr>
+          </tbody>
+
+          <!-- In Progress-->
+            <!-- <thead>
               <tr>
                 <th class="px-3" rowspan="2">#</th>
                 <th
@@ -1060,10 +1142,10 @@
                 </td>
                 <td class="px-3">{{ data?.Passport_No ? data?.Passport_No : " -- " }}</td>
                 <td class="px-3">{{ data?.Pan_no ? data?.Pan_no : " -- " }}</td>
-                <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
               </tr>
-            </tbody>
+            </tbody> -->
           </nz-table>
+          <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
           <nz-table *ngIf="selectedTab == 'Attendance'"
             [nzLoading]="isViewLoader['isVisible']"
             [nzFrontPagination]="true"
@@ -1071,6 +1153,7 @@
             [nzTotal]="viewTotalCount"
             [viewPageCount]="page"
             [nzPageSize]="viewPageSize"
+            [nzScroll]="{x: '9200px', y: '55vh'}"
             (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
             [nzData]="isViewLoader['viewContent']?.data"
           >
@@ -1144,7 +1227,7 @@
               </tr>
             </tbody>
           </nz-table>
-        </div>
+        <!-- </div> -->
       </div>
     </ng-container>
   </nz-modal>
