@@ -201,7 +201,7 @@ export class EmployeeDetailsComponent implements OnInit {
       if (params["targetCategory"]) {
         this.selectedTab = params["targetCategory"];
       } else {
-        this.selectedTab = "Employee Database";
+        this.selectedTab = "corporate";
       }
     });
     this.createUploadFileForm();
@@ -383,12 +383,13 @@ export class EmployeeDetailsComponent implements OnInit {
     }
     
 
-    if (this.selectedTab === "Employee Database") {
+    if (this.selectedTab === "corporate" ) {
       // delete data["section"];
-      data["section"] = 'New Joinees';
+      delete data["section"];
     }
     this.apiLoader["list"] = true;
-    this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data).subscribe(
+    const url = this.selectedTab == 'corporate' ? this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data) : this.http.getUserEmployeeDetails(data)
+    url.subscribe(
       (res?: any) => {
         this.total_count = res?.data?.total_count;
         this.listOfEmployee = res?.data?.results;
