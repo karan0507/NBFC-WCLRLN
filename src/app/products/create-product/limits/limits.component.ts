@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -101,6 +101,7 @@ export class LimitsComponent implements OnInit {
     this.http.createLimits(this.createEditForm.value).subscribe(res => {
       this.loading = false
       this.productlimit_id = res['data'].productlimit_id
+      this.http.limitCollapse.next()
       this.fetchProductLimits()
       this.message.success(res['message'])
     }, (err)=> {
@@ -112,6 +113,7 @@ export class LimitsComponent implements OnInit {
     this.http.editLimits(this.createEditForm.value, this.product_id).subscribe(res => {
       this.loading = false
       this.productlimit_id = res['data'].productlimit_id
+      this.http.limitCollapse.next()
       this.fetchProductLimits()
       this.message.success(res['message'])
     },(err)=> {
