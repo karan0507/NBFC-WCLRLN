@@ -194,7 +194,7 @@
                   <td *ngIf="page === 1">{{ i + 1 }}</td>
                   <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
                   <td>
-                    {{ data?.partner_name ? data?.partner_name : " -- " }}
+                    {{ selectedTab == 'corporate'  ?  data?.corporate ? data?.corporate : " -- " : data?.partner_name ? data?.partner_name : " -- " }}
                   </td>
                   <td>
                     <div>
@@ -386,8 +386,11 @@
         </div>
       </form>
       <div class="row" *ngIf="isVisibleModal['previewIsVisible']">
-        <div class="col-12">
+        <div class="col-7">
           <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-5 text-right pr-4">
+          Total Error Count:-&nbsp; {{totalErrorCount ? totalErrorCount : 0}}
         </div>
           <nz-table
             [nzLoading]="apiLoader['previewList']"
@@ -715,8 +718,11 @@
           </nz-table>
       </div>
       <div class="row" *ngIf="isVisibleModal['previewForExitEmployee']">
-        <div class="col-12">
+        <div class="col-7">
           <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-5 text-right pr-4">
+          Total Error Count:-&nbsp; {{totalErrorCount ? totalErrorCount : 0}}
         </div>
         <div class="col-12" style="overflow-x: auto">
           <nz-table
@@ -770,8 +776,11 @@
         </div>
       </div>
       <div class="row" *ngIf="isVisibleModal['previewForAttandance']">
-        <div class="col-12">
+        <div class="col-7">
           <h4>Preview For : {{ fileName }}</h4>
+        </div>
+        <div class="col-5 text-right pr-4">
+          Total Error Count:-&nbsp; {{totalErrorCount ? totalErrorCount : 0}}
         </div>
         <div class="col-12" style="overflow-x: auto">
           <nz-table
@@ -928,21 +937,23 @@
         <!-- <div> -->
           <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'  || selectedTab == 'corporate'"
             [nzLoading]="isViewLoader['isVisible']"
-            [nzFrontPagination]="true"
-            [nzShowSizeChanger]="true"
+            [nzFrontPagination]="false"
+            [nzShowSizeChanger]="false"
             [nzTotal]="viewTotalCount"
             [viewPageCount]="viewPageCount"
-            [nzScroll]="{x: returnPixel('x', isViewLoader['keyContent']), y: '55vh'}"
+            [nzScroll]="{x: '9000px', y: '55vh'}"
             [nzPageSize]="viewPageSize"
-            (nzQueryParams)="isViewLoader['viewContent'][0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
             [nzData]="isViewLoader['viewContent']"
           >
+          <!-- (nzQueryParams)="onClickGetUploadedDocDetail(selectedIdForView, 'view',$event)" -->
           <thead>
             <tr>
               <ng-container  *ngFor="let data of isViewLoader['keyContent']?.keys; index as i">
                 <th *ngIf=" i == 0" rowspan="2">#</th>
                 <th>
-                  {{ data }}
+                  <label  *ngIf="data !== 'Photo'">
+                    {{ data }}
+                  </label>
                 </th>
               </ng-container>
             </tr>
@@ -951,200 +962,15 @@
             <tr *ngFor="let item of isViewLoader['viewContent']; index as i">
               <td>{{ i + 1 }}</td>
                 <td *ngFor="let sub_item of item| keyvalue : returnZero">
-                  <label>
+                  <label *ngIf="sub_item?.key !== 'Photo'">
                     {{ sub_item?.value }}
                   </label>
                 </td>  
             </tr>
           </tbody>
 
-          <!-- In Progress-->
-            <!-- <thead>
-              <tr>
-                <th class="px-3" rowspan="2">#</th>
-                <th
-                  *ngFor="
-                    let data of isViewLoader['viewContent']?.keys;
-                    index as i
-                  "
-                >
-                  <label style="clear: both;
-                  display: inline-block;
-                  overflow: hidden;
-                  white-space: nowrap;" *ngIf="data != 'Photo'">{{ data }}</label>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let data of isViewLoader['viewContent']?.data;
-                  index as i
-                "
-              >
-                <td class="px-3" >{{ i + 1 }}</td>
-                <td class="px-3">{{ data?.First_Name ? data?.First_Name : " " }}</td>
-                <td class="px-3">{{ data?.Middle_Name ? data?.Middle_Name : " " }}</td>
-                <td class="px-3">{{ data?.Last_Name ? data?.Last_Name : " " }}</td>
-                <td class="px-3">{{ data?.Emp_ID ? data?.Emp_ID : " -- " }}</td>
-                <td class="px-3">{{ data?.Sex ? data?.Sex : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.DOB ? (data?.DOB | date: "dd-MM-yy") : " - " }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Joining_Date
-                      ? (data?.Joining_Date | date: "dd-MM-yy")
-                      : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Gross_Monthly_income
-                      ? data?.Gross_Monthly_income
-                      : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Net_monthly_income ? data?.Net_monthly_income : " "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Advance_salary_from_company
-                      ? data?.Advance_salary_from_company
-                      : " -- "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Marital_Status ? data?.Marital_Status : " -- " }}
-                </td>
-                <td class="px-3">
-                  {{ data?.No_of_Children ? data?.No_of_Children : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Father_Name ? data?.Father_Name : " - " }}</td>
-                <td class="px-3">{{ data?.Dependant ? data?.Dependant : " - " }}</td>
-                <td class="px-3">{{ data?.Office_Tel_No ? data?.Office_Tel_No : " - " }}</td>
-                <td class="px-3">{{ data?.Office_Extn_No ? data?.Office_Extn_No : " " }}</td>
-                <td class="px-3">
-                  {{
-                    data?.official_Email_ID ? data?.official_Email_ID : " - "
-                  }}
-                </td>
-                <td class="px-3">{{ data?.Mobile_no ? data?.Mobile_no : " - " }}</td>
-                <td class="px-3">{{ data?.Home_no ? data?.Home_no : " - " }}</td>
-                <td class="px-3">
-                  {{
-                    data?.Personal_Email_id ? data?.Personal_Email_id : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Employee_Type ? data?.Employee_Type : " -- " }}
-                </td>
-                <td class="px-3">{{ data?.Active_Status ? data?.Active_Status : " - " }}</td>
-                <td class="px-3">{{ data?.Branch_Name ? data?.Branch_Name : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Branch_Address ? data?.Branch_Address : " - " }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Department_Name ? data?.Department_Name : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Manager_Name ? data?.Manager_Name : " -- " }}</td>
-                <td class="px-3">
-                  {{ data?.Designation_Name ? data?.Designation_Name : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Division_Name ? data?.Division_Name : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Crspnd_Street_No ? data?.Crspnd_Street_No : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Crspnd_Street ? data?.Crspnd_Street : " - " }}</td>
-                <td class="px-3">{{ data?.Crspnd_Block ? data?.Crspnd_Block : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Crspnd_Building ? data?.Crspnd_Building : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Crspnd_PS ? data?.Crspnd_PS : " - " }}</td>
-                <td class="px-3">{{ data?.Crspnd_PO ? data?.Crspnd_PO : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Crspnd_Landmark ? data?.Crspnd_Landmark : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Crspnd_City ? data?.Crspnd_City : " - " }}</td>
-                <td class="px-3">{{ data?.Crspnd_ZIP ? data?.Crspnd_ZIP : " - " }}</td>
-                <td class="px-3">{{ data?.Crspnd_State ? data?.Crspnd_State : " - " }}</td>
-                <td class="px-3">
-                  {{
-                    data?.Crspnd_State_Name ? data?.Crspnd_State_Name : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Crspnd_Country ? data?.Crspnd_Country : " - " }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Crspnd_Country_Name
-                      ? data?.Crspnd_Country_Name
-                      : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Prmnt_Street_No ? data?.Prmnt_Street_No : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Prmnt_Street ? data?.Prmnt_Street : " - " }}</td>
-                <td class="px-3">{{ data?.Prmnt_Block ? data?.Prmnt_Block : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Prmnt_Building ? data?.Prmnt_Building : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Prmnt_PS ? data?.Prmnt_PS : " - " }}</td>
-                <td class="px-3">{{ data?.Prmnt_PO ? data?.Prmnt_PO : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Prmnt_Landmark ? data?.Prmnt_Landmark : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Prmnt_City ? data?.Prmnt_City : " " }}</td>
-                <td class="px-3">{{ data?.Prmnt_ZIP ? data?.Prmnt_ZIP : " - " }}</td>
-                <td class="px-3">{{ data?.Prmnt_State ? data?.Prmnt_State : " " }}</td>
-                <td class="px-3">
-                  {{ data?.Prmnt_State_Name ? data?.Prmnt_State_Name : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Prmnt_Country ? data?.Prmnt_Country : " - " }}</td>
-                <td class="px-3">
-                  {{ data?.Prmnt_Country1 ? data?.Prmnt_Country1 : " - " }}
-                </td>
-                <td class="px-3">{{ data?.Bank_Name ? data?.Bank_Name : " - " }}</td>
-                <td class="px-3">{{ data?.IFSC_Code ? data?.IFSC_Code : " - " }}</td>
-                <td class="px-3">{{ data?.Bank_Branch ? data?.Bank_Branch : " - " }}</td>
-                <td class="px-3">{{ data?.Bank_Account ? data?.Bank_Account : " -- " }}</td>
-                <td class="px-3">{{ data?.Name_in_Bank ? data?.Name_in_Bank : " -- " }}</td>
-                <td class="px-3">
-                  {{ data?.Benificiary_Name ? data?.Benificiary_Name : " -- " }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Confirmation_Date ? data?.Confirmation_Date : " -- "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.Resignation_Date ? data?.Resignation_Date : " -- " }}
-                </td>
-                <td class="px-3">
-                  {{
-                    data?.Last_Working_Date ? data?.Last_Working_Date : " - "
-                  }}
-                </td>
-                <td class="px-3">
-                  {{ data?.GratuityNominee ? data?.GratuityNominee : " - " }}
-                </td>
-                <td class="px-3">{{ data?.PFNominee ? data?.PFNominee : " " }}</td>
-                <td class="px-3">{{ data?.Aadhar_No ? data?.Aadhar_No : " " }}</td>
-                <td class="px-3">
-                  {{
-                    data?.Driving_License_No ? data?.Driving_License_No : " - "
-                  }}
-                </td>
-                <td class="px-3">{{ data?.Passport_No ? data?.Passport_No : " -- " }}</td>
-                <td class="px-3">{{ data?.Pan_no ? data?.Pan_no : " -- " }}</td>
-              </tr>
-            </tbody> -->
           </nz-table>
+          <!-- <nz-pagination [nzPageIndex]="viewPageCount" [(nzPageSize)]="viewPageSize"  [nzTotal]="viewTotalCount"></nz-pagination> ` -->
           <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
           <nz-table *ngIf="selectedTab == 'Attendance'"
             [nzLoading]="isViewLoader['isVisible']"

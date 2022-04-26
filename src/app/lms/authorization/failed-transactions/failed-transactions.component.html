@@ -23,7 +23,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
-            [nzShowSizeChanger]="true" [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
             [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="failedTransactionList" [nzScroll]="{ x: '1500px' }">
                 <thead>
                     <tr>
@@ -41,19 +41,23 @@
                 <tbody>
                     <ng-container *ngFor="let data of failedTransactionList; index as i">
                         <tr>
-                            <td>{{ i + 1 }}</td>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>{{ data?.user?.full_name }}</td>
-                            <td>{{ data?.pan }}</td>
+                            <td>{{ data?.loan_id }}</td>
                             <td>{{ data?.txn_unique_id  }}</td>
                             <td>{{ data?.txn_type  }}</td>
                             <td>{{ data?.details  }}</td>
-                            <td>{{ data?.created_at | date : 'dd-m-yy'  }}</td>
+                            <td>{{ data?.created_at | date : 'dd-m-yy, hh:mm:ss a'  }}</td>
                             <td>{{ data?.txn_amount  }}</td>
                             <td>{{ data?.reason  }}</td>
                         </tr>
                     </ng-container>
                 </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+                <b>Total Count : </b>{{total_count}}
+              </div>
         </nz-card>
     </div>
 </section>

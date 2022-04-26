@@ -173,6 +173,9 @@ export class ChangeBillDateComponent implements OnInit {
         this.isApprove = false;
         this.isApprovedSuccess = true
         this.is_approve_loading = false
+      } else {
+        this.is_approve_loading = false
+        this.message.error(res.message)
       }
     }, (err) => {
       this.is_approve_loading = false

@@ -308,6 +308,11 @@ export class EmployeeDetailsComponent implements OnInit {
   viewPageSize = 30
   selectedIdForView: any
 
+  pageIndexChange(e){
+    // alert(e);
+    this.viewPageCount = e;
+    this.onClickGetUploadedDocDetail(this.selectedIdForView, 'view');
+  }
   onClickGetUploadedDocDetail(id, action, e?) {
     if (action === "view") {
       if(this.isViewLoader['isVisible']){return;}
@@ -315,28 +320,30 @@ export class EmployeeDetailsComponent implements OnInit {
       if(e){
         this.viewPageCount = e?.pageIndex
         this.viewPageSize = e?.pageSize
-      } else {
-        this.viewPageCount = 1;
-        this.viewPageSize = 30;
-      }
+      } 
+      // else {
+      //   this.viewPageCount = 1;
+      //   this.viewPageSize = 10  ;
+      // }
       let data = {
         'page': this.viewPageCount,
         'limit': this.viewPageSize
       }
-          // alert(this.viewTotalCount + ' <= BS Page Count ');
-          // alert(this.viewPageSize + ' <= BS Page Count ');
-          // alert(this.viewPageCount + ' <= BS Page Count ');
+          // alert(this.viewTotalCount + ' <= BS Total Count ');
+          // alert(this.viewPageSize + ' <= BS Page Size ');
+          // alert(this.viewPageCount + ' <= BS Page Page Count ');
       this.isViewLoader['isVisible'] = true;
       const url = this.selectedTab == 'corporate' ? this.http.getDetailsOfUploadedFile(this.selectedIdForView,data) : this.http.viewSavedFileContent(this.selectedIdForView,data);
       url.subscribe(
         (res: any) => {
-          this.isViewLoader['isVisible'] = false;
           this.viewTotalCount = res?.data?.total_count;
           this.isViewLoader['viewContent'] = this.selectedTab == 'corporate' ?  res?.data?.results : res?.data?.data;
+          // this.isViewLoader['viewContent'] = res?.data?.results;
           this.isViewLoader['keyContent'] = res?.data;
-          // alert(this.viewTotalCount);
-          // alert(this.viewPageSize);
-          // alert(this.viewPageCount + '<= Page Count ');
+          this.isViewLoader['isVisible'] = false;
+          // alert(this.viewTotalCount + ' <= AS Total Count ');
+          // alert(this.viewPageSize + ' <= AS Page Size ');
+          // alert(this.viewPageCount + ' <= AS Page Page Count ');
           // viewPageSize
         },
         (err) => {
@@ -367,7 +374,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   returnPixel(axes, columns){
-    const columns_count =  columns['keys'].length;
+    const columns_count =  columns?.keys?.length;
     const pixel =  columns_count * 150
     return  pixel.toString() + 'px'
   }
@@ -484,6 +491,7 @@ export class EmployeeDetailsComponent implements OnInit {
   };
 
   overallFileStatus = true;
+  totalErrorCount: any;
   handleOk() {
     this.uploadSelectedCorporateFile.patchValue({
       section: this.selectedTab,
@@ -519,6 +527,7 @@ export class EmployeeDetailsComponent implements OnInit {
         this.http.viewFileBeforeSaving(data).subscribe((res: any) => {
           if (res?.success) {
             this.apiLoader['previewList'] = false;
+            this.totalErrorCount = res?.data?.data?.total_errors
             this.overallFileStatus = res?.data?.overall_status;
             this.retrievedFileResponse = res?.data?.data?.data;
             this.retrievedFileResponseKey = res?.data?.data?.keys;

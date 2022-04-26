@@ -73,6 +73,9 @@
                     </tr>
                 </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+                <b>Total Count : </b>{{total_count}}
+              </div>
         </nz-card>
     </div>
 </section>

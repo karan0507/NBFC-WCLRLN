@@ -74,6 +74,7 @@ export class FailedTransactionsComponent implements OnInit {
 
   total_count;
   failedTransactionList: any;
+  globalPageSize: any = 30;
 
   constructor(private http: HttpService) { }
 
@@ -82,11 +83,14 @@ export class FailedTransactionsComponent implements OnInit {
   }
 
   getResultBasedOnSearch(){
-
+    this.page = 1;
+    this.getAuthorizationList();
   }
 
   resetFilter(){
-
+    this.page =1;
+    this.searchValue = '';
+    this.getAuthorizationList();
   }
 
   toggleStatusBasedOnAction(id,action){
@@ -117,17 +121,21 @@ export class FailedTransactionsComponent implements OnInit {
 
   getAuthorizationList(e?){
     if(this.apiLoader['list']){return}
-    this.apiLoader['list'] = true;
+    if(e){
+      this.page = e?.pageIndex;
+      this.globalPageSize = e?.pageSize
+    } 
     let data = {
       'source': 'LMS',
       'datapoint':'loan_service',
       'endpoint':'LoanApplicationTransactions',
       'txn_status':'Fail',
-      'keyword': this.searchValue,
-      'page': 1,
-      'size': 30
+      'search_param': this.searchValue,
+      'page': this.page,
+      'limit': this.globalPageSize
     }
     // this.listOfData;
+    this.apiLoader['list'] = true;
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {
       this.failedTransactionList = res?.data;
       this.total_count = res?.total_count;
