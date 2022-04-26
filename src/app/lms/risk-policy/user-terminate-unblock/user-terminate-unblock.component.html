@@ -74,7 +74,7 @@
                         <td>{{data.activation_date | date: "medium"}}</td>
                         <td>{{data.loan_amount_provided}}</td>
                         <td>{{data.credit_utilization_amount}}</td>
-                        <td>{{data.loan_amount_provided - data.credit_utilization_amount}}</td>
+                        <td>{{data.outstanding_amount}}</td>
                         <td>{{data.fees_or_charges_amount}}</td>
                         <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
                         <td>{{data?.account_status}}</td>

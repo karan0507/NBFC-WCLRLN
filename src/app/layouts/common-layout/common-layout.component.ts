@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgxPermissionsService } from 'ngx-permissions';
 import { Observable } from "rxjs";
 import { distinctUntilChanged, filter, map, startWith } from "rxjs/operators";
 import { HttpService } from 'src/app/services/http.service';
@@ -22,10 +23,12 @@ export class CommonLayoutComponent  {
     isExpand: boolean;
     selectedHeaderColor: string;
     hideTitle: boolean;
+    UserPermissionDataSubscription : any
     showBreadCrumb: any;
 
     constructor(public router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
-        private message: NzMessageService, private globaldata: GlobalservicesService) {
+        private message: NzMessageService, private globaldata: GlobalservicesService,
+        private permissionsService: NgxPermissionsService) {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
             map(() => {
@@ -109,6 +112,15 @@ export class CommonLayoutComponent  {
             // this.http.setPermissionValue(res.data.data.permissions_slug_list)
             localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
             this.globaldata.sendUserData(res?.data);
+            if(localStorage.getItem('fatakpay_user_data')){
+                var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
+                check_token_exists.push('')
+                this.permissionsService.loadPermissions(check_token_exists);
+              }
+              this.UserPermissionDataSubscription = this.http.globalUserPermissionsData.subscribe((value) => {
+                value.push('')
+                this.permissionsService.loadPermissions(value);
+              });
             // if(res.data.data.icon){
             // //   this.http.setBrandLogoValueOnChange(res.data.data.icon)
             // }
