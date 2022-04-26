@@ -229,7 +229,7 @@
             <h4 class="m-b-0">
               {{
                 fetchedList["existing"]?.outstanding
-                  ? fetchedList["existing"]?.outstanding
+                  ? '₹' + fetchedList["existing"]?.outstanding
                   : " 0 "
               }}
             </h4>
@@ -244,7 +244,7 @@
             <h4 class="m-b-0">
               {{
                 fetchedList["existing"]?.utilised
-                  ? fetchedList["existing"]?.utilised
+                  ? '₹' + fetchedList["existing"]?.utilised
                   : " 0
                             "
               }}
@@ -260,7 +260,7 @@
             <h4 class="m-b-0">
               {{
                 fetchedList["existing"]?.spent
-                  ? fetchedList["existing"]?.spent
+                  ? '₹' + fetchedList["existing"]?.spent
                   : " 0 "
               }}
             </h4>
@@ -275,7 +275,7 @@
             <h4 class="m-b-0">
               {{
                 fetchedList["existing"]?.average_spent
-                  ? fetchedList["existing"]?.average_spent
+                  ? '₹' + fetchedList["existing"]?.average_spent
                   : " 0 "
               }}
             </h4>
