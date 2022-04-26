@@ -32,7 +32,6 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.documentData);
     if(this.documentData?.document_master?.require_front_back == 1){
       this._currentFileName = this.documentData?.front_file_url
       // this.fileList[0] = this.documentData?.front_file_name
@@ -72,7 +71,6 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           params.append('status', this.documentStatus == 1 ? 'Accepted' : 'Rejected')
           params.append('reason', this.verifyRemarks ? this.verifyRemarks : '')
         }
-        console.log(this.documentStatus);
 
         this.https.verifyLoanDocument(params).subscribe((res: any) => {
           if (res?.success) {

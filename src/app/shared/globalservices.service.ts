@@ -25,15 +25,15 @@ export class GlobalservicesService {
             var val: any
             val = Math.abs(value)
             if (val >= 10000000) {
-                  val = (val / 10000000).toFixed(2) + ' Cr';
+                  val = (val / 10000000) + ' Cr';
             } else if (val >= 100000) {
-                  val = (val / 100000).toFixed(2) + ' Lacs';
+                  val = (val / 100000) + ' Lacs';
             } else if (val >= 1000) {
-                  val = (val / 1000).toFixed(2) + ' Thousand';
+                  val = (val / 1000) + ' Thousand';
             }
             if (typeof val == 'string') {
             } else {
-                  val = val.toFixed(2)
+                  val = val
             }
             return val;
       }
