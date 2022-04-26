@@ -9,10 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../shared/template/template.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { CreateEditEmployeeComponent } from './create-edit-employee/create-edit-employee.component';
 
 
 @NgModule({
-  declarations: [EmployeeListComponent, AddEditPermissionComponent],
+  declarations: [EmployeeListComponent, AddEditPermissionComponent, CreateEditEmployeeComponent],
   imports: [
     CommonModule,
     EmployeesRoutingModule,

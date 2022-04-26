@@ -1,0 +1,108 @@
+<nz-card>
+    <nz-spin [nzSpinning]="formLoading">
+        <form [formGroup]="createEditForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="first_name" class="text-left" nzRequired>Employee
+                            First Name</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee First Name!">
+                            <input nz-input type="text" formControlName="first_name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="last_name" class="text-left" nzRequired>Employee Last
+                            Name</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Last Name!">
+                            <input nz-input type="text" formControlName="last_name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Employee
+                            Code</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Code!">
+                            <input nz-input type="text" formControlName="unique_code" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="associated_team" class="text-left">
+                            Associated Team</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Associated Team!">
+                            <nz-select nzAllowClear formControlName="associated_team"
+                                nzPlaceHolder="Please select Associated Team" (nzFocus)="fetchRoles()">
+                                <nz-option *ngFor="let item of teamName" [nzValue]="item.name" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="role" class="text-left">Designation
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Designation!">
+                            <nz-select nzAllowClear formControlName="role" nzPlaceHolder="Please select Designation"
+                                (nzFocus)="fetchRoles()">
+                                <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="reporting_manager" class="text-left">
+                            Reporting Manager</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Reporting Manager!">
+                            <nz-select nzAllowClear formControlName="reporting_manager" nzPlaceHolder="Please select Reporting Manager"
+                                (nzFocus)="fetchEmployeeManagerList()">
+                                <nz-option *ngFor="let item of employeeManagerList" [nzValue]="item.id"
+                                    [nzLabel]="item.first_name + ' ' + item.last_name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="mobile" class="text-left" nzRequired>Mobile No.
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Mobile No.!">
+                            <input nz-input type="text" formControlName="mobile" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="email" class="text-left" nzRequired>Email ID
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Email ID!">
+                            <input nz-input type="text" formControlName="email" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="is_active" class="text-left" nzRequired>Status
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Status!">
+                            <nz-select nzAllowClear formControlName="is_active" nzPlaceHolder="Please select Status">
+                                <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
+                                <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button nz-button nzType="primary" (click)="editEmployee(createEditForm.value)" [disabled]="createEditForm.invalid">Save</button>
+                </div>
+            </div>
+        </form>
+    </nz-spin>
+</nz-card>
