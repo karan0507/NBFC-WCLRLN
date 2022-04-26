@@ -56,7 +56,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 31; i++) {
       const data = {
         id: i + 1,
       };
@@ -738,23 +738,6 @@ export class AddEditPartnersComponent implements OnInit {
         delete this.addEditProductForm.value?.flag;
         delete this.addEditProductForm.value?.ewa_percent;  
         delete this.addEditProductForm.value?.max_salary_percent;  
-    for (var i in sendDate.nach_date_time_mappings) {
-      if(sendDate.nach_date_time_mappings.length == 0){
-        sendDate.nach_date_time_mappings = null;
-      } else {
-      if (
-        sendDate.nach_date_time_mappings[i].time_of_day &&
-        sendDate.nach_date_time_mappings[i].day_of_month
-      ) {
-        sendDate.nach_date_time_mappings[i].time_of_day = moment(
-          sendDate.nach_date_time_mappings[i]?.time_of_day
-        ).format("HH:mm:ss");
-      } else {
-        delete sendDate.nach_date_time_mappings[i];
-        this.deleteNachByKey(i);
-      }
-    }
-    }
 
     for (var i in sendDate.document_data) {
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
@@ -772,6 +755,24 @@ export class AddEditPartnersComponent implements OnInit {
           );
           return;
       }
+    }
+
+    for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        this.deleteNachByKey(i);
+      }
+    }
     }
 
     if (this.addEditProductForm.valid) {
@@ -1067,24 +1068,6 @@ export class AddEditPartnersComponent implements OnInit {
         delete this.addEditProductForm.value?.flag;
         delete this.addEditProductForm.value?.ewa_percent;  
         delete this.addEditProductForm.value?.max_salary_percent;  
-    for (var i in sendDate.nach_date_time_mappings) {
-      if(sendDate.nach_date_time_mappings.length == 0){
-        sendDate.nach_date_time_mappings = null;
-      } else {
-      if (
-        sendDate.nach_date_time_mappings[i].time_of_day &&
-        sendDate.nach_date_time_mappings[i].day_of_month
-      ) {
-        sendDate.nach_date_time_mappings[i].time_of_day = moment(
-          sendDate.nach_date_time_mappings[i]?.time_of_day
-        ).format("HH:mm:ss");
-      } else {
-        delete sendDate.nach_date_time_mappings[i];
-        this.deleteNachByKey(i);
-      }
-    }
-    }
-
     for (var i in sendDate.document_data) {
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
@@ -1101,6 +1084,23 @@ export class AddEditPartnersComponent implements OnInit {
           );
           return;
       }
+    }
+    for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        this.deleteNachByKey(i);
+      }
+    }
     }
 
     if (this.addEditProductForm.valid) {
