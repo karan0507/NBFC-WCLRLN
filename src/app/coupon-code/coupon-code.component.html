@@ -7,7 +7,7 @@
                               <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                              <button nz-button (click)="getCouponCodeList()" nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                         </ng-template>
                   </div>
                   <div class="col-md-2">
