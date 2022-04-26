@@ -213,9 +213,16 @@
                     </div>
                   </td>
                   <td>
-                    {{
-                      data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
-                    }}
+                    <div>
+                      {{
+                        data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
+                      }}
+                    </div>
+                    <div>
+                      {{
+                        selectedTab == 'corporate'  ? data?.uploaded_by?.contact_no ? data?.uploaded_by?.contact_no : " " : data?.uploaded_by?.contact ? data?.uploaded_by?.contact : " "
+                      }}
+                    </div>
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td nzRight>
@@ -418,13 +425,13 @@
                         <tbody>
                           <tr *ngFor="let item of retrievedFileResponse; index as i">
                             <td>{{ i + 1 }}</td>
-                            <ng-container *ngFor="let data of item | keyvalue: 0; index as i">
+                            <ng-container *ngFor="let data of item | keyvalue: returnZero; index as i">
                               <td *ngIf=" data.key !== 'Photo' && data.key != 'errors'">
                                 <label *ngIf=" data.key !== 'Photo' && data.key != 'errors' && data.key != 'row_status'" >
                                   {{ data?.value }}
                                 </label>
                                 <label *ngIf="data.key == 'row_status'">
-                                  <span *ngIf="!data.key?.row_status" class="text-danger"
+                                  <span *ngIf="!data?.value" class="text-danger"
                                     >Error &nbsp;
                                     <i
                                       nz-icon
@@ -436,7 +443,7 @@
                                       nzPopoverPlacement="top"
                                     ></i>
                                   </span>
-                                  <span *ngIf="data.key?.row_status" class="text-success"
+                                  <span *ngIf="data?.value" class="text-success"
                                     >Success</span
                                   >
                                   <ng-template #contentTemplate>
@@ -927,25 +934,24 @@
   <nz-modal
     [nzWidth]="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period' ? '1100px' : '800px'"
     [(nzVisible)]="isViewUploadedData"
-    (nzOnCancel)="isViewUploadedData=false"
+    (nzOnCancel)="isViewUploadedData=false; viewPageCount = 1;"
     nzTitle="Employee Details"
     [nzFooter]="footerModalView"
   >
     <ng-container *nzModalContent>
       <div class="row">
         <!-- class="col-12" style="overflow-x: auto" -->
-        <!-- <div> -->
-          <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'  || selectedTab == 'corporate'"
-            [nzLoading]="isViewLoader['isVisible']"
-            [nzFrontPagination]="false"
+        <!-- <div> [nzFrontPagination]="false"
             [nzShowSizeChanger]="false"
             [nzTotal]="viewTotalCount"
-            [viewPageCount]="viewPageCount"
+            [viewPageCount]="viewPageCount" [nzPageSize]="viewPageSize"-->
+          <nz-table *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'  || selectedTab == 'corporate'"
+            [nzLoading]="isViewLoader['isVisible']"
+            nzFrontPagination="false"
+            nzShowSizeChanger="false"
             [nzScroll]="{x: '9000px', y: '55vh'}"
-            [nzPageSize]="viewPageSize"
             [nzData]="isViewLoader['viewContent']"
           >
-          <!-- (nzQueryParams)="onClickGetUploadedDocDetail(selectedIdForView, 'view',$event)" -->
           <thead>
             <tr>
               <ng-container  *ngFor="let data of isViewLoader['keyContent']?.keys; index as i">
@@ -960,7 +966,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of isViewLoader['viewContent']; index as i">
-              <td>{{ i + 1 }}</td>
+              <!-- <td>{{ i + 1 }}</td> -->
+              <td *ngIf="viewPageCount === 1">{{i+1}}</td>
+                                  <td *ngIf="viewPageCount > 1">{{((viewPageCount-1)*viewPageSize)+(i+1)}}</td>
                 <td *ngFor="let sub_item of item| keyvalue : returnZero">
                   <label *ngIf="sub_item?.key !== 'Photo'">
                     {{ sub_item?.value }}
@@ -968,27 +976,26 @@
                 </td>  
             </tr>
           </tbody>
-
           </nz-table>
-          <!-- <nz-pagination [nzPageIndex]="viewPageCount" [(nzPageSize)]="viewPageSize"  [nzTotal]="viewTotalCount"></nz-pagination> ` -->
           <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
+          <!-- (nzQueryParams)="onClickGetUploadedDocDetail(selectedIdForView, 'view',$event)" 
+          [nzTotal]="viewTotalCount"
+            [viewPageCount]="page"
+            [nzPageSize]="viewPageSize" 
+          (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null" -->
           <nz-table *ngIf="selectedTab == 'Attendance'"
             [nzLoading]="isViewLoader['isVisible']"
-            [nzFrontPagination]="true"
-            [nzShowSizeChanger]="true"
-            [nzTotal]="viewTotalCount"
-            [viewPageCount]="page"
-            [nzPageSize]="viewPageSize"
-            [nzScroll]="{x: '9200px', y: '55vh'}"
-            (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
-            [nzData]="isViewLoader['viewContent']?.data"
+            nzFrontPagination="false"
+            nzShowSizeChanger="false"
+            [nzScroll]="{x: '800px', y: '55vh'}"
+            [nzData]="isViewLoader['viewContent']"
           >
             <thead>
               <tr>
                 <th  class="px-3" rowspan="2">#</th>
                 <th
                   *ngFor="
-                    let data of isViewLoader['viewContent']?.keys;
+                    let data of isViewLoader['keyContent']?.keys;
                     index as i
                   "
                 >
@@ -1002,7 +1009,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let data of isViewLoader['viewContent']?.data;
+                  let data of isViewLoader['viewContent'];
                   index as i
                 "
               >
@@ -1013,24 +1020,25 @@
               </tr>
             </tbody>
           </nz-table>
+          <!-- [nzTotal]="viewTotalCount"
+            [viewPageCount]="page"
+            [nzPageSize]="viewPageSize" 
+          (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null" -->
           <nz-table *ngIf="selectedTab == 'Exit Employee'"
             [nzLoading]="isViewLoader['isVisible']"
-            [nzFrontPagination]="true"
-            [nzShowSizeChanger]="true"
-            [nzTotal]="viewTotalCount"
-            [viewPageCount]="page"
-            [nzPageSize]="viewPageSize"
-            (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null"
-            [nzData]="isViewLoader['viewContent']?.data"
+            nzFrontPagination="false"
+            nzShowSizeChanger="false"
+            [nzScroll]="{x: '800px', y: '55vh'}"
+            [nzData]="isViewLoader['viewContent']"
           >
             <thead>
               <tr>
                 <th class="px-3" rowspan="2">#</th>
                 <th
                   *ngFor="
-                    let data of isViewLoader['viewContent']?.keys;
+                    let data of isViewLoader['keyContent']?.keys                                                                              ;
                     index as i
-                  "
+                  "                                                                         
                 >
                   <label style="clear: both;
                   display: inline-block;
@@ -1042,7 +1050,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let data of isViewLoader['viewContent']?.data;
+                  let data of isViewLoader['viewContent'];
                   index as i
                 "
               >
@@ -1053,6 +1061,9 @@
               </tr>
             </tbody>
           </nz-table>
+          <div class="col-12">
+            <nz-pagination class="text-right" [nzPageIndex]="viewPageCount" (nzPageIndexChange)="pageIndexChange($event)" [(nzPageSize)]="viewPageSize"  [nzTotal]="viewTotalCount"></nz-pagination> `
+          </div>
         <!-- </div> -->
       </div>
     </ng-container>

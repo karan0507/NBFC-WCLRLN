@@ -451,7 +451,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   sampleDownload(){
-    if(this.selectedTab == 'Employee Database' || this.selectedTab == 'New Joinees'){
+    if(this.selectedTab == 'Employee Database' || this.selectedTab == 'New Joinees' ||this.selectedTab == 'Notice Period' ){
       this.http.sampleDownloadGlobalFunction('Employee_Details_Sample_File')
     } else if (this.selectedTab == 'Exit Employee'){
       this.http.sampleDownloadGlobalFunction('Exit_Employee')

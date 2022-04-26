@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Pipe } from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -10,6 +10,7 @@ import * as moment from "moment";
 import { NzImageService } from "ng-zorro-antd/image";
 import { parseJSON } from "date-fns";
 import { DatePipe } from "@angular/common";
+import { DomSanitizer } from "@angular/platform-browser";
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -41,10 +42,16 @@ export class AddEditPartnersComponent implements OnInit {
     formSave: false,
     saveAddNew: false,
   };
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
   dateTillEnd = [];
   billDate = [{ id: 1 }, { id: 5 }, { id: 10 }, { id: 15 }];
   listOfMasterPartner: any;
   constructor(
+    private sanitized: DomSanitizer, 
     private fb: FormBuilder,
     private http: HttpService,
     private router: Router,
@@ -56,7 +63,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 31; i++) {
       const data = {
         id: i + 1,
       };
@@ -260,7 +267,25 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
 
+  // @Pipe({name: 'safeHtml'})
+  sanatizeUrlToSafe
   async onClickShowUploadedDocument(e, action?) {
+    // if(!e?.value?.id){
+    //   let doc = await getBase64(e?.value?.documents);
+    //   console.log(doc);
+    //   // let doc = e?.value?.documents;
+    //   // this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(doc);
+    //   this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' 
+    //   + doc);
+    // }
+    if(e?.value?.id){
+    this.pdf_viewer_object_values['boolean'] = true;
+    this.pdf_viewer_object_values['title'] = 'Showing ' + e?.value?.label_name
+    this.pdf_viewer_object_values['url'] = e?.value?.documents
+    this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+    console.log(e);
+  } else {
+
     // if (e?.value?.documents?.uid) {
     //   let doc = await getBase64(e?.value?.documents);
     //   const images = [];
@@ -352,6 +377,7 @@ export class AddEditPartnersComponent implements OnInit {
     this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     }
   }
+}
   }
 
   createMasterProductForm(data?) {
@@ -642,6 +668,7 @@ export class AddEditPartnersComponent implements OnInit {
   }
 
   handleCancel(): void {
+    this.pdf_viewer_object_values['boolean'] = false;
     this.isVisible = false;
   }
 
@@ -738,23 +765,6 @@ export class AddEditPartnersComponent implements OnInit {
         delete this.addEditProductForm.value?.flag;
         delete this.addEditProductForm.value?.ewa_percent;  
         delete this.addEditProductForm.value?.max_salary_percent;  
-    for (var i in sendDate.nach_date_time_mappings) {
-      if(sendDate.nach_date_time_mappings.length == 0){
-        sendDate.nach_date_time_mappings = null;
-      } else {
-      if (
-        sendDate.nach_date_time_mappings[i].time_of_day &&
-        sendDate.nach_date_time_mappings[i].day_of_month
-      ) {
-        sendDate.nach_date_time_mappings[i].time_of_day = moment(
-          sendDate.nach_date_time_mappings[i]?.time_of_day
-        ).format("HH:mm:ss");
-      } else {
-        delete sendDate.nach_date_time_mappings[i];
-        this.deleteNachByKey(i);
-      }
-    }
-    }
 
     for (var i in sendDate.document_data) {
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
@@ -772,6 +782,24 @@ export class AddEditPartnersComponent implements OnInit {
           );
           return;
       }
+    }
+
+    for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        this.deleteNachByKey(i);
+      }
+    }
     }
 
     if (this.addEditProductForm.valid) {
@@ -1067,24 +1095,6 @@ export class AddEditPartnersComponent implements OnInit {
         delete this.addEditProductForm.value?.flag;
         delete this.addEditProductForm.value?.ewa_percent;  
         delete this.addEditProductForm.value?.max_salary_percent;  
-    for (var i in sendDate.nach_date_time_mappings) {
-      if(sendDate.nach_date_time_mappings.length == 0){
-        sendDate.nach_date_time_mappings = null;
-      } else {
-      if (
-        sendDate.nach_date_time_mappings[i].time_of_day &&
-        sendDate.nach_date_time_mappings[i].day_of_month
-      ) {
-        sendDate.nach_date_time_mappings[i].time_of_day = moment(
-          sendDate.nach_date_time_mappings[i]?.time_of_day
-        ).format("HH:mm:ss");
-      } else {
-        delete sendDate.nach_date_time_mappings[i];
-        this.deleteNachByKey(i);
-      }
-    }
-    }
-
     for (var i in sendDate.document_data) {
       if (sendDate.document_data[i].front_back_flag && !sendDate.document_data[i].document_name_front) {
         this.message.error(
@@ -1101,6 +1111,23 @@ export class AddEditPartnersComponent implements OnInit {
           );
           return;
       }
+    }
+    for (var i in sendDate.nach_date_time_mappings) {
+      if(sendDate.nach_date_time_mappings.length == 0){
+        sendDate.nach_date_time_mappings = null;
+      } else {
+      if (
+        sendDate.nach_date_time_mappings[i].time_of_day &&
+        sendDate.nach_date_time_mappings[i].day_of_month
+      ) {
+        sendDate.nach_date_time_mappings[i].time_of_day = moment(
+          sendDate.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete sendDate.nach_date_time_mappings[i];
+        this.deleteNachByKey(i);
+      }
+    }
     }
 
     if (this.addEditProductForm.valid) {
