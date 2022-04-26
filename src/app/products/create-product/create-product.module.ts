@@ -12,7 +12,6 @@ import { OnboardingComponent } from './onboarding/onboarding.component';
 import { FeesComponent } from './fees/fees.component';
 import { LoanAgreementComponent } from './loan-agreement/loan-agreement.component';
 import { CreateProductComponent } from './create-product.component';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -39,7 +38,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
   imports: [
     CommonModule,
     CreateProductRoutingModule,
-    NzCollapseModule,
     NzCardModule,
     FormsModule, ReactiveFormsModule,
     NzFormModule,
