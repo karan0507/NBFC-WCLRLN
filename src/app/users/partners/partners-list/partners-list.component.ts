@@ -289,10 +289,12 @@ export class PartnersListComponent implements OnInit {
     return false;
   };
 
-  sanatizeUrlToSafe(value) {
-    // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
-    return this.sanitized.bypassSecurityTrustResourceUrl(value);
-  }
+  // sanatizeUrlToSafe(value) {
+  //   // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
+  //   return this.sanitized.bypassSecurityTrustResourceUrl(value);
+  // }
+
+  sanatizeUrlToSafe: any
 
   storeSelectedId(id, action, type?){
     this.selectedIdForAgreement = id;
@@ -303,6 +305,8 @@ export class PartnersListComponent implements OnInit {
       this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
       if(type== 'single'){
         this.pdf_viewer_object_values['url'] = id?.document_file
+        this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+        // this.sanitized.bypassSecurityTrustResourceUrl(value);
       } else if(type == 'front'){
         this.pdf_viewer_object_values['url'] = id?.document_file_front
       } else if(type == 'back'){

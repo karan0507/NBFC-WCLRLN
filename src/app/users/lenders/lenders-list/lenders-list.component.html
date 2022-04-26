@@ -52,7 +52,7 @@
                     <th >NBFC Line Given</th>
                     <th> Amt. Recd. in Escrow A/C</th>
                     <th rowspan="2">Wallet Bal.</th>
-                    <th rowspan="2">Registered</th>
+                    <th rowspan="2">Registered(KYC)</th>
                     <!-- <th rowspan="2">Transaction Status</th> -->
                     <th rowspan="2">System Status</th>
                     <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
@@ -99,7 +99,7 @@
                                             <span class="m-l-5">Edit</span>
                                         </li>
                                         <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
-                                            <span class="m-l-5">InActive</span>
+                                            <span class="m-l-5">Inactive</span>
                                         </li>
                                         <li nz-menu-item *ngIf="data.is_deleted"  (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>

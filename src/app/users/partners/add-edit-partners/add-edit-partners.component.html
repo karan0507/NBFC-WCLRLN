@@ -315,7 +315,7 @@
                                 <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                     <div class="d-flex">
                                         <nz-upload
-                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'name')"
                                         >
@@ -601,7 +601,7 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_email" class="text-left" nzRequired>Relationship Manager Email</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Email">
-                            <input nz-input type="text" formControlName="relationship_manager_email"  placeholder="Relationship Manager Name" style="text-transform:lowercase"/>
+                            <input nz-input type="text" formControlName="relationship_manager_email"  placeholder="Relationship Manager Email" style="text-transform:lowercase"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -641,4 +641,17 @@
              </ng-container>
         </nz-select>
     </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
 </nz-modal>

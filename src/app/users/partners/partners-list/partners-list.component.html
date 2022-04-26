@@ -568,7 +568,7 @@
     [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
     <ng-container *nzModalContent>
         <div class="pdf_viewer_container">
-            <embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" style="height: 25rem;" />
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
         </div>
     </ng-container>
     <ng-template #modalFooter>
