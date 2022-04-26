@@ -213,9 +213,16 @@
                     </div>
                   </td>
                   <td>
-                    {{
-                      data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
-                    }}
+                    <div>
+                      {{
+                        data?.uploaded_by?.name ? data?.uploaded_by?.name : " "
+                      }}
+                    </div>
+                    <div>
+                      {{
+                        selectedTab == 'corporate'  ? data?.uploaded_by?.contact_no ? data?.uploaded_by?.contact_no : " " : data?.uploaded_by?.contact ? data?.uploaded_by?.contact : " "
+                      }}
+                    </div>
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td nzRight>
@@ -418,13 +425,13 @@
                         <tbody>
                           <tr *ngFor="let item of retrievedFileResponse; index as i">
                             <td>{{ i + 1 }}</td>
-                            <ng-container *ngFor="let data of item | keyvalue: 0; index as i">
+                            <ng-container *ngFor="let data of item | keyvalue: returnZero; index as i">
                               <td *ngIf=" data.key !== 'Photo' && data.key != 'errors'">
                                 <label *ngIf=" data.key !== 'Photo' && data.key != 'errors' && data.key != 'row_status'" >
                                   {{ data?.value }}
                                 </label>
                                 <label *ngIf="data.key == 'row_status'">
-                                  <span *ngIf="!data.key?.row_status" class="text-danger"
+                                  <span *ngIf="!data?.value" class="text-danger"
                                     >Error &nbsp;
                                     <i
                                       nz-icon
@@ -436,7 +443,7 @@
                                       nzPopoverPlacement="top"
                                     ></i>
                                   </span>
-                                  <span *ngIf="data.key?.row_status" class="text-success"
+                                  <span *ngIf="data?.value" class="text-success"
                                     >Success</span
                                   >
                                   <ng-template #contentTemplate>
