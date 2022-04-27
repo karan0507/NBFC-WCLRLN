@@ -29,9 +29,9 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
       isEdit: boolean = false;
       currentCouponId: any;
       couponDetail: any;
-      api_service_stack : any = [];
+      api_service_stack: any = [];
       constructor(public https: HttpService, public fb: FormBuilder, public router: Router, public route: ActivatedRoute, public message: NzMessageService) { }
-      
+
       ngOnDestroy(): void {
             this.api_service_stack.forEach(element => {
                   element.unsubscribe()
@@ -39,9 +39,7 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
       }
 
       ngOnInit(): void {
-
             this.route.queryParams.subscribe((params) => {
-
                   if (params['id']) {
                         this.isEdit = true;
                         this.currentCouponId = params['id']
@@ -56,7 +54,7 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                   coupon_expiry: [null, [Validators.required]],
                   total_coupons: [null, [Validators.required, Validators.min(1)]],
                   partner: [],
-                  isAllPartner:[],
+                  isAllPartner: [],
                   master: [],
                   isAllMaster: [],
                   product: [],
@@ -85,8 +83,7 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                         this.api_calling_loader['listLoader'] = false;
                   }
             })
-           
-            
+
       }
 
       onFocusMethod(type?) {
@@ -134,11 +131,11 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
             if (this.couponForm.get('isAllPartner').value) {
                   data['all_partners'] = this.couponForm.get('isAllPartner').value
 
-            }else if(this.couponForm.get('partner').value && !this.couponForm.get('isAllPartner').value){
+            } else if (this.couponForm.get('partner').value && !this.couponForm.get('isAllPartner').value) {
                   data['partner'] = this.couponForm.get('partner').value
             }
 
-            if(this.couponForm.get('isAllMaster').value){
+            if (this.couponForm.get('isAllMaster').value) {
                   data['all_masters'] = this.couponForm.get('isAllMaster').value
             }
             else if (this.couponForm.get('master').value) {
@@ -184,13 +181,21 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                   }
             })
 
-           this.api_service_stack.push(
-            this.https.fetchPartner().subscribe((res: any) => {
-                  if (res) {
-                        this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
-                  }
-            })
-           )
+            this.api_service_stack.push(
+                  this.https.fetchPartner().subscribe((res: any) => {
+                        if (res) {
+                              this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+                        }
+                  })
+            )
+      }
+
+      checkIfAll(type) {
+            if (type == 'partner') {
+                  this.couponForm.controls['partner'].reset()
+            }else if(type == 'master'){
+                  this.couponForm.controls['master'].reset()
+            }
       }
 
 }

@@ -7,7 +7,7 @@
                               <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Search text" />
                         </nz-input-group>
                         <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                              <button nz-button (click)="getCouponCodeList()" nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                         </ng-template>
                   </div>
                   <div class="col-md-2">
@@ -47,8 +47,8 @@
                                     <th>Coupon Type</th>
                                     <th>Remaining Coupons</th>
                                     <th>Value</th>
-                                    <th>Actions</th>
                                     <th>Status</th>
+                                    <th>Actions</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -60,10 +60,6 @@
                                           <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
                                           <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
                                           <td>{{ data?.value ? data?.value : '--'}}</td>
-                                          <td> <button nz-button nzType="link" class="border"
-                                                      [routerLink]="['edit-coupon-code']"
-                                                      [queryParams]="{id: data?.id}">Edit</button>
-                                          </td>
                                           <td>
                                                 <div class="d-flex">
                                                       <label class="font-size-14">Inactive</label>
@@ -73,6 +69,11 @@
                                                       <label class="font-size-14">Active</label>
                                                 </div>
                                           </td>
+                                          <td> <button nz-button nzType="link" class="border"
+                                                      [routerLink]="['edit-coupon-code']"
+                                                      [queryParams]="{id: data?.id}">Edit</button>
+                                          </td>
+                                        
                                     </tr>
                               </ng-container>
                         </tbody>

@@ -96,7 +96,7 @@
                   <div class="col-md-4">
                         <nz-form-item>
                               <nz-form-label> <label nz-checkbox formControlName="isAllPartner"
-                                    class="align-items-center">All
+                                   (ngModelChange)="checkIfAll('partner')" class="align-items-center">All
                                     Partner</label></nz-form-label>
                         </nz-form-item>
                        
@@ -129,7 +129,7 @@
                   </div>
                   <div class="col-md-4">
                         <label nz-checkbox formControlName="isAllMaster"
-                        class="align-items-center my-2">All
+                        class="align-items-center my-2" (ngModelChange)="checkIfAll('master')">All
                         Master</label>
                   </div> 
 
