@@ -1,35 +1,28 @@
 <section>
-    <nz-card [nzLoading]="apiLoader['list']">
-        <!-- <div class="accordianLoanApp"></div> -->
-        <div class="row accordianLoanApp">
-            <!-- <div class="col-4" *ngFor="let data of permissionList">
-                    <h4> {{data?.display_name}}</h4>
-            </div> -->
-            <div class="col-md-4 mb-3" *ngFor="let data of permissionList">
-                <nz-page-header 
-                    class="acc-bg-light w-100"
-                    [nzTitle]="basicDetail">
-                </nz-page-header>
-                <!-- <nz-card class="mb-md-5"> -->
-                    <div class="row">
-                        <div class="col-md-12" *ngFor="let slugs of data?.slugs_list">
-                            <!-- <div class="d-flex flex-column">
-                                <h3 class="font-weight-bold mb-0">
-                                </h3>
-                            </div> -->
-                            <h5 class="mt-0 mb-2"> {{slugs?.display_name}}</h5>
-                        </div>
-                        </div>
-                <!-- </nz-card> -->
-                <ng-template #basicDetail>
-                    <!-- <div class="row"> -->
-                        <!-- <div class="col-12"> -->
-                            <h4 class="my-0">{{data?.display_name}}</h4>
-                        <!-- </div> -->
-                        <!-- <h6 class="mb-0 my-2"> <img  class="mr-2" src="assets/images/icons/moneyBag.svg" />Total Repayments Received</h6> -->
-                    <!-- </div> -->
-                </ng-template>
+  <nz-card [nzLoading]="apiLoader['list']">
+    <div class="row accordianLoanApp">
+      <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
+        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
+        </nz-page-header>
+        <div class="row mt-4">
+          <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
+            <div class="d-flex">
+                <h5 class="mx-3">{{i + 1}}</h5>
+                <h5 class=""><label
+                    class="d-flex"
+                    nz-checkbox
+                    (ngModelChange)="ngModelChange($event, slugs)" ngModel="false"
+                    > {{ slugs?.display_name }}</label></h5>
+            </div>
           </div>
         </div>
-    </nz-card>
+        <ng-template #basicDetail>
+          <h4 class="my-0">{{ data?.display_name }}</h4>
+        </ng-template>
+      </div>
+      <div class="col-12 bg-light-orange mt-4 text-right">
+        <button [disabled]="slugList.length < 1" (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+      </div>
+    </div>
+  </nz-card>
 </section>
