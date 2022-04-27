@@ -15,6 +15,7 @@ export class CreateProductComponent implements OnInit {
   productDetails: any;
   is_product_id = false
   isLoading: boolean;
+  public limitCollapse: boolean = false;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -29,7 +30,11 @@ export class CreateProductComponent implements OnInit {
         this.product_id = null
         this.is_product_id = false
       }
-    }); }
+    });
+    http.limitCollapse.subscribe(res => {
+      this.limitCollapse = false;
+    })
+  }
 
   ngOnInit(): void {
   }

@@ -236,7 +236,21 @@
                     <td>{{item.loan_id ? item.loan_id : '-'}}</td>
                     <td>{{item.old_bill_day ? item.old_bill_day : '-'}}</td>
                     <td>{{item.new_bill_day ? item.new_bill_day : '-'}}</td>
-                    <td>{{item.status ? item.status : '-'}}</td>
+                    <td>
+                        <span *ngIf="item.line_status == 'Error'" class="text-danger">Error &nbsp;
+                            <i nz-icon nzType="info-circle" nzTheme="outline"
+                            nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                        </span>
+                        <span *ngIf="item.line_status == 'Success'" class="text-success">Success</span>
+                        <ng-template #contentTemplate>
+                            <div class="px-3">
+                                <ul>
+                                    <!-- *ngFor="let item of item.error_message" -->
+                                    <li class="text-danger">{{item.error_message}}</li>
+                                </ul>
+                            </div>
+                        </ng-template>
+                    </td>
                 </tr>
             </tbody>
          </nz-table>

@@ -21,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
     differenceInCalendarDays(current, new Date()) > 0;
   api_calling_loader: boolean;
   total_count: any;
-  employeeList: any;
+  employeeList: any =[];
   deactivated: any = '';
   roleData: any;
   roles = ''
@@ -160,7 +160,6 @@ export class EmployeeListComponent implements OnInit {
         this.isEdit = false
         this.isDelete = false
         this.message.success(res['message'])
-        this.fetchEmployeeList()
       }, (err) => {
         this.formLoading = false
       })
@@ -170,7 +169,6 @@ export class EmployeeListComponent implements OnInit {
         this.isEdit = false
         this.isDelete = false
         this.message.success(res['message'])
-        this.fetchEmployeeList()
         this.createEditForm.reset()
       }, (err) => {
         this.formLoading = false
