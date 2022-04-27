@@ -10,9 +10,11 @@ export class AddEditPermissionComponent implements OnInit {
 
   constructor(private http: HttpService) { }
   permissionList: any = [];
+  slugList: any[] = [];
   apiLoader = {
     'list': false
   }
+
 
   ngOnInit(): void {
     this.fetchSlagsList();
@@ -34,5 +36,27 @@ export class AddEditPermissionComponent implements OnInit {
       this.apiLoader['list'] = false;
     })
   }
+
+  ngModelChange(e, data){
+    if(e){
+    this.slugList.push(data?.function_name) 
+    } else {
+      this.deleteSlug(data?.function_name);
+    }
+  }
+
+  deleteSlug(msg:string) {
+    const index: number = this.slugList.indexOf(msg);
+    if (index !== -1) {
+        this.slugList.splice(index, 1);
+    }        
+}
+
+updatePermissionBasedOnType(){
+  this.http.updatePermissionBasedOnType(this.slugList).subscribe((res)=>{
+    console.log('Permission Updated')
+  })
+}
+
 
 }
