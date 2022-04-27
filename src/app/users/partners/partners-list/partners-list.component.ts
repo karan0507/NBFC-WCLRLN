@@ -343,7 +343,8 @@ export class PartnersListComponent implements OnInit {
       this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
         if(res.data){
           this.pdf_viewer_object_values['title'] = 'Show Agreement'
-          this.pdf_viewer_object_values['url'] = res?.data.agreement
+          this.pdf_viewer_object_values['url'] = res?.data?.agreement
+          this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
           this.pdf_viewer_object_values['boolean'] = true
           this.message.remove(generateloader);
         } else {
