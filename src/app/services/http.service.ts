@@ -792,8 +792,8 @@ export class HttpService {
             return this._http.get((this.url + `/platform_central/v1/get-controller-list`));
       }
 
-      public updatePermissionBasedOnType(data){
-            return this._http.post((this.url + `/platform_central/permissions/`), data);
+      public updatePermissionBasedOnType(id,data){
+            return this._http.post((this.url + `/platform_central/v1/permissions/${id}`), data);
       }
 
       // /platform_central/permissions/

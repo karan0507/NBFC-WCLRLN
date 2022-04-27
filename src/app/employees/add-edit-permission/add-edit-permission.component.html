@@ -1,6 +1,21 @@
 <section>
   <nz-card [nzLoading]="apiLoader['list']">
-    <div class="row accordianLoanApp">
+      <div class="row">
+          <div class="col-12">
+            <nz-form-item>
+                <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="bill_date" class="text-left">Select Preferred  Role</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Role">
+                    <nz-select nzPlaceHolder="Select Role" [(ngModel)]="selectedRole">
+                        <nz-option *ngFor="let item of fetchedRole" [nzValue]="item.pk"
+                        [nzLabel]="item.name">
+                        </nz-option>
+                      </nz-select>
+                </nz-form-control>
+                </nz-form-item>
+          </div>
+
+      </div>
+    <div class="row accordianLoanApp" *ngIf="selectedRole">
       <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
         <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
         </nz-page-header>
@@ -11,7 +26,7 @@
                 <h5 class=""><label
                     class="d-flex"
                     nz-checkbox
-                    (ngModelChange)="ngModelChange($event, slugs)" ngModel="false"
+                    (ngModelChange)="ngModelChange($event, slugs, 'slugs')" ngModel="false"
                     > {{ slugs?.display_name }}</label></h5>
             </div>
           </div>
@@ -21,7 +36,7 @@
         </ng-template>
       </div>
       <div class="col-12 bg-light-orange mt-4 text-right">
-        <button [disabled]="slugList.length < 1" (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+        <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
       </div>
     </div>
   </nz-card>
