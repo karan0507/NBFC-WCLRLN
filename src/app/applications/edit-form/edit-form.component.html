@@ -81,7 +81,7 @@
             <form nz-form [formGroup]="employementDetails" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4">
-                              <nz-form-item>
+                              <nz-form-item *ngIf="isCorporate">
                                     <nz-form-label nzRequired>Company Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Company Name!">
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
@@ -92,8 +92,15 @@
                                           </nz-select>
                                     </nz-form-control>
                               </nz-form-item>
+                              <nz-form-item *ngIf="!isCorporate">
+                                    <nz-form-label nzRequired>Company Name</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Company name!">
+                                          <input nz-input type="text" formControlName="company_name"
+                                                placeholder="Enter your Company name" />
+                                    </nz-form-control>                                   
+                              </nz-form-item>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8" *ngIf="isCorporate">
                               <nz-form-item>
                                     <nz-form-label nzRequired>Address</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your company name for address">
@@ -108,8 +115,7 @@
 </section>
 
 <!-- Section Pre Approved Offer Details -->
-<section>
-      <!-- <nz-page-header class="site-page-header p-2 bg-gray-lightest" [nzTitle]="preApprovedDetailModal"></nz-page-header> -->
+<!-- <section>
       <ng-template #preApprovedDetailModal>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14">Pre Approved Offer Details</span></div>
@@ -144,7 +150,7 @@
                   </div>
             </form>
       </nz-card>
-</section>
+</section> -->
 
 <!-- Document Details Section -->
 <section>
@@ -239,7 +245,7 @@
       <div class="d-flex justify-content-md-end">
             <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
             <button nz-button nzType="primary"
-                  [disabled]="( !personalDetails.valid ? true : ( !employementDetails.valid ? true : ( !preApprovedForm.valid ? true : false)))"
+                  [disabled]="( !personalDetails.valid ? true : ( !employementDetails.valid ? true : false))"
                   [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="submitForm()">Save</button>
       </div>
       <ng-template #footerModal>
