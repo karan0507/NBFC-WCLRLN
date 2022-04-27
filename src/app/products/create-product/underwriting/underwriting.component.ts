@@ -66,9 +66,11 @@ export class UnderwritingComponent implements OnInit {
 
   handleClose(removedTag: {}, type): void {
     if(type == 'negative'){
-      this.pincodes = this.pincodes.filter(tag => tag !== removedTag);
+      this.pincodes.splice(removedTag, 1)
+      // this.pincodes = this.pincodes.filter(tag => tag !== removedTag);
     }else if(type == 'service'){
-      this.servicePincodes = this.servicePincodes.filter(tag => tag !== removedTag);
+      // this.servicePincodes = this.servicePincodes.filter(tag => tag !== removedTag);
+      this.servicePincodes.splice(removedTag, 1)
     }
   }
 
@@ -80,6 +82,7 @@ export class UnderwritingComponent implements OnInit {
         this.createEditForm.controls['inputValue'].reset()
         }else{
           this.message.warning('Pincode has already been added')
+          this.createEditForm.controls['inputValue'].reset()
         }
       }else{
         if(this.createEditForm.value.inputValue){
@@ -93,6 +96,7 @@ export class UnderwritingComponent implements OnInit {
         this.createEditForm.controls['servicable_pincodes'].reset()
         }else{
           this.message.warning('Pincode has already been added')
+          this.createEditForm.controls['servicable_pincodes'].reset()
         }
       }else{
         if(this.createEditForm.value.servicable_pincodes){
@@ -104,9 +108,9 @@ export class UnderwritingComponent implements OnInit {
 
     createEditFormFuction(data?, isedit?) {
     this.createEditForm = this.fb.group({
-      inputValue : [null,[Validators.required,Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
+      inputValue : [null,[Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
       blacklist_pincodes: [data ? data.blacklist_pincodes : []],
-      servicable_pincodes: [null,[Validators.required,Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
+      servicable_pincodes: [null,[Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
       range_entities: this.fb.array([]),
       comparison_entities: this.fb.array([]),
       // validation_entities: this.fb.array([]),
@@ -244,8 +248,8 @@ export class UnderwritingComponent implements OnInit {
     //   rule_data.push(element)
     // });
     var form_data = {
-      blacklist_pincodes: this.createEditForm.value.blacklist_pincodes,
-      servicable_pincodes: this.createEditForm.value.servicable_pincodes,
+      blacklist_pincodes: this.pincodes,
+      servicable_pincodes: this.servicePincodes,
       rules: rule_data
     }
     console.log(form_data);
