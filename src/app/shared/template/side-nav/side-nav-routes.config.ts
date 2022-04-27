@@ -299,6 +299,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'lms/change-credit-line',
+                title: 'Change Credit Line', 
+                iconType: '', 
+                icon: '',
+                permission:'',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'lms/lender-management',
                 title: 'Lender Management', 
                 permission:'',

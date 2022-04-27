@@ -1,20 +1,9 @@
-<div class="header_breadcrumb_section" *ngIf="changeBillTab == '1'">
+<div class="header_breadcrumb_section">
     <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
-    <button nz-button nzType="default" class="ml-1" (click)="isImport = true" *ngxPermissionsOnly="['upload_change_bill_date']">Import Excel</button>
+    <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
 </div>
 
 <section>
-    <div class="row mb-md-3">
-        <div class="col-md-12 mb-md-0">
-            <nz-radio-group [(ngModel)]="changeBillTab" (ngModelChange)="onchangeBillTab()">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1" *ngxPermissionsOnly="['toggle_change_bill_date']">Change bill date</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2" *ngxPermissionsOnly="['toggle_app_change_bill_date']" >App side change bill date</label>
-            </nz-radio-group>
-        </div>
-    </div>
-</section>
-
-<section *ngIf="changeBillTab == '1'">
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()">
@@ -27,7 +16,7 @@
 </section>
 
 
-<section *ngIf="changeBillTab == '1'">
+<section>
     <div class="row mb-md-3">
         <span>{{total_count}} Results Found</span>
     </div>
@@ -141,9 +130,7 @@
     </div>
 </section>
 
-<section *ngIf="changeBillTab == '2'">
-    <app-app-side-change-bill-date></app-app-side-change-bill-date>
-</section>
+
 <!-- Import excel -->
 <nz-modal [(nzVisible)]="isImport" nzTitle="Import Excel" [nzFooter]="null" (nzOnCancel)="isImport = false" nzOkText="Submit">
     <ng-container *nzModalContent>
@@ -163,15 +150,17 @@
     <ng-container *nzModalContent>
         <nz-table [nzFrontPagination]="false" [nzData]="previewData">
            <thead>
-               <th>Sr. no</th>
+               <th>#</th>
                <th>Loan ID</th>
-               <th>New Bill Day</th>
+               <th>New Credit Line</th>
+               <th>Activation Date</th>
            </thead>
            <tbody>
                <tr *ngFor="let item of previewData; index as i">
                    <td>{{i+1}}</td>
                    <td>{{item['Loan ID'] ? item['Loan ID'] : '-'}}</td>
-                   <td>{{item['New Bill Day'] ? item['New Bill Day'] : '-'}}</td>
+                   <td>{{item['New Credit Line'] ? item['New Credit Line'] : '-'}}</td>
+                   <td>{{item['Activation Date'] ? (item['Activation Date'] | date: 'dd/MM/yyyy') : '-'}}</td>
                </tr>
            </tbody>
         </nz-table>
@@ -184,16 +173,18 @@
         <nz-table [nzFrontPagination]="false" [nzData]="previewData">
             <thead>
                 <tr>
-                    <th>Sr. no</th>
+                    <th>#</th>
                     <th>Loan ID</th>
-                    <th>New Bill Day</th>
+                    <th>New Credit Line</th>
+                    <th>Activation Date</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of previewData; index as i">
                     <td>{{i+1}}</td>
                     <td>{{item['Loan ID'] ? item['Loan ID'] : '-'}}</td>
-                    <td>{{item['New Bill Day'] ? item['New Bill Day'] : '-'}}</td>
+                    <td>{{item['New Credit Line'] ? item['New Credit Line'] : '-'}}</td>
+                    <td>{{item['Activation Date'] ? (item['Activation Date'] | date: 'dd/MM/yyyy') : '-'}}</td>
                 </tr>
             </tbody>
          </nz-table>
@@ -229,17 +220,17 @@
                 <tr>
                     <th>Sr. no</th>
                     <th>Loan ID</th>
-                    <th>Old Bill Day</th>
-                    <th>New Bill Day</th>
+                    <th>New Credit Line</th>
+                    <th>Activation Date</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of previewBeforeUpload; index as i">
                     <td>{{i+1}}</td>
-                    <td>{{item.loan_id ? item.loan_id : '-'}}</td>
-                    <td>{{item.old_bill_day ? item.old_bill_day : '-'}}</td>
-                    <td>{{item.new_bill_day ? item.new_bill_day : '-'}}</td>
+                    <td>{{item['Loan ID'] ? item['Loan ID'] : '-'}}</td>
+                    <td>{{item['New Credit Line'] ? item['New Credit Line'] : '-'}}</td>
+                    <td>{{item['Activation Date'] ? (item['Activation Date'] | date: 'dd/MM/yyyy') : '-'}}</td>
                     <td>
                         <span *ngIf="item.line_status == 'Error'" class="text-danger">Error &nbsp;
                             <i nz-icon nzType="info-circle" nzTheme="outline"
@@ -248,9 +239,8 @@
                         <span *ngIf="item.line_status == 'Success'" class="text-success">Success</span>
                         <ng-template #contentTemplate>
                             <div class="px-3">
-                                <ul>
-                                    <!-- *ngFor="let item of item.error_message" -->
-                                    <li class="text-danger">{{item.error_message}}</li>
+                                <ul *ngFor="let err of item.message">
+                                    <li class="text-danger">{{err}}</li>
                                 </ul>
                             </div>
                         </ng-template>
@@ -293,21 +283,6 @@
     </ng-container>
 </nz-modal>
 
-
-<!-- Reject -->
-<!-- <nz-modal [nzWidth]="500" [(nzVisible)]="isReject" [nzFooter]="null" [nzClosable]="false" (nzOnCancel)="isReject = false">
-    <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'Do you want to reject?'"
-            [subTitle]="''"
-            [icon]="'assets/images/waiveoff.png'"
-            (onOkCall)="rejectTransaction()"
-            (onCencelCall)="isReject = false;"
-            [cancelBtnTxt]="'No'"
-            [submitBtnTxt]="'Yes'">
-        </app-double-confirmation-popup>
-    </ng-container>
-</nz-modal> -->
 
 <nz-modal [(nzVisible)]="isReject" nzTitle="Reject" (nzOnCancel)="isReject = false; rejactRemarks=''" [nzFooter]="modalFooter1">
     <ng-container *nzModalContent>
