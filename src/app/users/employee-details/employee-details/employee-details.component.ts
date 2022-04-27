@@ -367,7 +367,10 @@ export class EmployeeDetailsComponent implements OnInit {
       );
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
-      this.http.downloadEmployeeUserDetail(id).subscribe(
+      // downloadUploadedUserDetailFile
+      // const url = this.selected
+      const url = this.selectedTab == 'corporate' ? this.http.downloadUploadedUserDetailFile(id) : this.http.downloadEmployeeUserDetail(id)
+      url.subscribe(
         (res: any) => {
         if (res.size > 41) {
           this.downloadFile(res);
@@ -401,7 +404,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   downloadFile(data){
-    saveAs(data, "USEr_EMPLOYEE_DETAIL.xlsx");
+    saveAs(data, "EMPLOYEE_DETAIL.xlsx");
   }
 
   getEmployeeDetailWithEmployeeTypeAndCorporateId(event?) {

@@ -759,8 +759,8 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/view-corporate-uploads/${id}`), { params: data });
       }
 
-      public downloadUploadedUserDetailFile(id,data) {
-            return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { params: data });
+      public downloadUploadedUserDetailFile(id) {
+            return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { responseType:'blob' });
       }
 
       public verifyUploadedFile(id, data){
