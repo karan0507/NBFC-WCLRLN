@@ -20,6 +20,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { ArrayFilterPipe } from 'src/app/shared/pipes/arrayFilter.pipe';
 import { ViewProductComponent } from './view-product/view-product.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     FormsModule, ReactiveFormsModule,
     NzFormModule,
     DemoNgZorroAntdModule,
+    NzTagModule,
     NgxPermissionsModule.forChild()
   ],
   providers:[

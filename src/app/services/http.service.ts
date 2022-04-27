@@ -759,8 +759,8 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/view-corporate-uploads/${id}`), { params: data });
       }
 
-      public downloadUploadedUserDetailFile(id,data) {
-            return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { params: data });
+      public downloadUploadedUserDetailFile(id) {
+            return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { responseType:'blob' });
       }
 
       public verifyUploadedFile(id, data){
@@ -789,9 +789,14 @@ export class HttpService {
       }
 
       public fetchPermissionSlugsForEmployee(){
-            // /platform_central/v1/get-controller-slugs , { params: data }
             return this._http.get((this.url + `/platform_central/v1/get-controller-list`));
       }
+
+      public updatePermissionBasedOnType(id,data){
+            return this._http.post((this.url + `/platform_central/v1/permissions/${id}`), data);
+      }
+
+      // /platform_central/permissions/
 
       public getLenderFundRequestList(data?) {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });

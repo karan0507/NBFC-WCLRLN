@@ -1,3 +1,4 @@
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,6 +23,10 @@ export class UnderwritingComponent implements OnInit {
   filterArray: any
   underWritingRuleData: any;
   loading: boolean;
+  pincodes : any = [];
+  servicePincodes : any = []
+  inputVisible = true;
+  inputValue = '';
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,) { }
@@ -58,10 +63,50 @@ export class UnderwritingComponent implements OnInit {
       // }
     })
   }
-  createEditFormFuction(data?, isedit?) {
+
+  handleClose(removedTag: {}, type): void {
+    if(type == 'negative'){
+      this.pincodes = this.pincodes.filter(tag => tag !== removedTag);
+    }else if(type == 'service'){
+      this.servicePincodes = this.servicePincodes.filter(tag => tag !== removedTag);
+    }
+  }
+
+  handleInputConfirm(type): void {
+    if(type == 'negative'){
+      if(this.createEditForm.value.inputValue?.length == 6){
+        if(!(this.pincodes.includes(this.createEditForm.value.inputValue))){
+        this.pincodes.push(this.createEditForm.value.inputValue)
+        this.createEditForm.controls['inputValue'].reset()
+        }else{
+          this.message.warning('Pincode has already been added')
+        }
+      }else{
+        if(this.createEditForm.value.inputValue){
+          this.message.error('Pincode should be 6 digit only')
+        }
+      }
+    }else if(type == 'service'){
+      if(this.createEditForm.value.servicable_pincodes?.length == 6){
+        if(!(this.servicePincodes.includes(this.createEditForm.value.servicable_pincodes))){
+        this.servicePincodes.push(this.createEditForm.value.servicable_pincodes)
+        this.createEditForm.controls['servicable_pincodes'].reset()
+        }else{
+          this.message.warning('Pincode has already been added')
+        }
+      }else{
+        if(this.createEditForm.value.servicable_pincodes){
+          this.message.error('Pincode should be 6 digit only')
+        }
+      }
+    }
+  }
+
+    createEditFormFuction(data?, isedit?) {
     this.createEditForm = this.fb.group({
+      inputValue : [null,[Validators.required,Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
       blacklist_pincodes: [data ? data.blacklist_pincodes : []],
-      servicable_pincodes: [data ? data.servicable_pincodes : []],
+      servicable_pincodes: [null,[Validators.required,Validators.maxLength(6), Validators.minLength(6), Validators.pattern("^[0-9]*$")]],
       range_entities: this.fb.array([]),
       comparison_entities: this.fb.array([]),
       // validation_entities: this.fb.array([]),

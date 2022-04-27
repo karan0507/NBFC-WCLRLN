@@ -34,8 +34,8 @@
                                         <input [type]="isView ? 'text' : 'password'" type="password" nz-input formControlName="password" placeholder="Password">
                                     </nz-input-group>
                                     <ng-template #viewPassword>
-                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline"></i>
-                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()" nzTheme="outline"></i>
+                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
+                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
                                       </ng-template>
                                 </nz-form-control>
                             </nz-form-item>

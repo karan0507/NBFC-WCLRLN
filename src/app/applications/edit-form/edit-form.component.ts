@@ -21,9 +21,9 @@ export class EditFormComponent implements OnInit {
       preApprovedForm: FormGroup;
       documentForm: FormGroup;
       userId: any;
-      personalInfo : any
+      personalInfo: any
       documentsList: any = []
-      filesArray : any = []
+      filesArray: any = []
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
@@ -51,7 +51,8 @@ export class EditFormComponent implements OnInit {
       _currentFileName: any
       fileList: any = [];
       documentStatus: any;
-      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global : GlobalservicesService) { }
+      isCorporate: boolean = false;
+      constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
             this.fetchProductList();
@@ -72,7 +73,7 @@ export class EditFormComponent implements OnInit {
 
             this.employementDetails = this.fb.group({
                   company_name: [null, [Validators.required]],
-                  address: [null, [Validators.required]]
+                  address: [null, []]
             })
 
             this.preApprovedForm = this.fb.group({
@@ -99,7 +100,7 @@ export class EditFormComponent implements OnInit {
             switch (type) {
                   case 'verify':
                         console.log(this.documentStatus, this.verifyRemarks);
-                        
+
                         // this.api_calling_loader['modalButton'] = true
                         // let params = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
                         // this.https.verifyLoanDocument(params).subscribe((res: any) => {
@@ -181,8 +182,19 @@ export class EditFormComponent implements OnInit {
                         this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
                         this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
-                        this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : null })
-                        this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : null });
+                        if (res?.data?.company_details) {
+                              if (res?.data?.company_details?.registered_corporate) {
+                                    this.isCorporate = true
+                                    this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : null })
+                                    this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : null });
+                              } else {
+                                    this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.name : null })
+                                    this.isCorporate = false
+                              }
+                        } else {
+                              this.isCorporate = true
+                        }
+
                         if (res?.data?.offer) {
                               this.preApprovedForm.patchValue({ product_name: res?.data?.offer[0]?.id ? res?.data?.offer[0]?.id : null })
                               this.preApprovedForm.patchValue({ limitProcessed: res?.data?.offer[0]?.amount_offered ? res?.data?.offer[0]?.amount_offered : null })
@@ -208,7 +220,11 @@ export class EditFormComponent implements OnInit {
             data.append('email', this.personalDetails.value.email);
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
-            data.append('company_id', this.employementDetails.value.company_name);
+            if(this.isCorporate){
+                  data.append('company_id', this.employementDetails.value.company_name);
+            }else{
+                  data.append('company_name', this.employementDetails.value.company_name);
+            }
             if ((this.documentsList) && (this.filesArray[0])) {
                   console.log(this.documentsList);
                   // data.append('documents_list', JSON.stringify(this.documentsList))
@@ -265,12 +281,12 @@ export class EditFormComponent implements OnInit {
             this._currentModalData = data;
             console.log(data);
             if (type == 'download') {
-                  if(this._currentModalData?.document_master?.id){
+                  if (this._currentModalData?.document_master?.id) {
                         let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
-                  }else if(this._currentModalData?.document_master?.name == "Selfie"){
+                  } else if (this._currentModalData?.document_master?.name == "Selfie") {
                         let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'selfie', 'id': this._currentModalData?.application }
                   }
-                  
+
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               var data = new Blob([res?.data?.file], { type: 'text/plain;charset=utf-8' });
