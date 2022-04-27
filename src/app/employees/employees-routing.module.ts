@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddEditPermissionComponent } from './add-edit-permission/add-edit-permission.component';
 import { CreateEditEmployeeComponent } from './create-edit-employee/create-edit-employee.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 
@@ -37,6 +38,15 @@ const routes: Routes = [
           title: 'Edit Employee',
           parent: 'Employee',
           custom_url: 'employees/edit-employee'
+        }
+      },
+      {
+        path: 'edit-employee-permission',
+        component: AddEditPermissionComponent,
+        data: {
+          title: 'Edit Employee Permission',
+          parent: 'Employee',
+          custom_url: 'employees/edit-employee-permission'
         }
       },
     ]

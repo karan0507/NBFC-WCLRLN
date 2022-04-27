@@ -313,6 +313,21 @@ export class EmployeeDetailsComponent implements OnInit {
     this.viewPageCount = e;
     this.onClickGetUploadedDocDetail(this.selectedIdForView, 'view');
   }
+
+  ngModelChange(e, data){
+    let body;
+    this.http.verifyUploadedFile(data?.id, body).subscribe((res: any)=>{
+      console.log(res);
+      if(res?.success){
+        this.message.success(res?.message);
+      } else {
+        this.message.error(res?.message);
+      }
+    })
+    console.log(data);
+  }
+
+
   onClickGetUploadedDocDetail(id, action, e?) {
     if (action === "view") {
       if(this.isViewLoader['isVisible']){return;}

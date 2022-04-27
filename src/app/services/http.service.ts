@@ -763,6 +763,11 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { params: data });
       }
 
+      public verifyUploadedFile(id, data){
+            return this._http.put((this.url + `/partner/v1/verify-corporate-upload/${id}`), data);
+            // /partner/v1/verify-corporate-upload/
+      }
+
       public 
       // /partner/v1/view-corporate-uploads/1?page=1&limit=10
 
