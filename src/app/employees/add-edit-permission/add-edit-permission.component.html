@@ -21,7 +21,7 @@
         </ng-template>
       </div>
       <div class="col-12 bg-light-orange mt-4 text-right">
-        <button [disabled]="slugList.length !== 0" (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+        <button [disabled]="slugList.length < 1" (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
       </div>
     </div>
   </nz-card>
