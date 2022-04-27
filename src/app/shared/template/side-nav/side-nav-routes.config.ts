@@ -299,6 +299,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'lms/change-credit-line',
+                title: 'Change Credit Line', 
+                iconType: '', 
+                icon: '',
+                permission:'',
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'lms/lender-management',
                 title: 'Lender Management', 
                 permission:'',
@@ -326,7 +335,16 @@ export const ROUTES: SideNavInterface[] = [
       permission:'',
       icon: 'picture',
       submenu: []
-    }
+    },
+    {
+        path: 'edit-employee-permission',
+        title: 'Access control',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission:'',
+        icon: 'key',
+        submenu: []
+    },
     // {
     //     path: 'transactions',
     //     title: 'Transactions',

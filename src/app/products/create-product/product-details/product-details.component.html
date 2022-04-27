@@ -64,7 +64,7 @@
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left">Remarks</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Remarks!">
@@ -73,7 +73,7 @@
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Updated by</nz-form-label>
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? productDetails.updated_by?.first_name : '-'}}</nz-form-label>
                     </nz-form-item>
-                </div>
+                </div> -->
                 <h5 *ngIf="createEditForm.get('product_master').value == '2'">EMI Tenure</h5>
                 <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                     <ng-container *ngFor="let item of get_tenures(createEditForm); let k = index;" formArrayName="tenures">

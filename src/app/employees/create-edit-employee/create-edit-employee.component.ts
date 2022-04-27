@@ -64,6 +64,8 @@ export class CreateEditEmployeeComponent implements OnInit {
         email: [data ? data.email : '', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         is_active: [data ? data.is_active : '', [Validators.required]]
       })
+      this.fetchEmployeeManagerList()
+      this.fetchRoles()
     } else {
       this.createEditForm = this.fb.group({
         first_name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]+')]],

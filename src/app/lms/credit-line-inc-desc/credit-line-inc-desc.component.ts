@@ -6,13 +6,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-change-bill-date',
-  templateUrl: './change-bill-date.component.html',
-  styleUrls: ['./change-bill-date.component.css']
+  selector: 'app-credit-line-inc-desc',
+  templateUrl: './credit-line-inc-desc.component.html',
+  styleUrls: ['./credit-line-inc-desc.component.css']
 })
-export class ChangeBillDateComponent implements OnInit {
+export class CreditLineIncDescComponent implements OnInit {
 
-  
   isImport = false
   page = 1;
   total_count;
@@ -55,7 +54,6 @@ export class ChangeBillDateComponent implements OnInit {
   reject_id: any;
   rejactRemarks = '';
   changeBillTab = '1';
-
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -64,10 +62,11 @@ export class ChangeBillDateComponent implements OnInit {
     this.getManualTransactionList()
   }
 
+  
   downloadSampleFile() {
     var link = document.createElement('a');
-    link.href = 'assets/static files/Change_Bill_Day.xlsx';
-    link.download = 'Change_Bill_Day.xlsx';
+    link.href = 'assets/static files/change_credit_line_sample.xlsx';
+    link.download = 'change_credit_line_sample.xlsx';
     link.click();
   }
 
@@ -78,8 +77,8 @@ export class ChangeBillDateComponent implements OnInit {
     }
     let data = {
       source: 'LMS',
-      datapoint: 'fetch_change_bill_day',
-      status: this.selectedTab,
+      datapoint: 'get_change_credit_line_list',
+      status: this.selectedTab.toUpperCase(),
       // date: this.date ? moment(this.date).format("YYYY-MM-DD") : '',
       // keyword: this.searchValue,
       page: this.page,
@@ -103,10 +102,11 @@ export class ChangeBillDateComponent implements OnInit {
     })
   }
 
+  
   fetchPreviewAfterList(value, isPreview) {
     let data = {
       source: 'LMS',
-      datapoint: 'preview_change_bill_day',
+      datapoint: 'preview_change_credit_line',
       endpoint: value?.id
     }
     this.preview_file_name = value.file_name
@@ -121,7 +121,7 @@ export class ChangeBillDateComponent implements OnInit {
           this.isApprove = true;
         }
         this.message.remove(generateloader);
-        this.previewData = res['data']
+        this.previewData = res['data'].file_content
       }
       
       this.message.remove(generateloader);
@@ -140,15 +140,15 @@ export class ChangeBillDateComponent implements OnInit {
   fetchPreviewBeforeUpload(value) {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'check_change_bill_day'),
+    data.append('datapoint', 'check_credit_line_file'),
     data.append('file', value)
     var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
-      if (res['data'].list[0]) {
+      if (res['data'].file_content?.list[0]) {
         this.isImport = false
-        this.previewBeforeUpload = res['data'].list
-        this.isLineError = res['data'].status
+        this.previewBeforeUpload = res['data'].file_content?.list
+        this.isLineError = res['data'].file_content?.status
         this.isPreviewBeforeUpload = true;
       } else {
         this.message.error('File is empty')
@@ -165,8 +165,8 @@ export class ChangeBillDateComponent implements OnInit {
   approveTransaction() {
     let data = new FormData()
     data.append('source', 'LMS')
-    data.append('datapoint', 'approve_reject_change_bill_day')
-    data.append('status', 'APPROVED')
+    data.append('datapoint', 'approve_reject_change_credit_line')
+    data.append('action', 'APPROVE')
     data.append('id', this.approve_id)
     this.is_approve_loading = true
     this.http.postLoanApplicationApi(data).subscribe(res => {
@@ -186,15 +186,20 @@ export class ChangeBillDateComponent implements OnInit {
   uploadTransaction() {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'import_change_bill_day'),
+    data.append('datapoint', 'import_change_credit_line'),
     data.append('file', this.uploaded_file)
     if (this.isLineError) {
       this.is_upload_loading = true
       this.http.fetchLoanApplicationUpload(data).subscribe(res => {
-        this.is_upload_loading = false
-        this.isImport = false
-        this.isPreviewBeforeUpload = false;
-        this.uploadSuccessfully = true
+        if (res.success) {
+          this.is_upload_loading = false
+          this.isImport = false
+          this.isPreviewBeforeUpload = false;
+          this.uploadSuccessfully = true
+        } else {
+          this.isFail = true
+          this.isPreviewBeforeUpload = false;
+        }
       }, (err) => {
         this.isImport = true
         this.is_upload_loading = false
@@ -213,8 +218,8 @@ export class ChangeBillDateComponent implements OnInit {
   rejectTransaction() {
     let data = new FormData()
     data.append('source', 'LMS')
-    data.append('datapoint', 'approve_reject_change_bill_day')
-    data.append('status', 'REJECT')
+    data.append('datapoint', 'approve_reject_change_credit_line')
+    data.append('action', 'REJECT')
     data.append('remarks', this.rejactRemarks)
     data.append('id', this.reject_id)
     this.is_approve_loading = true
@@ -234,4 +239,3 @@ export class ChangeBillDateComponent implements OnInit {
 
   }
 }
-

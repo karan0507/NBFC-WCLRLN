@@ -39,16 +39,7 @@ const routes: Routes = [
           parent: 'Employee',
           custom_url: 'employees/edit-employee'
         }
-      },
-      {
-        path: 'edit-employee-permission',
-        component: AddEditPermissionComponent,
-        data: {
-          title: 'Edit Employee Permission',
-          parent: 'Employee',
-          custom_url: 'employees/edit-employee-permission'
-        }
-      },
+      }
     ]
   }
 ];
