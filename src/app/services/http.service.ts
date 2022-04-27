@@ -763,6 +763,11 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { params: data });
       }
 
+      public verifyUploadedFile(id, data){
+            return this._http.put((this.url + `/partner/v1/verify-corporate-upload/${id}`), data);
+            // /partner/v1/verify-corporate-upload/
+      }
+
       public 
       // /partner/v1/view-corporate-uploads/1?page=1&limit=10
 
@@ -782,6 +787,16 @@ export class HttpService {
       public editLenderCommitment(data?) {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
+
+      public fetchPermissionSlugsForEmployee(){
+            return this._http.get((this.url + `/platform_central/v1/get-controller-list`));
+      }
+
+      public updatePermissionBasedOnType(data){
+            return this._http.post((this.url + `/platform_central/permissions/`), data);
+      }
+
+      // /platform_central/permissions/
 
       public getLenderFundRequestList(data?) {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });

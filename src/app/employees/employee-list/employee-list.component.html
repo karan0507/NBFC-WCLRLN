@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" class="ml-auto" (click)="isEdit = true; modalTitle = 'Add Employee'" *ngxPermissionsOnly="['add_employees']">+ Add Employee</button>
+    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['create-employee']" routerLinkActive="router-link-active"  *ngxPermissionsOnly="['add_employees']">+ Add Employee</button>
 </div>
 <section>
     <div class="row">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            (nzQueryParams)="employeeList ? fetchEmployeeList($event) : ''" [nzScroll]="{ y: '40vh' }">
+            (nzQueryParams)="employeeList[0] ? fetchEmployeeList($event) : ''" [nzScroll]="{ y: '40vh' }">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -67,8 +67,8 @@
                                         <li nz-menu-item (click)="changePasswordFunction(data)" *ngxPermissionsOnly="['change_password_employees']">
                                             <span class="m-l-5">Change Password</span>
                                         </li>
-    
-                                        <li nz-menu-item (click)="editEmployeeFunction(data)" *ngxPermissionsOnly="['edit_employees']">
+                                        <!-- (click)="editEmployeeFunction(data)" -->
+                                        <li nz-menu-item [routerLink]="['edit-employee']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_employees']">
                                             <span class="m-l-5">Edit</span>
                                         </li>
 
@@ -76,9 +76,9 @@
                                             <span class="m-l-5">Delete</span>
                                         </li> -->
                                         
-                                        <!-- <li nz-menu-item>
+                                        <li nz-menu-item [routerLink]="['edit-employee-permission']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit Permissions</span>
-                                        </li> -->
+                                        </li>
 
                                         <li nz-menu-item nz-popconfirm
                                         nzPopconfirmTitle="Are you sure {{ !data.is_active ? 'Activate' : 'Inactivate' }} Employee?"

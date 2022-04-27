@@ -1,1 +1,28 @@
-<p>add-edit-permission works!</p>
+<section>
+  <nz-card [nzLoading]="apiLoader['list']">
+    <div class="row accordianLoanApp">
+      <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
+        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
+        </nz-page-header>
+        <div class="row mt-4">
+          <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
+            <div class="d-flex">
+                <h5 class="mx-3">{{i + 1}}</h5>
+                <h5 class=""><label
+                    class="d-flex"
+                    nz-checkbox
+                    (ngModelChange)="ngModelChange($event, slugs)" ngModel="false"
+                    > {{ slugs?.display_name }}</label></h5>
+            </div>
+          </div>
+        </div>
+        <ng-template #basicDetail>
+          <h4 class="my-0">{{ data?.display_name }}</h4>
+        </ng-template>
+      </div>
+      <div class="col-12 bg-light-orange mt-4 text-right">
+        <button [disabled]="slugList.length < 1" (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+      </div>
+    </div>
+  </nz-card>
+</section>
