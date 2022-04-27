@@ -335,7 +335,16 @@ export const ROUTES: SideNavInterface[] = [
       permission:'',
       icon: 'picture',
       submenu: []
-    }
+    },
+    {
+        path: 'edit-employee-permission',
+        title: 'Access control',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission:'',
+        icon: 'key',
+        submenu: []
+    },
     // {
     //     path: 'transactions',
     //     title: 'Transactions',
