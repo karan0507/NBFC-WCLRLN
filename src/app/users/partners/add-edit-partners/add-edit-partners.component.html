@@ -146,7 +146,7 @@
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bill_date" class="text-left">Bill Date</nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
                             <nz-select formControlName="bill_date" nzPlaceHolder="Select Bill Date">
-                                <nz-option *ngFor="let item of billDate" [nzValue]="item.id"
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
                                     [nzLabel]="item.id">
                                 </nz-option>
                             </nz-select>

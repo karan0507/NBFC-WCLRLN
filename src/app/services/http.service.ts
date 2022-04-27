@@ -788,6 +788,11 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
+      public fetchPermissionSlugsForEmployee(){
+            // /platform_central/v1/get-controller-slugs , { params: data }
+            return this._http.get((this.url + `/platform_central/v1/get-controller-list`));
+      }
+
       public getLenderFundRequestList(data?) {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
