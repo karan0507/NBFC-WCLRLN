@@ -138,7 +138,7 @@
                         <nz-option nzValue="All" nzLabel="all">
                         </nz-option>
                     </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
-              <nz-select
+              <nz-select *ngIf="selectedTab == 'corporate'"
                   class="mx-1"
                   [(ngModel)]="selectedSection"
                   nzAllowClear nzShowSearch
