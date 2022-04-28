@@ -412,7 +412,13 @@ export class EmployeeDetailsComponent implements OnInit {
 
 
   onChange(e){
-    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    if(e){
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    } else {
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      this.date = null;
+    }
+    console.log(this.date);
     console.log(e);
   }
 
@@ -434,14 +440,16 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
-    };
-    if(this.date){
       // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
       // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
+    };
+    console.log(this.date);
+    if(this.date){
+      // delete data["from_date"];
+      // delete data["to_date"];
       data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
       data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
-      // this.date = [new Date(new Date().getFullYear(), 0, 1), new Date()]
-    }
+    } 
     // data.append(
       //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
       // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
