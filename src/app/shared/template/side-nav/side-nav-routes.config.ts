@@ -324,7 +324,7 @@ export const ROUTES: SideNavInterface[] = [
       iconType: 'nzIcon',
       iconTheme: 'outline',
       permission:'',
-      icon: 'picture',
+      icon: 'tags',
       submenu: []
     }
     // {

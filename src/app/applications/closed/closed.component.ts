@@ -104,7 +104,7 @@ export class ClosedComponent implements OnInit {
                     console.log(this.productList);
               })
         } else if (type == 'status') {
-              let params = { 'source': 'Onboarding', endpoint: '8', 'datapoint': 'get-stage-statuses' }
+              let params = { 'source': 'Onboarding', endpoint: '15', 'datapoint': 'get-stage-statuses' }
               this.https.getStatusStageWise(params).subscribe((res: any) => {
                     this.stageStatusList = res?.data
                     console.log(this.stageStatusList);
@@ -119,7 +119,7 @@ export class ClosedComponent implements OnInit {
   getFormLoanData(tableFilter?) {
         this.api_calling_loader['listLoader'] = true
         this.loanApplicationData = [];
-        var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=8', 'source': 'Onboarding' }
+        var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=15', 'source': 'Onboarding' }
 
         if (tableFilter) {
             this.page = tableFilter?.pageIndex
@@ -233,7 +233,7 @@ export class ClosedComponent implements OnInit {
         switch (type) {
               case 'status':
                     this._isStatus = true;
-                    this.https.getStageMaster(8).subscribe(res => {
+                    this.https.getStageMaster(15).subscribe(res => {
                           if (res?.success) {
                                 this.stageMasterList = res?.data
                           }
