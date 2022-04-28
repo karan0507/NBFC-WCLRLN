@@ -227,7 +227,7 @@
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td *ngIf="selectedTab == 'corporate'" > 
-                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [(ngModel)]="data.is_verified"></label> 
+                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
                   </td>
                   <td nzRight>
                     <a
