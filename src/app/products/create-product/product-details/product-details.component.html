@@ -64,6 +64,18 @@
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bill_day" class="text-left">Billing Day</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                            <nz-select formControlName="bill_day" nzPlaceHolder="Select Billing Day">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
+                                    [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left">Remarks</nz-form-label>
