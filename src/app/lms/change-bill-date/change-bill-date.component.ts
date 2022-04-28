@@ -111,6 +111,7 @@ export class ChangeBillDateComponent implements OnInit {
     }
     this.preview_file_name = value.file_name
     this.approve_id = value.id
+    this.is_approve_loading = false
     const generateloader = this.message.loading('Generating Preview..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       if (res.success) {

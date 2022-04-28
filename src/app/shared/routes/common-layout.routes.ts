@@ -81,4 +81,12 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'black-box',
         loadChildren: () => import('../../black-box-testing/black-box-testing.module').then(m => m.BlackBoxTestingModule),
     },
+    {
+        path: 'edit-employee-permission',
+        loadChildren: () => import('../../employees/add-edit-permission/add-edit-permission.module').then(m => m.AddEditPermissionModule),
+    },
+    {
+        path: 'lms/change-credit-line',
+        loadChildren: () => import('../../lms/credit-line-inc-desc/credit-line-inc-desc.module').then(m => m.CreditLineIncDescModule),
+    },
 ];

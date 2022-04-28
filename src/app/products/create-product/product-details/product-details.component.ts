@@ -19,9 +19,11 @@ export class ProductDetailsComponent implements OnInit {
     {name: 'Months', value: 'Months'},
     {name: 'Years', value: 'Years'},
   ]
+  
   product_id: any;
   @Input() isLoading: any;
   productDetails: any;
+  dateTillEnd = [];
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -47,6 +49,12 @@ export class ProductDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    for (let i = 0; i < 31; i++) {
+      const data = {
+        id: i + 1,
+      };
+      this.dateTillEnd.push(data);
+    }
     this.createEditFormFuction();
   }
   createEditFormFuction() {
@@ -55,7 +63,7 @@ export class ProductDetailsComponent implements OnInit {
       product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
-      remarks: [ this.productDetails ? this.productDetails.remarks : ''],
+      bill_day: [ this.productDetails ? this.productDetails.bill_day : ''],
       tenures: this.fb.array([]),
       })
     if (this.productDetails) {
@@ -122,7 +130,7 @@ export class ProductDetailsComponent implements OnInit {
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_master: this.createEditForm.value.product_master,
-        remarks: this.createEditForm.value.remarks,
+        bill_day: this.createEditForm.value.bill_day,
         tenures: this.createEditForm.value.tenures
       }          
     } else {
@@ -131,7 +139,7 @@ export class ProductDetailsComponent implements OnInit {
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_master: this.createEditForm.value.product_master,
-        remarks: this.createEditForm.value.remarks
+        bill_day: this.createEditForm.value.bill_day
       }        
     }
     if (this.product_id) {

@@ -448,6 +448,10 @@ export class AddEditPartnersComponent implements OnInit {
       master: ["0", [Validators.required]],
       partner_nature: ["Partner", [Validators.required]],
       partner_master: [data ? data?.master_partner?.id : null],
+      no_data_flag:[data ? data?.no_data_flag : false],
+      salary_deduction_flag:[data ? data?.salary_deduction_flag : false],
+      initial_amount:[data ? data?.initial_amount : ''],
+      // logo:[data ? data?.logo : '', [Validators.required]],
       flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
       relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
       relationship_manager_contact:[data ? data?.relationship_manager_contact : null, [Validators.required, , Validators.pattern("^[1-9][0-9]{9}$")]],
@@ -1062,16 +1066,20 @@ export class AddEditPartnersComponent implements OnInit {
         contractual_min: this.addEditProductForm.value?.contractual_min ? this.addEditProductForm.value?.contractual_min : null,
         contractual_max: this.addEditProductForm.value?.contractual_max ? this.addEditProductForm.value?.contractual_max : null,
         permanent_agreed: this.addEditProductForm.value?.permanent_agreed ? this.addEditProductForm.value?.permanent_agreed : null,
-        contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null
+        contractual_agreed: this.addEditProductForm.value?.contractual_agreed ? this.addEditProductForm.value?.contractual_agreed : null,
       }
+      // initial_amount: this.addEditProductForm.value?.initial_amount,
       this.addEditProductForm.patchValue({
-        corporate_limit_settings: JSON.stringify(corporate_limit_settings)
+        corporate_limit_settings: JSON.stringify(corporate_limit_settings),
+        initial_amount: null
       })
     } else {
       corporate_limit_settings = {
         flag: this.addEditProductForm.value?.flag,
         ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
         max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
+        initial_amount: this.addEditProductForm.value?.initial_amount,
+        // initial_amount
       }
       this.addEditProductForm.patchValue({
         corporate_limit_settings: JSON.stringify(corporate_limit_settings)
@@ -1270,11 +1278,25 @@ export class AddEditPartnersComponent implements OnInit {
               this.apiLoader["formSave"] = false;
               this.router.navigate(["partners"]);
             } else {
+              const control = <FormArray>(
+                this.addEditProductForm.controls["nach_date_time_mappings"]
+              );
+              for (let i = control.length - 1; i >= 0; i--) {
+                control.removeAt(i);
+              }
+              this.setFormDataForNach(storeData);
               this.message.error(res?.message);
               this.apiLoader["formSave"] = false;
             }
           },
           (err) => {
+            const control = <FormArray>(
+              this.addEditProductForm.controls["nach_date_time_mappings"]
+            );
+            for (let i = control.length - 1; i >= 0; i--) {
+              control.removeAt(i);
+            }
+            this.setFormDataForNach(storeData);
             this.apiLoader["formSave"] = false;
           }
         );

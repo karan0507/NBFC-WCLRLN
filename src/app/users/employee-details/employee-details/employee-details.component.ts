@@ -210,6 +210,18 @@ export class EmployeeDetailsComponent implements OnInit {
     // this.getNewJoineeList();
 
     this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    this.fetchListOfSection();
+  }
+
+  sectionList: any;
+  selectedSection: any;
+  fetchListOfSection(){
+    this.http.getListOfSection().subscribe((res: any)=>{
+      this.sectionList = res?.data
+      console.log(this.sectionList);
+    }, error=>{
+      console.log(error);
+    })
   }
 
   createUploadFileForm(data?) {
@@ -248,6 +260,7 @@ export class EmployeeDetailsComponent implements OnInit {
     // if (this.searchValue || this.selectedCorporate) {
       this.page = 1;
       this.searchValue = "";
+      this.selectedSection = null;
       this.selectedCorporate = null;
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     // }
@@ -367,7 +380,10 @@ export class EmployeeDetailsComponent implements OnInit {
       );
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
-      this.http.downloadEmployeeUserDetail(id).subscribe(
+      // downloadUploadedUserDetailFile
+      // const url = this.selected
+      const url = this.selectedTab == 'corporate' ? this.http.downloadUploadedUserDetailFile(id) : this.http.downloadEmployeeUserDetail(id)
+      url.subscribe(
         (res: any) => {
         if (res.size > 41) {
           this.downloadFile(res);
@@ -396,12 +412,18 @@ export class EmployeeDetailsComponent implements OnInit {
 
 
   onChange(e){
-    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    if(e){
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    } else {
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      this.date = null;
+    }
+    console.log(this.date);
     console.log(e);
   }
 
   downloadFile(data){
-    saveAs(data, "USEr_EMPLOYEE_DETAIL.xlsx");
+    saveAs(data, "EMPLOYEE_DETAIL.xlsx");
   }
 
   getEmployeeDetailWithEmployeeTypeAndCorporateId(event?) {
@@ -418,14 +440,16 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
-    };
-    if(this.date){
       // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
       // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
+    };
+    console.log(this.date);
+    if(this.date){
+      // delete data["from_date"];
+      // delete data["to_date"];
       data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
       data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
-      // this.date = [new Date(new Date().getFullYear(), 0, 1), new Date()]
-    }
+    } 
     // data.append(
       //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
       // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
@@ -437,6 +461,9 @@ export class EmployeeDetailsComponent implements OnInit {
     if (this.selectedTab === "corporate" ) {
       // delete data["section"];
       delete data["section"];
+      if(this.selectedSection){
+        data["section"] = this.selectedSection;
+      }
     }
     this.apiLoader["list"] = true;
     const url = this.selectedTab !== 'corporate' ? this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data) : this.http.getUserEmployeeDetails(data)

@@ -137,7 +137,23 @@
                         </nz-option>
                         <nz-option nzValue="All" nzLabel="all">
                         </nz-option>
-                    </nz-select> -->
+                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
+              <nz-select *ngIf="selectedTab == 'corporate'"
+                  class="mx-1"
+                  [(ngModel)]="selectedSection"
+                  nzAllowClear nzShowSearch
+                  nzPlaceHolder="Select Section"
+                  style="min-width: 13rem"
+                  (ngModelChange)="getResultWithSelectedFilter($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of sectionList | keyvalue"
+                    [nzValue]="item?.value"
+                    [nzLabel]="item?.value"
+                  >
+                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
+                  </nz-option>
+            </nz-select>
             <nz-select
               class="mx-1"
               [(ngModel)]="selectedCorporate"
@@ -227,7 +243,7 @@
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td *ngIf="selectedTab == 'corporate'" > 
-                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [(ngModel)]="data.is_verified"></label> 
+                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
                   </td>
                   <td nzRight>
                     <a
@@ -347,7 +363,7 @@
               <nz-form-control
                 [nzSm]="17"
                 [nzXs]="24"
-                nzErrorTip="Please Select Valid Corporate"
+                nzErrorTip="Please Add Valid Remarks"
               >
                 <textarea
                   nz-input
@@ -996,7 +1012,7 @@
           >
             <thead>
               <tr>
-                <th  class="px-3" rowspan="2">#</th>
+                <th  class="px-3" nzWidth="5rem" rowspan="2">#</th>
                 <th
                   *ngFor="
                     let data of isViewLoader['keyContent']?.keys;
