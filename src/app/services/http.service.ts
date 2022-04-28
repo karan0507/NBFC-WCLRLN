@@ -765,7 +765,11 @@ export class HttpService {
 
       public verifyUploadedFile(id, data){
             return this._http.put((this.url + `/partner/v1/verify-corporate-upload/${id}`), data);
-            // /partner/v1/verify-corporate-upload/
+      }
+
+      public getListOfSection(){
+            return this._http.get((this.url + `/partner/v1/file-sections-list`));
+            // partner/v1/file-sections-list
       }
 
       public 

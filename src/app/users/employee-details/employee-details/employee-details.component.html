@@ -137,7 +137,23 @@
                         </nz-option>
                         <nz-option nzValue="All" nzLabel="all">
                         </nz-option>
-                    </nz-select> -->
+                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
+              <nz-select
+                  class="mx-1"
+                  [(ngModel)]="selectedSection"
+                  nzAllowClear nzShowSearch
+                  nzPlaceHolder="Select Section"
+                  style="min-width: 13rem"
+                  (ngModelChange)="getResultWithSelectedFilter($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of sectionList | keyvalue"
+                    [nzValue]="item?.value"
+                    [nzLabel]="item?.value"
+                  >
+                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
+                  </nz-option>
+            </nz-select>
             <nz-select
               class="mx-1"
               [(ngModel)]="selectedCorporate"

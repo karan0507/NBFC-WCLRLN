@@ -210,6 +210,18 @@ export class EmployeeDetailsComponent implements OnInit {
     // this.getNewJoineeList();
 
     this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    this.fetchListOfSection();
+  }
+
+  sectionList: any;
+  selectedSection: any;
+  fetchListOfSection(){
+    this.http.getListOfSection().subscribe((res: any)=>{
+      this.sectionList = res?.data
+      console.log(this.sectionList);
+    }, error=>{
+      console.log(error);
+    })
   }
 
   createUploadFileForm(data?) {
@@ -248,6 +260,7 @@ export class EmployeeDetailsComponent implements OnInit {
     // if (this.searchValue || this.selectedCorporate) {
       this.page = 1;
       this.searchValue = "";
+      this.selectedSection = null;
       this.selectedCorporate = null;
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     // }
@@ -440,6 +453,9 @@ export class EmployeeDetailsComponent implements OnInit {
     if (this.selectedTab === "corporate" ) {
       // delete data["section"];
       delete data["section"];
+      if(this.selectedSection){
+        data["section"] = this.selectedSection;
+      }
     }
     this.apiLoader["list"] = true;
     const url = this.selectedTab !== 'corporate' ? this.http.getEmployeeDetailWithEmployeeTypeAndCorporateId(data) : this.http.getUserEmployeeDetails(data)
