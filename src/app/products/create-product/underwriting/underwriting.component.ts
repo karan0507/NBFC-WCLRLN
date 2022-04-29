@@ -115,6 +115,8 @@ export class UnderwritingComponent implements OnInit {
       comparison_entities: this.fb.array([]),
       // validation_entities: this.fb.array([]),
     })
+    this.pincodes = data ? data.blacklist_pincodes : []
+    this.servicePincodes = data ? data.servicable_pincodes : []
     this.setFormData(isedit ? data.underwriting_rules : data, isedit)
     
     if (this.router.url.includes('view-product')) {

@@ -59,7 +59,7 @@
                                           <td>{{ data?.coupon_code ? data?.coupon_code : '--'}}</td>
                                           <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
                                           <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
-                                          <td>{{ data?.value ? '₹ ' + data?.value : '--'}}</td>
+                                          <td>{{ data?.value ? (data?.coupon_calculation_type == 'Variable' ? '% ' :  '₹ ' ) + data?.value : '--'}}</td>
                                           <td>
                                                 <div class="d-flex">
                                                       <label class="font-size-14">Inactive</label>
