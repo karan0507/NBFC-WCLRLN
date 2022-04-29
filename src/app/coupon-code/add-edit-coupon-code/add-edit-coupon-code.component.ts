@@ -66,7 +66,6 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
             this.api_calling_loader['listLoader'] = true;
             this.https.getCouponDetail(currentCouponId).subscribe((res: any) => {
                   if (res?.success) {
-                        this.callMultipleMasters();
                         this.couponDetail = res?.data
                         this.couponForm.get('coupon_code').setValue(this.couponDetail?.coupon_code)
                         this.couponForm.get('value').setValue(this.couponDetail?.value)
@@ -74,12 +73,13 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                         this.couponForm.get('coupon_type').setValue(this.couponDetail?.coupon_type == 'Fees waiver' ? 1 : 2)
                         this.couponForm.get('coupon_expiry').setValue(this.couponDetail?.coupon_expiry)
                         this.couponForm.get('total_coupons').setValue(this.couponDetail?.total_coupons)
-                        this.couponForm.get('partner').setValue(res?.data?.partner?.pk)
-                        this.couponForm.get('isAllPartner').setValue(res?.data?.all_partners)
-                        this.couponForm.get('master').setValue(res?.data?.master?.pk)
-                        this.couponForm.get('isAllMaster').setValue(res?.data?.all_masters)
-                        this.couponForm.get('product').setValue(res?.data?.product?.id)
-                        this.couponForm.get('product_fees').setValue(res?.data?.product_fees?.id)
+                        this.couponForm.get('isAllPartner').setValue(this.couponDetail?.all_partners == false ? false : true)
+                        this.couponForm.get('partner').setValue(this.couponDetail?.partner ? this.couponDetail?.partner?.pk : null)
+                        this.couponForm.get('isAllMaster').setValue(this.couponDetail?.all_masters == false ? false : true)
+                        this.couponForm.get('master').setValue(this.couponDetail?.master ? this.couponDetail?.master?.pk : null)
+                         this.couponForm.get('product').setValue(this.couponDetail?.product?.id)
+                         this.callMultipleMasters();
+                        this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees?.id)
                         this.api_calling_loader['listLoader'] = false;
                   }
             })
@@ -134,7 +134,7 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
             } else if (this.couponForm.get('partner').value && !this.couponForm.get('isAllPartner').value) {
                   data['partner'] = this.couponForm.get('partner').value
                   data['all_partners'] = false
-            }else{
+            } else {
                   data['all_partners'] = false
             }
 
@@ -144,7 +144,7 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
             else if (this.couponForm.get('master').value) {
                   data['master'] = this.couponForm.get('master').value
                   data['all_masters'] = false
-            }else{
+            } else {
                   data['all_masters'] = false
             }
 
@@ -166,20 +166,6 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
       }
 
       callMultipleMasters() {
-            this.https.getProducts().subscribe((res: any) => {
-                  if (res) {
-                        this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
-                  }
-            })
-
-            if (this.couponForm?.value?.product ? true : false) {
-                  this.https.getProductWiseFees(this.couponForm.get('product').value).subscribe((res: any) => {
-                        if (res) {
-                              this.productFeesList = res?.data?.filter(res => { if (res?.name) { return res } });
-                        }
-                  })
-
-            }
 
 
             this.https.fetchMasterPartner().subscribe((res: any) => {
@@ -195,12 +181,28 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                         }
                   })
             )
+
+            this.https.getProducts().subscribe((res: any) => {
+                  if (res) {
+                        this.productList = res?.data?.filter(res => { if (res?.name) { return res } });
+                  }
+            })
+console.log(this.couponForm?.value?.product);
+
+            if (this.couponForm?.value?.product ? true : false) {
+                  this.https.getProductWiseFees(this.couponForm.get('product').value).subscribe((res: any) => {
+                        if (res) {
+                              this.productFeesList = res?.data?.filter(res => { if (res?.name) { return res } });
+                        }
+                  })
+
+            }
       }
 
       checkIfAll(type) {
             if (type == 'partner') {
                   this.couponForm.controls['partner'].reset()
-            }else if(type == 'master'){
+            } else if (type == 'master') {
                   this.couponForm.controls['master'].reset()
             }
       }
