@@ -74,12 +74,12 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
                         this.couponForm.get('coupon_type').setValue(this.couponDetail?.coupon_type == 'Fees waiver' ? 1 : 2)
                         this.couponForm.get('coupon_expiry').setValue(this.couponDetail?.coupon_expiry)
                         this.couponForm.get('total_coupons').setValue(this.couponDetail?.total_coupons)
-                        this.couponForm.get('partner').setValue(this.couponDetail?.partner ? this.couponDetail?.partner.id : null)
-                        this.couponForm.get('isAllPartner').setValue(this.couponDetail?.all_partners ? true : false)
-                        this.couponForm.get('master').setValue(this.couponDetail?.master ? this.couponDetail?.master?.id : null)
-                        this.couponForm.get('isAllMaster').setValue(this.couponDetail?.all_masters ? true : false)
-                        this.couponForm.get('product').setValue(this.couponDetail?.product ? this.couponDetail?.product?.id : null)
-                        this.couponForm.get('product_fees').setValue(this.couponDetail?.product_fees ? this.couponDetail?.product_fees?.id : null)
+                        this.couponForm.get('partner').setValue(res?.data?.partner?.pk)
+                        this.couponForm.get('isAllPartner').setValue(res?.data?.all_partners)
+                        this.couponForm.get('master').setValue(res?.data?.master?.pk)
+                        this.couponForm.get('isAllMaster').setValue(res?.data?.all_masters)
+                        this.couponForm.get('product').setValue(res?.data?.product?.id)
+                        this.couponForm.get('product_fees').setValue(res?.data?.product_fees?.id)
                         this.api_calling_loader['listLoader'] = false;
                   }
             })
@@ -133,6 +133,9 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
 
             } else if (this.couponForm.get('partner').value && !this.couponForm.get('isAllPartner').value) {
                   data['partner'] = this.couponForm.get('partner').value
+                  data['all_partners'] = false
+            }else{
+                  data['all_partners'] = false
             }
 
             if (this.couponForm.get('isAllMaster').value) {
@@ -140,7 +143,11 @@ export class AddEditCouponCodeComponent implements OnInit, OnDestroy {
             }
             else if (this.couponForm.get('master').value) {
                   data['master'] = this.couponForm.get('master').value
+                  data['all_masters'] = false
+            }else{
+                  data['all_masters'] = false
             }
+
 
             if (this.couponForm.get('product').value) {
                   data['product'] = this.couponForm.get('product').value
