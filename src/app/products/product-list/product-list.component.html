@@ -163,8 +163,8 @@
                                         <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">View</span>
                                         </li> 
-                                        <li nz-menu-item [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
-                                            <span class="m-l-5" *ngxPermissionsOnly="['edit_product']">Edit</span>
+                                        <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">Edit</span>
                                         </li> 
                                         <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
                                         nzPopconfirmPlacement="topLeft"

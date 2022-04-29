@@ -1,3 +1,6 @@
+<div class="header_breadcrumb_section" *ngxPermissionsOnly="['edit_product']">
+    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['../edit-product']" [queryParams]="{id: product_id}">Edit Product</button>
+</div>
 <section>
     <nz-card nzTitle="Product Details" [nzLoading]="isLoading">
         <div class="row">
@@ -91,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
                         Updated by :
@@ -100,10 +103,10 @@
                         {{productDetails?.updated_by ? productDetails?.updated_by.first_name : '-'}}
                     </div>
                 </div>
-            </div>
+            </div> -->
             <h5 class="w-100" *ngIf="productDetails?.tenures[0]">EMI Tenures</h5>
             <ng-container *ngFor="let item of productDetails?.tenures; index as i">
-                <h5 class="w-100">Tenure {{i+1}} </h5>
+                <h5 class="w-100 ml-2">Tenure {{i+1}} </h5>
                 <div class="col-md-6 mb-3">
                     <div class="row">
                         <div class="col-md-4 font-weight-semibold">
@@ -162,8 +165,11 @@
 </section>
 <section>
     <nz-card nzTitle="Masters" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.master_commitments[0]">
+            No Records found.
+        </div>
         <div class="row" *ngFor="let master_item of productDetails?.master_commitments; index as k">
-            <h5 class="w-100">Master {{k+1}} :</h5>
+            <h5 class="w-100 ml-2">Master {{k+1}} :</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -194,9 +200,9 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Slabs</h5>
+            <h5 class="w-100 ml-2">Slabs</h5>
             <ng-container *ngFor="let item of master_item?.slabs; index as i">
-                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <h5 class="w-100 ml-2">Slab {{i+1}} :</h5>
                 <div class="col-md-12 mb-3">
                     <div class="row">
                         <div class="col-md-2 font-weight-semibold">
@@ -253,8 +259,11 @@
 </section>
 <section>
     <nz-card nzTitle="Partners" [nzLoading]="isLoading">
+        <div *ngIf="!productDetails?.partner_commitments[0]">
+            No Records found.
+        </div>
         <div class="row" *ngFor="let master_item of productDetails?.partner_commitments; index as k">
-            <h5 class="w-100">Partner {{k+1}} :</h5>
+            <h5 class="w-100 ml-2">Partner {{k+1}} :</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -288,9 +297,9 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Slabs</h5>
+            <h5 class="w-100 ml-2">Slabs</h5>
             <ng-container *ngFor="let item of master_item?.slabs; index as i">
-                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <h5 class="w-100 ml-2">Slab {{i+1}} :</h5>
                 <div class="col-md-12 mb-3">
                     <div class="row">
                         <div class="col-md-2 font-weight-semibold">
@@ -378,7 +387,7 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Disbursement </h5>
+            <h5 class="w-100 ml-2">Disbursement </h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -399,7 +408,7 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Interest</h5>
+            <h5 class="w-100 ml-2">Interest</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -420,7 +429,7 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Limit</h5>
+            <h5 class="w-100 ml-2">Limit</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -450,7 +459,7 @@
             No Records found.
         </div>
         <div class="row" *ngFor="let item of productDetails?.product_nbfcs; index as i">
-            <h5 class="w-100">Priority {{i+1}}</h5>
+            <h5 class="w-100 ml-2">Priority {{i+1}}</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -522,7 +531,7 @@
         </div>
         
         <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
-            <h5 class="w-100">Validation Required for</h5>
+            <h5 class="w-100 ml-2">Validation Required for</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.validation_entities">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -537,7 +546,7 @@
         </div>
 
         <div class="row" *ngIf="productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
-            <h5 class="w-100">Comparison Entities</h5>
+            <h5 class="w-100 ml-2">Comparison Entities</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_underwriting?.underwriting_rules?.comparison_entities">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -590,7 +599,7 @@
             </div>
         </div> -->
         <div class="row">
-            <h5 class="w-100">Validation rule</h5>
+            <h5 class="w-100 ml-2">Validation rule</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -614,7 +623,7 @@
             </div>
         </div>
         <div class="row" *ngIf="productDetails?.product_onboarding?.third_party_calls[0]">
-            <h5 class="w-100">Third party API call</h5>
+            <h5 class="w-100 ml-2">Third party API call</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_onboarding?.third_party_calls">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -627,7 +636,7 @@
             </div>
         </div>
         <div class="row" *ngIf="productDetails?.product_onboarding?.document_rules[0]">
-            <h5 class="w-100">Validation Required for Document Upload</h5>
+            <h5 class="w-100 ml-2">Validation Required for Document Upload</h5>
             <div class="col-md-6 mb-3" *ngFor="let item of productDetails?.product_onboarding?.document_rules">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -647,7 +656,7 @@
             NO fees Found.
         </div>
         <div class="row" *ngFor="let item of productDetails?.product_fees; index as i">
-            <h5 class="w-100">Type {{i+1}}</h5>
+            <h5 class="w-100 ml-2">Type {{i+1}}</h5>
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-md-4 font-weight-semibold">
@@ -708,9 +717,9 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100">Slabs</h5>
+            <h5 class="w-100 ml-2">Slabs</h5>
             <ng-container *ngFor="let item of item?.slabs; index as i">
-                <h5 class="w-100">Slab {{i+1}} :</h5>
+                <h5 class="w-100 ml-2">Slab {{i+1}} :</h5>
                 <div class="col-md-6 mb-3">
                     <div class="row">
                         <div class="col-md-4 font-weight-semibold">

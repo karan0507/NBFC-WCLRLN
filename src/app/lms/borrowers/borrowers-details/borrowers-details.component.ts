@@ -439,6 +439,8 @@ export class BorrowersDetailsComponent implements OnInit {
       this.is_set_amt = false
       this.message.success(res['message'])
       this.fetchTransactionTxnList()
+      this.fetchTransactionFessList();
+      this.fetchBorrowerList();
     }, (err) => {
       this.is_revese_loading = false
     })
