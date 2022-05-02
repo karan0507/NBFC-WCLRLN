@@ -86,6 +86,8 @@ export class MasterPartnersListComponent implements OnInit {
   }
 
   onClickChangeTab(e){
+    this.page = 1
+    this.globalPageSize = 30
     this.selectedTab = e;
     this.getMasterPartner();
   }
