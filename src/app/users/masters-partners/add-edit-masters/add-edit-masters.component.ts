@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { saveAs } from 'file-saver';
 import * as FileSaver from 'file-saver'
 import { NzImageService } from "ng-zorro-antd/image";
+import { DomSanitizer } from '@angular/platform-browser';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
         new Promise((resolve, reject) => {
@@ -42,9 +43,14 @@ export class AddEditMastersComponent implements OnInit {
     'saveAddNew': false,
     'nature': false,
   } 
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
   debounce: any;
 
-  constructor(private fb: FormBuilder,private router: Router, private http: HttpService,
+  constructor(private fb: FormBuilder,private router: Router, private http: HttpService,private sanitized: DomSanitizer, 
      private route: ActivatedRoute, private message: NzMessageService, private nzImageService: NzImageService ) {
     this.getListOfDocumentRequired();
   }
@@ -431,6 +437,8 @@ export class AddEditMastersComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
+    this.pdf_viewer_object_values['boolean'] = false
+    this.pdf_viewer_object_values['url'] = ''
   }
   // this.fb.array([])
  
@@ -753,6 +761,7 @@ export class AddEditMastersComponent implements OnInit {
     // console.log(e + '  ' + this.addEditProductForm.controls.document_data['controls'][index].document_master)
   }
 
+  sanatizeUrlToSafe
   async onClickShowUploadedDocument(e, action?) {
     // if (e?.value?.documents?.uid) {
     //   let doc = await getBase64(e?.value?.documents);
@@ -777,75 +786,83 @@ export class AddEditMastersComponent implements OnInit {
     //   this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     // }
 
-    const images = [];
-    if(action == 'documents'){
-      if (e?.value?.documents?.uid) {
-        let doc = await getBase64(e?.value?.documents);
-        const img = {
-          src: doc,
-          width: "600px",
-          height: "400px",
-          alt: "ng-zorro",
-        };
-        images.push(img);
-        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-    const img = {
-      src: e?.value?.documents,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-  }
-    } else if(action == 'documents_front'){
-      if (e?.value?.documents_front?.uid) {
-        let doc = await getBase64(e?.value?.documents_front);
-        // const images = [];
-        const img = {
-          src: doc,
-          width: "600px",
-          height: "400px",
-          alt: "ng-zorro",
-        };
-        images.push(img);
-        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-      // const images = [];
-    const img = {
-      src: e?.value?.documents_front,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-  }
-    } else if(action == 'documents_back'){
-      if (e?.value?.documents_back?.uid) {
-        let doc = await getBase64(e?.value?.documents_back);
-        // const images = [];
-        const img = {
-          src: doc,
-          width: "600px",
-          height: "400px",
-          alt: "ng-zorro",
-        };
-        images.push(img);
-        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-      // const images = [];
-    const img = {
-      src: e?.value?.documents_back,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-    }
-  }
+    if(e?.value?.id){
+      this.pdf_viewer_object_values['boolean'] = true;
+      this.pdf_viewer_object_values['title'] = 'Showing ' + e?.value?.label_name
+      this.pdf_viewer_object_values['url'] = e?.value?.documents
+      this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+      console.log(e);
+    } else {
+          const images = [];
+          if(action == 'documents'){
+            if (e?.value?.documents?.uid) {
+              let doc = await getBase64(e?.value?.documents);
+              const img = {
+                src: doc,
+                width: "600px",
+                height: "400px",
+                alt: "ng-zorro",
+              };
+              images.push(img);
+              this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+            } else {
+          const img = {
+            src: e?.value?.documents,
+            width: "600px",
+            height: "400px",
+            alt: "ng-zorro",
+          };
+          images.push(img);
+          this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+        }
+          } else if(action == 'documents_front'){
+            if (e?.value?.documents_front?.uid) {
+              let doc = await getBase64(e?.value?.documents_front);
+              // const images = [];
+              const img = {
+                src: doc,
+                width: "600px",
+                height: "400px",
+                alt: "ng-zorro",
+              };
+              images.push(img);
+              this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+            } else {
+            // const images = [];
+          const img = {
+            src: e?.value?.documents_front,
+            width: "600px",
+            height: "400px",
+            alt: "ng-zorro",
+          };
+          images.push(img);
+          this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+        }
+          } else if(action == 'documents_back'){
+            if (e?.value?.documents_back?.uid) {
+              let doc = await getBase64(e?.value?.documents_back);
+              // const images = [];
+              const img = {
+                src: doc,
+                width: "600px",
+                height: "400px",
+                alt: "ng-zorro",
+              };
+              images.push(img);
+              this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+            } else {
+            // const images = [];
+          const img = {
+            src: e?.value?.documents_back,
+            width: "600px",
+            height: "400px",
+            alt: "ng-zorro",
+          };
+          images.push(img);
+          this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+          }
+        }
+}
   }
   
   // onClickShowUploadedDocument(e){

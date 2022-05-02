@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import * as FileSaver from 'file-saver'
 import { saveAs } from 'file-saver';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
         new Promise((resolve, reject) => {
@@ -39,8 +40,13 @@ export class AddEditDsaComponent {
   } 
   debounce: any;
   listOfMasterPartner: any;
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
 
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute,
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private route: ActivatedRoute,  private sanitized: DomSanitizer,
      private message: NzMessageService, private nzImageService: NzImageService ) {
     this.getListOfDocumentRequired();
   }
@@ -106,7 +112,16 @@ export class AddEditDsaComponent {
   //     FileSaver.saveAs(data,  `${e?.value?.document_name}`); 
   //   }
   // }
+
+  sanatizeUrlToSafe
   async onClickShowUploadedDocument(e, action?) {
+    if(e?.value?.id){
+      this.pdf_viewer_object_values['boolean'] = true;
+      this.pdf_viewer_object_values['title'] = 'Showing ' + e?.value?.label_name
+      this.pdf_viewer_object_values['url'] = e?.value?.documents
+      this.sanatizeUrlToSafe =  this.sanitized.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+      console.log(e);
+    } else {
     // if (e?.value?.documents?.uid) {
     //   let doc = await getBase64(e?.value?.documents);
     //   const images = [];
@@ -129,76 +144,78 @@ export class AddEditDsaComponent {
     //   images.push(img);
     //   this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
     // }
-    const images = [];
-    if(action == 'documents'){
-      if (e?.value?.documents?.uid) {
-        let doc = await getBase64(e?.value?.documents);
+        const images = [];
+        if(action == 'documents'){
+          if (e?.value?.documents?.uid) {
+            let doc = await getBase64(e?.value?.documents);
+            const img = {
+              src: doc,
+              width: "600px",
+              height: "400px",
+              alt: "ng-zorro",
+            };
+            images.push(img);
+            this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+          } else {
         const img = {
-          src: doc,
+          src: e?.value?.documents,
           width: "600px",
           height: "400px",
           alt: "ng-zorro",
         };
         images.push(img);
         this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-    const img = {
-      src: e?.value?.documents,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-  }
-    } else if(action == 'documents_front'){
-      if (e?.value?.documents_front?.uid) {
-        let doc = await getBase64(e?.value?.documents_front);
-        // const images = [];
+      }
+        } else if(action == 'documents_front'){
+          if (e?.value?.documents_front?.uid) {
+            let doc = await getBase64(e?.value?.documents_front);
+            // const images = [];
+            const img = {
+              src: doc,
+              width: "600px",
+              height: "400px",
+              alt: "ng-zorro",
+            };
+            images.push(img);
+            this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+          } else {
+          // const images = [];
         const img = {
-          src: doc,
+          src: e?.value?.documents_front,
           width: "600px",
           height: "400px",
           alt: "ng-zorro",
         };
         images.push(img);
         this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-      // const images = [];
-    const img = {
-      src: e?.value?.documents_front,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-  }
-    } else if(action == 'documents_back'){
-      if (e?.value?.documents_back?.uid) {
-        let doc = await getBase64(e?.value?.documents_back);
-        // const images = [];
+      }
+        } else if(action == 'documents_back'){
+          if (e?.value?.documents_back?.uid) {
+            let doc = await getBase64(e?.value?.documents_back);
+            // const images = [];
+            const img = {
+              src: doc,
+              width: "600px",
+              height: "400px",
+              alt: "ng-zorro",
+            };
+            images.push(img);
+            this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+          } else {
+          // const images = [];
         const img = {
-          src: doc,
+          src: e?.value?.documents_back,
           width: "600px",
           height: "400px",
           alt: "ng-zorro",
         };
         images.push(img);
         this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-      } else {
-      // const images = [];
-    const img = {
-      src: e?.value?.documents_back,
-      width: "600px",
-      height: "400px",
-      alt: "ng-zorro",
-    };
-    images.push(img);
-    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
-    }
+        }
+      }
+      
   }
-  }
+}
 
   getListOfMasterPartner(action?){
     let data = {
@@ -494,6 +511,8 @@ export class AddEditDsaComponent {
 
   handleCancel(): void {
     this.isVisible = false;
+    this.pdf_viewer_object_values['boolean'] = false;
+    this.pdf_viewer_object_values['url'] = ''
   }
   // this.fb.array([])
  
