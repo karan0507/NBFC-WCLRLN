@@ -120,8 +120,12 @@ export class QuickViewComponent {
         }
         if (this.changePasswordForm.value.old_password && this.changePasswordForm.value.new_password && this.changePasswordForm.value.retype_password) {
           this.http.changePassword(this.changePasswordForm.value).subscribe(res => {
-            this.isChangePassword = false
-            this.message.success(res['message'])
+            if (res['success']) {
+              this.isChangePassword = false
+              this.message.success(res['message'])
+            } else {
+              this.message.error(res['message'])
+            }
           })
         }
       }
