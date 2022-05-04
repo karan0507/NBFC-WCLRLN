@@ -190,7 +190,7 @@
                               class="mr-2" (click)="resetFilter2()">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-range-picker [(ngModel)]="date2" (ngModelChange)="fetchTransactionTxnList()">
+                        <nz-range-picker [(ngModel)]="date1" (ngModelChange)="fetchTransactionTxnList()">
                         </nz-range-picker>
                         <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType2" (ngModelChange)="fetchTransactionTxnList()" nzAllowClear
                     nzPlaceHolder="Filter By Type">
@@ -533,7 +533,7 @@
 </nz-modal>
 
 <!-- Account Closure -->
-<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosure" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosure" [nzFooter]="null" (nzOnCancel)="isAcClosure = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup [title]="'Do you want to close account permanently?'"
                   [subTitle]="'This action is irreversible. Are You Sure? '" [icon]="'assets/images/accloser.png'"
@@ -543,7 +543,7 @@
       </ng-container>
 </nz-modal>
 <!-- Account Closure Error -->
-<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosureError" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="400" [(nzVisible)]="isAcClosureError" [nzFooter]="null" (nzOnCancel)="isAcClosureError = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup
                   [title]="'The user still has pending dues, therefore this A/C cannot be closed. '" [subTitle]="''"
@@ -553,7 +553,7 @@
       </ng-container>
 </nz-modal>
 <!-- Reverse Charges -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges"  [nzFooter]="!is_set_amt ? modalFooter101 : null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges"  [nzFooter]="!is_set_amt ? modalFooter101 : null" (nzOnCancel)="isReverseCharges = false; is_set_amt = false">
       <ng-container *nzModalContent>
           <app-double-confirmation-popup *ngIf="is_set_amt"
               [title]="'Do you want to reverse the applied charges?'"
@@ -596,7 +596,7 @@
       </ng-template>
   </nz-modal>
 <!-- Refund Transaction -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" (nzOnCancel)="isRefundTransaction = false">
       <ng-container *nzModalContent>
             <!-- Amount to be refunded - ₹100 <br/>  -->
             <app-double-confirmation-popup [title]="'Do you want to refund this transaction amount to users account?'"
@@ -607,7 +607,7 @@
       </ng-container>
 </nz-modal>
 
-<nz-modal [nzWidth]="500" [(nzVisible)]="isPullSMSCibilPopup" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isPullSMSCibilPopup" [nzFooter]="null" (nzOnCancel)="isPullSMSCibilPopup = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup *ngIf="isPullCibil" [title]="'Are you sure you want to pull Cibil
                             data from the third party?'" [subTitle]="''" [icon]="''"
@@ -642,7 +642,7 @@
 </nz-modal>
 
 <!-- Waive off Charges  -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" (nzOnCancel)="isWaiveOff = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup [title]="'You are about to delete an employee detail'"
                   [subTitle]="'This action will delete the details permanently. <br/> Are You Sure?'"

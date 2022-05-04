@@ -77,14 +77,8 @@
                         <td>₹ {{data.outstanding_amount}}</td>
                         <td>₹ {{data.fees_or_charges_amount}}</td>
                         <td>
-                            <nz-tag nzColor="green" *ngIf="!data?.is_blocked">
-                                <i nz-icon nzType="check-circle"></i>
-                                <span>Active</span>
-                            </nz-tag>
-                            <nz-tag nzColor="red" *ngIf="data?.is_blocked">
-                                <i nz-icon nzType="close-circle"></i>
-                                <span>Block</span>
-                            </nz-tag>
+                            <span *ngIf="!data?.is_blocked">Active</span>
+                            <span *ngIf="data?.is_blocked">Block</span>
                         </td>
                         <td>
                             {{data?.account_status}}
@@ -98,14 +92,8 @@
                               </nz-tag> -->
                         </td>
                         <td>
-                            <nz-tag nzColor="green" *ngIf="!data?.is_user_blocked">
-                                <i nz-icon nzType="check-circle"></i>
-                                <span>Active</span>
-                              </nz-tag>
-                              <nz-tag nzColor="orange" *ngIf="data?.is_user_blocked">
-                                <i nz-icon nzType="close-circle"></i>
-                                <span>Inactive</span>
-                              </nz-tag>
+                            <span *ngIf="!data?.is_user_blocked">Active</span>
+                            <span *ngIf="data?.is_user_blocked">Block</span>
                         </td>
                         <td nzRight>
                             <div>
