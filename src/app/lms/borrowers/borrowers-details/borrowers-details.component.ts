@@ -300,8 +300,8 @@ export class BorrowersDetailsComponent implements OnInit {
       page: this.page2,
       limit: this.globalPageSize2,
       txn_status: this.selectedStatus2 ? this.selectedStatus2 : '',
-      start_date: this.date2[0] ? moment(this.date2[0]).format("YYYY-MM-DD") : '',
-      end_date: this.date2[1] ? moment(this.date2[1]).format("YYYY-MM-DD") : '',
+      start_date: this.date1[0] ? moment(this.date1[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date1[1] ? moment(this.date1[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue2,
       transaction_type: 'transactions_and_repayments'
     }
@@ -329,8 +329,8 @@ export class BorrowersDetailsComponent implements OnInit {
       page: this.page1,
       limit: this.globalPageSize1,
       txn_status: this.selectedStatus1 ? this.selectedStatus1 : '',
-      start_date: this.date1[0] ? moment(this.date1[0]).format("YYYY-MM-DD") : '',
-      end_date: this.date1[1] ? moment(this.date1[1]).format("YYYY-MM-DD") : '',
+      start_date: this.date2[0] ? moment(this.date2[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date2[1] ? moment(this.date2[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue1,
       transaction_type: 'Fees Charge'
     }

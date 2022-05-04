@@ -76,6 +76,72 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="due_days" class="text-left">Due Date</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                            <nz-select formControlName="due_days" nzPlaceHolder="Select Due Date">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
+                                    [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                
+                <div class="col-md-12">
+                    <ng-container *ngFor="let item of get_nachArr(createEditForm); let k = index;">
+                        <div formArrayName="nach_date_time_mappings">
+                            <div class="row" [formGroupName]="k">
+                                <div class="col-md-6">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="day_of_month" class="text-left">Day
+                                            Of Months
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                                            <nz-select formControlName="day_of_month" nzPlaceHolder="Select Valid Day">
+                                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
+                                                    [nzLabel]="item.id">
+                                                </nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-4">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date_time" class="text-left">
+                                            Nach Time</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24"
+                                            nzErrorTip="Please Select Valid Date & Time!">
+                                            <nz-time-picker
+                                                [nzDefaultOpenValue]="defaultOpenValue" formControlName="time_of_day">
+                                            </nz-time-picker>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-2 pl-0 mt-2">
+                                    <i (click)='deleteNachByKey(k)' nz-icon nzType="delete" nzTheme="outline"
+                                        style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="row no-gutters">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button nz-button nzType="link" class="mb-2"
+                                *ngIf="createEditForm.get('nach_date_time_mappings')?.controls.length != 0"
+                                [disabled]="!createEditForm.get('nach_date_time_mappings')?.controls[indexOfLatestNach - 1]?.controls?.day_of_month.value || !createEditForm.controls.nach_date_time_mappings?.controls[indexOfLatestNach - 1]?.controls?.time_of_day.value"
+                                (click)="addNach()">+Add Nach</button>
+                            <button nz-button nzType="link" class="mb-2"
+                                *ngIf="createEditForm.get('nach_date_time_mappings')?.controls.length == 0"
+                                (click)="addNach()">+Add
+                                Nach</button>
+                            <!-- <button nz-button nzType="link" *ngIf="createEditForm.controls.nach_date_time_mappings?.controls.length == 0"
+                                    class="pl-0" (click)="addNach()">+Add Nach</button> -->
+                        </div>
+                    </div>
+                </div>
                 <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="remarks" class="text-left">Remarks</nz-form-label>
