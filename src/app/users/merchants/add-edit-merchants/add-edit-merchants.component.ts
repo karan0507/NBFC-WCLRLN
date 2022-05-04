@@ -66,6 +66,7 @@ export class AddEditMerchantsComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
+    this.addAdditionalUPI()
   }
 
   getListOfMasterPartner(action?) {
@@ -911,7 +912,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
   public addSlabControlsUPI(data): FormGroup {
     return this.fb.group({
-      upi_id: ['', []],
+      upi_id: [data ? data?.id : null],
     });
   }
 
