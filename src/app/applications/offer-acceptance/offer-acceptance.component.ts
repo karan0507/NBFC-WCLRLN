@@ -80,6 +80,7 @@ export class OfferAcceptanceComponent implements OnInit {
       partner : any
       partnerList : any = []
       blackBoxData: any;
+      remarksDescription: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -257,7 +258,7 @@ export class OfferAcceptanceComponent implements OnInit {
                                     this.offerForm.get('interest').setValue(res?.data?.interest);
 
                               } else {
-                                    this.message.error(res?.error)
+                                    this.message.error(res?.message)
                                     this.api_calling_loader['accordian'] = false;
 
                               }
@@ -290,7 +291,7 @@ export class OfferAcceptanceComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this.api_calling_loader['button'] = true
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status','remarks':this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList)};
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     this.api_calling_loader['button'] = false

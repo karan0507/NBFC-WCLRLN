@@ -270,7 +270,7 @@ export class DisbursementComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this.api_calling_loader['button'] = true
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status','remarks':this.remarks, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList)};
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     console.log('res');

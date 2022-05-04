@@ -201,6 +201,7 @@
                   <th nzWidth="13rem">Added on</th>
                   <th>Added By</th>
                   <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
+                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Section</th>
                   <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Verify</th>
                   <th nzWidth="14rem" nzRight>Actions</th>
                 </tr>
@@ -242,6 +243,7 @@
                     </div>
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
+                  <td *ngIf="selectedTab == 'corporate'">{{ data?.section ? data?.section : " " }}</td>
                   <td *ngIf="selectedTab == 'corporate'" > 
                     <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
                   </td>
@@ -423,10 +425,11 @@
             [nzLoading]="apiLoader['previewList']"
             [nzFrontPagination]="false"
             [nzShowSizeChanger]="true"
-            [nzScroll]="{x: '9200px', y: '55vh'}"
+            [nzScroll]=" {x: returnPixel('', retrievedFileResponseKey), y: '55vh'}"
             [nzData]="retrievedFileResponse"
           >
-            <!-- <thead>
+          <!-- [nzScroll]="{x: '9200px', y: '55vh'}" -->
+            <!-- <thead> 
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th *ngFor="let data of retrievedFileResponseKey; index as i">{{data}}</th>
@@ -969,9 +972,10 @@
             [nzLoading]="isViewLoader['isVisible']"
             nzFrontPagination="false"
             nzShowSizeChanger="false"
-            [nzScroll]="{x: '9000px', y: '55vh'}"
+            [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}"
             [nzData]="isViewLoader['viewContent']"
           >
+          <!-- [nzScroll]="{x: '9000px', y: '55vh'}" -->
           <thead>
             <tr>
               <ng-container  *ngFor="let data of isViewLoader['keyContent']?.keys; index as i">
@@ -1007,7 +1011,7 @@
             [nzLoading]="isViewLoader['isVisible']"
             nzFrontPagination="false"
             nzShowSizeChanger="false"
-            [nzScroll]="{x: '800px', y: '55vh'}"
+            [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}"
             [nzData]="isViewLoader['viewContent']"
           >
             <thead>
@@ -1048,7 +1052,7 @@
             [nzLoading]="isViewLoader['isVisible']"
             nzFrontPagination="false"
             nzShowSizeChanger="false"
-            [nzScroll]="{x: '800px', y: '55vh'}"
+            [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}"
             [nzData]="isViewLoader['viewContent']"
           >
             <thead>
@@ -1056,7 +1060,7 @@
                 <th class="px-3" rowspan="2">#</th>
                 <th
                   *ngFor="
-                    let data of isViewLoader['keyContent']?.keys                                                                              ;
+                    let data of isViewLoader['keyContent']?.keys;
                     index as i
                   "                                                                         
                 >

@@ -78,6 +78,7 @@ export class StageTriggersComponent implements OnInit {
       partner : any
       partnerList : any = []
       blackBoxData: any;
+      remarksDescription: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -267,7 +268,7 @@ export class StageTriggersComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this.api_calling_loader['button'] = true;
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList), remarks: this.remarks };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks':this.remarksDescription,stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList)};
                         this.https.updateMultipleLoanApp(data).subscribe((res :any )=> {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false;
