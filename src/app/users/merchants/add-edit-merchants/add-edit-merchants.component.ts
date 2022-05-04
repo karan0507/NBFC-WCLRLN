@@ -101,7 +101,8 @@ export class AddEditMerchantsComponent implements OnInit {
         }
       }
     }
-    this.setFormData(data)
+    this.setFormData(data);
+    this.setUpiFormData(data)
   }
 
   setFormData(data) {
@@ -641,9 +642,7 @@ export class AddEditMerchantsComponent implements OnInit {
             sendDate[i].forEach(element => {
               this.upiData.push(element?.upi_id)
             });
-            console.log(this.upiData);
-            return
-            data.append(i, JSON.stringify(sendDate[i]))
+            data.append(i, this.upiData)
           } else {
             if (sendDate[i]) {
               data.append(i, sendDate[i])
@@ -721,9 +720,7 @@ export class AddEditMerchantsComponent implements OnInit {
             sendDate[i].forEach(element => {
               this.upiData.push(element?.upi_id)
             });
-            console.log(this.upiData);
-            return
-            data.append(i, JSON.stringify(sendDate[i]))
+            data.append(i, JSON.stringify(this.upiData))
           }else {
             if (sendDate[i]) {
               data.append(i, sendDate[i])
@@ -903,15 +900,15 @@ export class AddEditMerchantsComponent implements OnInit {
   // }
 
   setUpiFormData(data) {
+
+    console.log(data['upis']);
     if (data) {
-      data.forEach(element => {
+      
+      data['upis']?.forEach(element => {
         this.addAdditionalUPI(element)
       });
     } else {
       this.addAdditionalUPI()
-      // this.addNbfcs_arr()
-      // this.addNbfcs_arr()
-      // this.addNbfcs_arr()
     }
   }
 
@@ -925,7 +922,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
   public addSlabControlsUPI(data?): FormGroup {
     return this.fb.group({
-      upi_id: [''],
+      upi_id: [data ? data : ''],
     });
   }
 
