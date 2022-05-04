@@ -1,8 +1,9 @@
 <nz-card class="p-0 border-0" [nzLoading]="api_calling_loader['cardData']">
       <section *ngIf="cibilData">
-            <pre>
+            <!-- <pre>
                         {{ cibilData ? (cibilData | json ) : ''}}
-            </pre>
+            </pre> -->
+            <ngx-json-viewer [json]="cibilData"></ngx-json-viewer>
       </section>
       <section *ngIf="!cibilData">
            <h6> No Data Found</h6>
