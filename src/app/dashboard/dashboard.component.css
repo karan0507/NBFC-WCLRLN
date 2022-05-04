@@ -33,11 +33,12 @@
    align-items: center;   
    top: 140px;
    font-size: 12px; */
-   position: relative;
+   position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 127px;
+    /* top: 127px; */
+    height: 100%;
     font-size: 14px;
     left: 4px;
 }

@@ -50,6 +50,7 @@ export class AddEditMerchantsComponent implements OnInit {
   ngOnInit(): void {
     this.getListOfMasterPartner();
     this.createMasterProductForm();
+    // this.addAdditionalUPI();
 
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
@@ -66,7 +67,6 @@ export class AddEditMerchantsComponent implements OnInit {
         // this.getListOfDocumentRequired();
       }
     });
-    this.addAdditionalUPI()
   }
 
   getListOfMasterPartner(action?) {
@@ -546,6 +546,21 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   onClickSubmitForm() {
+    console.log(this.addEditProductForm.value);
+
+    // karan plz refer this code
+    const upis = this.addEditProductForm.value.upis;
+    const val = []
+    upis.forEach((value, key) => {
+      val.push(value?.upi_id);
+    });
+    this.addEditProductForm.patchValue({'upis': upis});
+      
+    
+    console.log('Testings...');
+    console.log(val);
+    console.log(this.addEditProductForm.value);
+    // return;
     const saveDoc = [];
     for (const i in this.addEditProductForm.controls) {
       this.addEditProductForm.controls[i].markAsDirty();
@@ -905,10 +920,10 @@ export class AddEditMerchantsComponent implements OnInit {
   }
 
   get upis(): FormArray {
-    return <FormArray>this.addEditProductForm.get('upis');
+    return this.addEditProductForm.get('upis')  as FormArray;
   }
 
-  public addSlabControlsUPI(data): FormGroup {
+  public addSlabControlsUPI(data?): FormGroup {
     return this.fb.group({
       upi_id: [''],
     });
