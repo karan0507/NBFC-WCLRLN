@@ -63,6 +63,7 @@ export class AddEditMerchantsComponent implements OnInit {
       } else {
         // this.masterParnerPayout = null
         this.isEdit = false
+        this.addAdditionalUPI();
         // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
@@ -900,10 +901,7 @@ export class AddEditMerchantsComponent implements OnInit {
   // }
 
   setUpiFormData(data) {
-
-    console.log(data['upis']);
     if (data) {
-      
       data['upis']?.forEach(element => {
         this.addAdditionalUPI(element)
       });
