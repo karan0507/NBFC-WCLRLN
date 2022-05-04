@@ -823,7 +823,7 @@
 </ng-template>
 <!-- Modal Section -->
 <section>
-      <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+      <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
             <section *ngIf="_isStatus">
                   <div class="row">
