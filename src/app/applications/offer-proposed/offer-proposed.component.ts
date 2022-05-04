@@ -258,7 +258,7 @@ export class OfferProposedComponent implements OnInit {
                                     this.offerForm.get('validitiy').patchValue(res?.data?.validity);
                                     this.offerForm.get('interest').patchValue(res?.data?.interest);
                               } else {
-                                    this.message.error(res?.error)
+                                    this.message.error(res?.message)
                                     this.api_calling_loader['accordian'] = false;
 
                               }
