@@ -75,10 +75,8 @@ export class AddEditMerchantsComponent implements OnInit {
       'limit': 30
     }
     this.http.fetchMasterPartner(data).subscribe((res: any) => {
-      console.log(res);
       this.listOfMasterPartner = res?.data?.results
     }, err => {
-      console.log(err)
     })
   }
 
@@ -97,7 +95,7 @@ export class AddEditMerchantsComponent implements OnInit {
       if (i == 'partner_master' || i == 'state') {
         data[i] = data[i]?.id;
       }
-      if (i != 'document_data') {
+      if (i != 'document_data' && i != 'upis') {
         if (data[i]) {
           this.addEditProductForm.controls[i].setValue(data[i], { emitEvent: false });
         }
@@ -912,7 +910,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
   public addSlabControlsUPI(data): FormGroup {
     return this.fb.group({
-      upi_id: [data ? data?.id : null],
+      upi_id: [''],
     });
   }
 
