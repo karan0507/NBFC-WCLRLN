@@ -75,6 +75,7 @@
                                     <th>Reference Id</th>
                                     <th>Latest Action Performed By</th>
                                     <th>Status</th>
+                                    <th>Remarks</th>
                                     <th nzRight [nzWidth]="'5rem'">Action</th>
                               </tr>
                         </thead>
@@ -109,6 +110,9 @@
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td>{{data?.status ? data?.status : '--'}}</td>
+                                          <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
+                                                {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) : (data?.remarks ? data?.remarks : '--')}}
+                                          </span></td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -1014,7 +1018,7 @@
                   Data</span></label>
 </ng-template>
 <section>
-      <nz-modal [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+      <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
             <section *ngIf="_isStatus">
                   <div class="row">
@@ -1033,7 +1037,7 @@
                         </div>
                         <div class="col-md-8">
                               <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" nz-input [(ngModel)]="remarks"></textarea>
+                                    <textarea rows="4" nz-input [(ngModel)]="remarksDescription"></textarea>
                               </nz-textarea-count>
                         </div>
                   </div>

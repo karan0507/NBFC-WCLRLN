@@ -63,6 +63,7 @@ export class AddEditMerchantsComponent implements OnInit {
       } else {
         // this.masterParnerPayout = null
         this.isEdit = false
+        this.addAdditionalUPI();
         // this.createMasterProductForm();
         // this.getListOfDocumentRequired();
       }
@@ -75,10 +76,8 @@ export class AddEditMerchantsComponent implements OnInit {
       'limit': 30
     }
     this.http.fetchMasterPartner(data).subscribe((res: any) => {
-      console.log(res);
       this.listOfMasterPartner = res?.data?.results
     }, err => {
-      console.log(err)
     })
   }
 
@@ -97,13 +96,14 @@ export class AddEditMerchantsComponent implements OnInit {
       if (i == 'partner_master' || i == 'state') {
         data[i] = data[i]?.id;
       }
-      if (i != 'document_data') {
+      if (i != 'document_data' && i != 'upis') {
         if (data[i]) {
           this.addEditProductForm.controls[i].setValue(data[i], { emitEvent: false });
         }
       }
     }
-    this.setFormData(data)
+    this.setFormData(data);
+    this.setUpiFormData(data)
   }
 
   setFormData(data) {
@@ -643,9 +643,7 @@ export class AddEditMerchantsComponent implements OnInit {
             sendDate[i].forEach(element => {
               this.upiData.push(element?.upi_id)
             });
-            console.log(this.upiData);
-            return
-            data.append(i, JSON.stringify(sendDate[i]))
+            data.append(i, this.upiData)
           } else {
             if (sendDate[i]) {
               data.append(i, sendDate[i])
@@ -723,9 +721,7 @@ export class AddEditMerchantsComponent implements OnInit {
             sendDate[i].forEach(element => {
               this.upiData.push(element?.upi_id)
             });
-            console.log(this.upiData);
-            return
-            data.append(i, JSON.stringify(sendDate[i]))
+            data.append(i, JSON.stringify(this.upiData))
           }else {
             if (sendDate[i]) {
               data.append(i, sendDate[i])
@@ -906,14 +902,11 @@ export class AddEditMerchantsComponent implements OnInit {
 
   setUpiFormData(data) {
     if (data) {
-      data.forEach(element => {
+      data['upis']?.forEach(element => {
         this.addAdditionalUPI(element)
       });
     } else {
       this.addAdditionalUPI()
-      // this.addNbfcs_arr()
-      // this.addNbfcs_arr()
-      // this.addNbfcs_arr()
     }
   }
 
@@ -927,7 +920,7 @@ export class AddEditMerchantsComponent implements OnInit {
 
   public addSlabControlsUPI(data?): FormGroup {
     return this.fb.group({
-      upi_id: [data ? data?.id : null],
+      upi_id: [data ? data : ''],
     });
   }
 

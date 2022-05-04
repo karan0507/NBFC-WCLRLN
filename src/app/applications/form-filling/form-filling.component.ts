@@ -46,6 +46,7 @@ export class FormFillingComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
+      remarksDescription: any
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -199,7 +200,7 @@ export class FormFillingComponent implements OnInit {
 
       handleOk() {
             this.api_calling_loader['button'] = true
-            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
+            let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks':this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
             this.https.updateMultipleLoanApp(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['button'] = false
