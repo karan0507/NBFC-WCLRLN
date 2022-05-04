@@ -26,7 +26,7 @@ export class CreditLineIncDescComponent implements OnInit {
     // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
     'Last Year': [new Date(new Date().getFullYear() - 1, new Date().getMonth(), 0).setDate(1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
-};
+  };
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
@@ -55,14 +55,14 @@ export class CreditLineIncDescComponent implements OnInit {
   rejactRemarks = '';
   changeBillTab = '1';
   constructor(public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getManualTransactionList()
   }
 
-  
+
   downloadSampleFile() {
     var link = document.createElement('a');
     link.href = 'assets/static files/change_credit_line_sample.xlsx';
@@ -102,7 +102,7 @@ export class CreditLineIncDescComponent implements OnInit {
     })
   }
 
-  
+
   fetchPreviewAfterList(value, isPreview) {
     let data = {
       source: 'LMS',
@@ -123,7 +123,7 @@ export class CreditLineIncDescComponent implements OnInit {
         this.message.remove(generateloader);
         this.previewData = res['data'].file_content
       }
-      
+
       this.message.remove(generateloader);
       // this.message.success(res['message'])
     }, (err) => {
@@ -140,8 +140,8 @@ export class CreditLineIncDescComponent implements OnInit {
   fetchPreviewBeforeUpload(value) {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'check_credit_line_file'),
-    data.append('file', value)
+      data.append('datapoint', 'check_credit_line_file'),
+      data.append('file', value)
     var generateloader = this.message.loading('Uploading..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
@@ -153,7 +153,7 @@ export class CreditLineIncDescComponent implements OnInit {
       } else {
         this.message.error('File is empty')
       }
-      
+
     }, (err) => {
       generateloader = this.message.loading('Error in file upload..', { nzDuration: 0 }).messageId;
       this.isImport = true
@@ -161,7 +161,7 @@ export class CreditLineIncDescComponent implements OnInit {
       this.isFail = true
     })
   }
-  
+
   approveTransaction() {
     let data = new FormData()
     data.append('source', 'LMS')
@@ -182,12 +182,12 @@ export class CreditLineIncDescComponent implements OnInit {
       this.is_approve_loading = false
     })
   }
-  
+
   uploadTransaction() {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'import_change_credit_line'),
-    data.append('file', this.uploaded_file)
+      data.append('datapoint', 'import_change_credit_line'),
+      data.append('file', this.uploaded_file)
     if (this.isLineError) {
       this.is_upload_loading = true
       this.http.fetchLoanApplicationUpload(data).subscribe(res => {
@@ -209,9 +209,9 @@ export class CreditLineIncDescComponent implements OnInit {
       this.isPreviewBeforeUpload = false;
     }
   }
-  
+
   clickOnReject(id) {
-    this.isReject = true; 
+    this.isReject = true;
     this.reject_id = id
   }
 
@@ -237,5 +237,10 @@ export class CreditLineIncDescComponent implements OnInit {
 
   onchangeBillTab() {
 
+  }
+
+  resetFilters() {
+    this.getManualTransactionList();
+    this.date = null
   }
 }
