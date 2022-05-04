@@ -240,10 +240,19 @@
                                 <nz-form-control [nzSm]="7" [nzXs]="24"
                                     nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                     <div class="d-flex">
+<<<<<<< HEAD
                                         <nz-upload [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
                                             [nzCustomRequest]="customUpload" (nzChange)="onUpload($event, k, 'name')">
                                             <button nz-button type="button"><i nz-icon
                                                     nzType="upload"></i>{{item.controls.document_name.value ? 'ReUpload' : ' Upload ' }}</button>
+=======
+                                        <nz-upload
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                        [nzCustomRequest]="customUpload"
+                                        (nzChange)="onUpload($event, k, 'name')"
+                                        >
+                                        <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+>>>>>>> a4f47c8389e12e9f0bff7651cfa29795d952aaf0
                                         </nz-upload>
                                     </div>
                                 </nz-form-control>
@@ -505,4 +514,16 @@
             </ng-container>
         </nz-select>
     </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
 </nz-modal>

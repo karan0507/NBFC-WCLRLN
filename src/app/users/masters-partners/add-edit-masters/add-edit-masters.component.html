@@ -262,7 +262,7 @@
                                 <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
                                     <div class="d-flex">
                                         <nz-upload
-                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"p
                                         [nzCustomRequest]="customUpload"
                                         (nzChange)="onUpload($event, k, 'name')"
                                         >
@@ -496,4 +496,16 @@
              </ng-container>
         </nz-select>
     </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
 </nz-modal>

@@ -673,6 +673,7 @@ export class AddEditPartnersComponent implements OnInit {
 
   handleCancel(): void {
     this.pdf_viewer_object_values['boolean'] = false;
+    this.pdf_viewer_object_values['url'] = ''
     this.isVisible = false;
   }
 
