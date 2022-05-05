@@ -78,7 +78,8 @@ export class OnboardingComponent implements OnInit {
       document_rules: this.fb.array([]),
       third_party_calls: this.fb.array([]),
       aadhar_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.aadhar_check : 'Mandatory') : 'Mandatory'],
-      pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory']
+      pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory'],
+      pan_no_document_needed: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_no_document_needed : false) : false]
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -266,12 +267,14 @@ export class OnboardingComponent implements OnInit {
         id: this.onboardingRuleData?.aadhar_pan_rules.id,
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
+        pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
         employment_type: this.selectedTab
       }
     } else {
       aadhar_pan_rules = {
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
+        pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
         employment_type: this.selectedTab
       }
     }
