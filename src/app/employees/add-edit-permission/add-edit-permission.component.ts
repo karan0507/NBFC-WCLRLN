@@ -55,11 +55,35 @@ export class AddEditPermissionComponent implements OnInit {
 
   ngModelChange(e, data, action){
     // if(action === 'slugs'){
+      if(action == 'head'){
+        console.log(data);
+        if(e){
+          data?.slugs_list.forEach(element => {
+            if(this.slugList.includes(data?.element?.function_name)){
+              this.deleteSlug(element?.function_name);
+            } else {
+              this.slugList.push(element?.function_name)     
+            }
+          });
+        } else {
+          data?.slugs_list.forEach(element => {
+            this.deleteSlug(element?.function_name);
+            // this.slugList.push(element?.function_name)   
+          });
+          // this.deleteSlug(data?.function_name);
+        }
+        console.log(data);
+        console.log(this.slugList);
+      } else{
       if(e){
+        if(this.slugList.includes(data?.function_name)){
+          return;
+        }
         this.slugList.push(data?.function_name) 
         } else {
           this.deleteSlug(data?.function_name);
         }
+      }
     // } else {
       // this.selectedRole
     // }
@@ -71,6 +95,15 @@ export class AddEditPermissionComponent implements OnInit {
     if (index !== -1) {
         this.slugList.splice(index, 1);
     }        
+}
+
+
+slugListCheckBoxSelection(slug){
+  if(this.slugList.includes(slug)){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 updatePermissionBasedOnType(){
