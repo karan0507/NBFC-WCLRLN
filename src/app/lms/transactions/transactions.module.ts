@@ -11,10 +11,11 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 
 
 @NgModule({
-  declarations: [TransactionsComponent, TransactionsListComponent, UploadTransactionsListComponent, UploadTransactionsPreviewComponent],
+  declarations: [TransactionsComponent, TransactionsListComponent, UploadTransactionsListComponent, UploadTransactionsPreviewComponent, TransactionDetailsComponent],
   imports: [
     CommonModule,
     TransactionsRoutingModule,

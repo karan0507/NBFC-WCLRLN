@@ -24,6 +24,7 @@ export class ProductDetailsComponent implements OnInit {
   @Input() isLoading: any;
   productDetails: any;
   dateTillEnd = [];
+  indexOfLatestNach: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -64,15 +65,61 @@ export class ProductDetailsComponent implements OnInit {
       activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       bill_day: [ this.productDetails ? this.productDetails.bill_day : ''],
+      due_days: [ this.productDetails ? this.productDetails.due_days : ''],
       tenures: this.fb.array([]),
+      nach_date_time_mappings: this.fb.array([]),
       })
     if (this.productDetails) {
       this.fetchNBFCdata()
+      this.setFormDataForNach(this.productDetails)
     }
 
     if (this.router.url.includes('view-product')) {
       this.createEditForm.disable()
     }
+  }
+
+  setFormDataForNach(data) {
+    if (data) {
+      const nachArray = [];
+      data.nach_date_time_mappings?.forEach((element) => {
+        var date1 = new Date("2020-06-24" + element?.time_of_day);
+        const nachDateTime = {
+          day_of_month: element?.day_of_month,
+          time_of_day: moment("2020-06-24 " + element?.time_of_day),
+        };
+        this.addNach(nachDateTime);
+      });
+    }
+  }
+
+  get_nachArr(form) {
+    this.indexOfLatestNach =
+      form.controls.nach_date_time_mappings.controls?.length;
+    // console.log(form.controls.nach_date_time_mappings.controls[this.indexOfLatestNach - 1]?.controls?.value);
+    return form.controls.nach_date_time_mappings.controls;
+  }
+  
+  addNach(data?) {
+    this.nach.push(this.newNach(data));
+  }
+
+  newNach(data?): FormGroup {
+    console.log(data);
+    // const datePipe = new DatePipe('en-US');
+    return this.fb.group({
+      day_of_month: [data ? data?.day_of_month : null],
+      time_of_day: [data ? data?.time_of_day : null],
+    });
+    // moment(data?.time_of_day).format('yyyy-mm ,HH:mm:ss')
+  }
+  
+  get nach(): FormArray {
+    return this.createEditForm.get("nach_date_time_mappings") as FormArray;
+  }
+  
+  deleteNachByKey(i) {
+    this.nach.removeAt(i);
   }
 
   get tenures(): FormArray {
@@ -124,6 +171,24 @@ export class ProductDetailsComponent implements OnInit {
       return false
     }
     let data;
+    
+    for (var i in this.createEditForm.value.nach_date_time_mappings) {
+      if(this.createEditForm.value.nach_date_time_mappings.length == 0){
+        this.createEditForm.value.nach_date_time_mappings = null;
+      } else {
+      if (
+        this.createEditForm.value.nach_date_time_mappings[i].time_of_day &&
+        this.createEditForm.value.nach_date_time_mappings[i].day_of_month
+      ) {
+        this.createEditForm.value.nach_date_time_mappings[i].time_of_day = moment(
+          this.createEditForm.value.nach_date_time_mappings[i]?.time_of_day
+        ).format("HH:mm:ss");
+      } else {
+        delete this.createEditForm.value.nach_date_time_mappings[i];
+        this.deleteNachByKey(i);
+      }
+    }
+    }
     if (this.createEditForm.value.tenures[0]) {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
@@ -131,7 +196,9 @@ export class ProductDetailsComponent implements OnInit {
         name: this.createEditForm.value.name,
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,
-        tenures: this.createEditForm.value.tenures
+        tenures: this.createEditForm.value.tenures,
+        due_days: this.createEditForm.value.due_days,
+        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings
       }          
     } else {
       data = {
@@ -139,7 +206,9 @@ export class ProductDetailsComponent implements OnInit {
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
         product_master: this.createEditForm.value.product_master,
-        bill_day: this.createEditForm.value.bill_day
+        bill_day: this.createEditForm.value.bill_day,
+        due_days: this.createEditForm.value.due_days,
+        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings
       }        
     }
     if (this.product_id) {
@@ -169,6 +238,8 @@ export class ProductDetailsComponent implements OnInit {
       this.router.navigate([], {
       relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
+    }, (err)=> {
+      this.isLoading = false
     })
   }
   
@@ -180,6 +251,8 @@ export class ProductDetailsComponent implements OnInit {
       // this.router.navigate([], {
       // relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
+    }, (err)=> {
+      this.isLoading = false
     })
   }
 

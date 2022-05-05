@@ -900,7 +900,7 @@
 </section>
 
 <ng-template #footerModal>
-      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
+      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="resetFilters('offer')">Reset</button>
       <button nz-button *ngIf="!_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
       <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']"
             [disabled]="!_currentStageStatus ? true : false" class="mx-2"
