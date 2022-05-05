@@ -80,6 +80,7 @@ export class MasterPartnersListComponent implements OnInit {
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder  ) { }
 
   ngOnInit(): void {
+    this.createResetPasswordForm();
     this.selectedTab = 'all'
     this.page = 1
     this.getMasterPartner();
@@ -98,7 +99,7 @@ export class MasterPartnersListComponent implements OnInit {
 
   createResetPasswordForm(){
     this.resetPasswordForm = this.fb.group({
-      corporate_admin: [null, [Validators.required]],
+      corporate_admin_id: [null, [Validators.required]],
       new_password: [null, [Validators.required]],
       retype_password: [null, [Validators.required]],
       send_email: [false],
@@ -120,7 +121,7 @@ export class MasterPartnersListComponent implements OnInit {
       this.passwordForAdmin['isVisibleModal'] = true;
       this.passwordForAdmin['toggleShoePasswordField'] = false;
       this.resetPasswordForm.patchValue({
-        'corporate_admin': data?.id
+        'corporate_admin_id': data?.id
       })
     }
 
