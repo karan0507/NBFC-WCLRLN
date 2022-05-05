@@ -255,6 +255,9 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
+                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
+                                                                <span class="m-l-5">View details</span>
+                                                            </li>
                                                             <li nz-menu-item (click)="reverseChargesToggle(data.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Reverse Charges</span>
@@ -371,6 +374,9 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
+                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
+                                                                <span class="m-l-5">View details</span>
+                                                            </li>
                                                             <li nz-menu-item (click)="reverseChargesToggle(data.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Reverse Charges</span>

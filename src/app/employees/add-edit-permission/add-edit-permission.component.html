@@ -17,8 +17,8 @@
       </div>
     <div class="row accordianLoanApp" *ngIf="selectedRole">
       <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
-        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
-          <!-- <ng-template #basicDetai>
+        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
+          <ng-template #basicDetai>
           <div class="row">
             <div class="col-7">
               <h4 class="my-0">{{ data?.display_name }}</h4>
@@ -27,20 +27,22 @@
               <label
                     class="d-flex"
                     nz-checkbox
-                    (ngModelChange)="ngModelChange($event, data, 'head')" ngModel="false"
+                    (ngModelChange)="ngModelChange($event, data, 'head')" 
+                    [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
                     ></label>
             </div>
           </div>
-        </ng-template> -->
+        </ng-template>
         <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
         </nz-page-header>
         <div class="row mt-4">
           <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
             <div class="d-flex">
-                <h5 class="mx-3">{{i + 1}}</h5>
+                <h5 style="min-width: 14px;" class="mx-3">{{i + 1}}</h5>
                 <h5 class=""><label
                     class="d-flex"
                     nz-checkbox
+                    [ngModel]="slugListCheckBoxSelection(slugs?.function_name)"
                     (ngModelChange)="ngModelChange($event, slugs, 'slugs')" ngModel="false"> 
                     {{ slugs?.display_name }}</label></h5>
                     <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
