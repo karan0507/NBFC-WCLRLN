@@ -182,7 +182,7 @@ export class LenderManagementComponent implements OnInit {
                         this.editCommitmentList = res?.data?.list_data;
                         this.totalCommitments = res?.data?.total
                   } else {
-                        this.message.error(res?.error);
+                        this.message.error(res?.message);
                   }
             })
       }

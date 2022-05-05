@@ -103,19 +103,19 @@ export class QuickViewComponent {
 
     changePassword() {
         if (!this.changePasswordForm.value.old_password) {
-          this.message.error('Please fill old Password')
+          this.message.error('Old Password Mandatory')
           return;
         }
         if (!this.changePasswordForm.value.new_password) {
-          this.message.error('Please fill new Password')
+          this.message.error('New Password Mandatory')
           return;
         }
         if (!this.changePasswordForm.value.retype_password) {
-          this.message.error('Please fill confirm Password')
+          this.message.error('Confirm New Password Field Mandatory')
           return;
         }
         if (this.changePasswordForm.value.new_password !== this.changePasswordForm.value.retype_password) {
-          this.message.error('should New password and confirm Password both are same')
+          this.message.error('Password Miss Match')
           return;
         }
         if (this.changePasswordForm.value.old_password && this.changePasswordForm.value.new_password && this.changePasswordForm.value.retype_password) {

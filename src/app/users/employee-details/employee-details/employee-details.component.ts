@@ -405,7 +405,11 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   returnPixel(axes, columns){
-    const columns_count =  columns?.keys?.length;
+    if(columns?.length < 4){
+      return null;
+    } 
+    const columns_count =  columns?.length;
+    console.log(columns?.length);
     const pixel =  columns_count * 150
     return  pixel.toString() + 'px'
   }

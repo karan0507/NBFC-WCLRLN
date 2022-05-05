@@ -256,7 +256,7 @@ export class UnderwritingComponent implements OnInit {
                                     this.api_calling_loader['accordian'] = false;
 
                               } else {
-                                    this.message.error(res?.error)
+                                    this.message.error(res?.message)
                                     this.api_calling_loader['accordian'] = false;
 
                               }

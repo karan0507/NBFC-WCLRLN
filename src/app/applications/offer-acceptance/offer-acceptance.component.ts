@@ -258,7 +258,7 @@ export class OfferAcceptanceComponent implements OnInit {
                                     this.offerForm.get('interest').setValue(res?.data?.interest);
 
                               } else {
-                                    this.message.error(res?.error)
+                                    this.message.error(res?.message)
                                     this.api_calling_loader['accordian'] = false;
 
                               }
