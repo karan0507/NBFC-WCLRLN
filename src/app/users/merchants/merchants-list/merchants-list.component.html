@@ -359,6 +359,70 @@
                                     </div>
                                 </nz-card>
                             </div>
+                            <div class="justify-content-center">
+                                <nz-page-header
+                                    class="site-page-header acc-bg-light mb-2"
+                                    [nzTitle]="adminDetail">
+                                </nz-page-header>
+                                <nz-card class="mb-md-5"  [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                    <div class="row"  *ngIf="data?.expandSet?.corporate_admins?.length > 0">
+                                        <div class="col-md-12 mb-2" *ngFor="let data of data?.expandSet?.corporate_admins">
+                                            <div class="d-flex flex-column">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="mb-2">
+                                                            <h6>
+                                                                Email
+                                                            </h6>
+                                                            <div class="d-flex">
+                                                                <span>
+                                                                    {{data?.email}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-2">
+                                                            <h6>
+                                                                Name
+                                                            </h6>
+                                                            <div class="d-flex">
+                                                                <span>
+                                                                    {{data?.name}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 align-self-center text-right">
+                                                        <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                                                [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                                [nzDropdownMenu]="showPassword">
+                                                                <img src="assets/images/ellipsis.png" alt="" width="30">
+                                                        </a>
+                                                            <nz-dropdown-menu #showPassword="nzDropdownMenu">
+                                                                <ul nz-menu>
+                                                                    <li nz-menu-item (click)="onClickGetPassword('reset', data)">
+                                                                        <span class="m-l-5">Reset Password</span>
+                                                                    </li>
+                                                                    <li nz-menu-item (click)="onClickGetPassword('show', data)">
+                                                                        <span class="m-l-5">Show Password</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nz-dropdown-menu>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.expandSet?.corporate_admins?.length <= 0">
+                                        <div class="col-md-6">
+                                                <h6>
+                                                    No Corporate Admin Detail's to show
+                                                </h6>
+                                            </div>
+                                    </div>
+                                </nz-card>
+                            </div>
 
                             <div class="justify-content-center">
                                 <nz-page-header
@@ -465,6 +529,11 @@
         <h6 class="mb-0">KYC Documents</h6>
     </div>
 </ng-template>
+<ng-template #adminDetail>
+    <div class="ml-md-2">
+        <h6 class="mb-0">Corporate Admin</h6>
+    </div>
+</ng-template>
 <ng-template #otherDetails>
     <div class="ml-md-2">
         <h6 class="mb-0">Other Details</h6>
@@ -529,3 +598,48 @@
 </nz-modal>
 
 
+
+<nz-modal [nzTitle]="passwordForAdmin['toggleShoePasswordField'] ? 'View Password' : 'Reset Password'" [nzWidth]="500" [(nzVisible)]="passwordForAdmin['isVisibleModal']" (nzOnOk)="onClickResetPassword()" [nzOkLoading]="passwordForAdmin['apiLoader']" 
+          [nzFooter]="passwordForAdmin['toggleShoePasswordField'] ?  null : ''" [nzClosable]="true" (nzOnCancel)="passwordForAdmin['isVisibleModal']=false; selectedUserId = ''">
+    <!-- <ng-container *nzModalContent> -->
+        <nz-card [nzLoading]="passwordForAdmin['apiLoader']">
+            <div *ngIf="passwordForAdmin['toggleShoePasswordField']" class="row">
+                <div class="col-6">
+                    Password
+                </div>
+                <div class="col-6">
+                    {{passwordForAdmin['password']?.password}}
+                </div>
+            </div>
+            <div *ngIf="!passwordForAdmin['toggleShoePasswordField']" class="row">
+                <form nz-form [formGroup]="resetPasswordForm">
+                    <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>New Password</nz-form-label>
+                                <nz-form-control [nzSm]="20" nzErrorTip="Please Add New Password!">
+                                    <input nz-input type="text" formControlName="new_password"  placeholder="New Password"/>
+                                </nz-form-control>
+                            </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Confirm Password</nz-form-label>
+                            <nz-form-control [nzSm]="20" nzErrorTip="Please Add Confirm Password!">
+                                <input nz-input type="text" formControlName="retype_password"  placeholder="Confirm Password"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Send Email</nz-form-label>
+                            <nz-form-control [nzSm]="20" nzErrorTip="Please Select Action!">
+                                <label nz-checkbox formControlName="send_email"></label> 
+                                <!-- <input nz-input type="text" formControlName="send_email"/> -->
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </form>
+            </div>
+        </nz-card>
+    <!-- </ng-container> -->
+</nz-modal>

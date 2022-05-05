@@ -183,7 +183,7 @@ export class EmployeeDetailsComponent implements OnInit {
   disabledDate = (current: Date): boolean => {
     return differenceInCalendarDays(current, this.today) > 0;
   };
-  date: any = [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()];
+  date: any;
 
   constructor(
     private fb: FormBuilder,

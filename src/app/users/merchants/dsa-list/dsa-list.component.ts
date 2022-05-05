@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dsa-list',
@@ -59,14 +60,99 @@ export class DsaListComponent implements OnInit {
     }
   }
 
-  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer  ) { }
+  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder ) { }
 
   ngOnInit(): void {
+    this.createResetPasswordForm();
     this.selectedTab = 'all'
     this.page = 1
     this.getPartnerDSAList();
     
   }
+
+  passwordForAdmin = {
+    'isVisibleModal': false,
+    'toggleShoePasswordField': false,
+    'apiLoaderOnClick': false,
+    'password': null,
+    'apiLoader': null
+  };
+
+  resetPasswordForm: FormGroup;
+
+  createResetPasswordForm(){
+    this.resetPasswordForm = this.fb.group({
+      corporate_admin: [null, [Validators.required]],
+      new_password: [null, [Validators.required]],
+      retype_password: [null, [Validators.required]],
+      send_email: [false],
+    })
+  }
+  
+  onClickGetPassword(action, data){
+    this.selectedUserId = data?.id;
+    if(action == 'show'){
+      this.passwordForAdmin['apiLoader'] = true;
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = true;
+      this.http.showPasswordOfCorporateAdmin(data?.id).subscribe((res: any)=>{
+        console.log(res);
+        this.passwordForAdmin['apiLoader'] = false;
+        this.passwordForAdmin['password'] = res?.data;
+      })
+    } else {
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = false;
+      this.resetPasswordForm.patchValue({
+        'corporate_admin': data?.id
+      })
+    }
+
+  }
+
+  onClickResetPassword(){
+    for (const i in this.resetPasswordForm.controls) {
+      this.resetPasswordForm.controls[i].markAsDirty();
+      this.resetPasswordForm.controls[i].updateValueAndValidity();
+    } 
+    if(this.resetPasswordForm.value.send_email == true){
+      this.resetPasswordForm.patchValue({
+        'send_email': 0
+      })
+    } else {
+      this.resetPasswordForm.patchValue({
+        'send_email': 1
+      })
+    }
+    console.log(this.resetPasswordForm.value); 
+    if(this.resetPasswordForm.valid){
+      if(this.resetPasswordForm.value.new_password != this.resetPasswordForm.value.retype_password){
+        this.message.error('Plz Make sure to match New Password & Confirm Password');
+        return;
+      }
+      this.passwordForAdmin['apiLoaderOnClick']= true;
+      const sendDate = this.resetPasswordForm.value;
+      let data = new FormData();
+      for (var i in sendDate) {
+          // if (sendDate[i]) {
+            data.append(i, sendDate[i]);
+          // }
+        // }
+        // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
+      }
+      this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any)=>{
+        console.log(res)
+        if(res?.success){
+          this.message.success(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= true;
+        } else {
+          this.message.error(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= true;
+        }
+      })
+    }
+  }
+
 
   onClickChangeTab(e){
     this.selectedTab = e;
@@ -94,6 +180,7 @@ export class DsaListComponent implements OnInit {
     this._apiLoader["detailList"] = true;
     this.http.getPartnerDSAListById(id).subscribe((res: any)=> {
       // this.merchantDetailList = res?.data;
+      this.resetPasswordForm.reset();
       this.merchantDetailList.push(res?.data);
       this.merchantList[i].expandSet = res?.data;
       console.log('this.merchantList', this.merchantList)

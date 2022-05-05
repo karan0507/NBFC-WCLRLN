@@ -5,6 +5,7 @@ import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import * as jsPDF from 'jspdf';  
 
 @Component({
@@ -14,64 +15,17 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PartnersListComponent implements OnInit {
   selectedTab = 'all'
-  listOfData = [
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    },
-    {
-      name: 'Bajaj Finance Ltd.',
-      regDate: '12/4/21 12:02 PM',
-      pan: 'ABCDE1234P',
-      invest: 5000000,
-      type: 'FatakPay FatakPayEMI',
-      status: 'Active'
-    }
-  ];
+  listOfData : any;
+
+  passwordForAdmin = {
+    'isVisibleModal': false,
+    'toggleShoePasswordField': false,
+    'apiLoaderOnClick': false,
+    'password': null,
+    'apiLoader': null
+  };
+
+  resetPasswordForm: FormGroup;
 
   // selectedTab = 'all'
 
@@ -82,6 +36,7 @@ export class PartnersListComponent implements OnInit {
   _apiLoader = {
     list: false,
     detailList: false,
+    upgradeLoading: false,
   };
   globalPageSize = 30;
   page;
@@ -109,9 +64,10 @@ export class PartnersListComponent implements OnInit {
   selectedIndexOfExpand: any;
   
 
-  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer ) { }
+  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.createResetPasswordForm();
     this.selectedTab = 'all';
     this.page = 1
     this.getPartnerList();
@@ -127,6 +83,70 @@ export class PartnersListComponent implements OnInit {
       this.expandSet.delete(id);
     }
   }
+
+  onClickGetPassword(action, data){
+    this.selectedUserId = data?.id;
+    if(action == 'show'){
+      this.passwordForAdmin['apiLoader'] = true;
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = true;
+      this.http.showPasswordOfCorporateAdmin(data?.id).subscribe((res: any)=>{
+        console.log(res);
+        this.passwordForAdmin['apiLoader'] = false;
+        this.passwordForAdmin['password'] = res?.data;
+      })
+    } else {
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = false;
+      this.resetPasswordForm.patchValue({
+        'corporate_admin': data?.id
+      })
+    }
+
+  }
+
+  onClickResetPassword(){
+    for (const i in this.resetPasswordForm.controls) {
+      this.resetPasswordForm.controls[i].markAsDirty();
+      this.resetPasswordForm.controls[i].updateValueAndValidity();
+    } 
+    if(this.resetPasswordForm.value.send_email == true){
+      this.resetPasswordForm.patchValue({
+        'send_email': 0
+      })
+    } else {
+      this.resetPasswordForm.patchValue({
+        'send_email': 1
+      })
+    }
+    console.log(this.resetPasswordForm.value); 
+    if(this.resetPasswordForm.valid){
+      if(this.resetPasswordForm.value.new_password != this.resetPasswordForm.value.retype_password){
+        this.message.error('Plz Make sure to match New Password & Confirm Password');
+        return;
+      }
+      this.passwordForAdmin['apiLoaderOnClick']= true;
+      const sendDate = this.resetPasswordForm.value;
+      let data = new FormData();
+      for (var i in sendDate) {
+          // if (sendDate[i]) {
+            data.append(i, sendDate[i]);
+          // }
+        // }
+        // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
+      }
+      this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any)=>{
+        console.log(res)
+        if(res?.success){
+          this.message.success(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= true;
+        } else {
+          this.message.error(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= true;
+        }
+      })
+    }
+  }
   
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -136,6 +156,14 @@ export class PartnersListComponent implements OnInit {
     }
   }
 
+  createResetPasswordForm(){
+    this.resetPasswordForm = this.fb.group({
+      corporate_admin: [null, [Validators.required]],
+      new_password: [null, [Validators.required]],
+      retype_password: [null, [Validators.required]],
+      send_email: [false],
+    })
+  }
 
   onClickChangeTab(e){
     this.selectedTab = e;
@@ -154,6 +182,7 @@ export class PartnersListComponent implements OnInit {
       this.masterPartnerDetailList.push(res?.data);
       this.partnerList[i].expandSet = res?.data;
       // console.log('this.merchantList', this.merchantList)
+      this.resetPasswordForm.reset();
       this._apiLoader["detailList"] = false;
     }, err => {
       console.log(err);
@@ -254,7 +283,11 @@ export class PartnersListComponent implements OnInit {
   }
 
   deleteUserByUserId(id, action){
-    // if(action === 'delete'){
+    if(action === 'upgrade'){
+      this.selectedUserId = id;
+      this.toggleOnUpgradeUser = true;
+      return;
+    }
       this.statusOfSelectedLender = action;
       this.selectedUserId = id;
       this.isDelete = true;
@@ -360,7 +393,30 @@ export class PartnersListComponent implements OnInit {
   }
 
   confirmationForUpdation(){
+    this._apiLoader['upgradeLoading'] = true;
+    let data;
+    this.http.upgradeToMasterPartner(this.selectedUserId, data).subscribe((res: any)=>{
+      console.log(res);
+      if(res?.success){
+        this._apiLoader['upgradeLoading'] = false;
+        this.message.success(res?.message);
+      } else {
+        this._apiLoader['upgradeLoading'] = false;
+        this.message.error(res?.message);
+      }
+      this._apiLoader['upgradeLoading'] = false;
+    }, error=>{
+      this._apiLoader['upgradeLoading'] = false;
+    })
     this.toggleOnUpgradeUser = false;
   }
 
 }
+
+
+// {
+//   "corporate_admin_id":186,
+//   "new_password":"18831786",
+//   "retype_password":"18831786",
+//   "send_email":1
+// }

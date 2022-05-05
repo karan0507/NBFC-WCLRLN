@@ -99,11 +99,38 @@ export class AddEditPermissionComponent implements OnInit {
 
 
 slugListCheckBoxSelection(slug){
+  // if(!e){
+  //   return false;
+  // }
   if(this.slugList.includes(slug)){
     return true;
   }else{
     return false;
   }
+}
+
+slugListMaxCheckBoxSelection(event){
+  event.forEach(element => {
+    if(!this.slugList.includes(element?.function_name)){
+      return false;
+    } 
+    console.log(event);
+    // else {
+    //   return true;
+    // }
+  });
+  // if(!event){
+  //   this.slugListCheckBoxSelection('');
+  //   // return false;
+  // }
+  //  else {
+  //   return true;
+  // }
+  // if(this.slugList.includes(slug)){
+  //   return true;
+  // }else{
+  //   return false;
+  // }
 }
 
 updatePermissionBasedOnType(){

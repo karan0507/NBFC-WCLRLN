@@ -715,9 +715,23 @@ export class HttpService {
       }
 
       public deleteMasterDocumentByDocumentId(id) {
-            // /partner/v1/delete-user/partner/23
             return this._http.delete((this.url + `/partner/v1/delete-doc/master/${id}`));
       }
+
+      public upgradeToMasterPartner(id, data) {
+            return this._http.put((this.url + `/partner/v1/upgrade-to-master/${id}`), data);
+      }
+
+      public resetPasswordForCorporateAdmin(data) {
+            return this._http.post((this.url + `/partner/v1/reset-password-corporate-admin/partner`), data);
+      }
+
+      public showPasswordOfCorporateAdmin(id) {
+            return this._http.get((this.url + `/partner/v1/show-password-corporate-admin/${id}`));
+      }
+
+      // /partner/v1/reset-password-corporate-admin/partner
+
 
       public deleteMasterUserByUserId(id) {
             // /partner/v1/delete-user/partner/23
