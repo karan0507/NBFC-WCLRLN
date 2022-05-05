@@ -718,10 +718,12 @@ export class AddEditMerchantsComponent implements OnInit {
           if (i == 'document_data') {
             data.append(i, JSON.stringify(sendDate[i]))
           } else if (i == 'upis') {
+            // this.upiData = null 
+            let upiArr = []
             sendDate[i].forEach(element => {
-              this.upiData.push(element?.upi_id)
+              upiArr.push(element?.upi_id)
             });
-            data.append(i, JSON.stringify(this.upiData))
+            data.append(i, JSON.stringify(upiArr))
           }else {
             if (sendDate[i]) {
               data.append(i, sendDate[i])
