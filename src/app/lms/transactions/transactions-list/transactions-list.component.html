@@ -115,6 +115,9 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
+                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}">
+                                            <span class="m-l-5">View details</span>
+                                        </li>
                                         <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
                                             <span class="m-l-5">Reverse Charges</span>
                                         </li>
