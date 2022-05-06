@@ -28,7 +28,7 @@ export class ChangeBillDateComponent implements OnInit {
       new Date().setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
     'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
     // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
-    'Last Year': [new Date(new Date().getFullYear() - 1, new Date().getMonth(), 0).setDate(1), new Date(new Date().getFullYear() - 1, 11, 31)],
+    'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
 };
   disabledDate = (current: Date): boolean =>
