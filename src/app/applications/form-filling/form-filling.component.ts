@@ -109,7 +109,6 @@ export class FormFillingComponent implements OnInit {
                         if(this._activeLoans){
                               this._activeLoans.forEach(element => {
                                     this.expandSet.delete(element?.id)
-                                     
                                });  
                         }
                         this.global.setApplicationCount();
