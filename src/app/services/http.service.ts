@@ -726,6 +726,16 @@ export class HttpService {
             return this._http.post((this.url + `/partner/v1/reset-password-corporate-admin/partner`), data);
       }
 
+      // /partner/v1/corporate/all-employees
+
+      public getListOfEmployeeBasedOnParameter(data) {
+            return this._http.get((this.url + `/partner/v1/corporate/all-employees`),{params: data});
+      }
+
+      public markEmployeeDetailsAsVerify(data){
+            return this._http.post((this.url + `/partner/v1/mark-as-done-by-admin`), data);
+      }
+
       public showPasswordOfCorporateAdmin(id) {
             return this._http.get((this.url + `/partner/v1/show-password-corporate-admin/${id}`));
       }

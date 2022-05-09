@@ -2,13 +2,13 @@
   <div class="d-flex justify-content-md-between flex-wrap w-100">
     <div></div>
     <!--  -->
-    <div *ngIf="selectedTab == 'corporate'" style="min-height: 32px;">
+    <div *ngIf="selectedTab == 'corporate' || selectedTab == 'allEmployee' || selectedTab == 'recommendation' " style="min-height: 32px;">
       
     </div>
-    <div *ngIf="selectedTab !== 'corporate'">
+    <div *ngIf="selectedTab !== 'corporate' && selectedTab !== 'allEmployee' && selectedTab !== 'recommendation'">
       <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
       <button  
-        nz-button
+        nz-button 
         class="ml-auto mr-3 text-primary"
         nzSize="small"
         (click)="sampleDownload()"
@@ -41,7 +41,7 @@
       >
         <label
           nz-radio-button
-          class="px-5 mb-md-0 mb-3 border-radius-2"
+          class="px-5 mb-3 border-radius-2"
           nzValue="corporate"
           >Corporate Employee Details</label
         >
@@ -53,7 +53,7 @@
         > -->
         <label
           nz-radio-button
-          class="px-5 mb-md-0 mb-3 border-radius-2"
+          class="px-5 mb-3 border-radius-2"
           nzValue="New Joinees"
           >New Joinees</label
         >
@@ -75,9 +75,234 @@
           nzValue="Notice Period"
           >Notice Period</label
         >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="recommendation"
+          >Action Performed</label
+        >
+        <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="allEmployee"
+          >Employee List</label
+        >
       </nz-radio-group>
     </div>
   </div>
+</section>
+
+<section
+  *ngIf="
+    selectedTab === 'recommendation' ||
+    selectedTab === 'allEmployee'
+  "
+>
+  <section>
+    <div class="row">
+      <nz-card class="w-100">
+        <div class="row">
+          <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                (keyup.enter)="getResultBasedOnSearch()"
+                [(ngModel)]="searchValue"
+                type="text"
+                nz-input
+                placeholder="Search text"
+              />
+            </nz-input-group>
+            <!-- <ng-template #suffixIconButton>
+                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template> -->
+            <ng-template #suffixIconButton>
+              <button
+                (click)="getResultBasedOnSearch()"
+                nz-button
+                nzType="secondary"
+                nzSearch
+              >
+                <i nz-icon nzType="search"></i>
+              </button>
+            </ng-template>
+            <button
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Reset Filter"
+              class="mx-3"
+              (click)="resetFilter()"
+            >
+              <i nz-icon nzType="undo"></i>
+            </button>
+          </div>
+
+          <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
+                        (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
+                        </nz-option>
+                        <nz-option nzValue="All" nzLabel="all">
+                        </nz-option>
+                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
+              <nz-select *ngIf="selectedTab == 'corporate'"
+                  class="mx-1"
+                  [(ngModel)]="selectedSection"
+                  nzAllowClear nzShowSearch
+                  nzPlaceHolder="Select Section"
+                  style="min-width: 13rem"
+                  (ngModelChange)="getResultWithSelectedFilter($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of sectionList | keyvalue"
+                    [nzValue]="item?.value"
+                    [nzLabel]="item?.value"
+                  >
+                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
+                  </nz-option>
+            </nz-select>
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedCorporate"
+              nzAllowClear nzShowSearch
+              nzPlaceHolder="Select Corporate"
+              (nzOnSearch)="OnTypeSearchList($event)"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of corporateList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+            <!-- (nzOnSearch)="OnTypeSearchList($event)" 
+            (ngModelChange)="getResultWithSelectedFilter($event)"-->
+            <nz-select *ngIf="selectedTab == 'recommendation'" 
+              class="mx-1"
+              [(ngModel)]="selectedAction"
+               nzShowSearch
+              (ngModelChange)="getListOfAllEmployees()"
+              nzPlaceHolder="Select Action"
+              style="min-width: 13rem"
+            >
+              <nz-option nzValue="recommendation" nzLabel="Recommendation">
+              </nz-option>
+              <nz-option nzValue="exit" nzLabel="Exit">
+              </nz-option>
+            </nz-select>
+            <nz-range-picker
+              class="'ml-3"
+              [(ngModel)]="date"
+              [nzDisabledDate]="disabledDate"
+              nzAllowClear="false"
+              (ngModelChange)="onChange($event)"
+             [nzRanges]="customRanges"></nz-range-picker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <!-- <div class="totalCount"> -->
+            <nz-table
+              [nzTotal]="total_count" [nzFrontPagination]="false"
+              [nzPageIndex]="page"
+              [nzLoading]="apiLoader['list']"
+              [nzPageSize]="size"
+              (nzQueryParams)="
+                getEmployeeDetailWithEmployeeTypeAndCorporateId($event)
+              "
+              [nzShowSizeChanger]="true"
+              [nzData]="listOfEmployee"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Partner Name</th>
+                  <th>Employee Code</th>
+                  <th>Added By</th>
+                  <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommendation By</th>
+                  <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommended Amount</th>
+                  <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'exit'" >Exited By</th>
+                  <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'exit'" >Exited Amount</th>
+                  <!-- <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
+                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Section</th>
+                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Verify</th> -->
+                  <th *ngIf="selectedTab == 'recommendation'"  nzRight>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of listOfEmployee; index as i">
+                  <!-- <td>{{ i + 1 }}</td> -->
+                  <td *ngIf="page === 1">{{ i + 1 }}</td>
+                  <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
+                  <td>
+                    {{ data?.partner ? data?.partner : ' - '}}
+                  </td>
+                  <td>
+                    {{ data?.emp_code ? data?.emp_code : ' - '}}
+                  </td>
+                  <td>
+                    <div>
+                      {{
+                        data?.first_name  + ' ' +  data?.last_name
+                      }}
+                    </div>
+                  </td>
+                  <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'">
+                    {{ data?.recommended_by ? data?.recommended_by : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'">
+                    {{ data?.recommended_amount ? data?.recommended_amount : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'exit'">
+                    {{ data?.exited_by ? data?.exited_by : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'exit'">
+                    {{ data?.last_working_date ? data?.last_working_date : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab == 'recommendation'" > 
+                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data, 'mark')"  ngModel=false></label> 
+                  </td>
+                  <!-- <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
+                  <td *ngIf="selectedTab == 'corporate'">{{ data?.section ? data?.section : " " }}</td>
+                  <td *ngIf="selectedTab == 'corporate'" > 
+                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
+                  </td>
+                  <td nzRight>
+                    <a
+                      nz-button
+                      class="primary"
+                      nzType="link"
+                      (click)="onClickGetUploadedDocDetail(selectedIdForView = data?.id, 'view')"
+                      >View</a
+                    >
+                    <a
+                      nz-button
+                      nzType="link"
+                      (click)="
+                        onClickGetUploadedDocDetail(data?.id, 'download')
+                      "
+                      >Download</a
+                    >
+                  </td> -->
+                </tr>
+              </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+              <b>Total Count : </b>{{total_count}}
+            </div>
+            <!-- <ng-template #botTotalCount>
+              <div *ngIf="total_count && listOfEmployee[0]" class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+            </ng-template> -->
+          <!-- </div> -->
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </section>
 </section>
 
 <section
