@@ -412,7 +412,7 @@
               [nzTotal]="total_count" [nzFrontPagination]="false"
               [nzPageIndex]="page"
               [nzLoading]="apiLoader['list']"
-              [nzPageSize]="size"
+              [nzPageSize]="size" nzScroll=true
               (nzQueryParams)="
                 getEmployeeDetailWithEmployeeTypeAndCorporateId($event)
               "
@@ -422,13 +422,13 @@
               <thead>
                 <tr>
                   <th rowspan="2">#</th>
-                  <th nzWidth="14rem">Partner Name</th>
-                  <th nzWidth="13rem">Added on</th>
+                  <th>Partner Name</th>
+                  <th>Added on</th>
                   <th>Added By</th>
-                  <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
-                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Section</th>
-                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Verify</th>
-                  <th nzWidth="14rem" nzRight>Actions</th>
+                  <th  *ngIf="selectedTab !== 'corporate'">Remarks</th>
+                  <th  *ngIf="selectedTab == 'corporate'">Section</th>
+                  <th  *ngIf="selectedTab == 'corporate'">Verify</th>
+                  <th nzRight>Actions</th>
                 </tr>
               </thead>
               <tbody>
