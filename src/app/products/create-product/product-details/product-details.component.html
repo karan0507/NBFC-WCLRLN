@@ -64,6 +64,20 @@
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
+                
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="expiry" class="text-left" nzRequired>Expiry(no. of months)</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Enter expiry(no. of months)">
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="expiry" placeholder="Enter expiry(no. of months)"/>
+                            <!-- <nz-select formControlName="bill_day" nzPlaceHolder="">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
+                                    [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bill_day" class="text-left">Billing Day</nz-form-label>

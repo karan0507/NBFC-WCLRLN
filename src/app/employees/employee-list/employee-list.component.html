@@ -80,7 +80,7 @@
                                             <span class="m-l-5">Edit Permissions</span>
                                         </li> -->
 
-                                        <li nz-menu-item nz-popconfirm
+                                        <li nz-menu-item nz-popconfirm  *ngxPermissionsOnly="['toggle_employees']"
                                         nzPopconfirmTitle="Are you sure {{ !data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="deleteEmployeeFunction(data.id)">
