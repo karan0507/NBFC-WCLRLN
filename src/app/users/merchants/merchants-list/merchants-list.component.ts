@@ -81,7 +81,7 @@ export class MerchantsListComponent implements OnInit {
 
   createResetPasswordForm(){
     this.resetPasswordForm = this.fb.group({
-      corporate_admin: [null, [Validators.required]],
+      corporate_admin_id: [null, [Validators.required]],
       new_password: [null, [Validators.required]],
       retype_password: [null, [Validators.required]],
       send_email: [false],
@@ -103,7 +103,7 @@ export class MerchantsListComponent implements OnInit {
       this.passwordForAdmin['isVisibleModal'] = true;
       this.passwordForAdmin['toggleShoePasswordField'] = false;
       this.resetPasswordForm.patchValue({
-        'corporate_admin': data?.id
+        'corporate_admin_id': data?.id
       })
     }
 

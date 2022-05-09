@@ -17,8 +17,8 @@
       </div>
     <div class="row accordianLoanApp" *ngIf="selectedRole">
       <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
-        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
-          <ng-template #basicDetai>
+        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
+          <!-- <ng-template #basicDetai>
           <div class="row">
             <div class="col-7">
               <h4 class="my-0">{{ data?.display_name }}</h4>
@@ -32,7 +32,7 @@
                     ></label>
             </div>
           </div>
-        </ng-template>
+        </ng-template> -->
         <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
         </nz-page-header>
         <div class="row mt-4">
