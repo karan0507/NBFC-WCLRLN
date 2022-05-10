@@ -160,22 +160,28 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>    
-                                        <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}">
+                                        <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_product']">
                                             <span class="m-l-5">View</span>
                                         </li> 
                                         <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li> 
-                                        <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
+                                        <ng-container *ngxPermissionsOnly="['activate_product']">
+                                            <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="activeInactiveProduct(data.id)">
                                             <span class="m-l-5">Activate</span>
                                         </li> 
-                                        <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['deactivate_product']">
+                                            <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="activeInactiveProduct(data.id)">
                                             <span class="m-l-5">Deactivate</span>
                                         </li>
+                                        </ng-container>
+                                        
                                     </ul>
                                 </nz-dropdown-menu>
                             </div>

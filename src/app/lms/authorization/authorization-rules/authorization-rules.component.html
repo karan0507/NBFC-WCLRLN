@@ -25,7 +25,7 @@
             <img src="assets/images/ellipsis.png" alt="" width="30">
         </a>
         <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-            <ul nz-menu>
+            <ul nz-menu *ngxPermissionsOnly="['authorization_rules_edit_athorization_policy']">
                 <li nz-menu-item (click)="onClickEditForm(data)">
                     <span class="m-l-5">Edit</span>
                 </li>
