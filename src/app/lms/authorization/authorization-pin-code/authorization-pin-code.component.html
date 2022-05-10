@@ -17,7 +17,7 @@
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                       </button>
-                      <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload"
+                      <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload" *ngxPermissionsOnly="['upload_athorization_policy']"
                     class="d-flex align-items-center mx-4" nzSize="large">
                      {{uploaded_file ? 'Re Upload' : 'Upload File' }}
                     <i *ngIf="!uploaded_file" class="pl-2 text-primary" nz-icon nzTheme="outline" nzType="edit"></i>
@@ -54,17 +54,24 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item (click)="changeDetail(data)">
+                                        <ng-container *ngxPermissionsOnly="['pin_code_edit_athorization_policy']">
+                                            <li nz-menu-item (click)="changeDetail(data)">
                                             <span class="m-l-5">Edit</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.status == 'Blocked'">
-                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                        </ng-container *ngxPermissionsOnly="['pin_code_active_athorization_policy']">
+                                        
+                                        <ng-container>
+                                            <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.status == 'Active'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['pin_code_inactive_athorization_policy']">
+                                            <li nz-menu-item *ngIf="data?.status == 'Active'">
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                         </li>
+                                        </ng-container>
+                                        
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>

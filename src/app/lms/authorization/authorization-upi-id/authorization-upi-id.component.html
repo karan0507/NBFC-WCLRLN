@@ -57,16 +57,24 @@
                             </a>
                             <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="changeDetail(data)">
+                                    <ng-container *ngxPermissionsOnly="['upi_id_edit_athorization_policy']">
+                                        <li nz-menu-item (click)="changeDetail(data)">
                                         <span class="m-l-5">Edit</span>
                                     </li>
-                                    <li nz-menu-item *ngIf="data?.status == 'Blocked'">
-                                        <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                    </ng-container>
+                                    
+                                    <ng-container *ngxPermissionsOnly="['upi_id_active_athorization_policy']">
+                                        <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                     </li>
-                                    <li nz-menu-item *ngIf="data?.status == 'Active'">
+                                    </ng-container>
+                                    
+                                    <ng-container *ngxPermissionsOnly="['upi_id_inactive_athorization_policy']">
+                                        <li nz-menu-item *ngIf="data?.status == 'Active'">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                     </li>
+                                    </ng-container>
+                                    
                                 </ul>
                             </nz-dropdown-menu>
                         </td>
