@@ -208,8 +208,11 @@ export class EmployeeDetailsComponent implements OnInit {
     });
     this.createUploadFileForm();
     // this.getNewJoineeList();
-
-    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+      this.getListOfAllEmployees();
+    } else {
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    }
     this.fetchListOfSection();
   }
 
@@ -245,7 +248,11 @@ export class EmployeeDetailsComponent implements OnInit {
     this.viewPageSize = 30;
     this.selectedTab = e;
     this.listOfEmployee = [];
-    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+      this.getListOfAllEmployees();
+    } else {
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    }
     this.router.navigate(["/employeeDetail"], {
       queryParams: { id: this.selectedId, targetCategory: this.selectedTab },
     });
@@ -303,12 +310,25 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   getResultWithSelectedFilter(e) {
-    if (e && e != "All") {
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    // if (e && e != "All") {
+    //   this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    // } else {
+      if(e){
+      if(this.selectedTab == 'allEmployee' || this.selectedTab == 'recommendation'){
+        this.getListOfAllEmployees();
+      } else {
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
     } else {
-      this.selectedCorporate = null;
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      if(this.selectedTab == 'allEmployee' || this.selectedTab == 'recommendation'){
+        this.selectedCorporate = null;
+        this.getListOfAllEmployees();
+      } else {
+        this.selectedCorporate = null;
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
     }
+    // }
   }
 
   isViewLoader={
@@ -327,16 +347,32 @@ export class EmployeeDetailsComponent implements OnInit {
     this.onClickGetUploadedDocDetail(this.selectedIdForView, 'view');
   }
 
-  ngModelChange(e, data){
-    let body;
-    this.http.verifyUploadedFile(data?.id, body).subscribe((res: any)=>{
-      console.log(res);
-      if(res?.success){
-        this.message.success(res?.message);
-      } else {
-        this.message.error(res?.message);
+  ngModelChange(e, data, action?){
+    if(action == 'mark'){
+      let body = {
+        "section":this.selectedAction,
+        "employee":data?.id
       }
-    })
+      this.http.markEmployeeDetailsAsVerify(body).subscribe((res: any)=>{
+        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message);
+          this.getListOfAllEmployees();
+        } else {
+          this.message.error(res?.message);
+        }
+      })
+    } else {
+      let body;
+      this.http.verifyUploadedFile(data?.id, body).subscribe((res: any)=>{
+        console.log(res);
+        if(res?.success){
+          this.message.success(res?.message);
+        } else {
+          this.message.error(res?.message);
+        }
+      })
+    }
     console.log(data);
   }
 
@@ -428,6 +464,55 @@ export class EmployeeDetailsComponent implements OnInit {
 
   downloadFile(data){
     saveAs(data, "EMPLOYEE_DETAIL.xlsx");
+  }
+
+  selectedAction  = 'recommendation';
+  getListOfAllEmployees(event?){
+    if (this.apiLoader["list"]) {
+      return;
+    }
+    this.listOfEmployee = [];
+    if (event) {
+      this.page = event?.pageIndex;
+      this.size = event?.pageSize;
+    }
+    let data = {
+      keyword: this.searchValue ? this.searchValue : "",
+      page: this.page,
+      limit: this.size,
+      // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
+      // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
+    };
+    if(this.selectedTab == 'recommendation'){
+      data['action'] =  this.selectedAction;
+    }
+    console.log(this.date);
+    if(this.date){
+      // delete data["from_date"];
+      // delete data["to_date"];
+      data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
+      data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+    } 
+    // data.append(
+      //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
+      // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
+    if (this.selectedCorporate) {
+      data["corporate"] = this.selectedCorporate;
+    }
+    this.apiLoader["list"] = true;
+    const url = this.http.getListOfEmployeeBasedOnParameter(data);
+    url.subscribe(
+      (res?: any) => {
+        this.total_count = res?.data?.total_count;
+        this.listOfEmployee = res?.data?.results;
+        this.apiLoader["list"] = false;
+      },
+      (err) => {
+        console.log(err);
+        this.apiLoader["list"] = false;
+      }
+    );
+    
   }
 
   getEmployeeDetailWithEmployeeTypeAndCorporateId(event?) {
