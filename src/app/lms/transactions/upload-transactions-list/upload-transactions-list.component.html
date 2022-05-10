@@ -5,7 +5,7 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()" *ngxPermissionsOnly="['toggle_manual_transaction']">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="pending">Pending</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="approved">Approved</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="rejected">Rejected</label>
@@ -76,10 +76,18 @@
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.updated_at | date: 'medium' }}</td>
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.remarks  ? data?.remarks  : '-'}}</td>
                             <td nzRight>
-                                <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a>
-                                <a class="mr-3" [href]="data?.transactions_file" download>Download</a>
-                                <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, false)">Approve </a>
-                                <a *ngIf="selectedTab == 'pending'" (click)="clickOnReject(data.id)">Reject </a>
+                                <ng-container *ngxPermissionsOnly="['view_athorization_policy']">
+                                    <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a>
+                                </ng-container>                               
+                                <ng-container *ngxPermissionsOnly="['']">
+                                    <a class="mr-3" [href]="data?.transactions_file" download>Download</a>
+                                </ng-container>                               
+                                <ng-container *ngxPermissionsOnly="['toggle_manual_transaction']">
+                                    <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, false)">Approve </a>
+                                </ng-container>                               
+                                <ng-container *ngxPermissionsOnly="['toggle_manual_transaction']">
+                                    <a *ngIf="selectedTab == 'pending'" (click)="clickOnReject(data.id)">Reject </a>
+                                </ng-container>                               
                             </td>
                         </tr>
                     </ng-container>

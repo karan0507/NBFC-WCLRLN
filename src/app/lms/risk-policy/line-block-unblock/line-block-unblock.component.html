@@ -57,7 +57,7 @@
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
-                        <th nzWidth="5rem" nzRight>Action</th>
+                        <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['toggle_borrowers']">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,7 +77,7 @@
                         <td>{{data.fees_or_charges_amount}}</td>
                         <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
                         <td>{{data?.account_status}}</td>
-                        <td nzRight>
+                        <td nzRight *ngxPermissionsOnly="['toggle_borrowers']">
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">

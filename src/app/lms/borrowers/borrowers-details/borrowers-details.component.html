@@ -29,16 +29,16 @@
                               </button>
                               <nz-dropdown-menu #menu1="nzDropdownMenu">
                                     <ul nz-menu>
-                                          <li nz-menu-item (click)="isSelectDate = true">
+                                          <li nz-menu-item (click)="isSelectDate = true" *ngxPermissionsOnly="['download_txn_statement']">
                                                 <a>Transaction Statement</a>
                                           </li>
-                                          <li nz-menu-item (click)="pdfViewerAndDownload('Outstanding Calculation', 2)">
+                                          <li nz-menu-item (click)="pdfViewerAndDownload('Outstanding Calculation', 2)" *ngxPermissionsOnly="['download_outstanding_calculation']">
                                                 <a>Outstanding Calculation</a>
                                           </li>
                                           <!-- <li nz-menu-item (click)="pdfViewerAndDownload('Bill Statement', 3)">
                                 <a>Bill Statement</a>
                             </li> -->
-                                          <li nz-menu-item (click)="pdfViewerAndDownload('Closure Letter', 4)">
+                                          <li nz-menu-item (click)="pdfViewerAndDownload('Closure Letter', 4)" *ngxPermissionsOnly="['download_closure_letter']">
                                                 <a>Closure Letter</a>
                                           </li>
                                           <!-- <li nz-menu-item (click)="pdfViewerAndDownload('View Cal. Summary', 5)">
@@ -67,18 +67,18 @@
                                           <!-- <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Payment'; typeLabel = 'Payment Type'">
                                 <a>Add Payment</a>
                             </li> -->
-                                          <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = true">
+                                          <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = true" *ngxPermissionsOnly="['pull_cibil_application']">
                                                 <a>Pull Cibil
                                                       from Third Party</a>
                                           </li>
-                                          <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = false ">
+                                          <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = false " *ngxPermissionsOnly="['pull_sms_application']">
                                                 <a>Pull SMS from
                                                       Third Party</a>
                                           </li>
-                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = true; ">
+                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = true; " *ngxPermissionsOnly="['fetch_cibil_application']">
                                                 <a>Fetch Cibil Data</a>
                                           </li>
-                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = false">
+                                          <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = false" *ngxPermissionsOnly="['fetch_sms_application']">
                                                 <a>Fetch SMS Data</a>
                                           </li>
                                     </ul>
@@ -255,11 +255,11 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
+                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
                                                                 <span class="m-l-5">View details</span>
                                                             </li>
                                                             <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
-                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)">
+                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)" *ngxPermissionsOnly="['wave_off_transaction']">
                                                                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
@@ -375,11 +375,11 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
+                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
                                                                 <span class="m-l-5">View details</span>
                                                             </li>
                                                             <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
-                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)">
+                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)" *ngxPermissionsOnly="['wave_off_transaction']">
                                                                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
@@ -413,7 +413,7 @@
                         <tr>
                               <th>#</th>
                               <th>Created At</th>
-                              <th nzWidth="5rem" nzRight>Actions</th>
+                              <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['view_bill_statement']">Actions</th>
                         </tr>
                   </thead>
                   <tbody>
@@ -421,7 +421,7 @@
                               <td *ngIf="page4 === 1">{{i+1}}</td>
                               <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
-                              <td nzRight>
+                              <td nzRight *ngxPermissionsOnly="['view_bill_statement']">
                                     <a (click)="viewInvoice(data.report_file, 'Bill Statement')">view</a>
                               </td>
                         </tr>
@@ -436,7 +436,7 @@
                               <th>Term</th>
                               <th>Total Amount</th>
                               <th>Invoice date</th>
-                              <th nzWidth="5rem" nzRight>Actions</th>
+                              <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['view_invoice']">Actions</th>
                         </tr>
                   </thead>
                   <tbody>
@@ -446,7 +446,7 @@
                               <td>{{data.terms ? data.terms : '-'}}</td>
                               <td>{{data.total ? data.total : '-'}}</td>
                               <td>{{data.invoice_date ? data.invoice_date : '-'}}</td>
-                              <td nzRight>
+                              <td nzRight *ngxPermissionsOnly="['view_invoice']">
                                     <a (click)="viewInvoice(data.invoice_file, 'Invoice')">view</a>
                               </td>
                         </tr>

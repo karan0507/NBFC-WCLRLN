@@ -2,7 +2,7 @@ import { SideNavInterface } from '../../interfaces/side-nav.type';
 export const ROUTES: SideNavInterface[] = [
     {
         path: '/dashboard/home',
-        permission:'',
+        permission:'view_dashboard',
         title: 'Dashboard',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -41,7 +41,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'user',
-        permission:'',
+        permission:'view_user',
         submenu: [
             { 
                 path: 'lenders',
@@ -84,7 +84,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Merchants', 
                 iconType: '', 
                 icon: '',
-                permission:'',
+                permission:'view_merchants',
                 iconTheme: '',
                 submenu: [
                     { 
@@ -241,7 +241,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'LMS',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'',
+        permission:'view_lms',
         icon: 'file',
         submenu: [
             { 
@@ -323,7 +323,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Black box testing',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'',
+        permission:'view_black_box',
         icon: 'file',
         submenu: []
     },
@@ -332,7 +332,7 @@ export const ROUTES: SideNavInterface[] = [
       title: 'Coupon Code',
       iconType: 'nzIcon',
       iconTheme: 'outline',
-      permission:'',
+      permission:'view_coupon_code',
       icon: 'tags',
       submenu: []
     },
@@ -341,7 +341,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Access control',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'',
+        permission:'view_employee_permission',
         icon: 'key',
         submenu: []
     },
