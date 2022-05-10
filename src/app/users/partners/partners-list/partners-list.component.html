@@ -115,7 +115,7 @@
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Edit</span>
                                             </li>
-                                            <li nz-menu-item [routerLink]="['../employeeDetail']"
+                                            <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Employee Details</span>
@@ -124,13 +124,17 @@
                                           nzPopconfirmTitle="Are you sure delete Employee?"
                                           nzPopconfirmPlacement="topLeft"
                                           (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-                                            <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
-                                                <span class="m-l-5">Inactive</span>
-                                            </li>
-                                            <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
-                                                <span class="m-l-5">Active</span>
-                                            </li>
-                                            <li nz-menu-item>
+                                            <ng-container *ngxPermissionsOnly="['inactive_partner']">
+                                                <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
+                                                    <span class="m-l-5">Inactive</span>
+                                                </li>
+                                            </ng-container>
+                                            <ng-container *ngxPermissionsOnly="['active_partner']">
+                                                <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
+                                                    <span class="m-l-5">Active</span>
+                                                </li>
+                                            </ng-container>
+                                            <li nz-menu-item *ngxPermissionsOnly="['upgrade_to_master']">
                                                 <span class="m-l-5"
                                                     (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To
                                                     Master</span>
@@ -141,14 +145,14 @@
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5">Upgrade Agreement</span>
                                             </li> -->
-                                            <li nz-menu-item (click)="storeSelectedId(data?.id)">
+                                            <li nz-menu-item (click)="storeSelectedId(data?.id)" *ngxPermissionsOnly="['upload_aggreement']">
                                                 <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                     [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
                                                     class="d-flex pl-1 align-items-left" nzSize="large">
                                                     Upload Agreement
                                                 </nz-upload>
                                             </li>
-                                            <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')">
+                                            <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_aggreement']">
                                                 <span class="m-l-5">Show Agreement</span>
                                             </li>
 
@@ -311,20 +315,28 @@
                                                         <span *ngIf="data?.is_verified">
                                                             Verified
                                                         </span>
-                                                        <span *ngIf="!data?.is_verified && data?.document_file_front">
-                                                            <a 
-                                                                nz-popconfirm
-                                                                nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
-                                                                nzPopconfirmPlacement="bottom"                                              
-                                                                (nzOnConfirm)="onClickVerifyDoc(data?.id)"
-                                                                (nzOnCancel)="cancel()"
-                                                                >
-                                                                Plz Click to verify
-                                                                </a>
-                                                        </span>
+                                                        <ng-container *ngxPermissionsOnly="['verify_document']">
+                                                            <span *ngIf="!data?.is_verified && data?.document_file_front">
+                                                                <a 
+                                                                    nz-popconfirm
+                                                                    nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                                    nzPopconfirmPlacement="bottom"                                              
+                                                                    (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                                    (nzOnCancel)="cancel()"
+                                                                    >
+                                                                    Plz Click to verify
+                                                                    </a>
+                                                            </span>
+                                                        </ng-container>
                                                         <div class="mx-2">
-                                                            <i style="cursor: pointer;"  *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'front')"></i>
-                                                            <i style="cursor: pointer;" *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'front')"></i>
+                                                            <ng-container *ngxPermissionsOnly="['download_document']">
+                                                                <i style="cursor: pointer;"  *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="download" nzTheme="outline" 
+                                                                (click)="onClickDownloadSelectedDocument(data, 'front')"></i>
+                                                            </ng-container>
+                                                            <ng-container *ngxPermissionsOnly="['view_document']">
+                                                                <i style="cursor: pointer;" *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="eye" nzTheme="outline" 
+                                                                (click)="storeSelectedId(data, 'submitted', 'front')"></i>
+                                                            </ng-container>
                                                         </div>
                                                     </div>
                                                 </div>

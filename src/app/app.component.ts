@@ -19,7 +19,7 @@ export class AppComponent {
             this.permissionsService.loadPermissions(check_token_exists);
           }
           this.UserPermissionDataSubscription = this.HttpService.globalUserPermissionsData.subscribe((value) => {
-            value.push('')
+            // value.push('')
             this.permissionsService.loadPermissions(value);
           });
         }
