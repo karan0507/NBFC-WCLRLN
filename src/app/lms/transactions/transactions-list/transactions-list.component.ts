@@ -50,6 +50,14 @@ export class TransactionsListComponent implements OnInit {
   master_product_id = ''
   final_reverse_amount: any;
   reverse_sub_title: string;
+  isdeleteloader: boolean;
+  waiveOffId: any;
+  isWaiveOff: boolean;
+  refundId: any;
+  refund_type: any;
+  refund_amount: any;
+  refund_sub_title: string;
+  is_refund_loading: boolean;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -120,7 +128,29 @@ export class TransactionsListComponent implements OnInit {
     this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
+  
+  waiveOffToggle(id) {
+    this.isWaiveOff = true
+    this.waiveOffId = id
+  }
 
+  fetchBorrowerDelete() {
+    let data = {
+      datapoint: 'wave_off_transaction',
+      endpoint: this.waiveOffId,
+      source: 'LMS',
+    }
+    this.isdeleteloader = true
+    this.http.fetchLoanApplicationDelete(data).subscribe(res => {
+      this.isdeleteloader = false
+      this.message.success(res['message'])
+      this.isWaiveOff = false
+      this.fetchTransactionList()
+    }, (err)=> {
+      this.isdeleteloader = false
+      this.isWaiveOff = false
+    })
+  }
   onChange(result: Date[]): void {
     console.log('onChange: ', this.date);
   }
@@ -148,17 +178,25 @@ export class TransactionsListComponent implements OnInit {
   reverseChargesToggle(id) {
     // this.isReverseCharges = true
     this.reverseId = id
-    this.getTnxAmount()
+    this.getTnxAmount(id)
   }
-  getTnxAmount() {
+  refundChargesToggle(id) {
+    this.refundId = id
+    this.getTnxAmount(id)
+  }
+  getTnxAmount(id) {
     let data = {
       datapoint: 'get_transaction_amount',
-      endpoint: this.reverseId,
+      endpoint: id,
       source: 'LMS',
     }
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       if (res.data.amount > 0) {
-        this.isReverseCharges = true
+        if (this.reverseId) {
+          this.isReverseCharges = true
+        } else {
+          this.isRefundTransaction = true
+        }
         this.final_reverse_amount = res.data.amount
       } else {
         this.message.warning("You don't have amount for reverse transaction.")
@@ -183,6 +221,22 @@ export class TransactionsListComponent implements OnInit {
     this.is_set_amt = true
     this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount+ '<br/> Are you sure about performing this action?'
   }
+  setTypeandAmtrefund() {
+    if (!this.refund_type) {
+      this.message.error('Please select refund type')
+      return false
+    }
+    if (!this.refund_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.refund_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.refund_sub_title = 'Amount to be refundd - ₹' + this.refund_amount+ '<br/> Are you sure about performing this action?'
+  }
   reverseChargesFunction() {
     let data = new FormData()
     data.append('source', 'LMS'),
@@ -194,9 +248,29 @@ export class TransactionsListComponent implements OnInit {
       this.is_revese_loading = false
       this.isReverseCharges = false
       this.is_set_amt = false
+      this.reverseId = ''
       this.message.success(res['message'])
     }, (err) => {
       this.is_revese_loading = false
+    })
+  }
+
+  
+  refundChargesFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'refund_transaction'),
+    data.append('endpoint', this.refundId)
+    data.append('amount', this.refund_amount)
+    this.is_refund_loading = true
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.is_refund_loading = false
+      this.isRefundTransaction = false
+      this.is_set_amt = false
+      this.refundId = ''
+      this.message.success(res['message'])
+    }, (err) => {
+      this.is_refund_loading = false
     })
   }
   disabledDate = (current: Date): boolean =>

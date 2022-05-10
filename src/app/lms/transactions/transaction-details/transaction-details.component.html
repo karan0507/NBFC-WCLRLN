@@ -1,179 +1,179 @@
 <section>
     <nz-card nzTitle="Transaction Details" [nzLoading]="api_calling_loader">
         <div class="row mb-3">
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.user?.full_name">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User name :</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.user?.full_name ? listOfData?.user?.full_name : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.user?.mobile">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User mobile no :</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.user?.mobile ? listOfData?.user?.mobile : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.user?.email">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Email ID</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.user?.email ? listOfData?.user?.email : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.payee_data?.payee_name">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee name</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_name ? listOfData?.payee_data?.payee_name : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.payee_data?.payee_upi_id">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee UPI ID</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_upi_id ? listOfData?.payee_data?.payee_upi_id : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.payee_data?.payee_mobile">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee mobile no</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_mobile ? listOfData?.payee_data?.payee_mobile : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.payer_data?.payer_upi">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payer UPI ID</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.payer_data?.payer_upi ? listOfData?.payer_data?.payer_upi : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.bank_detail?.bank_name">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Bank Name</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.bank_detail?.bank_name ? listOfData?.bank_detail?.bank_name : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.bank_detail?.bank_account">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Bank Account no</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.bank_detail?.bank_account ? listOfData?.bank_detail?.bank_account : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.txn_unique_id">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Unique ID</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.txn_unique_id ? listOfData?.txn_unique_id : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.txn_amount">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Amount</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.txn_amount ? listOfData?.txn_amount : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.txn_status">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Status</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.txn_status ? listOfData?.txn_status : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.upi_transaction_id">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">UPI Transaction ID</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.upi_transaction_id ? listOfData?.upi_transaction_id : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.txn_type">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Type</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.txn_type ? listOfData?.txn_type : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.details">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Details</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.details ? listOfData?.details : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.reason">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Reason</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.reason ? listOfData?.reason : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.txn_entry_type">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Entry type</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.txn_entry_type ? listOfData?.txn_entry_type : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.mode_of_payment">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Mode of payment</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.mode_of_payment ? listOfData?.mode_of_payment : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.paid_to">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Paid to</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.paid_to ? listOfData?.paid_to : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.mcc_code">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">MCC code</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.mcc_code ? listOfData?.mcc_code : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.transaction_datetime">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction date</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.transaction_datetime ? (listOfData?.transaction_datetime | date: 'medium') : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.mcc_description">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">MCC description</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.mcc_description ? listOfData?.mcc_description : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.user_remark">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User Remarks</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.user_remark ? listOfData?.user_remark : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.transaction_category">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction category</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.transaction_category ? listOfData?.transaction_category : '-'}}</div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
+        <!-- </div>
+        <div class="row mb-3"> -->
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.corporate_transaction_status">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Corporate transaction status</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.corporate_transaction_status ? listOfData?.corporate_transaction_status : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.corporate_remarks">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Corporate Remarks</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.corporate_remarks ? listOfData?.corporate_remarks : '-'}}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3" *ngIf="listOfData?.expense_type">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Expense type</div>
                     <div class="col-md-6 font-size-16">{{listOfData?.expense_type ? listOfData?.expense_type : '-'}}</div>

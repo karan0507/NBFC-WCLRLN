@@ -15,7 +15,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class BorrowersDetailsComponent implements OnInit {
 
   selectedTab = '1'
-  dataSet = [{},{}]
+  dataSet = [{}, {}]
   isAddPayment = false
   formLoading = false
   paymentTitle = ''
@@ -54,8 +54,8 @@ export class BorrowersDetailsComponent implements OnInit {
   // date = ''
   // searchValue = '';
   disabledDate = (current: Date): boolean =>
-  // Can not select days before today and today
-  differenceInCalendarDays(current, new Date()) > 0;
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
   selectedType1 = ''
   selectedStatus1 = ''
   date1 = ''
@@ -77,14 +77,14 @@ export class BorrowersDetailsComponent implements OnInit {
   waiveOffId: any;
   isdeleteloader: boolean;
   is_revese_loading: boolean;
-//   Pull SMS Cibil Modals
-  isPullSMSCibilPopup:boolean;
-  isPullSMSCibilModal : boolean;
-  isPullCibil : boolean;
-  isFetchCibilSms : boolean = false;
-  _isPullData : boolean;
-  _isCibil : boolean;
-  _currentLoanDetails : any
+  //   Pull SMS Cibil Modals
+  isPullSMSCibilPopup: boolean;
+  isPullSMSCibilModal: boolean;
+  isPullCibil: boolean;
+  isFetchCibilSms: boolean = false;
+  _isPullData: boolean;
+  _isCibil: boolean;
+  _currentLoanDetails: any
   page4: any;
   globalPageSize4: any;
   total_count4: any;
@@ -96,16 +96,20 @@ export class BorrowersDetailsComponent implements OnInit {
   final_reverse_amount: any;
   is_set_amt: boolean;
   reverse_sub_title: string;
+  refund_type: any;
+  refund_amount: any;
+  refund_sub_title: string;
+  is_refund_loading: boolean;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute,
     private sanitized: DomSanitizer,) {
-      this.route.queryParams.subscribe(params => {
-        if(params['id']){
-          this.borrower_id = params['id']
-        }
-      });
-     }
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.borrower_id = params['id']
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.page = 1;
@@ -138,12 +142,12 @@ export class BorrowersDetailsComponent implements OnInit {
   addPayment(form) {
 
   }
-  closeAccount(){}
+  closeAccount() { }
 
   handleCancel() {
-      this.isPullSMSCibilModal = false;
-      this.isFetchCibilSms = false;
-      this.isPullSMSCibilPopup = false;
+    this.isPullSMSCibilModal = false;
+    this.isFetchCibilSms = false;
+    this.isPullSMSCibilPopup = false;
     this.pdf_viewer_object_values['boolean'] = false
     this.pdf_viewer_object_values['url'] = null
   }
@@ -192,9 +196,9 @@ export class BorrowersDetailsComponent implements OnInit {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
         if (res.success) {
           this.pdf_viewer_object_values['title'] = title
-          this.sanatizeUrlToSafe(res?.data?.url) 
+          this.sanatizeUrlToSafe(res?.data?.url)
           this.pdf_viewer_object_values['boolean'] = true
-          
+
         } else {
           this.message.error(res['message'])
         }
@@ -236,8 +240,8 @@ export class BorrowersDetailsComponent implements OnInit {
 
   fetchBillStatementList(tabelFilter?) {
     // if (tabelFilter) {
-      this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+    this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -263,8 +267,8 @@ export class BorrowersDetailsComponent implements OnInit {
 
   fetchInvoiceList(tabelFilter?) {
     // if (tabelFilter) {
-      this.page5 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.page5 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+    this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -286,7 +290,7 @@ export class BorrowersDetailsComponent implements OnInit {
       this.api_calling_loader5 = false
     })
   }
-  
+
   fetchTransactionTxnList(tabelFilter?) {
     if (tabelFilter) {
       this.page2 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.page2;
@@ -308,8 +312,8 @@ export class BorrowersDetailsComponent implements OnInit {
     this.api_calling_loader2 = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader2 = false
-        this.transaction_repayment_list = res['data']
-        this.total_count2 = res.total_count
+      this.transaction_repayment_list = res['data']
+      this.total_count2 = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader2 = false
@@ -337,23 +341,23 @@ export class BorrowersDetailsComponent implements OnInit {
     this.api_calling_loader1 = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader1 = false
-        this.fees_charges_list = res['data']
-        this.total_count1 = res.total_count
+      this.fees_charges_list = res['data']
+      this.total_count1 = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader1 = false
     })
   }
 
-  
-  resetFilter1(){
+
+  resetFilter1() {
     this.searchValue1 = ''
     this.selectedType1 = ''
     this.selectedStatus1 = ''
     this.date1 = ''
     this.fetchTransactionFessList();
   }
-  resetFilter2(){
+  resetFilter2() {
     this.searchValue2 = ''
     this.selectedType2 = ''
     this.selectedStatus2 = ''
@@ -372,7 +376,7 @@ export class BorrowersDetailsComponent implements OnInit {
       this.message.success(res['message'])
       this.isWaiveOff = false
       this.fetchTransactionTxnList()
-    }, (err)=> {
+    }, (err) => {
       this.isdeleteloader = false
       this.isWaiveOff = false
     })
@@ -380,18 +384,22 @@ export class BorrowersDetailsComponent implements OnInit {
   reverseChargesToggle(id) {
     // this.isReverseCharges = true
     this.reverseId = id
-    this.getTnxAmount()
+    this.getTnxAmount(id)
   }
-  
-  getTnxAmount() {
+
+  getTnxAmount(id) {
     let data = {
       datapoint: 'get_transaction_amount',
-      endpoint: this.reverseId,
+      endpoint: id,
       source: 'LMS',
     }
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       if (res.data.amount > 0) {
-        this.isReverseCharges = true
+        if (this.reverseId) {
+          this.isReverseCharges = true
+        } else {
+          this.isRefundTransaction = true
+        }
         this.final_reverse_amount = res.data.amount
       } else {
         this.message.warning("You don't have amount for reverse transaction.")
@@ -399,7 +407,7 @@ export class BorrowersDetailsComponent implements OnInit {
     }, (err) => {
     })
   }
-  
+
   setTypeandAmt() {
     if (!this.reverse_type) {
       this.message.error('Please select reverse type')
@@ -414,13 +422,9 @@ export class BorrowersDetailsComponent implements OnInit {
       return false
     }
     this.is_set_amt = true
-    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount+ '<br/> Are you sure about performing this action?'
+    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount + '<br/> Are you sure about performing this action?'
   }
-  
-  refundTransactionToggle(id) {
-    this.isRefundTransaction = true
-    this.refundId = id
-  }
+
   waiveOffToggle(id) {
     this.isWaiveOff = true
     this.waiveOffId = id
@@ -429,14 +433,15 @@ export class BorrowersDetailsComponent implements OnInit {
   reverseChargesFunction() {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'reverse_transaction'),
-    data.append('endpoint', this.reverseId)
+      data.append('datapoint', 'reverse_transaction'),
+      data.append('endpoint', this.reverseId)
     data.append('amount', this.reverse_amount)
     this.is_revese_loading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.is_revese_loading = false
       this.isReverseCharges = false
       this.is_set_amt = false
+      this.reverseId = ''
       this.message.success(res['message'])
       this.fetchTransactionTxnList()
       this.fetchTransactionFessList();
@@ -448,27 +453,67 @@ export class BorrowersDetailsComponent implements OnInit {
 
   viewInvoice(file, name) {
     this.pdf_viewer_object_values['title'] = name
-    this.sanatizeUrlToSafe(file) 
+    this.sanatizeUrlToSafe(file)
     this.pdf_viewer_object_values['boolean'] = true
   }
 
   pullDataSMSCibil(type?) {
-      this.isPullSMSCibilModal = true      
-      switch (type) {
-            case 'thirdPartyCibil':
-                  this.isPullSMSCibilModal = true
-                  this._currentLoanDetails = this.borrowertList?.loan_application_id;
-                  this._isCibil = true
-                  break;
-            case 'downloadCibil': break
-            case 'thirdPartySMS':
-                  this.isPullSMSCibilModal = true;
-                  this._currentLoanDetails = this.borrowertList?.user?.user_id
-                  this._isCibil = false
-                  break
+    this.isPullSMSCibilModal = true
+    switch (type) {
+      case 'thirdPartyCibil':
+        this.isPullSMSCibilModal = true
+        this._currentLoanDetails = this.borrowertList?.loan_application_id;
+        this._isCibil = true
+        break;
+      case 'downloadCibil': break
+      case 'thirdPartySMS':
+        this.isPullSMSCibilModal = true;
+        this._currentLoanDetails = this.borrowertList?.user?.user_id
+        this._isCibil = false
+        break
 
-      }
-}
+    }
+  }
+
+  refundChargesToggle(id) {
+    this.refundId = id
+    this.getTnxAmount(id)
+  }
+
+  setTypeandAmtrefund() {
+    if (!this.refund_type) {
+      this.message.error('Please select refund type')
+      return false
+    }
+    if (!this.refund_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.refund_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.refund_sub_title = 'Amount to be refundd - ₹' + this.refund_amount + '<br/> Are you sure about performing this action?'
+  }
+  
+  refundChargesFunction() {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'refund_transaction'),
+    data.append('endpoint', this.refundId)
+    data.append('amount', this.refund_amount)
+    this.is_refund_loading = true
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.is_refund_loading = false
+      this.isRefundTransaction = false
+      this.is_set_amt = false
+      this.refundId = ''
+      this.message.success(res['message'])
+    }, (err) => {
+      this.is_refund_loading = false
+    })
+  }
 
 
 }

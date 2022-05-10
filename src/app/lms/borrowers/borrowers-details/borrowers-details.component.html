@@ -258,21 +258,22 @@
                                                             <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
                                                                 <span class="m-l-5">View details</span>
                                                             </li>
-                                                            <li nz-menu-item (click)="reverseChargesToggle(data.id)">
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Reverse Charges</span>
-                                                            </li>
-
-                                                            <li nz-menu-item
-                                                                  (click)="refundTransactionToggle(data?.id)">
-                                                                  <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
-                                                                  <span class="m-l-5">Refund Transaction</span>
-                                                            </li>
-
-                                                            <li nz-menu-item (click)="waiveOffToggle(data?.id)">
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Waive off Charges</span>
-                                                            </li>
+                                                            <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
+                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)">
+                                                                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                      <span class="m-l-5">Waive off Charges</span>
+                                                                </li>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                                <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
+                                                                    <span class="m-l-5">Refund Transaction</span>
+                                                                </li>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                                <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
+                                                                    <span class="m-l-5">Reverse Charges</span>
+                                                                </li>
+                                                            </ng-container>
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </div>
@@ -377,21 +378,22 @@
                                                             <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}">
                                                                 <span class="m-l-5">View details</span>
                                                             </li>
-                                                            <li nz-menu-item (click)="reverseChargesToggle(data.id)">
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Reverse Charges</span>
-                                                            </li>
-
-                                                            <li nz-menu-item
-                                                                  (click)="refundTransactionToggle(data?.id)">
-                                                                  <!-- <i nz-icon nzType="eye" nzTheme="outline"></i> -->
-                                                                  <span class="m-l-5">Refund Transaction</span>
-                                                            </li>
-
-                                                            <li nz-menu-item (click)="waiveOffToggle(data?.id)">
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Waive off Charges</span>
-                                                            </li>
+                                                            <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
+                                                                <li nz-menu-item (click)="waiveOffToggle(data?.id)">
+                                                                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                      <span class="m-l-5">Waive off Charges</span>
+                                                                </li>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                                <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
+                                                                    <span class="m-l-5">Refund Transaction</span>
+                                                                </li>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                                <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
+                                                                    <span class="m-l-5">Reverse Charges</span>
+                                                                </li>
+                                                            </ng-container>
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </div>
@@ -602,16 +604,50 @@
       </ng-template>
   </nz-modal>
 <!-- Refund Transaction -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="null" (nzOnCancel)="isRefundTransaction = false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="!is_set_amt ? modalFooter123 : null" [nzClosable]="false">
       <ng-container *nzModalContent>
-            <!-- Amount to be refunded - ₹100 <br/>  -->
-            <app-double-confirmation-popup [title]="'Do you want to refund this transaction amount to users account?'"
-                  [subTitle]="'Are you sure about performing this action?'" [icon]="'assets/images/refund.png'"
-                  (onOkCall)="isRefundTransaction = false" (onCencelCall)="isRefundTransaction = false"
-                  [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
-            </app-double-confirmation-popup>
+          <app-double-confirmation-popup *ngIf="is_set_amt"
+              [title]="'Do you want to refund this transaction amount to users account?'"
+              [subTitle]="refund_sub_title"
+              [icon]="'assets/images/refund.png'"
+              (onOkCall)="refundChargesFunction()"
+              [isbtnLoading]="is_refund_loading"
+              (onCencelCall)="isRefundTransaction = false; is_set_amt = false"
+              [cancelBtnTxt]="'Cancel'"
+              [submitBtnTxt]="'OK'">
+          </app-double-confirmation-popup>
+          
+          <div class="row" *ngIf="!is_set_amt">
+              <div class="col-md-12">
+                  <nz-form-item>
+                      <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select type
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
+                          <nz-select nzAllowClear [(ngModel)]="refund_type" nzPlaceHolder="Please Select type"
+                          (ngModelChange)="refund_type == 2 ? refund_amount = final_reverse_amount : refund_amount = '' ">
+                              <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
+                              <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
+                          </nz-select>
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+              <div class="col-md-12">
+                  <nz-form-item>
+                      <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
+                          <input [(ngModel)]="refund_amount" type="number" nz-input placeholder="Please Enter amount" />
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+          </div>
       </ng-container>
-</nz-modal>
+      
+      <ng-template #modalFooter123>
+          <button nz-button (click)="isRefundTransaction = false; is_set_amt = false">Close</button>
+          <button nz-button nzType="primary" (click)="setTypeandAmtrefund()">Submit</button>
+      </ng-template>
+  </nz-modal>
 
 <nz-modal [nzWidth]="500" [(nzVisible)]="isPullSMSCibilPopup" [nzFooter]="null" (nzOnCancel)="isPullSMSCibilPopup = false">
       <ng-container *nzModalContent>
