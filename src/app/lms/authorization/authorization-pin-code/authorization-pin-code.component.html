@@ -58,9 +58,9 @@
                                             <li nz-menu-item (click)="changeDetail(data)">
                                             <span class="m-l-5">Edit</span>
                                         </li>
-                                        </ng-container *ngxPermissionsOnly="['pin_code_active_athorization_policy']">
+                                        </ng-container>
                                         
-                                        <ng-container>
+                                        <ng-container *ngxPermissionsOnly="['pin_code_active_athorization_policy']">
                                             <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                             <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                         </li>
