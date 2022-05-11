@@ -286,10 +286,10 @@ export class EmployeeDetailsComponent implements OnInit {
 
   fetchPartnerList(e?) {
     let data = {
-      page: 1,
-      size: 30,
-      partner_nature: "Partner",
-      status: "all",
+      // page: 1,
+      // size: 30,
+      // partner_nature: "Partner",
+      // status: "all",
     };
     if(e){
       data['name'] = e;

@@ -815,8 +815,8 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
-      public fetchPermissionSlugsForEmployee(){
-            return this._http.get((this.url + `/platform_central/v1/get-controller-list`));
+      public fetchPermissionSlugsForEmployee(data){
+            return this._http.get((this.url + `/platform_central/v1/get-controller-list`),{params: data});
       }
 
       public updatePermissionBasedOnType(id,data){

@@ -538,7 +538,7 @@
                 nzErrorTip="Please Select Valid Corporate"
               >
                 <nz-select
-                  formControlName="partner"
+                  formControlName="partner" nzShowSearch (nzOnSearch)="OnTypeSearchList($event)"
                   nzAllowClear
                   nzPlaceHolder="Partner Name"
                   (ngModelChange)="onClickSelectFireBranchAPI($event)"
