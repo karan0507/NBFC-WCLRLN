@@ -48,13 +48,10 @@ export class SideNavComponent {
       }
 
       onCheckReturn(data){
-            var testVar = []
-            testVar = data;
-            console.log(testVar);
-            // testVar.forEach(element => {
-            //       console.log(element)
-            //       // return element;
-            // });
+            data.forEach(element => {
+                  console.log(element)
+                  // return element;
+            });
       }
 
       getCount(item) {
