@@ -47,6 +47,14 @@ export class SideNavComponent {
             }
       }
 
+      onCheckReturn(data){
+            console.log(data)
+            // data.forEach(element => {
+            //       console.log(element)
+            //       // return element;
+            // });
+      }
+
       getCount(item) {
             // console.log(this.applicationCount, item);
 
