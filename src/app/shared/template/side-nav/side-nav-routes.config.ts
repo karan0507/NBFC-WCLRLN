@@ -336,15 +336,15 @@ export const ROUTES: SideNavInterface[] = [
       icon: 'tags',
       submenu: []
     },
-    {
-        path: 'edit-employee-permission',
-        title: 'Access control',
-        iconType: 'nzIcon',
-        iconTheme: 'outline',
-        permission:'view_employee_permission',
-        icon: 'key',
-        submenu: []
-    },
+    // {
+    //     path: 'edit-employee-permission',
+    //     title: 'Access control',
+    //     iconType: 'nzIcon',
+    //     iconTheme: 'outline',
+    //     permission:'view_employee_permission',
+    //     icon: 'key',
+    //     submenu: []
+    // },
     // {
     //     path: 'transactions',
     //     title: 'Transactions',

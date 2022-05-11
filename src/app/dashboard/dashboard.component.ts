@@ -203,6 +203,9 @@ export class DashboardComponent implements OnInit {
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void {
+    if (!localStorage.getItem('fatakpay_user_data')) {
+            return;
+    }
     this.getAuthorizationList();
     this.getNBFCList();    
     this.getDelinquentList();   

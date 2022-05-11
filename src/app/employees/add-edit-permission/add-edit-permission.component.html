@@ -5,7 +5,7 @@
             <nz-form-item>
                 <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="bill_date" class="text-left">Select Preferred  Role</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Role">
-                    <nz-select nzShowSearch nzPlaceHolder="Select Role" [(ngModel)]="selectedRole">
+                    <nz-select nzShowSearch nzPlaceHolder="Select Role" (ngModelChange)="onChange($event)" [(ngModel)]="selectedRole">
                         <nz-option *ngFor="let item of fetchedRole" [nzValue]="item.pk"
                         [nzLabel]="item.name">
                         </nz-option>

@@ -25,7 +25,7 @@ export class AddEditPermissionComponent implements OnInit {
     // this.route.queryParams.subscribe((res: any)=>{
     //   this.selectedRole = res?.id;
     // })
-    this.fetchSlagsList();
+    // this.fetchSlagsList();
     this.fetchRoles();
   }
 
@@ -36,9 +36,16 @@ export class AddEditPermissionComponent implements OnInit {
     })
   }
 
-  fetchSlagsList(){
+  onChange(e){
+    this.fetchSlagsList(e);
+  }
+
+  fetchSlagsList(e?){
     this.apiLoader['list'] = true;
-    this.http.fetchPermissionSlugsForEmployee().subscribe((res: any)=>{
+    let data = {
+      'role_id': e
+    }
+    this.http.fetchPermissionSlugsForEmployee(data).subscribe((res: any)=>{
       this.permissionList = []
       res?.data.map((data)=>{
         if(data?.slugs_list.length > 0){

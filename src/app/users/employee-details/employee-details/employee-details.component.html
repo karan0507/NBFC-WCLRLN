@@ -221,8 +221,9 @@
                 <tr>
                   <th>#</th>
                   <th>Partner Name</th>
+                  <th>Display Name</th>
+                  <th>Employee Name</th>
                   <th>Employee Code</th>
-                  <th>Added By</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommendation By</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommended Amount</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'exit'" >Exited By</th>
@@ -242,7 +243,7 @@
                     {{ data?.partner ? data?.partner : ' - '}}
                   </td>
                   <td>
-                    {{ data?.emp_code ? data?.emp_code : ' - '}}
+                    {{ data?.display_name ? data?.display_name : ' - '}}
                   </td>
                   <td>
                     <div>
@@ -250,6 +251,9 @@
                         data?.first_name  + ' ' +  data?.last_name
                       }}
                     </div>
+                  </td>
+                  <td>
+                    {{ data?.emp_code ? data?.emp_code : ' - '}}
                   </td>
                   <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'">
                     {{ data?.recommended_by ? data?.recommended_by : ' - '}}
@@ -538,7 +542,7 @@
                 nzErrorTip="Please Select Valid Corporate"
               >
                 <nz-select
-                  formControlName="partner"
+                  formControlName="partner" nzShowSearch (nzOnSearch)="OnTypeSearchList($event)"
                   nzAllowClear
                   nzPlaceHolder="Partner Name"
                   (ngModelChange)="onClickSelectFireBranchAPI($event)"

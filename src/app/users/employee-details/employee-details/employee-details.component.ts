@@ -269,7 +269,12 @@ export class EmployeeDetailsComponent implements OnInit {
       this.searchValue = "";
       this.selectedSection = null;
       this.selectedCorporate = null;
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+      this.getListOfAllEmployees();  
+      } else {
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
+      // this.getListOfAllEmployees();
     // }
     // this.getAuthorizationList();
   }
@@ -286,10 +291,10 @@ export class EmployeeDetailsComponent implements OnInit {
 
   fetchPartnerList(e?) {
     let data = {
-      page: 1,
-      size: 30,
-      partner_nature: "Partner",
-      status: "all",
+      // page: 1,
+      // size: 30,
+      // partner_nature: "Partner",
+      // status: "all",
     };
     if(e){
       data['name'] = e;
