@@ -544,6 +544,11 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
+      // Send E-mandate Link 
+      public sendEmandateLink(data): any {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+
       // Download Loan Application Documents 
       public downloadDocuments(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });

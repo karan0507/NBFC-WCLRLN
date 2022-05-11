@@ -106,15 +106,16 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
-                                          <td>{{data?.master_partner ? data?.master_partner?.name : '--'}}</td>
-                                          <td>{{data?.source_id ? data?.source_id : '--'}}</td>
-                                          <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
-                                          <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
+                                          <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '-'}}</td>
+                                          <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
+                                          <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
                                           <td></td>
-                                          <td>{{data?.status ? data?.status : '--'}}</td>
+                                          <td>{{data?.status ? data?.status : '-'}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
-                                                {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) : (data?.remarks ? data?.remarks : '--')}}
-                                          </span></td>
+                                                      {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
+                                                      (data?.remarks ? data?.remarks : '-')}}
+                                                </span></td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -124,7 +125,8 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item *ngxPermissionsOnly="['edit_offer_application']">
+                                                            <li nz-menu-item
+                                                                  *ngxPermissionsOnly="['edit_offer_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5"
                                                                         (click)="updateStatus('editOffer', data)">Edit
@@ -135,7 +137,8 @@
                                                                   [nzPopconfirmTitle]="popupTitle"
                                                                   nzPopconfirmPlacement="bottomRight"
                                                                   (nzOnConfirm)="updateStatus('rejectOffer', data)"
-                                                                  (nzOnCancel)="cancel()" *ngxPermissionsOnly="['reject_offer_application']">
+                                                                  (nzOnCancel)="cancel()"
+                                                                  *ngxPermissionsOnly="['reject_offer_application']">
                                                                   <span class="m-l-5">Reject Offer</span>
                                                             </li>
                                                             <ng-template #popupTitle>
@@ -165,7 +168,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.email ?
-                                                                              data?.user?.email : '--'}}
+                                                                              data?.user?.email : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -178,7 +181,7 @@
                                                                               {{data?.expanddata?.user?.dob ?
                                                                               (data?.expanddata?.user?.dob | date:'dd
                                                                               MMM, yyyy')
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -192,7 +195,7 @@
                                                                               data?.expanddata?.income_details?.results[0]?.income_range_id
                                                                               ?
                                                                               data?.expanddata?.income_details?.results[0]?.income_range_id?.name
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -220,7 +223,7 @@
                                                                         <div>
                                                                               <!-- created_at -->
                                                                               {{data?.expanddata?.partner?.name ?
-                                                                              data?.expanddata?.partner?.name : '--'}}
+                                                                              data?.expanddata?.partner?.name : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -231,7 +234,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.partner?.address ?
-                                                                              data?.expanddata?.partner?.name : '--'}}
+                                                                              data?.expanddata?.partner?.name : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -259,7 +262,7 @@
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
                                                                               global.maskedValue(data?.expanddata?.kyc_details?.results,
-                                                                              'pan') : '--'}}
+                                                                              'pan') : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -271,7 +274,7 @@
                                                                         <div>
                                                                               {{data?.expanddata?.aadhar ?
                                                                               global.maskedValue(data?.expanddata?.kyc_details?.results,
-                                                                              'aadhar') : '--'}}
+                                                                              'aadhar') : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -335,7 +338,7 @@
                                                                               </div>
                                                                         </div>
                                                                         <div>
-                                                                              {{ item?.reason ? item?.reason : '--'}}
+                                                                              {{ item?.reason ? item?.reason : '-'}}
                                                                         </div>
                                                                   </div>
 
@@ -373,7 +376,7 @@
                                                                                           {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                                                           ?
                                                                                           data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          : '--'}} <span>(Last Pulled :
+                                                                                          : '-'}} <span>(Last Pulled :
                                                                                                 {{data?.expanddata?.cibil_data?.results[0]?.created_at
                                                                                                 | date : 'short'}}
                                                                                                 )</span>
@@ -408,7 +411,8 @@
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
-                                                                                    <label class="text-muted">Application Score
+                                                                                    <label class="text-muted">Application
+                                                                                          Score
                                                                                           :{{blackBoxData?.application_score}}
                                                                                     </label>
                                                                                     <div class="mx-3  text-muted">
@@ -427,7 +431,9 @@
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
-                                                                                    <label class="text-muted">Product Limit Final :{{blackBoxData?.data?.product_limit_final}}
+                                                                                    <label class="text-muted">Product
+                                                                                          Limit Final
+                                                                                          :{{blackBoxData?.data?.product_limit_final}}
                                                                                     </label>
                                                                                     <div class="mx-3  text-muted">
                                                                                           <!-- Data: {{blackBoxData?.data}} -->
@@ -442,7 +448,9 @@
                                                                   <div class="d-flex flex-column">
                                                                         <h6>
                                                                               <div class="d-flex">
-                                                                                    <label class="text-muted">Product Limit Final Max :{{blackBoxData?.data?.product_limit_final_max}}
+                                                                                    <label class="text-muted">Product
+                                                                                          Limit Final Max
+                                                                                          :{{blackBoxData?.data?.product_limit_final_max}}
                                                                                     </label>
                                                                                     <div class="mx-3  text-muted">
                                                                                           <!-- Data: {{blackBoxData?.data}} -->
@@ -479,7 +487,7 @@
                                                 {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
                                                 ?
                                                 data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                : '--'}}
+                                                : '-'}}
                                           </div>
                                     </div>
                               </h6> -->
@@ -518,7 +526,7 @@
                                                                               :
                                                                               (_currentCibilData ?
                                                                               _currentCibilData?.no_of_cheque_bounce :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -535,7 +543,7 @@
                                                                               :
                                                                               (_currentCibilData ?
                                                                               _currentCibilData?.nach_trans_declined :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -553,7 +561,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.max_delinquent_amount :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -569,7 +577,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.no_of_write_off_cases :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -585,7 +593,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.data_Quality_score :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -602,7 +610,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.retail_lending_score :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -620,7 +628,7 @@
                                                                               data?.expanddata?.underwriting?.no_of_inquiries
                                                                               :
                                                                               ( _currentCibilData ?
-                                                                              _currentCibilData?.no_of_inquiries : '--')
+                                                                              _currentCibilData?.no_of_inquiries : '-')
                                                                               }}
                                                                         </div>
                                                                   </div>
@@ -638,7 +646,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.no_of_negative_events :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -655,7 +663,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.avg_salary_credited :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -674,7 +682,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.avg_min_balance_Month :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -692,7 +700,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.underwriting?.no_of_cc_applied
-                                                                              : '--') }}
+                                                                              : '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -710,7 +718,7 @@
                                                                               :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.underwriting?.no_of_loan_applied
-                                                                              : '--') }}
+                                                                              : '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -727,7 +735,7 @@
                                                                               data?.expanddata?.underwriting?.foir :
                                                                               ( _currentCibilData ?
                                                                               _currentCibilData?.underwriting?.foir :
-                                                                              '--') }}
+                                                                              '-') }}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -756,7 +764,7 @@
                                                                               {{data?.expanddata?.offer_details
                                                                               ?
                                                                               data?.expanddata?.offer_details?.product_name
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -770,7 +778,7 @@
                                                                               {{data?.expanddata?.offer_details
                                                                               ?
                                                                               data?.expanddata?.offer_details?.limit_proposed
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -783,7 +791,7 @@
                                                                               {{data?.expanddata?.offer_details
                                                                               ?
                                                                               data?.expanddata?.offer_details?.status
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -795,7 +803,7 @@
                                                                               {{data?.expanddata?.offer_details
                                                                               ?
                                                                               data?.expanddata?.offer_details?.pre_approved_offer
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -807,7 +815,36 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
-
+                                          <div class="mt-3" *ngIf="!data.auto_debit_flag">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="enachandSign">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <nz-form-item>
+                                                                        <nz-form-label class="mr-3">Send E-mandate Registration link</nz-form-label>
+                                                                        <nz-form-control>
+                                                                              <nz-select nzAllowClear nzPlaceHolder="Select E-mandate option" [(ngModel)]="emandateValue">
+                                                                                    <nz-option nzValue="aadhaar" nzLabel="Aadhaar"></nz-option>
+                                                                                    <nz-option nzValue="debitcard" nzLabel="Debit Card"></nz-option>
+                                                                                    <nz-option nzValue="netbanking" nzLabel="Net Banking"></nz-option>
+                                                                                    <nz-option nzValue="upi" nzLabel="UPI"></nz-option>
+                                                                              </nz-select>
+                                                                        </nz-form-control>
+                                                                  </nz-form-item>
+                                                            </div>
+                                                            <button nz-button nzType="primary" [disabled]="!emandateValue"
+                                                                  [nzLoading]="api_calling_loader['sendLink']" class="mx-2" (click)="sendEmandateLink(data.offer_id)">Send Link</button>
+                                                      </div>
+                                                </nz-card>
+                                          </div>
+                                          <ng-template #enachandSign>
+                                                <div class="ml-md-2">
+                                                      <h6 class="mb-0">E-nach/ Signing</h6>
+                                                </div>
+                                          </ng-template>
                                           <div class="my-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="response">
@@ -891,14 +928,14 @@
       <label *ngIf="_isEditOffer">Edit Offer</label>
       <label *ngIf="isRejectModal">Reject</label>
       <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
-            Party SMS Data</span></label>
+                  Party SMS Data</span></label>
       <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
                   Data</span></label>
 
 </ng-template>
 <section>
-      <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
-            [nzFooter]="footerModal">
+      <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus"
+            [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" [nzFooter]="footerModal">
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
@@ -930,12 +967,12 @@
                                           _currentLoanDetails?.user?.first_name
                                           + ' ' + (_currentLoanDetails?.user?.last_name ?
                                           _currentLoanDetails?.user?.last_name
-                                          : '')) : '--' }}
+                                          : '')) : '-' }}
                                           <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
-                                                _currentLoanDetails?.user?.mobile : '--'}}</span>
+                                                _currentLoanDetails?.user?.mobile : '-'}}</span>
                                           <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' +
                                                 _currentLoanDetails?.id :
-                                                '--'}}</span>
+                                                '-'}}</span>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                           <nz-form-item>
@@ -997,11 +1034,11 @@
                         <div class="col-md-12 mb-3 text-muted">
                               {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
                               + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
-                              : '')) : '--' }}
+                              : '')) : '-' }}
                               <!-- <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
-                                    _currentLoanDetails?.user?.mobile : '--'}}</span> -->
+                                    _currentLoanDetails?.user?.mobile : '-'}}</span> -->
                               <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
-                                    '--'}}</span>
+                                    '-'}}</span>
                         </div>
                         <!-- <div class="col-md-12 my-4">
                               Are you sure about rejecting the offer?
@@ -1011,7 +1048,8 @@
                         </div>
                         <div class="col-md-8">
                               <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" class="border" nz-input [(ngModel)]="remarksDescription"></textarea>
+                                    <textarea rows="4" class="border" nz-input
+                                          [(ngModel)]="remarksDescription"></textarea>
                               </nz-textarea-count>
                         </div>
                   </div>
