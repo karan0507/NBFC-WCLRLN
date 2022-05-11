@@ -16,6 +16,7 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 })
 export class OfferAcceptanceComponent implements OnInit {
       _exportDocument: any;
+      emandateValue;
       checked: boolean = false;
       filters: any;
       remarks: any = '';
@@ -36,7 +37,8 @@ export class OfferAcceptanceComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button': false
+            'button': false,
+            'sendLink': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -486,5 +488,24 @@ export class OfferAcceptanceComponent implements OnInit {
             this.searchValue = null;
             this.partner = null
             this.getFormLoanData()
+      }
+      sendEmandateLink(offer_id) {
+            var data = {
+                  source: 'LMS',
+                  datapoint: 'send-mandate-link',
+                  auth_type : this.emandateValue,
+                  accepted_offer_id : offer_id
+            }
+            this.api_calling_loader['sendLink'] = true
+            this.https.sendEmandateLink(data).subscribe((res: any) => {
+                  if (res.success) {
+                        this.message.success(res.message)
+                  } else {
+                        this.message.error(res.message)
+                  }
+                  this.api_calling_loader['sendLink'] = false
+            }, (err) => {
+                  this.api_calling_loader['sendLink'] = false
+            })
       }
 }

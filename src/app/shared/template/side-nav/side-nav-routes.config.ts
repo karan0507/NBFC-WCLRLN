@@ -2,7 +2,7 @@ import { SideNavInterface } from '../../interfaces/side-nav.type';
 export const ROUTES: SideNavInterface[] = [
     {
         path: '/dashboard/home',
-        permission:'view_dashboard',
+        permission:"['view_dashboard']",
         title: 'Dashboard',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -11,7 +11,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'product-list',
-        permission:'view_product',
+        permission:"['view_product']",
         title: 'Products',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -41,7 +41,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'user',
-        permission:'view_user',
+        permission:"[['view_lender', 'view_master_partner', 'view_corporate', 'view_user_employee', 'view_merchants', 'view_partner_dsa']]",
         submenu: [
             { 
                 path: 'lenders',
@@ -49,7 +49,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_lender',
+                permission:"['view_lender']",
                 submenu: [] 
             },
             { 
@@ -58,7 +58,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_master_partner',
+                permission:"['view_master_partner']",
                 submenu: [] 
             },
             { 
@@ -67,7 +67,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_corporate',
+                permission:"['view_corporate']",
                 submenu: [] 
             },
             { 
@@ -76,7 +76,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_user_employee',
+                permission:"['view_user_employee']",
                 submenu: [] 
             },
             { 
@@ -84,7 +84,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Merchants', 
                 iconType: '', 
                 icon: '',
-                permission:'view_merchants',
+                permission:"['view_merchants']",
                 iconTheme: '',
                 submenu: [
                     { 
@@ -93,7 +93,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '', 
                         icon: '',
                         iconTheme: '',
-                        permission:'view_merchants',
+                        permission:"['view_merchants']",
                         submenu: [] 
                     },
                     { 
@@ -102,7 +102,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '', 
                         icon: '',
                         iconTheme: '',
-                        permission:'view_partner_dsa',
+                        permission:"['view_partner_dsa']",
                         submenu: [] 
                     },
                 ] 
@@ -114,7 +114,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Employees',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'view_employees',
+        permission:"['view_employees']",
         icon: 'user',
         submenu: []
     },
@@ -123,7 +123,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Application',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'view_application',
+        permission:"['view_application']",
         icon: 'picture',
         submenu: [
             { 
@@ -132,7 +132,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 submenu: [] 
             },
             { 
@@ -141,7 +141,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 submenu: [] 
             },
             { 
@@ -149,7 +149,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Document Upload', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -158,7 +158,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Underwriting', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -168,7 +168,7 @@ export const ROUTES: SideNavInterface[] = [
                   iconType: '', 
                   icon: '',
                   iconTheme: '',
-                  permission:'view_application',
+                  permission:"['view_application']",
                   submenu: [] 
               },
             { 
@@ -177,7 +177,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 submenu: [] 
             },
             { 
@@ -186,7 +186,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 submenu: [] 
             },
             { 
@@ -194,7 +194,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'E-Nach/Signing', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -203,7 +203,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Disbursement', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -212,7 +212,7 @@ export const ROUTES: SideNavInterface[] = [
                   title: 'Rejected', 
                   iconType: '', 
                   icon: '',
-                  permission:'view_application',
+                  permission:"['view_application']",
                   iconTheme: '',
                   submenu: [] 
               },
@@ -221,7 +221,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Dormant ', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -230,7 +230,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Closed ', 
                 iconType: '', 
                 icon: '',
-                permission:'view_application',
+                permission:"['view_application']",
                 iconTheme: '',
                 submenu: [] 
             }
@@ -241,7 +241,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'LMS',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'view_lms',
+        permission:"['view_lms']",
         icon: 'file',
         submenu: [
             { 
@@ -250,7 +250,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_borrowers',
+                permission:"['view_borrowers']",
                 submenu: [] 
             },
             { 
@@ -259,7 +259,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_change_bill_date',
+                permission:"['view_change_bill_date']",
                 submenu: [] 
             },
             { 
@@ -268,14 +268,14 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:'view_transaction',
+                permission:"['view_transaction']",
                 submenu: [] 
             },
             { 
                 path: 'lms/manual-transaction',
                 title: 'Manual Transactions', 
                 iconType: '', 
-                permission:'view_manual_transaction',
+                permission:"['view_manual_transaction']",
                 icon: '',
                 iconTheme: '',
                 submenu: [] 
@@ -285,7 +285,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Authorization Policy', 
                 iconType: '', 
                 icon: '',
-                permission:'view_athorization_policy',
+                permission:"['view_athorization_policy']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -294,7 +294,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Risk Policy', 
                 iconType: '', 
                 icon: '',
-                permission:'view_borrowers',
+                permission:"['view_borrowers']",
                 iconTheme: '',
                 submenu: [] 
             },
@@ -303,14 +303,14 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Change Credit Line', 
                 iconType: '', 
                 icon: '',
-                permission:'',
+                permission:"['']",
                 iconTheme: '',
                 submenu: [] 
             },
             { 
                 path: 'lms/lender-management',
                 title: 'Lender Management', 
-                permission:'',
+                permission:"['']",
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
@@ -323,7 +323,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Black box testing',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'view_black_box',
+        permission:"['view_black_box']",
         icon: 'file',
         submenu: []
     },
@@ -332,7 +332,7 @@ export const ROUTES: SideNavInterface[] = [
       title: 'Coupon Code',
       iconType: 'nzIcon',
       iconTheme: 'outline',
-      permission:'view_coupon_code',
+      permission:"['view_coupon_code']",
       icon: 'tags',
       submenu: []
     },
@@ -341,10 +341,10 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Access control',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:'view_employee_permission',
+        permission:"['view_employee_permission']",
         icon: 'key',
         submenu: []
-    },
+    }
     // {
     //     path: 'transactions',
     //     title: 'Transactions',
