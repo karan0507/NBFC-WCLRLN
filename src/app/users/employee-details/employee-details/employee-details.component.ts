@@ -269,7 +269,12 @@ export class EmployeeDetailsComponent implements OnInit {
       this.searchValue = "";
       this.selectedSection = null;
       this.selectedCorporate = null;
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+      this.getListOfAllEmployees();  
+      } else {
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
+      // this.getListOfAllEmployees();
     // }
     // this.getAuthorizationList();
   }
