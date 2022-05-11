@@ -17,11 +17,13 @@
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                       </button>
-                    <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload" *ngxPermissionsOnly="['upload_athorization_policy']"
-                    class="d-flex align-items-center mx-4" nzSize="large">
-                     {{uploaded_file ? 'Re Upload' : 'Upload File' }}
-                    <i *ngIf="!uploaded_file" class="pl-2 text-primary" nz-icon nzTheme="outline" nzType="edit"></i>
-                </nz-upload>
+                    <ng-container  *ngxPermissionsOnly="['upload_athorization_policy']">
+                        <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload"
+                        class="d-flex align-items-center mx-4" nzSize="large">
+                        {{uploaded_file ? 'Re Upload' : 'Upload File' }}
+                        <i *ngIf="!uploaded_file" class="pl-2 text-primary" nz-icon nzTheme="outline" nzType="edit"></i>
+                        </nz-upload>
+                    </ng-container>
                     <button nz-button nzType="primary" class="ml-3" (click)="http.sampleDownloadGlobalFunction('MCCCODE_UPLOAD')">Sample File Download<i nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
                 </div>
             </div>
