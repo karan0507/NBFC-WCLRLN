@@ -28,12 +28,18 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   currentDocumentType : any = 1;
   constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService) { }
   ngOnDestroy(): void {
-    this.close.emit(false)
+    // this.close.emit(false)
   }
 
   ngOnInit(): void {
+    console.log(this.documentData);
+    
     if(this.documentData?.document_master?.require_front_back == 1){
-      this._currentFileName = this.documentData?.front_file_url
+      // if(front_file_url){
+
+      // }
+      // this._currentFileName = this.documentData?.front_file_url
+      // this._currentFileName2 = this.documentData?.front_file_url
       // this.fileList[0] = this.documentData?.front_file_name
       this.isDoubleSide = true;
     }else{
