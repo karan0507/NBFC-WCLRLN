@@ -49,8 +49,7 @@ export class SideNavComponent {
 
       onCheckReturn(data){
             data.forEach(element => {
-                  console.log(element)
-                  // return element;
+                  return element;
             });
       }
 

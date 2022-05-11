@@ -8,7 +8,7 @@
     
     <ng-container *ngFor="let item of menuItems">
         <li [ngClass]="item.submenu.length > 0?'ant-menu-submenu ant-menu-submenu-inline':'ant-menu-item'"
-            nz-popover *ngxPermissionsOnly="item?.permission.length > 1 ? onCheckReturn(item?.permission) : item?.permission" 
+            nz-popover *ngxPermissionsOnly="item?.permission" 
             [nzPopoverContent]="isFolded ? item.title : ''"
             [nzPopoverPlacement]="isFolded ? 'topLeft' : ''"
             [routerLinkActive]="item.submenu.length > 0 ? 'ant-menu-submenu-open' : 'ant-menu-item-selected'"
@@ -30,7 +30,7 @@
                <ng-container *ngFor="let subItem of item.submenu" >
                 <li [ngClass]="subItem.submenu.length > 0?'ant-menu-submenu ant-menu-submenu-inline':'ant-menu-item'" 
                     [routerLinkActive]="subItem.submenu.length > 0 ? 'ant-menu-submenu-open' : 'ant-menu-item-selected'"
-                    [routerLinkActiveOptions]="{exact: false}" *ngxPermissionsOnly="subItem?.permission.length > 1 ? onCheckReturn(subItem?.permission) : subItem?.permission">
+                    [routerLinkActiveOptions]="{exact: false}" *ngxPermissionsOnly="subItem?.permission">
                     <a href="javascript:void(0);" class="ant-menu-submenu-title p-l-50" *ngIf="subItem.submenu.length > 0">
                         <i *ngIf="subItem.iconType == 'nzIcon'" nz-icon [nzType]="subItem.icon" [theme]="subItem.iconTheme"></i>
                         <i *ngIf="subItem.iconType == 'fontawesome'" class="m-r-10" [ngClass]="[subItem.iconTheme , subItem.icon]"></i>
@@ -48,7 +48,7 @@
                         <ul class="ant-menu ant-menu-inline ant-menu-sub dropdown-menu" *ngIf="subItem.submenu.length > 0">
                     <ng-container *ngFor="let subItem of subItem.submenu">
                             <li [ngClass]="subItem.submenu.length > 0?'ant-menu-submenu ant-menu-submenu-inline':'ant-menu-item'" 
-                                 routerLinkActive="ant-menu-item-selected"  *ngxPermissionsOnly="subItem?.permission.length > 1 ? onCheckReturn(subItem?.permission) : subItem?.permission"
+                                 routerLinkActive="ant-menu-item-selected"  *ngxPermissionsOnly="subItem?.permission"
                                 [routerLinkActiveOptions]="{exact: false}">
                                 <a href="javascript:void(0);" class="ant-menu-submenu-title p-l-50" *ngIf="subItem.submenu.length > 0">
                                     <i *ngIf="subItem.iconType == 'nzIcon'" nz-icon [nzType]="subItem.icon" [theme]="subItem.iconTheme"></i>
