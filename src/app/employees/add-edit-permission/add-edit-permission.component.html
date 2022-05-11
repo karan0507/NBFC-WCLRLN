@@ -17,22 +17,28 @@
       </div>
     <div class="row accordianLoanApp" *ngIf="selectedRole">
       <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
-        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetail">
-          <!-- <ng-template #basicDetai>
+        <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
+          <ng-template #basicDetai>
           <div class="row">
-            <div class="col-7">
-              <h4 class="my-0">{{ data?.display_name }}</h4>
+            <div class="col-12 d-flex">
+              <label
+                    class="d-flex mr-3 align-self-center"
+                    nz-checkbox
+                    (ngModelChange)="onCLickSelectAll($event, data)" 
+                    [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
+                    ></label>
+                    <h4 class="my-0">{{ data?.display_name }}</h4>
             </div>
-            <div class="col-5">
+            <!-- <div class="col-5">
               <label
                     class="d-flex"
                     nz-checkbox
                     (ngModelChange)="ngModelChange($event, data, 'head')" 
                     [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
                     ></label>
-            </div>
+            </div> -->
           </div>
-        </ng-template> -->
+        </ng-template>
         <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
         </nz-page-header>
         <div class="row mt-4">
@@ -42,8 +48,7 @@
                 <h5 class=""><label
                     class="d-flex"
                     nz-checkbox
-                    [ngModel]="slugListCheckBoxSelection(slugs?.function_name)"
-                    (ngModelChange)="ngModelChange($event, slugs, 'slugs')" ngModel="false"> 
+                    (ngModelChange)="ngModelChange($event, slugs, 'slugs')" [(ngModel)]="slugs.flag"> 
                     {{ slugs?.display_name }}</label></h5>
                     <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
             </div>

@@ -19,7 +19,7 @@ export class AddEditPermissionComponent implements OnInit {
   }
 
   selectedRole: number;
-  fetchedRole: any;
+  fetchedRole: any[] = [];
 
   ngOnInit(): void {
     // this.route.queryParams.subscribe((res: any)=>{
@@ -32,11 +32,16 @@ export class AddEditPermissionComponent implements OnInit {
   fetchRoles(){
     let data;
     this.http.fetchRoles(data).subscribe((res: any)=>{
-      this.fetchedRole = res?.data?.results;
+      res?.data.results.map((data)=>{
+        if(data?.name.toLowerCase() !== 'Superuser'.toLowerCase()){
+          this.fetchedRole.push(data)
+        }
+      })
     })
   }
 
   onChange(e){
+    this.slugList= [];
     this.fetchSlagsList(e);
   }
 
@@ -53,8 +58,14 @@ export class AddEditPermissionComponent implements OnInit {
         }
       })
       // this.permissionList = res?.data
+      this.permissionList.map((res)=>{
+        res?.slugs_list.map((slug)=>{
+          if(slug?.flag){
+            this.slugList.push(slug?.id) 
+          }
+        })
+      })
       this.apiLoader['list'] = false;
-      console.log(this.permissionList);
     }, error=>{
       this.apiLoader['list'] = false;
     })
@@ -62,43 +73,52 @@ export class AddEditPermissionComponent implements OnInit {
 
   ngModelChange(e, data, action){
     // if(action === 'slugs'){
-      if(action == 'head'){
-        console.log(data);
-        if(e){
-          data?.slugs_list.forEach(element => {
-            if(this.slugList.includes(data?.element?.function_name)){
-              this.deleteSlug(element?.function_name);
-            } else {
-              this.slugList.push(element?.function_name)     
-            }
-          });
-        } else {
-          data?.slugs_list.forEach(element => {
-            this.deleteSlug(element?.function_name);
-            // this.slugList.push(element?.function_name)   
-          });
-          // this.deleteSlug(data?.function_name);
-        }
-        console.log(data);
-        console.log(this.slugList);
-      } else{
+      // if(action == 'head'){
+      //   if(e){
+      //     data?.slugs_list.forEach(element => {
+      //       if(this.slugList.includes(data?.element?.id)){
+      //         this.deleteSlug(element?.function_name);
+      //       } else {
+      //         this.slugList.push(element?.id)     
+      //       }
+      //     });
+      //   } else {
+      //     data?.slugs_list.forEach(element => {
+      //       this.deleteSlug(element?.id);
+      //       // this.slugList.push(element?.function_name)   
+      //     });
+      //     // this.deleteSlug(data?.function_name);
+      //   }
+      // } else{
       if(e){
-        if(this.slugList.includes(data?.function_name)){
+        if(this.slugList.includes(data?.id)){
           return;
         }
-        this.slugList.push(data?.function_name) 
+        this.slugList.push(data?.id) 
         } else {
-          this.deleteSlug(data?.function_name);
+          this.deleteSlug(data?.id);
         }
-      }
-    // } else {
-      // this.selectedRole
-    // }
-    
+      // }
   }
 
-  deleteSlug(msg:string) {
-    const index: number = this.slugList.indexOf(msg);
+  onCLickSelectAll(e, loop){
+    loop?.slugs_list.forEach(data => {
+      if(e){
+        if(!this.slugList.includes(data?.id)){
+          data.flag = true
+          this.slugList.push(data?.id);
+          console.log(this.slugList.length);
+        } 
+      } else {
+        data.flag = false;
+        this.deleteSlug(data?.id); 
+        console.log(this.slugList.length);
+      }
+    });
+  }
+
+  deleteSlug(id:string) {
+    const index: number = this.slugList.indexOf(id);
     if (index !== -1) {
         this.slugList.splice(index, 1);
     }        
@@ -117,27 +137,17 @@ slugListCheckBoxSelection(slug){
 }
 
 slugListMaxCheckBoxSelection(event){
+  const count = event.length;
+  let i = 0;
   event.forEach(element => {
-    if(!this.slugList.includes(element?.function_name)){
-      return false;
-    } 
-    console.log(event);
-    // else {
-    //   return true;
-    // }
+    if(element?.flag)
+    i++;
   });
-  // if(!event){
-  //   this.slugListCheckBoxSelection('');
-  //   // return false;
-  // }
-  //  else {
-  //   return true;
-  // }
-  // if(this.slugList.includes(slug)){
-  //   return true;
-  // }else{
-  //   return false;
-  // }
+  if(count == i){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 updatePermissionBasedOnType(){
@@ -154,7 +164,6 @@ updatePermissionBasedOnType(){
     } else {
       this.message.error(res?.message);
     }
-    console.log('Permission Updated')
   }, error=>{
     this.apiLoader['onOk']= false
   })
