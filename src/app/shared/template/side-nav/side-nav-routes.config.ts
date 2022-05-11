@@ -41,7 +41,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'user',
-        permission:"[['view_lender', 'view_master_partner', 'view_corporate', 'view_user_employee', 'view_merchants', 'view_partner_dsa']]",
+        permission:"['view_lender', 'view_master_partner', 'view_corporate', 'view_user_employee', 'view_merchants', 'view_partner_dsa']",
         submenu: [
             { 
                 path: 'lenders',
