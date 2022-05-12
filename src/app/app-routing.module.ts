@@ -6,6 +6,7 @@ import { CommonLayoutComponent } from "./layouts/common-layout/common-layout.com
 
 import { FullLayout_ROUTES } from "./shared/routes/full-layout.routes";
 import { CommonLayout_ROUTES } from "./shared/routes/common-layout.routes";
+import { Error2Component } from './authentication/error-2/error-2.component';
 
 const appRoutes: Routes = [
     {
@@ -22,7 +23,11 @@ const appRoutes: Routes = [
         path: '', 
         component: FullLayoutComponent, 
         children: FullLayout_ROUTES
-    }
+    },
+    {
+        path:'**',
+        component: Error2Component
+    },
 ];
 
 @NgModule({
