@@ -190,7 +190,7 @@
                               class="mr-2" (click)="resetFilter2()">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-range-picker [(ngModel)]="date1" (ngModelChange)="fetchTransactionTxnList()">
+                        <nz-range-picker [(ngModel)]="date1" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionTxnList()" [nzRanges]="customRanges">
                         </nz-range-picker>
                         <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType2" (ngModelChange)="fetchTransactionTxnList()" nzAllowClear
                     nzPlaceHolder="Filter By Type">
@@ -309,7 +309,7 @@
                               class="mr-2" (click)="resetFilter1()">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-range-picker [(ngModel)]="date2" (ngModelChange)="fetchTransactionFessList()">
+                        <nz-range-picker [(ngModel)]="date2" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionFessList()" [nzRanges]="customRanges">
                         </nz-range-picker>
                         <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType1" (ngModelChange)="fetchTransactionFessList()" nzAllowClear
                     nzPlaceHolder="Filter By Type">

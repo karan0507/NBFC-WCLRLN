@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-5 bg-light">
             <div class="container h-100">
-                <img src="assets/images/Icon.svg" alt="close" class="pointer mt-md-5 ml-md-4" *ngIf="is_forget" (click)="is_forget = false">
+                <img src="assets/images/Icon.svg" alt="close" class="pointer mt-md-5 ml-md-4" *ngIf="is_forget" (click)="is_forget = false; is_link_send = false">
                 <div class="row no-gutters h-100 align-items-center ">
                     <div class="col-md-9 col-lg-9 col-xl-8 mx-auto">
                         <img src="assets/images/logo/logo.png" alt="" class="w-50 mb-5">
@@ -82,10 +82,10 @@
                             </nz-form-item>
                         
                             <nz-form-item *ngIf="is_link_send">
-                                <nz-form-label nzRequired>Old Password</nz-form-label>
-                                <nz-form-control nzErrorTip="Please input your Old Password!">
+                                <nz-form-label nzRequired>Re-type new Password</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input your Re-type new Password!">
                                     <nz-input-group [nzPrefix]="prefixLock">
-                                        <input type="password" nz-input [(ngModel)]="retype_password" name="retype_password" placeholder="Old Password">
+                                        <input type="password" nz-input [(ngModel)]="retype_password" name="retype_password" placeholder="Re-type new Password">
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>

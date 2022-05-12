@@ -68,6 +68,19 @@ export class BorrowersDetailsComponent implements OnInit {
   fees_charges_list: any;
   total_count1: any;
   total_count2: any;
+  
+  customRanges = {
+    Today: [new Date(), new Date()],
+    'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+    'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+    // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+    'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+    // d.setMonth(d.getMonth() - 3);
+};
   api_calling_loader2: boolean;
   api_calling_loader1: boolean;
   billStatementList: any;
