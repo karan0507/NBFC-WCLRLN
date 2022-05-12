@@ -107,6 +107,35 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="logo" class="text-left">Corporate Logo
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
+                        <div class="d-flex" style="align-items: center;">
+                            <nz-upload
+                            [nzMultiple]="'false'"
+                            [nzAccept]="'.png, .jpg'"
+                            [nzCustomRequest]="customUpload"
+                            (nzChange)="onUploadLogo($event)"
+                            >
+                            <!-- (nzChange)="onUpload($event, k)" (click)="onClickShowUploadedDocument(item, 'documents')" -->
+                            <button nz-button type="button">
+                                <i nz-icon nzType="upload"></i
+                                >{{
+                                    addEditProductForm.get("logo").value
+                                    ? "Re Upload"
+                                    : "  Upload "
+                                }}
+                            </button>
+                            </nz-upload>
+                            <i class=" text-primary ml-4" (click)="onClickShowLogo()"
+                                    *ngIf="addEditProductForm.get('logo').value" nz-icon nzType="eye" nzTheme="outline"
+                                    style="font-size: 1rem; cursor: pointer;"></i>
+                        </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <!-- <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique Code</nz-form-label>

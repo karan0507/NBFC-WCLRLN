@@ -267,6 +267,34 @@ export class AddEditPartnersComponent implements OnInit {
     }
   }
 
+  async onClickShowLogo(){
+    const images = [];
+    const e = this.addEditProductForm.value.logo
+      if (e?.uid) {
+        let doc = await getBase64(e);
+        const img = {
+          src: doc,
+          width: "600px",
+          height: "400px",
+          alt: "ng-zorro",
+        };
+        images.push(img);
+        this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+      } else {
+    const img = {
+      src: e,
+      width: "600px",
+      height: "400px",
+      alt: "ng-zorro",
+    };
+    images.push(img);
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
+      console.log(this.addEditProductForm.value.logo);
+    // }
+
+  }
+
   // @Pipe({name: 'safeHtml'})
   sanatizeUrlToSafe
   async onClickShowUploadedDocument(e, action?) {
@@ -392,6 +420,7 @@ export class AddEditPartnersComponent implements OnInit {
         [Validators.required],
       ],
       city: [data ? data?.city : null, [Validators.required]],
+      logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
       salary_date: [data ? data?.salary_date : null],
       due_date: [data ? data?.due_date : null],
@@ -478,6 +507,13 @@ export class AddEditPartnersComponent implements OnInit {
     if (e?.pointerType == "mouse") {
       this.isVisible = true;
     }
+  }
+
+  onUploadLogo(e){
+    console.log(e?.file?.originFileObj);
+    this.addEditProductForm.patchValue({
+      logo: e?.file?.originFileObj
+    })
   }
 
   omit_special_char(event) {
@@ -1263,6 +1299,11 @@ export class AddEditPartnersComponent implements OnInit {
           }
         }
         for (var i in sendDate) {
+          if( i == 'logo'){
+            if(!sendDate[i].uid){
+              delete sendDate[i];
+            }
+          }
           if (i == "document_data" || i == "nach_date_time_mappings" ) {
             data.append(i, JSON.stringify(sendDate[i]));
           } else {
