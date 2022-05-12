@@ -14,6 +14,13 @@
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select>
                     <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
