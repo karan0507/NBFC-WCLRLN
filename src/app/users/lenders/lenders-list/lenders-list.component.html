@@ -108,13 +108,15 @@
                                             <span class="m-l-5">Active</span>
                                         </li>
                                         </ng-container>
-                                        <li nz-menu-item (click)="storeSelectedId(data?.id)" *ngxPermissionsOnly="['upload_aggreement']">
-                                            <nz-upload style="cursor: pointer;" [nzMultiple]="false"
-                                                [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
-                                                class="d-flex pl-1 align-items-left" nzSize="large">
-                                                Upload Agreement
-                                            </nz-upload>
-                                        </li>
+                                        <!-- <ng-container *ngxPermissionsOnly="['upload_aggreement']"> -->
+                                            <li *ngxPermissionsOnly="['upload_aggreement']" nz-menu-item (click)="storeSelectedId(data?.id)">
+                                                <nz-upload style="cursor: pointer;" [nzMultiple]="false"
+                                                    [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
+                                                    class="d-flex pl-1 align-items-left" nzSize="large">
+                                                    Upload Agreement
+                                                </nz-upload>
+                                            </li>
+                                        <!-- </ng-container> -->
                                         <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_aggreement']">
                                             <span class="m-l-5">Show Agreement</span>
                                         </li>

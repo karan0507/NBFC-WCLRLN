@@ -159,7 +159,7 @@ updatePermissionBasedOnType(){
     this.apiLoader['onOk']= false
     if(res?.success){
       // let newRouterLink = "/employee";
-      this.router.navigate(['../employees']);
+      // this.router.navigate(['../employees']);
       this.message.success(res?.message);
     } else {
       this.message.error(res?.message);

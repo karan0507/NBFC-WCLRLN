@@ -15,12 +15,16 @@ export class AppComponent {
         {
           if(localStorage.getItem('fatakpay_user_data')){
             var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
-            check_token_exists.push('')
+            if(check_token_exists){
+              check_token_exists.push('')
             this.permissionsService.loadPermissions(check_token_exists);
+          }
           }
           this.UserPermissionDataSubscription = this.HttpService.globalUserPermissionsData.subscribe((value) => {
             // value.push('')
-            this.permissionsService.loadPermissions(value);
+            if(JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions){
+              this.permissionsService.loadPermissions(value);
+            }
           });
         }
 }

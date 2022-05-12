@@ -17,7 +17,7 @@ export class Error2Component {
         // if(!JSON.parse(localStorage.getItem('iyc_user_data')){
         //     this.router.navigate(["/authentication/login"]);
         // }
-        if(res?.permissions.length == 0){
+        if(!res?.permissions || res?.permissions.length == 0){
               localStorage.removeItem("fatakpay_user_data");
               res = null;
               // this.router.navigate(["/authentication/login"]);
