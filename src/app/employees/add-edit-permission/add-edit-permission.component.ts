@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -9,34 +10,131 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./add-edit-permission.component.css']
 })
 export class AddEditPermissionComponent implements OnInit {
+  currentTabIndex = 0;
+  selectedRoleForUpdate: any;
 
-  constructor(private http: HttpService, private route: ActivatedRoute, private router: Router, private message: NzMessageService) { }
+  constructor(private http: HttpService, private route: ActivatedRoute, private router: Router, private message: NzMessageService, private fb: FormBuilder) { }
   permissionList: any = [];
   slugList: any[] = [];
   apiLoader = {
     'list': false,
     'onOk': false
+  } 
+
+  roleManagementLoader = {
+    'onUpdate': false,
+    'addRole': false,
+    'isVisible': false,
+    'fetchRole': true
   }
+
+  addEditRoleForm: FormGroup;
 
   selectedRole: number;
   fetchedRole: any[] = [];
+  updatedRole: any
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe((res: any)=>{
-    //   this.selectedRole = res?.id;
-    // })
-    // this.fetchSlagsList();
+    this.createAddEditRole();
+    this.route.queryParams.subscribe((params) => {
+      if (params["targetCategory"]) {
+        this.currentTabIndex = params["targetCategory"];
+      } else {
+        this.currentTabIndex = 0;
+      }
+    });
     this.fetchRoles();
   }
 
+  createAddEditRole(){
+    this.addEditRoleForm = this.fb.group({
+      id: [null],
+      name: [null, [Validators.required]],
+    })
+  }
+
+  addEditRole(action, data?){
+    if(action == 'add'){
+      this.roleManagementLoader['addRole'] = true;
+      this.roleManagementLoader['isVisible'] = true;
+      // isVisible
+    } else if(action =='edit'){
+      this.roleManagementLoader['addRole'] = false;
+      this.selectedRoleForUpdate = data
+      this.addEditRoleForm.patchValue({
+        id: data?.pk,
+        name: data?.name,
+      })
+      this.roleManagementLoader['isVisible'] = true;
+    }
+  }
+
+  onCLickDeleteRole(action,data){
+    let body = {
+      id: data?.pk,
+      name: data?.name
+    }
+    this.http.deleteRole(data?.pk, body).subscribe((res:any)=>{
+      if(res?.success){
+        this.message.success(res?.message);
+        this.fetchRoles();
+      } else {
+        this.message.error(res?.message);
+      }
+    })
+  }
+
+  onClickAddEditRole(){
+    console.log(this.addEditRoleForm.value)
+    // if(this.roleManagementLoader['addRole']){
+      // this
+      for (const i in this.addEditRoleForm.controls) {
+        this.addEditRoleForm.controls[i].markAsDirty();
+        this.addEditRoleForm.controls[i].updateValueAndValidity();
+      } 
+      if(this.addEditRoleForm.valid){
+        this.roleManagementLoader['onUpdate'] = true;
+        const data = {
+          id: this.addEditRoleForm.value.id,
+          name: this.addEditRoleForm.value.name
+        }
+
+        if(this.roleManagementLoader['addRole']){
+           delete data['id']
+        }
+        // const url = this.roleManagementLoader['addRole'] ? this.http.addEditExistingRole(data) : this.http.addEditExistingRole()
+        this.http.addEditExistingRole(data).subscribe((res: any)=>{
+          if(res?.success){
+            this.roleManagementLoader['onUpdate'] = false;
+            this.message.success(res?.message);
+            this.fetchRoles();
+          } else {
+            this.message.error(res?.message);
+            this.roleManagementLoader['onUpdate'] = false;
+            this.roleManagementLoader['isVisible'] = false;
+          }
+        }, error=>{
+          this.roleManagementLoader['isVisible'] = false;
+          this.roleManagementLoader['onUpdate'] = false;
+        })
+
+      }
+    // }
+  }
+
   fetchRoles(){
+    this.roleManagementLoader['fetchRole'] = true
     let data;
     this.http.fetchRoles(data).subscribe((res: any)=>{
+      this.roleManagementLoader['fetchRole'] = false,
+      this.updatedRole = res?.data?.results;
       res?.data.results.map((data)=>{
         if(data?.name.toLowerCase() !== 'Superuser'.toLowerCase()){
           this.fetchedRole.push(data)
         }
       })
+    }, error=>{
+      this.roleManagementLoader['fetchRole'] = false;
     })
   }
 
@@ -71,25 +169,17 @@ export class AddEditPermissionComponent implements OnInit {
     })
   }
 
+  onTabChange(e){
+    this.currentTabIndex = e.index;
+    this.router.navigate(["/edit-employee-permission"], {
+      queryParams: { targetCategory: this.currentTabIndex },
+    });
+    // if(this.currentTabIndex == 1 ){
+    //   this.fetchListOfRole()
+    // }
+  }
+
   ngModelChange(e, data, action){
-    // if(action === 'slugs'){
-      // if(action == 'head'){
-      //   if(e){
-      //     data?.slugs_list.forEach(element => {
-      //       if(this.slugList.includes(data?.element?.id)){
-      //         this.deleteSlug(element?.function_name);
-      //       } else {
-      //         this.slugList.push(element?.id)     
-      //       }
-      //     });
-      //   } else {
-      //     data?.slugs_list.forEach(element => {
-      //       this.deleteSlug(element?.id);
-      //       // this.slugList.push(element?.function_name)   
-      //     });
-      //     // this.deleteSlug(data?.function_name);
-      //   }
-      // } else{
       if(e){
         if(this.slugList.includes(data?.id)){
           return;
@@ -160,6 +250,7 @@ updatePermissionBasedOnType(){
     if(res?.success){
       // let newRouterLink = "/employee";
       // this.router.navigate(['../employees']);
+      this.selectedRole = null;
       this.message.success(res?.message);
     } else {
       this.message.error(res?.message);

@@ -847,6 +847,16 @@ export class HttpService {
             return this._http.post(this.url + `/central-api/v1/call-api`, data);
       }
 
+      public addEditExistingRole(data?) {
+            return this._http.post(this.url + `/platform_central/v1/add-edit-role`, data);
+      }
+
+      public deleteRole(id,data) {
+            return this._http.delete(this.url + `/platform_central/v1/delete-role/${id}`, data);
+      }
+
+      // 
+
       public getCouponCodeList(data?) {
             return this._http.get((this.url + `/platform_central/v1/coupon-code-list`), { params: data });
       }

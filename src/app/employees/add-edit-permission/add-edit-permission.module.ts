@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AddEditPermissionRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
+    NzTabsModule,
     ReactiveFormsModule,
     SharedModule,
     NgxPermissionsModule.forChild()
