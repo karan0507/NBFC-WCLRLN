@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { TransactionsComponent } from './transactions.component';
@@ -9,10 +10,15 @@ const routes: Routes = [
   {
     path: 'transactions',
     component: TransactionsListComponent,
+    canActivate: [NgxPermissionsGuard],
     data: {
       title: 'Transactions',
       parent: 'LMS',
-      custom_url: 'lms/transactions'
+      custom_url: 'lms/transactions',
+      permissions: {
+        only: 'view_transaction',
+        redirectTo: 'authentication/error-2'
+      }
     },
   },
   {
@@ -26,10 +32,15 @@ const routes: Routes = [
       {
         path: 'details',
         component: TransactionDetailsComponent,
+        canActivate: [NgxPermissionsGuard],
         data: {
           title: 'Details',
           parent: 'Transactions',
-          // custom_url: 'details'
+          // custom_url: 'details',
+      permissions: {
+        only: 'view_transaction',
+        redirectTo: 'authentication/error-2'
+      }
         }
       },
     ]
@@ -37,10 +48,15 @@ const routes: Routes = [
   {
     path: 'manual-transaction',
     component: UploadTransactionsListComponent,
+    canActivate: [NgxPermissionsGuard],
     data: {
       title: 'Manual Transactions',
       parent: 'LMS',
-      custom_url: 'lms/manual-transaction'
+      custom_url: 'lms/manual-transaction',
+      permissions: {
+        only: 'view_manual_transaction',
+        redirectTo: 'authentication/error-2'
+      }
     }
   },
 ];

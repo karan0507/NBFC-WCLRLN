@@ -6,14 +6,14 @@ import { DashboardComponent } from './dashboard.component';
 const routes: Routes = [
     {
         path: 'home',
-        // canActivate: [NgxPermissionsGuard],
         component: DashboardComponent,
+        canActivate: [NgxPermissionsGuard],
         data: {
             title: 'Dashboard ',
-            // permissions: {
-            //     only: 'view_dashboard',
-            //     redirectTo: 'authentication/error-2'
-            // }
+            permissions: {
+                only: 'view_dashboard',
+                redirectTo: 'authentication/error-2'
+            }
         }
     }
 ];

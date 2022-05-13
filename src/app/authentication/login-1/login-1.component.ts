@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgxPermissionsService } from 'ngx-permissions';
 import { HttpService } from 'src/app/services/http.service';
 
 
@@ -24,12 +25,14 @@ export class Login1Component {
       new_password = '';
       retype_password = '';
       isView: boolean = false;
+      UserPermissionDataSubscription : any
 
       constructor(
             private fb: FormBuilder,
             private http: HttpService,
             private message: NzMessageService,
-            private router: Router,) {
+            private router: Router,
+            private permissionsService: NgxPermissionsService) {
       }
 
       ngOnInit(): void {
@@ -75,6 +78,15 @@ export class Login1Component {
                               this.api_calling_loader = false
                               if (res.success) {
                                     localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+                                    if(localStorage.getItem('fatakpay_user_data')){
+                                          var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
+                                          check_token_exists.push('')
+                                          this.permissionsService.loadPermissions(check_token_exists);
+                                        }
+                                        this.UserPermissionDataSubscription = this.http.globalUserPermissionsData.subscribe((value) => {
+                                          value.push('')
+                                          this.permissionsService.loadPermissions(value);
+                                        });
                                     // this.HttpService.setPermissionValue(res.data.data.permissions_slug_list)
                                     this.message.success('Welcome to Fatak Pay');
                                     this.router.navigate(['/dashboard/home']);
