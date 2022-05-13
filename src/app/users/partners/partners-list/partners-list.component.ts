@@ -139,10 +139,11 @@ export class PartnersListComponent implements OnInit {
         console.log(res)
         if(res?.success){
           this.message.success(res?.message);
-          this.passwordForAdmin['apiLoaderOnClick']= true;
+          this.passwordForAdmin['apiLoaderOnClick']= false;
+          this.passwordForAdmin['isVisibleModal'] = false;
         } else {
           this.message.error(res?.message);
-          this.passwordForAdmin['apiLoaderOnClick']= true;
+          this.passwordForAdmin['apiLoaderOnClick']= false;
         }
       })
     }
