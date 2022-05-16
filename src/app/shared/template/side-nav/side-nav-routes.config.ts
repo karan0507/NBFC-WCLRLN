@@ -308,6 +308,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [] 
             },
             { 
+                path: 'lms/send-payment-link',
+                title: 'Send Payment Link', 
+                iconType: '', 
+                icon: '',
+                permission:[''],
+                iconTheme: '',
+                submenu: [] 
+            },
+            { 
                 path: 'lms/lender-management',
                 title: 'Lender Management', 
                 permission:['view_lender_management'],
