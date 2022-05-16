@@ -13,8 +13,8 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-select class="mx-1" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
                         (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
                         (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">

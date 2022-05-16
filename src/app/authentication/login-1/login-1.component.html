@@ -67,7 +67,7 @@
                                 <nz-form-label nzRequired>OTP</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your OTP!">
                                     <nz-input-group [nzPrefix]="prefixLock">
-                                        <input type="number" nz-input [(ngModel)]="otp" name="otp" placeholder="OTP">
+                                        <input type="number" nz-input [(ngModel)]="otp" name="otp" placeholder="OTP" autocomplete="cc-number">
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
@@ -75,9 +75,13 @@
                             <nz-form-item *ngIf="is_link_send">
                                 <nz-form-label nzRequired>New Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your New Password!">
-                                    <nz-input-group [nzPrefix]="prefixLock">
-                                        <input type="password" nz-input [(ngModel)]="new_password" name="new_password" placeholder="New Password">
+                                    <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
+                                        <input [type]="isView ? 'text' : 'password'" nz-input [(ngModel)]="new_password" name="new_password" autocomplete="new-password" placeholder="New Password">
                                     </nz-input-group>
+                                    <ng-template #viewPassword>
+                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
+                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
+                                      </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
                         
@@ -85,7 +89,7 @@
                                 <nz-form-label nzRequired>Re-type new Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your Re-type new Password!">
                                     <nz-input-group [nzPrefix]="prefixLock">
-                                        <input type="password" nz-input [(ngModel)]="retype_password" name="retype_password" placeholder="Re-type new Password">
+                                        <input [type]="isView ? 'text' : 'password'" nz-input [(ngModel)]="retype_password" autocomplete="new-password" name="retype_password" placeholder="Re-type new Password">
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
