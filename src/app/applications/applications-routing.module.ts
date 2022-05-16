@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ClosedComponent } from './closed/closed.component';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
@@ -19,103 +20,162 @@ import { VerificationComponent } from './verification/verification.component';
 const routes: Routes = [
       {
             path: '',
-            // component: ProductsComponent,
             children: [
                   {
                         path: 'form-filling',
                         component: FormFillingComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Form Filling',
                               parent: 'Application',
-                              custom_url: '/applications/form-filling'
+                              custom_url: '/applications/form-filling',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         },
                   },
                   {
                         path: 'pre-approved',
                         component: PerApprovedComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Pre Approved Offer',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'document-upload',
                         component: DocumentUploadComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Document Upload',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'underwriting',
                         component: UnderwritingComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Underwriting',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'nbfc-approval',
                         component: NbfcApprovalComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'NBFC Approval',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'offer-proposed',
                         component: OfferProposedComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Offer Proposed',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'offer-acceptance',
                         component: OfferAcceptanceComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Offer Acceptance',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'e-signing',
                         component: ENachSigningComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'e-Signing',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'disbursement',
                         component: DisbursementComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Disbursement',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'rejected',
                         component: VerificationComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Rejected',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'dormant',
                         component: StageTriggersComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Dormant',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
                   {
                         path: 'closed',
                         component: ClosedComponent,
+                        canActivate: [NgxPermissionsGuard],
                         data: {
                               title: 'Closed',
                               parent: 'Application',
+                              permissions: {
+                                only: 'view_application',
+                                redirectTo: 'authentication/error-2'
+                              }
                         }
                   },
             ]
@@ -123,12 +183,9 @@ const routes: Routes = [
 
       {
             path: '',
-            // component: ProductsComponent,
             children: [
                   {
                         path: 'form-filling',
-                        // component: FormFillingComponent,
-                        // redirectTo:'/applications/form-filling',
                         data: {
                               title: 'Form Filling',
                               parent: 'Applications',
@@ -138,17 +195,27 @@ const routes: Routes = [
                               {
                                     path: 'edit-form',
                                     component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Edit Form',
                                           parent: 'Applications',
+                                          permissions: {
+                                            only: 'edit_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     },
                               },
                               {
                                     path: 'track-status',
                                     component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Track Status',
                                           parent: 'Application',
+                                          permissions: {
+                                            only: 'track_status',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     }
                               }
                         ]
@@ -165,17 +232,27 @@ const routes: Routes = [
                               {
                                     path: 'edit-form',
                                     component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Edit Form',
                                           parent: 'Applications',
+                                          permissions: {
+                                            only: 'edit_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     },
                               },
                               {
                                     path: 'track-status',
                                     component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Track Status',
                                           parent: 'Application',
+                                          permissions: {
+                                            only: 'track_status',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     }
                               }
                         ]
@@ -194,17 +271,27 @@ const routes: Routes = [
                               {
                                     path: 'edit-form',
                                     component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Edit Form',
                                           parent: 'Applications',
+                                          permissions: {
+                                            only: 'edit_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     },
                               },
                               {
                                     path: 'track-status',
                                     component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Track Status',
                                           parent: 'Application',
+                                          permissions: {
+                                            only: 'track_status',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     }
                               }
                         ]
@@ -221,17 +308,27 @@ const routes: Routes = [
                               {
                                     path: 'edit-form',
                                     component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Edit Form',
                                           parent: 'Applications',
+                                          permissions: {
+                                            only: 'edit_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
                                     },
                               },
                               {
                                     path: 'track-status',
                                     component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
                                     data: {
                                           title: 'Track Status',
                                           parent: 'Application',
+                                          permissions: {
+                                                only: 'track_status',
+                                                redirectTo: 'authentication/error-2'
+                                          }
                                     }
                               }
                         ]
@@ -241,12 +338,9 @@ const routes: Routes = [
 
       {
             path: '',
-            // component: ProductsComponent,
             children: [
                   {
                         path: 'underwriting',
-                        // component: FormFillingComponent,
-                        // redirectTo:'/applications/form-filling',
                         data: {
                               title: 'Underwriting',
                               parent: 'Applications',
