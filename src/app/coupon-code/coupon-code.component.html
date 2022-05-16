@@ -29,7 +29,7 @@
                               <nz-option [nzValue]="2" nzLabel="Inactive"></nz-option>
 
                         </nz-select>
-                        <button nz-button nzType="primary" class="ml-md-3" [routerLink]="['add-coupon-code']">Add New
+                        <button nz-button nzType="primary" class="ml-md-3" [routerLink]="['add-coupon-code']" *ngxPermissionsOnly="['add_coupon_code']">Add New
                               Code +</button>
                   </div>
             </div>
@@ -47,8 +47,8 @@
                                     <th>Coupon Type</th>
                                     <th>Remaining Coupons</th>
                                     <th>Value</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th *ngxPermissionsOnly="['toggle_coupon_code']">Status</th>
+                                    <th *ngxPermissionsOnly="['edit_coupon_code']">Actions</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -60,9 +60,7 @@
                                           <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
                                           <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
                                           <td>{{ data?.value ? (data?.coupon_calculation_type == 'Variable' ? '% ' :  '₹ ' ) + data?.value : '--'}}</td>
-                                          <!-- toggle_coupon_code -->
-                                          <!-- *ngxPermissionsOnly="['change_password_corporate']" -->
-                                          <td >
+                                          <td *ngxPermissionsOnly="['toggle_coupon_code']" >
                                                 <div class="d-flex">
                                                       <label class="font-size-14">Inactive</label>
                                                       <nz-switch class="px-3" [(ngModel)]="data.is_active"
@@ -71,7 +69,7 @@
                                                       <label class="font-size-14">Active</label>
                                                 </div>
                                           </td>
-                                          <td> <button nz-button nzType="link" class="border"
+                                          <td *ngxPermissionsOnly="['edit_coupon_code']"> <button nz-button nzType="link" class="border"
                                                       [routerLink]="['edit-coupon-code']"
                                                       [queryParams]="{id: data?.id}">Edit</button>
                                           </td>

@@ -30,7 +30,7 @@ const routes: Routes = [
                               parent: 'Application',
                               custom_url: '/applications/form-filling',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_form_filling_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         },
@@ -43,7 +43,7 @@ const routes: Routes = [
                               title: 'Pre Approved Offer',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_pre_approved_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -56,7 +56,7 @@ const routes: Routes = [
                               title: 'Document Upload',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_document_upload_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -69,7 +69,7 @@ const routes: Routes = [
                               title: 'Underwriting',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_underwriting_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -82,7 +82,7 @@ const routes: Routes = [
                               title: 'NBFC Approval',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_nbfc_approval_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -95,7 +95,7 @@ const routes: Routes = [
                               title: 'Offer Proposed',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_offer_purposed_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -108,7 +108,7 @@ const routes: Routes = [
                               title: 'Offer Acceptance',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_offer_acceptance_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -121,7 +121,7 @@ const routes: Routes = [
                               title: 'e-Signing',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_e_sining_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -134,7 +134,7 @@ const routes: Routes = [
                               title: 'Disbursement',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_disbursement_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -147,7 +147,7 @@ const routes: Routes = [
                               title: 'Rejected',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_rejected_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -160,7 +160,7 @@ const routes: Routes = [
                               title: 'Dormant',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_dormant_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -173,7 +173,7 @@ const routes: Routes = [
                               title: 'Closed',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_application',
+                                only: 'view_closed_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }

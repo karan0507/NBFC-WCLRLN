@@ -40,6 +40,7 @@
         [(ngModel)]="selectedTab"
       >
         <label
+          *ngxPermissionsOnly="['corporate_employee_detail']"
           nz-radio-button
           class="px-5 mb-3 border-radius-2"
           nzValue="corporate"
@@ -52,36 +53,42 @@
           >Employee Database</label
         > -->
         <label
+          *ngxPermissionsOnly="['new_joinees']"
           nz-radio-button
           class="px-5 mb-3 border-radius-2"
           nzValue="New Joinees"
           >New Joinees</label
         >
         <label
+          *ngxPermissionsOnly="['attendance']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Attendance"
           >Attendance</label
         >
         <label
+          *ngxPermissionsOnly="['exit_employee']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Exit Employee"
           >Exit Employee</label
         >
         <label
+          *ngxPermissionsOnly="['notice_period']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Notice Period"
           >Notice Period</label
         >
         <label
+          *ngxPermissionsOnly="['action_performed']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="recommendation"
           >Action Performed</label
         >
         <label
+          *ngxPermissionsOnly="['employee_list']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="allEmployee"
