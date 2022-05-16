@@ -139,7 +139,7 @@
                                             <!-- <li nz-menu-item>
                                                 <span class="m-l-5">Payout List</span>
                                             </li> -->
-                                            <ng-container *ngxPermissionsOnly="['upload_aggreement']">
+                                            <ng-container *ngxPermissionsOnly="['upload_agreement']">
                                                 <li nz-menu-item (click)="storeSelectedId(data?.id)">
                                                     <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                         [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
@@ -148,7 +148,7 @@
                                                     </nz-upload>
                                                 </li>
                                             </ng-container>
-                                            <ng-container *ngxPermissionsOnly="['show_aggreement']">
+                                            <ng-container *ngxPermissionsOnly="['show_agreement']">
                                                 <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')">
                                                     <span class="m-l-5">Show Agreement</span>
                                                 </li>
@@ -441,10 +441,10 @@
                                                             </a>
                                                                 <nz-dropdown-menu #showPassword="nzDropdownMenu">
                                                                     <ul nz-menu>
-                                                                        <li nz-menu-item (click)="onClickGetPassword('reset', data)">
+                                                                        <li *ngxPermissionsOnly="['reset_password']" nz-menu-item (click)="onClickGetPassword('reset', data)">
                                                                             <span class="m-l-5">Reset Password</span>
                                                                         </li>
-                                                                        <li nz-menu-item (click)="onClickGetPassword('show', data)">
+                                                                        <li *ngxPermissionsOnly="['show_password']" nz-menu-item (click)="onClickGetPassword('show', data)">
                                                                             <span class="m-l-5">Show Password</span>
                                                                         </li>
                                                                     </ul>

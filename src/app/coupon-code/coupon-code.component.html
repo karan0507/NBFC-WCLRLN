@@ -60,7 +60,9 @@
                                           <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
                                           <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
                                           <td>{{ data?.value ? (data?.coupon_calculation_type == 'Variable' ? '% ' :  '₹ ' ) + data?.value : '--'}}</td>
-                                          <td>
+                                          <!-- toggle_coupon_code -->
+                                          <!-- *ngxPermissionsOnly="['change_password_corporate']" -->
+                                          <td >
                                                 <div class="d-flex">
                                                       <label class="font-size-14">Inactive</label>
                                                       <nz-switch class="px-3" [(ngModel)]="data.is_active"
