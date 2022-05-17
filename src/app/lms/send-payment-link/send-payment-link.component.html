@@ -98,6 +98,9 @@
                     </ng-container>
                 </tbody>
             </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
         </nz-card>
     </div>
 </section>
@@ -107,9 +110,11 @@
     <ng-container *nzModalContent>
         <nz-table [nzFrontPagination]="false" [nzData]="previewData">
             <thead>
-                <th>#</th>
-                <th>Loan ID</th>
-                <th>Amount</th>
+                <tr>
+                    <th>#</th>
+                    <th>Loan ID</th>
+                    <th>Amount</th>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of previewData; index as i">
@@ -129,9 +134,11 @@
     <ng-container *nzModalContent>
         <nz-table [nzFrontPagination]="false" [nzData]="previewData">
             <thead>
-                <th>#</th>
-                <th>Loan ID</th>
-                <th>Amount</th>
+                <tr>
+                    <th>#</th>
+                    <th>Loan ID</th>
+                    <th>Amount</th>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of previewData; index as i">
