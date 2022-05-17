@@ -56,7 +56,8 @@ export class OfferProposedComponent implements OnInit {
   _isStatus: boolean = false;
   _currentCibilData: any;
   isFetchCibilSms: boolean = false;
-
+  _isAgreementOpen: boolean = false
+  agreementDoc: any
   // Modal Boolean Values
   _isPullData: boolean = false;
   _isOpenModal: boolean = false;
@@ -88,7 +89,7 @@ export class OfferProposedComponent implements OnInit {
     public fb: FormBuilder,
     public global: GlobalservicesService,
     public sanitize: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.page = 1;
@@ -332,6 +333,7 @@ export class OfferProposedComponent implements OnInit {
     this.isFetchCibilSms = false;
     this._isUpdateStatus = false;
     this._isStatus = false;
+    this._isAgreementOpen = false
     this._isDocument = false;
     this._isEditOffer = false;
     this.isRejectModal = false;
@@ -603,4 +605,10 @@ export class OfferProposedComponent implements OnInit {
     this.partner = null;
     this.getFormLoanData();
   }
+
+  viewAgreement(data) {
+    this._isUpdateStatus = true;
+    this._isAgreementOpen = true;
+    this.agreementDoc = data
+}
 }
