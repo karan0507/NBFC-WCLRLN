@@ -350,7 +350,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Access control',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:['view_employee_permission'],
+        permission:['view_employee_permission','view_role','add_role','edit_role','delete_role'],
         icon: 'key',
         submenu: []
     },
