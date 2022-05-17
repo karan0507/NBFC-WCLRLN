@@ -105,16 +105,20 @@ export class AddEditPermissionComponent implements OnInit {
         // const url = this.roleManagementLoader['addRole'] ? this.http.addEditExistingRole(data) : this.http.addEditExistingRole()
         this.http.addEditExistingRole(data).subscribe((res: any)=>{
           if(res?.success){
+            this.addEditRoleForm.reset();
             this.roleManagementLoader['onUpdate'] = false;
             this.message.success(res?.message);
+            this.roleManagementLoader['isVisible'] = false
             this.fetchRoles();
           } else {
             this.message.error(res?.message);
+            this.addEditRoleForm.reset();
             this.roleManagementLoader['onUpdate'] = false;
             this.roleManagementLoader['isVisible'] = false;
           }
         }, error=>{
           this.roleManagementLoader['isVisible'] = false;
+          this.addEditRoleForm.reset();
           this.roleManagementLoader['onUpdate'] = false;
         })
 

@@ -76,7 +76,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:['view_user_employee'],
+                permission:['new_joinees','corporate_employee_detail','attendance','exit_employee','notice_period','action_performed','employee_list'],
                 submenu: [] 
             },
             { 
@@ -123,7 +123,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Application',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:['view_application'],
+        permission:['view_form_filling_application','view_pre_approved_application', 'view_document_upload_application','view_underwriting_application','view_nbfc_approval_application','view_offer_purposed_application','view_offer_acceptance_application','view_e_sining_application','view_disbursement_application','view_dormant_application','view_closed_application'],
         icon: 'picture',
         submenu: [
             { 
@@ -132,7 +132,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:['view_application'],
+                permission:['view_form_filling_application'],
                 submenu: [] 
             },
             { 
@@ -141,7 +141,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:['view_application'],
+                permission:['view_pre_approved_application'],
                 submenu: [] 
             },
             { 
@@ -149,7 +149,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Document Upload', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_document_upload_application'],
                 iconTheme: '',
                 submenu: [] 
             },
@@ -158,7 +158,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Underwriting', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_underwriting_application'],
                 iconTheme: '',
                 submenu: [] 
             },
@@ -168,16 +168,16 @@ export const ROUTES: SideNavInterface[] = [
                   iconType: '', 
                   icon: '',
                   iconTheme: '',
-                  permission:['view_application'],
+                  permission:['view_nbfc_approval_application'],
                   submenu: [] 
-              },
+            },
             { 
                 path: 'applications/offer-proposed',
                 title: 'Offer Proposed', 
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:['view_application'],
+                permission:['view_offer_purposed_application'],
                 submenu: [] 
             },
             { 
@@ -186,7 +186,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '', 
                 icon: '',
                 iconTheme: '',
-                permission:['view_application'],
+                permission:['view_offer_acceptance_application'],
                 submenu: [] 
             },
             { 
@@ -194,7 +194,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'E-Nach/Signing', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_e_sining_application'],
                 iconTheme: '',
                 submenu: [] 
             },
@@ -203,7 +203,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Disbursement', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_disbursement_application'],
                 iconTheme: '',
                 submenu: [] 
             },
@@ -212,7 +212,7 @@ export const ROUTES: SideNavInterface[] = [
                   title: 'Rejected', 
                   iconType: '', 
                   icon: '',
-                  permission:['view_application'],
+                  permission:['view_rejected_application'],
                   iconTheme: '',
                   submenu: [] 
               },
@@ -221,7 +221,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Dormant ', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_dormant_application'],
                 iconTheme: '',
                 submenu: [] 
             },
@@ -230,7 +230,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Closed ', 
                 iconType: '', 
                 icon: '',
-                permission:['view_application'],
+                permission:['view_closed_application'],
                 iconTheme: '',
                 submenu: [] 
             }
@@ -350,7 +350,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Access control',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission:['view_employee_permission'],
+        permission:['view_employee_permission','view_role','add_role','edit_role','delete_role'],
         icon: 'key',
         submenu: []
     },
