@@ -30,7 +30,6 @@ export class OfferAcceptanceComponent implements OnInit {
       _currentDate: any;
       _currentId: any;
       currentOfferId: any
-      console = console;
       _checkedLoanList: any[];
       _activeLoans: any = [];
       today = new Date();
@@ -40,6 +39,7 @@ export class OfferAcceptanceComponent implements OnInit {
             'button': false,
             'sendLink': false
       };
+      _isAgreementOpen: boolean = false
       stageMasterList: any;
       _currentStageStatus: any;
       _currentCibilData: any;
@@ -71,18 +71,20 @@ export class OfferAcceptanceComponent implements OnInit {
       _isViewDocument: boolean = false
       verifyRemarks: any;
       _isCibil: boolean = false
-      isFetchCibilSms:boolean = false;
+      isFetchCibilSms: boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       page = 1
       globalPageSize: any;
       productList: any = []
       stageStatusList: any = []
-      currentDropDownId :any
-      partner : any
-      partnerList : any = []
+      currentDropDownId: any
+      partner: any
+      partnerList: any = []
       blackBoxData: any;
       remarksDescription: any;
+      agreementDoc: any
+
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
 
@@ -112,8 +114,8 @@ export class OfferAcceptanceComponent implements OnInit {
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
-            }else if(type == 'partner'){
-                  this.https.fetchPartner().subscribe((res:any)=>{
+            } else if (type == 'partner') {
+                  this.https.fetchPartner().subscribe((res: any) => {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
@@ -146,17 +148,17 @@ export class OfferAcceptanceComponent implements OnInit {
                   data['page'] = 1
                   data['name'] = this.searchValue
             }
-            if(this.partner){
+            if (this.partner) {
                   data['page'] = 1
                   data['company'] = this.partner
             }
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
-                        if(this._activeLoans){
+                        if (this._activeLoans) {
                               this._activeLoans.forEach(element => {
-                                    this.expandSet.delete(element?.id)    
-                               });  
+                                    this.expandSet.delete(element?.id)
+                              });
                         }
                         this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
@@ -193,11 +195,9 @@ export class OfferAcceptanceComponent implements OnInit {
             if (checked) {
                   this.expandSet.add(id);
                   this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
-                  // console.log();
 
             } else {
                   this.expandSet.delete(id);
-                  console.log('Deleted array of active ids', this._activeLoans);
             }
       }
 
@@ -243,17 +243,15 @@ export class OfferAcceptanceComponent implements OnInit {
                                     this.stageMasterList = res?.data
                               }
                         })
-                        console.log(this._checkedLoanList);
                         break;
                   case 'download': this._isDocument = true;
                         break;
                   case 'viewDocument': this._isViewDocument = true; break;
                   case 'editOffer': this._isEditOffer = true;
                         this.api_calling_loader['accordian'] = true;
-                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': data?.id, 'section':'offer accepted' }
+                        let params = { 'source': 'Onboarding', 'datapoint': 'get-section-offer', 'application': data?.id, 'section': 'offer accepted' }
                         this.https.fetchEditofferData(params).subscribe((res: any) => {
                               if (res?.success) {
-                                    console.log(res);
                                     this.currentOfferId = res?.data?.offer_id
                                     this.api_calling_loader['accordian'] = false;
                                     this.offerForm.get('amountOffered').setValue(res?.data?.amount);
@@ -287,6 +285,7 @@ export class OfferAcceptanceComponent implements OnInit {
             this._isStatus = false;
             this._isDocument = false;
             this._isEditOffer = false;
+            this._isAgreementOpen = false
             this.isRejectModal = false;
       }
 
@@ -294,7 +293,7 @@ export class OfferAcceptanceComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this.api_calling_loader['button'] = true
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status','remarks':this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList)};
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks': this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     this.api_calling_loader['button'] = false
@@ -308,13 +307,11 @@ export class OfferAcceptanceComponent implements OnInit {
                                     this._isUpdateStatus = false;
                               }
                         }, error => {
-                              console.log(error);
-
                         })
                         break;
                   case 'offer':
                         this.api_calling_loader['button'] = true
-                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint:this.currentOfferId, amount: this.offerForm.get('amountOffered').value };
+                        let value = { source: 'LMS', datapoint: 'edit_accepted_offers', endpoint: this.currentOfferId, amount: this.offerForm.get('amountOffered').value };
                         this.https.editAdAcceptedOffer(value).subscribe((res: any) => {
                               if (res.success) {
                                     this.message.success(res?.message);
@@ -326,13 +323,12 @@ export class OfferAcceptanceComponent implements OnInit {
                                     this.api_calling_loader['button'] = false
                               }
                         }, error => {
-                              console.log(error);
                         })
 
                         break;
                   case 'reject':
                         this.api_calling_loader['button'] = true
-                        let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, 'offer_id': this._currentLoanDetails?.offer_id,'section' : 'offer accepted','remarks': this.remarks };
+                        let params = { 'source': 'Onboarding', 'datapoint': 'reject-section-offer', 'application': this._currentLoanDetails?.id, 'offer_id': this._currentLoanDetails?.offer_id, 'section': 'offer accepted', 'remarks': this.remarks };
 
                         this.https.rejectedOffersAd(params).subscribe((res: any) => {
                               if (res?.success) {
@@ -349,7 +345,6 @@ export class OfferAcceptanceComponent implements OnInit {
                   case 'verify':
                         this.api_calling_loader['button'] = true
                         let param = { source: 'Onboarding', datapoint: 'verify_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'status': (this.documentStatus == 1 ? 'Accepted' : 'Rejected'), 'reason': this.verifyRemarks }
-                        console.log('export this file', this._currentModalData, params);
                         this.https.verifyLoanDocument(param).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false
@@ -369,8 +364,6 @@ export class OfferAcceptanceComponent implements OnInit {
                   case 'uploadDocument':
                         this.api_calling_loader['button'] = true
                         let uploadDoc = { source: 'Onboarding', datapoint: 'upload_kyc_doc', 'application_id': this._currentModalData['application'], 'kyc_document_id': this._currentModalData?.id, 'file': this._currentFileName }
-                        console.log(uploadDoc, 'For Upload Document');
-
                         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false;
@@ -408,7 +401,6 @@ export class OfferAcceptanceComponent implements OnInit {
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
                   this.message.remove(generateloader);
-                  console.log(error);
             })
       }
 
@@ -418,7 +410,6 @@ export class OfferAcceptanceComponent implements OnInit {
             reader.readAsDataURL(file);
             this._exportDocument = file;
             reader.onload = (e) => {
-                  console.log(reader, this._exportDocument);
             }
       }
 
@@ -442,7 +433,6 @@ export class OfferAcceptanceComponent implements OnInit {
             this._currentLoanDetails = loanData;
             if (type == 'download') {
                   let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
-                  console.log(data);
                   this.https.downloadDocuments(data).subscribe((res: any) => {
                         if (res?.success) {
                               // let url = window.URL.createObjectURL(blob)
@@ -453,7 +443,6 @@ export class OfferAcceptanceComponent implements OnInit {
             } else {
                   this._isOpenModal = true;
                   this._isUpdateStatus = true
-                  console.log(this._currentModalData);
                   switch (type) {
                         case 'viewDocument': this._isViewDocument = true;
                               // this.generateBase64View(this._currentModalData?.file);
@@ -468,8 +457,6 @@ export class OfferAcceptanceComponent implements OnInit {
             this.fileList = [];
             this.fileList = this.fileList.concat(file);
             this._currentFileName = this.fileList[0];
-            console.log(this._currentFileName, file);
-            // this.generateBase64View(file)
             return false;
       };
 
@@ -480,8 +467,8 @@ export class OfferAcceptanceComponent implements OnInit {
                         this.blackBoxData = res?.data
                   }
             })
-      } 
-      
+      }
+
       resetFilters() {
             this.productFilters = null;
             this.filters = null;
@@ -493,8 +480,8 @@ export class OfferAcceptanceComponent implements OnInit {
             var data = {
                   source: 'LMS',
                   datapoint: 'send-mandate-link',
-                  auth_type : this.emandateValue,
-                  accepted_offer_id : offer_id
+                  auth_type: this.emandateValue,
+                  accepted_offer_id: offer_id
             }
             this.api_calling_loader['sendLink'] = true
             this.https.sendEmandateLink(data).subscribe((res: any) => {
@@ -507,5 +494,11 @@ export class OfferAcceptanceComponent implements OnInit {
             }, (err) => {
                   this.api_calling_loader['sendLink'] = false
             })
+      }
+
+      viewAgreement(data) {
+            this._isUpdateStatus = true;
+            this._isAgreementOpen = true;
+            this.agreementDoc = data
       }
 }
