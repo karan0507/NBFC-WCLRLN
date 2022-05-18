@@ -141,12 +141,16 @@ export class DsaListComponent implements OnInit {
         // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
       }
       this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any)=>{
+        this.passwordForAdmin['isVisibleModal'] = false; 
         console.log(res)
         if(res?.success){
+
           this.message.success(res?.message);
           this.passwordForAdmin['apiLoaderOnClick']= true;
+          this.passwordForAdmin['isVisibleModal'] = false;
         } else {
           this.message.error(res?.message);
+          this.passwordForAdmin['isVisibleModal'] = false;
           this.passwordForAdmin['apiLoaderOnClick']= true;
         }
       })
