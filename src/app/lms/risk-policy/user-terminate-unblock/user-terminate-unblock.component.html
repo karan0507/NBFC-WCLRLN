@@ -50,12 +50,13 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '2200px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList[0] ? fetchBorrowerList($event) : ''">
+            [nzScroll]="{ x: '2500px', y: '40vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList[0] ? fetchBorrowerList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
                         <th>User Name</th>
                         <th>Product type</th>
+                        <th>Corporate</th>
                         <th>Loan ID</th>
                         <th>Applied on</th>
                         <th>Credit Line Assigned</th>
@@ -77,6 +78,7 @@
                             <p *ngIf="data.user?.email">{{data.user ? data.user.email : '-'}}</p>
                         </td>
                         <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
+                        <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
                         <td>{{data.loan_unique_id}}</td>
                         <td>{{data.activation_date | date: "medium"}}</td>
                         <td>{{data.loan_amount_provided}}</td>
