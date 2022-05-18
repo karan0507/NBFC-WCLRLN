@@ -8,11 +8,13 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 @NgModule({
   declarations: [AddEditPermissionComponent],
   imports: [
+    NzPopconfirmModule,
     CommonModule,
     AddEditPermissionRoutingModule,
     DemoNgZorroAntdModule,

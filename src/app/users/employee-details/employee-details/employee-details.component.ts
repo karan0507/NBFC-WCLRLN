@@ -457,14 +457,22 @@ export class EmployeeDetailsComponent implements OnInit {
 
 
   onChange(e){
-    if(e){
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
-    } else {
-      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
-      this.date = null;
-    }
-    console.log(this.date);
     console.log(e);
+    if(e){
+      if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+        this.getListOfAllEmployees();
+      } else {
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
+    } else {
+      this.date = e;
+      if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
+        this.getListOfAllEmployees();
+      } else {
+        this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+      }
+      // this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    }
   }
 
   downloadFile(data){
@@ -485,22 +493,14 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
-      // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
-      // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
     };
     if(this.selectedTab == 'recommendation'){
       data['action'] =  this.selectedAction;
     }
-    console.log(this.date);
     if(this.date){
-      // delete data["from_date"];
-      // delete data["to_date"];
       data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
       data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
     } 
-    // data.append(
-      //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
-      // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
     if (this.selectedCorporate) {
       data["corporate"] = this.selectedCorporate;
     }
@@ -534,26 +534,17 @@ export class EmployeeDetailsComponent implements OnInit {
       keyword: this.searchValue ? this.searchValue : "",
       page: this.page,
       limit: this.size,
-      // from_date: moment(this.date[0]).format("YYYY-MM-DD"),
-      // to_date: moment(this.date[1]).format("YYYY-MM-DD"),
     };
-    console.log(this.date);
     if(this.date){
-      // delete data["from_date"];
-      // delete data["to_date"];
       data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
       data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
     } 
-    // data.append(
-      //   "start_date",moment(this.dateRange[0]).format("YYYY-MM-DD"));
-      // data.append("end_date",moment(this.dateRange[1]).format("YYYY-MM-DD"));
     if (this.selectedCorporate) {
       data["partner"] = this.selectedCorporate;
     }
     
 
     if (this.selectedTab === "corporate" ) {
-      // delete data["section"];
       delete data["section"];
       if(this.selectedSection){
         data["section"] = this.selectedSection;
@@ -597,7 +588,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   handleCancel() {
-    // this.uploadSelectedCorporateFile.reset();
+    //this.uploadSelectedCorporateFile.reset();
     this.uploadSelectedCorporateFile.controls["partner"].reset();
     this.uploadSelectedCorporateFile.controls["file"].reset();
     this.fileName = null;
