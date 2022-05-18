@@ -204,12 +204,22 @@ export class BorrowersDetailsComponent implements OnInit {
       //   endpoint: this.borrower_id,
       //   source: 'LMS',
       // }
+    } else if (index == 6) {
+      data = {
+        datapoint: 'fetch-application-agreement',
+        endpoint: this.borrowertList.loan_application_id,
+        source: 'Onboarding',
+      }
     }
     if (data) {
       this.http.fetchLoanApplicationList(data).subscribe(res => {
         if (res.success) {
           this.pdf_viewer_object_values['title'] = title
-          this.sanatizeUrlToSafe(res?.data?.url)
+          if (index == 6) {
+            this.sanatizeUrlToSafe(res?.data?.agreement)
+          } else {
+            this.sanatizeUrlToSafe(res?.data?.url)
+          }
           this.pdf_viewer_object_values['boolean'] = true
 
         } else {
@@ -528,5 +538,8 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
 
+  viewAgreement() {
+
+  }
 
 }
