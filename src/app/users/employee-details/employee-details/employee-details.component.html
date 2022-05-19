@@ -218,9 +218,7 @@
               [nzPageIndex]="page"
               [nzLoading]="apiLoader['list']"
               [nzPageSize]="size"
-              (nzQueryParams)="
-                getEmployeeDetailWithEmployeeTypeAndCorporateId($event)
-              "
+              (nzQueryParams)="getListOfAllEmployees($event)"
               [nzShowSizeChanger]="true"
               [nzData]="listOfEmployee"
             >

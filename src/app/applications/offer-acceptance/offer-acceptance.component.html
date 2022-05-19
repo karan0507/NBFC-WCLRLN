@@ -76,6 +76,7 @@
                                     <th>Reference Id</th>
                                     <th>Latest Action Performed By</th>
                                     <th>Status</th>
+                                    <th>E-Mandate</th>
                                     <th>Remarks</th>
                                     <th nzRight [nzWidth]="'5rem'">Action</th>
                               </tr>
@@ -111,7 +112,8 @@
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
-                                          <td>{{data?.status ? data?.status : '--'}}</td>
+                                          <td>{{data?.status ? data?.status : '-'}}</td>
+                                          <td>{{data?.auto_debit_step}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
                                                       {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
                                                       (data?.remarks ? data?.remarks : '--')}}
@@ -974,18 +976,6 @@
                                                                         </div>
                                                                   </div>
                                                             </div>
-                                                            <div class="col-md-4 mt-3">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="text-muted"> Mandate Selected
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.mandate_selected
-                                                                              : '--'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
                                                       </div>
                                                 </nz-card>
                                                 <ng-template #offerDetails>
@@ -994,13 +984,13 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
-                                          <div class="mt-3" *ngIf="!data.auto_debit_flag">
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="enachandSign">
                                                 </nz-page-header>
                                                 <nz-card class="mb-md-0"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
+                                                      <div class="row" *ngIf="!data.auto_debit_flag">
                                                             <div class="col-md-6">
                                                                   <nz-form-item>
                                                                         <nz-form-label class="mr-3">Send E-mandate
@@ -1029,6 +1019,20 @@
                                                                   class="mx-2"
                                                                   (click)="sendEmandateLink(data.offer_id)">Send
                                                                   Link</button>
+                                                      </div>
+                                                      <div class="row" *ngIf="data.auto_debit_flag">
+                                                            <div class="col-6">
+                                                                        <div class="d-flex flex-column">
+                                                                              <div class="text-muted"> Selected Mandate
+                                                                              </div>
+                                                                              <div style="text-transform: uppercase;">
+                                                                                    {{data?.expanddata?.mandate_type
+                                                                                    ?
+                                                                                    data?.expanddata?.mandate_type
+                                                                                    : '--'}}
+                                                                              </div>
+                                                                        </div>
+                                                            </div>
                                                       </div>
                                                 </nz-card>
                                           </div>
