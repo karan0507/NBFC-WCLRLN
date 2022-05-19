@@ -433,6 +433,7 @@ export class UnderwritingComponent implements OnInit {
               this.api_calling_loader["button"] = false;
               this.handleCancel();
               this.message.success(res?.message);
+              this.global.setApplicationCount();
               this.getFormLoanData();
             } else {
               this.message.error(res?.message);

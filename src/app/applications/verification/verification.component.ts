@@ -35,7 +35,7 @@ export class VerificationComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button' : false
+            'button': false
       };
       stageMasterList: any;
       _currentStageStatus: any;
@@ -66,7 +66,7 @@ export class VerificationComponent implements OnInit {
       verifyRemarks: any;
       _isCibil: boolean = false
       _isViewDocument: boolean = false
-      isFetchCibilSms : boolean = false;
+      isFetchCibilSms: boolean = false;
       documentStatus = 1
       // Page Filters and Pagination Data
       searchValue: any
@@ -75,8 +75,8 @@ export class VerificationComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       currentDropDownId: any;
-      partner : any
-      partnerList : any = []
+      partner: any
+      partnerList: any = []
       blackBoxData: any;
       remarksDescription: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
@@ -110,8 +110,8 @@ export class VerificationComponent implements OnInit {
                         this.stageStatusList = res?.data
                         console.log(this.stageStatusList);
                   })
-            }else if(type == 'partner'){
-                  this.https.fetchPartner().subscribe((res:any)=>{
+            } else if (type == 'partner') {
+                  this.https.fetchPartner().subscribe((res: any) => {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
@@ -144,16 +144,16 @@ export class VerificationComponent implements OnInit {
                   data['page'] = 1
                   data['name'] = this.searchValue
             }
-            if(this.partner){
+            if (this.partner) {
                   data['page'] = 1
                   data['company'] = this.partner
             }
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
-                        if(this._activeLoans){
+                        if (this._activeLoans) {
                               this._activeLoans.forEach(element => {
-                                    this.expandSet.delete(element?.id)    
-                               });  
+                                    this.expandSet.delete(element?.id)
+                              });
                         }
                         this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
@@ -269,8 +269,8 @@ export class VerificationComponent implements OnInit {
             switch (type) {
                   case 'status':
                         this.api_calling_loader['button'] = true;
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status','remarks':this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList)};
-                        this.https.updateMultipleLoanApp(data).subscribe((res :any )=> {
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks': this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
+                        this.https.updateMultipleLoanApp(data).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false;
                                     this.message.success(res?.success)
@@ -425,7 +425,6 @@ export class VerificationComponent implements OnInit {
                         this._currentLoanDetails = data?.user?.id
                         this._isCibil = false
                         break
-
             }
       }
 
@@ -436,14 +435,35 @@ export class VerificationComponent implements OnInit {
                         this.blackBoxData = res?.data
                   }
             })
-      } 
+      }
 
-      
+
       resetFilters() {
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
             this.partner = null
             this.getFormLoanData()
+      }
+
+      moveStageTo(type, id) {
+            let data = {}
+            data['source'] = 'Onboarding',
+            data['endpoint'] = id
+            if (type == 'original') {
+                  data['datapoint'] = 'move_to_original'
+            } else if (type == 'underwriting') {
+                  data['datapoint'] = 'move_to_underwriting'
+            }
+            this.https.moveApplication(data).subscribe((res:any)=>{
+                  if(res.success){
+                        this.message.success(res.message);
+                        this.global.setApplicationCount()
+                        this.getFormLoanData()
+                  }else{
+                        this.message.error(res?.message)
+                  }
+            })
+
       }
 }
