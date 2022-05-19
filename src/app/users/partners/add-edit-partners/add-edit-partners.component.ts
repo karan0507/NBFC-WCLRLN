@@ -1300,7 +1300,7 @@ export class AddEditPartnersComponent implements OnInit {
         }
         for (var i in sendDate) {
           if( i == 'logo'){
-            if(!sendDate[i].uid){
+            if(!sendDate[i]?.uid){
               delete sendDate[i];
             }
           }

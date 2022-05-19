@@ -141,6 +141,7 @@ export class MerchantsListComponent implements OnInit {
       }
       this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any)=>{
         console.log(res)
+        this.passwordForAdmin['isVisibleModal'] = false;
         if(res?.success){
           this.message.success(res?.message);
           this.passwordForAdmin['apiLoaderOnClick']= true;
@@ -148,6 +149,9 @@ export class MerchantsListComponent implements OnInit {
           this.message.error(res?.message);
           this.passwordForAdmin['apiLoaderOnClick']= true;
         }
+        this.passwordForAdmin['isVisibleModal'] = false;
+      }, error =>{
+        this.passwordForAdmin['isVisibleModal'] = false;
       })
     }
   }

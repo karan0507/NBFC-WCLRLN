@@ -184,20 +184,27 @@
                                                       *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                       nzTooltipTitle="View Document"
                                                       (click)="_isViewDocument = true;_currentModalData = item;">
-                                                      <i nz-icon nzType="eye" nzTheme="outline"></i></a>
+                                                      <i nz-icon nzType="eye"
+                                                            nzTheme="outline"></i></a>
                                                 <a class="text-primary mr-3"
                                                       *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
                                                       nzTooltipTitle="Verify Document"
                                                       (click)="_isVerify = true; _currentModalData = item">
-                                                      <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                                      <i nz-icon
+                                                            nzType="check-circle"
+                                                            nzTheme="outline"></i></a>
                                                 <a class="text-primary mr-3"
                                                       *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
                                                       nzTooltipTitle="Download Document"
-                                                      href="{{ item?.front_file_url }}" download target="_blank">
-                                                      <i nz-icon nzType="download" nzTheme="outline"></i></a>
-                                                <a class="text-primary" nzTooltipTitle="Upload Document"
+                                                      href="{{ item?.front_file_url }}"
+                                                      download target="_blank">
+                                                      <i nz-icon nzType="download"
+                                                            nzTheme="outline"></i></a>
+                                                <a class="text-primary"
+                                                      nzTooltipTitle="Upload Document"
                                                       (click)="_isUpload = true; _currentModalData = item">
-                                                      <i nz-icon nzType="upload" nzTheme="outline"></i>
+                                                      <i nz-icon nzType="upload"
+                                                            nzTheme="outline"></i>
                                                 </a>
                                           </div>
                                     </div>
@@ -231,13 +238,13 @@
 
 <section *ngIf="_isVerify">
       <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
-            [documentData]="_currentModalData" (close)="_isVerify = false; getFormLoanData()">
+            [documentData]="_currentModalData" (close)="_isVerify = false; (!_isVerify ? getFormLoanData() : false)">
       </app-common-document-actions>
 
 </section>
 <section *ngIf="_isUpload">
       <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
-            [documentData]="_currentModalData" (close)="_isUpload = false; getFormLoanData()">
+            [documentData]="_currentModalData" (close)="_isUpload = false; (!_isUpload ? getFormLoanData() : false)">
       </app-common-document-actions>
 </section>
 

@@ -31,19 +31,20 @@
                               <i nz-icon nzType="undo"></i>
                         </button>
                         <nz-select class="mr-2 w-60" nzAllowClear [(ngModel)]="productFilters"
-                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                                    nzPlaceHolder="Select Product">
-                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
-                                          [nzLabel]="item.name">
-                                    </nz-option>
-                              </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-2 my-md-0 my-3 w-80" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
-                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                [nzLabel]="item?.name "></nz-option>
-                                    </nz-select>
-                        <nz-select class="w-100" [(ngModel)]="filters" nzMode="multiple"  (nzFocus)="onFocusMethod('status')"
-                        (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"                            
-                        nzPlaceHolder="Select Status">
+                              (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                              nzPlaceHolder="Select Product">
+                              <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
+                              </nz-option>
+                        </nz-select>
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')"
+                              class="mr-2 my-md-0 my-3 w-80" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Partner">
+                              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
+                              </nz-option>
+                        </nz-select>
+                        <nz-select class="w-100" [(ngModel)]="filters" nzMode="multiple"
+                              (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                     [nzLabel]="item.status">
                               </nz-option>
@@ -112,8 +113,9 @@
                                           <td></td>
                                           <td>{{data?.status ? data?.status : '--'}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
-                                                {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) : (data?.remarks ? data?.remarks : '--')}}
-                                          </span></td>
+                                                      {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
+                                                      (data?.remarks ? data?.remarks : '--')}}
+                                                </span></td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -124,7 +126,8 @@
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
                                                             <li nz-menu-item [routerLink]="['edit-form']"
-                                                                  [queryParams]="{id: data?.id}" *ngxPermissionsOnly="['edit_application']">
+                                                                  [queryParams]="{id: data?.id}"
+                                                                  *ngxPermissionsOnly="['edit_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
@@ -253,7 +256,8 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'pan') : '--'}}
+                                                                              {{data?.expanddata?.pan ?
+                                                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['pan_no'] : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -263,7 +267,8 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.aadhar ? global.maskedValue(data?.expanddata?.kyc_details?.results, 'aadhar') : '--'}}
+                                                                              {{data?.expanddata?.aadhar ?
+                                                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['aadhar_no'] : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -273,6 +278,99 @@
                                                       <div class="ml-md-2">
                                                             <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
                                                                         nzTheme="outline"></i> KYC Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+
+                                            <!-- Aadhar Address -->
+                                            <div class="my-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="aadharAddress">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row">
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Address Line 1
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_1
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Address Line 2
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_2
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4"
+                                                                  *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Address Line 3
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_3
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              City
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.city
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              State
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.state
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Pincode
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.kyc_details ?
+                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.pincode
+                                                                              : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #aadharAddress>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
+                                                                        nzTheme="outline"></i> Aadhar Address</h6>
                                                       </div>
                                                 </ng-template>
                                           </div>

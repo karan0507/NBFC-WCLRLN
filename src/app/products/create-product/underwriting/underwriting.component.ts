@@ -33,7 +33,6 @@ export class UnderwritingComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchEmploymentTypeData();
-    this.fetchEntityData()
     this.createEditFormFuction()
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
@@ -43,7 +42,6 @@ export class UnderwritingComponent implements OnInit {
         }
       } else {
         this.underWritingRuleData = null
-        this.createEditFormFuction()
       }
     });
 
@@ -57,10 +55,9 @@ export class UnderwritingComponent implements OnInit {
         if (res['data']) {
           this.underWritingRuleData = res['data']
           this.createEditFormFuction(this.underWritingRuleData, true)
-        }
-      // } else {
-        
-      // }
+        } else {
+          this.fetchEntityData()
+      }
     })
   }
 

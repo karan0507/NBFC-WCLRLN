@@ -21,6 +21,9 @@
                                     <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -
                                     {{borrowertList?.user?.email}}</span>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="idcard" nzTheme="outline"></i> &nbsp; Address -
+                                    {{borrowertList?.address?.address_1 + ', ' + borrowertList?.address?.address_2 + ', ' +  borrowertList?.address?.city + ', ' +  borrowertList?.address?.state + ', ' +  borrowertList?.address?.pincode}}</span>
                         </div>
                         <div class="d-flex" *ngIf="selectedTab == '1'">
                               <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3" *ngxPermissionsOnly="['download_reports']">
@@ -80,6 +83,9 @@
                                           </li>
                                           <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = false" *ngxPermissionsOnly="['fetch_sms_application']">
                                                 <a>Fetch SMS Data</a>
+                                          </li>
+                                          <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', 6)">
+                                                <a>View Agreement</a>
                                           </li>
                                     </ul>
                               </nz-dropdown-menu>
