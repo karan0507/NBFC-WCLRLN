@@ -112,6 +112,7 @@
                                           <td></td>
                                           <td>{{data?.status ? data?.status : '--'}}</td>
                                           <td>
+                                                <span *ngIf="!data.remarks">-</span>
                                                 <i nz-icon nzType="info-circle" nzTheme="outline" *ngIf="data.remarks" nz-tooltip
                                                       nzTooltipTitle="{{data?.remarks}}" nzPopoverPlacement="top"></i>
                                           </td>
