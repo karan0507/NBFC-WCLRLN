@@ -78,6 +78,7 @@
                         <th>Product type</th>
                         <th>Transaction ID</th>
                         <th>Transaction Type</th>
+                        <th>Manual upload</th>
                         <th>Details</th>
                         <th>Date & Time</th>
                         <th>Amount (₹)</th>
@@ -100,6 +101,8 @@
                             <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_type }}</td>
+                            <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                            <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                             <td>{{ data?.details }}</td>
                             <td>{{ data?.transaction_datetime | date: "medium" }}</td>
                             <td>{{ data?.txn_amount }}</td>
@@ -116,7 +119,7 @@
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
                                         <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
-                                            <span class="m-l-5">View details {{data?.txn_type}}</span>
+                                            <span class="m-l-5">View details</span>
                                         </li>
                                         <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
                                             <li nz-menu-item (click)="waiveOffToggle(data?.id)" *ngxPermissionsOnly="['waive_off_transaction']">
