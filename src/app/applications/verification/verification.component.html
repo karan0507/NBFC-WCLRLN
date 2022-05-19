@@ -123,12 +123,12 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item (click)="moveStageTo('original', data)">
+                                                            <li nz-menu-item (click)="moveStageTo('original', data?.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Move to Original Stage </span>
                                                             </li>
                                                             <li nz-menu-item
-                                                                  (click)="moveStageTo('underwriting', data)">
+                                                                  (click)="moveStageTo('underwriting', data?.id)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
                                                       </ul>
