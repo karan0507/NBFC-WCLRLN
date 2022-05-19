@@ -306,15 +306,15 @@
                                                 </nz-page-header>
                                                 <nz-card class="mb-md-0 border"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
+                                                      <div class="row" *ngFor="let details of data?.expanddata?.kyc_details?.results, index as i">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
                                                                               Address Line 1
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_1
+                                                                              {{details?.address_1 ?
+                                                                                    details?.address_1
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -325,21 +325,21 @@
                                                                               Address Line 2
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_2
+                                                                              {{details?.address_2 ?
+                                                                                    details?.address_2
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
                                                             <div class="col-md-4"
-                                                                  *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
+                                                                  *ngIf="details?.address_3 ? true : false">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
                                                                               Address Line 3
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_3
+                                                                              {{details?.address_1 ?
+                                                                                    details?.address_3
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -351,8 +351,8 @@
                                                                               City
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.city
+                                                                              {{details?.city ?
+                                                                                    details?.city
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -363,8 +363,8 @@
                                                                               State
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.state
+                                                                              {{details?.state ?
+                                                                                    details?.state
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -376,8 +376,8 @@
                                                                               Pincode
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pincode
+                                                                              {{details?.pincode ?
+                                                                                    details?.pincode
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
