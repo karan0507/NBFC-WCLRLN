@@ -116,10 +116,10 @@
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
                                         <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
-                                            <span class="m-l-5">View details</span>
+                                            <span class="m-l-5">View details {{data?.txn_type}}</span>
                                         </li>
                                         <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
-                                            <li nz-menu-item (click)="waiveOffToggle(data?.id)" *ngxPermissionsOnly="['wave_off_transaction']">
+                                            <li nz-menu-item (click)="waiveOffToggle(data?.id)" *ngxPermissionsOnly="['waive_off_transaction']">
                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                   <span class="m-l-5">Waive off Charges</span>
                                             </li>
