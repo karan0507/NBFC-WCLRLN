@@ -52,6 +52,7 @@ export class EditFormComponent implements OnInit {
       fileList: any = [];
       documentStatus: any;
       isCorporate: boolean = false;
+      isEditName: boolean = false;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -66,6 +67,7 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
+                        name: [null, [Validators.required, Validators.pattern('[a-zA-Z]+')]],
                         email: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null, [Validators.required]],
                         income: [null, [Validators.required]]
@@ -86,7 +88,14 @@ export class EditFormComponent implements OnInit {
                   document_name_2: ['1']
             })
 
+            let url = (this.router.url.split("?")[0]).toString()
+            if (url == '/applications/form-filling/edit-form') {
+                  this.isEditName = false
+            } else {
+                  this.isEditName = true
+            }
       }
+
 
 
       handleCancel() {
@@ -179,6 +188,7 @@ export class EditFormComponent implements OnInit {
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['accordian'] = false;
+                        this.personalDetails.patchValue({ name: res?.data?.user_info ? res?.data?.user_info?.name : null });
                         this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
                         this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
@@ -217,12 +227,15 @@ export class EditFormComponent implements OnInit {
             this.api_calling_loader['button'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
+            if(this.isEditName){
+                  data.append('name', this.personalDetails.value.name)
+            }
             data.append('email', this.personalDetails.value.email);
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
-            if(this.isCorporate){
+            if (this.isCorporate) {
                   data.append('company_id', this.employementDetails.value.company_name);
-            }else{
+            } else {
                   data.append('company_name', this.employementDetails.value.company_name);
             }
             if ((this.documentsList) && (this.filesArray[0])) {
