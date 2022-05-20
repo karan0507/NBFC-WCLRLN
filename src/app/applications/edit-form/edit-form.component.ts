@@ -56,6 +56,12 @@ export class EditFormComponent implements OnInit {
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
+            let url = (this.router.url.split("?")[0]).toString()
+            if (url == '/applications/form-filling/edit-form') {
+                  this.isEditName = false
+            } else {
+                  this.isEditName = true
+            }
             this.fetchProductList();
             this.fetchMasterIncomeRange();
             this.fetchPartnerList();
@@ -67,7 +73,7 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
-                        name: [null, [ Validators.pattern('[a-zA-Z]+')]],
+                        name: [this.isEditName ?  [null, Validators.required] : null],
                         email: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null, [Validators.required]],
                         income: [null, [Validators.required]]
@@ -88,12 +94,6 @@ export class EditFormComponent implements OnInit {
                   document_name_2: ['1']
             })
 
-            let url = (this.router.url.split("?")[0]).toString()
-            if (url == '/applications/form-filling/edit-form') {
-                  this.isEditName = false
-            } else {
-                  this.isEditName = true
-            }
       }
 
 
@@ -289,6 +289,24 @@ export class EditFormComponent implements OnInit {
       onFocusMethod(event) {
 
       }
+
+      omit_special_char(event) {
+            // to avoid special Character
+            // var k;
+            // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+            // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        
+            // to avoid special Character && Number
+            var charCode = event.keyCode;
+            if (
+              (charCode > 64 && charCode < 91) ||
+              (charCode > 96 && charCode < 123) ||
+              charCode == 32 ||
+              charCode == 8
+            )
+              return true;
+            else return false;
+          }
 
       openDocumentModal(type?, data?) {
             this._currentModalData = data;
