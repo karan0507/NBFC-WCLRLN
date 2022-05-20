@@ -4,7 +4,7 @@
             <div class="align-self-end font-size-20"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users
                   : {{total_count ? total_count : '0'}}</div>
             <div> <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto"
-                        (click)="updateStatus()" [routerLink]="">Update Status ({{_checkedLoanList ?
+                        (click)="updateStatus('status')" [routerLink]="">Update Status ({{_checkedLoanList ?
                         _checkedLoanList?.length
                         : '0'}})</button>
                   <button nz-button nzType="link" [disabled]="checkDisabledStatus()" (click)="exportData('xlsx')"
@@ -12,7 +12,6 @@
             </div>
       </div>
 </div>
-
 <!-- Main Section  -->
 <section>
       <nz-card class="w-100">
@@ -43,7 +42,7 @@
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
                                     </nz-select>
-                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')" 
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
                               nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
@@ -57,7 +56,7 @@
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
                         [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
                         (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px',y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
+                        [nzScroll]="{ x: '1500px', y: '60vh' }" [nzLoading]="api_calling_loader['listLoader']">
                         <thead>
                               <tr>
                                     <th nzWidth="2rem"></th>
@@ -95,7 +94,8 @@
                                                             (data?.user?.last_name ? data?.user?.last_name : '') : '' }}
                                                       </div>
                                                       <div *ngIf="data?.user?.mobile" class="d-flex font-size-12">
-                                                            Contact No: {{data?.user?.mobile}}</div>
+                                                            Contact No:
+                                                            {{data?.user?.mobile}}</div>
                                                 </div>
                                           </td>
                                           <td>
@@ -122,8 +122,7 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item
-                                                                  [routerLink]="['/applications/form-filling/edit-form']"
+                                                            <li nz-menu-item [routerLink]="['edit-form']"
                                                                   [queryParams]="{id: data?.id}" *ngxPermissionsOnly="['edit_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
@@ -132,13 +131,14 @@
                                                                   [queryParams]="{id: data?.id}">
                                                                   <span class="m-l-5">Track Status</span>
                                                             </li>
-
+                                                            <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
+                                                                  <span class="m-l-5">Request Documents</span>
+                                                            </li> -->
 
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>
                                     </tr>
-
                                     <tr [nzExpand]="expandSet.has(data.id)">
                                           <div class="justify-content-center">
                                                 <nz-page-header class="site-page-header acc-bg-light"
@@ -165,7 +165,8 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
-                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy') : '--'}}
+                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy')
+                                                                              : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -187,15 +188,16 @@
                                                 </nz-card>
                                                 <ng-template #personalDetail>
                                                       <div class="ml-md-2">
-                                                            <h6 class="mb-0">Personal Details</h6>
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user"
+                                                                        nzTheme="outline"></i> Personal Details</h6>
                                                       </div>
                                                 </ng-template>
                                           </div>
-                                          <div class="my-3">
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="empHeader">
                                                 </nz-page-header>
-                                                <nz-card class="mb-md-0"
+                                                <nz-card class="mb-md-0 border"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
@@ -216,9 +218,8 @@
                                                                               Address
                                                                         </span>
                                                                         <div>
-                                                                              {{ data?.expanddata?.partner ?
-                                                                              data?.expanddata?.partner?.address :
-                                                                              '--'}}
+                                                                              {{data?.expanddata?.partner ?
+                                                                              data?.expanddata?.partner?.address : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -226,10 +227,13 @@
                                                 </nz-card>
                                                 <ng-template #empHeader>
                                                       <div class="ml-md-2">
-                                                            <h6 class="mb-0">Employement Details</h6>
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
+                                                                        nzTheme="outline"></i> Employement Details</h6>
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+                                          <!-- KYC Details -->
                                           <div class="my-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="kycDetails">
@@ -243,7 +247,7 @@
                                                                               PAN No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.pan ? 
+                                                                              {{data?.expanddata?.pan ?
                                                                                     data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['pan_no'] : '--'}}
                                                                         </div>
                                                                   </div>
@@ -254,7 +258,8 @@
                                                                               Aadhaar No.
                                                                         </span>
                                                                         <div>
-                                                                              {{data?.expanddata?.aadhar ? data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['aadhar_no'] : '--'}}
+                                                                              {{data?.expanddata?.aadhar ?
+                                                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['aadhar_no'] : '--'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -267,8 +272,10 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
-                                              <!-- Aadhar Address -->
-                                              <div class="my-3">
+
+
+                                          <!-- Aadhar Address -->
+                                          <div class="my-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="aadharAddress">
                                                 </nz-page-header>
@@ -282,7 +289,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_1
+                                                                              data?.expanddata?.kyc_details?.results[0]?.address_1
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -294,7 +301,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_2
+                                                                              data?.expanddata?.kyc_details?.results[0]?.address_2
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -307,7 +314,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.address_3
+                                                                              data?.expanddata?.kyc_details?.results[0]?.address_3
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -320,7 +327,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.city
+                                                                              data?.expanddata?.kyc_details?.results[0]?.city
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -332,7 +339,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.state
+                                                                              data?.expanddata?.kyc_details?.results[0]?.state
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -345,7 +352,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length -1]?.pincode
+                                                                              data?.expanddata?.kyc_details?.results[0]?.pincode
                                                                               : '--'}}
                                                                         </div>
                                                                   </div>
@@ -359,7 +366,8 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
-                                          <div>
+
+                                          <div class="mt-3">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="preApproval">
                                                 </nz-page-header>
@@ -398,6 +406,71 @@
                                                 <ng-template #preApproval>
                                                       <div class="ml-md-2">
                                                             <h6 class="mb-0">Pre Approved Offer Details</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
+                                          <!-- Document Details  -->
+                                          <div class="mt-3">
+                                                <nz-page-header class="site-page-header acc-bg-light"
+                                                      [nzTitle]="document">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0"
+                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                                      <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
+                                                            <div class="col-md-4"
+                                                                  *ngFor="let item of data?.expanddata?.kyc_documents">
+                                                                  <div class="d-flex flex-column">
+                                                                        <div
+                                                                              class="d-flex flex-wrap justify-content-between">
+                                                                              <label class="text-muted">{{
+                                                                                    item?.document_master?.name + ' '}}
+                                                                                    <b>
+                                                                                          {{ item?.status }} </b>
+                                                                              </label>
+
+                                                                              <div class="mr-5">
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
+                                                                                          nzTooltipTitle="View Document"
+                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
+                                                                                          <i nz-icon nzType="eye"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
+                                                                                          nzTooltipTitle="Verify Document"
+                                                                                          (click)="_isVerify = true; _currentModalData = item">
+                                                                                          <i nz-icon
+                                                                                                nzType="check-circle"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary mr-3"
+                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
+                                                                                          nzTooltipTitle="Download Document"
+                                                                                          href="{{ item?.front_file_url }}"
+                                                                                          download target="_blank">
+                                                                                          <i nz-icon nzType="download"
+                                                                                                nzTheme="outline"></i></a>
+                                                                                    <a class="text-primary"
+                                                                                          nzTooltipTitle="Upload Document"
+                                                                                          (click)="_isUpload = true; _currentModalData = item">
+                                                                                          <i nz-icon nzType="upload"
+                                                                                                nzTheme="outline"></i>
+                                                                                    </a>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div>
+                                                                              {{ item?.reason ? item?.reason : '--'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+
+                                                      </div>
+                                                      <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
+                                                            Documents not uploaded
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #document>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0">Document Details</h6>
                                                       </div>
                                                 </ng-template>
                                           </div>
@@ -455,14 +528,43 @@
       </tbody>
       </nz-table>
       </div>
+
       </nz-card>
 </section>
 
+<section *ngIf="_isViewDocument">
+      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
+</section>
+
+<section *ngIf="_isVerify">
+      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isVerify = false; (!_isVerify ? getIdWiseData(_currentModalData?.application ,currentDropDownId) : false)">
+      </app-common-document-actions>
+
+</section>
+<section *ngIf="_isUpload">
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+            [documentData]="_currentModalData"
+            (close)="_isUpload = false; (!_isUpload ? getIdWiseData(_currentModalData?.application ,currentDropDownId) : false)">
+      </app-common-document-actions>
+</section>
+
+<ng-template #modalTitle>
+      <label *ngIf="_isStatus">Update Status</label>
+      <label *ngIf="isRequestDoc">Request Document</label>
+      <!-- <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' -->
+      <!-- }} Document</label> -->
+      <label *ngIf="_isVerify">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' }}
+            Document</label>
+</ng-template>
 <!-- Modal Section -->
 <section>
-      <nz-modal [(nzVisible)]="_isUpdateStatus" nzTitle="Update Status" (nzOnCancel)="handleCancel()"
+      <nz-modal [(nzVisible)]="_isOpenModal" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
             [nzFooter]="footerModal">
-            <ng-container *nzModalContent>
+            <!-- Status Modal -->
+            <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
                               Select Status
@@ -478,17 +580,59 @@
                               Remarks
                         </div>
                         <div class="col-md-8">
-                              <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" [(ngModel)]="remarksDescription" nz-input></textarea>
-                              </nz-textarea-count>
+                              <textarea rows="4" nz-input [(ngModel)]="remarksDescription"></textarea>
                         </div>
                   </div>
-            </ng-container>
+            </section>
+
+            <!--Add Document Modal -->
+            <section *ngIf="isRequestDoc">
+                  <div class="row">
+                        <div class="col-md-12 mb-4 text-muted">
+                              <label
+                                    *ngIf="_currentDocumentReq?.user?.first_name ? (_currentDocumentReq?.user?.first_name + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name : '')) : '--'">Name
+                                    : {{ _currentDocumentReq?.user?.first_name ? ( _currentDocumentReq?.user?.first_name
+                                    + ' ' + (_currentDocumentReq?.user?.last_name ? _currentDocumentReq?.user?.last_name
+                                    : '')) : '--' }} </label>
+                              <label> Loan ID - #{{_currentDocumentReq?.id ?
+                                    _currentDocumentReq?.id : '--'}}</label>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                              Document Type
+                        </div>
+                        <div class="col-md-8 mb-3">
+                              <nz-select class="w-100" [(ngModel)]="_currentDocument" nzAllowClear
+                                    nzPlaceHolder="Select Document Type">
+                                    <nz-option nzValue="1" nzLabel="Aadhaar Card"></nz-option>
+                                    <nz-option nzValue="2" nzLabel="PAN Card"></nz-option>
+                                    <nz-option nzValue="3" nzLabel="Bank Statement"></nz-option>
+                                    <nz-option nzValue="4" nzLabel="Voter Id"></nz-option>
+                                    <nz-option nzValue="5" nzLabel="Selfie"></nz-option>
+                              </nz-select>
+                        </div>
+                        <div class="col-md-4">
+                              Remarks
+                        </div>
+                        <div class="col-md-8">
+                              <textarea class="border" nz-input [(ngModel)]="verifyRemarks"
+                                    placeholder="Please enter description"></textarea>
+                        </div>
+                        <div class="col-md-12 my-3">
+                              <a class="text-primary">
+                                    <h5 class="text-primary">+ Add Document</h5>
+                              </a>
+                        </div>
+                  </div>
+            </section>
       </nz-modal>
 </section>
 
 <ng-template #footerModal>
       <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk()">Submit</button>
+      <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2"
+            (click)="handleOk('DocumentModal')">Submit</button>
+      <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']"
+            [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+            (click)="handleOk('StatusModal')">Submit</button>
+      <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>
