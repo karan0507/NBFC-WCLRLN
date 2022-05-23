@@ -84,6 +84,7 @@
                         <th>Amount (₹)</th>
                         <!-- <th>GST Amount</th>
                         <th>Total Amount (₹)</th> -->
+                        <th>Reason</th>
                         <th>Status</th>
                         <th nzWidth="5.5rem" nzRight> Actions</th>
                     </tr>
@@ -108,6 +109,7 @@
                             <td>{{ data?.txn_amount }}</td>
                             <!-- <td>{{ 'NA' }}</td>
                             <td>{{ 'NA' }}</td> -->
+                            <td>{{ data?.reason ? data?.reason : ' N/A'  }}</td>
                             <td>{{ data?.txn_status }}</td>
                             <td nzRight>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
