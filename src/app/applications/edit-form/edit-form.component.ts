@@ -52,9 +52,16 @@ export class EditFormComponent implements OnInit {
       fileList: any = [];
       documentStatus: any;
       isCorporate: boolean = false;
+      isEditName: boolean = false;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
+            let url = (this.router.url.split("?")[0]).toString()
+            if (url == '/applications/form-filling/edit-form') {
+                  this.isEditName = false
+            } else {
+                  this.isEditName = true
+            }
             this.fetchProductList();
             this.fetchMasterIncomeRange();
             this.fetchPartnerList();
@@ -66,6 +73,7 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
+                        name: [this.isEditName ?  [null, Validators.required] : null],
                         email: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null, [Validators.required]],
                         income: [null, [Validators.required]]
@@ -87,6 +95,7 @@ export class EditFormComponent implements OnInit {
             })
 
       }
+
 
 
       handleCancel() {
@@ -179,6 +188,7 @@ export class EditFormComponent implements OnInit {
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['accordian'] = false;
+                        this.personalDetails.patchValue({ name: res?.data?.user_info ? res?.data?.user_info?.name : null });
                         this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
                         this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
@@ -217,12 +227,15 @@ export class EditFormComponent implements OnInit {
             this.api_calling_loader['button'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
+            if(this.isEditName){
+                  data.append('name', this.personalDetails.value.name)
+            }
             data.append('email', this.personalDetails.value.email);
             data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
             data.append('income_range', this.personalDetails.value.income);
-            if(this.isCorporate){
+            if (this.isCorporate) {
                   data.append('company_id', this.employementDetails.value.company_name);
-            }else{
+            } else {
                   data.append('company_name', this.employementDetails.value.company_name);
             }
             if ((this.documentsList) && (this.filesArray[0])) {
@@ -276,6 +289,24 @@ export class EditFormComponent implements OnInit {
       onFocusMethod(event) {
 
       }
+
+      omit_special_char(event) {
+            // to avoid special Character
+            // var k;
+            // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+            // return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        
+            // to avoid special Character && Number
+            var charCode = event.keyCode;
+            if (
+              (charCode > 64 && charCode < 91) ||
+              (charCode > 96 && charCode < 123) ||
+              charCode == 32 ||
+              charCode == 8
+            )
+              return true;
+            else return false;
+          }
 
       openDocumentModal(type?, data?) {
             this._currentModalData = data;

@@ -111,9 +111,11 @@
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
                                           <td></td>
                                           <td>{{data?.status ? data?.status : '--'}}</td>
-                                          <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
-                                                {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) : (data?.remarks ? data?.remarks : '--')}}
-                                          </span></td>
+                                          <td>
+                                                <span *ngIf="!data.remarks">-</span>
+                                                <i nz-icon nzType="info-circle" nzTheme="outline" *ngIf="data.remarks" nz-tooltip
+                                                      nzTooltipTitle="{{data?.remarks}}" nzPopoverPlacement="top"></i>
+                                          </td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -123,12 +125,12 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item (click)="moveStageTo('original', data)">
+                                                            <li nz-menu-item (click)="moveStageTo('original', data?.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Move to Original Stage </span>
                                                             </li>
                                                             <li nz-menu-item
-                                                                  (click)="moveStageTo('underwriting', data)">
+                                                                  (click)="moveStageTo('underwriting', data?.id)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
                                                       </ul>

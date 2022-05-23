@@ -58,18 +58,18 @@ export class SideNavComponent {
 
             switch (item) {
                   case 'Form Filling':
-                        return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications : 0
-                  case 'Pre Approved': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications : 0
-                  case 'Document Upload': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Document Upload')?.applications : 0
-                  case 'Underwriting': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Underwriting')?.applications : 0
-                  case 'NBFC Approval': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'NBFC Approval')?.applications : 0
-                  case 'Offer Proposed': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Offer Proposed')?.applications : 0
-                  case 'Offer Acceptance': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Offer Acceptance')?.applications : 0
-                  case 'E-Nach/Signing': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'E-Nach / Signing')?.applications : 0
-                  case 'Disbursement': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Disbursement')?.applications : 0
-                  case 'Rejected': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Rejected')?.applications : 0
-                  case 'Dormant ': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Dormant')?.applications : 0
-                  case 'Closed ': return this.applicationCount ? this.applicationCount.find(res => res?.stage_name == 'Closed')?.applications : 0
+                        return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications : 0
+                  case 'Pre Approved': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications : 0
+                  case 'Document Upload': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Document Upload')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Document Upload')?.applications : 0
+                  case 'Underwriting': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Underwriting')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Underwriting')?.applications : 0
+                  case 'NBFC Approval': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'NBFC Approval')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'NBFC Approval')?.applications : 0
+                  case 'Offer Proposed': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Offer Proposed')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Offer Proposed')?.applications : 0
+                  case 'Offer Acceptance': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Offer Acceptance')?.applications  !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Offer Acceptance')?.applications : 0
+                  case 'E-Nach/Signing': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'E-Nach / Signing')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'E-Nach / Signing')?.applications : 0
+                  case 'Disbursement': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Disbursement')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Disbursement')?.applications : 0
+                  case 'Rejected': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Rejected')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Rejected')?.applications : 0
+                  case 'Dormant ': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Dormant')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Dormant')?.applications : 0
+                  case 'Closed ': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Closed')?.applications ! == undefined ? this.applicationCount.find(res => res?.stage_name == 'Closed')?.applications : 0
             }
 
       }
