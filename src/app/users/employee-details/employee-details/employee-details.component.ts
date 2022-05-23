@@ -248,6 +248,7 @@ export class EmployeeDetailsComponent implements OnInit {
     this.viewPageSize = 30;
     this.selectedTab = e;
     this.listOfEmployee = [];
+    this.searchValue = ''
     if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
       this.getListOfAllEmployees();
     } else {
@@ -259,8 +260,14 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   getResultBasedOnSearch() {
-    this.page = 1;
-    this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    if(this.selectedTab === 'recommendation' ||
+    this.selectedTab === 'allEmployee'){
+      this.page = 1;
+      this.getListOfAllEmployees();
+    } else {
+      this.page = 1;
+      this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
+    }
   }
 
   resetFilter() {
@@ -458,6 +465,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   onChange(e){
     console.log(e);
+
     if(e){
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
         this.getListOfAllEmployees();
