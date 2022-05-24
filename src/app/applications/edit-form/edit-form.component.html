@@ -82,7 +82,7 @@
       <nz-card [nzTitle]="employement" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="employementDetails" [nzLayout]="'vertical'">
                   <div class="row">
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                               <nz-form-item *ngIf="isCorporate">
                                     <nz-form-label nzRequired>Company Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Company Name!">
@@ -100,6 +100,30 @@
                                           <input nz-input type="text" formControlName="company_name"
                                                 placeholder="Enter your Company name" />
                                     </nz-form-control>                                   
+                              </nz-form-item>
+                        </div> -->
+                        <div class="col-md-4" *ngIf="!isCorporate">
+                              <nz-form-item *ngIf="!isCorporate">
+                                    <nz-form-label nzRequired>Company Name</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Company name!">
+                                          <!-- <input nz-input type="text" formControlName="company_name" disabled
+                                                placeholder="Enter your Company name" /> -->
+                                                <label>{{ifCorporateNotMapped}}</label>
+                                    </nz-form-control>                                   
+                              </nz-form-item>
+                              <!-- <label><span class="bold" style="font-weight: bold;"> Selected Company:- </span> {{employementDetails.get('company_name').value}}</label> -->
+                        </div>
+                        <div class="col-md-4">
+                              <nz-form-item>
+                                    <nz-form-label nzRequired>Company Name</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please select your Company Name!">
+                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
+                                                nzAllowClear nzPlaceHolder="Company Name"
+                                                (ngModelChange)="editCompanyName($event)">
+                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                      [nzLabel]="item?.name"></nz-option>
+                                          </nz-select>
+                                    </nz-form-control>
                               </nz-form-item>
                         </div>
                         <div class="col-md-8" *ngIf="isCorporate">

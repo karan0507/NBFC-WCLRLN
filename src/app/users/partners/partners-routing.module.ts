@@ -35,16 +35,16 @@ const routes: Routes = [
     children: [
       {
         path: 'add',
-        canActivate: [NgxPermissionsGuard],
+        // canActivate: [NgxPermissionsGuard],
         component: AddEditPartnersComponent,
         data: {
           title: 'Add Corporate',
           parent: 'Users',
           custom_url: 'partner/add',
-          permissions: {
-            only: 'add_corporate',
-            redirectTo: 'authentication/error-2'
-          }
+          // permissions: {
+          //   only: 'add_corporate',
+          //   redirectTo: 'authentication/error-2'
+          // }
         }
       },
       {

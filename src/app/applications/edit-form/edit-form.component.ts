@@ -53,6 +53,7 @@ export class EditFormComponent implements OnInit {
       documentStatus: any;
       isCorporate: boolean = false;
       isEditName: boolean = false;
+      ifCorporateNotMapped: any;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -74,7 +75,7 @@ export class EditFormComponent implements OnInit {
             this.personalDetails = this.fb.group(
                   {
                         name: [this.isEditName ?  [null, Validators.required] : null],
-                        email: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+                        email: [null, [ Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null, [Validators.required]],
                         income: [null, [Validators.required]]
                   })
@@ -188,6 +189,7 @@ export class EditFormComponent implements OnInit {
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
                         this.api_calling_loader['accordian'] = false;
+                        this.ifCorporateNotMapped = res?.data?.company_details?.name;
                         this.personalDetails.patchValue({ name: res?.data?.user_info ? res?.data?.user_info?.name : null });
                         this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
