@@ -15,7 +15,7 @@ export class HttpService {
       // url =  'https://adminapi.fatakpay.com'
       // url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction()
+      url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -822,6 +822,14 @@ export class HttpService {
 
       public fetchPermissionSlugsForEmployee(data){
             return this._http.get((this.url + `/platform_central/v1/get-controller-list`),{params: data});
+      }
+
+      public updateAppVersion(data?) {
+            return this._http.post((this.url + `/platform_central/v1/app-version`), data);
+      }
+
+      public getAppVersion(){
+            return this._http.get((this.url + `/platform_central/v1/app-version`));
       }
 
       public updatePermissionBasedOnType(id,data){

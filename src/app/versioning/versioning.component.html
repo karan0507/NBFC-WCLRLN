@@ -1,0 +1,20 @@
+<section>
+    <nz-card [nzLoading]="apiLoader['getLoader']">
+        <form [formGroup]="versionForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Current Version
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Version!">
+                            <input nz-input type="text" formControlName="app_version" placeholder="App Version" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" style="text-align-last: right;">
+                    <button nz-button nzType="primary" [nzLoading]="apiLoader['onUpdate']" (click)="onClickUpdateVersion()">Update Version</button>   
+                </div>
+            </div>
+        </form>
+    </nz-card>
+</section>

@@ -93,4 +93,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/send-payment-link',
         loadChildren: () => import('../../lms/send-payment-link/send-payment-link.module').then(m => m.SendPaymentLinkModule),
     },
+    {
+        path: 'version',
+        loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
+    },
 ];

@@ -107,7 +107,7 @@
 </section>
 
 <nz-modal [nzTitle]="roleManagementLoader['addRole'] ? 'Add Role' : 'Edit Role'" [nzWidth]="500" [(nzVisible)]="roleManagementLoader['isVisible']" (nzOnOk)="onClickAddEditRole()" [nzOkLoading]="roleManagementLoader['onUpdate']" 
-           [nzClosable]="true" (nzOnCancel)="roleManagementLoader['isVisible']=false;">
+           [nzClosable]="true" (nzOnCancel)="roleManagementLoader['isVisible']=false;addEditRoleForm.reset()">
     <!-- <ng-container *nzModalContent> -->
         <!-- <nz-card> -->
             <div class="row">
