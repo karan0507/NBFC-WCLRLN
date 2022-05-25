@@ -74,10 +74,10 @@ export class EditFormComponent implements OnInit {
             })
             this.personalDetails = this.fb.group(
                   {
-                        name: [this.isEditName ?  [null, Validators.required] : null],
+                        name: [this.isEditName ?  [null] : null],
                         email: [null, [ Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-                        date_of_birth: [null, [Validators.required]],
-                        income: [null, [Validators.required]]
+                        date_of_birth: [null],
+                        income: [null]
                   })
 
             this.employementDetails = this.fb.group({

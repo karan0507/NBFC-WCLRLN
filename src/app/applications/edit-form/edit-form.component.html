@@ -106,12 +106,9 @@
                               <nz-form-item *ngIf="!isCorporate">
                                     <nz-form-label nzRequired>Company Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your Company name!">
-                                          <!-- <input nz-input type="text" formControlName="company_name" disabled
-                                                placeholder="Enter your Company name" /> -->
                                                 <label>{{ifCorporateNotMapped}}</label>
                                     </nz-form-control>                                   
                               </nz-form-item>
-                              <!-- <label><span class="bold" style="font-weight: bold;"> Selected Company:- </span> {{employementDetails.get('company_name').value}}</label> -->
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
