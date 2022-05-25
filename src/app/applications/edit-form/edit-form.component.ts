@@ -195,7 +195,7 @@ export class EditFormComponent implements OnInit {
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
                         this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
                         if (res?.data?.company_details) {
-                              if (res?.data?.company_details?.registered_corporate) {
+                              if (res?.data?.company_details?.id) {
                                     this.isCorporate = true
                                     this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : null })
                                     this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : null });
@@ -204,7 +204,7 @@ export class EditFormComponent implements OnInit {
                                     this.isCorporate = false
                               }
                         } else {
-                              this.isCorporate = true
+                              this.isCorporate = false;
                         }
 
                         if (res?.data?.offer) {
@@ -232,19 +232,30 @@ export class EditFormComponent implements OnInit {
             if(this.isEditName){
                   data.append('name', this.personalDetails.value.name)
             }
-            data.append('email', this.personalDetails.value.email);
-            data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
-            data.append('income_range', this.personalDetails.value.income);
+            if(this.personalDetails.value.email){
+                  data.append('email', this.personalDetails.value.email);
+            }
+            if(this.personalDetails.value.date_of_birth){
+                  data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
+            }
+            if(this.personalDetails.value.income){
+                  data.append('income_range', this.personalDetails.value.income);      
+            }
             if (this.isCorporate) {
                   data.append('company_id', this.employementDetails.value.company_name);
             } else {
-                  data.append('company_name', this.employementDetails.value.company_name);
+                  if(this.employementDetails.value.company_name){
+                        data.append('company_id', this.employementDetails.value.company_name);
+                  }
+                  // data.append('company_name', this.employementDetails.value.company_name);
             }
             if ((this.documentsList) && (this.filesArray[0])) {
                   console.log(this.documentsList);
                   // data.append('documents_list', JSON.stringify(this.documentsList))
                   // data.append('documents', this.filesArray)
             }
+            // registered_corporate
+            data.append('registered_corporate', 'true');
             data.append('source', 'Onboarding');
             data.append('datapoint', 'edit_application');
             this.https.editLoanData(data).subscribe((res: any) => {
@@ -254,6 +265,7 @@ export class EditFormComponent implements OnInit {
                         this.message.success(res?.message)
                         this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
+                        this.message.error(res?.message)
                         // this.router.navigateByUrl('/applications/form-filling')
                         this.api_calling_loader['button'] = false
                   }
@@ -278,8 +290,16 @@ export class EditFormComponent implements OnInit {
       }
 
       editCompanyName(value?) {
-            let data = this.partnerList.filter(res => res.pk == value);
-            this.employementDetails.get('address').setValue(data[0]?.address);
+            if(this.isCorporate){
+                  console.log(value);
+                  let data = this.partnerList.filter(res => res.pk == value);
+                  this.employementDetails.get('address').setValue(data[0]?.address);
+            } else {
+                  this.employementDetails.patchValue({
+                        company_id: value
+                  })
+                  // this.employementDetails('company_id', this.employementDetails.value.company_name);
+            }
       }
 
       fetchProductList() {
