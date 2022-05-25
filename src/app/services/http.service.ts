@@ -466,6 +466,10 @@ export class HttpService {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
+      public generateOfferForCorrespondingApplication(data?): any {
+            return this._http.post((this.url + `/central-api/v1/call-api`),data);
+      }
+
       public fetchLoanApplicationData(data?): any {
             return this._http.get((this.url + `/loan-application/v1/fetch-loan-application/LoanApplication`), { params: data });
       }

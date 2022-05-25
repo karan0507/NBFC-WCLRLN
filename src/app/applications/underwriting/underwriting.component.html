@@ -123,6 +123,24 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
+                                                            <li nz-menu-item nz-popconfirm
+                                                            nzPopconfirmTitle="Are you sure about this action ?"
+                                                            nzPopconfirmPlacement="bottom"
+                                                            (nzOnConfirm)="generateOfferForCorrespondingApplication(data?.id)"
+                                                            >
+                                                                  <!-- *ngxPermissionsOnly="['edit_application']" -->
+                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                  <!-- <a
+                                                                        nz-popconfirm
+                                                                        nzPopconfirmTitle="Are you sure delete this task?"
+                                                                        nzPopconfirmPlacement="bottom"
+                                                                        (nzOnConfirm)="confirm()"
+                                                                        (nzOnCancel)="cancel()"
+                                                                  >
+                                                                        Delete
+                                                                  </a> -->
+                                                                  <span class="m-l-5">Generate Offer</span>
+                                                            </li>
                                                             <li nz-menu-item [routerLink]="['edit-form']"
                                                                   [queryParams]="{id: data?.id}" *ngxPermissionsOnly="['edit_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->

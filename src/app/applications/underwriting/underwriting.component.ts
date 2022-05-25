@@ -188,6 +188,20 @@ export class UnderwritingComponent implements OnInit {
     );
   }
 
+  generateOfferForCorrespondingApplication(id){
+    let data = {
+      'source': "Onboarding",
+      'datapoint': "admin_generate_offer",
+      'application': id
+    }
+    this.https.generateOfferForCorrespondingApplication(data).subscribe((res: any)=>{
+      if(res?.success){
+        this.message.success(res?.message)
+        this.getFormLoanData();
+      } else {this.message.error(res?.message)}
+    })
+  }
+
   getIdWiseData(id?, index?) {
     this.blackBoxData = null;
     this.api_calling_loader["accordian"] = true;
