@@ -59,6 +59,11 @@ export class HttpService {
             return this._http.post((this.url + `/user/forgot-password/`), data);
       }
 
+      public generateOfferForCorrespondingApplication(data): any {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+      // generateOfferForCorrespondingApplication
+
       /// Verify OTP 
       public VerifyOtptopasswordchange(data): any {
             return this._http.post((this.url + `/user/forgot-password-validate/`), data);
@@ -464,10 +469,6 @@ export class HttpService {
       // Track Application for Loan ID
       public trackApplicationStatus(data?): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
-      }
-
-      public generateOfferForCorrespondingApplication(data?): any {
-            return this._http.post((this.url + `/central-api/v1/call-api`),data);
       }
 
       public fetchLoanApplicationData(data?): any {
