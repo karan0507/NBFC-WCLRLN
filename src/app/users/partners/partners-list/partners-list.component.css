@@ -1,6 +1,6 @@
-:host ::ng-deep .ant-table-body {
+/* :host ::ng-deep .ant-table-body {
     max-height: calc(100vh - 527px) !important;
-}
+} */
 
 :host ::ng-deep .ant-checkbox-inner {
     border: 1px solid darkblue;

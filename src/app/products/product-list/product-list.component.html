@@ -42,7 +42,7 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '2200px', y: '45vh' }" [nzLoading]="api_calling_loader" (nzQueryParams)="productList ? fetchProductList($event) : ''">
+            [nzScroll]="{ x: '1500px', y: '' }" [nzLoading]="api_calling_loader" (nzQueryParams)="productList ? fetchProductList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -137,7 +137,7 @@
                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                         <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
                         <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
-                            <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft"
+                            <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft" style="cursor: pointer;"
                                 nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
                                 <ng-template #contentTemplate>
                                     <div class="px-3">
