@@ -14,6 +14,7 @@ import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { AuditHistoryComponent } from './template/audit-history/audit-history.component';
 
 @NgModule({
     exports: [
@@ -26,6 +27,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
         SearchPipe,
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
+        AuditHistoryComponent,
     ],
     imports: [
         RouterModule,
@@ -42,7 +44,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     declarations: [
         SearchPipe,
         DoubleConfirmationPopupComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        AuditHistoryComponent,
     ],
     providers: [
         ThemeConstantService
