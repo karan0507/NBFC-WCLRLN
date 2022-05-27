@@ -1,5 +1,5 @@
 <section>
-    <nz-list [nzDataSource]="history_data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+    <nz-list [nzDataSource]="history_data ? (history_data[0] ? history_data : null) : null" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
         <ng-template #item let-item>
             <nz-comment [nzAuthor]="item.created_by" [nzDatetime]="getFormatedDate(item.created_at)">
                 <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="item.avatar"></nz-avatar>
@@ -30,5 +30,5 @@
             </nz-comment>
         </ng-template>
     </nz-list>
-    <span *ngIf="!history_data">No history found</span>
+    <span *ngIf="!history_data || !history_data[0]">No history found</span>
 </section>

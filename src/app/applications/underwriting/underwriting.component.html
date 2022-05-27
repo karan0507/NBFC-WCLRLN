@@ -910,6 +910,24 @@
             </div>
       </ng-template>
       </div>
+      
+                                          <!-- History -->
+                                          <div class="my-3" *ngIf="_currentId == data.id">
+                                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="history">
+                                                </nz-page-header>
+                                                <nz-card class="mb-md-0 border">
+                                                      <div class="row">
+                                                            <div class="col-12">
+                                                                  <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
+                                                            </div>
+                                                      </div>
+                                                </nz-card>
+                                                <ng-template #history>
+                                                      <div class="ml-md-2">
+                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>History</h6>
+                                                      </div>
+                                                </ng-template>
+                                          </div>
       </tr>
       </ng-container>
       </tbody>
