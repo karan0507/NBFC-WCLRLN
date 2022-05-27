@@ -10,6 +10,7 @@ export class AuditHistoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    alert(1)
   }
 
 }
