@@ -275,6 +275,8 @@ export class EditFormComponent implements OnInit {
                   // data.append('documents_list', JSON.stringify(this.documentsList))
                   // data.append('documents', this.filesArray)
             }
+
+            data.append('employment_type_id',this.employementDetails.value.employment_type_id)
             // registered_corporate
             data.append('registered_corporate', 'true');
             data.append('source', 'Onboarding');
