@@ -41,6 +41,7 @@ export class UnderwritingComponent implements OnInit {
     listLoader: false,
     accordian: false,
     button: false,
+    xmlLoader: false
   };
   stageMasterList: any;
   _currentStageStatus: any;
@@ -98,6 +99,29 @@ export class UnderwritingComponent implements OnInit {
     });
     this.getFormLoanData();
   }
+
+    isVisibleXMLModal = false;
+      xmlDataResponse;
+      onClickFetchXML(action, id){
+            this.isVisibleXMLModal = true
+            this.api_calling_loader['xmlLoader'] = true;
+            let data = {
+                  'source': 'Onboarding',
+                  'datapoint': 'get_xml_data',
+                  'endpoint':id,
+                  'xml_source': action
+            };
+            this.https.fetchXMLData(data).subscribe((res)=>{
+                  console.log(res);
+                  this.xmlDataResponse = res?.data
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            }, error=>{
+                  console.log(error);
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            })
+      }
 
   sanatizeUrlToSafe(value) {
     // let data = 'https://devadminapi.fatakpay.com/media/nbfc_agreements/2022/02/11/djangogirls-tutorial-en_DkLZGLR.pdf'
