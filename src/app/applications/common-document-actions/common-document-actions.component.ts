@@ -96,6 +96,8 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
       case 'uploadDocument':
         this.api_calling_loader['button'] = true;
         let uploadDoc = new FormData()
+        let ocr_formData = new FormData()
+        ocr_formData.append('application', this.documentData?.application)
         uploadDoc.append('source', 'Onboarding')
         if (this.documentData?.document_master?.id) {
           uploadDoc.append('datapoint', 'upload_kyc_doc')
@@ -119,6 +121,30 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         if(!this.isDoubleSide && this._currentFileName){
           uploadDoc.append('file', this._currentFileName)
         }
+        console.clear();
+        console.log(this.documentData)
+        if (this.documentData?.document_master?.name == "Aadhar Card") {
+          uploadDoc.append('document_type', 'AADHAR')
+          uploadDoc.append('file_front', this._currentFileName)
+          uploadDoc.append('file_back', this._currentFileName2)
+        }
+        
+        if (this.documentData?.document_master?.name == "Pan") {
+          uploadDoc.append('document_type', 'PAN')
+          uploadDoc.append('document', this._currentFileName)
+        }
+        
+        if (this.documentData?.document_master?.name == "Voter ID") {
+          uploadDoc.append('document_type', 'VOTERID')
+          uploadDoc.append('file_front', this._currentFileName)
+          uploadDoc.append('file_back', this._currentFileName2)
+        }
+        
+        if (this.documentData?.document_master?.name == "Driving License") {
+          uploadDoc.append('document_type', 'DRIVING')
+          uploadDoc.append('file_front', this._currentFileName)
+          uploadDoc.append('file_back', this._currentFileName2)
+        }
         
         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
           if (res?.success) {
@@ -136,6 +162,17 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           this.api_calling_loader['button'] = false;
           this.message.error(err)
         })
+
+        this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
+          if (res?.success) {
+            
+          } else {
+            
+          }
+        }, err => {
+         
+        })
+
         break;
 
     }

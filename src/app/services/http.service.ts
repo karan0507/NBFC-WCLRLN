@@ -548,6 +548,11 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
 
+      // Upload document for loan application
+      public uploadOcrDocument(data): any {
+            return this._http.post((this.url + `/external/v1/validate-ocr`), data);
+      }
+
       // Verify Loan Application Documents 
       public verifyLoanDocument(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
