@@ -27,6 +27,7 @@ import { DoubleConfirmationPopupComponent } from './double-confirmation-popup/do
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { AuditHistoryComponent } from './audit-history/audit-history.component';
 
 const antdModule = [
     NzAvatarModule,
@@ -52,7 +53,8 @@ const antdModule = [
         QuickViewComponent,
         SideNavComponent,
         SideNavDirective,
-        FooterComponent
+        FooterComponent,
+        // AuditHistoryComponent,
     ],
     imports: [
         RouterModule,
@@ -70,6 +72,7 @@ const antdModule = [
         SideNavComponent,
         SideNavDirective,
         FooterComponent,
+        // AuditHistoryComponent,
         // ChangePasswordComponent
     ],
     providers: [ 
