@@ -132,6 +132,18 @@
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
+                        <div class="col-md-12">
+                              <nz-form-item>
+                                  <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State
+                                  </nz-form-label>
+                                  <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Sate">
+                                      <nz-select formControlName="employment_type_id" nzPlaceHolder="Select State">
+                                          <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+                                          </nz-option>
+                                      </nz-select>
+                                  </nz-form-control>
+                              </nz-form-item>
+                          </div>
                   </div>
             </form>
       </nz-card>

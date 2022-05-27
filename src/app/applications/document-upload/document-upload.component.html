@@ -252,7 +252,7 @@
                                                 <nz-card class="mb-md-0 border"
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
                                                                               PAN No.
@@ -263,7 +263,10 @@
                                                                         </div>
                                                                   </div>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-6">
+                                                                  <a nz-button nzType="link" (click)="onClickFetchXML('PAN', data?.expanddata?.id)">Fetch PAN XML</a>
+                                                            </div>
+                                                            <div class="col-md-6">
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">
                                                                               Aadhaar No.
@@ -273,6 +276,9 @@
                                                                                     data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['aadhar_no'] : '--'}}
                                                                         </div>
                                                                   </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                  <a nz-button nzType="link" (click)="onClickFetchXML('AADHAR', data?.expanddata?.id)">Fetch Aadhaar XML</a>
                                                             </div>
                                                       </div>
                                                 </nz-card>
@@ -604,3 +610,26 @@
             (click)="handleOk('StatusModal')">Submit</button>
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>
+
+<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" (nzOnCancel)="isVisibleXMLModal =false" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+            <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
+                  <!-- <p>Content one</p>
+                  <p>Content two</p>
+                  <p>Content three</p> -->
+                  <span *ngIf="xmlDataResponse">
+                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
+                  </span> 
+                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
+                        No data Found
+                  </span>
+                  <!-- <span *ngIf="xmlDataResponse">
+                        <app-common-cibil-sms [_currentLoanDetails]="xmlDataResponse">
+                        </app-common-cibil-sms>
+                  </span>
+                  <span style="font-weight: bold;">
+                       No Data Found
+                  </span> -->
+            </nz-card>
+      </ng-container>
+    </nz-modal>

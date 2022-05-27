@@ -37,7 +37,8 @@ export class OfferAcceptanceComponent implements OnInit {
             'listLoader': false,
             'accordian': false,
             'button': false,
-            'sendLink': false
+            'sendLink': false,
+            'xmlLoader': false,
       };
       _isAgreementOpen: boolean = false
       stageMasterList: any;
@@ -119,6 +120,29 @@ export class OfferAcceptanceComponent implements OnInit {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
+      }
+
+      isVisibleXMLModal = false;
+      xmlDataResponse;
+      onClickFetchXML(action, id){
+            this.isVisibleXMLModal = true
+            this.api_calling_loader['xmlLoader'] = true;
+            let data = {
+                  'source': 'Onboarding',
+                  'datapoint': 'get_xml_data',
+                  'endpoint':id,
+                  'xml_source': action
+            };
+            this.https.fetchXMLData(data).subscribe((res)=>{
+                  console.log(res);
+                  this.xmlDataResponse = res?.data
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            }, error=>{
+                  console.log(error);
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            })
       }
 
       getFormLoanData(tableFilter?) {

@@ -54,6 +54,7 @@ export class EditFormComponent implements OnInit {
       isCorporate: boolean = false;
       isEditName: boolean = false;
       ifCorporateNotMapped: any;
+      employmentType: any;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -63,6 +64,7 @@ export class EditFormComponent implements OnInit {
             } else {
                   this.isEditName = true
             }
+            this.fetchEmploymentType();
             this.fetchProductList();
             this.fetchMasterIncomeRange();
             this.fetchPartnerList();
@@ -77,12 +79,13 @@ export class EditFormComponent implements OnInit {
                         name: [this.isEditName ?  [null] : null],
                         email: [null, [ Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null],
-                        income: [null]
+                        income: [null],
                   })
 
             this.employementDetails = this.fb.group({
                   company_name: [null, [Validators.required]],
-                  address: [null, []]
+                  address: [null, []],
+                  employment_type_id: [null, [Validators.required]]
             })
 
             this.preApprovedForm = this.fb.group({
@@ -95,6 +98,20 @@ export class EditFormComponent implements OnInit {
                   document_name_2: ['1']
             })
 
+      }
+
+      fetchEmploymentType(){
+            let data;
+            this.https.fetchEmploymentType(data).subscribe((res: any)=>{
+                  console.log(res);
+                  if(res?.success){
+                        this.employmentType = res?.data?.results
+                  } else {
+                        this.message.error(res?.message);
+                  }
+            }, error=>{
+
+            })
       }
 
 
@@ -206,7 +223,11 @@ export class EditFormComponent implements OnInit {
                         } else {
                               this.isCorporate = false;
                         }
-
+                        if(res?.data?.employment_type_info){
+                              this.employementDetails.patchValue({
+                                    employment_type_id: res?.data?.employment_type_info.id
+                              })
+                        }
                         if (res?.data?.offer) {
                               this.preApprovedForm.patchValue({ product_name: res?.data?.offer[0]?.id ? res?.data?.offer[0]?.id : null })
                               this.preApprovedForm.patchValue({ limitProcessed: res?.data?.offer[0]?.amount_offered ? res?.data?.offer[0]?.amount_offered : null })

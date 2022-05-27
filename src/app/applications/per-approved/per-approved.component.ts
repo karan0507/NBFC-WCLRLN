@@ -33,7 +33,8 @@ export class PerApprovedComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button': false
+            'button': false,
+            'xmlLoader': false,
       };
       stageMasterList: any;
       documentStatus = 1
@@ -70,12 +71,35 @@ export class PerApprovedComponent implements OnInit {
       partner : any
       partnerList : any = []
       remarksDescription: any;
+      isVisibleXMLModal: boolean;
+      xmlDataResponse: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
+      }
+
+      onClickFetchXML(action, id){
+            this.isVisibleXMLModal = true
+            this.api_calling_loader['xmlLoader'] = true;
+            let data = {
+                  'source': 'Onboarding',
+                  'datapoint': 'get_xml_data',
+                  'endpoint':id,
+                  'xml_source': action
+            };
+            this.https.fetchXMLData(data).subscribe((res)=>{
+                  console.log(res);
+                  this.xmlDataResponse = res?.data
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            }, error=>{
+                  console.log(error);
+                  this.api_calling_loader['xmlLoader'] = false;
+                  // this.isVisibleXMLModal = false;
+            })
       }
 
       sanatizeUrlToSafe(value) {

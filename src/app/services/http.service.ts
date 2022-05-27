@@ -13,9 +13,9 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -61,6 +61,10 @@ export class HttpService {
 
       public generateOfferForCorrespondingApplication(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+
+      public fetchXMLData(data): any {
+            return this._http.get((this.url + `/central-api/v1/call-api`), {params: data});
       }
       // generateOfferForCorrespondingApplication
 
