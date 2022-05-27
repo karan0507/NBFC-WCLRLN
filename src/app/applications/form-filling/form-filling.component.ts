@@ -250,5 +250,22 @@ export class FormFillingComponent implements OnInit {
             this.getFormLoanData()
             
       }
+      fetchAuditHistory(id) {
+            let data = {
+              source: 'Onboarding',
+              datapoint: 'history_audit_logs',
+              endpoint: 'LoanApplication',
+              id: id
+            }
+            this.https.fetchLoanApplicationList(data).subscribe( res => {
+              if (res?.success) {
+        
+              } else {
+        
+              }
+            }, err => {
+        
+            })
+          }
 
 }

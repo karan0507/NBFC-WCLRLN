@@ -54,7 +54,7 @@ const antdModule = [
         SideNavComponent,
         SideNavDirective,
         FooterComponent,
-        // AuditHistoryComponent,
+        AuditHistoryComponent,
     ],
     imports: [
         RouterModule,
@@ -73,7 +73,6 @@ const antdModule = [
         SideNavDirective,
         FooterComponent,
         // AuditHistoryComponent,
-        // ChangePasswordComponent
     ],
     providers: [ 
         ThemeConstantService
