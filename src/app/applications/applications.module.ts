@@ -43,6 +43,7 @@ import { ClosedComponent } from './closed/closed.component';
 // import { HttpService } from '../services/http.service';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent],
@@ -72,6 +73,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzRadioModule,
     NzDividerModule,
     NgxJsonViewerModule,
+    SharedModule,
     NgxPermissionsModule.forChild()
   ],
   providers:[
