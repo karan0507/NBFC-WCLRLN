@@ -9,6 +9,7 @@ export class GlobalservicesService {
       public globalPageSize = 30;
       public applicationStageCount = new ReplaySubject<any>();
       public globalUserData = new ReplaySubject<any>();
+      public globalApplicationLoan = new ReplaySubject<any>();
 
       constructor(public http: HttpService) { }
 
@@ -20,6 +21,10 @@ export class GlobalservicesService {
       });
      
       }
+
+      selectedGlobalApplicationLoan(data:any){
+            this.globalApplicationLoan.next(data);
+          }
 
       amountFromatterFinction(value) {
             var val: any

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
@@ -71,7 +71,16 @@ export class DocumentUploadComponent implements OnInit {
       partner : any
       partnerList : any = []
       remarksDescription: any;
-      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
+      storedParams: any;
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) { 
+            this.route.queryParams.subscribe((params: any) => {
+                  if(params?.loan_id){
+                        // alert(params?.loan_id);
+                        this.storedParams = params?.loan_id 
+                        this.searchValue = params?.loan_id;
+                  }
+            });
+      }
 
       ngOnInit(): void {
             this.page = 1
@@ -412,6 +421,9 @@ export class DocumentUploadComponent implements OnInit {
       };
 
       resetFilters() {
+            if(this.storedParams){
+                  this.router.navigate(["applications/form-filling"]);
+            }
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

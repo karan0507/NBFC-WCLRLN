@@ -24,6 +24,24 @@
                 </a>
             </li>
         </ul>
+        <span style="align-self: center;min-width: 26%;">
+            <nz-select [(ngModel)]="selectedApplication" (nzOnSearch)="onSearchGetList($event)" (ngModelChange)="onClickRedirectToSpecificComponent($event)"
+            nzPlaceHolder="Select Application"  style="width: 100%;" nzAllowClear nzShowSearch [nzLoading]="isLoading">
+                <nz-option *ngFor="let item of loanApplicationData" [nzValue]="item" [nzLabel]="item?.full_name  + ' '  + item?.user?.mobile + ' ' + item?.application_code"  [nzLoading]="isLoading">
+                    <!-- <span> {{'Name' +  item?.full_name}} </span> -->
+                </nz-option>
+            </nz-select>
+            <!-- <input
+            placeholder="input here"
+            nz-input
+            [(ngModel)]="selectedApplication"
+            (input)="onSearchGetList($event)" 
+            [nzAutocomplete]="auto"
+          />
+          <nz-autocomplete #auto>
+            <nz-auto-option *ngFor="let item of loanApplicationData" [nzValue]="item">{{ item?.full_name }}</nz-auto-option>
+          </nz-autocomplete> -->
+        </span>
         <ul class="nav-right">
             <img src="assets/images/Icons/notification.png" class="px-3" style="cursor: pointer;">
             <nz-divider class="h-80" nzType="vertical"></nz-divider>
