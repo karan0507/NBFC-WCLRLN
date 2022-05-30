@@ -127,6 +127,15 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'picture',
         submenu: [
             {
+                path: 'applications/all-application',
+                title: 'All Applicants',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
+            {
                 path: 'applications/form-filling',
                 title: 'Form Filling',
                 iconType: '',

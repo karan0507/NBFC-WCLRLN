@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { AllApplicantsComponent } from './all-applicants/all-applicants.component';
 import { ClosedComponent } from './closed/closed.component';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
@@ -31,6 +32,20 @@ const routes: Routes = [
                               custom_url: '/applications/form-filling',
                               permissions: {
                                 only: 'view_form_filling_application',
+                                redirectTo: 'authentication/error-2'
+                              }
+                        },
+                  },
+                  {
+                        path: 'all-application',
+                        component: AllApplicantsComponent,
+                        canActivate: [NgxPermissionsGuard],
+                        data: {
+                              title: 'All Applicants',
+                              parent: 'Application',
+                              custom_url: '/applications/all-application',
+                              permissions: {
+                                only: '',
                                 redirectTo: 'authentication/error-2'
                               }
                         },
