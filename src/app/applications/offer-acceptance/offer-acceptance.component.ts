@@ -428,9 +428,10 @@ export class OfferAcceptanceComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            // let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  5}
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-            this.https.fetchLoanApplicationListExport(data).subscribe(res => {
+            this.https.fetchExportData(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {
