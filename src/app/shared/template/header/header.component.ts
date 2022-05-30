@@ -29,7 +29,7 @@ export class HeaderComponent{
             console.log(res);
             this.userDetails = res;
         })
-        this.getFormLoanData();
+        // this.getFormLoanData();
         // this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'));
         // if(!this.userDetails){
         //     this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
@@ -100,10 +100,6 @@ export class HeaderComponent{
     }
     if(e?.stage_id?.pk == 1){
         this.route.navigate(["applications/form-filling"],{ queryParams: {loan_id: e?.application_code}});
-            //     let newRouterLink = "applications/form-filling";
-            //     this.route.navigate(["/"]).then(() => {
-            //     this.route.navigate([newRouterLink,{ queryParams: {loan_id: e?.application_code}}]);
-            //   });
     } else if(e?.stage_id?.pk == 2){
         this.route.navigate(["applications/document-upload"],{ queryParams: {loan_id: e?.application_code}});
     } else if(e?.stage_id?.pk == 3){
@@ -127,10 +123,9 @@ export class HeaderComponent{
     } else if(e?.stage_id?.pk == 15){
         this.route.navigate(["applications/closed"],{ queryParams: {loan_id: e?.application_code}});
     }
-    e = null
     // return
     // return e = -1, this.selectedApplication = null;
-    this.selectedApplication = null;
+    // this.selectedApplication = null;
     
     
 

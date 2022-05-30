@@ -64,7 +64,7 @@ export class DocumentUploadComponent implements OnInit {
       // Page Filters and Pagination Data
       searchValue: any
       page = 1
-      globalPageSize: any;
+      globalPageSize = this.global.globalPageSize;
       productList: any = []
       stageStatusList: any = []
       kycDetailsList: any = []
@@ -78,6 +78,7 @@ export class DocumentUploadComponent implements OnInit {
                         // alert(params?.loan_id);
                         this.storedParams = params?.loan_id 
                         this.searchValue = params?.loan_id;
+                        this.getFormLoanData();
                   }
             });
       }

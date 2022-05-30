@@ -14,7 +14,7 @@ export class FormFillingComponent implements OnInit {
       searchValue: any = '';
       filters: any;
       page = 1;
-      globalPageSize;
+      globalPageSize = this.global.globalPageSize;
       _exportDocument: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -54,6 +54,7 @@ export class FormFillingComponent implements OnInit {
                         // alert(params?.loan_id);
                         this.storedParams = params?.loan_id 
                         this.searchValue = params?.loan_id;
+                        this.getFormLoanData();
                   }
             });
       }

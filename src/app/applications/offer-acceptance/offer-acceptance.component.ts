@@ -76,7 +76,7 @@ export class OfferAcceptanceComponent implements OnInit {
       documentStatus = 1
       // Page Filters and Pagination Data
       page = 1
-      globalPageSize: any;
+      globalPageSize = this.global.globalPageSize;
       productList: any = []
       stageStatusList: any = []
       currentDropDownId: any
@@ -93,6 +93,7 @@ export class OfferAcceptanceComponent implements OnInit {
                         // alert(params?.loan_id);
                         this.storedParams = params?.loan_id 
                         this.searchValue = params?.loan_id;
+                        this.getFormLoanData();
                   }
             });
        }
