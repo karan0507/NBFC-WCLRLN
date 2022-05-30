@@ -59,6 +59,14 @@ export class FormFillingComponent implements OnInit {
             });
       }
 
+      stageFilters: any
+      stageList = [
+      {name: 'pan'},
+      {name: 'aadhar'},
+      {name: 'company'},
+      {name: 'name'},
+      {name: 'income'}]
+
       ngOnInit(): void {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
@@ -86,31 +94,34 @@ export class FormFillingComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
-
-            if (tableFilter) {
-                  this.page = tableFilter?.pageIndex
-                  this.globalPageSize = tableFilter?.pageSize
-                  data['page'] = tableFilter?.pageIndex
-                  data['limit'] = tableFilter?.pageSize
-            } else {
-                  data['page'] = this.page
-                  data['limit'] = this.globalPageSize
-            }
+            data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+            data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            // if (tableFilter) {
+            //       this.page = tableFilter?.pageIndex
+            //       this.globalPageSize = tableFilter?.pageSize
+            // } else {
+            //       data['page'] = this.page
+            //       data['limit'] = this.globalPageSize
+            // }
 
             if (this.filters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['status'] = this.filters
             }
             if (this.productFilters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['product_master'] = this.productFilters
             }
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
+            }
             if (this.searchValue) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['name'] = this.searchValue
             }
             if(this.partner){
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['company'] = this.partner
             }
 
