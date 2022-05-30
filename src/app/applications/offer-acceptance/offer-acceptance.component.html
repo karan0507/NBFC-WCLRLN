@@ -111,7 +111,7 @@
                                           <td>{{data?.source_id ? data?.source_id : '--'}}</td>
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
-                                          <td></td>
+                                          <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
                                           <td>{{data?.status ? data?.status : '-'}}</td>
                                           <td>{{data?.auto_debit_step}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">

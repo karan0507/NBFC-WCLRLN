@@ -6,7 +6,7 @@
 <app-header></app-header>
 <app-sidenav></app-sidenav>
 <div class="page-container">
-    <div class="bg-white main-content h-unset pb-0" [ngClass]="!showBreadCrumb ? 'd-flex align-items-center' : ''"
+    <div class="bg-white main-content h-unset pb-3" [ngClass]="!showBreadCrumb ? 'd-flex align-items-center' : ''"
         *ngIf="contentHeaderDisplay !== 'none'">
         <div class="main-content-header d-flex justify-content-between mb-2 flex-wrap" *ngIf="showBreadCrumb">
             <div class="d-flex flex-wrap">
@@ -28,7 +28,7 @@
         <h4 class="font-weight-semibold d-none" [ngClass]="showBreadCrumb ? 'mt-4' : ''"
             *ngIf="breadcrumbs$ | async; let breadcrumbs">{{(breadcrumbs[breadcrumbs.length - 1]?.label)}}</h4>
     </div>
-    <div class="main-content" [ngClass]="contentHeaderDisplay !== 'none' ? 'pt-0 pb-1' : ''">
+    <div class="main-content" [ngClass]="contentHeaderDisplay !== 'none' ? 'pt-3' : ''">
         <router-outlet></router-outlet>
     </div>
 </div>
