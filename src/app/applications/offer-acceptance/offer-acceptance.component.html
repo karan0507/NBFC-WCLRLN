@@ -16,7 +16,7 @@
 <section>
       <nz-card class="w-100">
             <div class="row">
-                  <div class="col-md-4 mb-3 d-flex">
+                  <div class="col-md-3 mb-3 d-flex">
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                               <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
                                     placeholder="Search text" />
@@ -26,24 +26,24 @@
                                           nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-8 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                  <div class="col-md-9 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
                         <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                              (click)="resetFilters()" class="mr-2">
+                              (click)="resetFilters()">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-3 w-100" [(ngModel)]="productFilters" (ngModelChange)="getFormLoanData()"
+                        <nz-select class="mx-1" style=" width: 12rem;" [(ngModel)]="productFilters" (ngModelChange)="getFormLoanData()"
                               (nzFocus)="onFocusMethod('product')" nzAllowClear nzPlaceHolder="Select Product">
                               <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-
-                        <nz-select class="mr-3 my-md-0 my-3 w-100" [(ngModel)]="partner"
+                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
+                        <nz-select class="mx-1 my-md-0 my-3" style=" width: 12rem;" [(ngModel)]="partner"
                               (ngModelChange)="getFormLoanData()" (nzFocus)="onFocusMethod('partner')" nzAllowClear
                               nzPlaceHolder="Select Partner">
                               <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
+                        <nz-select class="ml-1" style=" width: 15rem;" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1"
                               [nzSize]="'small'" nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
