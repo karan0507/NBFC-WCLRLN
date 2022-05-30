@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as FileSaver from 'file-saver';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -85,8 +85,17 @@ export class OfferAcceptanceComponent implements OnInit {
       blackBoxData: any;
       remarksDescription: any;
       agreementDoc: any
+      storedParams: any;
 
-      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
+      constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
+            this.route.queryParams.subscribe((params: any) => {
+                  if(params?.loan_id){
+                        // alert(params?.loan_id);
+                        this.storedParams = params?.loan_id 
+                        this.searchValue = params?.loan_id;
+                  }
+            });
+       }
 
 
       ngOnInit(): void {
@@ -97,6 +106,7 @@ export class OfferAcceptanceComponent implements OnInit {
                   validitiy: [null],
                   interest: [null]
             })
+            // if(this.route.a)
             this.getFormLoanData();
       }
 
@@ -494,6 +504,9 @@ export class OfferAcceptanceComponent implements OnInit {
       }
 
       resetFilters() {
+            if(this.storedParams){
+                  this.router.navigate(["applications/offer-acceptance"]);
+            }
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

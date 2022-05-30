@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -34,6 +34,7 @@ export class FormFillingComponent implements OnInit {
             'accordian': false,
             'button': false
       };
+      storedParams: any
       productList: any = []
       stageStatusList: any = []
       stageMasterList: any;
@@ -47,7 +48,15 @@ export class FormFillingComponent implements OnInit {
       _isUpdateStatus: boolean = false;
       statusList: any;
       remarksDescription: any
-      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) { 
+            this.route.queryParams.subscribe((params: any) => {
+                  if(params?.loan_id){
+                        // alert(params?.loan_id);
+                        this.storedParams = params?.loan_id 
+                        this.searchValue = params?.loan_id;
+                  }
+            });
+      }
 
       ngOnInit(): void {
             this.page = 1
@@ -243,6 +252,9 @@ export class FormFillingComponent implements OnInit {
       }
 
       resetFilters() {
+            if(this.storedParams){
+                  this.router.navigate(["applications/form-filling"]);
+            }
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
