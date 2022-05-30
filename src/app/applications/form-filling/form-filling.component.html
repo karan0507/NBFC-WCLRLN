@@ -106,15 +106,15 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
-                                          <td>{{data?.master_partner ? data?.master_partner?.name : '--'}}</td>
-                                          <td>{{data?.source_id ? data?.source_id : '--'}}</td>
-                                          <td>{{ data?.partner?.name ? data?.partner?.name : '--' }}</td>
-                                          <td>{{ data?.reference_id ? data?.reference_id : '--' }}</td>
-                                          <td></td>
-                                          <td>{{data?.status ? data?.status : '--'}}</td>
+                                          <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '-'}}</td>
+                                          <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
+                                          <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
+                                          <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
+                                          <td>{{data?.status ? data?.status : '-'}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
                                                       {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
-                                                      (data?.remarks ? data?.remarks : '--')}}
+                                                      (data?.remarks ? data?.remarks : '-')}}
                                                 </span></td>
                                           <td nzRight [nzWidth]="'5rem'">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
@@ -162,7 +162,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.user?.email ?
-                                                                              data?.user?.email : '--'}}
+                                                                              data?.user?.email : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -174,7 +174,7 @@
                                                                         <div>
                                                                               {{data?.expanddata?.user?.dob ?
                                                                               (data?.user?.dob
-                                                                              | date:'dd MMM, yyyy' ): '--'}}
+                                                                              | date:'dd MMM, yyyy' ): '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -188,7 +188,7 @@
                                                                               data?.expanddata?.income_details?.results[0]?.income_range_id
                                                                               ?
                                                                               data?.expanddata?.income_details?.results[0]?.income_range_id?.name
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -216,7 +216,7 @@
                                                                         <div>
                                                                               <!-- created_at -->
                                                                               {{data?.expanddata?.partner?.name ?
-                                                                              data?.expanddata?.partner?.name : '--'}}
+                                                                              data?.expanddata?.partner?.name : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -228,7 +228,7 @@
                                                                         <div>
                                                                               {{ data?.expanddata?.partner ?
                                                                               data?.expanddata?.partner?.address :
-                                                                              '--'}}
+                                                                              '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -239,7 +239,7 @@
                                                                         </span>
                                                                         <div>
                                                                               {{data?.expanddata?.emp_code ?
-                                                                              data?.expanddata?.emp_code : '--'}}
+                                                                              data?.expanddata?.emp_code : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -269,7 +269,7 @@
                                                                         <div>
                                                                               {{data?.expanddata?.pan ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
-                                                                              - 1]['pan_no'] : '--'}}
+                                                                              - 1]['pan_no'] : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -281,7 +281,7 @@
                                                                         <div>
                                                                               {{data?.expanddata?.aadhar ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
-                                                                              - 1]['aadhar_no'] : '--'}}
+                                                                              - 1]['aadhar_no'] : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -312,7 +312,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.address_1
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -325,7 +325,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.address_2
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -339,7 +339,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.address_3
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -353,7 +353,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.city
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -366,7 +366,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.state
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -380,7 +380,7 @@
                                                                               {{data?.expanddata?.kyc_details ?
                                                                               data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
                                                                               -1]?.pincode
-                                                                              : '--'}}
+                                                                              : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
