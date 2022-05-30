@@ -238,13 +238,15 @@ export class FormFillingComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = new FormData()
-            data.append('source', 'Onboarding');
-            data.append('datapoint', 'export_data')
-            data.append('records', JSON.stringify(this._checkedLoanList))
-            data.append('file_type', file_formate)
+            // let data = new FormData()
+            // data.append('source', 'Onboarding');
+            // data.append('datapoint', 'export_application_by_stage')
+            // data.append('stage_id', '1');
+            let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  1}
+            // data.append('records', JSON.stringify(this._checkedLoanList))
+            // data.append('file_type', file_formate)
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-            this.https.fetchLoanApplicationListExport(data).subscribe(res => {
+            this.https.fetchExportData(data).subscribe(res => {
                   this._exportDocument = res;
                   this.https.exportMasterSectionModule(res, 'export', file_formate, generateloader)
             }, error => {

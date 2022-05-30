@@ -66,6 +66,10 @@ export class HttpService {
       public fetchXMLData(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), {params: data});
       }
+
+      public fetchExportData(data): any {
+            return this._http.get((this.url + `/central-api/v1/call-api`), {params: data, responseType: 'blob'});
+      }
       // generateOfferForCorrespondingApplication
 
       /// Verify OTP 

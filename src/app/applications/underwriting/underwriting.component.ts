@@ -498,16 +498,17 @@ export class UnderwritingComponent implements OnInit {
   }
 
   exportData(file_formate?) {
-    let data = {
-      source: "Onboarding",
-      datapoint: "export_data",
-      records: JSON.stringify(this._checkedLoanList),
-      file_type: file_formate,
-    };
+    // let data = {
+    //   source: "Onboarding",
+    //   datapoint: "export_data",
+    //   records: JSON.stringify(this._checkedLoanList),
+    //   file_type: file_formate,
+    // };
+    let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  3}
     const generateloader = this.message.loading("Generating File..", {
       nzDuration: 0,
     }).messageId;
-    this.https.fetchLoanApplicationListExport(data).subscribe(
+    this.https.fetchExportData(data).subscribe(
       (res) => {
         this._exportDocument = res;
         this.https.exportMasterSectionModule(
