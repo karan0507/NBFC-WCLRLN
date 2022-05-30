@@ -163,15 +163,20 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           this.message.error(err)
         })
 
-        this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
-          if (res?.success) {
-            
-          } else {
-            
-          }
-        }, err => {
-         
-        })
+        if (this.documentData?.document_master?.name == "Aadhar Card" ||
+        this.documentData?.document_master?.name == "Pan" ||
+        this.documentData?.document_master?.name == "Voter ID" ||
+        this.documentData?.document_master?.name == "Driving License") {
+          this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
+            if (res?.success) {
+              
+            } else {
+              
+            }
+          }, err => {
+           
+          })
+        }
 
         break;
 
