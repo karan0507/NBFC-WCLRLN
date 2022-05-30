@@ -92,11 +92,11 @@ export class HeaderComponent{
 
   onClickRedirectToSpecificComponent(e){
     console.log(e)
-    this.selectedApplication = '';
     console.log(this.selectedApplication);
+    this.selectedApplication = null;
     // this.globaldata.selectedGlobalApplicationLoan(e?.application_code);
     if(!e){
-        return this.selectedApplication;
+        return null;
     }
     if(e?.stage_id?.pk == 1){
         this.route.navigate(["applications/form-filling"],{ queryParams: {loan_id: e?.application_code}});
@@ -123,7 +123,7 @@ export class HeaderComponent{
     } else if(e?.stage_id?.pk == 15){
         this.route.navigate(["applications/closed"],{ queryParams: {loan_id: e?.application_code}});
     }
-    // return
+    return null
     // return e = -1, this.selectedApplication = null;
     // this.selectedApplication = null;
     
