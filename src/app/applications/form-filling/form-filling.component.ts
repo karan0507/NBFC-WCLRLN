@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service'
@@ -43,6 +44,19 @@ export class FormFillingComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
+
+      customRanges = {
+            Today: [new Date(), new Date()],
+            'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+            'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+            // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+            'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+            // d.setMonth(d.getMonth() - 3);
+        };
 
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
@@ -90,6 +104,8 @@ export class FormFillingComponent implements OnInit {
             }
       }
 
+      date = '';
+
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
@@ -124,6 +140,8 @@ export class FormFillingComponent implements OnInit {
                   // data['page'] = 1
                   data['company'] = this.partner
             }
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {

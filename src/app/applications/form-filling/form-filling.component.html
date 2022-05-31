@@ -55,6 +55,7 @@
                                     [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
+                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                   </div>
             </div>
 

@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as FileSaver from 'file-saver';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -124,37 +125,55 @@ export class PerApprovedComponent implements OnInit {
             }
       }
 
+      date = '';
+      customRanges = {
+            Today: [new Date(), new Date()],
+            'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+            'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+            // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+            'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+            // d.setMonth(d.getMonth() - 3);
+        };
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9', 'source': 'Onboarding' }
 
-            if (tableFilter) {
-                  this.page = tableFilter?.pageIndex
-                  this.globalPageSize = tableFilter?.pageSize
-                  data['page'] = tableFilter?.pageIndex
-                  data['limit'] = tableFilter?.pageSize
-            } else {
-                  data['page'] = this.page
-                  data['limit'] = this.globalPageSize
-            }
+            // if (tableFilter) {
+            //       this.page = tableFilter?.pageIndex
+            //       this.globalPageSize = tableFilter?.pageSize
+            //       data['page'] = tableFilter?.pageIndex
+            //       data['limit'] = tableFilter?.pageSize
+            // } else {
+            //       data['page'] = this.page
+            //       data['limit'] = this.globalPageSize
+            // }
+            data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+            data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
 
             if (this.filters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['status'] = this.filters
             }
             if (this.productFilters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['name'] = this.searchValue
             }
             if(this.partner){
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['company'] = this.partner
             }
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+            
             
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
