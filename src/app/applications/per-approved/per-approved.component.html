@@ -49,6 +49,16 @@
                                     [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
+                        <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
+                              class="mx-1" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Moved by">
+                              <nz-option [nzValue]="'all'" [nzLabel]="'Both'">
+                              </nz-option>
+                              <nz-option [nzValue]="'admin'" [nzLabel]="'Admin'">
+                              </nz-option>
+                              <nz-option [nzValue]="'system'" [nzLabel]="'System'">
+                              </nz-option>
+                        </nz-select>
                         <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                   </div>
             </div>
@@ -73,6 +83,8 @@
                                     <th>Source Id</th>
                                     <th>Partner Id</th>
                                     <th>Reference Id</th>
+                                    <th>Previous stage</th>
+                                    <th>Move to stage on</th>
                                     <th>Latest Action Performed By</th>
                                     <th>Status</th>
                                     <th>Reason</th>
@@ -109,6 +121,10 @@
                                           <td>{{data?.source_id ? data?.source_id : '-'}}</td>
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
+                                          <td>{{ data?.last_stage ? data?.last_stage : '-' }}</td>
+                                          <td>{{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortDate')): '-' }}
+                                              {{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortTime')): '' }}
+                                          </td>
                                           <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
                                           <td>{{data?.status ? data?.status : '-'}}</td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">

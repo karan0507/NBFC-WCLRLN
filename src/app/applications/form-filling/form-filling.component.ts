@@ -39,6 +39,7 @@ export class FormFillingComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       stageMasterList: any;
+      moved_by = 'all';
       _currentStageStatus: any;
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
@@ -142,6 +143,7 @@ export class FormFillingComponent implements OnInit {
             }
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+            data['moved_by'] = this.moved_by,
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {

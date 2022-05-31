@@ -101,6 +101,7 @@ export class OfferAcceptanceComponent implements OnInit {
       'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
       // d.setMonth(d.getMonth() - 3);
   };
+      moved_by = 'all';
   
 
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
@@ -207,6 +208,7 @@ export class OfferAcceptanceComponent implements OnInit {
             
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+            data['moved_by'] = this.moved_by,
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {

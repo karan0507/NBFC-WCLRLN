@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service'
@@ -44,11 +45,13 @@ export class AllApplicantsComponent implements OnInit {
         // Can not select days before today and today
         return differenceInCalendarDays(current, this.today) > 0;
   };
+  date = '';
 
   // Modal Boolean Values
   _isUpdateStatus: boolean = false;
   statusList: any;
   remarksDescription: any
+      moved_by = 'all';
   constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) { 
         this.route.queryParams.subscribe((params: any) => {
               if(params?.loan_id){
@@ -67,6 +70,20 @@ export class AllApplicantsComponent implements OnInit {
   {name: 'company'},
   {name: 'name'},
   {name: 'income'}]
+  
+
+customRanges = {
+      Today: [new Date(), new Date()],
+      'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+      'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+      'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+      'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+      'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+      'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+      // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+      'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+      // d.setMonth(d.getMonth() - 3);
+  };
 
   ngOnInit(): void {
         this.page = 1
@@ -92,59 +109,62 @@ export class AllApplicantsComponent implements OnInit {
   }
 
   getFormLoanData(tableFilter?) {
-        this.api_calling_loader['listLoader'] = true
-        this.loanApplicationData = [];
-        var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication', 'source': 'Onboarding' }
-        data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
-        data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
-        // if (tableFilter) {
-        //       this.page = tableFilter?.pageIndex
-        //       this.globalPageSize = tableFilter?.pageSize
-        // } else {
-        //       data['page'] = this.page
-        //       data['limit'] = this.globalPageSize
-        // }
+      this.api_calling_loader['listLoader'] = true
+      this.loanApplicationData = [];
+      var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+      data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+      data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+      // if (tableFilter) {
+      //       this.page = tableFilter?.pageIndex
+      //       this.globalPageSize = tableFilter?.pageSize
+      // } else {
+      //       data['page'] = this.page
+      //       data['limit'] = this.globalPageSize
+      // }
 
-        if (this.filters) {
-              // data['page'] = 1
-              data['status'] = this.filters
-        }
-        if (this.productFilters) {
-              // data['page'] = 1
-              data['product_master'] = this.productFilters
-        }
-        if(this.stageFilters){
-              // data['page'] = 1
-              data['step'] = this.stageFilters
-        }
-        if (this.searchValue) {
-              // data['page'] = 1
-              data['name'] = this.searchValue
-        }
-        if(this.partner){
-              // data['page'] = 1
-              data['company'] = this.partner
-        }
+      if (this.filters) {
+            // data['page'] = 1
+            data['status'] = this.filters
+      }
+      if (this.productFilters) {
+            // data['page'] = 1
+            data['product_master'] = this.productFilters
+      }
+      if(this.stageFilters){
+            // data['page'] = 1
+            data['step'] = this.stageFilters
+      }
+      if (this.searchValue) {
+            // data['page'] = 1
+            data['name'] = this.searchValue
+      }
+      if(this.partner){
+            // data['page'] = 1
+            data['company'] = this.partner
+      }
+      data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      data['moved_by'] = this.moved_by,
 
-        this.https.fetchLoanApplicationList(data).subscribe(res => {
-              if (res?.success) {
-                    if(this._activeLoans){
-                          this._activeLoans.forEach(element => {
-                                this.expandSet.delete(element?.id)
-                           });  
-                    }
-                    this.global.setApplicationCount();
-                    this.loanApplicationData = res?.data?.results;
-                    this.total_count = res?.data?.total_count;
-                    this.api_calling_loader['listLoader'] = false
-              } else {
-                    this.api_calling_loader['listLoader'] = false
-                    this.total_count = null
-              }
-        }, (err) => {
-              this.api_calling_loader['listLoader'] = false
-        })
-  }
+      this.https.fetchLoanApplicationList(data).subscribe(res => {
+            if (res?.success) {
+                  if(this._activeLoans){
+                        this._activeLoans.forEach(element => {
+                              this.expandSet.delete(element?.id)
+                         });  
+                  }
+                  this.global.setApplicationCount();
+                  this.loanApplicationData = res?.data?.results;
+                  this.total_count = res?.data?.total_count;
+                  this.api_calling_loader['listLoader'] = false
+            } else {
+                  this.api_calling_loader['listLoader'] = false
+                  this.total_count = null
+            }
+      }, (err) => {
+            this.api_calling_loader['listLoader'] = false
+      })
+}
 
 
   getIdWiseData(id?, index?) {

@@ -77,6 +77,7 @@ export class NbfcApprovalComponent implements OnInit {
       partnerList : any = []
       blackBoxData: any;
       remarksDescription: any;
+      moved_by='all';
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -133,6 +134,7 @@ export class NbfcApprovalComponent implements OnInit {
                   data['page'] = 1
                   data['company'] = this.partner
             }
+            data['moved_by'] = this.moved_by,
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {

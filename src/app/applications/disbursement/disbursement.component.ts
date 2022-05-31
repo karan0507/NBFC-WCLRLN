@@ -87,6 +87,7 @@ export class DisbursementComponent implements OnInit {
       partnerList : any = []
       isFetchCibilSms : boolean = false;
       blackBoxData: any;
+      moved_by = 'all';
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -156,6 +157,7 @@ export class DisbursementComponent implements OnInit {
                   data['page'] = 1
                   data['company'] = this.partner
             }
+            data['moved_by'] = this.moved_by,
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
