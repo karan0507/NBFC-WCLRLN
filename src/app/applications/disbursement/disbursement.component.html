@@ -123,8 +123,7 @@
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item>
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                            <!-- <li nz-menu-item>
                                                                   <span class="m-l-5">Activate E-Nach</span>
                                                             </li>
                                                             <li nz-menu-item>
@@ -135,8 +134,8 @@
                                                             </li>
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5">Send E-sign Link</span>
-                                                            </li>
-                                                            <li nz-menu-item>
+                                                            </li> -->
+                                                            <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', data.id)">
                                                                   <span class="m-l-5"> Legal Agreement</span>
                                                             </li>
                                                       </ul>
@@ -1241,3 +1240,15 @@
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
 </ng-template>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" nzKeyboard="true"
+      [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+      <ng-container *nzModalContent>
+            <div class="pdf_viewer_container">
+                  <embed [src]="pdf_viewer_object_values['url']" width="100%" height="500" />
+            </div>
+      </ng-container>
+      <ng-template #modalFooter>
+            <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+      </ng-template>
+</nz-modal>

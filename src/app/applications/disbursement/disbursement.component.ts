@@ -20,6 +20,7 @@ export class DisbursementComponent implements OnInit {
       checked: boolean = false;
       filters: any;
       remarks: any = '';
+      
       _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -39,6 +40,12 @@ export class DisbursementComponent implements OnInit {
             'accordian': false,
             'butotn' : false
       };
+      
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': null,
+    'title': ''
+  }
       stageMasterList: any;
       _currentStageStatus: any;
       offerForm: FormGroup
@@ -264,6 +271,8 @@ export class DisbursementComponent implements OnInit {
             this._isDocument = false;
             this._isEditOffer = false;
             this.isRejectModal = false;
+            this.pdf_viewer_object_values['boolean'] = false
+            this.pdf_viewer_object_values['url'] = null
       }
 
       handleOk(type?) {
@@ -448,4 +457,29 @@ export class DisbursementComponent implements OnInit {
             this.partner = null
             this.getFormLoanData()
       }
+      
+  pdfViewerAndDownload(title, loan_application_id) {
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
+      var data;
+        data = {
+          datapoint: 'fetch-application-agreement',
+          endpoint: loan_application_id,
+          source: 'Onboarding',
+        }
+      if (data) {
+        this.https.fetchLoanApplicationList(data).subscribe(res => {
+          if (res.success) {
+            this.pdf_viewer_object_values['title'] = title
+            this.pdf_viewer_object_values['url'] = this.sanatizeUrlToSafe(res?.data?.agreement)
+            this.pdf_viewer_object_values['boolean'] = true
+  
+          } else {
+            this.message.error(res['message'])
+          }
+          this.message.remove(generateloader);
+        }, (err) => {
+          this.message.remove(generateloader);
+        });
+      }
+    }
 }
