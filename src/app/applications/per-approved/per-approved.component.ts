@@ -139,6 +139,14 @@ export class PerApprovedComponent implements OnInit {
             'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
             // d.setMonth(d.getMonth() - 3);
         };
+      stageFilters: any
+      stageList = [
+            {name: 'pan'},
+            {name: 'aadhar'},
+            {name: 'company'},
+            {name: 'name'},
+            {name: 'income'}
+      ]
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
@@ -163,6 +171,10 @@ export class PerApprovedComponent implements OnInit {
             if (this.productFilters) {
                   // data['page'] = 1
                   data['product_master'] = this.productFilters
+            }
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
             }
             if (this.searchValue) {
                   // data['page'] = 1
@@ -439,6 +451,7 @@ export class PerApprovedComponent implements OnInit {
             this.filters = null;
             this.searchValue = null;
             this.partner = null
+            this.stageFilters = null;
             this.getFormLoanData()
       }
 
