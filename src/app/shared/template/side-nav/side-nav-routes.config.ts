@@ -227,7 +227,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/dormant',
-                title: 'Dormant ',
+                title: 'Dormant',
                 iconType: '',
                 icon: '',
                 permission: ['view_dormant_application'],
@@ -236,7 +236,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/closed',
-                title: 'Closed ',
+                title: 'Closed',
                 iconType: '',
                 icon: '',
                 permission: ['view_closed_application'],
