@@ -42,7 +42,12 @@
                          nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
-                                    </nz-select>
+                        </nz-select>
+                        <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
+                              (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">
+                              <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
+                              </nz-option>
+                        </nz-select>
                         <nz-select class="" nzMode="multiple" (nzFocus)="onFocusMethod('status')"  style="width: 15rem;"
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
                               nzPlaceHolder="Select Status">

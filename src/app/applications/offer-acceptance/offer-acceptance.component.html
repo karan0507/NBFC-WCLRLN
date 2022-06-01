@@ -36,7 +36,11 @@
                               <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
+                        <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
+                               (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">
+                              <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
+                              </nz-option>
+                              </nz-select>
                         <nz-select class="mx-1 my-md-0 my-3" style=" width: 12rem;" [(ngModel)]="partner"
                               (ngModelChange)="getFormLoanData()" (nzFocus)="onFocusMethod('partner')" nzAllowClear
                               nzPlaceHolder="Select Partner">
@@ -60,6 +64,8 @@
                               <nz-option [nzValue]="'system'" [nzLabel]="'System'">
                               </nz-option>
                         </nz-select>
+                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                         (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                   </div>
             </div>
 
