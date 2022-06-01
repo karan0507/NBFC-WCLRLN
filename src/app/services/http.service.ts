@@ -11,7 +11,7 @@ export class HttpService {
       //dev admin 
       // url = 'https://devadminapi.fatakpay.com'
 
-      // dev production
+      // dev productiongit
       // url =  'https://adminapi.fatakpay.com'
       // url = 'https://adminapi.fatakpay.com'
 

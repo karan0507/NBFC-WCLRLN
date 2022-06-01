@@ -625,8 +625,8 @@
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
-                              Select Status
-                        </div>
+                            <nz-form-label nzRequired>Select Status</nz-form-label>
+                      </div>
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
@@ -635,8 +635,8 @@
                               </nz-select>
                         </div>
                         <div class="col-md-4">
-                              Remarks
-                        </div>
+                            <nz-form-label nzRequired>Remarks</nz-form-label>
+                      </div>
                         <div class="col-md-8">
                               <textarea rows="4" nz-input [(ngModel)]="remarksDescription"></textarea>
                         </div>
@@ -690,7 +690,7 @@
       <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2"
             (click)="handleOk('DocumentModal')">Submit</button>
       <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']"
-            [disabled]="!_currentStageStatus ? true : false" class="mx-2"
+      [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" class="mx-2"
             (click)="handleOk('StatusModal')">Submit</button>
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>

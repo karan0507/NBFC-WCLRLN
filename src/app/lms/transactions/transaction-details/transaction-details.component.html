@@ -30,7 +30,12 @@
             <div class="col-md-4 mb-3" *ngIf="listOfData?.payee_data?.payee_upi_id">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee UPI ID</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_upi_id ? listOfData?.payee_data?.payee_upi_id : '-'}}</div>
+                    <div class="col-md-6 font-size-16">
+                        <span nz-tooltip nzTooltipTitle="{{listOfData?.payee_data?.payee_upi_id}}">
+                            {{listOfData?.payee_data?.payee_upi_id?.length >=18 ? (listOfData?.payee_data?.payee_upi_id | slice : 0:18) : (listOfData?.payee_data?.payee_upi_id ? listOfData?.payee_data?.payee_upi_id : '-')}}
+                      </span>
+                      <!-- {{listOfData?.payee_data?.payee_upi_id ? listOfData?.payee_data?.payee_upi_id : '-'}} -->
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3" *ngIf="listOfData?.payee_data?.payee_mobile">

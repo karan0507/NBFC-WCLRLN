@@ -413,7 +413,7 @@
             </div>
       </nz-card>
       <nz-card *ngIf="selectedTab == '2' || selectedTab == '1'" nzTitle="Bill Statement">
-            <nz-table #basicTable [nzLoading]="api_calling_loader3" [nzData]="billStatementList"
+            <nz-table #basicTable [nzLoading]="api_calling_loader3" [nzData]="billStatementList?.list_data"
                   [nzFrontPagination]="false" [nzShowPagination]="false">
                   <thead>
                         <tr>
@@ -423,7 +423,7 @@
                         </tr>
                   </thead>
                   <tbody>
-                        <tr *ngFor="let data of billStatementList; index as i">
+                        <tr *ngFor="let data of billStatementList?.list_data; index as i">
                               <td *ngIf="page4 === 1">{{i+1}}</td>
                               <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>

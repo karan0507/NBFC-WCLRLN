@@ -16,7 +16,7 @@
 <section>
       <nz-card class="w-100">
             <div class="row">
-                  <div class="col-md-4 mb-3 d-flex">
+                  <div class="col-md-3 mb-3 d-flex">
                         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                               <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
                                     placeholder="Search text" />
@@ -26,28 +26,28 @@
                                           nzType="search"></i></button>
                         </ng-template>
                   </div>
-                  <div class="col-md-8 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+                  
+                  <div class="col-md-9 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
                         <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                              (click)="resetFilters()" class="mr-2">
+                              (click)="resetFilters()">
                               <i nz-icon nzType="undo"></i>
                         </button>
-                        <nz-select class="mx-3 w-100" nzAllowClear [(ngModel)]="productFilters"
+                        <nz-select class="mx-1" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem;"
                               (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
                               nzPlaceHolder="Select Product">
                               <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')"
-                              class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear
-                              nzPlaceHolder="Select Partner">
-                              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
+                        <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
+                              (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                              nzPlaceHolder="Select Stage">
+                              <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-                        <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
-                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1"
-                              [nzSize]="'small'" nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
-                                    [nzLabel]="item.status">
+                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" style="width: 12rem;"
+                              class="mx-1 my-md-0 my-3" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Select Partner">
+                              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
                               </nz-option>
                         </nz-select>
                         <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
@@ -60,6 +60,14 @@
                               <nz-option [nzValue]="'system'" [nzLabel]="'System'">
                               </nz-option>
                         </nz-select>
+                        <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;"
+                              (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
+                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                                    [nzLabel]="item.status">
+                              </nz-option>
+                        </nz-select>
+                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                   </div>
             </div>
 
@@ -140,6 +148,10 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
+                                                            <li nz-menu-item
+                                                                  (click)="generateOffer(data?.id)">
+                                                                  <span class="m-l-5">Generate offer</span>
+                                                            </li>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
                                                             <li nz-menu-item (click)="moveStageTo('original', data?.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
@@ -1098,6 +1110,8 @@
                   Party SMS Data</span></label>
       <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
                   Data</span></label>
+      
+      <label *ngIf="_generate_offer">Generate offer</label>
 </ng-template>
 <section>
       <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -1105,8 +1119,8 @@
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
-                              Select Status
-                        </div>
+                            <nz-form-label nzRequired>Select Status</nz-form-label>
+                      </div>
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
@@ -1115,7 +1129,7 @@
                               </nz-select>
                         </div>
                         <div class="col-md-4">
-                              Remarks
+                              <nz-form-label nzRequired>Remarks</nz-form-label>
                         </div>
                         <div class="col-md-8">
                               <nz-textarea-count [nzMaxCharacterCount]="100">
@@ -1190,6 +1204,18 @@
                         [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
                   </app-common-cibil-sms>
             </section>
+            <section *ngIf="_generate_offer">
+                  <div class="row mb-3">
+                        <div class="col-md-6"><nz-form-label nzRequired>Final amount max</nz-form-label></div>
+                        <div class="col-md-6"><input nz-input [(ngModel)]="final_amount_max" min="0" placeholder="Enter final amount max"></div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-6"><nz-form-label nzRequired>
+                              Final amount
+                        </nz-form-label></div>
+                        <div class="col-md-6"><input nz-input [(ngModel)]="final_amount" placeholder="Enter final amount"></div>
+                  </div>
+            </section>
       </nz-modal>
 </section>
 <ng-template #footerModal>
@@ -1198,7 +1224,7 @@
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
             (click)="handleCancel()">Cancel</button>
       <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
-            (click)="handleOk('status')">Submit</button>
+      [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
@@ -1208,4 +1234,7 @@
       <button *ngIf="_isVerify" nz-button nzType="primary"
             [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
             [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+      <button *ngIf="_generate_offer" nz-button nzType="primary"
+            [disabled]="(!final_amount_max && !final_amount) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['button']" (click)="handleOk('generate_offer')">Submit</button>
 </ng-template>

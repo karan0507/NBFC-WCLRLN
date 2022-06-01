@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
@@ -18,6 +19,7 @@ export class VerificationComponent implements OnInit {
       checked: boolean = false;
       filters: any;
       remarks: any = '';
+      date = '';
       _currentDocumentReq: any;
       productFilters: any;
       indeterminate: boolean = false;
@@ -44,6 +46,18 @@ export class VerificationComponent implements OnInit {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
       };
+      customRanges = {
+            Today: [new Date(), new Date()],
+            'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+            'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+            // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+            'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+            // d.setMonth(d.getMonth() - 3);
+        };
 
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
@@ -68,6 +82,13 @@ export class VerificationComponent implements OnInit {
       _isViewDocument: boolean = false
       isFetchCibilSms: boolean = false;
       documentStatus = 1
+      stageFilters: any
+      stageList = [
+      {name: 'pan'},
+      {name: 'aadhar'},
+      {name: 'company'},
+      {name: 'name'},
+      {name: 'income'}]
       // Page Filters and Pagination Data
       searchValue: any
       page = 1
@@ -80,6 +101,8 @@ export class VerificationComponent implements OnInit {
       blackBoxData: any;
       remarksDescription: any;
       moved_by = 'all';
+      generateOfferId: any;
+      _generate_offer: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -122,40 +145,46 @@ export class VerificationComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=8', 'source': 'Onboarding' }
-
-            if (tableFilter) {
-                  this.page = tableFilter?.pageIndex
-                  this.globalPageSize = tableFilter?.pageSize
-                  data['page'] = tableFilter?.pageIndex
-                  data['limit'] = tableFilter?.pageSize
-            } else {
-                  data['page'] = this.page
-                  data['limit'] = this.globalPageSize
-            }
+            data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+            data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            // if (tableFilter) {
+            //       this.page = tableFilter?.pageIndex
+            //       this.globalPageSize = tableFilter?.pageSize
+            // } else {
+            //       data['page'] = this.page
+            //       data['limit'] = this.globalPageSize
+            // }
 
             if (this.filters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['status'] = this.filters
             }
             if (this.productFilters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['product_master'] = this.productFilters
             }
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
+            }
             if (this.searchValue) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['name'] = this.searchValue
             }
-            if (this.partner) {
-                  data['page'] = 1
+            if(this.partner){
+                  // data['page'] = 1
                   data['company'] = this.partner
             }
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
             data['moved_by'] = this.moved_by,
+
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
-                        if (this._activeLoans) {
+                        if(this._activeLoans){
                               this._activeLoans.forEach(element => {
                                     this.expandSet.delete(element?.id)
-                              });
+                               });  
                         }
                         this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
@@ -335,7 +364,30 @@ export class VerificationComponent implements OnInit {
                               this.message.error(err)
                         })
                         break;
-
+                  case 'generate_offer':
+                        this.api_calling_loader['button'] = true
+                        let form_data = { 
+                              source: 'Onboarding', 
+                              datapoint: 'manual_offer', 
+                              application_id: this.generateOfferId,
+                              final_amount: Number(this.final_amount),
+                              final_max_amount: Number(this.final_amount_max)
+                        }
+                        this.https.editLoanData(form_data).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getIdWiseData(this._currentModalData['application'])
+                              } else {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false
+                              // this.message.error(err);
+                        })
+                        break
             }
       }
 
@@ -442,6 +494,8 @@ export class VerificationComponent implements OnInit {
 
 
       resetFilters() {
+            this.date = ''
+            this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
@@ -468,5 +522,12 @@ export class VerificationComponent implements OnInit {
                   }
             })
 
+      }
+      final_amount_max: any
+      final_amount: any
+      generateOffer(id) {
+            this.generateOfferId = id
+            this._generate_offer = true
+            this._isUpdateStatus = true
       }
 }

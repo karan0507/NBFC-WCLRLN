@@ -487,7 +487,7 @@
           <ng-container *nzModalContent>
                 <div class="row">
                       <div class="col-md-4 mb-3">
-                            Select Status
+                            <nz-form-label nzRequired>Select Status</nz-form-label>
                       </div>
                       <div class="col-md-8 mb-3">
                             <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
@@ -497,7 +497,7 @@
                             </nz-select>
                       </div>
                       <div class="col-md-4">
-                            Remarks
+                            <nz-form-label nzRequired>Remarks</nz-form-label>
                       </div>
                       <div class="col-md-8">
                             <nz-textarea-count [nzMaxCharacterCount]="100">
@@ -512,5 +512,5 @@
 <ng-template #footerModal>
     <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
     <button nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
-          (click)="handleOk()">Submit</button>
+          [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" (click)="handleOk()">Submit</button>
 </ng-template>
