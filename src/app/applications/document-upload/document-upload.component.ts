@@ -174,6 +174,13 @@ export class DocumentUploadComponent implements OnInit {
       }
 
       date = '';
+      stageFilters: any
+      stageList = [
+      {name: 'pan'},
+      {name: 'aadhar'},
+      {name: 'company'},
+      {name: 'name'},
+      {name: 'income'}]
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
@@ -198,6 +205,10 @@ export class DocumentUploadComponent implements OnInit {
             if (this.productFilters) {
                   // data['page'] = 1
                   data['product_master'] = this.productFilters
+            }
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
             }
             if (this.searchValue) {
                   // data['page'] = 1
@@ -473,6 +484,7 @@ export class DocumentUploadComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/form-filling"]);
             }
+            this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

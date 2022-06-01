@@ -111,7 +111,7 @@ customRanges = {
   getFormLoanData(tableFilter?) {
       this.api_calling_loader['listLoader'] = true
       this.loanApplicationData = [];
-      var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
+      var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication', 'source': 'Onboarding' }
       data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
       data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
       // if (tableFilter) {
@@ -293,7 +293,8 @@ customRanges = {
         this.productFilters = null;
         this.filters = null;
         this.searchValue = null;
-        this.partner = null
+        this.partner = null;
+        this.stageFilters = null;
         this.getFormLoanData()
         
   }

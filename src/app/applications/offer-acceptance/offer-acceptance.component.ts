@@ -173,6 +173,14 @@ export class OfferAcceptanceComponent implements OnInit {
             })
       }
 
+      stageFilters: any
+      stageList = [
+            {name: 'pan'},
+            {name: 'aadhar'},
+            {name: 'company'},
+            {name: 'name'},
+            {name: 'income'}
+      ]
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
@@ -192,6 +200,10 @@ export class OfferAcceptanceComponent implements OnInit {
             if (this.filters) {
                   // data['page'] = 1
                   data['status'] = this.filters
+            }
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
             }
             if (this.productFilters) {
                   // data['page'] = 1
@@ -531,6 +543,7 @@ export class OfferAcceptanceComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/offer-acceptance"]);
             }
+            this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;
