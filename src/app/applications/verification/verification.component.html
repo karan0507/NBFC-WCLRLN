@@ -140,6 +140,10 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
+                                                            <li nz-menu-item
+                                                                  (click)="generateOffer(data?.id)">
+                                                                  <span class="m-l-5">Generate offer</span>
+                                                            </li>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
                                                             <li nz-menu-item (click)="moveStageTo('original', data?.id)">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
@@ -1098,6 +1102,8 @@
                   Party SMS Data</span></label>
       <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
                   Data</span></label>
+      
+      <label *ngIf="_generate_offer">Generate offer</label>
 </ng-template>
 <section>
       <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
@@ -1105,8 +1111,8 @@
             <section *ngIf="_isStatus">
                   <div class="row">
                         <div class="col-md-4 mb-3">
-                              Select Status
-                        </div>
+                            <nz-form-label nzRequired>Select Status</nz-form-label>
+                      </div>
                         <div class="col-md-8 mb-3">
                               <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
                                     nzPlaceHolder="Select Status">
@@ -1115,7 +1121,7 @@
                               </nz-select>
                         </div>
                         <div class="col-md-4">
-                              Remarks
+                              <nz-form-label nzRequired>Remarks</nz-form-label>
                         </div>
                         <div class="col-md-8">
                               <nz-textarea-count [nzMaxCharacterCount]="100">
@@ -1190,6 +1196,18 @@
                         [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
                   </app-common-cibil-sms>
             </section>
+            <section *ngIf="_generate_offer">
+                  <div class="row mb-3">
+                        <div class="col-md-6"><nz-form-label nzRequired>Final amount max</nz-form-label></div>
+                        <div class="col-md-6"><input nz-input [(ngModel)]="final_amount_max" min="0" placeholder="Enter final amount max"></div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-6"><nz-form-label nzRequired>
+                              Final amount
+                        </nz-form-label></div>
+                        <div class="col-md-6"><input nz-input [(ngModel)]="final_amount" placeholder="Enter final amount"></div>
+                  </div>
+            </section>
       </nz-modal>
 </section>
 <ng-template #footerModal>
@@ -1198,7 +1216,7 @@
       <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
             (click)="handleCancel()">Cancel</button>
       <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
-            (click)="handleOk('status')">Submit</button>
+      [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" (click)="handleOk('status')">Submit</button>
       <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
             (click)="handleOk('offer')">Update</button>
       <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
@@ -1208,4 +1226,7 @@
       <button *ngIf="_isVerify" nz-button nzType="primary"
             [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
             [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+      <button *ngIf="_generate_offer" nz-button nzType="primary"
+            [disabled]="(!final_amount_max && !final_amount) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['button']" (click)="handleOk('generate_offer')">Submit</button>
 </ng-template>

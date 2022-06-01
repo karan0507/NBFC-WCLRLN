@@ -80,6 +80,8 @@ export class VerificationComponent implements OnInit {
       blackBoxData: any;
       remarksDescription: any;
       moved_by = 'all';
+      generateOfferId: any;
+      _generate_offer: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService) { }
 
 
@@ -335,7 +337,30 @@ export class VerificationComponent implements OnInit {
                               this.message.error(err)
                         })
                         break;
-
+                  case 'generate_offer':
+                        this.api_calling_loader['button'] = true
+                        let form_data = { 
+                              source: 'Onboarding', 
+                              datapoint: 'manual_offer', 
+                              application_id: this.generateOfferId,
+                              final_amount: Number(this.final_amount),
+                              final_max_amount: Number(this.final_amount_max)
+                        }
+                        this.https.editLoanData(form_data).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    this.getIdWiseData(this._currentModalData['application'])
+                              } else {
+                                    this.api_calling_loader['button'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['button'] = false
+                              // this.message.error(err);
+                        })
+                        break
             }
       }
 
@@ -468,5 +493,12 @@ export class VerificationComponent implements OnInit {
                   }
             })
 
+      }
+      final_amount_max: any
+      final_amount: any
+      generateOffer(id) {
+            this.generateOfferId = id
+            this._generate_offer = true
+            this._isUpdateStatus = true
       }
 }
