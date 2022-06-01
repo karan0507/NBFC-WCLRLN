@@ -24,7 +24,7 @@
                 </a>
             </li>
         </ul>
-        <!-- <span style="align-self: center;min-width: 26%;">
+        <span style="align-self: center;min-width: 26%;">
             <nz-select (nzOnSearch)="onSearchGetList($event)" 
             [(ngModel)]="selectedApplication" 
                        (ngModelChange)="onClickRedirectToSpecificComponent($event)"
@@ -34,7 +34,7 @@
                 <nz-option *ngFor="let item of loanApplicationData" [nzValue]="item" [nzLabel]="item?.full_name  + ' '  + item?.user?.mobile + ' ' + item?.application_code"  [nzLoading]="isLoading">
                 </nz-option>
             </nz-select>
-        </span> -->
+        </span>
         <ul class="nav-right">
             <img src="assets/images/Icons/notification.png" class="px-3" style="cursor: pointer;">
             <nz-divider class="h-80" nzType="vertical"></nz-divider>

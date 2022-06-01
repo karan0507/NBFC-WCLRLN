@@ -696,7 +696,7 @@
 </ng-template>
 
 
-<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" (nzOnCancel)="isVisibleXMLModal =false" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" (nzOnCancel)="isVisibleXMLModal =false" (nzOnOk)="isVisibleXMLModal =false">
       <ng-container *nzModalContent>
             <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
                   <!-- <p>Content one</p>

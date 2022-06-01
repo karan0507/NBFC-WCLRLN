@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Data } from "@angular/router";
+import { ActivatedRoute, Data, Router } from "@angular/router";
 import { differenceInCalendarDays } from "date-fns";
 import * as FileSaver from "file-saver";
 import * as moment from "moment";
@@ -85,13 +85,22 @@ export class OfferProposedComponent implements OnInit {
   blackBoxData: any;
   remarksDescription: any;
   moved_by = 'all';
+  storedParams: any;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
     public fb: FormBuilder,
     public global: GlobalservicesService,
-    public sanitize: DomSanitizer
-  ) { }
+    public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router
+  ) {
+     this.route.queryParams.subscribe((params: any) => {
+    if(params?.loan_id){
+          // alert(params?.loan_id);
+          this.storedParams = params?.loan_id 
+          this.searchValue = params?.loan_id;
+          this.getFormLoanData();
+    }
+});}
 
   ngOnInit(): void {
     this.page = 1;
@@ -626,6 +635,9 @@ export class OfferProposedComponent implements OnInit {
   };
 
   resetFilters() {
+    if(this.storedParams){
+      this.router.navigate(["applications/offer-proposed"]);
+    }
     this.productFilters = null;
     this.filters = null;
     this.stageFilters = null;
