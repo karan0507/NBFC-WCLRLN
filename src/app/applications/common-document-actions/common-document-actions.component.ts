@@ -151,12 +151,10 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             this.api_calling_loader['button'] = false;
             this.fileList = [];
             this.message.success(res?.message)
-            this.handleCancel();
           } else {
             this.api_calling_loader['button'] = false;
             this.fileList = [];
             this.message.error(res?.message)
-            this.handleCancel();
           }
         }, err => {
           this.api_calling_loader['button'] = false;
@@ -169,12 +167,14 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         this.documentData?.document_master?.name == "Driving License") {
           this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
             if (res?.success) {
+              this.handleCancel();
               this.message.success('Fetch OCR completed')
             } else {
+              this.handleCancel();
               this.message.error('Fetch OCR faild')
             }
           }, err => {
-           
+            this.handleCancel();
           })
         }
 
