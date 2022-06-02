@@ -156,6 +156,12 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             this.fileList = [];
             this.message.error(res?.message)
           }
+          if (this.documentData?.document_master?.name != "Aadhar Card" ||
+        this.documentData?.document_master?.name != "Pan" ||
+        this.documentData?.document_master?.name != "Voter ID" ||
+        this.documentData?.document_master?.name != "Driving License") {
+          this.handleCancel();
+        }
         }, err => {
           this.api_calling_loader['button'] = false;
           this.message.error(err)
