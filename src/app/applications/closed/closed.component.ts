@@ -77,6 +77,7 @@ export class ClosedComponent implements OnInit {
   stageStatusList: any = []
   currentDropDownId: any;
   partner : any
+  date_sorter = ''
   partnerList : any = []
       blackBoxData: any;
       remarksDescription: any;
@@ -180,6 +181,7 @@ export class ClosedComponent implements OnInit {
       data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       data['moved_by'] = this.moved_by,
+      data['date_sorter'] = this.date_sorter
         this.https.fetchLoanApplicationList(data).subscribe(res => {
               if (res?.success) {
                   if(this._activeLoans){
@@ -476,6 +478,7 @@ export class ClosedComponent implements OnInit {
       if(this.storedParams){
             this.router.navigate(["applications/closed"]);
       }
+      this.date_sorter = ''
         this.stageFilters = null;
         this.productFilters = null;
         this.filters = null;

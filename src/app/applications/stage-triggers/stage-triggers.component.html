@@ -66,6 +66,18 @@
                               </nz-option>
                         </nz-select>
                         <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
+                        <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
+                              class="mx-1" (ngModelChange)="getFormLoanData()" nzAllowClear
+                              nzPlaceHolder="Sort by date">
+                              <nz-option [nzValue]="'latest-apply_date'" [nzLabel]="'Latest apply date'">
+                              </nz-option>
+                              <nz-option [nzValue]="'latest-edit_date'" [nzLabel]="'Latest edit date'">
+                              </nz-option>
+                              <nz-option [nzValue]="'old-apply_date'" [nzLabel]="'Old apply date'">
+                              </nz-option>
+                              <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
+                              </nz-option>
+                        </nz-select>
                   </div>
             </div>
 
