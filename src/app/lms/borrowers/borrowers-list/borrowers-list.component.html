@@ -2,7 +2,7 @@
     <div class="row">
         <nz-card class="w-100">
             <div class="row">
-                <div class="col-md-4 mb-3 d-flex">
+                <div class="col-md-3 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                         <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchBorrowerList()"/>
                     </nz-input-group>
@@ -13,7 +13,7 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
-                <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
                     <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
                         (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
                         (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
@@ -21,7 +21,7 @@
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
@@ -30,6 +30,11 @@
                         nzPlaceHolder="Filter By Card Status">
                         <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_spend" (ngModelChange)="fetchBorrowerList()"
+                        nzPlaceHolder="Filter By spend">
+                        <nz-option [nzValue]="'Yes'" nzLabel="Spend"></nz-option>
+                        <nz-option [nzValue]="'No'" nzLabel="Not spend"></nz-option>
                     </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By A/C Status">
@@ -59,8 +64,9 @@
                         <th>Corporate</th>
                         <th>Loan ID</th>
                         <th>Applied on</th>
+                        <th>Disbursement date</th>
                         <th>Credit Line Assigned</th>
-                        <th>Credit Utilised</th>
+                        <th>Credit Utilized</th>
                         <th>Outstanding</th>
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
@@ -81,6 +87,8 @@
                         <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
                         <td>{{data.loan_unique_id}}</td>
                         <td>{{data.activation_date | date: "medium"}}</td>
+                        <td *ngIf="data.disbursement_date">{{data.disbursement_date | date: "medium"}}</td>
+                        <td *ngIf="!data.disbursement_date">-</td>
                         <td>₹ {{data.loan_amount_provided}}</td>
                         <td>₹ {{data.credit_utilization_amount}}</td>
                         <td>₹ {{data.outstanding_amount}}</td>

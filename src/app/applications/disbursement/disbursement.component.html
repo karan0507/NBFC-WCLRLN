@@ -935,12 +935,24 @@
                                                       <div class="row">
                                                             <div class="col-md-4">
                                                                   <div class="d-flex flex-column ">
+                                                                        <div class="text-muted">Mandate type:
+                                                                        </div>
+                                                                        <div>
+                                                                              {{data?.expanddata?.bank_details?.mandate_type
+                                                                              ?
+                                                                              data?.expanddata?.bank_details?.mandate_type
+                                                                              : '-'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column ">
                                                                         <div class="text-muted">A/c Holder Name:
                                                                         </div>
                                                                         <div>
-                                                                              {{data?.expanddata?.offer_details
+                                                                              {{data?.expanddata?.bank_details?.bank?.account_holder_name
                                                                               ?
-                                                                              data?.expanddata?.offer_details?.pre_approved_offer
+                                                                              data?.expanddata?.bank_details?.bank?.account_holder_name
                                                                               : '-'}}
                                                                         </div>
                                                                   </div>
@@ -950,6 +962,10 @@
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted"> Bank Name - </span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.bank?.bank_name
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.bank?.bank_name
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -957,6 +973,10 @@
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted"> A/c No. </span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.bank?.account_no
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.bank?.account_no
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -964,6 +984,10 @@
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">Account Type: </span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.bank?.account_type
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.bank?.account_type
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -972,6 +996,10 @@
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">IFSC Code </span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.bank?.ifsc_code
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.bank?.ifsc_code
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -979,6 +1007,10 @@
                                                                   <div class="d-flex flex-column">
                                                                         <span class="text-muted">UPI id:</span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.upi
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.upi
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -987,6 +1019,10 @@
                                                                         <span class="text-muted">UMRN No:
                                                                         </span>
                                                                         <div>
+                                                                              {{data?.expanddata?.bank_details?.bank?.umrn_no
+                                                                                    ?
+                                                                                    data?.expanddata?.bank_details?.bank?.umrn_no
+                                                                                    : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
