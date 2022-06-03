@@ -77,6 +77,7 @@ export class NbfcApprovalComponent implements OnInit {
       partnerList : any = []
       blackBoxData: any;
       remarksDescription: any;
+      date_sorter = ''
       moved_by='all';
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
@@ -135,6 +136,7 @@ export class NbfcApprovalComponent implements OnInit {
                   data['company'] = this.partner
             }
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
@@ -450,6 +452,7 @@ export class NbfcApprovalComponent implements OnInit {
       }
       
       resetFilters() {
+            this.date_sorter = ''
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

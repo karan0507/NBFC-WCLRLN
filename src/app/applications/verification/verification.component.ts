@@ -62,6 +62,7 @@ export class VerificationComponent implements OnInit {
       // Modal Boolean Values
       _isUpdateStatus: boolean = false;
       statusList: any;
+      date_sorter = ''
       _currentDocument: any = '1'
       _isEditOffer: boolean = false;
       _isDocument: boolean = false;
@@ -189,6 +190,7 @@ export class VerificationComponent implements OnInit {
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
@@ -508,6 +510,7 @@ export class VerificationComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/rejected"]);
             }
+            this.date_sorter = ''
             this.date = ''
             this.stageFilters = null;
             this.productFilters = null;

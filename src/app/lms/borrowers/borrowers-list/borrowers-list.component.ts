@@ -16,6 +16,7 @@ export class BorrowersListComponent implements OnInit {
   total_count = 0;
   search_params = '';
   globalPageSize: number;
+  is_spend = ''
   
   selectedCorporate: any;
   master_product_id = '';
@@ -48,7 +49,8 @@ export class BorrowersListComponent implements OnInit {
       is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
       search_param: this.search_params ? this.search_params : '',
       account_status: this.is_active ? this.is_active : '',
-      corporate_id: this.selectedCorporate ? this.selectedCorporate : ''
+      corporate_id: this.selectedCorporate ? this.selectedCorporate : '',
+      spent: this.is_spend ? this.is_spend : ''
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
