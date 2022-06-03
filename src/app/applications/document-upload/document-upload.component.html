@@ -38,10 +38,11 @@
                                           [nzLabel]="item.name">
                                     </nz-option>
                               </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3" (ngModelChange)="getFormLoanData()"  style="width: 12rem;"
+                        <nz-select [(ngModel)]="partner" nzShowSearch (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3" (ngModelChange)="getFormLoanData()"  style="width: 12rem;"
                          nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
+                                                <nz-option nzValue="other" nzLabel="Others"></nz-option>
                         </nz-select>
                         <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
                               (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">
@@ -669,27 +670,20 @@
       <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>
 
-<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" (nzOnCancel)="isVisibleXMLModal =false" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" [nzFooter]="xmlFooter">
       <ng-container *nzModalContent>
             <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
-                  <!-- <p>Content one</p>
-                  <p>Content two</p>
-                  <p>Content three</p> -->
                   <span *ngIf="xmlDataResponse">
                         <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
                   </span> 
                   <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
                         No data Found
                   </span>
-                  <!-- <span *ngIf="xmlDataResponse">
-                        <app-common-cibil-sms [_currentLoanDetails]="xmlDataResponse">
-                        </app-common-cibil-sms>
-                  </span>
-                  <span style="font-weight: bold;">
-                       No Data Found
-                  </span> -->
             </nz-card>
       </ng-container>
+      <ng-template #xmlFooter>
+            <button nz-button nzType="link" class="border" (click)="isVisibleXMLModal =false">Cancel</button>
+      </ng-template>
     </nz-modal>
 
     <nz-modal [(nzVisible)]="isVisibleUploadedImage" nzTitle="Fetched Selfie Response" (nzOnCancel)="isVisibleUploadedImage =false" (nzOnOk)="isVisibleUploadedImage =false" [nzWidth]="'70%'">
