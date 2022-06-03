@@ -484,6 +484,7 @@ export class DocumentUploadComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/form-filling"]);
             }
+            this.date = '';
             this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;

@@ -664,6 +664,7 @@ export class UnderwritingComponent implements OnInit {
     if(this.storedParams){
       this.router.navigate(["applications/underwriting"]);
     }
+    this.date = '';
     if (type == "offer") {
       this.offerForm.controls.amountOffered.reset();
     } else {

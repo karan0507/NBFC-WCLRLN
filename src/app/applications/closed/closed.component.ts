@@ -476,6 +476,7 @@ export class ClosedComponent implements OnInit {
       if(this.storedParams){
             this.router.navigate(["applications/closed"]);
       }
+      this.date = '';
         this.stageFilters = null;
         this.productFilters = null;
         this.filters = null;

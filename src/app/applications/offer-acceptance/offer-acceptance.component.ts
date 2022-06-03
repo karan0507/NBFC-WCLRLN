@@ -543,6 +543,7 @@ export class OfferAcceptanceComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/offer-acceptance"]);
             }
+            this.date = '';
             this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;

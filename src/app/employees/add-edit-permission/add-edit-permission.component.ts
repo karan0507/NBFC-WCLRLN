@@ -46,6 +46,13 @@ export class AddEditPermissionComponent implements OnInit {
     this.fetchRoles();
   }
 
+  checkBoolean(data){
+    if(data['value'].length >= 1){
+      return true;
+    } else {
+      return false;
+    }
+  }
   createAddEditRole(){
     this.addEditRoleForm = this.fb.group({
       id: [null],
@@ -85,9 +92,6 @@ export class AddEditPermissionComponent implements OnInit {
   }
 
   onClickAddEditRole(){
-    console.log(this.addEditRoleForm.value)
-    // if(this.roleManagementLoader['addRole']){
-      // this
       for (const i in this.addEditRoleForm.controls) {
         this.addEditRoleForm.controls[i].markAsDirty();
         this.addEditRoleForm.controls[i].updateValueAndValidity();
@@ -102,7 +106,6 @@ export class AddEditPermissionComponent implements OnInit {
         if(this.roleManagementLoader['addRole']){
            delete data['id']
         }
-        // const url = this.roleManagementLoader['addRole'] ? this.http.addEditExistingRole(data) : this.http.addEditExistingRole()
         this.http.addEditExistingRole(data).subscribe((res: any)=>{
           if(res?.success){
             this.addEditRoleForm.reset();
@@ -154,20 +157,30 @@ export class AddEditPermissionComponent implements OnInit {
     }
     this.http.fetchPermissionSlugsForEmployee(data).subscribe((res: any)=>{
       this.permissionList = []
-      res?.data.map((data)=>{
-        if(data?.slugs_list.length > 0){
-          this.permissionList.push(data);
+      this.permissionList = res?.data;
+      const loopedData = [];
+      for(let key in this.permissionList) {
+        let child = this.permissionList[key];
+        if(child.length >= 1){
+          child.map((val)=>{
+            loopedData.push(val?.slugs_list);
+          })
         }
-      })
-      // this.permissionList = res?.data
-      this.permissionList.map((res)=>{
-        res?.slugs_list.map((slug)=>{
-          if(slug?.flag){
-            this.slugList.push(slug?.id) 
+        }
+        for(let key in loopedData) {
+          let trigger = loopedData[key];
+          for(let k in trigger) {
+            let triggeredData = trigger[k];
+            if(triggeredData.length >= 0){
+              triggeredData?.map((triggeredRep)=>{
+                      if(triggeredRep?.flag){
+                        this.slugList.push(triggeredRep?.id) 
+                      }
+              })
+            }
           }
-        })
-      })
-      this.apiLoader['list'] = false;
+        }
+      this.apiLoader['list'] = false; 
     }, error=>{
       this.apiLoader['list'] = false;
     })
@@ -192,21 +205,18 @@ export class AddEditPermissionComponent implements OnInit {
         } else {
           this.deleteSlug(data?.id);
         }
-      // }
-  }
+  }s
 
   onCLickSelectAll(e, loop){
-    loop?.slugs_list.forEach(data => {
+    loop.forEach(data => {
       if(e){
         if(!this.slugList.includes(data?.id)){
           data.flag = true
           this.slugList.push(data?.id);
-          console.log(this.slugList.length);
         } 
       } else {
         data.flag = false;
         this.deleteSlug(data?.id); 
-        console.log(this.slugList.length);
       }
     });
   }
@@ -220,9 +230,6 @@ export class AddEditPermissionComponent implements OnInit {
 
 
 slugListCheckBoxSelection(slug){
-  // if(!e){
-  //   return false;
-  // }
   if(this.slugList.includes(slug)){
     return true;
   }else{
@@ -233,7 +240,7 @@ slugListCheckBoxSelection(slug){
 slugListMaxCheckBoxSelection(event){
   const count = event.length;
   let i = 0;
-  event.forEach(element => {
+  event?.forEach(element => {
     if(element?.flag)
     i++;
   });
@@ -253,10 +260,11 @@ updatePermissionBasedOnType(){
     this.apiLoader['onOk']= false
     if(res?.success){
       // let newRouterLink = "/employee";
-      // this.router.navigate(['../employees']);
-      this.selectedRole = null;
+      this.router.navigate(['../employees']);
+      // this.selectedRole = null;
       this.message.success(res?.message);
     } else {
+      this.apiLoader['onOk']= false
       this.message.error(res?.message);
     }
   }, error=>{
@@ -264,5 +272,18 @@ updatePermissionBasedOnType(){
   })
 }
 
+returnZero(){
+  return 0;
+}
 
+
+getColor(i){
+  if (i % 2 === 0 && i != 0){i = 'odd';}
+  // if (this.courses && (this.courses.length - 1 === i)) {i = 'last'}
+  switch (i) {
+    case i = 0 : return '#bfaabf';
+    case i = 'odd' : return '#ecddf0';
+  }
+  // return 'red';
+}
 }
