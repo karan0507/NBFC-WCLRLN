@@ -81,6 +81,7 @@ export class ENachSigningComponent implements OnInit {
       remarksDescription: any;
       moved_by = 'all';
       storedParams: any;
+      date_sorter = ''
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if(params?.loan_id){
@@ -160,6 +161,7 @@ export class ENachSigningComponent implements OnInit {
                   data['company'] = this.partner
             }
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.data) {
                         if(this._activeLoans){
@@ -453,6 +455,7 @@ export class ENachSigningComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/e-signing"]);
             }
+            this.date_sorter = ''
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

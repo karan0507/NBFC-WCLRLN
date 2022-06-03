@@ -15,6 +15,7 @@ export class FormFillingComponent implements OnInit {
       searchValue: any = '';
       filters: any;
       page = 1;
+      date_sorter = ''
       globalPageSize = this.global.globalPageSize;
       _exportDocument: any;
       productFilters: any;
@@ -144,6 +145,7 @@ export class FormFillingComponent implements OnInit {
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
@@ -290,6 +292,7 @@ export class FormFillingComponent implements OnInit {
                   this.router.navigate(["applications/form-filling"]);
             }
             this.date = '';
+            this.date_sorter = ''
             this.stageFilters = null;
             this.productFilters = null;
             this.filters = null;

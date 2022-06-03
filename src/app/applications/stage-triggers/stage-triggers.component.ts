@@ -82,6 +82,7 @@ export class StageTriggersComponent implements OnInit {
       remarksDescription: any;
       moved_by = 'all';
       storedParams: any;
+      date_sorter = ''
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService,
             private route: ActivatedRoute, private router: Router) { 
                   this.route.queryParams.subscribe((params: any) => {
@@ -190,6 +191,7 @@ export class StageTriggersComponent implements OnInit {
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
                         if(this._activeLoans){
@@ -488,6 +490,7 @@ export class StageTriggersComponent implements OnInit {
                   this.router.navigate(["applications/dormant"]);
             }
             this.date = '';
+            this.date_sorter = ''
             this.stageFilters= null
             this.productFilters = null;
             this.filters = null;

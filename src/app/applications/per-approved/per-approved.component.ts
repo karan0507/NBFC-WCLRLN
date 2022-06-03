@@ -75,6 +75,7 @@ export class PerApprovedComponent implements OnInit {
       isVisibleXMLModal: boolean;
       xmlDataResponse: any;
       moved_by = 'all';
+      date_sorter = ''
       storedParams: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
@@ -197,6 +198,7 @@ export class PerApprovedComponent implements OnInit {
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
             data['moved_by'] = this.moved_by,
+            data['date_sorter'] = this.date_sorter
             
             
             this.https.fetchLoanApplicationList(data).subscribe(res => {
@@ -461,6 +463,7 @@ export class PerApprovedComponent implements OnInit {
                   this.router.navigate(["applications/pre-approved"]);
             }
             this.date = '';
+            this.date_sorter = ''
             this.productFilters = null;
             this.filters = null;
             this.searchValue = null;

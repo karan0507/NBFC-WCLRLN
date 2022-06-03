@@ -84,6 +84,7 @@ customRanges = {
       'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
       // d.setMonth(d.getMonth() - 3);
   };
+  date_sorter = ''
 
   ngOnInit(): void {
         this.page = 1
@@ -145,6 +146,7 @@ customRanges = {
       data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       data['moved_by'] = this.moved_by,
+      data['date_sorter'] = this.date_sorter
 
       this.https.fetchLoanApplicationList(data).subscribe(res => {
             if (res?.success) {
@@ -291,6 +293,7 @@ customRanges = {
               this.router.navigate(["applications/form-filling"]);
         }
         this.date = '';
+        this.date_sorter = ''
         this.productFilters = null;
         this.filters = null;
         this.searchValue = null;

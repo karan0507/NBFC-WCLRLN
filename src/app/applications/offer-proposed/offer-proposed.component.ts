@@ -35,6 +35,7 @@ export class OfferProposedComponent implements OnInit {
   _checkedLoanList: any[];
   _activeLoans: any = [];
   today = new Date();
+  date_sorter = ''
   api_calling_loader = {
     listLoader: false,
     accordian: false,
@@ -210,6 +211,7 @@ export class OfferProposedComponent implements OnInit {
     data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
     data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
     data['moved_by'] = this.moved_by,
+    data['date_sorter'] = this.date_sorter
     this.https.fetchLoanApplicationList(data).subscribe(
       (res) => {
         if (res?.success) {
@@ -639,6 +641,7 @@ export class OfferProposedComponent implements OnInit {
       this.router.navigate(["applications/offer-proposed"]);
     }
     this.date = '';
+    this.date_sorter = ''
     this.productFilters = null;
     this.filters = null;
     this.stageFilters = null;
