@@ -41,11 +41,12 @@
                               <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
                               </nz-option>
                               </nz-select>
-                        <nz-select class="mx-1 my-md-0 my-3" style=" width: 12rem;" [(ngModel)]="partner"
+                        <nz-select class="mx-1 my-md-0 my-3" nzShowSearch style=" width: 12rem;" [(ngModel)]="partner"
                               (ngModelChange)="getFormLoanData()" (nzFocus)="onFocusMethod('partner')" nzAllowClear
                               nzPlaceHolder="Select Partner">
                               <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk" [nzLabel]="item.name">
                               </nz-option>
+                              <nz-option nzValue="other" nzLabel="Others"></nz-option>
                         </nz-select>
                         <nz-select class="ml-1" style=" width: 15rem;" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1"
@@ -98,8 +99,8 @@
                                     <th>Loan ID</th>
                                     <th nzWidth="14rem">User Details</th>
                                     <th>Apply Date & Time</th>
-                                    <th>Master Partner</th>
-                                    <th>Source Id</th>
+                                    <!-- <th>Master Partner</th>
+                                    <th>Source Id</th> -->
                                     <th>Partner Id</th>
                                     <th>Reference Id</th>
                                     <th>Previous stage</th>
@@ -107,6 +108,7 @@
                                     <th>Latest Action Performed By</th>
                                     <th>Status</th>
                                     <th>E-Mandate</th>
+                                    <th> Nach Step's</th>
                                     <th>Remarks</th>
                                     <th nzRight [nzWidth]="'5rem'">Action</th>
                               </tr>
@@ -137,8 +139,9 @@
                                                       <div>{{ data?.created_at | date:'shortTime' }}</div>
                                                 </div>
                                           </td>
-                                          <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
-                                          <td>{{data?.source_id ? data?.source_id : '-'}}</td>
+                                          <!-- <td>{{data?.pending_steps ? data?.pending_steps : '-'}}</td> -->
+                                          <!-- <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
+                                          <td>{{data?.source_id ? data?.source_id : '-'}}</td> -->
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
                                           <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
                                           <td>{{ data?.last_stage ? data?.last_stage : '-' }}</td>
@@ -148,6 +151,17 @@
                                           <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
                                           <td>{{data?.status ? data?.status : '-'}}</td>
                                           <td>{{data?.auto_debit_step}}</td>
+                                          <td> 
+                                                <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data?.pending_steps" style="cursor: pointer;"
+                                                    nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                                                    <ng-template #contentTemplate>
+                                                        <div class="px-3">
+                                                            <ul *ngFor="let item of data?.pending_steps">
+                                                                <li class="text-danger">{{item}}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </ng-template>
+                                            </td>
                                           <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
                                                       {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
                                                       (data?.remarks ? data?.remarks : '-')}}
@@ -1461,7 +1475,7 @@
 </ng-template>
 
 
-<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" (nzOnCancel)="isVisibleXMLModal =false" (nzOnOk)="isVisibleXMLModal =false">
+<nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" [nzFooter]="xmlFooter">
       <ng-container *nzModalContent>
             <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
                   <!-- <p>Content one</p>
@@ -1482,4 +1496,7 @@
                   </span> -->
             </nz-card>
       </ng-container>
+      <ng-template #xmlFooter>
+            <button nz-button nzType="link" class="border" (click)="isVisibleXMLModal =false">Cancel</button>
+      </ng-template>
     </nz-modal>

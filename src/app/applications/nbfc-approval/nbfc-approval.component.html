@@ -38,9 +38,10 @@
                                           [nzLabel]="item.name">
                                     </nz-option>
                               </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
+                        <nz-select [(ngModel)]="partner" nzShowSearch (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3 w-100" (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
                                           <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
                                                 [nzLabel]="item?.name "></nz-option>
+                                                <nz-option nzValue="other" nzLabel="Others"></nz-option>
                                     </nz-select>
                         <nz-select class="w-100" nzMode="multiple" (nzFocus)="onFocusMethod('status')"
                               [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
