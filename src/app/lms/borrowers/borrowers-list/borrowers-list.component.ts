@@ -68,6 +68,7 @@ export class BorrowersListComponent implements OnInit {
     this.master_product_id = ''
     this.is_active = ''
     this.selectedCorporate = ''
+    this.is_spend = ''
     this.fetchBorrowerList()
   }
   OnTypeSearchList(event){
