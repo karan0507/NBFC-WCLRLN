@@ -63,6 +63,7 @@
                         <th>Product type</th>
                         <th>Corporate</th>
                         <th>Loan ID</th>
+                        <th>Employee code</th>
                         <th>Applied on</th>
                         <th>Disbursement date</th>
                         <th>Credit Line Assigned</th>
@@ -85,7 +86,8 @@
                         </td>
                         <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
                         <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
-                        <td>{{data.loan_unique_id}}</td>
+                        <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
+                        <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
                         <td>{{data.activation_date | date: "medium"}}</td>
                         <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
                         <td>₹ {{data.loan_amount_provided}}</td>

@@ -5,25 +5,31 @@
                               nzTheme="outline"></i></div>
                   <div class="col d-flex px-0" style="justify-content: space-between;">
                         <div>
-                              <h4 class="h4">{{borrowertList?.user?.full_name}} <img src="assets/images/rupee-br.svg"
-                                          alt=""></h4>
-                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Loan ID -
-                                    {{borrowertList?.loan_unique_id}}</span>
-                                    <nz-divider nzType="vertical"></nz-divider>
+                              <h4 class="h4">{{borrowertList?.user?.full_name}} <img src="assets/images/rupee-br.svg" alt=""></h4>
+                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Loan ID -:
+                                    {{borrowertList?.loan_unique_id ? borrowertList?.loan_unique_id : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Employee code -:
+                                    {{borrowertList?.emp_code ? borrowertList?.emp_code : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
-                                    Status - {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
-                                    <nz-divider nzType="vertical"></nz-divider>
+                                    Status -: {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; A/c
-                                    Status - {{borrowertList?.account_status}}</span>
-                                    <nz-divider nzType="vertical"></nz-divider>
-                              <span><i nz-icon nzType="user" nzTheme="outline"></i> &nbsp; Contact -
-                                    {{borrowertList?.user?.mobile}}</span>
-                                    <nz-divider nzType="vertical"></nz-divider>
-                              <span><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -
-                                    {{borrowertList?.user?.email}}</span>
-                                    <nz-divider nzType="vertical"></nz-divider>
-                              <span><i nz-icon nzType="idcard" nzTheme="outline"></i> &nbsp; Address -
-                                    {{borrowertList?.address?.address_1 + ', ' + borrowertList?.address?.address_2 + ', ' +  borrowertList?.address?.city + ', ' +  borrowertList?.address?.state + ', ' +  borrowertList?.address?.pincode}}</span>
+                                    Status -: {{borrowertList?.account_status ? atus - {{borrowertList?.account_status : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="user" nzTheme="outline"></i> &nbsp; Contact -:
+                                    {{borrowertList?.user?.mobile ? borrowertList?.user?.mobile : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="mail" nzTheme="outline"></i> &nbsp; Email ID -:
+                                    {{borrowertList?.user?.email ? borrowertList?.user?.email : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="idcard" nzTheme="outline"></i> &nbsp; Address -:
+                                    {{(borrowertList?.address?.address_1 ? borrowertList?.address?.address_1 : '') + 
+                                    (borrowertList?.address?.address_2  ? ', ' + borrowertList?.address?.address_2 : '') + 
+                                     (borrowertList?.address?.city ? ', ' + borrowertList?.address?.city : '') + 
+                                     (borrowertList?.address?.state ? ', ' + borrowertList?.address?.state : '') + 
+                                     (borrowertList?.address?.pincode ? ', ' + borrowertList?.address?.pincode : '')}}</span>
                         </div>
                         <div class="d-flex" *ngIf="selectedTab == '1'">
                               <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3" *ngxPermissionsOnly="['download_reports']">
