@@ -462,6 +462,7 @@ export class PerApprovedComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/pre-approved"]);
             }
+            this.date = '';
             this.date_sorter = ''
             this.productFilters = null;
             this.filters = null;

@@ -17,8 +17,54 @@
             </div>
   
         </div>
-      <div class="row accordianLoanApp" *ngIf="selectedRole">
-        <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
+        <ng-container *ngIf="selectedRole"></ng-container>
+        <div class="row" *ngFor="let data of permissionList| keyvalue: returnZero"  style="border: 1px solid gainsboro;">
+          <div class="col-4" style="border-right: 1px solid gainsboro;">
+            <div class="row">
+              <div class="col-12 pt-4">
+                <h4 class="ml-5">
+                  <ul>
+                    <li *ngIf="data?.key != 'null'">
+                      {{ data?.key }}
+                    </li>
+                  </ul>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row" *ngFor="let item of permissionList[data.key]; let even = even; let odd = odd;let index=i;">
+              <!-- <ng-container [style.backgound-color]="getColor(i)" > -->
+                <div class="col-5 pt-4">
+                  <h5 class="my-0 ml-3">
+                    {{ item?.display_name }}
+                  </h5>
+                </div>
+                <div class="col-7 pt-4" style="border-left: 1px solid whitesmoke;">
+                  <div class="row " *ngFor="let subItem of item?.slugs_list | keyvalue : returnZero; let index = index">
+                    <ng-container *ngIf="checkBoolean(subItem)">
+                    <h5 class="mt-0 mx-3">{{subItem?.key}}</h5>
+                    <label
+                        class="d-flex mr-3 align-self-center"
+                        nz-checkbox
+                        (ngModelChange)="onCLickSelectAll($event, item?.slugs_list[subItem?.key])" 
+                        [ngModel]="slugListMaxCheckBoxSelection(item?.slugs_list[subItem?.key])"
+                    ></label>
+                    <div class="col-12 my-2" *ngFor="let slug of item?.slugs_list[subItem?.key]">
+                      <label
+                        class="d-flex" (ngModelChange)="ngModelChange($event, slug, 'slugs')" [(ngModel)]="slug.flag"
+                        nz-checkbox>
+                        <h6 class="my-0 ml-3 text-muted">{{ slug?.display_name }}</h6> 
+                        </label>
+                    </div>
+                  </ng-container>
+                  </div>
+                </div>
+              <!-- </ng-container> -->
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
           <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
             <ng-template #basicDetai>
             <div class="row">
@@ -31,17 +77,8 @@
                       ></label>
                       <h4 class="my-0">{{ data?.display_name }}</h4>
               </div>
-              <!-- <div class="col-5">
-                <label
-                      class="d-flex"
-                      nz-checkbox
-                      (ngModelChange)="ngModelChange($event, data, 'head')" 
-                      [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
-                      ></label>
-              </div> -->
             </div>
           </ng-template>
-          <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
           </nz-page-header>
           <div class="row mt-4">
             <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
@@ -52,18 +89,24 @@
                       nz-checkbox
                       (ngModelChange)="ngModelChange($event, slugs, 'slugs')" [(ngModel)]="slugs.flag"> 
                       {{ slugs?.display_name }}</label></h5>
-                      <!-- [ngModel]="slugListCheckBoxSelection(slugs?.function_name)" -->
               </div>
             </div>
           </div>
           <ng-template #basicDetail>
             <h4 class="my-0">{{ data?.display_name }}</h4>
           </ng-template>
-        </div>
-        <div class="col-12 bg-light-orange mt-4 text-right">
+        </div> -->
+        <div  class="total-section d-flex align-items-center justify-content-end">
+          <!-- &#x20B9; {{cart_total}} ({{cart_Qty}} Units)  -->
+          <h5 class="p-3 mb-0"> {{totalPayableAmount}}</h5>
+          <!-- <button class="mr-4" nz-button nzType="default" nzDanger>Pay Now</button> -->
+          <!-- <button *ngxPermissionsOnly="['add_payment']" nz-button nzType="primary" class="px-5 mx-4 float-right" [nzLoading]="api_call_loader['button']" [disabled]="checkedEnrollerList.length == 0" (click)="onClickShowCommissionTotal()">Pay Now</button> -->
           <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
-        </div>
       </div>
+        <!-- <div class="col-12 bg-light-orange mt-4 text-right">
+          <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+        </div> -->
+      <!-- </div> -->
     </nz-card>
     </nz-tab>
     <nz-tab *ngxPermissionsOnly="['view_role','add_role','edit_role','delete_role']" nzTitle="Role Management">

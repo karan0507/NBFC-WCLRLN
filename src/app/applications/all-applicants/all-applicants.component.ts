@@ -292,6 +292,7 @@ customRanges = {
         if(this.storedParams){
               this.router.navigate(["applications/form-filling"]);
         }
+        this.date = '';
         this.date_sorter = ''
         this.productFilters = null;
         this.filters = null;

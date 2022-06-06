@@ -291,6 +291,7 @@ export class FormFillingComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/form-filling"]);
             }
+            this.date = '';
             this.date_sorter = ''
             this.stageFilters = null;
             this.productFilters = null;

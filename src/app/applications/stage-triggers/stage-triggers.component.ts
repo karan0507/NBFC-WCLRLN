@@ -489,6 +489,7 @@ export class StageTriggersComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/dormant"]);
             }
+            this.date = '';
             this.date_sorter = ''
             this.stageFilters= null
             this.productFilters = null;

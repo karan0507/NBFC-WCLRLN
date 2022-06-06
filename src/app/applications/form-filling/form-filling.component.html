@@ -47,6 +47,8 @@
                               nzPlaceHolder="Select Partner">
                               <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
                               </nz-option>
+                              <nz-option nzValue="other" nzLabel="Others">
+                              </nz-option>
                         </nz-select>
                         <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
                               class="mx-1" (ngModelChange)="getFormLoanData()" nzAllowClear

@@ -37,11 +37,12 @@
                               <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
                               </nz-option>
                         </nz-select>
-                        <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')"  style=" width: 12rem;"
+                        <nz-select [(ngModel)]="partner" nzShowSearch (nzFocus)="onFocusMethod('partner')"  style=" width: 12rem;"
                               class="mr-3 my-md-0 my-3" (ngModelChange)="getFormLoanData()" nzAllowClear
                               nzPlaceHolder="Select Partner">
                               <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
                               </nz-option>
+                              <nz-option nzValue="other" nzLabel="Others"></nz-option>
                         </nz-select>
                         <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
                                (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">

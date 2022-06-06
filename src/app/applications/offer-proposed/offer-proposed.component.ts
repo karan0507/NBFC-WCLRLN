@@ -640,6 +640,7 @@ export class OfferProposedComponent implements OnInit {
     if(this.storedParams){
       this.router.navigate(["applications/offer-proposed"]);
     }
+    this.date = '';
     this.date_sorter = ''
     this.productFilters = null;
     this.filters = null;
