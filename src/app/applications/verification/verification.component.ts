@@ -105,6 +105,7 @@ export class VerificationComponent implements OnInit {
       generateOfferId: any;
       _generate_offer: boolean;
       storedParams: any;
+      isVisibleThirdPartyResp: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService,
              private route: ActivatedRoute, private router: Router) {
                   this.route.queryParams.subscribe((params: any) => {
@@ -518,6 +519,14 @@ export class VerificationComponent implements OnInit {
             this.searchValue = null;
             this.partner = null
             this.getFormLoanData()
+      }
+
+      thirdPartyDataResponse = [];
+      onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
       }
 
       moveStageTo(type, id) {

@@ -84,6 +84,7 @@ export class UnderwritingComponent implements OnInit {
   moved_by = 'all';
   storedParams: any;
   date_sorter = ''
+  isVisibleThirdPartyResp: boolean;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -661,6 +662,14 @@ export class UnderwritingComponent implements OnInit {
       }
     });
   }
+
+  thirdPartyDataResponse = [];
+  onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
+      }
 
   resetFilters(type?) {
     if(this.storedParams){

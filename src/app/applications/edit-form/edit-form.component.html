@@ -132,11 +132,24 @@
                                     </nz-form-control>
                               </nz-form-item>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                               <nz-form-item>
-                                  <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                  <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Employee Code
                                   </nz-form-label>
-                                  <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Type">
+                                  <nz-form-control nzErrorTip="Please Add Valid Code">
+                                      <!-- <nz-select formControlName="employment_type_id" nzPlaceHolder="Enter EMP Code">
+                                          <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+                                          </nz-option>
+                                      </nz-select> -->
+                                      <input nz-input type="text" formControlName="emp_code" placeholder="EMP Code"/>
+                                  </nz-form-control>
+                              </nz-form-item>
+                          </div>
+                        <div class="col-md-6">
+                              <nz-form-item>
+                                  <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                  </nz-form-label>
+                                  <nz-form-control nzErrorTip="Please select Valid Type">
                                       <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
                                           <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
                                           </nz-option>

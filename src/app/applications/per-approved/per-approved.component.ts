@@ -77,6 +77,7 @@ export class PerApprovedComponent implements OnInit {
       moved_by = 'all';
       date_sorter = ''
       storedParams: any;
+      isVisibleThirdPartyResp: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if(params?.loan_id){
@@ -92,6 +93,15 @@ export class PerApprovedComponent implements OnInit {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
+      }
+
+
+      thirdPartyDataResponse = [];
+      onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
       }
 
       onClickFetchXML(action, id){
