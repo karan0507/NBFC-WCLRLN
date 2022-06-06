@@ -418,6 +418,8 @@
                   <thead>
                         <tr>
                               <th>#</th>
+                              <th>Amount</th>
+                              <th>Created At</th>
                               <th>Created At</th>
                               <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['view_bill_statement']">Actions</th>
                         </tr>
@@ -426,6 +428,8 @@
                         <tr *ngFor="let data of billStatementList?.list_data; index as i">
                               <td *ngIf="page4 === 1">{{i+1}}</td>
                               <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
+                              <td>{{ data?.credit_utilization_bill?.outstanding_amount ? data?.credit_utilization_bill?.outstanding_amount : '-' }}</td>
+                              <td>{{ data?.credit_utilization_bill?.bill_date | date: "medium" }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
                               <td nzRight *ngxPermissionsOnly="['view_bill_statement']">
                                     <a (click)="viewInvoice(data.report_file, 'Bill Statement')">view</a>
