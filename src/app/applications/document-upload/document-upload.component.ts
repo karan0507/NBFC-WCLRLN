@@ -76,6 +76,7 @@ export class DocumentUploadComponent implements OnInit {
       storedParams: any;
       moved_by = 'all';
       date_sorter = ''
+      isVisibleThirdPartyResp: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) { 
             this.route.queryParams.subscribe((params: any) => {
                   if(params?.loan_id){
@@ -481,6 +482,14 @@ export class DocumentUploadComponent implements OnInit {
             // this.generateBase64View(file)
             return false;
       };
+
+      thirdPartyDataResponse = [];
+      onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
+      }
 
       resetFilters() {
             if(this.storedParams){

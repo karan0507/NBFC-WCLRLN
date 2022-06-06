@@ -83,6 +83,7 @@ export class StageTriggersComponent implements OnInit {
       moved_by = 'all';
       storedParams: any;
       date_sorter = ''
+      isVisibleThirdPartyResp: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService,
             private route: ActivatedRoute, private router: Router) { 
                   this.route.queryParams.subscribe((params: any) => {
@@ -105,6 +106,14 @@ export class StageTriggersComponent implements OnInit {
                   interest: [null]
             })
             this.getFormLoanData();
+      }
+
+      thirdPartyDataResponse = [];
+      onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
       }
 
       sanatizeUrlToSafe(value) {

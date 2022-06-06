@@ -168,6 +168,15 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Edit Application</span>
                                                             </li>
+                                                            <!-- onClickAddRemarks -->
+                                                            <li nz-menu-item>
+                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> remarkVisible = true;-->
+                                                                  <span class="m-l-5" (click)="remarkVisible = true; isVisibleRemarks = true; selectedId = data?.id;onClickAddRemarks('view')">View Remarks</span>
+                                                            </li>
+                                                            <li nz-menu-item>
+                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                                  <span class="m-l-5" (click)="remarkVisible = true; isVisibleRemarks = false; selectedId = data?.id">Add Remarks</span>
+                                                            </li>
                                                             <!-- nz-popconfirm
                                                       nzPopconfirmTitle="Are you sure delete Employee?"
                                                       nzPopconfirmPlacement="topLeft"
@@ -535,3 +544,67 @@
       <button nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2"
       [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" (click)="handleOk()">Submit</button>
 </ng-template>
+
+<nz-modal
+  [(nzVisible)]="remarkVisible"
+  nzTitle="Add Remarks"
+  [nzFooter]="thirdPartyFooter"
+  (nzOnCancel)="remarkVisible = false" nzWidth="1000px"
+>
+  <ng-container *nzModalContent>
+          <div class="row" *ngIf="!isVisibleRemarks"> 
+            <div class="col-md-4">
+                  <nz-form-label nzRequired>Remarks</nz-form-label>
+            </div>
+              <div class="col-md-8">
+                    <nz-textarea-count [nzMaxCharacterCount]="100">
+                          <textarea rows="4" [(ngModel)]="addRemarks" nz-input></textarea>
+                    </nz-textarea-count>
+              </div>
+          </div>
+          <ng-container  *ngIf="isVisibleRemarks">
+            <nz-table [nzFrontPagination]="false" [nzLoading]="api_calling_loader['remarks']"
+            [nzShowSizeChanger]="false" [nzFrontPagination]="false" 
+            [nzShowSizeChanger]="false" [nzData]="remarksData">
+                <thead>
+                    <tr>
+                    <th rowspan="2" nzWidth="100px">#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th >Mobile</th>
+                    <th >Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let data of remarksData; index as i">
+                        <tr>
+                              <td> {{i + 1}}</td>
+                              <td> {{data?.added_by_name}}</td>
+                              <td> {{data?.added_by_email}}</td>
+                              <td> {{data?.added_by_mobile}}</td>
+                              <td> {{data?.remarks}}</td>
+                        </tr>
+                  </ng-container>
+                </tbody>
+          </nz-table>
+          </ng-container>
+  </ng-container>
+  <ng-template #thirdPartyFooter>
+    <button
+      nz-button
+      nzType="link"
+      class="border"
+      (click)="remarkVisible = false; isVisibleRemarks = false"
+    >
+      Cancel
+    </button>
+    <button *ngIf="!isVisibleRemarks;"
+      nz-button
+      nzType="primary"
+      class="border"
+      (click)="onClickAddRemarks()" [disabled]="!addRemarks" [nzLoading]="api_calling_loader['remarks']"
+    >
+      Ok
+    </button>
+  </ng-template>
+</nz-modal>

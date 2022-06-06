@@ -1117,6 +1117,119 @@
             </div>
       </ng-template>
       </div>
+      <div class="my-3">
+            <nz-page-header
+              class="site-page-header acc-bg-light"
+              [nzTitle]="thirdPartyResponse"
+            >
+            </nz-page-header>
+            <nz-card
+              class="mb-md-0 border"
+              [nzLoading]="
+                _currentId == data.id
+                  ? api_calling_loader['accordian']
+                  : null
+              "
+            >
+              <nz-table style="text-align-last: center;"
+                #colSpanTable
+                [nzFrontPagination]="false"
+                [nzShowSizeChanger]="false"
+                [nzData]="data?.expanddata?.kyc_documents"
+                nzBordered
+              >
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th
+                      *ngFor="
+                        let item of data?.expanddata?.kyc_documents
+                      "
+                    >
+                      {{ item?.document_master?.name }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-weight-semibold">API Response</td>
+                    <td
+                      *ngFor="
+                        let item of data?.expanddata?.kyc_documents
+                      "
+                    >
+                      <i
+                        *ngIf="item?.api_response"
+                        nz-icon
+                        nzType="check-circle"
+                        nzTheme="fill"
+                        class="text-success"
+                      ></i>
+                      <i
+                        *ngIf="!item?.api_response"
+                        nz-icon
+                        nzType="close-circle"
+                        nzTheme="fill"
+                        class="text-danger"
+                      ></i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Response came</td>
+                    <td
+                      *ngFor="
+                        let item of data?.expanddata?.kyc_documents
+                      "
+                    >
+                    <button
+                          *ngIf="!item?.api_response"
+                          nz-button
+                          nzType="link"
+                          class="border" [disabled]="!item?.api_response"
+                          (click)="onClickShowJSONPreview(item)">
+                          Preview
+                    </button>
+                    <button
+                          *ngIf="item?.api_response"
+                          nz-button
+                          nzType="link"
+                          class="border"
+                          (click)="onClickShowJSONPreview(item)">
+                          Preview
+                    </button>
+                      <!-- <i
+                        *ngIf="item?.api_response"
+                        nz-icon
+                        nzType="check-circle"
+                        nzTheme="fill"
+                        class="text-success"
+                      ></i>
+                      <i
+                        *ngIf="!item?.api_response"
+                        nz-icon
+                        nzType="close-circle"
+                        nzTheme="fill"
+                        class="text-danger"
+                      ></i> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-card>
+            <ng-template #thirdPartyResponse>
+              <div class="ml-md-2">
+                <h6 class="mb-0">
+                  <i
+                    nz-icon
+                    class="mr-2"
+                    nzType="file"
+                    nzTheme="outline"
+                  ></i>
+                  Third Party API response
+                </h6>
+              </div>
+            </ng-template>
+          </div>
       
                                           <!-- History -->
                                           <div class="my-3" *ngIf="_currentId == data.id">
@@ -1282,3 +1395,36 @@
             [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
             [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
 </ng-template>
+
+<nz-modal
+  [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'"
+  nzTitle="Fetched Third Party Response"
+  [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false"
+>
+  <ng-container *nzModalContent>
+    <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
+      <!-- <p>Content one</p>
+                  <p>Content two</p>
+                  <p>Content three</p> -->
+      <span *ngIf="thirdPartyDataResponse">
+        <ngx-json-viewer
+          [json]="thirdPartyDataResponse"
+          [expanded]="true"
+        ></ngx-json-viewer>
+      </span>
+      <span *ngIf="!thirdPartyDataResponse" style="font-weight: bolder">
+        No data Found
+      </span>
+    </nz-card>
+  </ng-container>
+  <ng-template #thirdPartyFooter>
+    <button
+      nz-button
+      nzType="link"
+      class="border"
+      (click)="isVisibleThirdPartyResp = false"
+    >
+      Cancel
+    </button>
+  </ng-template>
+</nz-modal>
