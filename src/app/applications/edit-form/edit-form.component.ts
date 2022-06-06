@@ -85,6 +85,7 @@ export class EditFormComponent implements OnInit {
             this.employementDetails = this.fb.group({
                   company_name: [null, [Validators.required]],
                   address: [null, []],
+                  emp_code:[null],
                   employment_type_id: [null, [Validators.required]]
             })
 
@@ -223,6 +224,12 @@ export class EditFormComponent implements OnInit {
                         } else {
                               this.isCorporate = false;
                         }
+                        if(res?.data?.emp_code){
+                              this.employementDetails.patchValue({
+                                    emp_code: res?.data?.emp_code
+                              })
+                        }
+                        // emp_code
                         if(res?.data?.employment_type_info){
                               this.employementDetails.patchValue({
                                     employment_type_id: res?.data?.employment_type_info.id
@@ -275,7 +282,10 @@ export class EditFormComponent implements OnInit {
                   // data.append('documents_list', JSON.stringify(this.documentsList))
                   // data.append('documents', this.filesArray)
             }
-
+            if(this.employementDetails.value.emp_code){
+                  data.append('emp_code', this.employementDetails.value.emp_code);
+            }
+            // emp_code
             data.append('employment_type_id',this.employementDetails.value.employment_type_id)
             // registered_corporate
             data.append('registered_corporate', 'true');

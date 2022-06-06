@@ -103,6 +103,7 @@ export class OfferAcceptanceComponent implements OnInit {
   };
       moved_by = 'all';
       date_sorter = ''
+      isVisibleThirdPartyResp: boolean;
   
 
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
@@ -539,6 +540,14 @@ export class OfferAcceptanceComponent implements OnInit {
                         this.blackBoxData = res?.data
                   }
             })
+      }
+
+      thirdPartyDataResponse = [];
+      onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
       }
 
       resetFilters() {

@@ -34,7 +34,8 @@ export class FormFillingComponent implements OnInit {
       api_calling_loader = {
             'listLoader': false,
             'accordian': false,
-            'button': false
+            'button': false,
+            'remarks': false,
       };
       storedParams: any
       productList: any = []
@@ -64,6 +65,10 @@ export class FormFillingComponent implements OnInit {
       _isUpdateStatus: boolean = false;
       statusList: any;
       remarksDescription: any
+      remarkVisible: boolean;
+      selectedId: any;
+      isVisibleRemarks: boolean;
+      remarksData: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) { 
             this.route.queryParams.subscribe((params: any) => {
                   if(params?.loan_id){
@@ -88,6 +93,50 @@ export class FormFillingComponent implements OnInit {
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
       }
+
+      addRemarks: string;
+      onClickAddRemarks(action){
+            if(action =='view'){
+                  this.api_calling_loader['remarks'] = true;
+                  // this.isVisibleRemarks = true
+                  // source=Onboarding&datapoint=get-application-remarks&endpoint=18565
+                  let data = {
+                        source : "Onboarding",
+                        datapoint : "get-application-remarks",
+                        endpoint : this.selectedId,
+            }      
+            this.https.fetchXMLData(data).subscribe((res: any)=>{
+                  console.log(res);
+                  if(res?.success){
+                        this.api_calling_loader['remarks'] = false;
+                        this.remarksData = res?.data?.results
+                  }
+            }, error=>{
+                  this.api_calling_loader['remarks'] = false;
+            })
+            } else {
+            this.api_calling_loader['remarks'] = true;
+            let data = {
+                        source : "Onboarding",
+                        datapoint : "add-application-remarks",
+                        application_id : this.selectedId,
+                        remarks : this.addRemarks
+            }
+            this.https.generateOfferForCorrespondingApplication(data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.addRemarks = null;
+                        this.message.success(res?.message);
+                        this.api_calling_loader['remarks'] = false;
+                        this.remarkVisible = false;
+                  } else {
+                        this.api_calling_loader['remarks'] = false;
+                        this.message.success(res?.message);
+                        this.remarkVisible = false;
+                  }
+            })
+      }
+      }
+
 
       onFocusMethod(type) {
             if (type == 'product') {

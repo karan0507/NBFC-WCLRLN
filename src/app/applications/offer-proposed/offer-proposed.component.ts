@@ -87,6 +87,7 @@ export class OfferProposedComponent implements OnInit {
   remarksDescription: any;
   moved_by = 'all';
   storedParams: any;
+  isVisibleThirdPartyResp: boolean;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -649,6 +650,14 @@ export class OfferProposedComponent implements OnInit {
     this.partner = null;
     this.getFormLoanData();
   }
+
+  thirdPartyDataResponse = [];
+  onClickShowJSONPreview(res){
+            this.isVisibleThirdPartyResp = true
+            this.api_calling_loader['xmlLoader'] = true;
+            this.thirdPartyDataResponse = res
+            this.api_calling_loader['xmlLoader'] = false;
+      }
 
   viewAgreement(data) {
     this._isUpdateStatus = true;
