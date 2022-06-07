@@ -337,6 +337,34 @@ export const ROUTES: SideNavInterface[] = [
         ]
     },
     {
+        path: '/accounting',
+        title: 'Accounting',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'file',
+        submenu: [
+            {
+                path: 'accounting/gst-invoices',
+                title: 'GST invoice',
+                permission: [''],
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: 'accounting/escrow-statement',
+                title: 'Escrow Statement',
+                permission: [''],
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+        ]
+    },
+    {
         path: '/black-box',
         title: 'Black box testing',
         iconType: 'nzIcon',

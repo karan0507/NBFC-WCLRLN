@@ -97,4 +97,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'version',
         loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
     },
+    {
+        path: 'accounting',
+        loadChildren: () => import('../../accounting/accounting.module').then(m => m.AccountingModule),
+    },
 ];

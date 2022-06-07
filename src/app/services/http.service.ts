@@ -11,11 +11,11 @@ export class HttpService {
       //dev admin 
       // url = 'https://devadminapi.fatakpay.com'
 
-      // dev productiongit
+      // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -117,6 +117,20 @@ export class HttpService {
        */
       public fetchProductList(data?) {
             return this._http.get((this.url + `/product/v1/product`), { params: data });
+      }
+
+      /**
+       * fetchEscrowStatementList
+       */
+       public fetchEscrowStatementList(data?) {
+            return this._http.get((this.url + `/nbfc/v1/account-fetch-escrow-transactions`), { params: data });
+      }
+
+      /**
+       * fetchGSTInvoiceList
+       */
+       public fetchGSTInvoiceList(data?) {
+            return this._http.get((this.url + `/nbfc/v1/account-fetch-gst-list`), { params: data });
       }
 
       /**
