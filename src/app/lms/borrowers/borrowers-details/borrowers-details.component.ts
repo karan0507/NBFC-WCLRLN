@@ -377,14 +377,14 @@ export class BorrowersDetailsComponent implements OnInit {
     this.searchValue1 = ''
     this.selectedType1 = ''
     this.selectedStatus1 = ''
-    this.date1 = ''
+    this.date2 = ''
     this.fetchTransactionFessList();
   }
   resetFilter2() {
     this.searchValue2 = ''
     this.selectedType2 = ''
     this.selectedStatus2 = ''
-    this.date2 = ''
+    this.date1 = ''
     this.fetchTransactionTxnList();
   }
   fetchBorrowerDelete() {
