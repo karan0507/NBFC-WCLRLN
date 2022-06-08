@@ -134,7 +134,7 @@
                                 <ng-container *ngxPermissionsOnly="['approve_change_credit_line']">
                                     <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, false)">Approve </a>
                                 </ng-container>
-                                <ng-container *ngxPermissionsOnly="['reject_change_credit_line']">
+                                <ng-container *ngxPermissionsOnly="['rejected_change_credit_line']">
                                     <a *ngIf="selectedTab == 'pending'" (click)="clickOnReject(data.id)">Reject </a>
                                 </ng-container>
                             </td>

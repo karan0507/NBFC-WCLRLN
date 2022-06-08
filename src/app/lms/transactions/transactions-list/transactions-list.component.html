@@ -120,7 +120,7 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
+                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_details_transaction']">
                                             <span class="m-l-5">View details</span>
                                         </li>
                                         <ng-container *ngIf="data?.txn_type == 'Fees Charge'">

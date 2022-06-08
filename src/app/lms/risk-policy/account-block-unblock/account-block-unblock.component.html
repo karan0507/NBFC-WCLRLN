@@ -65,7 +65,7 @@
                         <th>Fees/Charges</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
-                        <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['toggle_borrowers']">Action</th>
+                        <th nzWidth="5rem" nzRight>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@
                         <td>{{data.fees_or_charges_amount}}</td>
                         <td>{{data?.is_blocked ? 'Block' : 'Active'}}</td>
                         <td>{{data?.account_status}}</td>
-                        <td nzRight *ngxPermissionsOnly="['toggle_borrowers']">
+                        <td nzRight>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
@@ -94,30 +94,54 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Active'" (click)="applications = data?.id; isUnblock = 'Active'; statusTitle = 'Do you want to Active account?'">
+                                        <ng-container *ngxPermissionsOnly="['active_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Active'" (click)="applications = data?.id; isUnblock = 'Active'; statusTitle = 'Do you want to Active account?'">
                                             <span class="m-l-5">Active A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Dormant'" (click)="applications = data?.id; isUnblock = 'Dormant'; statusTitle = 'Do you want to Dormant account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['dormant_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Dormant'" (click)="applications = data?.id; isUnblock = 'Dormant'; statusTitle = 'Do you want to Dormant account?'">
                                             <span class="m-l-5">Dormant A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Delinquent'" (click)="applications = data?.id; isUnblock = 'Delinquent'; statusTitle = 'Do you want to Delinquent account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['dormant_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Delinquent'" (click)="applications = data?.id; isUnblock = 'Delinquent'; statusTitle = 'Do you want to Delinquent account?'">
                                             <span class="m-l-5">Delinquent A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Write Off'" (click)="applications = data?.id; isUnblock = 'Write Off'; statusTitle = 'Do you want to Write Off account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['write off _a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Write Off'" (click)="applications = data?.id; isUnblock = 'Write Off'; statusTitle = 'Do you want to Write Off account?'">
                                             <span class="m-l-5">Write Off A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Involuntary Closure'" (click)="applications = data?.id; isUnblock = 'Involuntary Closure'; statusTitle = 'Do you want to Involuntary Closure account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['involuntary closure_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Involuntary Closure'" (click)="applications = data?.id; isUnblock = 'Involuntary Closure'; statusTitle = 'Do you want to Involuntary Closure account?'">
                                             <span class="m-l-5">Involuntary Closure A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Voluntary Closure Restructuring'" (click)="applications = data?.id; isUnblock = 'Voluntary Closure Restructuring'; statusTitle = 'Do you want to Voluntary Closure Restructuring account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['voluntary closure restructuring_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Voluntary Closure Restructuring'" (click)="applications = data?.id; isUnblock = 'Voluntary Closure Restructuring'; statusTitle = 'Do you want to Voluntary Closure Restructuring account?'">
                                             <span class="m-l-5">Voluntary Closure Restructuring A/c</span>
                                         </li>
-                                        <li nz-menu-item *ngIf="data?.account_status != 'Offer Acceptance'" (click)="applications = data?.id; isUnblock = 'Offer Acceptance'; statusTitle = 'Do you want to Offer Acceptance account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['offer acceptance_a/c']">
+                                            <li nz-menu-item *ngIf="data?.account_status != 'Offer Acceptance'" (click)="applications = data?.id; isUnblock = 'Offer Acceptance'; statusTitle = 'Do you want to Offer Acceptance account?'">
                                             <span class="m-l-5">Offer Acceptance A/c</span>
                                         </li>
-                                        <li nz-menu-item (click)="data?.account_status != 'Rejected'" (click)="applications = data?.id; isUnblock = 'Rejected'; statusTitle = 'Do you want to Rejected account?'">
+                                        </ng-container>
+                                        
+                                        <ng-container *ngxPermissionsOnly="['rejected_a/c']">
+                                            <li nz-menu-item (click)="data?.account_status != 'Rejected'" (click)="applications = data?.id; isUnblock = 'Rejected'; statusTitle = 'Do you want to Rejected account?'">
                                             <span class="m-l-5">Rejected A/c</span>
                                         </li>
+                                        </ng-container>
+                                        
                                     </ul>
                                 </nz-dropdown-menu>
                         </td>

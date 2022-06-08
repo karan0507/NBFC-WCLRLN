@@ -23,7 +23,7 @@
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-container *ngxPermissionsOnly="['upload_athorization_policy']" >
+                    <nz-container *ngxPermissionsOnly="['upload_file_authorization_policy']" >
                         <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload"
                         class="d-flex align-items-center mx-4" nzSize="large">
                         {{uploaded_file ? 'Re Upload'  : 'Upload File' }}
@@ -59,19 +59,19 @@
                             </a>
                             <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <ng-container *ngxPermissionsOnly="['upi_id_edit_athorization_policy']">
+                                    <ng-container *ngxPermissionsOnly="['edit_upi_id_authorization_policy']">
                                         <li nz-menu-item (click)="changeDetail(data)">
                                         <span class="m-l-5">Edit</span>
                                     </li>
                                     </ng-container>
                                     
-                                    <ng-container *ngxPermissionsOnly="['upi_id_active_athorization_policy']">
+                                    <ng-container *ngxPermissionsOnly="['toggle_upi_id_authorization_policy']">
                                         <li nz-menu-item *ngIf="data?.status == 'Blocked'">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
                                     </li>
                                     </ng-container>
                                     
-                                    <ng-container *ngxPermissionsOnly="['upi_id_inactive_athorization_policy']">
+                                    <ng-container *ngxPermissionsOnly="['toggle_upi_id_authorization_policy']">
                                         <li nz-menu-item *ngIf="data?.status == 'Active'">
                                         <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
                                     </li>

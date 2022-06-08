@@ -17,14 +17,14 @@
         <div class="col-5">
             {{data?.rule_text}}
         </div>
-        <div class="col-5 text-right">
+        <div class="col-5 text-right" *ngxPermissionsOnly="['authorization_rules_edit_authorization_policy']">
             {{data?.value}}
             <a class="text-dark font-size-20 mx-3" nz-dropdown [nzClickHide]="false"
             [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
             [nzDropdownMenu]="latestUploadDropDown">
             <img src="assets/images/ellipsis.png" alt="" width="30">
         </a>
-        <!-- *ngxPermissionsOnly="['authorization_rules_edit_athorization_policy']" -->
+        <!-- -->
         <nz-container>
             <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                 <ul nz-menu >

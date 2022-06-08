@@ -1,7 +1,7 @@
 <!-- Cards Section -->
 <section>
       <div class="row">
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <ng-template #nbfc>
                         <img class="mr-2" src="../../../assets/images/Icons/LMS_Money_Bag.svg" alt="">
                         Total NBFC’s Commitment
@@ -20,7 +20,7 @@
                   <img class="mr-2" src="../../../assets/images/Icons/Rupee.svg" alt="">
                   Fund Transferred in Escrow
             </ng-template>
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="fundTransfer" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Fund Transferred in Escrow</label></div> -->
@@ -35,7 +35,7 @@
                   <img class="mr-2" src="../../../assets/images/Icons/Bag_No_Money.svg" alt="">
                   Total Fund in Escrow
             </ng-template>
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="escrowFund" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total Fund in Escrow</label></div> -->
@@ -50,7 +50,7 @@
                   <img class="mr-2" src="../../../assets/images/Icons/Rupee_round.svg" alt="">
                   Total Credit Line
             </ng-template>
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditLine" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total Credit Line</label></div> -->
@@ -65,7 +65,7 @@
                   <img class="mr-2" src="../../../assets/images/Icons/Coins.svg" alt="">
                   Total Credit Line Balance
             </ng-template>
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditBalance" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total Credit Line Balance</label></div> -->
@@ -80,7 +80,7 @@
                   <img class="mr-2" src="../../../assets/images/Icons/Coin_rupee.svg" alt="">
                   Total Credit Utilisation
             </ng-template>
-            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrixs']">
+            <div class="col-md-4 mb-3" *ngxPermissionsOnly="['view_matrices']">
                   <nz-card [nzLoading]="api_calling_loader['cardList']" [nzTitle]="creditUtilization" class="h-100">
                         <div class="d-flex flex-column">
                               <!-- <div> <label class="text-muted">Total Credit Utilisation</label></div> -->
@@ -138,7 +138,7 @@
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                           <ul nz-menu>
                                                 <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                <li nz-menu-item (click)="modalOpen('edit',data)" *ngxPermissionsOnly="['edit_totel_commitment']">
+                                                <li nz-menu-item (click)="modalOpen('edit',data)" *ngxPermissionsOnly="['edit_total_commitment']">
                                                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                       <span class="m-l-5">Edit Total Commitment</span>
                                                 </li>
