@@ -109,7 +109,7 @@
           >
             <div
               class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; bottom: -21px; top: -61px;"
+              style="width: 250px; height: 250px; position: absolute; bottom: -21px; top:-25px;"
             >
               <div class="w-100 text-center title">
                 Total App Downloads
@@ -145,7 +145,7 @@
           >
             <div
               class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; margin-top: -20px;"
+              style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
             >
               <b class="w-100 text-center no-data-title" style="color: black"
                 >No Data To Show</b
@@ -199,6 +199,218 @@
       <ng-template #acquisition>
         <i nz-icon nzType="user" nzTheme="outline"></i>
         Acquisition
+      </ng-template>
+    </div>
+    <div class="col-md-6 mb-md-3">
+      <nz-card
+        [nzTitle]="mandate"
+        [nzLoading]="isLoading['mandate']"
+        [nzExtra]="mandateTemplate"
+        class="h-100"
+      >
+        <div class="row">
+          <div class="col-md-5">
+            <div class="d-flex mb-md-2">
+              <div class="media align-items-center">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="cyan"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="m-l-5">
+                  <p class="m-b-0 muted">Mandate through Aadhar</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["mandate"]
+                        ?.aadhar_mandate
+                        ? fetchedList["mandate"]
+                            ?.aadhar_mandate
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex mb-md-2">
+              <div class="media align-items-center">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="purple"
+                  class="h-100 dashboard-badge"
+                >
+                </nz-badge>
+                <div class="m-l-5">
+                  <p class="m-b-0 muted">Mandate through DebitCard</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["mandate"]
+                        ?.debitcard_mandate
+                        ? fetchedList["mandate"]
+                            ?.debitcard_mandate
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex mb-md-2">
+              <div class="media align-items-center">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="gold"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="m-l-5">
+                  <p class="m-b-0 muted">Mandate through NetBanking</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["mandate"]
+                        ?.netbanking_mandate
+                        ? fetchedList["mandate"]
+                            ?.netbanking_mandate
+                        : 0
+                    }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex mb-md-2">
+              <div class="media align-items-center">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="pink"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="m-l-5">
+                  <p class="m-b-0 muted">Total Mandate Done</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["mandate"]?.total_mandate_done
+                        ? fetchedList["mandate"]?.total_mandate_done
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex mb-md-2">
+              <div class="media align-items-center">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="pink"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="m-l-5">
+                  <p class="m-b-0 muted">UPI Mandate Done</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["mandate"]?.upi_mandate
+                        ? fetchedList["mandate"]?.upi_mandate
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-7 d-flex justify-content-center"
+            *ngIf="
+              fetchedList['mandate']?.aadhar_mandate ||
+              fetchedList['mandate']?.debitcard_mandate ||
+              fetchedList['mandate']?.netbanking_mandate ||
+              fetchedList['mandate']?.total_mandate_done ||
+              fetchedList['mandate']?.upi_mandate
+            "
+          >
+            <div
+              class="text-center chart-container"
+              style="width: 250px; height: 250px; position: absolute; bottom: -21px; top: -25px;"
+            >
+              <div class="w-100 text-center title">
+                Mandate Counts
+              </div>
+              <br />
+              <b class="w-100 text-center title"
+                >{{fetchedList["acquisition"]?.app_downloads}}</b
+              >
+              <canvas
+                ngChartjs
+                [data]="mandateChartData"
+                [labels]="mandateChartLabels"
+                [chartType]="customersChartType"
+                [colors]="mandateChartColors"
+                [options]="customersChartOptions"
+                [legend]="false"
+              >
+              </canvas>
+            </div>
+          </div>
+          <div
+            class="col-md-7  d-flex justify-content-center"
+            *ngIf="
+            !fetchedList['mandate']?.aadhar_mandate &&
+            !fetchedList['mandate']?.debitcard_mandate &&
+            !fetchedList['mandate']?.netbanking_mandate &&
+            !fetchedList['mandate']?.total_mandate_done &&
+            !fetchedList['mandate']?.upi_mandate"
+          >
+            <div
+              class="text-center chart-container"
+              style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
+            >
+              <b class="w-100 text-center no-data-title" style="color: black"
+                >No Data To Show</b
+              >
+              <canvas
+                ngChartjs
+                [data]="dummyData"
+                [labels]="dummyDataLabels"
+                [chartType]="customersChartType"
+                [colors]="dummyDataColors"
+                [options]="customersChartOptions"
+                [legend]="false"
+              >
+              </canvas>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-md-4 ant-card-head px-0 py-3">
+          <div class="col-md-3">
+            <p class="m-b-0 muted">Line Assigned</p>
+            <h5 class="m-b-0">
+              {{
+                fetchedList["acquisition"]?.line_assigned
+                  ? "₹ " + fetchedList["acquisition"]?.line_assigned
+                  : " 0 "
+              }}
+            </h5>
+          </div>
+          <div class="col-md-3">
+            <p class="m-b-0 muted">Approval rate</p>
+            <h5 class="m-b-0">
+              {{
+                fetchedList["acquisition"]?.approval_rate
+                  ? fetchedList["acquisition"]?.approval_rate + "%"
+                  : " 0 "
+              }}
+            </h5>
+          </div>
+          <div class="col-md-6">
+            <p class="m-b-0 muted">Average Line assigned</p>
+            <h5 class="m-b-0">
+              {{
+                fetchedList["acquisition"]?.average_line_assigned
+                  ? "₹ " + fetchedList["acquisition"]?.average_line_assigned
+                  : " 0 "
+              }}
+            </h5>
+          </div>
+        </div>
+      </nz-card>
+      <ng-template #mandate>
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        Mandate
       </ng-template>
     </div>
     <div class="col-md-6 mb-md-3">
@@ -575,8 +787,7 @@
 <ng-template #nbfcTemplate>
   <nz-radio-group
     (ngModelChange)="onChangeTab($event, 'nbfc')"
-    [(ngModel)]="selectedTab['nbfc']"
-  >
+    [(ngModel)]="selectedTab['nbfc']">
     <label nz-radio-button nzValue="Today">Today</label>
     <label nz-radio-button nzValue="This Month">This Month</label>
     <label nz-radio-button nzValue="Overall">Overall</label>
@@ -596,6 +807,16 @@
   <nz-radio-group
     (ngModelChange)="onChangeTab($event, 'acquisition')"
     [(ngModel)]="selectedTab['acquisition']"
+  >
+    <label nz-radio-button nzValue="today">Today</label>
+    <label nz-radio-button nzValue="this month">This Month</label>
+    <label nz-radio-button nzValue="overall">Overall</label>
+  </nz-radio-group>
+</ng-template>
+<ng-template #mandateTemplate>
+  <nz-radio-group
+    (ngModelChange)="onChangeTab($event, 'mandate')"
+    [(ngModel)]="selectedTab['mandate']"
   >
     <label nz-radio-button nzValue="today">Today</label>
     <label nz-radio-button nzValue="this month">This Month</label>

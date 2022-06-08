@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
     customersChartData: number[] = [350, 450, 100, 243];
+    mandateChartData: number[] = [350, 450, 100, 243];
     dummyData: number[] = [1];
     dummyDataLabels: string[] = ['No Data To Show'];
     dummyDataColors: Array<any> =  [{ 
@@ -31,10 +32,15 @@ export class DashboardComponent implements OnInit {
         pointBackgroundColor : [this.gray]
     }];
     customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
+    mandateChartLabels: string[] = ['Aadhar Mandate', 'Debit Card Mandate', 'Net Banking Mandate', 'Total Mandate Done', 'Upi Mandate'];
     customersChartType = 'doughnut';
     customersChartColors: Array<any> =  [{ 
         backgroundColor: [this.cyan, this.purple, this.gold, this.pink],
         pointBackgroundColor : [this.cyan, this.purple, this.gold, this.pink]
+    }];
+    mandateChartColors: Array<any> =  [{ 
+        backgroundColor: [this.cyan, this.purple, this.gold, this.pink, this.blue],
+        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.pink, this.blue]
     }];
     customersChartOptions: any = {
         cutoutPercentage: 75,
@@ -182,6 +188,7 @@ export class DashboardComponent implements OnInit {
         'authorization': 'Today',
         'existing': 'today',
         'acquisition': 'today',
+        'mandate': 'today',
     } 
     fetchedList ={
         'delinquent': '',
@@ -189,6 +196,7 @@ export class DashboardComponent implements OnInit {
         'authorization': null,
         'acquisition': null,
         'existing': null,
+        'mandate': null
     } 
     isLoading ={
         'delinquent': false,
@@ -196,6 +204,7 @@ export class DashboardComponent implements OnInit {
         'authorization': false,
         'acquisition': false,
         'existing': false,
+        'mandate': false
     } 
     thirty_day_user_activity: any;
     avgProfitChartDataCustomArray: any;
@@ -206,6 +215,16 @@ export class DashboardComponent implements OnInit {
     if (!localStorage.getItem('fatakpay_user_data')) {
             return;
     }
+    // let data = {
+    //     // 'datapoint': 'dashboard_acquisition',
+    //     // 'source': 'LMS',
+    //         // 'time_filter': 'overall'
+    //     'time_filter': this.selectedTab['mandate']
+    // }
+    // this.http.getDetailForDashboardMandate(data).subscribe((res?: any)=> {
+    //     console.log(res)
+    // })
+    this.getMandateData();
     this.getAuthorizationList();
     this.getNBFCList();    
     this.getDelinquentList();   
@@ -244,6 +263,9 @@ export class DashboardComponent implements OnInit {
         } else if (action == 'acquisition'){
             this.selectedTab['acquisition'] = e;
             this.getAcquisitionList();
+        } else if (action == 'mandate'){
+            this.selectedTab['mandate'] = e;
+            this.getMandateData();
         } 
         // 'acquisition': false,
         // 'existing': false,
@@ -281,6 +303,34 @@ export class DashboardComponent implements OnInit {
             this.isLoading['existing'] = false;
         }, err => {
             this.isLoading['existing'] = false;
+        })
+    }
+
+    getMandateData(){
+        // let data = {
+        //     'time_filter': 'overall'
+        // }
+        // this.http.getDetailForDashboardMandate(data).subscribe((res:any)=>{
+        //     console.log(res);
+        // })
+        this.isLoading['mandate'] = true;
+        let data = {
+            // 'datapoint': 'dashboard_acquisition',
+            // 'source': 'LMS',
+                // 'time_filter': 'overall'
+            'time_filter': this.selectedTab['mandate']
+        }
+        this.http.getDetailForDashboardMandate(data).subscribe((res?: any)=> {
+            this.fetchedList['mandate'] = res?.data
+            this.mandateChartData = []
+            this.mandateChartData.push(res?.data?.aadhar_mandate ? res?.data?.aadhar_mandate : 0)
+            this.mandateChartData.push(res?.data?.debitcard_mandate ? res?.data?.debitcard_mandate   : 0 )
+            this.mandateChartData.push(res?.data?.netbanking_mandate ? res?.data?.netbanking_mandate : 0 )
+            this.mandateChartData.push(res?.data?.total_mandate_done ? res?.data?.total_mandate_done : 0)
+            this.mandateChartData.push(res?.data?.upi_mandate ? res?.data?.upi_mandate : 0)
+            this.isLoading['mandate'] = false;
+        }, err => {
+            this.isLoading['mandate'] = false;
         })
     }
 
@@ -359,12 +409,14 @@ export class DashboardComponent implements OnInit {
             'authorization': 'Today',
             'existing': 'today',
             'acquisition': 'today',
+            'mandate': 'today'
         } 
         this.getDelinquentList();
         this.getNBFCList();
         this.getAuthorizationList();
         this.getExistingList();
         this.getAcquisitionList();
+        this.getMandateData();
         
     }
 }

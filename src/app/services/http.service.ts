@@ -13,9 +13,9 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -975,6 +975,12 @@ export class HttpService {
       getDetailForDashboardAPI(data) {
             return this._http.get(this.url + `/central-api/v1/call-api`, { params: data });
       }
+      
+      getDetailForDashboardMandate(data) {
+            return this._http.get(this.url + `/platform_central/v1/admin-dashboard/get-mandate-stats`, { params: data });
+      }
+
+      // /platform_central/v1/admin-dashboard/get-mandate-stats
 
       getDetailForDashboardAPIExistingAndAcquisition(action, data) {
             return this._http.get(this.url + `/loan-services/v1/dashboard/get-${action}`, { params: data });
