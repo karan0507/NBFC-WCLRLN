@@ -547,7 +547,7 @@
 
 <nz-modal
   [(nzVisible)]="remarkVisible"
-  nzTitle="Add Remarks"
+  [nzTitle]="isVisibleRemarks ? 'View Remarks' : 'Add Remarks'"
   [nzFooter]="thirdPartyFooter"
   (nzOnCancel)="remarkVisible = false" nzWidth="1000px"
 >
@@ -572,6 +572,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th >Mobile</th>
+                    <th>Date</th>
                     <th >Remarks</th>
                     </tr>
                 </thead>
@@ -582,6 +583,7 @@
                               <td> {{data?.added_by_name}}</td>
                               <td> {{data?.added_by_email}}</td>
                               <td> {{data?.added_by_mobile}}</td>
+                              <td> {{data?.created_at ? (data?.created_at | date:'medium'): ''}}</td>
                               <td> {{data?.remarks}}</td>
                         </tr>
                   </ng-container>

@@ -166,7 +166,7 @@
                                         <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit</span>
                                         </li> 
-                                        <ng-container *ngxPermissionsOnly="['activate_product']">
+                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
                                             <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="activeInactiveProduct(data.id)">
@@ -174,7 +174,7 @@
                                         </li> 
                                         </ng-container>
                                         
-                                        <ng-container *ngxPermissionsOnly="['deactivate_product']">
+                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
                                             <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
                                         nzPopconfirmPlacement="topLeft"
                                         (nzOnConfirm)="activeInactiveProduct(data.id)">
