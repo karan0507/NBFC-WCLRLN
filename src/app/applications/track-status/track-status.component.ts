@@ -10,6 +10,11 @@ import { HttpService } from 'src/app/services/http.service';
 export class TrackStatusComponent implements OnInit {
       loanStatusData: any;
       currentLoanId: any;
+      loanStatusTrackData: any;
+      page = 1;
+      globalPageSize = 30
+      total_count: any;
+      api_calling_loader: boolean;
       constructor(public https: HttpService, public route: ActivatedRoute) { }
 
       ngOnInit(): void {
@@ -17,6 +22,7 @@ export class TrackStatusComponent implements OnInit {
                   if (params['id']) {
                         this.currentLoanId = params['id'];
                         this.getLoanApplicationData();
+                        this.getLoanApplicationTrackData();
                   }
             })
 
@@ -28,6 +34,28 @@ export class TrackStatusComponent implements OnInit {
                   if (res?.success) {
                         console.log(res);
                         this.loanStatusData = res?.data;
+                  }
+            })
+      }
+
+      getLoanApplicationTrackData(tableFilter?) {
+            this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+            let data = { 
+                  source: 'Onboarding',
+                  datapoint : 'loan_application',
+                  endpoint : 'LoanApplicationStageRemarks',
+                  loan_application : this.currentLoanId,
+                  page: this.page,
+                  limit: this.globalPageSize,
+            }
+            this.api_calling_loader = true
+            this.https.trackApplicationStatus(data).subscribe((res: any) => {
+                  this.api_calling_loader = false
+                  if (res?.success) {
+                        console.log(res);
+                        this.loanStatusTrackData = res?.data?.results;
+                        this.total_count = res.data['total_count']
                   }
             })
       }

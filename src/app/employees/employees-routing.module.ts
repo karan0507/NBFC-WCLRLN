@@ -15,7 +15,7 @@ const routes: Routes = [
       parent: 'Employee',
       custom_url: 'employees',
       permissions: {
-        only: 'view_employees',
+        only: 'view_employee',
         redirectTo: 'authentication/error-2'
       }
     }
@@ -28,7 +28,7 @@ const routes: Routes = [
       custom_url: 'employees',
       canActivate: [NgxPermissionsGuard],
       permissions: {
-        only: 'view_employees',
+        only: 'view_employee',
         redirectTo: 'authentication/error-2'
       }
     },
@@ -42,7 +42,7 @@ const routes: Routes = [
           parent: 'Employee',
           custom_url: 'employees/create-employee',
           permissions: {
-            only: 'add_employees',
+            only: 'add_employee',
             redirectTo: 'authentication/error-2'
           }
         }
@@ -56,7 +56,7 @@ const routes: Routes = [
           parent: 'Employee',
           custom_url: 'employees/edit-employee',
           permissions: {
-            only: 'edit_employees',
+            only: 'edit_employee',
             redirectTo: 'authentication/error-2'
           }
         }

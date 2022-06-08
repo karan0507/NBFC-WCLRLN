@@ -39,15 +39,13 @@
 </section> -->
 
 
-<nz-page-header class="site-page-header bg-gray-lightest mb-3" [nzTitle]="title">
-</nz-page-header>
 <ng-template #title>
-      <span class="font-weight-normal">User Status Track</span>
+      <span class="font-weight-normal">Stage Track</span>
 </ng-template>
 <section>
-      <nz-card>
+      <nz-card [nzTitle]="title">
             <div class="row">
-                  <div class="col-md-12" *ngIf="!loanStatusData">No Status Update</div>
+                  <div class="col-md-12" *ngIf="!loanStatusData">No Stage Update</div>
                   <div class="col-md-12 d-flex flex-wrap" *ngIf="loanStatusData">
                         <div class="col-md-6">
                               <div class="d-flex flex-column">
@@ -90,6 +88,40 @@
                               </div>
                         </div>
                   </div>
+            </div>
+      </nz-card>
+</section>
+<ng-template #title1>
+      <span class="font-weight-normal">Status Track</span>
+</ng-template>
+<section>
+      <nz-card [nzTitle]="title1">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="loanStatusTrackData" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" (nzQueryParams)="loanStatusTrackData ? getLoanApplicationTrackData($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Stage</th>
+                        <th>Previous stage</th>
+                        <th>Moved by</th>
+                        <th>Moved on</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of loanStatusTrackData; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['stage'] ? data['stage']: '-' }}</td>
+                        <td>{{ data['previous_stage'] ? data['previous_stage']: '-' }}</td>
+                        <td>{{ data['moved_by_name'] ? data['moved_by_name']: '-' }}</td>
+                        <td>{{ data['created_at'] ? (data['created_at'] | date : 'medium'): '-' }}</td>
+                        <td>{{ data['remarks'] ? data['remarks']: '-' }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
             </div>
       </nz-card>
 </section>

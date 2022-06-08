@@ -175,6 +175,9 @@
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5"> Download Cibil File</span>
                                                             </li>
+                                                            <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                                                              <span class="m-l-5">Track Status</span>
+                                                            </li>
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>

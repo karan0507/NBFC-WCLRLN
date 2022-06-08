@@ -99,17 +99,17 @@
                                             <span class="m-l-5">Edit</span>
                                         </li>
                                         <ng-container *ngIf="!data.is_deleted">
-                                        <li nz-menu-item (click)="deleteUserByUserId(data?.id, false)" *ngxPermissionsOnly="['active_lender']">
+                                        <li nz-menu-item (click)="deleteUserByUserId(data?.id, false)" *ngxPermissionsOnly="['toggle_lender']">
                                             <span class="m-l-5">Inactive</span>
                                         </li>
                                         </ng-container>
                                         <ng-container *ngIf="data.is_deleted">
-                                        <li nz-menu-item *ngxPermissionsOnly="['inactive_lender']" (click)="deleteUserByUserId(data?.id, true)">
+                                        <li nz-menu-item *ngxPermissionsOnly="['toggle_lender']" (click)="deleteUserByUserId(data?.id, true)">
                                             <span class="m-l-5">Active</span>
                                         </li>
                                         </ng-container>
                                         <!-- <ng-container *ngxPermissionsOnly="['upload_aggreement']"> -->
-                                            <li *ngxPermissionsOnly="['show_agreement']" nz-menu-item (click)="storeSelectedId(data?.id)">
+                                            <li *ngxPermissionsOnly="['upload_agreement_lender']" nz-menu-item (click)="storeSelectedId(data?.id)">
                                                 <nz-upload style="cursor: pointer;" [nzMultiple]="false"
                                                     [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
                                                     class="d-flex pl-1 align-items-left" nzSize="large">
@@ -117,7 +117,7 @@
                                                 </nz-upload>
                                             </li>
                                         <!-- </ng-container> -->
-                                        <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_agreement']">
+                                        <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_agreement_lender']">
                                             <span class="m-l-5">Show Agreement</span>
                                         </li>
                                 
@@ -236,7 +236,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-4 align-self-center text-right" *ngxPermissionsOnly="['change_password_lender','show_password_lender']">
+                                                    <div class="col-4 align-self-center text-right" *ngxPermissionsOnly="['reset_password_lender','show_password_lender']">
                                                         <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                                 [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                                 [nzDropdownMenu]="showPassword">
@@ -244,7 +244,7 @@
                                                         </a>
                                                             <nz-dropdown-menu #showPassword="nzDropdownMenu">
                                                                 <ul nz-menu>
-                                                                    <li *ngxPermissionsOnly="['change_password_lender']"  nz-menu-item (click)="onClickGetPassword('reset', item)">
+                                                                    <li *ngxPermissionsOnly="['reset_password_lender']"  nz-menu-item (click)="onClickGetPassword('reset', item)">
                                                                         <span class="m-l-5">Reset Password</span>
                                                                     </li>
                                                                     <li *ngxPermissionsOnly="['show_password_lender']"  nz-menu-item (click)="onClickGetPassword('show', item)">
@@ -318,7 +318,7 @@
                                 </nz-card>
                             </div>
 
-                            <div class="justify-content-center">
+                            <div class="justify-content-center" *ngxPermissionsOnly="['view_document_lender']">
                                 <nz-page-header
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="kycDocument">
@@ -342,7 +342,7 @@
                                                     <span *ngIf="data?.is_verified">
                                                         Verified
                                                     </span>
-                                                    <ng-container *ngxPermissionsOnly="['verify_document']" >
+                                                    <ng-container *ngxPermissionsOnly="['verify_document_lender']" >
                                                         <span *ngIf="!data?.is_verified && data?.document_file_front">
                                                             <a 
                                                                 nz-popconfirm

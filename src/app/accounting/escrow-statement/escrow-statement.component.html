@@ -1,0 +1,41 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchEscrowStatementList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                        <th>Cheque no</th>
+                        <th>Remarks</th>
+                        <th>Transaction id</th>
+                        <th>Transaction date</th>
+                        <th>Type</th>
+                        <th>Value date</th>
+                        <th>Created At</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['AMOUNT'] ? data['AMOUNT']: '-' }}</td>
+                        <td>{{ data['BALANCE'] ? data['BALANCE']: '-' }}</td>
+                        <td>{{ data['CHEQUENO'] ? data['CHEQUENO']: '-' }}</td>
+                        <td>{{ data['REMARKS'] ? data['REMARKS']: '-' }}</td>
+                        <td>{{ data['TRANSACTIONID'] ? data['TRANSACTIONID']: '-' }}</td>
+                        <td>{{ data['TXNDATE'] ? (data['TXNDATE'] | date: 'medium'): '-' }}</td>
+                        <td>{{ data['TYPE'] ? data['TYPE']: '-' }}</td>
+                        <td>{{ data['VALUEDATE'] ? data['VALUEDATE']: '-' }}</td>
+                        <td>{{ data['created_at'] ? (data['created_at'] | date: 'medium'): '-' }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
