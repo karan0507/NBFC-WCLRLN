@@ -763,7 +763,9 @@ export class HttpService {
             return this._http.post((this.url + `/partner/v1/reset-password-corporate-admin/partner`), data);
       }
 
-      // /partner/v1/corporate/all-employees
+      public resetPasswordForLenderAdmin(data) {
+            return this._http.post((this.url + `/nbfc/v1/reset-nbfc-user-password`), data);
+      }
 
       public getListOfEmployeeBasedOnParameter(data) {
             return this._http.get((this.url + `/partner/v1/corporate/all-employees`),{params: data});
@@ -775,6 +777,10 @@ export class HttpService {
 
       public showPasswordOfCorporateAdmin(id) {
             return this._http.get((this.url + `/partner/v1/show-password-corporate-admin/${id}`));
+      }
+
+      public showPasswordOfLenderAdmin(id) {
+            return this._http.get((this.url + `/nbfc/v1/show-nbfc-user-password/${id}`));
       }
 
       // /partner/v1/reset-password-corporate-admin/partner

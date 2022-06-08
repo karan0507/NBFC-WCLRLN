@@ -5,6 +5,7 @@ import { Data } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-lenders-list',
@@ -65,14 +66,25 @@ export class LendersListComponent implements OnInit {
       this.setOfCheckedId.delete(id);
     }
   }
+  resetPasswordForm: FormGroup;
 
-  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer  ) { }
+  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder  ) { }
 
   ngOnInit(): void {
-    this.selectedTab = 'all'
+    this.selectedTab = 'all';
+    this.createResetPasswordForm();
     this.page = 1
     this.getNBFCList();
     
+  }
+
+  createResetPasswordForm(){
+    this.resetPasswordForm = this.fb.group({
+      nbfc_user_id: [null, [Validators.required]],
+      new_password: [null, [Validators.required]],
+      retype_password: [null, [Validators.required]],
+      send_email: [false],
+    })
   }
 
   onClickChangeTab(e){
@@ -83,6 +95,79 @@ export class LendersListComponent implements OnInit {
   getResultBasedOnSearch(){
     this.page = 1;
     this.getNBFCList();
+  }
+
+  passwordForAdmin = {
+    'isVisibleModal': false,
+    'toggleShoePasswordField': false,
+    'apiLoaderOnClick': false,
+    'password': null,
+    'apiLoader': null
+  };
+
+  onClickGetPassword(action, data){
+    this.selectedUserId = data?.id;
+    if(action == 'show'){
+      this.passwordForAdmin['apiLoader'] = true;
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = true;
+      this.http.showPasswordOfLenderAdmin(data?.id).subscribe((res: any)=>{
+        console.log(res);
+        this.passwordForAdmin['apiLoader'] = false;
+        this.passwordForAdmin['password'] = res?.data;
+      })
+    } else {
+      this.passwordForAdmin['isVisibleModal'] = true;
+      this.passwordForAdmin['toggleShoePasswordField'] = false;
+      this.resetPasswordForm.patchValue({
+        'nbfc_user_id': data?.id
+      })
+    }
+  }
+
+  onClickResetPassword(){
+    for (const i in this.resetPasswordForm.controls) {
+      this.resetPasswordForm.controls[i].markAsDirty();
+      this.resetPasswordForm.controls[i].updateValueAndValidity();
+    } 
+    if(this.resetPasswordForm.value.send_email == true){
+      this.resetPasswordForm.patchValue({
+        'send_email': 0
+      })
+    } else {
+      this.resetPasswordForm.patchValue({
+        'send_email': 1
+      })
+    }
+    console.log(this.resetPasswordForm.value); 
+    if(this.resetPasswordForm.valid){
+      if(this.resetPasswordForm.value.new_password != this.resetPasswordForm.value.retype_password){
+        this.message.error('Plz Make sure to match New Password & Confirm Password');
+        return;
+      }
+      this.passwordForAdmin['apiLoaderOnClick']= true;
+      const sendDate = this.resetPasswordForm.value;
+      let data = new FormData();
+      for (var i in sendDate) {
+          // if (sendDate[i]) {
+            data.append(i, sendDate[i]);
+          // }
+        // }
+        // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
+      }
+      this.http.resetPasswordForLenderAdmin(data).subscribe((res: any)=>{
+        console.log(res)
+        if(res?.success){
+          this.message.success(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= false;
+          this.passwordForAdmin['isVisibleModal'] = false;
+          this.resetPasswordForm.reset();
+        } else {
+          this.message.error(res?.message);
+          this.passwordForAdmin['apiLoaderOnClick']= false;
+        }
+      })
+    }
   }
 
   getNBFCDetail(id, i?){

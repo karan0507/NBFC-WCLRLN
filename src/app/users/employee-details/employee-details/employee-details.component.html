@@ -229,6 +229,7 @@
                   <th>Display Name</th>
                   <th>Employee Name</th>
                   <th>Employee Code</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Mobile No</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Employee Status</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommendation By</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommended Amount</th>
@@ -260,6 +261,9 @@
                   </td>
                   <td>
                     {{ data?.emp_code ? data?.emp_code : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    {{ data?.mobile ? data?.mobile : ' - '}}
                   </td>
                   <td *ngIf="selectedTab === 'allEmployee'">
                     {{ data?.employee_added ? data?.employee_added : ' In Progress '}}
