@@ -21,7 +21,7 @@ export class AppComponent {
           }
           }
           this.UserPermissionDataSubscription = this.HttpService.globalUserPermissionsData.subscribe((value) => {
-            // value.push('')
+            value.push('')
             if(JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions){
               this.permissionsService.loadPermissions(value);
             }

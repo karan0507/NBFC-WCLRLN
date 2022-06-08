@@ -348,6 +348,9 @@
                         >View Agreement</span
                       >
                     </li>
+                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                      <span class="m-l-5">Track Status</span>
+                    </li>
                     <ng-template #popupTitle>
                       Are you sure you want to reject the offer for
                       {{
