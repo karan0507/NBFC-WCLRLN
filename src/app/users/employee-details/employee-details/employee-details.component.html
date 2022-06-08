@@ -24,7 +24,7 @@
         class="ml-auto px-3 text-primary"
         nzSize="small"
         (click)="onClickUploadSelectedFileOfCurrentSection()"
-        *ngxPermissionsOnly="['upload_user_employee']"
+        *ngxPermissionsOnly="['View_New_joinee','Upload_Attendance','Upload_Exit_Employee','Upload_Notice_Period']"
       >
         Upload
       </button>
@@ -40,7 +40,7 @@
         [(ngModel)]="selectedTab"
       >
         <label
-          *ngxPermissionsOnly="['corporate_employee_detail']"
+          *ngxPermissionsOnly="['view_corporate_employee_details']"
           nz-radio-button
           class="px-5 mb-3 border-radius-2"
           nzValue="corporate"
@@ -53,42 +53,42 @@
           >Employee Database</label
         > -->
         <label
-          *ngxPermissionsOnly="['new_joinees']"
+          *ngxPermissionsOnly="['view_new_joinee']"
           nz-radio-button
           class="px-5 mb-3 border-radius-2"
           nzValue="New Joinees"
           >New Joinees</label
         >
         <label
-          *ngxPermissionsOnly="['attendance']"
+          *ngxPermissionsOnly="['view_attendance']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Attendance"
           >Attendance</label
         >
         <label
-          *ngxPermissionsOnly="['exit_employee']"
+          *ngxPermissionsOnly="['view_exit_employee']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Exit Employee"
           >Exit Employee</label
         >
         <label
-          *ngxPermissionsOnly="['notice_period']"
+          *ngxPermissionsOnly="['view_notice_period ']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="Notice Period"
           >Notice Period</label
         >
         <label
-          *ngxPermissionsOnly="['action_performed']"
+          *ngxPermissionsOnly="['view_action_performed']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="recommendation"
           >Action Performed</label
         >
         <label
-          *ngxPermissionsOnly="['employee_list']"
+          *ngxPermissionsOnly="['view_employee_list']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
           nzValue="allEmployee"
@@ -444,8 +444,10 @@
                   <th>Added By</th>
                   <th  *ngIf="selectedTab !== 'corporate'">Remarks</th>
                   <th  *ngIf="selectedTab == 'corporate'">Section</th>
-                  <th  *ngIf="selectedTab == 'corporate'">Verify</th>
-                  <th nzRight>Actions</th>
+                  <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']" >
+                    <th *ngIf="selectedTab == 'corporate'">Verify</th>
+                  </ng-container>
+                  <th *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" nzRight>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -486,10 +488,12 @@
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
                   <td *ngIf="selectedTab == 'corporate'">{{ data?.section ? data?.section : " " }}</td>
-                  <td *ngIf="selectedTab == 'corporate'" > 
-                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
-                  </td>
-                  <td nzRight>
+                  <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']">
+                    <td *ngIf="selectedTab == 'corporate'" > 
+                      <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
+                    </td>
+                  </ng-container>
+                  <td nzRight *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" >
                     <a
                       nz-button
                       class="primary"

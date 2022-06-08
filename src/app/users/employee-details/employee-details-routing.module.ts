@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'Users',
       custom_url: 'employeeDetail',
       permissions: {
-        only: ['corporate_employee_detail','new_joinees','attendance','exit_employee','notice_period','action_performed','employee_list'],
+        only: ['view_corporate_employee_details', 'view_attendance','view_exit_employee','view_notice_period','view_action_performed','view_employee_list','view_new_joinee'],
         redirectTo: 'authentication/error-2'
       }
     }
