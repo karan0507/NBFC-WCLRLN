@@ -14,7 +14,7 @@ const routes: Routes = [
       parent: 'Users',
       custom_url: 'partners',
       permissions: {
-        only: 'view_corporate',
+        only: 'view_partner',
         redirectTo: 'authentication/error-2'
       }
     }

@@ -41,7 +41,8 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'user',
-        permission: ['view_lender', 'view_master_partner', 'view_partner', 'view_user_employee', 'view_merchants', 'view_partner_dsa'],
+        permission: ['view_lender', 'view_master_partner', 'view_partner', 'view_new_joinee', 'view_merchant', 'view_partner_dsa', 
+    'view_corporate_employee_details', 'view_attendance','view_exit_employee','view_notice_period','view_action_performed','view_employee_list'],
         submenu: [
             {
                 path: 'lenders',
@@ -67,7 +68,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                permission: ['view_corporate'],
+                permission: ['view_partner'],
                 submenu: []
             },
             {
@@ -76,7 +77,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                permission: ['new_joinees', 'corporate_employee_detail', 'attendance', 'exit_employee', 'notice_period', 'action_performed', 'employee_list'],
+                permission: ['view_corporate_employee_details', 'view_attendance','view_exit_employee','view_notice_period','view_action_performed','view_employee_list','view_new_joinee'],
                 submenu: []
             },
             {
@@ -84,7 +85,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Merchants',
                 iconType: '',
                 icon: '',
-                permission: ['view_merchants', 'view_partner_dsa'],
+                permission: ['view_merchant', 'view_partner_dsa'],
                 iconTheme: '',
                 submenu: [
                     {
@@ -93,7 +94,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: ['view_merchants'],
+                        permission: ['view_merchant'],
                         submenu: []
                     },
                     {
@@ -114,7 +115,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Employees',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: ['view_employees'],
+        permission: ['view_employee'],
         icon: 'user',
         submenu: []
     },

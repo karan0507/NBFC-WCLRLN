@@ -76,7 +76,7 @@ const routes: Routes = [
                               parent: "Users",
                               custom_url: "list",
                               permissions: {
-                                    only: 'view_merchants',
+                                    only: 'view_merchant',
                                     redirectTo: 'authentication/error-2'
                                   }
                         },
@@ -89,7 +89,7 @@ const routes: Routes = [
                               parent: 'Users',
                               custom_url: "merchants/list",
                               permissions: {
-                                    only: 'view_merchants',
+                                    only: 'view_merchant',
                                     redirectTo: 'authentication/error-2'
                                   }
                         },
@@ -103,7 +103,7 @@ const routes: Routes = [
                                           parent: "Users",
                                           custom_url: "add-merchant",
                                           permissions: {
-                                                only: 'add_merchants',
+                                                only: 'add_merchant',
                                                 redirectTo: 'authentication/error-2'
                                               }
                                     },
@@ -117,7 +117,7 @@ const routes: Routes = [
                                           parent: "Users",
                                           custom_url: "add-merchant",
                                           permissions: {
-                                                only: 'edit_merchants',
+                                                only: 'edit_merchant',
                                                 redirectTo: 'authentication/error-2'
                                               }
                                     },
