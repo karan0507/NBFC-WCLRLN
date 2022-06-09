@@ -307,17 +307,8 @@ export class DashboardComponent implements OnInit {
     }
 
     getMandateData(){
-        // let data = {
-        //     'time_filter': 'overall'
-        // }
-        // this.http.getDetailForDashboardMandate(data).subscribe((res:any)=>{
-        //     console.log(res);
-        // })
         this.isLoading['mandate'] = true;
         let data = {
-            // 'datapoint': 'dashboard_acquisition',
-            // 'source': 'LMS',
-                // 'time_filter': 'overall'
             'time_filter': this.selectedTab['mandate']
         }
         this.http.getDetailForDashboardMandate(data).subscribe((res?: any)=> {
