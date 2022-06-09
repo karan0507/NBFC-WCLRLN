@@ -846,6 +846,19 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <!-- View Uploaded Document -->
+                      <button
+                        nzSize="small"
+                        nz-button
+                        nzType="link"
+                        (click)="onClickPreviewImage(data?.id)"
+                      >
+                        View Uploaded Document
+                      </button>
+                    </div>
+                  </div>
                   <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
                     Documents not uploaded
                   </div>
@@ -1863,4 +1876,34 @@
       Cancel
     </button>
   </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleUploadedImage"
+  nzTitle="Fetched Selfie Response"
+  (nzOnCancel)="isVisibleUploadedImage = false"
+  (nzOnOk)="isVisibleUploadedImage = false"
+  [nzWidth]="'70%'"
+>
+  <ng-container *nzModalContent>
+    <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
+      <!-- <span *ngIf="xmlDataResponse">
+                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
+                  </span> 
+                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
+                        No data Found
+                  </span> -->
+      <div class="row">
+        <div class="col-6">
+          <!-- <div>Aadhar Image</div> -->
+          <div><b>Aadhar Image</b></div>
+          <img alt="item" [src]="storedSelfieImage?.aadhar_url" width="100%" />
+        </div>
+        <div class="col-6">
+          <div><b>Selfie Image</b></div>
+          <img alt="item" [src]="storedSelfieImage?.selfie_url" width="100%" />
+        </div>
+      </div>
+    </nz-card>
+  </ng-container>
 </nz-modal>

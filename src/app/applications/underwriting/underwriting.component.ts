@@ -397,6 +397,31 @@ export class UnderwritingComponent implements OnInit {
     }
   }
 
+
+  isVisibleUploadedImage = false;
+  storedSelfieImage: any;
+  onClickPreviewImage(id){
+        this.isVisibleUploadedImage = true;
+        this.api_calling_loader['previewSelfie'] = true;
+        let data = {
+              'source': 'Onboarding',
+              'datapoint': 'get_aadhar_selfie_image',
+              'endpoint': id
+        }
+        this.https.fetchXMLData(data).subscribe((res: any)=>{
+              if(res?.success){
+              this.api_calling_loader['previewSelfie'] = false;
+              this.storedSelfieImage = res.data 
+        } else {
+              this.message.error(res?.message);
+              this.api_calling_loader['previewSelfie'] = false;
+        }
+        }, error =>{
+              // this.message.error(res?.message);
+              this.api_calling_loader['previewSelfie'] = false;
+        })
+  }
+
   handleCancel() {
     this._isOpenModal = false;
     this._isViewDocument = false;
