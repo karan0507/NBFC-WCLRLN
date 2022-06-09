@@ -118,4 +118,18 @@ export class BorrowersListComponent implements OnInit {
       this.http.exportMasterSectionModule(res, 'borrowers_list', file_formate, generateloader)
     })
   }
+
+  exportGlobalFunctionTnx(file_formate, offer_id ){
+    let data = {
+      datapoint: 'lender_master_export',
+      endpoint: 'LoanApplicationTransactions',
+      source: 'LMS',
+      offer_id: offer_id ,
+      file_type: file_formate
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
+    })
+  }
 }

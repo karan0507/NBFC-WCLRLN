@@ -131,6 +131,26 @@
                   </div>
             </div>
       </nz-card>
+      <nz-card nzTitle="Nominees">
+            <nz-table #basicTable [nzData]="borrowertList?.nominee" [nzFrontPagination]="false" [nzShowPagination]="false">
+                  <thead>
+                        <tr>
+                              <th>#</th>
+                              <th>Nominee name</th>
+                              <th>Mobile no</th>
+                              <th>Relation</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let data of borrowertList?.nominee; index as i">
+                              <td>{{i+1}}</td>
+                              <td>{{data?.name ? data?.name : '-'}}</td>
+                              <td>{{data?.number ? data?.number : '-'}}</td>
+                              <td>{{data?.relationship ? data?.relationship : '-'}}</td>
+                        </tr>
+                  </tbody>
+            </nz-table>
+      </nz-card>
       <nz-card *ngIf="selectedTab == '2'" nzTitle="EMI Scheduler">
             <nz-table #basicTable [nzData]="dataSet" [nzFrontPagination]="true">
                   <!-- [nzTotal]="total_count" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowPagination]="true" [nzLoading]="api_calling_loader" -->
@@ -209,6 +229,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
                               <th>Transaction Type</th>
@@ -231,6 +252,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
                                     <td>{{ data?.txn_type }}</td>
@@ -329,6 +351,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
                               <th>Transaction Type</th>
@@ -351,6 +374,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
                                     <td>{{ data?.txn_type }}</td>

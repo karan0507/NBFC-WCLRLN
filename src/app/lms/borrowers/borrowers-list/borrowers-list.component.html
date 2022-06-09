@@ -69,6 +69,7 @@
                         <th>Employee code</th>
                         <th>Applied on</th>
                         <th>Disbursement date</th>
+                        <th>Available limit</th>
                         <th>Credit Line Assigned</th>
                         <th>Credit Utilized</th>
                         <th>Outstanding</th>
@@ -93,6 +94,7 @@
                         <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
                         <td>{{data.activation_date | date: "medium"}}</td>
                         <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
+                        <td>₹ {{data.closing_credit_balance}}</td>
                         <td>₹ {{data.loan_amount_provided}}</td>
                         <td>₹ {{data.credit_utilization_amount}}</td>
                         <td>₹ {{data.outstanding_amount}}</td>
@@ -123,10 +125,13 @@
                                     <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                    <ul nz-menu>    
+                                    <ul nz-menu>
                                         <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_borrowers']">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">View Details</span>
+                                        </li>
+                                        <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data.id)">
+                                            <span class="m-l-5">Export transaction</span>
                                         </li>
     
                                         <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
