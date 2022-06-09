@@ -100,7 +100,7 @@
                                   <th>Latest Action Performed By</th>
                                   <th>Stage</th>
                                   <th>Remarks</th>
-                                  <th nzRight [nzWidth]="'5rem'">Action</th>
+                                  <th *ngxPermissionsOnly="['track_applicants_status']" nzRight [nzWidth]="'5rem'">Action</th>
                             </tr>
                       </thead>
                       <tbody>
@@ -144,7 +144,7 @@
                                                     {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
                                                     (data?.remarks ? data?.remarks : '-')}}
                                               </span></td>
-                                        <td nzRight [nzWidth]="'5rem'">
+                                        <td nzRight [nzWidth]="'5rem'" *ngxPermissionsOnly="['track_applicants_status']">
                                               <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                     [nzDropdownMenu]="latestUploadDropDown">

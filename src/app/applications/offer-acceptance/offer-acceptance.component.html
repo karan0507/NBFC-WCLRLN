@@ -7,6 +7,7 @@
     </div>
     <div>
       <button
+      *ngxPermissionsOnly="['update_offer_acceptance_application_status']"
         nz-button
         nzType="primary"
         [disabled]="checkDisabledStatus()"
@@ -22,7 +23,7 @@
         (click)="exportData('xsx')"
         class="ml-3 border"
         [routerLink]=""
-        *ngxPermissionsOnly="['export_application']"
+        *ngxPermissionsOnly="['export_offer_acceptance_application']"
       >
         Export
       </button>
@@ -337,7 +338,7 @@
                     <!-- [routerLink]="['edit-employee', data.id]" -->
                     <li
                       nz-menu-item
-                      *ngxPermissionsOnly="['edit_offer_application']"
+                      *ngxPermissionsOnly="['edit_offer_offer_acceptance_application']"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span
@@ -354,14 +355,14 @@
                       nzPopconfirmPlacement="bottomRight"
                       (nzOnConfirm)="updateStatus('rejectOffer', data)"
                       (nzOnCancel)="cancel()"
-                      *ngxPermissionsOnly="['reject_offer_application']"
+                      *ngxPermissionsOnly="['reject_offer_offer_acceptance_application']"
                     >
                       <span class="m-l-5">Reject Offer</span>
                     </li>
 
                     <li
                       nz-menu-item
-                      *ngxPermissionsOnly="['edit_offer_application']"
+                      *ngxPermissionsOnly="['view_agreement_offer_acceptance']"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span

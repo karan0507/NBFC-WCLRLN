@@ -110,7 +110,7 @@ const routes: Routes = [
                               title: 'Offer Proposed',
                               parent: 'Application',
                               permissions: {
-                                only: 'view_offer_purposed_application',
+                                only: 'view_offer_proposed_application',
                                 redirectTo: 'authentication/error-2'
                               }
                         }
@@ -215,7 +215,7 @@ const routes: Routes = [
                                           title: 'Edit Form',
                                           parent: 'Applications',
                                           permissions: {
-                                            only: 'edit_application',
+                                            only: 'edit_form_filling_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     },
@@ -228,7 +228,7 @@ const routes: Routes = [
                                           title: 'Track Status',
                                           parent: 'Application',
                                           permissions: {
-                                            only: 'track_status',
+                                            only: 'track_form_filling_status_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     }
@@ -252,7 +252,7 @@ const routes: Routes = [
                                           title: 'Edit Form',
                                           parent: 'Applications',
                                           permissions: {
-                                            only: 'edit_application',
+                                            only: 'edit_pre_approved_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     },
@@ -265,7 +265,7 @@ const routes: Routes = [
                                           title: 'Track Status',
                                           parent: 'Application',
                                           permissions: {
-                                            only: 'track_status',
+                                            only: 'track_pre_approved_status_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     }
@@ -291,7 +291,7 @@ const routes: Routes = [
                                           title: 'Edit Form',
                                           parent: 'Applications',
                                           permissions: {
-                                            only: 'edit_application',
+                                            only: 'edit_document_upload_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     },
@@ -304,7 +304,7 @@ const routes: Routes = [
                                           title: 'Track Status',
                                           parent: 'Application',
                                           permissions: {
-                                            only: 'track_status',
+                                            only: 'track_document_upload_status_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     }
@@ -328,7 +328,7 @@ const routes: Routes = [
                                           title: 'Edit Form',
                                           parent: 'Applications',
                                           permissions: {
-                                            only: 'edit_application',
+                                            only: 'edit_underwriting_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     },
@@ -341,7 +341,7 @@ const routes: Routes = [
                                           title: 'Track Status',
                                           parent: 'Application',
                                           permissions: {
-                                                only: 'track_status',
+                                                only: 'track_underwriting_status_application',
                                                 redirectTo: 'authentication/error-2'
                                           }
                                     }

@@ -6,7 +6,7 @@
       {{ total_count ? total_count : "0" }}
     </div>
     <div>
-      <button
+      <button *ngxPermissionsOnly="['update_underwriting_status_application']"
         nz-button
         nzType="primary"
         [disabled]="checkDisabledStatus()"
@@ -22,7 +22,7 @@
         (click)="exportData('xlsx')"
         class="ml-3 border"
         [routerLink]=""
-        *ngxPermissionsOnly="['export_application']"
+        *ngxPermissionsOnly="['export_underwriting_application']"
       >
         Export
       </button>
@@ -341,7 +341,7 @@
                       nz-menu-item
                       [routerLink]="['edit-form']"
                       [queryParams]="{ id: data?.id }"
-                      *ngxPermissionsOnly="['edit_application']"
+                      *ngxPermissionsOnly="['edit_underwriting_application']"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Edit Application</span>
@@ -388,7 +388,7 @@
                     >
                       <span
                         class="m-l-5"
-                        *ngxPermissionsOnly="['pull_sms_application']"
+                        *ngxPermissionsOnly="['pull_sms_underwriting_application']"
                         >Pull SMS from Third Party</span
                       >
                     </li>
