@@ -7,15 +7,15 @@ const routes: Routes = [
       {
             path: '',
             component: VersioningComponent,
-            // canActivate: [NgxPermissionsGuard],
+            canActivate: [NgxPermissionsGuard],
             data: {
               title: 'Version',
               parent: 'Version',
-            //   custom_url: 'version',
-            //   permissions: {
-            //     only: 'view_employees',
-            //     redirectTo: 'authentication/error-2'
-            //   }
+              custom_url: 'version',
+              permissions: {
+                only: 'view_version',
+                redirectTo: 'authentication/error-2'
+              }
             }
           },
 ];

@@ -343,13 +343,13 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Accounting',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [''],
+        permission: ['view_gst_invoice','view_escrow_statement'],
         icon: 'file',
         submenu: [
             {
                 path: 'accounting/gst-invoices',
                 title: 'GST invoice',
-                permission: [''],
+                permission: ['view_gst_invoice'],
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -358,7 +358,7 @@ export const ROUTES: SideNavInterface[] = [
             {
                 path: 'accounting/escrow-statement',
                 title: 'Escrow Statement',
-                permission: [''],
+                permission: ['view_escrow_statement'],
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -398,7 +398,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Version',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [''],
+        permission: ['view_version'],
         icon: 'key',
         submenu: []
     },
