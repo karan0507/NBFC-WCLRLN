@@ -75,7 +75,7 @@
                         <!-- <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
                         <th nzWidth="5rem">#</th>
                         <th nzWidth="15rem">User Details</th>
-                        <th>Product type</th>
+                        <th>Corporate name</th>
                         <th>Transaction ID</th>
                         <th>Transaction Type</th>
                         <th>Manual upload</th>
@@ -99,7 +99,7 @@
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                             </td>
-                            <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
+                            <td>{{ data?.corporate ? data?.corporate : '-'}}</td>
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_type }}</td>
                             <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
