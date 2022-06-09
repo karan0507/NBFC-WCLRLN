@@ -7,8 +7,8 @@
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="changeBillTab" (ngModelChange)="onchangeBillTab()">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1">Change bill date</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2">App side change bill date</label>
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="1" *ngxPermissionsOnly="['view_change_bill_date']">Change bill date</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="2" *ngxPermissionsOnly="['view_app_side_change_bill_date']">App side change bill date</label>
             </nz-radio-group>
         </div>
     </div>

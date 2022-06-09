@@ -32,13 +32,13 @@
                                      (borrowertList?.address?.pincode ? ', ' + borrowertList?.address?.pincode : '')}}</span>
                         </div>
                         <div class="d-flex" *ngIf="selectedTab == '1'">
-                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3" *ngxPermissionsOnly="['download_reports']">
+                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu1" class="mr-3" *ngxPermissionsOnly="['download_closure_letter','download_outstanding_calculation','download_transaction_statement']">
                                     Download/View
                                     <i nz-icon nzType="down"></i>
                               </button>
                               <nz-dropdown-menu #menu1="nzDropdownMenu">
                                     <ul nz-menu>
-                                          <li nz-menu-item (click)="isSelectDate = true" *ngxPermissionsOnly="['download_txn_statement']">
+                                          <li nz-menu-item (click)="isSelectDate = true" *ngxPermissionsOnly="['download_transaction_statement']">
                                                 <a>Transaction Statement</a>
                                           </li>
                                           <li nz-menu-item (click)="pdfViewerAndDownload('Outstanding Calculation', 2)" *ngxPermissionsOnly="['download_outstanding_calculation']">
@@ -55,34 +55,17 @@
                             </li> -->
                                     </ul>
                               </nz-dropdown-menu>
-                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu">
+                              <button nz-button nz-dropdown nzType="default" [nzDropdownMenu]="menu" *ngxPermissionsOnly="['pull_cibil_application', 'pull_sms_application', 'fetch_cibil_application', 'fetch_sms_application', 'view_agreement']">
                                     Actions
                                     <i nz-icon nzType="down"></i>
                               </button>
                               <nz-dropdown-menu #menu="nzDropdownMenu">
                                     <ul nz-menu>
-                                          <!-- <li nz-menu-item (click)="isAcClosure = true">
-                                                <a>A/c Closure</a>
-                                          </li> -->
-                                          <!-- <li nz-menu-item (click)="isChangeBillDate = true">
-                                                <a>Change Bill Date</a>
-                                          </li> -->
-                                          <!-- <li nz-menu-item>
-                                <a>Update UMRN No.</a>
-                            </li> -->
-                                          <!-- <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Charges'; typeLabel = 'Type of Charge'">
-                                <a>Add Charges</a>
-                            </li> -->
-                                          <!-- <li nz-menu-item (click)="isAddPayment = true; paymentTitle = 'Add Payment'; typeLabel = 'Payment Type'">
-                                <a>Add Payment</a>
-                            </li> -->
                                           <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = true" *ngxPermissionsOnly="['pull_cibil_application']">
-                                                <a>Pull Cibil
-                                                      from Third Party</a>
+                                                <a>Pull Cibil from Third Party</a>
                                           </li>
                                           <li nz-menu-item (click)="isPullSMSCibilPopup = true; isPullCibil = false " *ngxPermissionsOnly="['pull_sms_application']">
-                                                <a>Pull SMS from
-                                                      Third Party</a>
+                                                <a>Pull SMS from Third Party</a>
                                           </li>
                                           <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = true; " *ngxPermissionsOnly="['fetch_cibil_application']">
                                                 <a>Fetch Cibil Data</a>
@@ -90,7 +73,7 @@
                                           <li nz-menu-item (click)="isFetchCibilSms = true; _isCibil = false" *ngxPermissionsOnly="['fetch_sms_application']">
                                                 <a>Fetch SMS Data</a>
                                           </li>
-                                          <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', 6)">
+                                          <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', 6)" *ngxPermissionsOnly="['view_agreement']">
                                                 <a>View Agreement</a>
                                           </li>
                                     </ul>
@@ -267,7 +250,7 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_tnx_details']">
+                                                            <li nz-menu-item [routerLink]="['/lms/transactions/details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_details_transaction']">
                                                                 <span class="m-l-5">View details</span>
                                                             </li>
                                                             <ng-container *ngIf="data?.txn_type == 'Fees Charge'">

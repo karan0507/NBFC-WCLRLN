@@ -113,10 +113,10 @@
                             <td nzRight *ngIf="selectedTab == 'pending'">
                                 <!-- <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a> -->
                                 <!-- <a class="mr-3" [href]="data?.imported_file" download>Download</a> -->
-                                <ng-container *ngxPermissionsOnly="['app_side_approve_change_bill_date']">
+                                <ng-container *ngxPermissionsOnly="['approve_app_side_change_bill_date']">
                                     <a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data)">Approve </a>
                                 </ng-container>
-                                <ng-container *ngxPermissionsOnly="['app_side_reject_change_bill_date']">
+                                <ng-container *ngxPermissionsOnly="['reject_app_side_change_bill_date']">
                                     <a *ngIf="selectedTab == 'pending'" (click)="clickOnReject(data.id)">Reject </a>
                                 </ng-container>
                             </td>
