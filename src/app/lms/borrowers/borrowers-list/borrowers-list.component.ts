@@ -17,6 +17,10 @@ export class BorrowersListComponent implements OnInit {
   search_params = '';
   globalPageSize: number;
   is_spend = ''
+  expandSet = new Set<number>();
+  _currentId: any;
+  _activeLoans: any = [];
+  loanApplicationData: any = [];
   
   selectedCorporate: any;
   master_product_id = '';
@@ -24,6 +28,7 @@ export class BorrowersListComponent implements OnInit {
   is_active: any;
   corporateList: any[];
   debounce:any;
+  api_calling_loader_accordian: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -130,6 +135,33 @@ export class BorrowersListComponent implements OnInit {
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
       this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
+    })
+  }
+
+  
+  onExpandChange(id: number, checked: boolean, index?): void {
+
+    if (checked) {
+      this.expandSet.add(id);
+      this.getIdWiseData(this._currentId = id, index);
+    } else {
+      this.expandSet.delete(id);
+      console.log('Deleted array of active ids', this._activeLoans);
+    }
+  }
+  getIdWiseData(id?, index?) {
+    this.api_calling_loader_accordian = true;
+    let data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?id=' + id, 'source': 'Onboarding' };
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      if (res) {
+        this.api_calling_loader_accordian = false;
+        this._activeLoans.push(res?.data?.results[0]);
+        this.borrowertList[index].expanddata = res?.data?.results[0];
+      } else {
+        this.api_calling_loader_accordian = false;
+      }
+    }, error => {
+      this.api_calling_loader_accordian = false;
     })
   }
 }
