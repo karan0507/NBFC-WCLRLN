@@ -19,15 +19,50 @@
           nzTheme="outline"
         ></i>
       </button>
-      <button
+      <ng-container *ngIf="selectedTab == 'New Joinees'" >
+        <button
         nz-button
         class="ml-auto px-3 text-primary"
         nzSize="small"
         (click)="onClickUploadSelectedFileOfCurrentSection()"
-        *ngxPermissionsOnly="['View_New_joinee','Upload_Attendance','Upload_Exit_Employee','Upload_Notice_Period']"
+        *ngxPermissionsOnly="['upload_new_joinee']"
       >
         Upload
       </button>
+      </ng-container>
+      <ng-container *ngIf="selectedTab == 'Attendance'" >
+        <button
+        nz-button
+        class="ml-auto px-3 text-primary"
+        nzSize="small"
+        (click)="onClickUploadSelectedFileOfCurrentSection()"
+        *ngxPermissionsOnly="['upload_attendance']"
+      >
+        Upload
+      </button>
+      </ng-container>
+      <ng-container *ngIf="selectedTab == 'Exit Employee'" >
+        <button
+        nz-button
+        class="ml-auto px-3 text-primary"
+        nzSize="small"
+        (click)="onClickUploadSelectedFileOfCurrentSection()"
+        *ngxPermissionsOnly="['upload_exit_employee']"
+      >
+        Upload
+      </button>
+      </ng-container>
+      <ng-container *ngIf="selectedTab == 'Notice Period'" >
+        <button
+        nz-button
+        class="ml-auto px-3 text-primary"
+        nzSize="small"
+        (click)="onClickUploadSelectedFileOfCurrentSection()"
+        *ngxPermissionsOnly="['upload_notice_period']"
+      >
+        Upload
+      </button>
+      </ng-container>
       <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
     </div>
   </div>
@@ -225,7 +260,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Partner Name</th>
+                  <!-- <th>Partner Name</th> -->
                   <th>Display Name</th>
                   <th>Employee Name</th>
                   <th>Employee Code</th>
@@ -246,9 +281,9 @@
                   <!-- <td>{{ i + 1 }}</td> -->
                   <td *ngIf="page === 1">{{ i + 1 }}</td>
                   <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
-                  <td>
+                  <!-- <td>
                     {{ data?.partner ? data?.partner : ' - '}}
-                  </td>
+                  </td> -->
                   <td>
                     {{ data?.display_name ? data?.display_name : ' - '}}
                   </td>
@@ -266,8 +301,36 @@
                     {{ data?.mobile ? data?.mobile : ' - '}}
                   </td>
                   <td *ngIf="selectedTab === 'allEmployee'">
-                    {{ data?.employee_added ? data?.employee_added : ' In Progress '}}
+                    <!-- {{ data?.employee_added }} -->
+                    <i
+                            *ngIf="data?.employee_added"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!data?.employee_added"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
                   </td>
+                  <!-- <i
+                            *ngIf="item?.called"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!item?.called"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i> -->
                   <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'">
                     {{ data?.recommended_by ? data?.recommended_by : ' - '}}
                   </td>
