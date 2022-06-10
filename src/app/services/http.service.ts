@@ -1014,4 +1014,8 @@ export class HttpService {
                   return false;
             }
       }
+      
+      updateLeftEmployeeStatus(id,data) {
+            return this._http.put(this.url + `/partner/v1/corporate/deactivate-employee/${id}`, data);
+      }
 }

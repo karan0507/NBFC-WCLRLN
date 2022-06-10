@@ -153,7 +153,8 @@ export class EmployeeDetailsComponent implements OnInit {
 
   apiLoader = {
     list: false,
-    previewList: false
+    previewList: false,
+    empStatus: false
   };
   // this.apiLoader['previewList'] = true;
   page = 1;
@@ -571,6 +572,25 @@ export class EmployeeDetailsComponent implements OnInit {
         this.apiLoader["list"] = false;
       }
     );
+  }
+
+  deactiveEmployeeStatus(id){
+    // this.nzMessageService.info('click confirm');
+    this.apiLoader['empStatus'] = true;
+    let data;
+    this.http.updateLeftEmployeeStatus(id, data).subscribe((res: any)=>{
+      if(res.success){
+        this.apiLoader['empStatus'] = false;
+        this.message.success(res?.message);
+        this.page =1;
+        this.getListOfAllEmployees();
+      } else {
+        this.apiLoader['empStatus'] = false;
+        this.message.error(res?.message);
+      }
+    }, error=>{
+      this.apiLoader['empStatus'] = false;
+    })
   }
 
   onClickUploadSelectedFileOfCurrentSection() {
