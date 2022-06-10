@@ -58,6 +58,9 @@ export class TransactionsListComponent implements OnInit {
   refund_amount: any;
   refund_sub_title: string;
   is_refund_loading: boolean;
+  debounce: any;
+  selectedCorporate: any;
+  corporateList: any[];
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -85,6 +88,7 @@ export class TransactionsListComponent implements OnInit {
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue,
+      corporate: this.selectedCorporate ? this.selectedCorporate : '',
       tab_filter: this.selectedTab
     }
     this.api_calling_loader = true
@@ -167,6 +171,7 @@ export class TransactionsListComponent implements OnInit {
       product_type: this.master_product_id ? this.master_product_id : '',
       txn_type: this.selectedType ? this.selectedType : '',
       search_param: this.searchValue,
+      corporate: this.selectedCorporate ? this.selectedCorporate : '',
       // tab_filter: this.selectedTab,
       file_type: file_formate
     }
@@ -276,4 +281,32 @@ export class TransactionsListComponent implements OnInit {
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
+
+  
+  OnTypeSearchList(event){
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      this.fetchPartnerList(event);
+    }, 500);
+  }
+  
+  fetchPartnerList(e?) {
+    let data = {};
+    if(e){
+      data['name'] = e;
+    }
+    this.http.fetchPartner(data).subscribe((res: any) => {
+      if (res?.success) {
+        this.corporateList = [];
+        res?.data?.results.map((res: any)=>{
+          if(res?.name){
+            this.corporateList.push(res)    
+          }
+        })
+        // this.corporateList = res?.data?.results;
+        console.log(this.corporateList);
+      }
+    });
+    // }
+  }
 }
