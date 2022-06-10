@@ -976,6 +976,10 @@ export class HttpService {
             return this._http.get(this.url + `/central-api/v1/call-api`, { params: data });
       }
 
+      getDetailForDashboardMandate(data) {
+            return this._http.get(this.url + `/platform_central/v1/admin-dashboard/get-mandate-stats`, { params: data });
+      }
+
       getDetailForDashboardAPIExistingAndAcquisition(action, data) {
             return this._http.get(this.url + `/loan-services/v1/dashboard/get-${action}`, { params: data });
       }
