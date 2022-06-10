@@ -219,6 +219,16 @@
                               <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
                               <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
                         </nz-select>
+                        <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType2" (ngModelChange)="fetchTransactionTxnList()"
+                        nzPlaceHolder="Filter By Type">
+                        <!-- <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option> -->
+                        <!-- <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option> -->
+                        <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                        <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                        <nz-option nzValue="Expense Spend" nzLabel="Expense Spend"></nz-option>
+                        <nz-option nzValue="Cashback" nzLabel="Cashback"></nz-option>
+                        <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
+                    </nz-select>
                   </div>
             </div>
             <nz-table [nzLoading]="api_calling_loader2" [nzFrontPagination]="false" [nzPageIndex]="page2"

@@ -330,7 +330,8 @@ export class BorrowersDetailsComponent implements OnInit {
       start_date: this.date1[0] ? moment(this.date1[0]).format("YYYY-MM-DD") : '',
       end_date: this.date1[1] ? moment(this.date1[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue2,
-      transaction_type: 'transactions_and_repayments'
+      transaction_type: 'transactions_and_repayments',
+      txn_type: this.selectedType2 ? this.selectedType2 : '',
     }
     this.api_calling_loader2 = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -359,7 +360,7 @@ export class BorrowersDetailsComponent implements OnInit {
       start_date: this.date2[0] ? moment(this.date2[0]).format("YYYY-MM-DD") : '',
       end_date: this.date2[1] ? moment(this.date2[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue1,
-      transaction_type: 'Fees Charge'
+      transaction_type: 'Fees Charge',
     }
     this.api_calling_loader1 = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
