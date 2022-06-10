@@ -344,7 +344,7 @@
                   <td *ngIf="selectedTab == 'recommendation'" > 
                     <label nz-checkbox (ngModelChange)="ngModelChange($event,data, 'mark')"  ngModel=false></label> 
                   </td>
-                  <td nzRight class="pr-0">
+                  <td nzRight class="pr-0" *ngIf="selectedTab == 'allEmployee'">
                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                         [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                         [nzDropdownMenu]="latestUploadDropDown">
@@ -357,67 +357,10 @@
                               nzPopconfirmTitle="Are you sure abt this Action?"
                               nzPopconfirmPlacement="bottom"
                               (nzOnConfirm)="deactiveEmployeeStatus(data?.id)">Deactive Employee</a>
-                                <!-- <span class="m-l-5" nz-popconfirm
-                                nzPopconfirmTitle="Are you sure abt this Action?"
-                                nzPopconfirmPlacement="bottom"
-                                (nzOnConfirm)="deactiveEmployeeStatus(data?.id)">Deactive Employee</span> -->
                             </li>
-                            <!-- <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
-                                [queryParams]="{id: data.id}">
-                                <span class="m-l-5">Employee Details</span>
-                            </li>
-                            <ng-container *ngxPermissionsOnly="['toggle_partner']">
-                                <li nz-menu-item *ngIf="!data.is_deleted" (click)="deleteUserByUserId(data?.id, false)">
-                                    <span class="m-l-5">Inactive</span>
-                                </li>
-                            </ng-container>
-                            <ng-container *ngxPermissionsOnly="['toggle_partner']">
-                                <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
-                                    <span class="m-l-5">Active</span>
-                                </li>
-                            </ng-container>
-                            <li nz-menu-item *ngxPermissionsOnly="['upgrade_to_master_partner']">
-                                <span class="m-l-5"
-                                    (click)="deleteUserByUserId(data?.id, 'upgrade')">Upgrade To
-                                    Master</span>
-                            </li> -->
-                            <!-- <li nz-menu-item (click)="storeSelectedId(data?.id)" *ngxPermissionsOnly="['upload_agreement_partner']">
-                                <nz-upload style="cursor: pointer;" [nzMultiple]="false"
-                                    [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
-                                    class="d-flex pl-1 align-items-left" nzSize="large">
-                                    Upload Agreement
-                                </nz-upload>
-                            </li>
-                            <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_agreement_partner']">
-                                <span class="m-l-5">Show Agreement</span>
-                            </li> -->
-
-
                         </ul>
                     </nz-dropdown-menu>
                 </td>
-                  <!-- <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
-                  <td *ngIf="selectedTab == 'corporate'">{{ data?.section ? data?.section : " " }}</td>
-                  <td *ngIf="selectedTab == 'corporate'" > 
-                    <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
-                  </td>
-                  <td nzRight>
-                    <a
-                      nz-button
-                      class="primary"
-                      nzType="link"
-                      (click)="onClickGetUploadedDocDetail(selectedIdForView = data?.id, 'view')"
-                      >View</a
-                    >
-                    <a
-                      nz-button
-                      nzType="link"
-                      (click)="
-                        onClickGetUploadedDocDetail(data?.id, 'download')
-                      "
-                      >Download</a
-                    >
-                  </td> -->
                 </tr>
               </tbody>
             </nz-table>
