@@ -184,7 +184,7 @@ export class EmployeeDetailsComponent implements OnInit {
   disabledDate = (current: Date): boolean => {
     return differenceInCalendarDays(current, this.today) > 0;
   };
-  date: any;
+  date = '';
 
   constructor(
     private fb: FormBuilder,
@@ -273,6 +273,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   resetFilter() {
     // if (this.searchValue || this.selectedCorporate) {
+      this.date = ''
       this.page = 1;
       this.searchValue = "";
       this.selectedSection = null;
@@ -474,7 +475,7 @@ export class EmployeeDetailsComponent implements OnInit {
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       }
     } else {
-      this.date = e;
+      // this.date = e;
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
         this.getListOfAllEmployees();
       } else {

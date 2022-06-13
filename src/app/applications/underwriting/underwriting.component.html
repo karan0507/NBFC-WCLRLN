@@ -32,8 +32,38 @@
 <!-- Main Section  -->
 <section>
   <nz-card class="w-100">
+    <div class="row mb-md-3">
+      <div class="col-md-12 mb-md-0">
+            <div class="d-flex">
+          <span>
+            <nz-radio-group [(ngModel)]="selectedTabFilter" (ngModelChange)='onClickChangeTabFilter($event)'>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="normal">Normal</label>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                      nzValue="dormant">Dormant</label>
+              </nz-radio-group>
+          </span>        
+          <span>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" class="mb-2" style="width: 19rem;">
+                  <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
+                        placeholder="Search text" />
+                  </nz-input-group>
+                  <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
+                                    nzType="search"></i></button>
+                  </ng-template>
+          </span>
+          <span>
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="'mb-2 mx-1"
+            (click)="resetFilters()">
+            <i nz-icon nzType="undo"></i>
+            </button>
+          </span>
+            </div>
+      </div>
+    </div>
     <div class="row">
-      <div class="col-md-3 mb-3 d-flex">
+      <!-- <div class="col-md-3 mb-3 d-flex">
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
           <input
             type="text"
@@ -53,9 +83,9 @@
             <i nz-icon nzType="search"></i>
           </button>
         </ng-template>
-      </div>
-      <div class="col-md-9 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-        <button
+      </div> -->
+      <div class="col-12 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+        <!-- <button
           nz-button
           nzType="default"
           nzShape="circle"
@@ -65,9 +95,9 @@
           class="mr-2"
         >
           <i nz-icon nzType="undo"></i>
-        </button>
+        </button> -->
         <nz-select
-          class="mx-3"
+          class="mx-1 mb-2"
           nzAllowClear
           [(ngModel)]="productFilters"
           style="width: 12rem"
@@ -83,7 +113,7 @@
           </nz-option>
         </nz-select>
         <nz-select
-          class="mx-1"
+          class="mx-1 mb-2"
           nzAllowClear
           [(ngModel)]="stageFilters"
           style="width: 12rem"
@@ -101,7 +131,7 @@
           [(ngModel)]="partner"
           nzShowSearch
           (nzFocus)="onFocusMethod('partner')"
-          class="mr-3 my-md-0 my-3"
+          class="m-1 mb-2"
           style="width: 12rem"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
@@ -115,11 +145,10 @@
           <nz-option nzValue="other" nzLabel="Others"></nz-option>
         </nz-select>
         <nz-select
-          class=""
+          class="mx-1 mb-2"
           nzMode="multiple"
           (nzFocus)="onFocusMethod('status')"
           style="width: 12rem"
-          class="mr-3 my-md-0 my-3"
           [(ngModel)]="filters"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
@@ -137,7 +166,7 @@
         <nz-select
           [(ngModel)]="moved_by"
           style="width: 12rem"
-          class="mx-1"
+          class="mx-1 mb-2"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
           nzPlaceHolder="Select Moved by"
@@ -158,7 +187,7 @@
         <nz-select
           [(ngModel)]="date_sorter"
           style="width: 15rem"
-          class="mx-1"
+          class="mx-1 mb-2"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
           nzPlaceHolder="Sort by date"
@@ -973,6 +1002,37 @@
                 </ng-template>
               </div>
 
+              <div>
+                <nz-page-header class="site-page-header acc-bg-light"
+                      [nzTitle]="refDetails">
+                </nz-page-header>
+                <nz-card class="mb-md-0"
+                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                      <div class="row">
+                            <div *ngFor="let item of data?.expanddata?.references?.results; index as i"
+                                  class="col-md-4">
+                                  <div class="d-flex flex-column">
+                                        <span class="text-muted">Reference {{i + 1}}
+                                        </span>
+                                        <div>
+                                              {{data?.expanddata?.references?.results[i]
+                                              ?
+                                              data?.expanddata?.references?.results[i]?.name
+                                              + '-' +
+                                              data?.expanddata?.references?.results[i]?.mobile
+                                              : '-'}}
+                                        </div>
+                                  </div>
+                            </div>
+                      </div>
+                </nz-card>
+                <ng-template #refDetails>
+                      <div class="ml-md-2">
+                            <h6 class="mb-0">Reference Details</h6>
+                      </div>
+                </ng-template>
+          </div>
+
               <div class="mt-3">
                 <nz-page-header
                   class="site-page-header acc-bg-light"
@@ -987,66 +1047,69 @@
                       : null
                   "
                 >
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column">
-                        <h6>
-                          <div class="d-flex">
-                            <label class="text-muted"
-                              >Application Score :{{
-                                blackBoxData?.application_score
-                              }}
-                            </label>
-                            <div class="mx-3 text-muted">
-                              <!-- Data: {{blackBoxData?.data}} -->
-                            </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="d-flex flex-column">
+                      <h6>
+                        <div class="d-flex">
+                          <label class="text-muted"
+                            >Application Score :{{
+                              data?.expanddata?.black_box_data
+                            ? data?.expanddata?.black_box_data?.application_score : ''
+                            }}
+                          </label>
+                          <div class="mx-3 text-muted">
+                            <!-- Data: {{blackBoxData?.data}} -->
                           </div>
-                        </h6>
-                        <b>
-                          <a
-                            class="text-primary"
-                            (click)="getBlackBoxData(data?.id)"
-                            >Pull BlackBox
-                          </a>
-                        </b>
-                        <div></div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column">
-                        <h6>
-                          <div class="d-flex">
-                            <label class="text-muted"
-                              >Product Limit Final :{{
-                                blackBoxData?.data?.product_limit_final
-                              }}
-                            </label>
-                            <div class="mx-3 text-muted">
-                              <!-- Data: {{blackBoxData?.data}} -->
-                            </div>
-                          </div>
-                        </h6>
-                        <div></div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column">
-                        <h6>
-                          <div class="d-flex">
-                            <label class="text-muted"
-                              >Product Limit Final Max :{{
-                                blackBoxData?.data?.product_limit_final_max
-                              }}
-                            </label>
-                            <div class="mx-3 text-muted">
-                              <!-- Data: {{blackBoxData?.data}} -->
-                            </div>
-                          </div>
-                        </h6>
-                        <div></div>
-                      </div>
+                        </div>
+                      </h6>
+                      <!-- <b>
+                        <a
+                          class="text-primary"
+                          (click)="getBlackBoxData(data?.id)"
+                          >Pull BlackBox
+                        </a>
+                      </b> -->
+                      <div></div>
                     </div>
                   </div>
+                  <div class="col-md-4">
+                    <div class="d-flex flex-column">
+                      <h6>
+                        <div class="d-flex">
+                          <label class="text-muted"
+                            >Product Limit Final :{{
+                              data?.expanddata?.black_box_data
+                            ? data?.expanddata?.black_box_data?.data?.product_limit_final : ''
+                            }}
+                          </label>
+                          <div class="mx-3 text-muted">
+                            <!-- Data: {{blackBoxData?.data}} -->
+                          </div>
+                        </div>
+                      </h6>
+                      <div></div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-flex flex-column">
+                      <h6>
+                        <div class="d-flex">
+                          <label class="text-muted"
+                            >Product Limit Final Max :{{
+                              data?.expanddata?.black_box_data
+                            ? data?.expanddata?.black_box_data?.data?.product_limit_final_max : ''
+                            }}
+                          </label>
+                          <div class="mx-3 text-muted">
+                            <!-- Data: {{blackBoxData?.data}} -->
+                          </div>
+                        </div>
+                      </h6>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
                 </nz-card>
                 <ng-template #blackBox>
                   <div class="ml-md-2">

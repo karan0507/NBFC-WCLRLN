@@ -237,6 +237,43 @@ const routes: Routes = [
                   },
 
                   {
+                        path: 'disbursement',
+                        data: {
+                              title: 'Disbursement',
+                              parent: 'Applications',
+                              custom_url: '/applications/disbursement'
+                        },
+                        children: [
+                              // {
+                              //       path: 'edit-form',
+                              //       component: EditFormComponent,
+                              //       canActivate: [NgxPermissionsGuard],
+                              //       data: {
+                              //             title: 'Edit Form',
+                              //             parent: 'Applications',
+                              //             permissions: {
+                              //               only: 'edit_form_filling_application',
+                              //               redirectTo: 'authentication/error-2'
+                              //             }
+                              //       },
+                              // },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                            only: 'track_disbursement_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+
+                  {
                         path: 'pre-approved',
                         data: {
                               title: 'Pre Approved Offer',

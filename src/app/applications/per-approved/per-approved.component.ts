@@ -184,6 +184,7 @@ export class PerApprovedComponent implements OnInit {
             // }
             data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
             data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            data['flag'] = this.selectedTabFilter;
 
             if (this.filters) {
                   // data['page'] = 1
@@ -332,6 +333,12 @@ export class PerApprovedComponent implements OnInit {
                   // this.message.error(res?.message);
                   this.api_calling_loader['previewSelfie'] = false;
             })
+      }
+
+      selectedTabFilter: any = 'all'
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
       }
 
       handleCancel() {

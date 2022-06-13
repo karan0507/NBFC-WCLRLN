@@ -190,6 +190,7 @@ export class DocumentUploadComponent implements OnInit {
 
             data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
             data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            data['flag'] = this.selectedTabFilter
             // if (tableFilter) {
             //       this.page = tableFilter?.pageIndex
             //       this.globalPageSize = tableFilter?.pageSize
@@ -416,6 +417,12 @@ export class DocumentUploadComponent implements OnInit {
                         })
                         break;
             }
+      }
+
+      selectedTabFilter: any ='all';
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
       }
 
       checkDisabledStatus() {

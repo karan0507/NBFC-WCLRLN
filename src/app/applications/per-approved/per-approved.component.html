@@ -32,8 +32,38 @@
 <!-- Main Section  -->
 <section>
   <nz-card class="w-100">
+    <div class="row mb-md-3">
+      <div class="col-md-12 mb-md-0">
+            <div class="d-flex">
+          <span>
+            <nz-radio-group [(ngModel)]="selectedTabFilter" (ngModelChange)='onClickChangeTabFilter($event)'>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="normal">Normal</label>
+                  <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                      nzValue="dormant">Dormant</label>
+              </nz-radio-group>
+          </span>        
+          <span>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" class="mb-2" style="width: 19rem;">
+                  <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
+                        placeholder="Search text" />
+                  </nz-input-group>
+                  <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
+                                    nzType="search"></i></button>
+                  </ng-template>
+          </span>
+          <span>
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="'mb-2 mx-1"
+            (click)="resetFilters()">
+            <i nz-icon nzType="undo"></i>
+            </button>
+          </span>
+            </div>
+      </div>
+    </div>
     <div class="row">
-      <div class="col-md-4 mb-3 d-flex">
+      <!-- <div class="col-md-4 mb-3 d-flex">
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
           <input
             type="text"
@@ -53,9 +83,10 @@
             <i nz-icon nzType="search"></i>
           </button>
         </ng-template>
-      </div>
-      <div class="col-md-8 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-        <button
+      </div> -->
+      <div class="col-12 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+        <div class="d-flex flex-wrap">
+        <!-- <button
           nz-button
           nzType="default"
           nzShape="circle"
@@ -65,9 +96,9 @@
           class="mr-2"
         >
           <i nz-icon nzType="undo"></i>
-        </button>
+        </button> -->
         <nz-select
-          class="mx-3"
+          class="mx-1 mb-2"
           nzAllowClear
           [(ngModel)]="productFilters"
           style="width: 12rem"
@@ -83,7 +114,7 @@
           </nz-option>
         </nz-select>
         <nz-select
-          class="mx-1"
+          class="mx-1 mb-1"
           nzAllowClear
           [(ngModel)]="stageFilters"
           style="width: 12rem"
@@ -101,7 +132,7 @@
           [(ngModel)]="partner"
           nzShowSearch
           (nzFocus)="onFocusMethod('partner')"
-          class="mr-3 my-md-0 my-3"
+          class="mx-1 mb-1"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
           nzPlaceHolder="Select Partner"
@@ -115,7 +146,7 @@
           <nz-option nzValue="other" nzLabel="Others"></nz-option>
         </nz-select>
         <nz-select
-          class=""
+          class="mx-1  mb-1"
           nzMode="multiple"
           (nzFocus)="onFocusMethod('status')"
           style="width: 15rem"
@@ -136,7 +167,7 @@
         <nz-select
           [(ngModel)]="moved_by"
           style="width: 12rem"
-          class="mx-1"
+          class="mx-1 mb-1"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
           nzPlaceHolder="Select Moved by"
@@ -146,7 +177,7 @@
           <nz-option [nzValue]="'system'" [nzLabel]="'System'"> </nz-option>
         </nz-select>
         <nz-range-picker
-          class="mx-1"
+          class="mx-1 mb-1"
           style="width: 12rem"
           [(ngModel)]="date"
           [nzDisabledDate]="disabledDate"
@@ -156,7 +187,7 @@
         <nz-select
           [(ngModel)]="date_sorter"
           style="width: 15rem"
-          class="mx-1"
+          class="mx-1 mb-1"
           (ngModelChange)="getFormLoanData()"
           nzAllowClear
           nzPlaceHolder="Sort by date"
@@ -176,6 +207,7 @@
           <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
           </nz-option>
         </nz-select>
+      </div>
       </div>
     </div>
     <div class="accordianLoanApp">

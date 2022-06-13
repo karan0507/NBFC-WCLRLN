@@ -208,7 +208,7 @@ export class UnderwritingComponent implements OnInit {
     // }
     data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
     data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
-
+    data['flag'] = this.selectedTabFilter
     if (this.filters) {
       // data["page"] = 1;
       data["status"] = this.filters;
@@ -564,6 +564,12 @@ export class UnderwritingComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  selectedTabFilter: any = 'all'
+  onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
   }
 
   exportData(file_formate?) {

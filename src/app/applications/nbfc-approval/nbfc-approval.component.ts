@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service'
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import * as FileSaver from 'file-saver';
+import * as moment from 'moment';
 @Component({
       selector: 'app-nbfc-approval',
       templateUrl: './nbfc-approval.component.html',
@@ -79,6 +80,27 @@ export class NbfcApprovalComponent implements OnInit {
       remarksDescription: any;
       date_sorter = ''
       moved_by='all';
+      stageFilters: any;
+      stageList = [
+            {name: 'pan'},
+            {name: 'aadhar'},
+            {name: 'company'},
+            {name: 'name'},
+            {name: 'income'}
+      ];
+      date = '';
+      customRanges = {
+            Today: [new Date(), new Date()],
+            'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+            'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+            // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+            'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+            // d.setMonth(d.getMonth() - 3);
+        };
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -109,34 +131,44 @@ export class NbfcApprovalComponent implements OnInit {
             this.loanApplicationData = [];
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=10', 'source': 'Onboarding' }
 
-            if (tableFilter) {
-                  this.page = tableFilter?.pageIndex
-                  this.globalPageSize = tableFilter?.pageSize
-                  data['page'] = tableFilter?.pageIndex
-                  data['limit'] = tableFilter?.pageSize
-            } else {
-                  data['page'] = this.page
-                  data['limit'] = this.globalPageSize
+            // if (tableFilter) {
+            //       this.page = tableFilter?.pageIndex
+            //       this.globalPageSize = tableFilter?.pageSize
+            //       data['page'] = tableFilter?.pageIndex
+            //       data['limit'] = tableFilter?.pageSize
+            // } else {
+            //       data['page'] = this.page
+            //       data['limit'] = this.globalPageSize
+            // }
+            data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+            data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            data['flag'] = this.selectedTabFilter;
+
+            if(this.stageFilters){
+                  // data['page'] = 1
+                  data['step'] = this.stageFilters
             }
 
             if (this.filters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['status'] = this.filters
             }
             if (this.productFilters) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['product_master'] = this.productFilters
             }
             if (this.searchValue) {
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['name'] = this.searchValue
             }
             if(this.partner){
-                  data['page'] = 1
+                  // data['page'] = 1
                   data['company'] = this.partner
             }
             data['moved_by'] = this.moved_by,
             data['date_sorter'] = this.date_sorter
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
 
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res?.success) {
@@ -156,6 +188,12 @@ export class NbfcApprovalComponent implements OnInit {
             }, (err) => {
                   this.api_calling_loader['listLoader'] = false
             })
+      }
+
+      selectedTabFilter: any = 'all'
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
       }
 
 
@@ -452,11 +490,19 @@ export class NbfcApprovalComponent implements OnInit {
       }
       
       resetFilters() {
+            // this.date_sorter = ''
+            // this.productFilters = null;
+            // this.filters = null;
+            // this.searchValue = null;
+            // this.partner = null
+            // this.stageFilters = null
+            this.date = '';
             this.date_sorter = ''
             this.productFilters = null;
             this.filters = null;
+            this.stageFilters = null;
             this.searchValue = null;
-            this.partner = null
+            this.partner = null;
             this.getFormLoanData()
       }
 }

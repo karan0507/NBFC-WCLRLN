@@ -539,55 +539,67 @@
                                                       [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
                                                       <div class="row">
                                                             <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex">
-                                                                                    <label class="text-muted">Application Score
-                                                                                          :{{blackBoxData?.application_score}}
-                                                                                    </label>
-                                                                                    <div class="mx-3  text-muted">
-                                                                                          <!-- Data: {{blackBoxData?.data}} -->
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <b> <a class="text-primary"
-                                                                                    (click)="getBlackBoxData(data?.id)">Pull
-                                                                                    BlackBox </a> </b>
-                                                                        <div>
-                                                                        </div>
+                                                              <div class="d-flex flex-column">
+                                                                <h6>
+                                                                  <div class="d-flex">
+                                                                    <label class="text-muted"
+                                                                      >Application Score :{{
+                                                                        data?.expanddata?.black_box_data
+                                                                      ? data?.expanddata?.black_box_data?.application_score : ''
+                                                                      }}
+                                                                    </label>
+                                                                    <div class="mx-3 text-muted">
+                                                                      <!-- Data: {{blackBoxData?.data}} -->
+                                                                    </div>
                                                                   </div>
+                                                                </h6>
+                                                                <!-- <b>
+                                                                  <a
+                                                                    class="text-primary"
+                                                                    (click)="getBlackBoxData(data?.id)"
+                                                                    >Pull BlackBox
+                                                                  </a>
+                                                                </b> -->
+                                                                <div></div>
+                                                              </div>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex">
-                                                                                    <label class="text-muted">Product Limit Final :{{blackBoxData?.data?.product_limit_final}}
-                                                                                    </label>
-                                                                                    <div class="mx-3  text-muted">
-                                                                                          <!-- Data: {{blackBoxData?.data}} -->
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <div>
-                                                                        </div>
+                                                              <div class="d-flex flex-column">
+                                                                <h6>
+                                                                  <div class="d-flex">
+                                                                    <label class="text-muted"
+                                                                      >Product Limit Final :{{
+                                                                        data?.expanddata?.black_box_data
+                                                                      ? data?.expanddata?.black_box_data?.data?.product_limit_final : ''
+                                                                      }}
+                                                                    </label>
+                                                                    <div class="mx-3 text-muted">
+                                                                      <!-- Data: {{blackBoxData?.data}} -->
+                                                                    </div>
                                                                   </div>
+                                                                </h6>
+                                                                <div></div>
+                                                              </div>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex">
-                                                                                    <label class="text-muted">Product Limit Final Max :{{blackBoxData?.data?.product_limit_final_max}}
-                                                                                    </label>
-                                                                                    <div class="mx-3  text-muted">
-                                                                                          <!-- Data: {{blackBoxData?.data}} -->
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <div>
-                                                                        </div>
+                                                              <div class="d-flex flex-column">
+                                                                <h6>
+                                                                  <div class="d-flex">
+                                                                    <label class="text-muted"
+                                                                      >Product Limit Final Max :{{
+                                                                        data?.expanddata?.black_box_data
+                                                                      ? data?.expanddata?.black_box_data?.data?.product_limit_final_max : ''
+                                                                      }}
+                                                                    </label>
+                                                                    <div class="mx-3 text-muted">
+                                                                      <!-- Data: {{blackBoxData?.data}} -->
+                                                                    </div>
                                                                   </div>
+                                                                </h6>
+                                                                <div></div>
+                                                              </div>
                                                             </div>
-                                                      </div>
+                                                          </div>
                                                 </nz-card>
                                                 <ng-template #blackBox>
                                                       <div class="ml-md-2">
