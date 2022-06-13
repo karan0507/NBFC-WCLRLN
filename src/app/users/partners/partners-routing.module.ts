@@ -27,7 +27,7 @@ const routes: Routes = [
       parent: 'Users',
       custom_url: 'partners',
       permissions: {
-        only: 'view_corporate',
+        only: 'view_partner',
         redirectTo: 'authentication/error-2'
       }
     },
@@ -35,16 +35,16 @@ const routes: Routes = [
     children: [
       {
         path: 'add',
-        // canActivate: [NgxPermissionsGuard],
+        canActivate: [NgxPermissionsGuard],
         component: AddEditPartnersComponent,
         data: {
           title: 'Add Corporate',
           parent: 'Users',
           custom_url: 'partner/add',
-          // permissions: {
-          //   only: 'add_corporate',
-          //   redirectTo: 'authentication/error-2'
-          // }
+          permissions: {
+            only: 'add_partner',
+            redirectTo: 'authentication/error-2'
+          }
         }
       },
       {
@@ -56,7 +56,7 @@ const routes: Routes = [
           parent: 'Users',
           custom_url: 'partner/edit',
           permissions: {
-            only: 'edit_corporate',
+            only: 'edit_partner',
             redirectTo: 'authentication/error-2'
           }
         }

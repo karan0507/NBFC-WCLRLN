@@ -189,6 +189,7 @@ export class OfferProposedComponent implements OnInit {
 
     data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
     data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+    data['flag'] = this.selectedTabFilter;
     if (this.filters) {
       // data["page"] = 1;
       data["status"] = this.filters;
@@ -636,6 +637,12 @@ export class OfferProposedComponent implements OnInit {
     // this.generateBase64View(file)
     return false;
   };
+
+  selectedTabFilter: any = 'all'
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
+      }
 
   resetFilters() {
     if(this.storedParams){

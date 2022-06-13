@@ -163,6 +163,7 @@ export class FormFillingComponent implements OnInit {
             var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
             data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
             data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            data['flag'] = this.selectedTabFilter
             // if (tableFilter) {
             //       this.page = tableFilter?.pageIndex
             //       this.globalPageSize = tableFilter?.pageSize
@@ -231,6 +232,12 @@ export class FormFillingComponent implements OnInit {
             }, error => {
                   this.api_calling_loader['accordian'] = false;
             })
+      }
+
+      selectedTabFilter: any ='all';
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
       }
 
       expandSet = new Set<number>();

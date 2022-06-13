@@ -332,7 +332,7 @@
                     >
                       <span class="m-l-5"> Legal Agreement</span>
                     </li>
-                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }" *ngxPermissionsOnly="['track_disbursement_application']">
                       <span class="m-l-5">Track Status</span>
                     </li>
                   </ul>
@@ -902,7 +902,8 @@
                           <div class="d-flex">
                             <label class="text-muted"
                               >Application Score :{{
-                                blackBoxData?.application_score
+                                data?.expanddata?.black_box_data
+                              ? data?.expanddata?.black_box_data?.application_score : ''
                               }}
                             </label>
                             <div class="mx-3 text-muted">
@@ -910,13 +911,13 @@
                             </div>
                           </div>
                         </h6>
-                        <b>
+                        <!-- <b>
                           <a
                             class="text-primary"
                             (click)="getBlackBoxData(data?.id)"
                             >Pull BlackBox
                           </a>
-                        </b>
+                        </b> -->
                         <div></div>
                       </div>
                     </div>
@@ -926,7 +927,8 @@
                           <div class="d-flex">
                             <label class="text-muted"
                               >Product Limit Final :{{
-                                blackBoxData?.data?.product_limit_final
+                                data?.expanddata?.black_box_data
+                              ? data?.expanddata?.black_box_data?.data?.product_limit_final : ''
                               }}
                             </label>
                             <div class="mx-3 text-muted">
@@ -943,7 +945,8 @@
                           <div class="d-flex">
                             <label class="text-muted"
                               >Product Limit Final Max :{{
-                                blackBoxData?.data?.product_limit_final_max
+                                data?.expanddata?.black_box_data
+                              ? data?.expanddata?.black_box_data?.data?.product_limit_final_max : ''
                               }}
                             </label>
                             <div class="mx-3 text-muted">

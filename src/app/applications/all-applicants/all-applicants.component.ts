@@ -31,6 +31,7 @@ export class AllApplicantsComponent implements OnInit {
   _checkedLoanList: any[];
   _activeLoans: any = [];
   today = new Date();
+  selectedTabFilter: any = 'all';
   api_calling_loader = {
         'listLoader': false,
         'accordian': false,
@@ -122,7 +123,8 @@ customRanges = {
       //       data['page'] = this.page
       //       data['limit'] = this.globalPageSize
       // }
-
+      data['flag'] = this.selectedTabFilter;
+      // selectedTabFilter
       if (this.filters) {
             // data['page'] = 1
             data['status'] = this.filters
@@ -260,6 +262,11 @@ customRanges = {
               this.message.error(error);
               this.api_calling_loader['button'] = false;
         })
+  }
+
+  onClickChangeTabFilter(e){
+        console.log(e);
+        this.resetFilters();
   }
 
   checkDisabledStatus() {
