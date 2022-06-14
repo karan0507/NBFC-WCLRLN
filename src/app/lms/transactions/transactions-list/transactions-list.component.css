@@ -5,6 +5,6 @@
     justify-content: end;
 }
 
-:host ::ng-deep .ant-table-body {
+/* :host ::ng-deep .ant-table-body {
     max-height: calc(100vh - 490px) !important;
-}
+} */
