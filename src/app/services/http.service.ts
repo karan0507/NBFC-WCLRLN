@@ -54,6 +54,15 @@ export class HttpService {
             return this._http.post((this.url + `/user/verify-admin-user/`), data);
       }
 
+      // /partner/v1/export-excel-data/171
+      public exportExcelDataOfPerticularCorporate(id): any {
+            return this._http.get((this.url + `/partner/v1/export-excel-data/${id}`), {responseType: 'blob'});
+      }
+
+      public exportAppDataOfPerticularCorporate(id): any {
+            return this._http.get((this.url + `/partner/v1/export-app-user-data/${id}`), {responseType: 'blob'});
+      }
+
       /// Send Otp
       public sendOtp(data): any {
             return this._http.post((this.url + `/user/forgot-password/`), data);

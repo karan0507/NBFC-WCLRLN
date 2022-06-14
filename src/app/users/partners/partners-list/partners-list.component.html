@@ -107,14 +107,15 @@
                                     </a>
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                         <ul nz-menu>
-                                            <!-- [routerLink]="['edit-employee', data.id]" -->
-                                            <!-- <li nz-menu-item>
-                                                <span class="m-l-5" (click)="changePassword(data)">Change
-                                                    Password</span>
-                                            </li> -->
                                             <li nz-menu-item [routerLink]="['../partners/edit']"[queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_partner']">
-                                                <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Edit</span>
+                                            </li>
+                                            <!-- *ngxPermissionsOnly="['edit_partner']" -->
+                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'excel')" >
+                                                <span class="m-l-5">Export Excel Data</span>
+                                            </li>
+                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
+                                                <span class="m-l-5">Export App Data</span>
                                             </li>
                                             <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">
