@@ -226,16 +226,16 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: []
             },
-            {
-                path: 'applications/dormant',
-                title: 'Dormant',
-                iconType: '',
-                icon: '',
-                permission: ['view_dormant_application'],
-                // permission: ['view_dormant_application'],
-                iconTheme: '',
-                submenu: []
-            },
+            // {
+            //     path: 'applications/dormant',
+            //     title: 'Dormant',
+            //     iconType: '',
+            //     icon: '',
+            //     permission: ['view_dormant_application'],
+            //     // permission: ['view_dormant_application'],
+            //     iconTheme: '',
+            //     submenu: []
+            // },
             {
                 path: 'applications/closed',
                 title: 'Closed',
