@@ -717,19 +717,19 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <div class="d-flex flex-column">
-                            <span class="text-muted">
-                                  PAN OCR Details
-                            </span>
-                            <div>
-                                  {{data?.expanddata?.offer_details ?
-                                  data?.expanddata?.offer_details
-                                  : '-'}}
-                            </div>
-                      </div>
-                    </div>
                   </div>
+                  <div class="col-12">
+                    <div class="d-flex flex-column">
+                          <span class="text-muted">
+                                PAN OCR Details
+                          </span>
+                          <div>
+                                {{data?.expanddata?.other_document_address[0] ?
+                                data?.expanddata?.other_document_address[0]
+                                : '-'}}
+                          </div>
+                    </div>
+              </div>
                 </nz-card>
                 <ng-template #aadharAddress>
                   <div class="ml-md-2">
