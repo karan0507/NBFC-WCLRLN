@@ -278,9 +278,9 @@
                                                                   (click)="moveStageTo('underwriting', data)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
-                                                            <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                                                            <!-- <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
                                                               <span class="m-l-5">Track Status</span>
-                                                            </li>
+                                                            </li> -->
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>
@@ -512,6 +512,18 @@
                                                                               data?.expanddata?.kyc_details?.results[0]?.pincode
                                                                               : '-'}}
                                                                         </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="col-12">
+                                                            <div class="d-flex flex-column">
+                                                                  <span class="text-muted">
+                                                                        PAN OCR Details
+                                                                  </span>
+                                                                  <div>
+                                                                        {{data?.expanddata?.other_document_address[0] ?
+                                                                        data?.expanddata?.other_document_address[0]
+                                                                        : '-'}}
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -1215,69 +1227,152 @@
 
                                           <!-- Address Details-->
                                           <div class="my-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="addressDetail">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-6">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">Permanent Address:
-                                                                        </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">Current Address:
-                                                                        </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #addressDetail>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Address Details</h6>
-                                                      </div>
-                                                </ng-template>
+                                          <nz-page-header
+                                                class="site-page-header acc-bg-light"
+                                                [nzTitle]="addressDetail"
+                                          >
+                                          </nz-page-header>
+                                          <nz-card
+                                                class="mb-md-0"
+                                                [nzLoading]="
+                                                _currentId == data.id
+                                                ? api_calling_loader['accordian']
+                                                : null
+                                                "
+                                          >
+                                          <div
+                                          class="row"
+                                          *ngFor="
+                                                let a_data of data?.expanddata?.kyc_details?.results;
+                                                let i = index
+                                          "
+                                          >
+                                          <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Address Line 1 </span>
+                                                <div>
+                                                {{ a_data ? a_data?.address_1 : "-" }}
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Address Line 2 </span>
+                                                <div>
+                                                {{ a_data ? a_data?.address_2 : "-" }}
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> City </span>
+                                                <div>
+                                                {{ a_data ? a_data?.city : "-" }}
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> State </span>
+                                                <div>
+                                                {{ a_data ? a_data?.state : "-" }}
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Pincode </span>
+                                                <div>
+                                                {{ a_data ? a_data?.pincode : "-" }}
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <!-- <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Email </span>
+                                                <div>
+                                                {{ a_data ? a_data?.email : "-" }}
+                                                </div>
+                                                </div>
+                                          </div> -->
+                                          </div>
+                                          </nz-card>
+                                          <ng-template #addressDetail>
+                                                <div class="ml-md-2">
+                                                <h6 class="mb-0">Address Details</h6>
+                                                </div>
+                                          </ng-template>
                                           </div>
 
-                                          <!-- References -->
-                                          <div>
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="refDetails">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div *ngFor="let item of data?.expanddata?.references?.results; index as i"
-                                                                  class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">Reference {{i + 1}}
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.references?.results[i]
-                                                                              ?
-                                                                              data?.expanddata?.references?.results[i]?.name
-                                                                              + '-' +
-                                                                              data?.expanddata?.references?.results[i]?.mobile
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #refDetails>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Reference Details</h6>
-                                                      </div>
-                                                </ng-template>
+                                          <!-- Nominee Details -->
+                                          <div class="my-3">
+                                          <nz-page-header
+                                          class="site-page-header acc-bg-light"
+                                          [nzTitle]="nomineeDetail"
+                                          >
+                                          </nz-page-header>
+                                          <nz-card
+                                          class="mb-md-0 border"
+                                          [nzLoading]="
+                                                _currentId == data.id
+                                                ? api_calling_loader['accordian']
+                                                : null
+                                          "
+                                          >
+                                          <div
+                                                class="row"
+                                                *ngFor="
+                                                let a_data of data?.expanddata?.references?.results;
+                                                let i = index
+                                                "
+                                          >
+                                                <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Name </span>
+                                                <div>
+                                                      {{ a_data ? a_data?.name : "-" }}
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Relationship </span>
+                                                <div>
+                                                      {{ a_data ? a_data?.relationship : "-" }}
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Mobile </span>
+                                                <div>
+                                                      {{ a_data ? a_data?.mobile : "-" }}
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <!-- <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                <span class="text-muted"> Email </span>
+                                                <div>
+                                                      {{ a_data ? a_data?.email : "-" }}
+                                                </div>
+                                                </div>
+                                                </div> -->
+                                          </div>
+                                          </nz-card>
+                                          <ng-template #nomineeDetail>
+                                          <div class="ml-md-2">
+                                                <h6 class="mb-0">
+                                                <i
+                                                nz-icon
+                                                class="mr-2"
+                                                nzType="file"
+                                                nzTheme="outline"
+                                                ></i>
+                                                Nominee Details
+                                                </h6>
+                                          </div>
+                                          </ng-template>
                                           </div>
                                           
                                           <!-- History -->

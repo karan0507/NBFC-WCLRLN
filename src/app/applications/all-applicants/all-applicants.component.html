@@ -2,12 +2,14 @@
     <div class="d-flex justify-content-md-center flex-wrap w-100">          <div></div>
           <div class="font-size-20"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users
                 : {{total_count ? total_count : '0'}}</div>
+            <div> 
+            </div>
     </div>
 </div>
 <section>
     <nz-card class="w-100">
       <div class="row mb-md-3">
-            <div class="col-md-12 mb-md-0">
+            <div class="col-md-8 mb-md-0">
                   <div class="d-flex">
                 <span>
                   <nz-radio-group [(ngModel)]="selectedTabFilter" (ngModelChange)='onClickChangeTabFilter($event)'>
@@ -34,6 +36,10 @@
                   </button>
                 </span>
                   </div>
+            </div>
+            <div class="col-md-4" style="text-align: right;">
+                  <button nz-button nzType="link" (click)="exportData('xlsx')"
+                  class="ml-3 border" [routerLink]="" *ngxPermissionsOnly="['export_all_application']">Export</button>
             </div>
         </div>
           <div class="row">
@@ -130,7 +136,7 @@
                                   <th>Latest Action Performed By</th>
                                   <th>Stage</th>
                                   <th>Remarks</th>
-                                  <th *ngxPermissionsOnly="['track_applicants_status']" nzRight [nzWidth]="'5rem'">Action</th>
+                                  <th *ngxPermissionsOnly="['track_all_applicants_status']" nzRight [nzWidth]="'5rem'">Action</th>
                             </tr>
                       </thead>
                       <tbody>
@@ -174,7 +180,7 @@
                                                     {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) :
                                                     (data?.remarks ? data?.remarks : '-')}}
                                               </span></td>
-                                        <td nzRight [nzWidth]="'5rem'" *ngxPermissionsOnly="['track_applicants_status']">
+                                        <td nzRight [nzWidth]="'5rem'" *ngxPermissionsOnly="['track_all_applicants_status']">
                                               <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                     [nzDropdownMenu]="latestUploadDropDown">
@@ -194,7 +200,7 @@
                                                     (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
                                                           <!-- /applications/form-filling/track-status -->
                                                           <li nz-menu-item
-                                                                [routerLink]="['/applications/form-filling/track-status']"
+                                                                [routerLink]="['/applications/all-application/track-status']"
                                                                 [queryParams]="{id: data?.id}">
                                                                 <span class="m-l-5">Track Status</span>
                                                           </li>
@@ -442,6 +448,18 @@
                                                                 </div>
                                                           </div>
                                                     </div>
+                                                    <div class="col-12">
+                                                      <div class="d-flex flex-column">
+                                                            <span class="text-muted">
+                                                                  PAN OCR Details
+                                                            </span>
+                                                            <div>
+                                                                  {{data?.expanddata?.other_document_address[0] ?
+                                                                  data?.expanddata?.other_document_address[0]
+                                                                  : '-'}}
+                                                            </div>
+                                                      </div>
+                                                </div>
                                               </nz-card>
                                               <ng-template #aadharAddress>
                                                     <div class="ml-md-2">

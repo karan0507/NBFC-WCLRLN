@@ -344,7 +344,7 @@
                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                   <ul nz-menu>
                     <!-- [routerLink]="['edit-employee', data.id]" -->
-                    <li
+                    <li  *ngxPermissionsOnly="['generate_offer_underwriting']"
                       nz-menu-item
                       nz-popconfirm
                       nzPopconfirmTitle="Are you sure about this action ?"
@@ -353,6 +353,7 @@
                         generateOfferForCorrespondingApplication(data?.id)
                       "
                     >
+                    <!-- Generate_Offer_Underwriting -->
                       <!-- *ngxPermissionsOnly="['edit_application']" -->
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <!-- <a
@@ -375,7 +376,9 @@
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Edit Application</span>
                     </li>
+                    <!-- Track_Underwriting_Status_Application -->
                     <li
+                      *ngxPermissionsOnly="['track_underwriting_status_application']"
                       nz-menu-item
                       [routerLink]="['track-status']"
                       [queryParams]="{ id: data?.id }"
@@ -426,9 +429,6 @@
                       (click)="getCibilScoreData('sms', data?.user?.id)"
                     >
                       <span class="m-l-5">Fetch SMS</span>
-                    </li>
-                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
-                      <span class="m-l-5">Track Status</span>
                     </li>
                     <!-- <li nz-menu-item>
                                                                   <span class="m-l-5">Pull Black Box Data</span>
@@ -766,6 +766,18 @@
                           }}
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex flex-column">
+                          <span class="text-muted">
+                                PAN OCR Details
+                          </span>
+                          <div>
+                                {{data?.expanddata?.other_document_address[0] ?
+                                data?.expanddata?.other_document_address[0]
+                                : '-'}}
+                          </div>
                     </div>
                   </div>
                 </nz-card>
@@ -1972,7 +1984,6 @@
 <nz-modal
   [(nzVisible)]="isVisibleXMLModal"
   nzTitle="Fetched XML Response"
-  (nzOnCancel)="isVisibleXMLModal = false"
   (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
@@ -1998,6 +2009,16 @@
                   </span> -->
     </nz-card>
   </ng-container>
+  <ng-template #xmlFooter>
+    <button
+      nz-button
+      nzType="link"
+      class="border"
+      (click)="isVisibleXMLModal = false"
+    >
+      Cancel
+    </button>
+  </ng-template>
 </nz-modal>
 
 <nz-modal

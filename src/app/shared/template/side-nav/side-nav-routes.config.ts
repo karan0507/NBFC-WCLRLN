@@ -226,16 +226,16 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: []
             },
-            {
-                path: 'applications/dormant',
-                title: 'Dormant',
-                iconType: '',
-                icon: '',
-                permission: ['view_dormant_application'],
-                // permission: ['view_dormant_application'],
-                iconTheme: '',
-                submenu: []
-            },
+            // {
+            //     path: 'applications/dormant',
+            //     title: 'Dormant',
+            //     iconType: '',
+            //     icon: '',
+            //     permission: ['view_dormant_application'],
+            //     // permission: ['view_dormant_application'],
+            //     iconTheme: '',
+            //     submenu: []
+            // },
             {
                 path: 'applications/closed',
                 title: 'Closed',
@@ -372,6 +372,16 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_black_box'],
+        icon: 'file',
+        submenu: []
+    },
+    {
+        path: '/dormant',
+        title: 'Dormant Stage Trigger',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        // view_dormant
         icon: 'file',
         submenu: []
     },

@@ -442,9 +442,11 @@
                         <tr>
                               <th>#</th>
                               <th>Amount</th>
+                              <th>Bill date</th>
+                              <th>Paid on</th>
+                              <th>Paid status</th>
                               <th>Created At</th>
-                              <th>Created At</th>
-                              <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['view_bill_statement']">Actions</th>
+                              <th nzRight>Actions</th>
                         </tr>
                   </thead>
                   <tbody>
@@ -453,9 +455,12 @@
                               <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
                               <td>{{ data?.credit_utilization_bill?.outstanding_amount ? data?.credit_utilization_bill?.outstanding_amount : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.bill_date | date: "medium" }}</td>
+                              <td>{{ data?.credit_utilization_bill?.paid_on ? data?.credit_utilization_bill?.paid_on : '-' }}</td>
+                              <td>{{ data?.credit_utilization_bill?.paid_status ? 'Paid' : 'Unpaid' }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
-                              <td nzRight *ngxPermissionsOnly="['view_bill_statement']">
-                                    <a (click)="viewInvoice(data.report_file, 'Bill Statement')">view</a>
+                              <td nzRight>
+                                    <a (click)="viewInvoice(data.report_file, 'Bill Statement')" class="mr-3" *ngxPermissionsOnly="['view_bill_statement']">view</a>
+                                    <a *ngIf="!data?.credit_utilization_bill?.paid_status" (click)="captureCollection(data?.credit_utilization_bill?.id)">Capture collection</a>
                               </td>
                         </tr>
                   </tbody>
