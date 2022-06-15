@@ -542,5 +542,18 @@ export class BorrowersDetailsComponent implements OnInit {
   viewAgreement() {
 
   }
+  captureCollection(bill_id) {
+    let data = new FormData()
+    data.append('source', 'LMS'),
+    data.append('datapoint', 'mandate_trigger_admin'),
+    data.append('bill_id', bill_id)
+    const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.message.remove(generateloader);
+      this.message.success(res['message'])
+    }, (err) => {
+      this.message.remove(generateloader);
+    })
+  }
 
 }

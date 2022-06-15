@@ -723,6 +723,10 @@ export class HttpService {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get<Blob>((this.url + `/central-api/v1/call-api`), { params: data, responseType: 'blob' as 'json'});
       }
+      public exportEscrowStatement(data): Observable<any> {
+            // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+            return this._http.get<Blob>((this.url + `/nbfc/v1/account-export-escrow-transactions`), { params: data, responseType: 'blob' as 'json'});
+      }
 
       // Application Module => End point 
       public postLoanApplicationApi(data): Observable<any> {
