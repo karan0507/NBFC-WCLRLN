@@ -101,4 +101,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'accounting',
         loadChildren: () => import('../../accounting/accounting.module').then(m => m.AccountingModule),
     },
+    {
+        path: 'dormant',
+        loadChildren: () => import('../../dormant-stage-trigger/dormant-stage-trigger.module').then(m => m.DormantStageTriggerModule),
+    },
 ];

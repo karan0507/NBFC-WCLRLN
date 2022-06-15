@@ -1013,6 +1013,18 @@ export class HttpService {
             return this._http.get(this.url + `/partner/v1/download-employee-details/${id}`,{ responseType:'blob' });
       }
 
+      getDormatSupportedStageList(data?){
+            return this._http.get(this.url + `/platform_central/v1/get-dormant-supported_stage-data`,{params: data});
+      }
+
+      updataeDormantStage(data) {
+            return this._http.post(this.url + `/platform_central/v1/update-stage-dormant-days`, data);
+      }
+
+      // /platform_central/v1/update-stage-dormant-days
+
+      // /platform_central/v1/get-dormant-supported_stage-data
+
       viewSavedFileContent(id, data){
             return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`, {params: data});
       }

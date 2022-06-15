@@ -376,6 +376,16 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
+        path: '/dormant',
+        title: 'Dormant Stage Trigger',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        // view_dormant
+        icon: 'file',
+        submenu: []
+    },
+    {
         path: 'coupon-code',
         title: 'Coupon Code',
         iconType: 'nzIcon',
