@@ -344,7 +344,7 @@
                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                   <ul nz-menu>
                     <!-- [routerLink]="['edit-employee', data.id]" -->
-                    <li
+                    <li  *ngxPermissionsOnly="['generate_offer_underwriting']"
                       nz-menu-item
                       nz-popconfirm
                       nzPopconfirmTitle="Are you sure about this action ?"
@@ -353,6 +353,7 @@
                         generateOfferForCorrespondingApplication(data?.id)
                       "
                     >
+                    <!-- Generate_Offer_Underwriting -->
                       <!-- *ngxPermissionsOnly="['edit_application']" -->
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <!-- <a
@@ -375,7 +376,9 @@
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Edit Application</span>
                     </li>
+                    <!-- Track_Underwriting_Status_Application -->
                     <li
+                      *ngxPermissionsOnly="['track_underwriting_status_application']"
                       nz-menu-item
                       [routerLink]="['track-status']"
                       [queryParams]="{ id: data?.id }"
@@ -426,9 +429,6 @@
                       (click)="getCibilScoreData('sms', data?.user?.id)"
                     >
                       <span class="m-l-5">Fetch SMS</span>
-                    </li>
-                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
-                      <span class="m-l-5">Track Status</span>
                     </li>
                     <!-- <li nz-menu-item>
                                                                   <span class="m-l-5">Pull Black Box Data</span>
