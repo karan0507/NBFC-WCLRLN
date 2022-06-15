@@ -380,7 +380,7 @@
                         >View Agreement</span
                       >
                     </li>
-                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                    <li nz-menu-item [routerLink]="['track-status']" *ngxPermissionsOnly="['track_offer_offer_proposed_application']" [queryParams]="{ id: data?.id }">
                       <span class="m-l-5">Track Status</span>
                     </li>
                     <ng-template #popupTitle>

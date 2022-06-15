@@ -153,7 +153,7 @@
                                                 <i nz-icon nzType="info-circle" nzTheme="outline" *ngIf="data.remarks" nz-tooltip style="cursor: pointer;"
                                                       nzTooltipTitle="{{data?.remarks}}" nzPopoverPlacement="top"></i>
                                           </td>
-                                          <td nzRight [nzWidth]="'5rem'">
+                                          <td nzRight [nzWidth]="'5rem'" *ngxPermissionsOnly="['generate_offer_rejected_application']">
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                       [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                       [nzDropdownMenu]="latestUploadDropDown">
@@ -161,22 +161,22 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <li nz-menu-item
+                                                            <li nz-menu-item *ngxPermissionsOnly="['generate_offer_rejected_application','move_to_underwriting_rejected_application','move_to_original_stage_rejected_application']"
                                                                   (click)="generateOffer(data?.id)">
                                                                   <span class="m-l-5">Generate offer</span>
                                                             </li>
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item (click)="moveStageTo('original', data?.id)">
+                                                            <li nz-menu-item (click)="moveStageTo('original', data?.id)" *ngxPermissionsOnly="['move_to_original_stage_rejected_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5">Move to Original Stage </span>
                                                             </li>
-                                                            <li nz-menu-item
+                                                            <li nz-menu-item *ngxPermissionsOnly="['move_to_underwriting_rejected_application']"
                                                                   (click)="moveStageTo('underwriting', data?.id)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
-                                                            <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                                                            <!-- <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
                                                               <span class="m-l-5">Track Status</span>
-                                                            </li>
+                                                            </li> -->
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>

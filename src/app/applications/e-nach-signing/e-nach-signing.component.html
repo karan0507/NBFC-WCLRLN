@@ -483,6 +483,7 @@
                       <span class="m-l-5"> Legal Agreement</span>
                     </li>
                     <li
+                      *ngxPermissionsOnly="['track_e_signing_application']"
                       nz-menu-item
                       [routerLink]="['track-status']"
                       [queryParams]="{ id: data?.id }"

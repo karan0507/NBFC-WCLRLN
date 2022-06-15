@@ -370,7 +370,7 @@
                     <!-- [routerLink]="['edit-employee', data.id]" -->
                     <li
                       nz-menu-item
-                      *ngxPermissionsOnly="['edit_offer_offer_acceptance_application']"
+                      *ngxPermissionsOnly="['edit_offer_acceptance_application']"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span
@@ -403,7 +403,7 @@
                         >View Agreement</span
                       >
                     </li>
-                    <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                    <li nz-menu-item *ngxPermissionsOnly="['track_offer_acceptance_application']" [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
                       <span class="m-l-5">Track Status</span>
                     </li>
 
