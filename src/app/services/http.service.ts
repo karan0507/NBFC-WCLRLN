@@ -13,9 +13,9 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -124,6 +124,10 @@ export class HttpService {
        */
        public fetchEscrowStatementList(data?) {
             return this._http.get((this.url + `/nbfc/v1/account-fetch-escrow-transactions`), { params: data });
+      }
+
+      public fetchRefundsList(data?) {
+            return this._http.get((this.url + `/platform_central/v1/refund/get-list`), { params: data });
       }
 
       /**
@@ -717,6 +721,10 @@ export class HttpService {
       public exportEscrowStatement(data): Observable<any> {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get<Blob>((this.url + `/nbfc/v1/account-export-escrow-transactions`), { params: data, responseType: 'blob' as 'json'});
+      }
+      public exportGSTList(data): Observable<any> {
+            // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+            return this._http.get<Blob>((this.url + `/nbfc/v1/account-export-gst-list`), { params: data, responseType: 'blob' as 'json'});
       }
 
       // Application Module => End point 

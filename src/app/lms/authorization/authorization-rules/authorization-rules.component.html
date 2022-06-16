@@ -15,7 +15,7 @@
     </ng-template>
     <div *ngFor="let data of authorizationRulesList" class="row border-bottom my-2 justify-content-between pb-2">
         <div class="col-5">
-            {{data?.rule_text}}
+            {{ data?.rule_text}}
         </div>
         <div class="col-5 text-right" *ngxPermissionsOnly="['authorization_rules_edit_authorization_policy']">
             {{data?.value}}

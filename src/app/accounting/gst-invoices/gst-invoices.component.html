@@ -1,3 +1,7 @@
+<div class="header_breadcrumb_section">
+    <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
+    <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+</div>
 <section>
     <div class="row">
         <nz-card class="w-100 mb-0">
@@ -49,7 +53,7 @@
                         <td>{{ data['transaction'].txn_name ? data['transaction'].txn_name: '-' }}</td>
                         <td>{{ data['transaction'].txn_unique_id ? data['transaction'].txn_unique_id: '-' }}</td>
                         <td>{{ data['transaction'].loan_unique_id ? data['transaction'].loan_unique_id: '-' }}</td>
-                        <td>{{ data['corporate'].corporate_name ? data['corporate'].corporate_name: '-' }}</td>
+                        <td>{{ data['corporate'].display_name ? data['corporate'].display_name: '-' }}</td>
                         <td>{{ data['invoice_date'] ? (data['invoice_date'] | date: 'medium'): '-' }}</td>
                         <td>{{ data['igst_total'] ? data['igst_total']: '-' }}</td>
                         <td>{{ data['total'] ? data['total']: '-' }}</td>

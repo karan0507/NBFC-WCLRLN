@@ -328,6 +328,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'lms/refunds',
+                title: 'Refunds',
+                iconType: '',
+                icon: '',
+                permission: [''],
+                iconTheme: '',
+                submenu: []
+            },
+            {
                 path: 'lms/lender-management',
                 title: 'Lender Management',
                 permission: ['view_lender_management'],
