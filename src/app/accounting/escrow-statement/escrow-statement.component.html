@@ -31,6 +31,7 @@
                         <th>Type</th>
                         <th>Amount</th>
                         <th>Transaction id</th>
+                        <th>Loan id</th>  
                         <th nzWidth="15rem">Remarks</th>
                         <th>Cheque no</th>
                         <th>Balance</th>
@@ -45,6 +46,7 @@
                         <td>{{ data['TYPE'] ? data['TYPE']: '-' }}</td>
                         <td>{{ data['AMOUNT'] ? data['AMOUNT']: '-' }}</td>
                         <td>{{ data['TRANSACTIONID'] ? data['TRANSACTIONID']: '-' }}</td>
+                        <td>{{ data.loan_unique_id ? data.loan_unique_id: '-' }}</td>
                         <td>{{ data['REMARKS'] ? data['REMARKS']: '-' }}</td>
                         <td>{{ data['CHEQUENO'] ? data['CHEQUENO']: '-' }}</td>
                         <td>{{ data['BALANCE'] ? data['BALANCE']: '-' }}</td>

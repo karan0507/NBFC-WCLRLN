@@ -23,6 +23,7 @@ export class GstInvoicesComponent implements OnInit {
     'url': null,
     'title': ''
   }
+  selectedCorporate: any;
   date = ''
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -39,6 +40,8 @@ export class GstInvoicesComponent implements OnInit {
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
   };
+  debounce: any;
+  corporateList: any[];
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,
@@ -57,6 +60,7 @@ export class GstInvoicesComponent implements OnInit {
       limit: this.globalPageSize,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      corporate_id: this.selectedCorporate ? this.selectedCorporate : '',
       // id: this.product_id
     }
     this.list_data = null
@@ -89,7 +93,35 @@ export class GstInvoicesComponent implements OnInit {
   
   resetFilters() {
     this.date = ''
+    this.selectedCorporate = ''
     this.fetchGSTInvoiceList();
+  }
+  
+  OnTypeSearchList(event){
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      this.fetchPartnerList(event);
+    }, 500);
+  }
+
+  fetchPartnerList(e?) {
+    let data = {};
+    if(e){
+      data['name'] = e;
+    }
+    this.http.fetchPartner(data).subscribe((res: any) => {
+      if (res?.success) {
+        this.corporateList = [];
+        res?.data?.results.map((res: any)=>{
+          if(res?.name){
+            this.corporateList.push(res)    
+          }
+        })
+        // this.corporateList = res?.data?.results;
+        console.log(this.corporateList);
+      }
+    });
+    // }
   }
 
 }
