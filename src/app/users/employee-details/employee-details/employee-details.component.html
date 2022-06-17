@@ -221,6 +221,22 @@
                 <div *ngIf="item.name">{{ item?.name }}</div>
               </nz-option>
             </nz-select>
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedAppStatus"
+              nzAllowClear nzShowSearch
+              nzPlaceHolder="Select App Status"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of appStatusList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
             <!-- (nzOnSearch)="OnTypeSearchList($event)" 
             (ngModelChange)="getResultWithSelectedFilter($event)"-->
             <nz-select *ngIf="selectedTab == 'recommendation'" 
@@ -267,6 +283,7 @@
                   <th *ngIf="selectedTab === 'allEmployee'">App Status</th>
                   <th *ngIf="selectedTab === 'allEmployee'">App Last Used On</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Mobile No</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Employee Added</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Employee Status</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommendation By</th>
                   <th *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'" >Recommended Amount</th>
@@ -324,9 +341,26 @@
                           <i
                             *ngIf="!data?.employee_added"
                             nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    <!-- {{ data?.employee_added }} -->
+                    <i
+                            *ngIf="data?.is_active"
+                            nz-icon
                             nzType="check-circle"
                             nzTheme="fill"
                             class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!data?.is_active"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
                           ></i>
                   </td>
                   <td *ngIf="selectedTab == 'recommendation' && selectedAction == 'recommendation'">

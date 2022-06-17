@@ -45,9 +45,10 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SharedModule } from '../shared/shared.module';
 import { AllApplicantsComponent } from './all-applicants/all-applicants.component';
+import { CorporateStageComponent } from './corporate-stage/corporate-stage.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,

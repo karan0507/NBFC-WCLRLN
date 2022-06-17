@@ -165,6 +165,13 @@ export class EmployeeDetailsComponent implements OnInit {
   total_count = 10;
   UPIList: any;
   corporateList: any = [];
+  appStatusList: any = [{
+    pk : 'not using',
+    name : 'not using',
+  }, {
+    pk : 'using',
+    name : 'using',
+  }]
   selectedCorporate: any;
   isVisibleModal = {
     modalIsVisible: false,
@@ -489,6 +496,7 @@ export class EmployeeDetailsComponent implements OnInit {
     saveAs(data, "EMPLOYEE_DETAIL.xlsx");
   }
 
+  selectedAppStatus: any
   selectedAction  = 'recommendation';
   getListOfAllEmployees(event?){
     if (this.apiLoader["list"]) {
@@ -513,6 +521,9 @@ export class EmployeeDetailsComponent implements OnInit {
     } 
     if (this.selectedCorporate) {
       data["corporate"] = this.selectedCorporate;
+    }
+    if (this.selectedAppStatus) {
+      data["app_install_status"] = this.selectedAppStatus;
     }
     this.apiLoader["list"] = true;
     const url = this.http.getListOfEmployeeBasedOnParameter(data);

@@ -86,6 +86,13 @@ export class EditFormComponent implements OnInit {
                   company_name: [null, [Validators.required]],
                   address: [null, []],
                   emp_code:[null],
+                  address_1:[null],
+                  address_2:[null],
+                  city:[null],
+                  landmark:[null],
+                  pincode:[null],
+                  state:[null],
+
                   employment_type_id: [null, [Validators.required]]
             })
 
@@ -229,6 +236,39 @@ export class EditFormComponent implements OnInit {
                                     emp_code: res?.data?.emp_code
                               })
                         }
+
+                        if(res?.data?.address_details?.address_1){
+                              this.employementDetails.patchValue({
+                                    address_1: res?.data?.address_details?.address_1
+                              })
+                        }
+
+                        if(res?.data?.address_details?.address_2){
+                              this.employementDetails.patchValue({
+                                    address_2: res?.data?.address_details?.address_2
+                              })
+                        }
+                        if(res?.data?.address_details?.city){
+                              this.employementDetails.patchValue({
+                                    city: res?.data?.address_details?.city
+                              })
+                        }
+
+                        if(res?.data?.address_details?.landmark){
+                              this.employementDetails.patchValue({
+                                    landmark: res?.data?.address_details?.landmark
+                              })
+                        }
+                        if(res?.data?.address_details?.pincode){
+                              this.employementDetails.patchValue({
+                                    pincode: res?.data?.address_details?.pincode
+                              })
+                        }
+                        if(res?.data?.address_details?.state){
+                              this.employementDetails.patchValue({
+                                    state: res?.data?.address_details?.state
+                              })
+                        }
                         // emp_code
                         if(res?.data?.employment_type_info){
                               this.employementDetails.patchValue({
@@ -284,6 +324,26 @@ export class EditFormComponent implements OnInit {
             }
             if(this.employementDetails.value.emp_code){
                   data.append('emp_code', this.employementDetails.value.emp_code);
+            }
+
+            if(this.employementDetails.value.address_1){
+                  data.append('address_1', this.employementDetails.value.address_1);
+            }
+
+            if(this.employementDetails.value.address_2){
+                  data.append('address_2', this.employementDetails.value.address_2);
+            }
+            if(this.employementDetails.value.city){
+                  data.append('city', this.employementDetails.value.city);
+            }
+            if(this.employementDetails.value.landmark){
+                  data.append('landmark', this.employementDetails.value.landmark);
+            }
+            if(this.employementDetails.value.pincode){
+                  data.append('pincode', this.employementDetails.value.pincode);
+            }
+            if(this.employementDetails.value.state){
+                  data.append('state', this.employementDetails.value.state);
             }
             // emp_code
             data.append('employment_type_id',this.employementDetails.value.employment_type_id)
