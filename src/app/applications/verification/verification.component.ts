@@ -392,7 +392,8 @@ export class VerificationComponent implements OnInit {
                                     this.api_calling_loader['button'] = false
                                     this.message.success(res?.message);
                                     this.handleCancel();
-                                    this.getIdWiseData(this._currentModalData['application'])
+                                    // this.getIdWiseData(this._currentModalData['application']);
+                                    this.getFormLoanData()
                               } else {
                                     this.api_calling_loader['button'] = false
                                     this.message.error(res?.message);

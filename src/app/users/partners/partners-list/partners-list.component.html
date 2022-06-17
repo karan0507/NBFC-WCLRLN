@@ -58,6 +58,10 @@
                             <th>Partner Id</th>
                             <th>Refer ID</th>
                             <th>Registered(KYC)</th>
+                            <th>Total Line Assigned</th>
+                            <th>Total Line Utilized</th>
+                            <th>Total Active User</th>
+                            <th>User with Unalived offer </th>
                             <!-- <th>Transaction Status</th> -->
                             <th>System Status</th>
                             <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
@@ -95,6 +99,10 @@
                                     <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                                 </td>
                                 <!-- <td>{{data?.transaction_status}}</td> -->
+                                <td>{{ data?.borrowers_detail?.total_credit_line_assigned ? data?.borrowers_detail?.total_credit_line_assigned : '0' }}</td>
+                                <td>{{ data?.borrowers_detail?.total_credit_line_utilized ? data?.borrowers_detail?.total_credit_line_utilized : '0' }}</td>
+                                <td>{{ data?.borrowers_detail?.total_active_users ? data?.borrowers_detail?.total_active_users : 0 }}</td>
+                                <td>{{ data?.borrowers_detail?.remaining_user_count ? data?.borrowers_detail?.remaining_user_count : 0 }}</td>
                                 <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
 
@@ -107,14 +115,15 @@
                                     </a>
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                         <ul nz-menu>
-                                            <!-- [routerLink]="['edit-employee', data.id]" -->
-                                            <!-- <li nz-menu-item>
-                                                <span class="m-l-5" (click)="changePassword(data)">Change
-                                                    Password</span>
-                                            </li> -->
                                             <li nz-menu-item [routerLink]="['../partners/edit']"[queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_partner']">
-                                                <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
                                                 <span class="m-l-5">Edit</span>
+                                            </li>
+                                            <!-- *ngxPermissionsOnly="['edit_partner']" -->
+                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'excel')" >
+                                                <span class="m-l-5">Export Excel Data</span>
+                                            </li>
+                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
+                                                <span class="m-l-5">Export App Data</span>
                                             </li>
                                             <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">

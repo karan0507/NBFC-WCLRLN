@@ -54,6 +54,15 @@ export class HttpService {
             return this._http.post((this.url + `/user/verify-admin-user/`), data);
       }
 
+      // /partner/v1/export-excel-data/171
+      public exportExcelDataOfPerticularCorporate(id): any {
+            return this._http.get((this.url + `/partner/v1/export-excel-data/${id}`), {responseType: 'blob'});
+      }
+
+      public exportAppDataOfPerticularCorporate(id): any {
+            return this._http.get((this.url + `/partner/v1/export-app-user-data/${id}`), {responseType: 'blob'});
+      }
+
       /// Send Otp
       public sendOtp(data): any {
             return this._http.post((this.url + `/user/forgot-password/`), data);
@@ -1015,6 +1024,18 @@ export class HttpService {
       downloadEmployeeUserDetail(id){
             return this._http.get(this.url + `/partner/v1/download-employee-details/${id}`,{ responseType:'blob' });
       }
+
+      getDormatSupportedStageList(data?){
+            return this._http.get(this.url + `/platform_central/v1/get-dormant-supported_stage-data`,{params: data});
+      }
+
+      updataeDormantStage(data) {
+            return this._http.post(this.url + `/platform_central/v1/update-stage-dormant-days`, data);
+      }
+
+      // /platform_central/v1/update-stage-dormant-days
+
+      // /platform_central/v1/get-dormant-supported_stage-data
 
       viewSavedFileContent(id, data){
             return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`, {params: data});

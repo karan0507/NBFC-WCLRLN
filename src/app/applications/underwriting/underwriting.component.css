@@ -6,3 +6,7 @@
 /* :host ::ng-deep .ant-table-body {
       max-height: calc(100vh - 455px) !important;
   } */
+
+  ::ng-deep .ant-select-multiple.ant-select-sm .ant-select-selector {
+    height: 2.7935rem;
+}

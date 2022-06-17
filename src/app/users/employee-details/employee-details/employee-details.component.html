@@ -302,8 +302,8 @@
                   </td>
                   <td *ngIf="selectedTab === 'allEmployee'">
                     <!-- {{ data?.app_status ? data?.app_status?.status : ' - '}} -->
-                    <span *ngIf="!data?.app_status?.status">Deactive</span>
-                    <span *ngIf="data?.app_status?.status">Active</span>
+                    <span *ngIf="!data?.app_status?.status">Not Using</span>
+                    <span *ngIf="data?.app_status?.status">Using</span>
                   </td>
                   <td *ngIf="selectedTab === 'allEmployee'">
                     {{ data?.app_status?.last_used ? data?.app_status?.last_used : ' - '}}

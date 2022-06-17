@@ -235,6 +235,42 @@ const routes: Routes = [
                               }
                         ]
                   },
+                  {
+                        path: 'offer-acceptance',
+                        data: {
+                              title: 'Offer Acceptance',
+                              parent: 'Applications',
+                              custom_url: '/applications/offer-acceptance'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                          permissions: {
+                                            only: 'edit_offer_acceptance_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                            only: 'track_offer_acceptance_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
 
                   {
                         path: 'disbursement',
@@ -266,6 +302,75 @@ const routes: Routes = [
                                           parent: 'Application',
                                           permissions: {
                                             only: 'track_disbursement_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+                  {
+                        path: 'all-application',
+                        data: {
+                              title: 'All Applicant',
+                              parent: 'Applications',
+                              custom_url: '/applications/all-application'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                            only: 'track_all_applicants_status',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+                  {
+                        path: 'offer-proposed',
+                        data: {
+                              title: 'Offer Proposed',
+                              parent: 'Applications',
+                              custom_url: '/applications/offer-proposed'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                            only: 'track_offer_offer_proposed_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+                  {
+                        path: 'e-signing',
+                        data: {
+                              title: 'E-Nach',
+                              parent: 'Applications',
+                              custom_url: '/applications/e-signing'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                            only: 'track_e_signing_application',
                                             redirectTo: 'authentication/error-2'
                                           }
                                     }

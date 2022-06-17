@@ -642,20 +642,20 @@
 
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_min" class="text-left">Corporate
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_max" class="text-left">Corporate
                             Permanent Max Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Limit!">
-                            <input nz-input type="number" formControlName="permanent_min"
+                            <input nz-input type="number" formControlName="permanent_max"
                                 placeholder="Permanent Max Limit" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_max" class="text-left">Corporate
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_min" class="text-left">Corporate
                             Permanent Min Limit</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Min Limit!">
-                            <input nz-input type="number" formControlName="permanent_max"
+                            <input nz-input type="number" formControlName="permanent_min"
                                 placeholder="Permanent Min Limit" />
                         </nz-form-control>
                     </nz-form-item>

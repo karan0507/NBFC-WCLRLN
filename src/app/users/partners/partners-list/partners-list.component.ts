@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpHeaders } from '@angular/common/http';
 // import * as jsPDF from 'jspdf';  
 
 @Component({
@@ -103,6 +104,35 @@ export class PartnersListComponent implements OnInit {
       })
     }
 
+  }
+
+  onClickExportExcelData(id, action){
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    if(action == 'excel'){
+    this.http.exportExcelDataOfPerticularCorporate(id).subscribe((res)=>{
+      if (res.size > 89) {
+        this.http.exportMasterSectionModule(res, 'ExcelDataExported', 'xlsx', generateloader)
+        this.message.remove(generateloader);
+      } else {
+        this.message.error('No Data Found');
+        this.message.remove(generateloader);
+      }
+    }, error=> {
+      this.message.remove(generateloader);
+    })
+    } else {
+      this.http.exportAppDataOfPerticularCorporate(id).subscribe((res)=>{
+        if (res.size > 41) {
+          this.http.exportMasterSectionModule(res, 'AppDataExported', 'xlsx', generateloader)
+          this.message.remove(generateloader);
+        } else {
+          this.message.error('No Data Found')
+        }
+      }, error=> {
+        this.message.remove(generateloader);
+      })
+    }
+    // this.http.exportMasterSectionModule(res, 'export', file_formate, generateloader, false)
   }
 
   onClickResetPassword(){
