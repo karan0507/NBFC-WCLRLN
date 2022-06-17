@@ -556,12 +556,12 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
 
-  sendEnachLink() {
+  sendEnachLink(id, type) {
     let data = new FormData()
     data.append('source', 'LMS'),
     data.append('datapoint', 'create_mandate_registration_link'),
-    data.append('auth_type', 'upi'),
-    data.append('accepted_offer_id', this.borrowertList.loan_application_id)
+    data.append('auth_type', type),
+    data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
