@@ -125,4 +125,7 @@ export class AuthorizationRulesComponent implements OnInit {
     })
   }
 
+  convertToInteger(num) {
+    return parseInt(num)
+  }
 }

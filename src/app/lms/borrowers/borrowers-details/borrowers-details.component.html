@@ -446,7 +446,7 @@
                               <th>Paid on</th>
                               <th>Paid status</th>
                               <th>Created At</th>
-                              <th nzRight>Actions</th>
+                              <th nzWidth="5rem" nzRight>Actions</th>
                         </tr>
                   </thead>
                   <tbody>
@@ -459,8 +459,48 @@
                               <td>{{ data?.credit_utilization_bill?.paid_status ? 'Paid' : 'Unpaid' }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
                               <td nzRight>
-                                    <a (click)="viewInvoice(data.report_file, 'Bill Statement')" class="mr-3" *ngxPermissionsOnly="['view_bill_statement']">view</a>
-                                    <a *ngIf="!data?.credit_utilization_bill?.paid_status" (click)="captureCollection(data?.credit_utilization_bill?.id)">Capture collection</a>
+                                    <div>
+                                          <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                                [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                [nzDropdownMenu]="latestUploadDropDown123">
+                                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                          </a>
+                                          <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                                <ul nz-menu>
+                                                      <li nz-menu-item (click)="viewInvoice(data.report_file, 'Bill Statement')" *ngxPermissionsOnly="['view_bill_statement']">
+                                                          <span class="m-l-5">View</span>
+                                                      </li>
+                                                      <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
+                                                          <li nz-menu-item (click)="captureCollection(data?.credit_utilization_bill?.id)">
+                                                                <span class="m-l-5">Capture collection</span>
+                                                          </li>
+                                                      </ng-container>
+                                                      <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
+                                                          <li nz-menu-item nz-dropdown [nzClickHide]="false"
+                                                          [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                          [nzDropdownMenu]="latestUploadDropDown1234">
+                                                              <span class="m-l-5">Send Enach Reg Link</span>
+                                                          </li>
+                                                      </ng-container>
+                                                </ul>
+                                          </nz-dropdown-menu>
+                                          <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                                                <ul nz-menu>
+                                                      <li nz-menu-item (click)="sendEnachLink('upi')">
+                                                          <span class="m-l-5">UPI</span>
+                                                      </li>
+                                                      <li nz-menu-item (click)="sendEnachLink('netbanking')">
+                                                          <span class="m-l-5">Net banking</span>
+                                                      </li>
+                                                      <li nz-menu-item (click)="sendEnachLink('aadhar')">
+                                                          <span class="m-l-5">Aadhar card</span>
+                                                      </li>
+                                                      <li nz-menu-item (click)="sendEnachLink('debitcard')">
+                                                          <span class="m-l-5">Debit card</span>
+                                                      </li>
+                                                </ul>
+                                          </nz-dropdown-menu>
+                                    </div>
                               </td>
                         </tr>
                   </tbody>

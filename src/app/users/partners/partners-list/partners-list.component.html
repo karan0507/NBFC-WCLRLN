@@ -58,6 +58,10 @@
                             <th>Partner Id</th>
                             <th>Refer ID</th>
                             <th>Registered(KYC)</th>
+                            <th>Total Line Assigned</th>
+                            <th>Total Line Utilized</th>
+                            <th>Total Active User</th>
+                            <th>User with Unalived offer </th>
                             <!-- <th>Transaction Status</th> -->
                             <th>System Status</th>
                             <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
@@ -95,6 +99,10 @@
                                     <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                                 </td>
                                 <!-- <td>{{data?.transaction_status}}</td> -->
+                                <td>{{ data?.borrowers_detail?.total_credit_line_assigned ? data?.borrowers_detail?.total_credit_line_assigned : '0' }}</td>
+                                <td>{{ data?.borrowers_detail?.total_credit_line_utilized ? data?.borrowers_detail?.total_credit_line_utilized : '0' }}</td>
+                                <td>{{ data?.borrowers_detail?.total_active_users ? data?.borrowers_detail?.total_active_users : 0 }}</td>
+                                <td>{{ data?.borrowers_detail?.remaining_user_count ? data?.borrowers_detail?.remaining_user_count : 0 }}</td>
                                 <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
 
