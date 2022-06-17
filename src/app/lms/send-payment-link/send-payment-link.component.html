@@ -51,7 +51,7 @@
                         <th *ngIf="selectedTab == 'rejected'">Rejected By</th>
                         <th *ngIf="selectedTab == 'rejected'">Rejected on</th>
                         <th *ngIf="selectedTab == 'rejected'">Remarks</th>
-                        <th [nzWidth]="selectedTab == 'pending' ? '20rem' : '15rem'" nzRight> Actions</th>
+                        <th [nzWidth]="selectedTab == 'pending' ? '20rem' : '15rem'" nzRight *ngxPermissionsOnly="['preview_send_payment_link','download_send_payment_link','trigger_sms_send_payment_link','approve_send_payment_link','rejected_send_payment_link']"> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,7 +77,7 @@
                             </td>
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.updated_at | date: 'medium' }}</td>
                             <td *ngIf="selectedTab == 'rejected'">{{ data?.remarks ? data?.remarks : '-'}}</td>
-                            <td nzRight>
+                            <td nzRight *ngxPermissionsOnly="['preview_send_payment_link','download_send_payment_link','trigger_sms_send_payment_link','approve_send_payment_link','rejected_send_payment_link']">
                                 <ng-container *ngxPermissionsOnly="['preview_send_payment_link']">
                                     <span><a class="mr-3" *ngIf="selectedTab == 'pending'" (click)="fetchPreviewAfterList(data, true)">Preview</a></span>
                                 </ng-container>

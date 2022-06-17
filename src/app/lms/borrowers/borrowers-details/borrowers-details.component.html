@@ -535,6 +535,37 @@
                   </tbody>
             </nz-table>
       </nz-card>
+      
+      <nz-card nzTitle="Emandate Registration Link">
+            <nz-table [nzLoading]="api_calling_loader8" [nzFrontPagination]="false" [nzPageIndex]="page8"
+            [nzPageSize]="globalPageSize8" [nzShowSizeChanger]="true" [nzTotal]="total_count8"
+            (nzQueryParams)="emandate_link_list ? EMandateRegistrationLink($event) : ''"
+            [nzData]="emandate_link_list">
+                  <thead>
+                        <tr>
+                              <th>#</th>
+                              <th>Customer id</th>
+                              <th>Order id</th>
+                              <th>URL</th>
+                              <th>Auth type</th>
+                              <th>Amount</th>
+                              <th>Expiry by</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let data of emandate_link_list; index as i">
+                              <td *ngIf="page8 === 1">{{i+1}}</td>
+                              <td *ngIf="page8 > 1">{{((page8-1)*globalPageSize8)+(i+1)}}</td>
+                              <td>{{data?.customer_id ? data?.customer_id : '-'}}</td>
+                              <td>{{data?.order_id ? data?.order_id : '-'}}</td>
+                              <td>{{data?.short_url ? data?.short_url : '-'}}</td>
+                              <td>{{data?.auth_type ? data?.auth_type : '-'}}</td>
+                              <td>{{data?.amount ? data?.amount : '-'}}</td>
+                              <td>{{data?.expire_by ? (data?.expire_by | date: "medium" ) : '-'}}</td>
+                        </tr>
+                  </tbody>
+            </nz-table>
+      </nz-card>
       <nz-card *ngIf="selectedTab == '3'">
             <app-app-downloads></app-app-downloads>
       </nz-card>

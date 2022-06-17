@@ -48,6 +48,7 @@ export class BorrowersDetailsComponent implements OnInit {
   api_calling_loader: boolean;
   borrowertList: any;
   total_count: any;
+  total_count8: any;
   selectedDateforStatement;
   // selectedType = ''
   // selectedStatus = ''
@@ -113,6 +114,10 @@ export class BorrowersDetailsComponent implements OnInit {
   refund_amount: any;
   refund_sub_title: string;
   is_refund_loading: boolean;
+  api_calling_loader8: boolean;
+  page8: any;
+  globalPageSize8: any;
+  emandate_link_list: any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -129,6 +134,8 @@ export class BorrowersDetailsComponent implements OnInit {
     this.globalPageSize = 30
     this.page1 = 1;
     this.globalPageSize1 = 10
+    this.page8 = 1;
+    this.globalPageSize8 = 10
     this.page2 = 1;
     this.globalPageSize2 = 10
     this.fetchBorrowerList();
@@ -254,6 +261,7 @@ export class BorrowersDetailsComponent implements OnInit {
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.borrowertList = res['data'][0]
+      this.EMandateRegistrationLink();
       this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {
@@ -568,6 +576,26 @@ export class BorrowersDetailsComponent implements OnInit {
       this.message.success(res['message'])
     }, (err) => {
       this.message.remove(generateloader);
+    })
+  }
+
+  EMandateRegistrationLink(tabelFilter?) {
+    let data = {
+      source: 'LMS',
+      datapoint: 'loan_service',
+      endpoint: 'EMandateRegistrationLink',
+      offer_id: this.borrowertList?.id,
+      page: tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1,
+      limit: tabelFilter?.pageSize ? tabelFilter?.pageSize : 10,
+    }
+    this.api_calling_loader8 = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader8 = false
+      this.emandate_link_list = res.data
+      this.total_count8 = res.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader8 = false
     })
   }
 }
