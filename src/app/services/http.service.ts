@@ -13,9 +13,9 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      url = 'https://adminapi.fatakpay.com'
+      // url = 'https://adminapi.fatakpay.com'
 
-      // url = this.valueFunction();
+      url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -310,6 +310,13 @@ export class HttpService {
        */
       public fetchDocumentMaster(data) {
             return this._http.get((this.url + `/master/fetch-master-data/DocumentMaster`), { params: data });
+      }
+
+      /**
+       * getCorporateWithBillDate
+       */
+       public getCorporateWithBillDate(data) {
+            return this._http.get((this.url + `/partner/v1/get-corporate-with-bill-dates`), { params: data });
       }
 
       /**

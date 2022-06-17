@@ -1,4 +1,4 @@
-<div class="header_breadcrumb_section">
+<div class="header_breadcrumb_section" *ngxPermissionsOnly="['export_transaction']">
     <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
     <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost *ngxPermissionsOnly="['export_transaction']">Export</button>
 </div>
@@ -96,7 +96,7 @@
                         <th>Total Amount (₹)</th> -->
                         <th>Reason</th>
                         <th>Status</th>
-                        <th nzWidth="5.5rem" nzRight> Actions</th>
+                        <th nzWidth="5.5rem" nzRight *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']"> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +121,7 @@
                             <td>{{ 'NA' }}</td> -->
                             <td>{{ data?.reason ? data?.reason : ' N/A'  }}</td>
                             <td>{{ data?.txn_status }}</td>
-                            <td nzRight>
+                            <td nzRight *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">

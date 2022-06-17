@@ -10,7 +10,7 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class BorrowersListComponent implements OnInit {
   borrowertList;
-
+  isVisible = false
   page : any
   api_calling_loader: boolean;
   total_count = 0;
@@ -29,6 +29,8 @@ export class BorrowersListComponent implements OnInit {
   corporateList: any[];
   debounce:any;
   api_calling_loader_accordian: boolean;
+  corporate_Id: any;
+  month: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -121,6 +123,20 @@ export class BorrowersListComponent implements OnInit {
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
       this.http.exportMasterSectionModule(res, 'borrowers_list', file_formate, generateloader)
+      this.isVisible = false
+    })
+  }
+
+  exportOutstandingGlobalFunction(file_formate){
+    let data = {
+      datapoint: 'export_outstanding_data',
+      endpoint: this.corporate_Id,
+      source: 'LMS',
+      month: this.month,
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
     })
   }
 
@@ -162,6 +178,15 @@ export class BorrowersListComponent implements OnInit {
       }
     }, error => {
       this.api_calling_loader_accordian = false;
+    })
+  }
+  getCorporateWithBillDate() {
+    let data = {
+      id: this.corporate_Id
+    };
+    this.http.getCorporateWithBillDate(data).subscribe(res => {
+      this.month = res['data'][0].bill_date_fetched_from.bill_day
+      // this.message.success(res['message'])
     })
   }
 }

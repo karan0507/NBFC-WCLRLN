@@ -1,4 +1,5 @@
 <div class="header_breadcrumb_section">
+    <button nz-button (click)="isVisible = true" nzType="primary" class="ml-1" nzGhost>Export Outstanding</button>
     <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
 </div>
 <section>
@@ -466,3 +467,37 @@
         </nz-card>
     </div>
 </section>
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false"
+      (nzOnOk)="exportOutstandingGlobalFunction('xlsx')" nzOkText="Export"
+      >
+      <!-- [nzOkDisabled]="!selectedDateforStatement" -->
+      <ng-container *nzModalContent>
+            
+          <div class="row" *ngIf="!is_set_amt">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select corporate!">
+                        <nz-select nzAllowClear [(ngModel)]="corporate_Id" nzPlaceHolder="Please Select corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="getCorporateWithBillDate()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter bill date
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter bill date!">
+                        <input [(ngModel)]="month" type="number" nz-input placeholder="Please Enter bill date" disabled/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+      </ng-container>
+</nz-modal>

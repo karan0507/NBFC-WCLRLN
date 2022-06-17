@@ -239,6 +239,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction name</th>
                               <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
@@ -262,6 +263,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_name }}</td>
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
@@ -361,6 +363,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction name</th>
                               <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
@@ -384,6 +387,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_name }}</td>
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
@@ -486,16 +490,16 @@
                                           </nz-dropdown-menu>
                                           <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                                                 <ul nz-menu>
-                                                      <li nz-menu-item (click)="sendEnachLink('upi')">
+                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'upi')">
                                                           <span class="m-l-5">UPI</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink('netbanking')">
+                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'netbanking')">
                                                           <span class="m-l-5">Net banking</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink('aadhar')">
+                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'aadhar')">
                                                           <span class="m-l-5">Aadhar card</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink('debitcard')">
+                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'debitcard')">
                                                           <span class="m-l-5">Debit card</span>
                                                       </li>
                                                 </ul>
@@ -527,6 +531,37 @@
                               <td nzRight *ngxPermissionsOnly="['view_invoice']">
                                     <a (click)="viewInvoice(data.invoice_file, 'Invoice')">view</a>
                               </td>
+                        </tr>
+                  </tbody>
+            </nz-table>
+      </nz-card>
+      
+      <nz-card nzTitle="Emandate Registration Link">
+            <nz-table [nzLoading]="api_calling_loader8" [nzFrontPagination]="false" [nzPageIndex]="page8"
+            [nzPageSize]="globalPageSize8" [nzShowSizeChanger]="true" [nzTotal]="total_count8"
+            (nzQueryParams)="emandate_link_list ? EMandateRegistrationLink($event) : ''"
+            [nzData]="emandate_link_list">
+                  <thead>
+                        <tr>
+                              <th>#</th>
+                              <th>Customer id</th>
+                              <th>Order id</th>
+                              <th>URL</th>
+                              <th>Auth type</th>
+                              <th>Amount</th>
+                              <th>Expiry by</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let data of emandate_link_list; index as i">
+                              <td *ngIf="page8 === 1">{{i+1}}</td>
+                              <td *ngIf="page8 > 1">{{((page8-1)*globalPageSize8)+(i+1)}}</td>
+                              <td>{{data?.customer_id ? data?.customer_id : '-'}}</td>
+                              <td>{{data?.order_id ? data?.order_id : '-'}}</td>
+                              <td>{{data?.short_url ? data?.short_url : '-'}}</td>
+                              <td>{{data?.auth_type ? data?.auth_type : '-'}}</td>
+                              <td>{{data?.amount ? data?.amount : '-'}}</td>
+                              <td>{{data?.expire_by ? (data?.expire_by | date: "medium" ) : '-'}}</td>
                         </tr>
                   </tbody>
             </nz-table>
