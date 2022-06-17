@@ -239,6 +239,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction name</th>
                               <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
@@ -262,6 +263,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_name }}</td>
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
@@ -361,6 +363,7 @@
                         <tr>
                               <th nzWidth="5rem">#</th>
                               <th nzWidth="15rem">User Details</th>
+                              <th>Transaction name</th>
                               <th>Transaction ID</th>
                               <!-- <th>User Code</th> -->
                               <!-- <th>Transaction ID</th> -->
@@ -384,6 +387,7 @@
                                           <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                           <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                                     </td>
+                                    <td>{{ data?.txn_name }}</td>
                                     <td>{{ data?.txn_unique_id }}</td>
                                     <!-- <td>{{ data?.pan }}</td> -->
                                     <!-- <td>{{ data?.txn_unique_id }}</td> -->
