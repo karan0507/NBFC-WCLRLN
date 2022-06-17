@@ -1,3 +1,7 @@
+<div class="header_breadcrumb_section">
+    <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
+    <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+</div>
 <section>
     <div class="row">
         <nz-card class="w-100 mb-0">
@@ -11,9 +15,16 @@
                     </ng-template>
                 </div> -->
                 <div class="col-md-12 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-1" (click)="resetFilters()">
                         <i nz-icon nzType="undo"></i>
                     </button>
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="fetchGSTInvoiceList()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select>
                     <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
                         (ngModelChange)="fetchGSTInvoiceList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
@@ -26,6 +37,8 @@
                         <!-- <th>Invoice file name</th> -->
                         <th>Transaction type</th>
                         <th>Transaction id</th>  
+                        <th>Loan id</th>  
+                        <th>Corporate</th>  
                         <th>Invoice date</th>
                         <th>IGST</th>
                         <th>Total</th>  
@@ -39,6 +52,8 @@
                         <!-- <td>{{ data['invoice_file'] ? data['invoice_file']: '-' }}</td> -->
                         <td>{{ data['transaction'].txn_name ? data['transaction'].txn_name: '-' }}</td>
                         <td>{{ data['transaction'].txn_unique_id ? data['transaction'].txn_unique_id: '-' }}</td>
+                        <td>{{ data['transaction'].loan_unique_id ? data['transaction'].loan_unique_id: '-' }}</td>
+                        <td>{{ data['corporate'].display_name ? data['corporate'].display_name: '-' }}</td>
                         <td>{{ data['invoice_date'] ? (data['invoice_date'] | date: 'medium'): '-' }}</td>
                         <td>{{ data['igst_total'] ? data['igst_total']: '-' }}</td>
                         <td>{{ data['total'] ? data['total']: '-' }}</td>

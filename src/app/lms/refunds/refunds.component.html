@@ -1,7 +1,4 @@
-<div class="header_breadcrumb_section">
-    <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
-    <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
-</div>
+
 <section>
     <div class="row">
         <nz-card class="w-100 mb-0">
@@ -19,38 +16,39 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                     <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
-                        (ngModelChange)="fetchEscrowStatementList()" [nzRanges]="customRanges"></nz-range-picker>
+                        (ngModelChange)="fetchRefundsList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchEscrowStatementList($event) : ''">
+            [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchRefundsList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
-                        <th>Transaction date</th>
-                        <th>Type</th>
+                        <th>Refund id</th>
+                        <th>Refund transaction id</th>
+                        <th>Refund created for</th>
                         <th>Amount</th>
-                        <th>Transaction id</th>
-                        <th>Loan id</th>  
-                        <th nzWidth="15rem">Remarks</th>
-                        <th>Cheque no</th>
-                        <th>Balance</th>
-                        <th>Value date</th>                      
+                        <th>Refund status</th>
+                        <th>Error description</th>  
+                        <th>Refunded by</th>  
+                        <th>Refund date</th>                      
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of list_data; index as i">
                         <td *ngIf="page === 1">{{i+1}}</td>
                         <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
-                        <td>{{ data['TXNDATE'] ? (data['TXNDATE'] | date: 'medium'): '-' }}</td>
-                        <td>{{ data['TYPE'] ? data['TYPE']: '-' }}</td>
-                        <td>{{ data['AMOUNT'] ? data['AMOUNT']: '-' }}</td>
-                        <td>{{ data['TRANSACTIONID'] ? data['TRANSACTIONID']: '-' }}</td>
-                        <td>{{ data.loan_unique_id ? data.loan_unique_id: '-' }}</td>
-                        <td>{{ data['REMARKS'] ? data['REMARKS']: '-' }}</td>
-                        <td>{{ data['CHEQUENO'] ? data['CHEQUENO']: '-' }}</td>
-                        <td>{{ data['BALANCE'] ? data['BALANCE']: '-' }}</td>
-                        <td>{{ data['VALUEDATE'] ? data['VALUEDATE']: '-' }}</td>
+                        <td>{{ data.refund_id ? data.refund_id: '-' }}</td>
+                        <td>{{ data['refund_transaction_id'] ? data['refund_transaction_id']: '-' }}</td>
+                        <td>{{ data['created_for_transaction'] ? data['created_for_transaction']: '-' }}</td>
+                        <td>{{ data['amount'] ? data['amount']: '-' }}</td>
+                        <td>{{ data['refund_status'] ? data['refund_status']: '-' }}</td>
+                        <td>{{ data['error_description'] ? data['error_description']: '-' }}</td>
+                        <td>
+                            <h5>{{data?.created_by_name ? data?.created_by_name : '-'}}</h5>
+                            <span>Contact No: {{data.created_by_mobile ? data.created_by_mobile : '-'}}</span>
+                        </td>
+                        <td>{{ data['created_at'] ? (data['created_at'] | date: 'medium'): '-' }}</td>
                     </tr>
                 </tbody>
             </nz-table>
