@@ -59,6 +59,8 @@ export class SideNavComponent {
             switch (item) {
                   case 'All Applicants': 
                         return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'All Applicants')?.applications ? this.applicationCount.find(res => res?.stage_name == 'All Applicants')?.applications : 0
+                  case 'Corporate Employee List': 
+                        return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'All Applicants')?.applications ? this.applicationCount.find(res => res?.stage_name == 'All Applicants')?.applications : 0
                   case 'Form Filling':
                         return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications : 0
                   case 'Pre Approved': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications : 0

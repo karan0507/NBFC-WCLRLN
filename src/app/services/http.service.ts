@@ -313,6 +313,13 @@ export class HttpService {
       }
 
       /**
+       * getCorporateWithBillDate
+       */
+       public getCorporateWithBillDate(data) {
+            return this._http.get((this.url + `/partner/v1/get-corporate-with-bill-dates`), { params: data });
+      }
+
+      /**
        * fetchThirdPartyMaster
        */
        public fetchThirdPartyMaster(data) {

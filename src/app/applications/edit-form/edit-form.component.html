@@ -82,81 +82,135 @@
       <nz-card [nzTitle]="employement" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="employementDetails" [nzLayout]="'vertical'">
                   <div class="row">
-                        <!-- <div class="col-md-4">
-                              <nz-form-item *ngIf="isCorporate">
-                                    <nz-form-label nzRequired>Company Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please select your Company Name!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
-                                                nzAllowClear nzPlaceHolder="Company Name"
-                                                (ngModelChange)="editCompanyName($event)">
-                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                      [nzLabel]="item?.name"></nz-option>
-                                          </nz-select>
-                                    </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="!isCorporate">
-                                    <nz-form-label nzRequired>Company Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please check your Company name!">
-                                          <input nz-input type="text" formControlName="company_name"
-                                                placeholder="Enter your Company name" />
-                                    </nz-form-control>                                   
-                              </nz-form-item>
-                        </div> -->
-                        <div class="col-md-4" *ngIf="!isCorporate">
-                              <nz-form-item *ngIf="!isCorporate">
-                                    <nz-form-label nzRequired>Company Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please check your Company name!">
-                                                <label>{{ifCorporateNotMapped}}</label>
-                                    </nz-form-control>                                   
-                              </nz-form-item>
+                        <div class="col-12">
+                              <div class="row">
+                              <div class="col-md-4" *ngIf="!isCorporate">
+                                    <nz-form-item *ngIf="!isCorporate">
+                                          <nz-form-label nzRequired>Company Name</nz-form-label>
+                                          <nz-form-control nzErrorTip="Please check your Company name!">
+                                                      <label>{{ifCorporateNotMapped}}</label>
+                                          </nz-form-control>                                   
+                                    </nz-form-item>
+                              </div>
+                              <div class="col-md-4">
+                                    <nz-form-item>
+                                          <nz-form-label nzRequired>Company Name</nz-form-label>
+                                          <nz-form-control nzErrorTip="Please select your Company Name!">
+                                                <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
+                                                      nzAllowClear nzPlaceHolder="Company Name"
+                                                      (ngModelChange)="editCompanyName($event)">
+                                                      <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                            [nzLabel]="item?.name"></nz-option>
+                                                </nz-select>
+                                          </nz-form-control>
+                                    </nz-form-item>
+                              </div>
+                              <div class="col-md-8" *ngIf="isCorporate">
+                                    <nz-form-item>
+                                          <nz-form-label nzRequired>Address</nz-form-label>
+                                          <nz-form-control nzErrorTip="Please check your company name for address">
+                                                <input readonly="readonly" nz-input placeholder="Enter your Company Address"
+                                                      formControlName="address" nzFormat="yyyy-MM-dd">
+                                          </nz-form-control>
+                                    </nz-form-item>
+                              </div>
+                              </div>
+                              <div class="row">
+                                    <div class="col-md-4">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Employee Code
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid Code">
+                                                <!-- <nz-select formControlName="employment_type_id" nzPlaceHolder="Enter EMP Code">
+                                                      <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+                                                      </nz-option>
+                                                </nz-select> -->
+                                                <input nz-input type="text" formControlName="emp_code" placeholder="EMP Code"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please select Valid Type">
+                                                <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
+                                                      <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+                                                      </nz-option>
+                                                </nz-select>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                              </div>
+                              <div class="row">
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Address 1
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid Address">
+                                                <input nz-input type="text" formControlName="address_1" placeholder="Address 1"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Address 2
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid Address">
+                                                <input nz-input type="text" formControlName="address_2" placeholder="Address 2"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="city" class="text-left" nzRequired>City
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid City">
+                                                <input nz-input type="text" formControlName="city" placeholder="City"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="landmark" class="text-left" nzRequired>Landmark
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid Landmark">
+                                                <input nz-input type="text" formControlName="landmark" placeholder="Landmark"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="pincode" class="text-left" nzRequired>Pincode
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid Pincode">
+                                                <input nz-input type="number" formControlName="pincode" placeholder="Pincode"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <div class="col-md-3">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="state" class="text-left" nzRequired>State
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please Add Valid State">
+                                                <input nz-input type="text" formControlName="state" placeholder="State"/>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div>
+                                    <!-- <div class="col-md-6">
+                                          <nz-form-item>
+                                          <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                          </nz-form-label>
+                                          <nz-form-control nzErrorTip="Please select Valid Type">
+                                                <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
+                                                      <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+                                                      </nz-option>
+                                                </nz-select>
+                                          </nz-form-control>
+                                          </nz-form-item>
+                                    </div> -->
+                              </div>
                         </div>
-                        <div class="col-md-4">
-                              <nz-form-item>
-                                    <nz-form-label nzRequired>Company Name</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please select your Company Name!">
-                                          <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
-                                                nzAllowClear nzPlaceHolder="Company Name"
-                                                (ngModelChange)="editCompanyName($event)">
-                                                <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                      [nzLabel]="item?.name"></nz-option>
-                                          </nz-select>
-                                    </nz-form-control>
-                              </nz-form-item>
-                        </div>
-                        <div class="col-md-8" *ngIf="isCorporate">
-                              <nz-form-item>
-                                    <nz-form-label nzRequired>Address</nz-form-label>
-                                    <nz-form-control nzErrorTip="Please check your company name for address">
-                                          <input readonly="readonly" nz-input placeholder="Enter your Company Address"
-                                                formControlName="address" nzFormat="yyyy-MM-dd">
-                                    </nz-form-control>
-                              </nz-form-item>
-                        </div>
-                        <div class="col-md-4">
-                              <nz-form-item>
-                                  <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Employee Code
-                                  </nz-form-label>
-                                  <nz-form-control nzErrorTip="Please Add Valid Code">
-                                      <!-- <nz-select formControlName="employment_type_id" nzPlaceHolder="Enter EMP Code">
-                                          <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
-                                          </nz-option>
-                                      </nz-select> -->
-                                      <input nz-input type="text" formControlName="emp_code" placeholder="EMP Code"/>
-                                  </nz-form-control>
-                              </nz-form-item>
-                          </div>
-                        <div class="col-md-6">
-                              <nz-form-item>
-                                  <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
-                                  </nz-form-label>
-                                  <nz-form-control nzErrorTip="Please select Valid Type">
-                                      <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
-                                          <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
-                                          </nz-option>
-                                      </nz-select>
-                                  </nz-form-control>
-                              </nz-form-item>
-                          </div>
                   </div>
             </form>
       </nz-card>
