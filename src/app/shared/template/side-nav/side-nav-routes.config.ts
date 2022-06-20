@@ -323,7 +323,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Send Payment Link',
                 iconType: '',
                 icon: '',
-                permission: [''],
+                permission: ['view_send_payment_link'],
                 iconTheme: '',
                 submenu: []
             },
