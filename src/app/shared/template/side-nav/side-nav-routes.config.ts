@@ -137,6 +137,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'applications/corporate-stage',
+                title: 'Corporate Employee List',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
+            {
                 path: 'applications/form-filling',
                 title: 'Form Filling',
                 iconType: '',

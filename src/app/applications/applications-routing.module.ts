@@ -4,6 +4,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AllApplicantsComponent } from './all-applicants/all-applicants.component';
 import { ClosedComponent } from './closed/closed.component';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
+import { CorporateStageComponent } from './corporate-stage/corporate-stage.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { ENachSigningComponent } from './e-nach-signing/e-nach-signing.component';
@@ -139,6 +140,19 @@ const routes: Routes = [
                                 only: 'view_e_sining_application',
                                 redirectTo: 'authentication/error-2'
                               }
+                        }
+                  },
+                  {
+                        path: 'corporate-stage',
+                        component: CorporateStageComponent,
+                        // canActivate: [NgxPermissionsGuard],
+                        data: {
+                              title: 'Corporate Employee List',
+                              parent: 'Application',
+                              // permissions: {
+                              //   only: 'view_e_sining_application',
+                              //   redirectTo: 'authentication/error-2'
+                              // }
                         }
                   },
                   {
