@@ -1983,8 +1983,8 @@
 
 <nz-modal
   [(nzVisible)]="isVisibleXMLModal"
-  nzTitle="Fetched XML Response"
-  (nzOnOk)="handleOk()"
+  nzTitle="Fetched XML Response" [nzFooter]="xmlFooter"
+  (nzOnCancel)="isVisibleXMLModal = false"
 >
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
@@ -2010,6 +2010,7 @@
     </nz-card>
   </ng-container>
   <ng-template #xmlFooter>
+    <!-- (nzOnOk)="handleOk()" -->
     <button
       nz-button
       nzType="link"
