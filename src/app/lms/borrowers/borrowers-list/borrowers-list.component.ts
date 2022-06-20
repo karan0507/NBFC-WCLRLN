@@ -12,6 +12,21 @@ export class BorrowersListComponent implements OnInit {
   borrowertList;
   isVisible = false
   page : any
+  start_month
+  time_period_arr = [
+    { name: 'January', value: 1 },
+    { name: 'February', value: 2 },
+    { name: 'March', value: 3 },
+    { name: 'April', value: 4 },
+    { name: 'May', value: 5 },
+    { name: 'June', value: 6 },
+    { name: 'July', value: 7 },
+    { name: 'August', value: 8 },
+    { name: 'September', value: 9 },
+    { name: 'October', value: 10 },
+    { name: 'November', value: 11 },
+    { name: 'December', value: 12 }
+  ]
   api_calling_loader: boolean;
   total_count = 0;
   search_params = '';
@@ -132,11 +147,17 @@ export class BorrowersListComponent implements OnInit {
       datapoint: 'export_outstanding_data',
       endpoint: this.corporate_Id,
       source: 'LMS',
-      month: this.month,
+      month: this.start_month,
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
-      this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
+      if (!res?.success) {
+        this.message.remove(generateloader);
+        this.message.warning('Data not found')
+      } else {
+        this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
+      }
+      this.isVisible = false
     })
   }
 
