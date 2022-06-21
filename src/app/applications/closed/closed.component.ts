@@ -494,4 +494,16 @@ export class ClosedComponent implements OnInit {
         this.partner = null
         this.getFormLoanData()
   }
+
+  confirm(id){
+            let data;
+            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.message.success(res.message);
+                        this.getFormLoanData();
+                  } else {
+                        this.message.error(res.message);
+                  }
+            })
+      }
 }

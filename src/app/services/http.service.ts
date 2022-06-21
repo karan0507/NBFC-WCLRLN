@@ -1058,4 +1058,8 @@ export class HttpService {
       updateLeftEmployeeStatus(id,data) {
             return this._http.put(this.url + `/partner/v1/corporate/deactivate-employee/${id}`, data);
       }
+
+      toggleApplicationTODormantBasedOnTimeSpan(id,data) {
+            return this._http.put(this.url + `/platform_central/v1/toggle-application-dormant/${id}`, data);
+      }
 }
