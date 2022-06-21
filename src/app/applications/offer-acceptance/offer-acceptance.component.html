@@ -2342,6 +2342,7 @@
   [(nzVisible)]="isVisibleXMLModal"
   nzTitle="Fetched XML Response"
   [nzFooter]="xmlFooter"
+  (nzOnCancel)="isVisibleXMLModal = false"
 >
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">

@@ -41,7 +41,8 @@
                     <a [routerLink]="subItem.path" (click)="closeMobileMenu()" class="p-l-30" *ngIf="subItem.submenu.length === 0">
                         <i *ngIf="subItem.iconType == 'nzIcon'" nz-icon [nzType]="subItem.icon" [theme]="subItem.iconTheme"></i>
                         <i *ngIf="subItem.iconType == 'fontawesome'" class="m-r-10" [ngClass]="[subItem.iconTheme , subItem.icon]"></i>
-                        <span>{{subItem.title + ( item?.path == 'applications' && (getCount(subItem?.title) !== null || getCount(subItem?.title) !== undefined) ? ' (' + getCount(subItem?.title) + ')': '' )}}</span>
+                        <span>{{subItem.title + ( item?.path == 'applications' && (getCount(subItem?.title) !== null || getCount(subItem?.title) !== undefined)  ? ' (' + getCount(subItem?.title) + ')': '' )}}</span>
+                        <!-- ? getCount(subItem?.title) ?  : ''-->
                     </a>
 
                     <!-- Third Level -->
