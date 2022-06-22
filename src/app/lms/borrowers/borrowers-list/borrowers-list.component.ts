@@ -151,12 +151,12 @@ export class BorrowersListComponent implements OnInit {
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
-      if (!res?.success) {
-        this.message.remove(generateloader);
-        this.message.warning('Data not found')
-      } else {
+      // if (!res?.success) {
+      //   this.message.remove(generateloader);
+      //   this.message.warning('Data not found')
+      // } else {
         this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
-      }
+      // }
       this.isVisible = false
     })
   }
