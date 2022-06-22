@@ -209,12 +209,13 @@
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                                   <span class="m-l-5" (click)="remarkVisible = true; isVisibleRemarks = false; selectedId = data?.id">Add Remarks</span>
                                                             </li>
-                                                            <!-- nz-popconfirm
-                                                      nzPopconfirmTitle="Are you sure delete Employee?"
-                                                      nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="deleteCorrespondingSection(data.id)" -->
-                                                            <!-- /applications/form-filling/track-status -->
-                                                            <!-- Track_Form_Filling_Status_Application -->
+                                                            <li>
+                                                            <span class="m-l-5" style="cursor: pointer;" nz-popconfirm
+                                                            [nzPopconfirmTitle]=" data?.is_dormant ? 'Are you sure you want to Move this application to Normal ? ' : 'Are you sure you want to Move this application to Dormant ?'"
+                                                            nzPopconfirmPlacement="bottom"
+                                                            (nzOnConfirm)="confirm(data?.id)"
+                                                            (nzOnCancel)="cancel()">{{data?.is_dormant ? 'Move To Normal' : 'Move To Dormant'}}</span>
+                                                            </li>
                                                             <li nz-menu-item 
                                                                   *ngxPermissionsOnly="['track_form_filling_status_application']"
                                                                   [routerLink]="['/applications/form-filling/track-status']"

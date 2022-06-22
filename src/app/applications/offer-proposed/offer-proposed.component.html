@@ -383,6 +383,13 @@
                     <li nz-menu-item [routerLink]="['track-status']" *ngxPermissionsOnly="['track_offer_offer_proposed_application']" [queryParams]="{ id: data?.id }">
                       <span class="m-l-5">Track Status</span>
                     </li>
+                    <li>
+                      <span class="m-l-5" style="cursor: pointer;" nz-popconfirm
+                      [nzPopconfirmTitle]=" data?.is_dormant ? 'Are you sure you want to Move this application to Normal ? ' : 'Are you sure you want to Move this application to Dormant ?'"
+                      nzPopconfirmPlacement="bottom"
+                      (nzOnConfirm)="confirm(data?.id)"
+                      (nzOnCancel)="cancel()">{{data?.is_dormant ? 'Move To Normal' : 'Move To Dormant'}}</span>
+                      </li>
                     <ng-template #popupTitle>
                       Are you sure you want to reject the offer for
                       {{

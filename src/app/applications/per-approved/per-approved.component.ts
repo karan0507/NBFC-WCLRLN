@@ -525,4 +525,16 @@ export class PerApprovedComponent implements OnInit {
       //     this._currentId = id
       //     this._isUpload = true;
       // }
+
+      confirm(id){
+            let data;
+            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.message.success(res.message);
+                        this.getFormLoanData();
+                  } else {
+                        this.message.error(res.message);
+                  }
+            })
+      }
 }

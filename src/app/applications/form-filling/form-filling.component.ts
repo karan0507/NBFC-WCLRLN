@@ -358,4 +358,16 @@ export class FormFillingComponent implements OnInit {
             
       }
 
+      confirm(id){
+            let data;
+            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.message.success(res.message);
+                        this.getFormLoanData();
+                  } else {
+                        this.message.error(res.message);
+                  }
+            })
+      }
+
 }

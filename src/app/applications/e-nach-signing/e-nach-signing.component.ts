@@ -388,7 +388,8 @@ export class ENachSigningComponent implements OnInit {
       }
 
       exportData(file_formate?) {
-            let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            // let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
+            let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  6}
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchLoanApplicationListExport(data).subscribe(res => {
                   this._exportDocument = res;
@@ -497,5 +498,17 @@ export class ENachSigningComponent implements OnInit {
             this.partner = null
             this.stageFilters = null;
             this.getFormLoanData()
+      }
+
+      confirm(id){
+            let data;
+            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.message.success(res.message);
+                        this.getFormLoanData();
+                  } else {
+                        this.message.error(res.message);
+                  }
+            })
       }
 }
