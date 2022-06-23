@@ -358,7 +358,7 @@
             <nz-table [nzLoading]="api_calling_loader1" [nzFrontPagination]="false" [nzPageIndex]="page1"
                   [nzPageSize]="globalPageSize1" [nzShowSizeChanger]="true" [nzTotal]="total_count1"
                   (nzQueryParams)="fees_charges_list ? fetchTransactionFessList($event) : ''"
-                  [nzData]="fees_charges_list" [nzScroll]="{ x: '1500px' }">
+                  [nzData]="fees_charges_list" [nzScroll]="{ x: '1700px' }">
                   <thead>
                         <tr>
                               <th nzWidth="5rem">#</th>
@@ -372,8 +372,8 @@
                               <th>Payment method</th>
                               <th>Date & Time</th>
                               <th>Amount (₹)</th>
-                              <!-- <th>GST Amount</th>
-                              <th>Total Amount (₹)</th> -->
+                              <th>Is waive off</th>
+                              <th>Waive off transaction id</th>
                               <th>Status</th>
                               <th nzWidth="5rem" nzRight>Action</th>
                         </tr>
@@ -396,8 +396,9 @@
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
                                     <td>₹{{ data?.txn_amount }}</td>
-                                    <!-- <td>{{ data?.pan }}</td>
-                                    <td>{{ data?.pan }}</td> -->
+                                    <td *ngIf="data?.is_waived_off"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                                    <td *ngIf="!data?.is_waived_off"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                                    <td>{{ data?.waived_off_transaction_id ? data?.waived_off_transaction_id : '-' }}</td>
                                     <td>{{ data?.txn_status }}</td>
                                     <td nzRight>
                                           <div>
