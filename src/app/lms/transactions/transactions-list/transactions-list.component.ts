@@ -133,7 +133,9 @@ export class TransactionsListComponent implements OnInit {
     this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
   
+  selectedDetail: any;
   waiveOffToggle(id) {
+    console.log(this.selectedDetail);
     this.isWaiveOff = true
     this.waiveOffId = id
   }
