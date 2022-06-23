@@ -395,7 +395,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: '/dormant',
-        title: 'Dormant Stage Trigger',
+        title: 'Application Stage Trigger',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: [''],
