@@ -98,6 +98,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/refunds/refunds.module').then(m => m.RefundsModule),
     },
     {
+        path: 'lms/mandate-triggers',
+        loadChildren: () => import('../../lms/mandate-triggers/mandate-triggers.module').then(m => m.MandateTriggersModule),
+    },
+    {
         path: 'version',
         loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
     },

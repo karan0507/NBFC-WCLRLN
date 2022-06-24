@@ -1,0 +1,146 @@
+<div class="header_breadcrumb_section">
+    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto">Update Status
+        ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button>
+</div>
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchMandateTriggerList()">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="bill">Unpaid bill</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="IN PROGRESS">In
+                    Progress</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="SUCCESSFULL">Success</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="FAILED">Failed</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <div class="col-md-3 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input (keyup.enter)="fetchMandateTriggerList()" [(ngModel)]="searchValue" type="text" nz-input
+                    placeholder="Search text" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button (click)="fetchMandateTriggerList()" nz-button nzType="secondary" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </div>
+        <div class="col-md-9 mb-3 d-flex justify-content-md-end">
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="mr-1"
+                (click)="resetFilter()">
+                <i nz-icon nzType="undo"></i>
+            </button>
+            <!-- <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                (ngModelChange)="fetchMandateTriggerList()" (nzFocus)="fetchPartnerList()">
+                <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                    <div *ngIf="item.name">{{ item?.name }}</div>
+                </nz-option>
+            </nz-select>
+            <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchMandateTriggerList()"
+                nzPlaceHolder="Filter By Product Master">
+                <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+            </nz-select>
+            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
+                nzPlaceHolder="Filter By Type">
+                <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
+                <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                <nz-option nzValue="Expense Spend" nzLabel="Payment"></nz-option>
+                <nz-option nzValue="Cashback" nzLabel="Cashback"></nz-option>
+                <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
+            </nz-select>
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
+                nzPlaceHolder="Filter By Status">
+                <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+            </nz-select> -->
+        </div>
+    </div>
+    <nz-card>
+        <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            (nzQueryParams)="listOfData[0] ? fetchMandateTriggerList($event) : ''" [nzData]="listOfData"
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+            <thead>
+                <tr>
+                    <th nzWidth="3rem" [nzChecked]=" listOfData[0] ? checked : false"
+                        [nzIndeterminate]=" listOfData[0] ? indeterminate : false"
+                        (nzCheckedChange)="listOfData[0] ? onAllChecked($event) : false">
+                    </th>
+                    <th>#</th>
+                    <th>Loan Id</th>
+                    <th>Outstanding Amount</th>
+                    <th>Bill date</th>
+                    <th>Total received</th>
+                    <th>Paid status</th>
+                    <th nzWidth="5rem" nzRight *ngIf="selectedTab == 'bill'">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of listOfData; index as i">
+                    <td nzWidth="1rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                        (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                    <td *ngIf="page === 1">{{i+1}}</td>
+                    <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                    <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
+                    <td>{{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
+                    <td>{{ data?.bill_date | date: "medium" }}</td>
+                    <td>{{ data?.total_received ? data?.total_received : '-' }}</td>
+                    <td>{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
+                    <td nzRight *ngIf="selectedTab == 'bill'">
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <!-- <li nz-menu-item (click)="viewInvoice(data.report_file, 'Bill Statement')" *ngxPermissionsOnly="['view_bill_statement']">
+                                                      <span class="m-l-5">View</span>
+                                                  </li> -->
+                                    <ng-container *ngIf="!data?.paid_status">
+                                        <li nz-menu-item (click)="captureCollection(data?.id)">
+                                            <span class="m-l-5">Capture collection - Enach</span>
+                                        </li>
+                                    </ng-container>
+                                    <!-- <ng-container *ngIf="!data?.paid_status">
+                                                      <li nz-menu-item nz-dropdown [nzClickHide]="false"
+                                                      [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                      [nzDropdownMenu]="latestUploadDropDown1234">
+                                                          <span class="m-l-5">Send Enach Reg Link</span>
+                                                      </li>
+                                                  </ng-container> -->
+                                </ul>
+                            </nz-dropdown-menu>
+                            <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="sendEnachLink(data?.offer ,'upi')">
+                                        <span class="m-l-5">UPI</span>
+                                    </li>
+                                    <li nz-menu-item (click)="sendEnachLink(data?.offer ,'netbanking')">
+                                        <span class="m-l-5">Net banking</span>
+                                    </li>
+                                    <li nz-menu-item (click)="sendEnachLink(data?.offer ,'aadhar')">
+                                        <span class="m-l-5">Aadhar card</span>
+                                    </li>
+                                    <li nz-menu-item (click)="sendEnachLink(data?.offer ,'debitcard')">
+                                        <span class="m-l-5">Debit card</span>
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="total_count_text" *ngIf="total_count">
+            <b>Total Count : </b>{{total_count}}
+        </div>
+    </nz-card>
+</section>
