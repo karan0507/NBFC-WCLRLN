@@ -551,10 +551,14 @@ export class BorrowersDetailsComponent implements OnInit {
 
   }
   captureCollection(bill_id) {
-    let data = new FormData()
-    data.append('source', 'LMS'),
-    data.append('datapoint', 'mandate_trigger_admin'),
-    data.append('bill_id', bill_id)
+    let data = {
+      'source': 'LMS',
+      'datapoint': 'mandate_trigger_admin',
+      'bill_id': bill_id
+    }
+    // data.append('source', 'LMS'),
+    // data.append('datapoint', 'mandate_trigger_admin'),
+    // data.append('bill_id', bill_id)
     const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
@@ -574,6 +578,7 @@ export class BorrowersDetailsComponent implements OnInit {
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
       this.message.success(res['message'])
+      this.EMandateRegistrationLink()
     }, (err) => {
       this.message.remove(generateloader);
     })
