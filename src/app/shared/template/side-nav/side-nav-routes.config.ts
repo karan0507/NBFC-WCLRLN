@@ -346,6 +346,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'lms/mandate-triggers',
+                title: 'Mandate triggers',
+                iconType: '',
+                icon: '',
+                permission: [''],
+                iconTheme: '',
+                submenu: []
+            },
+            {
                 path: 'lms/lender-management',
                 title: 'Lender Management',
                 permission: ['view_lender_management'],
