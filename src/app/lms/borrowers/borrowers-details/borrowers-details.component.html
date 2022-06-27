@@ -476,7 +476,9 @@
                                                           <span class="m-l-5">View</span>
                                                       </li>
                                                       <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
-                                                          <li nz-menu-item (click)="captureCollection(data?.credit_utilization_bill?.id)">
+                                                          <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Capture collection - Enach?"
+                                                          nzPopconfirmPlacement="topLeft"
+                                                          (nzOnConfirm)="captureCollection([data?.credit_utilization_bill?.id])">
                                                                 <span class="m-l-5">Capture collection</span>
                                                           </li>
                                                       </ng-container>
@@ -491,16 +493,24 @@
                                           </nz-dropdown-menu>
                                           <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                                                 <ul nz-menu>
-                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'upi')">
+                                                      <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                          nzPopconfirmPlacement="topLeft"
+                                                          (nzOnConfirm)="sendEnachLink(data?.credit_utilization_bill?.offer ,'upi')">
                                                           <span class="m-l-5">UPI</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'netbanking')">
+                                                      <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                          nzPopconfirmPlacement="topLeft"
+                                                          (nzOnConfirm)="sendEnachLink(data?.credit_utilization_bill?.offer ,'netbanking')">
                                                           <span class="m-l-5">Net banking</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'aadhar')">
+                                                      <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                          nzPopconfirmPlacement="topLeft"
+                                                          (nzOnConfirm)="sendEnachLink(data?.credit_utilization_bill?.offer ,'aadhar')">
                                                           <span class="m-l-5">Aadhar card</span>
                                                       </li>
-                                                      <li nz-menu-item (click)="sendEnachLink(data?.credit_utilization_bill?.offer ,'debitcard')">
+                                                      <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                          nzPopconfirmPlacement="topLeft"
+                                                          (nzOnConfirm)="sendEnachLink(data?.credit_utilization_bill?.offer ,'debitcard')">
                                                           <span class="m-l-5">Debit card</span>
                                                       </li>
                                                 </ul>

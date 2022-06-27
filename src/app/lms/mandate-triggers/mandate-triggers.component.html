@@ -1,5 +1,5 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto">Update Status
+    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
         ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button>
 </div>
 <section>
@@ -75,11 +75,15 @@
                     </th>
                     <th>#</th>
                     <th>Loan Id</th>
-                    <th>Outstanding Amount</th>
-                    <th>Bill date</th>
-                    <th>Total received</th>
-                    <th>Paid status</th>
-                    <th nzWidth="5rem" nzRight *ngIf="selectedTab == 'bill'">Actions</th>
+                    <th *ngIf="selectedTab == 'bill'">Outstanding Amount</th>
+                    <th *ngIf="selectedTab == 'bill'">Bill date</th>
+                    <th *ngIf="selectedTab == 'bill'">Total received</th>
+                    <th *ngIf="selectedTab == 'bill'">Paid status</th>
+                    <th *ngIf="selectedTab != 'bill'">Amount</th>
+                    <th *ngIf="selectedTab != 'bill'">Razor pay order Id</th>
+                    <th *ngIf="selectedTab != 'bill'">Status</th>
+                    <th *ngIf="selectedTab != 'bill'">Created at</th>
+                    <th nzWidth="5rem" nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,11 +93,20 @@
                     <td *ngIf="page === 1">{{i+1}}</td>
                     <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
-                    <td>{{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
-                    <td>{{ data?.bill_date | date: "medium" }}</td>
-                    <td>{{ data?.total_received ? data?.total_received : '-' }}</td>
-                    <td>{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
-                    <td nzRight *ngIf="selectedTab == 'bill'">
+                    <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.bill_date | date: "medium" }}</td>
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.total_received ? data?.total_received : '-' }}</td>
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
+                    <td *ngIf="selectedTab != 'bill'">₹ {{ data?.razorpay_order?.order_amount ? data?.razorpay_order?.order_amount : '-' }}</td>
+                    <td *ngIf="selectedTab != 'bill'">{{ data?.razorpay_order?.order_id ? data?.razorpay_order?.order_id : '-' }}</td>
+                    <td *ngIf="selectedTab != 'bill'">
+                        <!-- <Badge *ngIf="selectedTab == 'IN PROGRESS'" style="text-transform: capitalize !important;">{{ data?.status ? data?.status : '-' }}</Badge> -->
+                        <span *ngIf="selectedTab == 'IN PROGRESS'" style="text-transform: capitalize !important;" class="badge badge-pill badge-info">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
+                        <span *ngIf="selectedTab == 'SUCCESSFULL'" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
+                        <span *ngIf="selectedTab == 'FAILED'" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
+                    </td>
+                    <td *ngIf="selectedTab != 'bill'">{{ data?.created_at ? (data?.created_at | date: "medium" ) : '-' }}</td>
+                    <td nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">
                         <div>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                 [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
@@ -105,7 +118,9 @@
                                                       <span class="m-l-5">View</span>
                                                   </li> -->
                                     <ng-container *ngIf="!data?.paid_status">
-                                        <li nz-menu-item (click)="captureCollection(data?.id)">
+                                        <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Capture collection - Enach?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="captureCollection([data?.id])">
                                             <span class="m-l-5">Capture collection - Enach</span>
                                         </li>
                                     </ng-container>

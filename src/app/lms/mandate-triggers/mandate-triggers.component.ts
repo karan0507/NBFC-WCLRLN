@@ -62,14 +62,20 @@ export class MandateTriggersComponent implements OnInit {
 
 
   captureCollection(bill_id) {
-    let data = new FormData()
-    data.append('source', 'LMS'),
-      data.append('datapoint', 'mandate_trigger_admin'),
-      data.append('bill_id', bill_id)
+    let data = {
+      'source': 'LMS',
+      'datapoint': 'mandate_trigger_admin',
+      'bill_id': bill_id
+    }
+    // data.append('source', 'LMS'),
+    // data.append('datapoint', 'mandate_trigger_admin'),
+    // data.append('bill_id', JSON.stringify(bill_id))
+      // console.log(JSON.stringify(bill_id))
     const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
       this.message.success(res['message'])
+      this.fetchMandateTriggerList()
     }, (err) => {
       this.message.remove(generateloader);
     })
@@ -118,5 +124,10 @@ export class MandateTriggersComponent implements OnInit {
     // this.master_product_id = ''
     this.fetchMandateTriggerList();
   }
+
+  updateStatus() {
+    // this._isUpdateStatus = true;
+    this.captureCollection(this._checkedLoanList)
+}
 
 }
