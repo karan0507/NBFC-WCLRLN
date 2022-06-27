@@ -174,10 +174,10 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
             if (res?.success) {
               this.handleCancel();
-              this.message.success('Fetch OCR completed')
+              this.message.success(res?.message)
             } else {
               this.handleCancel();
-              this.message.error('Fetch OCR faild')
+              this.message.error(res?.message)
             }
           }, err => {
             this.handleCancel();
