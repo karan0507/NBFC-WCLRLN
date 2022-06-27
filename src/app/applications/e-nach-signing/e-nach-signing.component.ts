@@ -518,4 +518,27 @@ export class ENachSigningComponent implements OnInit {
                   }
             })
       }
+      
+      sendEmandateLink(offer_id, emandateValue) {
+            var data = {
+                  source: 'LMS',
+                  datapoint: 'send-mandate-link',
+                  auth_type: emandateValue,
+                  accepted_offer_id: offer_id
+            }
+            const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
+            this.api_calling_loader['sendLink'] = true
+            this.https.sendEmandateLink(data).subscribe((res: any) => {
+                  if (res.success) {
+                        this.message.success(res.message)
+                  } else {
+                        this.message.error(res.message)
+                  }
+                  this.message.remove(generateloader)
+                  this.api_calling_loader['sendLink'] = false
+            }, (err) => {
+                  this.message.remove(generateloader)
+                  this.api_calling_loader['sendLink'] = false
+            })
+      }
 }
