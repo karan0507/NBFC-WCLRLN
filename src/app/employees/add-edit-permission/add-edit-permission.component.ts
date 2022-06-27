@@ -136,9 +136,9 @@ export class AddEditPermissionComponent implements OnInit {
       this.roleManagementLoader['fetchRole'] = false,
       this.updatedRole = res?.data?.results;
       res?.data.results.map((data)=>{
-        // if(data?.name.toLowerCase() !== 'Superuser'.toLowerCase()){
+        if(data?.name.toLowerCase() !== 'Superuser'.toLowerCase()){
           this.fetchedRole.push(data)
-        // }
+        }
       })
     }, error=>{
       this.roleManagementLoader['fetchRole'] = false;

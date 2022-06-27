@@ -165,8 +165,11 @@ export class NbfcApprovalComponent implements OnInit {
                   // data['page'] = 1
                   data['company'] = this.partner
             }
-            data['moved_by'] = this.moved_by,
+
+            if(this.date_sorter){
             data['date_sorter'] = this.date_sorter
+            }
+            data['moved_by'] = this.moved_by,
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
             data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
 
