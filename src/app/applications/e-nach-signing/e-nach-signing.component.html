@@ -396,19 +396,39 @@
                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                   <ul nz-menu>
                     <!-- [routerLink]="['edit-employee', data.id]" -->
-                    <li nz-menu-item>
-                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                    <!-- <li nz-menu-item>
                       <span class="m-l-5">Activate E-Nach</span>
-                    </li>
-                    <li nz-menu-item>
-                      <span class="m-l-5">Activate UPI Mandate</span>
-                    </li>
-                    <li nz-menu-item>
-                      <span class="m-l-5">Activate UPI Mandate</span>
-                    </li>
-                    <li nz-menu-item>
+                    </li> -->
+                    <li nz-menu-item nz-dropdown [nzClickHide]="false"
+                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                    [nzDropdownMenu]="latestUploadDropDown1234">
                       <span class="m-l-5">Send E-sign Link</span>
                     </li>
+                    
+                    <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                      <ul nz-menu>
+                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send E-sign Link?"
+                                nzPopconfirmPlacement="topLeft"
+                                (nzOnConfirm)="sendEmandateLink(data.offer_id, 'upi')">
+                                <span class="m-l-5">UPI</span>
+                            </li>
+                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send E-sign Link?"
+                                nzPopconfirmPlacement="topLeft"
+                                (nzOnConfirm)="sendEmandateLink(data.offer_id, 'netbanking')">
+                                <span class="m-l-5">Net banking</span>
+                            </li>
+                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send E-sign Link?"
+                                nzPopconfirmPlacement="topLeft"
+                                (nzOnConfirm)="sendEmandateLink(data.offer_id, 'debitcard')">
+                                <span class="m-l-5">Debit card</span>
+                            </li>
+                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send E-sign Link?"
+                                nzPopconfirmPlacement="topLeft"
+                                (nzOnConfirm)="sendEmandateLink(data.offer_id, 'aadhaar')">
+                                <span class="m-l-5">Aadhar card</span>
+                            </li>
+                      </ul>
+                </nz-dropdown-menu>
                     <li nz-menu-item>
                       <span class="m-l-5"> Legal Agreement</span>
                     </li>
