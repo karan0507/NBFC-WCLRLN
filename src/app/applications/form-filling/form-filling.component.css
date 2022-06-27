@@ -9,5 +9,6 @@
 
 
   ::ng-deep .ant-select-multiple.ant-select-sm .ant-select-selector {
-    height: 2.5625rem;
+    height: 2.6625rem;
+    border: 1px solid #edf2f9;
 }
