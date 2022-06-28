@@ -98,7 +98,6 @@
                                     [nzLabel]="item.status">
                               </nz-option>
                         </nz-select>
-                        <nz-range-picker class="mx-1 mb-2" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                         <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
                               class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
                               nzPlaceHolder="Sort by date">
@@ -111,6 +110,7 @@
                               <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
                               </nz-option>
                         </nz-select>
+                        <nz-range-picker class="mx-1 mb-2" style=" width: 18rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                         </div>
                   </div>
             </div>
@@ -134,7 +134,7 @@
                                     <th>Apply Date & Time</th>
                                     <th>Master Partner</th>
                                     <th>Source Id</th>
-                                    <th>Partner Id</th>
+                                    <th>Company</th>
                                     <th>Reference Id</th>
                                     <th>Previous stage</th>
                                     <th>Move to stage on</th>
