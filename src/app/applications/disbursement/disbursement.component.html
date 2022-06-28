@@ -417,6 +417,34 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Is Using App </span>
+                        <div>
+                          <!-- {{
+                            data?.expanddata?.is_using_app
+                              ? data?.expanddata?.is_using_app
+                              : "-"
+                          }} -->
+
+                          <i
+                            *ngIf="data?.expanddata?.is_using_app"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!data?.expanddata?.is_using_app"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- is_using_app -->
                   </div>
                 </nz-card>
                 <ng-template #personalDetail>
