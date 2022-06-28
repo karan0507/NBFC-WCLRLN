@@ -77,6 +77,7 @@
                         <th>Credit Utilized</th>
                         <th>Outstanding</th>
                         <th>Fees/Charges</th>
+                        <th>Is using app</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
                         <th>User Status</th>
@@ -106,6 +107,7 @@
                             <td>₹ {{data.credit_utilization_amount}}</td>
                             <td>₹ {{data.outstanding_amount}}</td>
                             <td>₹ {{data.fees_or_charges_amount}}</td>
+                            <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
                             <td>
                                 <span *ngIf="!data?.is_blocked">Active</span>
                                 <span *ngIf="data?.is_blocked">Block</span>
