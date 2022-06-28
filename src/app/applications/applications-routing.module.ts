@@ -346,6 +346,29 @@ const routes: Routes = [
                         ]
                   },
                   {
+                        path: 'rejected',
+                        data: {
+                              title: 'Rejected',
+                              parent: 'Rejected',
+                              custom_url: '/applications/rejected'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Rejected',
+                                          permissions: {
+                                            only: 'track_rejected_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+                  {
                         path: 'offer-proposed',
                         data: {
                               title: 'Offer Proposed',

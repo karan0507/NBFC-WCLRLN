@@ -43,68 +43,62 @@
             </div>
         </div>
           <div class="row">
-                <div class="col-12"> 
+            <div class="col-12 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
                   <div class="d-flex flex-wrap">
-                <!-- <div class="col-md-3 mb-3 d-flex"> -->
-                      <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" class="mb-2" style="width: 17rem;">
-                            <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
-                                  placeholder="Search text" />
-                      </nz-input-group>
-                      <ng-template #suffixIconButton>
-                            <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
-                                        nzType="search"></i></button>
-                      </ng-template> -->
-                <!-- </div> -->
-                <!-- <div class="col-md-9 col-12 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end"> -->
-                      <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem;"
-                            (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                            nzPlaceHolder="Select Product">
-                            <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
-                            </nz-option>
-                      </nz-select>
-                      <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
-                            (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                            nzPlaceHolder="Select Stage">
-                            <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
-                            </nz-option>
-                      </nz-select>
-                      <nz-select [(ngModel)]="partner" nzShowSearch (nzFocus)="onFocusMethod('partner')" style="width: 12rem;"
-                            class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
-                            nzPlaceHolder="Select Partner">
-                            <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name">
-                            </nz-option>
-                            <nz-option nzValue="other" nzLabel="Others"></nz-option>
-                      </nz-select>
-                      <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
-                            class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
-                            nzPlaceHolder="Select Moved by">
-                            <nz-option [nzValue]="'all'" [nzLabel]="'Both'">
-                            </nz-option>
-                            <nz-option [nzValue]="'admin'" [nzLabel]="'Admin'">
-                            </nz-option>
-                            <nz-option [nzValue]="'system'" [nzLabel]="'System'">
-                            </nz-option>
-                      </nz-select>
-                      <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
-                            (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
-                            [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
-                            <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
-                                  [nzLabel]="item.status">
-                            </nz-option>
-                      </nz-select>
-                      <nz-range-picker class="mx-1 mb-2" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
-                      <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
-                            class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
-                            nzPlaceHolder="Sort by date">
-                            <nz-option [nzValue]="'latest-apply_date'" [nzLabel]="'Latest apply date'">
-                            </nz-option>
-                            <nz-option [nzValue]="'latest-edit_date'" [nzLabel]="'Latest edit date'">
-                            </nz-option>
-                            <nz-option [nzValue]="'old-apply_date'" [nzLabel]="'Old apply date'">
-                            </nz-option>
-                            <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
-                            </nz-option>
-                      </nz-select>
+                  <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                  </button> -->
+                  <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem;"
+                        (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                        nzPlaceHolder="Select Product">
+                        <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
+                        </nz-option>
+                  </nz-select>
+                  <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
+                        (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
+                        nzPlaceHolder="Select Stage">
+                        <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
+                        </nz-option>
+                  </nz-select>
+                  <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" style="width: 12rem;"
+                        class="mx-1 my-md-0 mb-3" (ngModelChange)="getFormLoanData()" nzAllowClear
+                        nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
+                        </nz-option>
+                        <nz-option nzValue="other" nzLabel="Others">
+                        </nz-option>
+                  </nz-select>
+                  <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
+                        class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
+                        nzPlaceHolder="Select Moved by">
+                        <nz-option [nzValue]="'all'" [nzLabel]="'Both'">
+                        </nz-option>
+                        <nz-option [nzValue]="'admin'" [nzLabel]="'Admin'">
+                        </nz-option>
+                        <nz-option [nzValue]="'system'" [nzLabel]="'System'">
+                        </nz-option>
+                  </nz-select>
+                  <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
+                        (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
+                        [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
+                        <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
+                              [nzLabel]="item.status">
+                        </nz-option>
+                  </nz-select>
+                  <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
+                        class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
+                        nzPlaceHolder="Sort by date">
+                        <nz-option [nzValue]="'latest-apply_date'" [nzLabel]="'Latest apply date'">
+                        </nz-option>
+                        <nz-option [nzValue]="'latest-edit_date'" [nzLabel]="'Latest edit date'">
+                        </nz-option>
+                        <nz-option [nzValue]="'old-apply_date'" [nzLabel]="'Old apply date'">
+                        </nz-option>
+                        <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
+                        </nz-option>
+                  </nz-select>
+                  <nz-range-picker class="mx-1 mb-2" style=" width: 18rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
                   </div>
             </div>
                 <!-- </div> -->
