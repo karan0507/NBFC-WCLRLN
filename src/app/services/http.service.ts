@@ -228,7 +228,7 @@ export class HttpService {
        * fetchPartner
        */
       public fetchPartner(data?) {
-            return this._http.get((this.url + `/master/fetch-master-data/Partner`), { params: data });
+            return this._http.get((this.url + `/master/fetch-master-data/Partner?all_partners=1`), { params: data });
       }
 
 
