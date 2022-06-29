@@ -213,6 +213,57 @@
                         </div>
                   </div>
             </form>
+            <form nz-form [formGroup]="nomineeDetails" [nzLayout]="'vertical'">
+                  <div class="row">
+                        <div class="col-md-12" *ngFor="let item of getUPIForm_arr(nomineeDetails); let k = index;">
+                              <div formArrayName="nominee">
+                                    <ng-container [formGroupName]="k">
+                                    <div class="row">
+                                          <div class="col-md-4">
+                                                <!-- <nz-form-item>
+                                                      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nomiee" class="text-left">
+                                                            Nomiee Name</nz-form-label>
+                                                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Nomiee Name!">
+                                                            <input nz-input type="text" formControlName="name" placeholder="Enter Nomiee Name" />
+                        
+                                                      </nz-form-control>
+                                                      </nz-form-item> -->
+                                                      <nz-form-item>
+                                                      <nz-form-label nzFor="name" class="text-left" nzRequired>Nominee Name 
+                                                      </nz-form-label>
+                                                      <nz-form-control nzErrorTip="Please Add Valid Name">
+                                                            <input nz-input type="text" formControlName="name" placeholder="Name"/>
+                                                      </nz-form-control>
+                                                      </nz-form-item>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <nz-form-item>
+                                                      <nz-form-label nzFor="mobile" class="text-left" nzRequired>Mobile 
+                                                      </nz-form-label>
+                                                      <nz-form-control nzErrorTip="Please Add Valid Mobile No.">
+                                                            <input nz-input type="text" formControlName="mobile" placeholder="Mobile No"/>
+                                                      </nz-form-control>
+                                                      </nz-form-item>
+                                          </div>
+                                          <div class="col-md-4">
+                                          <nz-form-item>
+                                                <nz-form-label nzFor="relationship" class="text-left" nzRequired>Nominee Relationship 
+                                                </nz-form-label>
+                                                <nz-form-control nzErrorTip="Please Add Valid Relationship" style="font-weight: 900;">
+                                                      <!-- <input nz-input type="text" formControlName="relationship" placeholder="Nominee Relationship" [disabled]="isDisabled"/> -->
+                                                      <!-- <h4 class="my-0"> -->
+                                                            <label class="pl-4">{{item.controls.relationship.value}}</label>
+                                                      <!-- </h4> -->
+                                                </nz-form-control>
+                                                </nz-form-item>
+                                    </div>
+                                    </div>
+                                    </ng-container>
+                              </div>
+
+                        </div>
+                  </div>
+            </form>
       </nz-card>
 </section>
 

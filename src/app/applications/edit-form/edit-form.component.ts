@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns/esm';
 import { HttpService } from 'src/app/services/http.service';
@@ -55,6 +55,7 @@ export class EditFormComponent implements OnInit {
       isEditName: boolean = false;
       ifCorporateNotMapped: any;
       employmentType: any;
+      nomineeDetails: FormGroup;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -81,7 +82,10 @@ export class EditFormComponent implements OnInit {
                         date_of_birth: [null],
                         income: [null],
                   })
-
+                  this.nomineeDetails = this.fb.group({
+                        nominee: this.fb.array([]),
+                  })
+                  
             this.employementDetails = this.fb.group({
                   company_name: [null, [Validators.required]],
                   address: [null, []],
@@ -107,6 +111,41 @@ export class EditFormComponent implements OnInit {
             })
 
       }
+
+      get nominee(): FormArray {
+            return this.nomineeDetails.get('nominee')  as FormArray;
+          }
+
+      addAdditionalUPI(data?) {
+      this.nominee.push(this.addSlabControlsUPI(data))
+      console.log(data);
+      }
+
+      patchNomineeDetails(data){
+            data?.forEach(element => {
+                  this.addAdditionalUPI(element)
+            });
+      }
+
+      isDisabled = true;
+
+      public addSlabControlsUPI(data?): FormGroup {
+            console.log(data);
+            return this.fb.group({
+                  id: [data?.id ? data?.id : ''],
+                  mobile: [data?.mobile ? data?.mobile : ''],
+                  name: [data?.name ? data?.name : ''],
+                  relationship: [data?.relationship ? data?.relationship : ''],
+            });
+          }
+        
+          getUPIForm_arr(form) {
+            //     console.log(form)
+            // this.nominee.get.('nominee')['controls']['name'].disable();
+            // this.nominee.get('document_data')['controls'][index].controls.documents.setValue(e.file.originFileObj)
+            // form.controls.nominee.value.relationship.disable();
+            return form.controls.nominee.controls;
+          }
 
       fetchEmploymentType(){
             let data;
@@ -213,6 +252,7 @@ export class EditFormComponent implements OnInit {
             let data = { 'source': 'Onboarding', 'datapoint': 'get_edit_application', 'endpoint': this.userId };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
+                        this.patchNomineeDetails(res?.data?.nominee);
                         this.api_calling_loader['accordian'] = false;
                         this.ifCorporateNotMapped = res?.data?.company_details?.name;
                         this.personalDetails.patchValue({ name: res?.data?.user_info ? res?.data?.user_info?.name : null });
@@ -294,9 +334,14 @@ export class EditFormComponent implements OnInit {
 
       submitForm() {
             let data = new FormData();
+            var sendData = this.nominee.value;
             this.api_calling_loader['button'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
+            if(sendData){
+                  data.append('nominee', JSON.stringify(sendData))
+            }
+            // data.append('nominee', sendData)
             if(this.isEditName){
                   data.append('name', this.personalDetails.value.name)
             }

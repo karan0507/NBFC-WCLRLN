@@ -432,6 +432,12 @@
                     <li nz-menu-item>
                       <span class="m-l-5"> Legal Agreement</span>
                     </li>
+                    <li nz-menu-item [routerLink]="['edit-form']"
+                          [queryParams]="{id: data?.id}">
+                          <!-- *ngxPermissionsOnly="['edit_form_filling_application']" -->
+                          <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                          <span class="m-l-5">Edit Application</span>
+                    </li>
                     <li
                       *ngxPermissionsOnly="['track_e_signing_application']"
                       nz-menu-item
