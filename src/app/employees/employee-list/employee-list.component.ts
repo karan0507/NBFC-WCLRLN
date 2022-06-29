@@ -115,9 +115,9 @@ export class EmployeeListComponent implements OnInit {
     // }
     let data = {
       page: this.page,
-      deactivated: this.deactivated,
-      name: this.search_params,
-      role: this.roles,
+      deactivated: this.deactivated ? this.deactivated : '',
+      name: this.search_params ? this.search_params : '',
+      role: this.roles ? this.roles : '',
       limit: this.globalPageSize,
       from_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       to_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',

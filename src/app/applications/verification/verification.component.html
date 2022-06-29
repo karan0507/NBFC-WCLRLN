@@ -265,9 +265,9 @@
                                                                   (click)="moveStageTo('underwriting', data?.id)">
                                                                   <span class="m-l-5">Move to Underwriting</span>
                                                             </li>
-                                                            <!-- <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
+                                                            <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }" *ngxPermissionsOnly="['track_rejected_application']" >
                                                               <span class="m-l-5">Track Status</span>
-                                                            </li> -->
+                                                            </li>
                                                       </ul>
                                                 </nz-dropdown-menu>
                                           </td>

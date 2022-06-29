@@ -18,13 +18,13 @@
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchEmployeeList()" [nzRanges]="customRanges"></nz-range-picker>
-                    <nz-select class="mx-1" style="width: 15rem;" [(ngModel)]="roles"
+                    <nz-select class="mx-1" style="width: 15rem;" nzAllowClear [(ngModel)]="roles"
                         (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Role" (nzFocus)="fetchRoles()">
                         <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
 
-                    <nz-select class="mx-1" style="width: 12rem;" [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
+                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
                         nzPlaceHolder="Filter By Status">
                         <nz-option nzValue="0" nzLabel="Active"></nz-option>
                         <nz-option nzValue="1" nzLabel="Inactive"></nz-option>
