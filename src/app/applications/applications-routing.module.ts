@@ -346,6 +346,29 @@ const routes: Routes = [
                         ]
                   },
                   {
+                        path: 'rejected',
+                        data: {
+                              title: 'Rejected',
+                              parent: 'Rejected',
+                              custom_url: '/applications/rejected'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Rejected',
+                                          permissions: {
+                                            only: 'track_rejected_application',
+                                            redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
+                  {
                         path: 'offer-proposed',
                         data: {
                               title: 'Offer Proposed',
@@ -376,6 +399,19 @@ const routes: Routes = [
                               custom_url: '/applications/e-signing'
                         },
                         children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    // canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                          // permissions: {
+                                          //   only: 'edit_form_filling_application',
+                                          //   redirectTo: 'authentication/error-2'
+                                          // }
+                                    },
+                              },
                               {
                                     path: 'track-status',
                                     component: TrackStatusComponent,
