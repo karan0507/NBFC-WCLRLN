@@ -76,6 +76,7 @@
                         <th>Available limit</th>
                         <th>Credit Line Assigned</th>
                         <th>Credit Utilized</th>
+                        <th>Ignore Enach Trigger</th>
                         <th>Outstanding</th>
                         <th>Fees/Charges</th>
                         <th>Is using app</th>
@@ -106,6 +107,10 @@
                             <td>₹ {{data.closing_credit_balance}}</td>
                             <td>₹ {{data.loan_amount_provided}}</td>
                             <td>₹ {{data.credit_utilization_amount}}</td>
+                            <td>
+                                <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">Enabled</span>
+                                <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">Disabled</span>
+                            </td>
                             <td>₹ {{data.outstanding_amount}}</td>
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
@@ -143,6 +148,9 @@
                                             </li>
                                             <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data.id)">
                                                 <span class="m-l-5">Export transaction</span>
+                                            </li>
+                                            <li nz-menu-item (click)="holdIgnoreMandateTrigger(data.id, data.ignore_enach_trigger)">
+                                                <span class="m-l-5">Hold/ Ignore Mandate trigger</span>
                                             </li>
                         
                                             <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm

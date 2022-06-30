@@ -431,6 +431,15 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
+        path: 'third-party-api-call',
+        title: 'API buckets Statistics',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'file',
+        submenu: []
+    },
+    {
         path: 'version',
         title: 'Version',
         iconType: 'nzIcon',

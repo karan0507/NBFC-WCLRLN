@@ -152,6 +152,10 @@ export class HttpService {
       public fetchEmployeeList(data) {
             return this._http.get((this.url + `/user/get-users`), { params: data });
       }
+
+      public getApiBucketStats(data) {
+            return this._http.get((this.url + `/platform_central/v1/get-api-stats`), { params: data });
+      }
       /**
        * toggleEmployeeStatus
        */

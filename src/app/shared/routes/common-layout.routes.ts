@@ -110,6 +110,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../accounting/accounting.module').then(m => m.AccountingModule),
     },
     {
+        path: 'third-party-api-call',
+        loadChildren: () => import('../../third-party-api-call/third-party-api-call.module').then(m => m.ThirdPartyApiCallModule),
+    },
+    {
         path: 'dormant',
         loadChildren: () => import('../../dormant-stage-trigger/dormant-stage-trigger.module').then(m => m.DormantStageTriggerModule),
     },

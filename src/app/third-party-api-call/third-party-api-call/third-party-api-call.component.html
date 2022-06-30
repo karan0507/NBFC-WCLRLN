@@ -1,0 +1,86 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchEmployeeList()"/>
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="secondary" nzSearch (click)="fetchEmployeeList()"><i nz-icon nzType="search"></i></button>
+                </ng-template>
+                <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2" (click)="resetFilters()">
+                    <i nz-icon nzType="undo"></i>
+                </button> -->
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="getApiBucketStats()" [nzRanges]="customRanges"></nz-range-picker>
+                    <!-- <nz-select class="mx-1" style="width: 15rem;" nzAllowClear [(ngModel)]="roles"
+                    (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Role" (nzFocus)="fetchRoles()">
+                    <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                    </nz-option>
+                </nz-select>
+
+                <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
+                    nzPlaceHolder="Filter By Status">
+                    <nz-option nzValue="0" nzLabel="Active"></nz-option>
+                    <nz-option nzValue="1" nzLabel="Inactive"></nz-option>
+                </nz-select> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <nz-card nzTitle="Aadhar captcha API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.aadhar_captcha_api_count ? ApiStatsData?.aadhar_captcha_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Aadhar OTP API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.aadhar_otp_api_count ? ApiStatsData?.aadhar_otp_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Aadhar OCR API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.aadhar_ocr_api_count ? ApiStatsData?.aadhar_ocr_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Pan API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.pan_api_count ? ApiStatsData?.pan_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Pan OCR API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.pan_ocr_api_count ? ApiStatsData?.pan_ocr_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="DL OCR API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.dl_ocr_api_count ? ApiStatsData?.dl_ocr_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Voter API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.voter_api_count ? ApiStatsData?.voter_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Voter OCR API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.voter_ocr_api_count ? ApiStatsData?.voter_ocr_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Cibil API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.cibil_api_count ? ApiStatsData?.cibil_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card nzTitle="Selfie API count" [nzLoading]="api_calling_loader">
+                        <h4>{{ApiStatsData?.selfie_api_count ? ApiStatsData?.selfie_api_count : '0'}}</h4>
+                    </nz-card>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+</section>

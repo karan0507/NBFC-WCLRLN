@@ -210,4 +210,21 @@ export class BorrowersListComponent implements OnInit {
       // this.message.success(res['message'])
     })
   }
+
+  holdIgnoreMandateTrigger(offer_id, ignore_enach_trigger) {
+    let data = {
+      datapoint: 'enach_trigger_ignore_toggle',
+      endpoint: offer_id,
+      source: 'LMS',
+      ignore_enach_trigger: !ignore_enach_trigger
+    }
+    const generateloader = this.message.loading('Ignoring Enach trigger..', { nzDuration: 0 }).messageId;
+    this.http.moveApplication(data).subscribe(res => {
+      this.message.remove(generateloader)
+      this.fetchBorrowerList()
+      this.message.success(res['message'])
+    }, (err) => {
+      this.message.remove(generateloader)
+    })
+  }
 }
