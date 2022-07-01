@@ -22,6 +22,9 @@ export class MandateTriggersComponent implements OnInit {
   listOfData = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
+  selectedCorporate: any;
+  debounce: any;
+  corporateList: any[];
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -45,8 +48,8 @@ export class MandateTriggersComponent implements OnInit {
       // txn_type: this.selectedType ? this.selectedType : '',
       // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      search_param: this.searchValue,
-      // corporate: this.selectedCorporate ? this.selectedCorporate : '',
+      keyword: this.searchValue,
+      corporate: this.selectedCorporate ? this.selectedCorporate : '',
       section: this.selectedTab
     }
     this.api_calling_loader = true
@@ -121,13 +124,40 @@ export class MandateTriggersComponent implements OnInit {
     // this.selectedType = ''
     // this.selectedStatus = ''
     // this.date = ''
-    // this.master_product_id = ''
+    this.selectedCorporate = ''
     this.fetchMandateTriggerList();
   }
 
   updateStatus() {
     // this._isUpdateStatus = true;
     this.captureCollection(this._checkedLoanList)
+}
+
+OnTypeSearchList(event){
+  clearTimeout(this.debounce);
+  this.debounce = setTimeout(() => {
+    this.fetchPartnerList(event);
+  }, 500);
+}
+
+fetchPartnerList(e?) {
+  let data = {};
+  if(e){
+    data['name'] = e;
+  }
+  this.http.fetchPartner(data).subscribe((res: any) => {
+    if (res?.success) {
+      this.corporateList = [];
+      res?.data?.results.map((res: any)=>{
+        if(res?.name){
+          this.corporateList.push(res)    
+        }
+      })
+      // this.corporateList = res?.data?.results;
+      console.log(this.corporateList);
+    }
+  });
+  // }
 }
 
 }
