@@ -78,7 +78,9 @@
                     <th *ngIf="selectedTab == 'bill'">Outstanding Amount</th>
                     <th *ngIf="selectedTab == 'bill'">Bill date</th>
                     <th *ngIf="selectedTab == 'bill'">Total received</th>
-                    <th *ngIf="selectedTab == 'bill'">Paid status</th>
+                    <th *ngIf="selectedTab == 'bill'">No. of Nach hit</th>
+                    <th *ngIf="selectedTab == 'bill'">Bill status</th>
+                    <th *ngIf="selectedTab == 'bill'">Nach status</th>
                     <th *ngIf="selectedTab != 'bill'">Amount</th>
                     <th *ngIf="selectedTab != 'bill'">Razor pay order Id</th>
                     <th *ngIf="selectedTab != 'bill'">Status</th>
@@ -96,7 +98,13 @@
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.bill_date | date: "medium" }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.total_received ? data?.total_received : '-' }}</td>
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.nach_trigger_count ? data?.nach_trigger_count : '-' }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
+                    <td *ngIf="selectedTab == 'bill'">
+                        <span *ngIf="data?.nach_status == 'In Progress'" style="text-transform: capitalize !important;" class="badge badge-pill badge-info">{{ data?.nach_status ? data?.nach_status : '-' }}</span>
+                        <span *ngIf="data?.nach_status == 'No Hit'" style="text-transform: capitalize !important;" class="badge badge-pill badge-gray">{{ data?.nach_status ? data?.nach_status : '-' }}</span>
+                        <span *ngIf="data?.nach_status == 'Failed'" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">{{ data?.nach_status ? data?.nach_status : '-' }}</span>
+                    </td>
                     <td *ngIf="selectedTab != 'bill'">₹ {{ data?.razorpay_order?.order_amount ? data?.razorpay_order?.order_amount : '-' }}</td>
                     <td *ngIf="selectedTab != 'bill'">{{ data?.razorpay_order?.order_id ? data?.razorpay_order?.order_id : '-' }}</td>
                     <td *ngIf="selectedTab != 'bill'">

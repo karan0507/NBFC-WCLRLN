@@ -71,6 +71,7 @@
                         <th>Corporate</th>
                         <th>Loan ID</th>
                         <th>Employee code</th>
+                        <th>Token status</th>
                         <th>Applied on</th>
                         <th>Disbursement date</th>
                         <th>Available limit</th>
@@ -102,6 +103,7 @@
                             <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
                             <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                             <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
+                            <td>{{ data.latest_token_status ? (data.latest_token_status | titlecase) : '-' }}</td>
                             <td>{{data.activation_date | date: "medium"}}</td>
                             <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
                             <td>₹ {{data.closing_credit_balance}}</td>

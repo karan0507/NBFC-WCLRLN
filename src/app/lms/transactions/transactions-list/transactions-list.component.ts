@@ -107,6 +107,7 @@ export class TransactionsListComponent implements OnInit {
     this.selectedStatus = ''
     this.date = ''
     this.master_product_id = ''
+    this.selectedCorporate = ''
     this.fetchTransactionList();
   }
 

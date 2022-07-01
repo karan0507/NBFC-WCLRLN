@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       title: 'GST invoice',
       parent: 'Accounting',
-      custom_url: 'accounting',
+      custom_url: 'accounting/gst-invoices',
       permissions: {
         only: 'view_gst_invoice',
         redirectTo: 'authentication/error-2'
@@ -26,7 +26,7 @@ const routes: Routes = [
     data: {
       title: 'Escrow statement',
       parent: 'Accounting',
-      custom_url: 'accounting',
+      custom_url: 'accounting/escrow-statement',
       permissions: {
         only: 'view_escrow_statement',
         redirectTo: 'authentication/error-2'

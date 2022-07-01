@@ -26,6 +26,7 @@ export class LineBlockUnblockComponent implements OnInit {
   is_active: any;
   corporateList: any;
   debounce: any;
+  isbtnLoading: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) {
@@ -35,6 +36,15 @@ export class LineBlockUnblockComponent implements OnInit {
         this.fetchBorrowerList()
       })
     }
+    remarksList = [
+      'Requested By Corporate',
+      'Employee Left the Corporate',
+      'Customer Requested to Block Card',
+      'Underwriting Check',
+      'Fraudulent',
+      'Requested By Fatakpay',
+    ]
+    remarks: any
 
   ngOnInit(): void {
     this.fetchBorrowerList()
@@ -84,8 +94,9 @@ export class LineBlockUnblockComponent implements OnInit {
       toggle_type: 'LINE',
       toggle_value: value,
       accepted_loan_application: this.accepted_loan_application,
+      remarks : this.remarks ?this.remarks : ''
     }
-
+    this.isbtnLoading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       if (res.success) {
         this.isblock = false
@@ -95,7 +106,9 @@ export class LineBlockUnblockComponent implements OnInit {
       } else {
         this.message.error(res['message'])
       }
+      this.isbtnLoading = false
     }, (err) => {
+      this.isbtnLoading = false
     })
   }
   
