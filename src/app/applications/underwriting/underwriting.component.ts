@@ -41,7 +41,8 @@ export class UnderwritingComponent implements OnInit {
     listLoader: false,
     accordian: false,
     button: false,
-    xmlLoader: false
+    xmlLoader: false,
+    offerButton: false
   };
   stageMasterList: any;
   _currentStageStatus: any;
@@ -85,6 +86,8 @@ export class UnderwritingComponent implements OnInit {
   storedParams: any;
   date_sorter = ''
   isVisibleThirdPartyResp: boolean;
+  generateOfferId: any;
+  _generate_offer: boolean;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -271,6 +274,38 @@ export class UnderwritingComponent implements OnInit {
         this.getFormLoanData();
       } else {this.message.error(res?.message)}
     })
+    // this.api_calling_loader['offerButton'] = true
+    //   let form_data = { 
+    //         source: 'Onboarding', 
+    //         datapoint: 'manual_offer', 
+    //         application_id: this.generateOfferId,
+    //         final_amount: Number(this.final_amount),
+    //         final_max_amount: Number(this.final_amount_max)
+    //   }
+    //   this.https.editLoanData(form_data).subscribe((res: any) => {
+    //         if (res?.success) {
+    //               this.api_calling_loader['button'] = false
+    //               this.message.success(res?.message);
+    //               this.handleCancel();
+    //               // this.getIdWiseData(this._currentModalData['application']);
+    //               this.getFormLoanData()
+    //         } else {
+    //               this.api_calling_loader['button'] = false
+    //               this.message.error(res?.message);
+    //         }
+    //   }, err => {
+    //         this.api_calling_loader['button'] = false
+    //         // this.message.error(err);
+    //   })
+  }
+
+  final_amount_max: any
+  final_amount: any
+  _generateOffer: boolean
+  generateOffer(id) {
+        this.generateOfferId = id
+        this._generate_offer = true
+        this._generateOffer = true
   }
 
   getIdWiseData(id?, index?) {
@@ -437,6 +472,7 @@ export class UnderwritingComponent implements OnInit {
     this._isPullData = false;
     this._isCibil = false;
     this.isFetchCibilSms = false;
+    this._generateOffer = false;
   }
 
   handleOk(type?) {
@@ -557,6 +593,31 @@ export class UnderwritingComponent implements OnInit {
           }
         );
         break;
+        case 'generate_offer':
+                        this.api_calling_loader['offerButton'] = true
+                        let form_data = { 
+                              source: 'Onboarding', 
+                              datapoint: 'manual_offer', 
+                              application_id: this.generateOfferId,
+                              final_amount: Number(this.final_amount),
+                              final_max_amount: Number(this.final_amount_max)
+                        }
+                        this.https.editLoanData(form_data).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['offerButton'] = false
+                                    this.message.success(res?.message);
+                                    this.handleCancel();
+                                    // this.getIdWiseData(this._currentModalData['application']);
+                                    this.getFormLoanData()
+                              } else {
+                                    this.api_calling_loader['offerButton'] = false
+                                    this.message.error(res?.message);
+                              }
+                        }, err => {
+                              this.api_calling_loader['offerButton'] = false
+                              // this.message.error(err);
+                        })
+                        break
     }
   }
 
