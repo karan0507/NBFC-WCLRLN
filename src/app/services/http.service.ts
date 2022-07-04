@@ -544,6 +544,10 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data, { responseType: 'blob' });
       }
 
+      public exportDPDDays(): any {
+            return this._http.get((this.url + `/loan-application/v1/export-dpd-borrowers-list`), { responseType: 'blob' });
+      }
+
       public editLoanData(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }

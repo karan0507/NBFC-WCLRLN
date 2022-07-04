@@ -274,6 +274,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'lms/dpd-days',
+                title: 'DPD Days',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
+            {
                 path: 'lms/change-bill-date',
                 title: 'Change Bill date',
                 iconType: '',
