@@ -16,6 +16,7 @@ export class DoubleConfirmationPopupComponent implements OnInit {
   @Output() onOkCall = new EventEmitter<any>();
   @Output() onCencelCall = new EventEmitter<any>();
   @Input() isbtnLoading;
+  @Input() isDisabled;
   
 
   constructor() { }

@@ -342,7 +342,7 @@ export class EditFormComponent implements OnInit {
                   data.append('nominee', JSON.stringify(sendData))
             }
             // data.append('nominee', sendData)
-            if(this.isEditName){
+            if(this.personalDetails.value.name){
                   data.append('name', this.personalDetails.value.name)
             }
             if(this.personalDetails.value.email){

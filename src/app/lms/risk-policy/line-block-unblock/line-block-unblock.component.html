@@ -36,6 +36,7 @@
                         <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
                         <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
+                        <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
                         <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
                         <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
                         <nz-option [nzValue]="'Voluntary Closure Restructuring'" nzLabel="Voluntary Closure Restructuring"></nz-option>
@@ -116,8 +117,21 @@
     </div>
 </section>
 <!-- Block  -->
-<nz-modal [nzWidth]="400" [(nzVisible)]="isblock" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left">Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input Remarks">
+                        <nz-select [(ngModel)]="remarks" nzPlaceHolder="Select Remarks" nzShowSearch nzAllowClear>
+                            <nz-option *ngFor="let item of remarksList" [nzValue]="item" [nzLabel]="item">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
         <app-double-confirmation-popup 
             [title]="'Do you want to Block  line?'"
             [subTitle]="''"
@@ -125,13 +139,28 @@
             (onOkCall)="toggleUserLineStatus(true)"
             (onCencelCall)="isblock = false;"
             [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Block'">
+            [submitBtnTxt]="'Block'"
+            [isDisabled]="!remarks"
+            [isbtnLoading]="isbtnLoading">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 <!-- Unblock -->
-<nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left">Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Please input Remarks">
+                        <nz-select [(ngModel)]="remarks" nzPlaceHolder="Select Remarks" nzShowSearch nzAllowClear>
+                            <nz-option *ngFor="let item of remarksList" [nzValue]="item" [nzLabel]="item">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div> -->
         <app-double-confirmation-popup 
             [title]="'Do you want to Unblock  line?'"
             [subTitle]="''"
@@ -139,7 +168,8 @@
             (onOkCall)="toggleUserLineStatus(false)"
             (onCencelCall)="isUnblock = false;"
             [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Unblock'">
+            [submitBtnTxt]="'Unblock'"
+            [isbtnLoading]="isbtnLoading">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
