@@ -15,6 +15,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuditHistoryComponent } from './template/audit-history/audit-history.component';
+import { HttpService } from '../services/http.service';
 
 @NgModule({
     exports: [

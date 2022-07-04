@@ -25,21 +25,36 @@ export class AuditHistoryComponent implements OnInit {
   }
 
   fetchAuditHistory() {
-    let data = {
-      source: 'Onboarding',
-      datapoint: 'history_audit_logs',
-      endpoint: this.endpoint,
-      id: this.endpoint_id
-    }
-    this.https.fetchLoanApplicationList(data).subscribe( res => {
-      if (res?.success) {
-        this.history_data = res.data
-      } else {
-
+    if(this.endpoint == 'Product') {
+      let data = {
+        id: this.endpoint_id
       }
-    }, err => {
-
-    })
+      this.https.fetchProductAuditLog(data).subscribe( res => {
+        if (res['success']) {
+          this.history_data = res['data']
+        } else {
+  
+        }
+      }, err => {
+  
+      })
+    } else {
+      let data = {
+        source: 'Onboarding',
+        datapoint: 'history_audit_logs',
+        endpoint: this.endpoint,
+        id: this.endpoint_id
+      }
+      this.https.fetchLoanApplicationList(data).subscribe( res => {
+        if (res?.success) {
+          this.history_data = res.data
+        } else {
+  
+        }
+      }, err => {
+  
+      })
+    }
   }
 
   getFormatedDate(date) {

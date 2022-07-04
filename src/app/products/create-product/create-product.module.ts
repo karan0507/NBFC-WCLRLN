@@ -21,6 +21,7 @@ import { ArrayFilterPipe } from 'src/app/shared/pipes/arrayFilter.pipe';
 import { ViewProductComponent } from './view-product/view-product.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -44,10 +45,11 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzFormModule,
     DemoNgZorroAntdModule,
     NzTagModule,
+    SharedModule,
     NgxPermissionsModule.forChild()
   ],
   providers:[
-    HttpService
+    // HttpService
   ]
 })
 export class CreateProductModule { }

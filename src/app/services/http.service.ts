@@ -122,6 +122,13 @@ export class HttpService {
       }
 
       /**
+       * fetchProductAuditLog
+       */
+       public fetchProductAuditLog(data) {
+            return this._http.get((this.url + `/platform_central/fetch-history/Product`), { params: data });
+      }
+
+      /**
        * fetchProductList
        */
       public fetchProductList(data?) {
