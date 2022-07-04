@@ -61,6 +61,8 @@
                             <th>Unenrolled User </th>
                             <!-- <th>Transaction Status</th> -->
                             <th>System Status</th>
+                            <th> Updated By</th>
+                            <th>Created By</th>
                             <th> Master Partner</th>
                             <th>Source ID</th>
                             <th>Refer ID</th>
@@ -102,6 +104,8 @@
                                 <td>{{ data?.borrowers_detail?.remaining_user_count ? data?.borrowers_detail?.remaining_user_count : 0 }}</td>
                                 <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                                <td>{{ data?.updated_by ? data?.updated_by : ' - ' }}</td>
+                                <td>{{ data?.created_by?.name ? data?.created_by?.name : ' -' }}</td>
                                 <td>{{ data?.master_partner ? data?.master_partner : ' - ' }}</td>
                                 <td>{{ data?.source_id ? data?.source_id : ' - ' }}</td>
                                 <td>{{ data?.refer_id ? data?.refer_id : ' -' }}</td>

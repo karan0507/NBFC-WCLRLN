@@ -13,10 +13,11 @@
                               <nz-form-item>
                                     <nz-form-label>User Name:</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your name">
-                                          <label *ngIf="!isEditName">
+                                          <!-- <label *ngIf="!isEditName">
                                                 {{personalInfo?.name | titlecase}}
-                                          </label>
-                                          <input *ngIf="isEditName" nz-input type="text" formControlName="name" (keypress)="omit_special_char($event)"
+                                          </label> -->
+                                          <!-- *ngIf="isEditName" -->
+                                          <input  nz-input type="text" formControlName="name" (keypress)="omit_special_char($event)"
                                           placeholder="Enter your name" />
                                     </nz-form-control>
                               </nz-form-item>

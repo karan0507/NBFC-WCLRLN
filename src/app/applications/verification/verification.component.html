@@ -252,10 +252,10 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                       <ul nz-menu>
-                                                            <li nz-menu-item *ngxPermissionsOnly="['generate_offer_rejected_application','move_to_underwriting_rejected_application','move_to_original_stage_rejected_application']"
+                                                            <!-- <li nz-menu-item *ngxPermissionsOnly="['generate_offer_rejected_application','move_to_underwriting_rejected_application','move_to_original_stage_rejected_application']"
                                                                   (click)="generateOffer(data?.id)">
                                                                   <span class="m-l-5">Generate offer</span>
-                                                            </li>
+                                                            </li> -->
                                                             <!-- [routerLink]="['edit-employee', data.id]" -->
                                                             <li nz-menu-item (click)="moveStageTo('original', data?.id)" *ngxPermissionsOnly="['move_to_original_stage_rejected_application']">
                                                                   <!-- <i nz-icon nzType="edit" theme="outline"></i> -->

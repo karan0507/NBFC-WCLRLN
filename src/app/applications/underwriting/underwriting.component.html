@@ -278,6 +278,7 @@
                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                   <ul nz-menu>
                     <!-- [routerLink]="['edit-employee', data.id]" -->
+                    <!-- *ngxPermissionsOnly="['generate_offer_underwriting']" -->
                     <li  *ngxPermissionsOnly="['generate_offer_underwriting']"
                       nz-menu-item
                       nz-popconfirm
@@ -300,6 +301,10 @@
                                                                         Delete
                                                                   </a> -->
                       <span class="m-l-5">Generate Offer</span>
+                    </li>
+                    <li nz-menu-item *ngxPermissionsOnly="['generate_offer_rejected_application','move_to_underwriting_rejected_application','move_to_original_stage_rejected_application']"
+                          (click)="generateOffer(data?.id)">
+                          <span class="m-l-5">Manual offer</span>
                     </li>
                     <li
                       nz-menu-item
@@ -2025,3 +2030,67 @@
     </nz-card>
   </ng-container>
 </nz-modal>
+
+
+<section>
+  <nz-modal [nzWidth]="'500px'" [(nzVisible)]="_generateOffer" nzTitle="Generate Offer" (nzOnCancel)="handleCancel()"
+        [nzFooter]="footerModalOffer">
+        <section *ngIf="_isEditOffer">
+              <div class="row" [formGroup]="offerForm">
+                    <div class="col-md-12 mb-3">
+                          {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
+                          + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
+                          : '')) : '-' }}
+                          <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+                                _currentLoanDetails?.user?.mobile : '-'}}</span>
+                          <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
+                                '-'}}</span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                          Offer Amount
+                    </div>
+                    <div class="col-md-8 mb-3">
+                          <input nz-input placeholder="Enter Your Offer Amount" formControlName="amountOffered">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                          Validity
+                    </div>
+                    <div class="col-md-8 mb-3">
+                          <input nz-input readonly="readonly" placeholder="">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                          Interest
+                    </div>
+                    <div class="col-md-8 mb-3">
+                          <input nz-input readonly="readonly" placeholder="">
+                    </div>
+              </div>
+        </section>
+        <section *ngIf="_generate_offer">
+              <div class="row mb-3">
+                    <div class="col-md-6"><nz-form-label nzRequired>Final amount max</nz-form-label></div>
+                    <div class="col-md-6"><input nz-input type="number" [(ngModel)]="final_amount_max" min="0" placeholder="Enter final amount max"></div>
+              </div>
+              <div class="row">
+                    <div class="col-md-6"><nz-form-label nzRequired>
+                          Final amount
+                    </nz-form-label></div>
+                    <div class="col-md-6"><input nz-input type="number" [(ngModel)]="final_amount" placeholder="Enter final amount"></div>
+              </div>
+        </section>
+  </nz-modal>
+  <ng-template #footerModalOffer>
+            <button
+            nz-button
+            nzType="link"
+            class="border"
+            (click)="handleCancel()">
+            Cancel
+          </button>
+          <button  nz-button nzType="primary"
+            [disabled]="(!final_amount_max && !final_amount) ? true : false" class="mx-2"
+            [nzLoading]="api_calling_loader['offerButton']" (click)="handleOk('generate_offer')">Submit</button>
+  </ng-template>
+</section>
