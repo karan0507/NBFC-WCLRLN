@@ -1,0 +1,235 @@
+<div class="header_breadcrumb_section d-flex" style="justify-content: right;">
+    <!-- <button nz-button (click)="isVisible = true" nzType="primary" class="ml-1" nzGhost>Export Outstanding</button> -->
+    <button nz-button  nzType="primary" class="ml-1" (click)="exportGlobalFunction('xlsx')" nzGhost>Export</button>
+    <!-- (click)="exportGlobalFunction('xlsx')" -->
+</div>
+<section>
+    <div class="row">
+        <div  class="col-3" *ngFor="let data of dpdDaysMatrix">
+            <nz-card [nzLoading]="api_calling_loader">
+                <span>
+                    {{ 'DPD Days ' + data?.name}}
+                </span>
+                <br>
+                <span>
+                    {{ 'Count ' + data?.count}}
+                </span>
+            </nz-card>
+        </div>
+    </div>
+    <div class="row">
+        <nz-card class="w-100 accordianLoanApp">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchDpdDaysList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchDpdDaysList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="fetchDpdDaysList()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select>
+                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+                    </nz-select> -->
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchDpdDaysList()"
+                        nzPlaceHolder="Filter By Card Status">
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_spend" (ngModelChange)="fetchDpdDaysList()"
+                        nzPlaceHolder="Filter By spend">
+                        <nz-option [nzValue]="'Yes'" nzLabel="Spend"></nz-option>
+                        <nz-option [nzValue]="'No'" nzLabel="Not spend"></nz-option>
+                    </nz-select>
+                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
+                        <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
+                        <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
+                        <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
+                        <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
+                        <nz-option [nzValue]="'Voluntary Closure Restructuring'" nzLabel="Voluntary Closure Restructuring"></nz-option>
+                        <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
+                        <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>Disbursement
+                    </nz-select> -->
+                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="dpdDaysList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="dpdDaysList ? fetchDpdDaysList($event) : ''">
+            <!-- , y: '45vh'     -->
+            <thead>
+                    <tr>
+                        <!-- <th nzWidth="2rem"></th> -->
+                        <th nzWidth="3rem">#</th>
+                        <th nzWidth="15rem">User Name</th>
+                        <!-- <th>Product type</th> -->
+                        <th>Corporate</th>
+                        <th>Loan ID</th>
+                        <th>Employee code</th>
+                        <th>DPD Bucket</th>
+                        <th>DPD Days</th>
+
+                        <!-- <th>Token status</th>
+                        <th>Applied on</th>
+                        <th>Disbursement date</th>
+                        <th>Available limit</th>
+                        <th>Credit Line Assigned</th>
+                        <th>Credit Utilized</th>
+                        <th>Ignore Enach Trigger</th>
+                        <th>Outstanding</th>
+                        <th>Fees/Charges</th> -->
+                        <th>Is using app</th>
+                        <th>Card Status</th>
+                        <th>A/c Status</th>
+                        <th>User Status</th>
+                        <!-- <th nzWidth="5rem" nzRight>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of dpdDaysList; index as i">
+                        <tr>
+                            <!-- <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)"
+                                (nzExpandChange)="onExpandChange(data?.loan_application_id, $event, i)"></td> -->
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>
+                                <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                                <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
+                                <p *ngIf="data.user?.email">{{data.user ? data.user.email : '-'}}</p>
+                            </td>
+                            <!-- <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td> -->
+                            <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
+                            <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
+                            <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
+                            <td>{{ data.dpd_details?.dpd_bucket ? data.dpd_details?.dpd_bucket : '-' }}</td>
+                            <td>{{ data.dpd_details?.dpd_days ? data.dpd_details?.dpd_days  : '-' }}</td>
+                            
+                            <!-- <td>{{data.activation_date | date: "medium"}}</td>
+                            <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
+                            <td>₹ {{data.closing_credit_balance}}</td>
+                            <td>₹ {{data.loan_amount_provided}}</td>
+                            <td>₹ {{data.credit_utilization_amount}}</td>
+                            <td>
+                                <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">Enabled</span>
+                                <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">Disabled</span>
+                            </td>
+                            <td>₹ {{data.outstanding_amount}}</td>
+                            <td>₹ {{data.fees_or_charges_amount}}</td> -->
+                            <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
+                            <td>
+                                <span *ngIf="!data?.is_blocked">Active</span>
+                                <span *ngIf="data?.is_blocked">Block</span>
+                            </td>
+                            <td>
+                                {{data?.account_status}}
+                                <!-- <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
+                                                        <i nz-icon nzType="check-circle"></i>
+                                                        <span>Active</span>
+                                                      </nz-tag>
+                                                      <nz-tag nzColor="orange" *ngIf="data?.account_status != 'Active'">
+                                                        <i nz-icon nzType="close-circle"></i>
+                                                        <span>{{data?.account_status}}</span>
+                                                      </nz-tag> -->
+                            </td>
+                            <td>
+                                <span *ngIf="!data?.is_user_blocked">Active</span>
+                                <span *ngIf="data?.is_user_blocked">Block</span>
+                            </td>
+                            <!-- <td nzRight>
+                                <div>
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                        [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                        <img src="assets/images/ellipsis.png" alt="" width="30">
+                                    </a>
+                                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                        <ul nz-menu>
+                                            <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}"
+                                                *ngxPermissionsOnly="['view_borrowers']">
+                                                <span class="m-l-5">View Details</span>
+                                            </li>
+                                            <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data.id)">
+                                                <span class="m-l-5">Export transaction</span>
+                                            </li>
+                                            <li nz-menu-item (click)="holdIgnoreMandateTrigger(data.id, data.ignore_enach_trigger)">
+                                                <span class="m-l-5">Hold/ Ignore Mandate trigger</span>
+                                            </li>
+                                        </ul>
+                                    </nz-dropdown-menu>
+                                </div>
+                            </td> -->
+                        </tr>
+                        
+                    </ng-container>
+                    
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+<!-- <nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false"
+      (nzOnOk)="exportOutstandingGlobalFunction('xlsx')" nzOkText="Export"
+      [nzOkDisabled]="!(corporate_Id && start_month)">
+      <ng-container *nzModalContent>
+            
+          <div class="row">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select corporate!">
+                        <nz-select nzAllowClear [(ngModel)]="corporate_Id" nzPlaceHolder="Please Select corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="getCorporateWithBillDate()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter bill date
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter bill date!">
+                        <input [(ngModel)]="month" type="number" nz-input placeholder="Please Enter bill date" disabled/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from</nz-form-label>
+                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input select from!">
+                        <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch nzAllowClear>
+                            <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
+                                [nzLabel]="item.name">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+      </ng-container>
+</nz-modal> -->

@@ -15,6 +15,7 @@ export class HttpService {
       // url =  'https://adminapi.fatakpay.com'
       url = 'https://adminapi.fatakpay.com'
 
+      
       // url = this.valueFunction();
 
       valueFunction(){
@@ -75,6 +76,8 @@ export class HttpService {
       public fetchXMLData(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), {params: data});
       }
+      
+      // UserKycCibil?application=15988
 
       public fetchExportData(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), {params: data, responseType: 'blob'});
@@ -563,6 +566,10 @@ export class HttpService {
       // Export API
       public exportLoanApplicationData(data?): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data, { responseType: 'blob' });
+      }
+
+      public exportDPDDays(): any {
+            return this._http.get((this.url + `/loan-application/v1/export-dpd-borrowers-list`), { responseType: 'blob' });
       }
 
       public editLoanData(data): any {
