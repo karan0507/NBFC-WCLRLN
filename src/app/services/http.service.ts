@@ -12,10 +12,11 @@ export class HttpService {
       // url = 'https://devadminapi.fatakpay.com'
 
       // dev production
-      url =  'https://adminapi.fatakpay.com'
+      // url =  'https://adminapi.fatakpay.com'
       // url = 'https://adminapi.fatakpay.com'
 
-      // url = this.valueFunction();
+      
+      url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
