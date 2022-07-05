@@ -14,6 +14,7 @@ export class Login1Component {
       loginForm: FormGroup;
       forgetForm: FormGroup;
       api_calling_loader: boolean;
+      captchaSiteKey = location.origin == 'http://localhost:4200' ? '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z' : '6LdJhCEgAAAAAIDh0nvmJOoq4V52Vpopp3reNWho';
       carousel_data = [
             "assets/images/image (3).png",
             "assets/images/image (4).png",
@@ -38,7 +39,8 @@ export class Login1Component {
       ngOnInit(): void {
             this.loginForm = this.fb.group({
                   mobile: [null, [Validators.required]],
-                  password: [null, [Validators.required]]
+                  password: [null, [Validators.required]],
+                  recaptcha: [null, [Validators.required]]
             });
             this.forgetForm = this.fb.group({
                   email: ['', [Validators.required]],
@@ -150,5 +152,10 @@ export class Login1Component {
             } else {
                   this.isView = true
             }
+
+      }
+ 
+      handleSuccess(event) {
+            this.loginForm.get('recaptcha').setValue(event);
       }
 }    

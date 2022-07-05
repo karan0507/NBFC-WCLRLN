@@ -21,6 +21,7 @@ import { Error2Component } from './error-2/error-2.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 const antdModule= [
     NzFormModule,
@@ -35,6 +36,7 @@ const antdModule= [
     imports: [
         CommonModule,
         SharedModule,
+        NgxCaptchaModule,
         ReactiveFormsModule,
         AuthenticationRoutingModule,
         FormsModule,
