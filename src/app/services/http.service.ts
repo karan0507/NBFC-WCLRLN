@@ -13,10 +13,10 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
       
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -127,8 +127,8 @@ export class HttpService {
       /**
        * fetchProductAuditLog
        */
-       public fetchProductAuditLog(data) {
-            return this._http.get((this.url + `/platform_central/fetch-history/Product`), { params: data });
+       public fetchProductAuditLog(data, endpoint) {
+            return this._http.get((this.url + `/platform_central/fetch-history/` + endpoint), { params: data });
       }
 
       /**

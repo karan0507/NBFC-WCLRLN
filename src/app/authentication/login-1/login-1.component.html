@@ -39,12 +39,22 @@
                                       </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
+                            <nz-form-item>
+                                <div class="my-3">
+                                    <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" formControlName="recaptcha"
+                                    (success)="handleSuccess($event)">
+                                    </ngx-recaptcha2>
+                                    <button class="test-1 d-none">
+
+                                    </button>
+                                </div>
+                              </nz-form-item>
                             <div>
                                 <div class="font-size-13 p-t-10 text-right w-100">
                                     <a (click)="is_forget = true; is_link_send = false">Forget
                                         Password?</a>
                                 </div>
-                                <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader" [nzType]="'primary'">Login</button>
+                                <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader" [nzType]="'primary'" [disabled]="loginForm.get('recaptcha').invalid">Login</button>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <a class="font-size-13" href="https://fatakpay.com/privacy-policy" >Privacy policy</a>
                                 </div>

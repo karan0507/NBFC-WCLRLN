@@ -26,6 +26,7 @@ import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { HttpService } from './services/http.service';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 
 registerLocaleData(en);
@@ -45,6 +46,7 @@ registerLocaleData(en);
         SharedModule,
         NgChartjsModule,
         DemoNgZorroAntdModule,
+        NgxCaptchaModule,
         NgxJsonViewerModule,
         NgxPermissionsModule.forRoot()
     ],
