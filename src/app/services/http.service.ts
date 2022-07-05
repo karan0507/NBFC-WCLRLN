@@ -124,8 +124,8 @@ export class HttpService {
       /**
        * fetchProductAuditLog
        */
-       public fetchProductAuditLog(data) {
-            return this._http.get((this.url + `/platform_central/fetch-history/Product`), { params: data });
+       public fetchProductAuditLog(data, endpoint) {
+            return this._http.get((this.url + `/platform_central/fetch-history/` + endpoint), { params: data });
       }
 
       /**

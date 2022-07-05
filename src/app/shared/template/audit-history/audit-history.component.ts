@@ -25,20 +25,21 @@ export class AuditHistoryComponent implements OnInit {
   }
 
   fetchAuditHistory() {
-    if(this.endpoint == 'Product') {
-      let data = {
-        id: this.endpoint_id
-      }
-      this.https.fetchProductAuditLog(data).subscribe( res => {
-        if (res['success']) {
-          this.history_data = res['data']
-        } else {
+    // if(this.endpoint == 'Product') {
+    //   let data = {
+    //     id: this.endpoint_id
+    //   }
+    //   this.https.fetchProductAuditLog(data).subscribe( res => {
+    //     if (res['success']) {
+    //       this.history_data = res['data']
+    //     } else {
   
-        }
-      }, err => {
+    //     }
+    //   }, err => {
   
-      })
-    } else {
+    //   })
+    // } else 
+    if(this.endpoint == 'LoanApplication') {
       let data = {
         source: 'Onboarding',
         datapoint: 'history_audit_logs',
@@ -48,6 +49,19 @@ export class AuditHistoryComponent implements OnInit {
       this.https.fetchLoanApplicationList(data).subscribe( res => {
         if (res?.success) {
           this.history_data = res.data
+        } else {
+  
+        }
+      }, err => {
+  
+      })
+    } else {
+      let data = {
+        id: this.endpoint_id
+      }
+      this.https.fetchProductAuditLog(data, this.endpoint).subscribe( res => {
+        if (res['success']) {
+          this.history_data = res['data']
         } else {
   
         }
