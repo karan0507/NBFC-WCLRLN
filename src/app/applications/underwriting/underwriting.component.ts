@@ -309,6 +309,7 @@ export class UnderwritingComponent implements OnInit {
   }
 
   pdfData: any;
+  
   fetchCibilPDF(){
     let data = {
       datapoint: "loan_application",
