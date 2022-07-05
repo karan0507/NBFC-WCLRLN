@@ -124,10 +124,31 @@ export class HttpService {
       }
 
       /**
+       * fetchProductAuditLog
+       */
+       public fetchProductAuditLog(data) {
+            return this._http.get((this.url + `/platform_central/fetch-history/Product`), { params: data });
+      }
+
+      /**
        * fetchProductList
        */
       public fetchProductList(data?) {
             return this._http.get((this.url + `/product/v1/product`), { params: data });
+      }
+      /**
+       * fetchVersionDetails
+       */
+       public fetchVersionDetails(id) {
+            return this._http.get((this.url + `/product/v1/get-all-product-versions/` + id));
+      }
+
+      
+      /**
+       * updateProductVersion
+       */
+       public updateProductVersion(data) {
+            return this._http.post((this.url + `/product/v1/product-version`), data);
       }
 
       /**

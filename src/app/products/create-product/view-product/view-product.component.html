@@ -891,6 +891,15 @@
         </div>
     </nz-card>
 </section>
+<section>
+    <nz-card nzTitle="History" [nzLoading]="isLoading">
+        <div class="row">
+            <div class="col-12">
+                <app-audit-history [endpoint]="'Product'" [endpoint_id]="product_id"></app-audit-history>
+            </div>
+        </div>
+    </nz-card>
+</section>
 <nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" nzKeyboard="true"
 	[nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
 	<ng-container *nzModalContent>

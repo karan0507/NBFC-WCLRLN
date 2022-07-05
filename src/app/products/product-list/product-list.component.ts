@@ -18,6 +18,7 @@ export class ProductListComponent implements OnInit {
   total_count = 0;
   product_master = '';
   search_params = '';
+  _currentId: any;
   globalPageSize: number;
   draft_status: any;
   date = ''
@@ -40,6 +41,8 @@ export class ProductListComponent implements OnInit {
     // d.setMonth(d.getMonth() - 3);
 };
 
+expandSet = new Set<number>();
+  api_calling_loader_accordian: boolean;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -102,6 +105,51 @@ export class ProductListComponent implements OnInit {
     this.http.fetchPartner(data).subscribe(res => {
       this.partnerData = res['data'].results
       // this.message.success(res['message'])
+    })
+  }
+  onExpandChange(id: number, checked: boolean, index?): void {
+
+    if (id) {
+      if (checked) {
+        this.expandSet.add(id);
+        this.getIdWiseData(this._currentId = id, index);
+      } else {
+        this.expandSet.delete(id);
+        // console.log('Deleted array of active ids', this._activeLoans);
+      }
+    }
+  }
+
+  getIdWiseData(id?, index?) {
+    this.api_calling_loader_accordian = true;
+    this.http.fetchVersionDetails(id).subscribe(res => {
+      if (res) {
+        this.api_calling_loader_accordian = false;
+        // this._activeLoans.push(res?.data?.results[0]);
+        this.productList[index].expanddata = res['data'];
+      } else {
+        this.api_calling_loader_accordian = false;
+      }
+    }, error => {
+      this.api_calling_loader_accordian = false;
+    })
+  }
+  updateProductVersion(id) {
+    let data = {
+      product_id : id
+    }
+    const generateloader = this.message.loading('Updating product version....', { nzDuration: 0 }).messageId;
+    this.http.updateProductVersion(data).subscribe(res => {
+      if (res) {
+        this.message.remove(generateloader);
+        // this.fetchProductList()
+        this.router.navigate(['/product/edit-product'], {queryParams : {id: res['data'].id}})
+      } else {
+        this.message.remove(generateloader);
+      }
+      this.message.success(res['message'])
+    }, error => {
+      this.message.remove(generateloader);
     })
   }
 }
