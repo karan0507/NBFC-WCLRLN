@@ -90,7 +90,12 @@ export class DpdDaysComponent implements OnInit {
   resetFilters(){
   this.search_params = '';
   this.page = 1,
-  this.globalPageSize = 30
+  this.globalPageSize = 30;
+  this.is_blocked = '';
+  this.search_params ='';
+  this.selectedCorporate = '';
+  this.is_spend = '';
+  this.fetchDpdDaysList();
   }
 
   debounce: any;
