@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -48,6 +49,7 @@ export class BorrowersListComponent implements OnInit {
   month: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
+    public sanitize: DomSanitizer,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -140,6 +142,42 @@ export class BorrowersListComponent implements OnInit {
       this.http.exportMasterSectionModule(res, 'borrowers_list', file_formate, generateloader)
       this.isVisible = false
     })
+  }
+
+  pdfData: any;
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
+  fetchCibilPDF(id){
+    let data = {
+      datapoint: "loan_application",
+      endpoint: `UserKycCibil?application=`+id,
+      source: "Onboarding",
+    };
+    const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationList(data).subscribe((res: any) =>{
+      if(res?.data?.results[0]?.credit_pdf){
+        this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
+        this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+        this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+        this.pdf_viewer_object_values['boolean'] = true
+        this.message.remove(generateloader);
+        console.log(this.router.url)
+      } else {
+        this.message.remove(generateloader);
+        this.message.error('No Cibil PDF Found');
+      }
+      // this.pdfData = res?.data?.results[0];
+    }, error => {
+      this.message.remove(generateloader);
+      console.log(error);
+    })
+  }
+
+  handleCancel(){
+    this.pdf_viewer_object_values['boolean'] = false
   }
 
   exportOutstandingGlobalFunction(file_formate){

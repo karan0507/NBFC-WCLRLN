@@ -309,15 +309,34 @@ export class UnderwritingComponent implements OnInit {
   }
 
   pdfData: any;
-  fetchCibilPDF(){
+  pdf_viewer_object_values = {
+    'boolean': false,
+    'url': '',
+    'title': ''
+  }
+  fetchCibilPDF(id){
     let data = {
       datapoint: "loan_application",
-      endpoint: "UserKycCibil?application=15988",
+      endpoint: `UserKycCibil?application=`+id,
       source: "Onboarding",
     };
+    const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
     this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
-      this.pdfData = res?.data?.results[0];
-      console.log(this.pdfData);
+      if(res?.data?.results[0]?.credit_pdf){
+        this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
+        this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+        this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+        this.pdf_viewer_object_values['boolean'] = true
+        this.message.remove(generateloader);
+        console.log(this.router.url)
+      } else {
+        this.message.remove(generateloader);
+        this.message.error('No Cibil PDF Found');
+      }
+      // this.pdfData = res?.data?.results[0];
+    }, error => {
+      this.message.remove(generateloader);
+      console.log(error);
     })
   }
 
@@ -485,6 +504,7 @@ export class UnderwritingComponent implements OnInit {
     this._isPullData = false;
     this._isCibil = false;
     this.isFetchCibilSms = false;
+    this.pdf_viewer_object_values['boolean'] = false;
     this._generateOffer = false;
   }
 
