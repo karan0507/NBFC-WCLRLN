@@ -13,9 +13,9 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -75,6 +75,8 @@ export class HttpService {
       public fetchXMLData(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), {params: data});
       }
+      
+      // UserKycCibil?application=15988
 
       public fetchExportData(data): any {
             return this._http.get((this.url + `/central-api/v1/call-api`), {params: data, responseType: 'blob'});
@@ -122,10 +124,31 @@ export class HttpService {
       }
 
       /**
+       * fetchProductAuditLog
+       */
+       public fetchProductAuditLog(data) {
+            return this._http.get((this.url + `/platform_central/fetch-history/Product`), { params: data });
+      }
+
+      /**
        * fetchProductList
        */
       public fetchProductList(data?) {
             return this._http.get((this.url + `/product/v1/product`), { params: data });
+      }
+      /**
+       * fetchVersionDetails
+       */
+       public fetchVersionDetails(id) {
+            return this._http.get((this.url + `/product/v1/get-all-product-versions/` + id));
+      }
+
+      
+      /**
+       * updateProductVersion
+       */
+       public updateProductVersion(data) {
+            return this._http.post((this.url + `/product/v1/product-version`), data);
       }
 
       /**
@@ -542,6 +565,10 @@ export class HttpService {
       // Export API
       public exportLoanApplicationData(data?): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data, { responseType: 'blob' });
+      }
+
+      public exportDPDDays(): any {
+            return this._http.get((this.url + `/loan-application/v1/export-dpd-borrowers-list`), { responseType: 'blob' });
       }
 
       public editLoanData(data): any {

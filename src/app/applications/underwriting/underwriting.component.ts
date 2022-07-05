@@ -308,6 +308,19 @@ export class UnderwritingComponent implements OnInit {
         this._generateOffer = true
   }
 
+  pdfData: any;
+  fetchCibilPDF(){
+    let data = {
+      datapoint: "loan_application",
+      endpoint: "UserKycCibil?application=15988",
+      source: "Onboarding",
+    };
+    this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
+      this.pdfData = res?.data?.results[0];
+      console.log(this.pdfData);
+    })
+  }
+
   getIdWiseData(id?, index?) {
     this.blackBoxData = null;
     this.api_calling_loader["accordian"] = true;

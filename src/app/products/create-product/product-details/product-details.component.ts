@@ -60,6 +60,7 @@ export class ProductDetailsComponent implements OnInit {
   }
   createEditFormFuction() {
     this.createEditForm = this.fb.group({
+      version_name: [ this.productDetails ? this.productDetails.version_name : ''],
       name: [ this.productDetails ? this.productDetails.name : '', [Validators.required]],
       expiry: [ this.productDetails ? this.productDetails.expiry : '', [Validators.required]],
       product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
@@ -73,6 +74,11 @@ export class ProductDetailsComponent implements OnInit {
     if (this.productDetails) {
       this.fetchNBFCdata()
       this.setFormDataForNach(this.productDetails)
+    }
+    if (!this.product_id) {
+      this.createEditForm.get('version_name').setValidators([Validators.required])
+    } else {
+      this.createEditForm.get('version_name').clearValidators()
     }
 
     if (this.router.url.includes('view-product')) {
@@ -195,6 +201,7 @@ export class ProductDetailsComponent implements OnInit {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
+        version_name : this.createEditForm.value.version_name,
         expiry: this.createEditForm.value.expiry,
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,
@@ -207,6 +214,7 @@ export class ProductDetailsComponent implements OnInit {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
+        version_name : this.createEditForm.value.version_name,
         expiry: this.createEditForm.value.expiry,
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,

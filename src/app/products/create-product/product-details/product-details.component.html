@@ -4,6 +4,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="version_name" class="text-left" nzRequired>Parent Name</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Version Name!">
+                            <input nz-input type="text" formControlName="version_name" *ngIf="!product_id"/>
+                            <nz-form-label class="text-left" formControlName="version_name" nzNoColon *ngIf="product_id">{{productDetails?.product_version_parent?.parent_name}}</nz-form-label>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Product Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Name!">
                             <input nz-input type="text" formControlName="name" />

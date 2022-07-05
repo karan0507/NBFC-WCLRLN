@@ -3,7 +3,7 @@
 </div>
 <section>
     <div class="row">
-        <nz-card class="w-100 mb-0">
+        <nz-card class="w-100 mb-0 accordianLoanApp">
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -42,11 +42,14 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="productList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '1500px', y: '' }" [nzLoading]="api_calling_loader" (nzQueryParams)="productList ? fetchProductList($event) : ''">
+            [nzScroll]="{ x: '2000px', y: '' }" [nzLoading]="api_calling_loader" (nzQueryParams)="productList ? fetchProductList($event) : ''">
                 <thead>
                     <tr>
+                        <th nzWidth="2rem"></th>
                         <th nzWidth="3rem">#</th>
+                        <th>Parent Name</th>
                         <th>Name</th>
+                        <th>Version</th>
                         <th>Product Master</th>
                         <th>Master Partners</th>
                         <th>Partners</th>
@@ -63,130 +66,323 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of productList; index as i">
-                        <td *ngIf="page === 1">{{i+1}}</td>
-                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
-                        <td>{{ data.name ? data.name : '-' }}</td>
-                        <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
-                        <td><span class="pointer text-blue" *ngIf="data.master_partners > 0"
-                                nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>
-                            <ng-template #contentTemplate1>
-                                    <div>
-                                        <nz-table #basicTable [nzData]="data.master_partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Master partner</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of basicTable.data; index as k">
-                                                    <td>{{ k + 1}}</td>
-                                                    <td>{{item.display_name}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </nz-table>
-                                    </div>
-                                </ng-template>
-                                <span *ngIf="data.master_partners <= 0">{{data.master_partners == 0 ? data.master_partners: '-'}}</span>
-                        </td>
-                        <td><span class="pointer text-blue" *ngIf="data.partners > 0"
-                                nz-popover [nzPopoverContent]="contentTemplate2" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.partners > 0 ? data.partners : '-' }}</span>
-                            <ng-template #contentTemplate2>
-                                    <div>
-                                        <nz-table #basicTable [nzData]="data.partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>partner</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of basicTable.data; index as k">
-                                                    <td>{{ k + 1}}</td>
-                                                    <td>{{item.display_name}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </nz-table>
-                                    </div>
-                                </ng-template>
-                                <span *ngIf="data.partners <= 0">{{data.partners == 0 ? data.partners: '-'}}</span>
-                        </td>
-                        <td><span class="pointer text-blue" *ngIf="data.nbfcs > 0"
-                                nz-popover [nzPopoverContent]="contentTemplate3" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.nbfcs > 0 ? data.nbfcs : '-' }}</span>
-                            <ng-template #contentTemplate3>
-                                    <div>
-                                        <nz-table #basicTable [nzData]="data.nbfc_list" [nzFrontPagination]="false" [nzShowPagination]="false">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>NBFC</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of basicTable.data; index as k">
-                                                    <td>{{ k + 1}}</td>
-                                                    <td>{{item.display_name}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </nz-table>
-                                    </div>
-                                </ng-template>
-                                <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
-                        </td>
-                        <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
-                        <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
-                        <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
-                            <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft" style="cursor: pointer;"
-                                nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
-                                <ng-template #contentTemplate>
-                                    <div class="px-3">
-                                        <ul *ngFor="let item of data.draft_reason">
-                                            <li class="text-danger">{{item}}</li>
+                    <ng-container *ngFor="let data of productList; index as i">
+                        <tr>
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.product_v_parent?.id)"
+                                (nzExpandChange)="onExpandChange(data?.product_version_parent?.id, $event, i)"></td>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{ data?.product_version_parent?.parent_name ? data?.product_version_parent?.parent_name : '-' }}</td>
+                            <td>{{ data.name ? data.name : '-' }}</td>
+                            <td>{{ data.version ? data.version : '-' }}</td>
+                            <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
+                            <td><span class="pointer text-blue" *ngIf="data.master_partners > 0"
+                                    nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>
+                                <ng-template #contentTemplate1>
+                                        <div>
+                                            <nz-table #basicTable [nzData]="data.master_partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Master partner</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of basicTable.data; index as k">
+                                                        <td>{{ k + 1}}</td>
+                                                        <td>{{item.display_name}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </nz-table>
+                                        </div>
+                                    </ng-template>
+                                    <span *ngIf="data.master_partners <= 0">{{data.master_partners == 0 ? data.master_partners: '-'}}</span>
+                            </td>
+                            <td><span class="pointer text-blue" *ngIf="data.partners > 0"
+                                    nz-popover [nzPopoverContent]="contentTemplate2" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.partners > 0 ? data.partners : '-' }}</span>
+                                <ng-template #contentTemplate2>
+                                        <div>
+                                            <nz-table #basicTable [nzData]="data.partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>partner</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of basicTable.data; index as k">
+                                                        <td>{{ k + 1}}</td>
+                                                        <td>{{item.display_name}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </nz-table>
+                                        </div>
+                                    </ng-template>
+                                    <span *ngIf="data.partners <= 0">{{data.partners == 0 ? data.partners: '-'}}</span>
+                            </td>
+                            <td><span class="pointer text-blue" *ngIf="data.nbfcs > 0"
+                                    nz-popover [nzPopoverContent]="contentTemplate3" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.nbfcs > 0 ? data.nbfcs : '-' }}</span>
+                                <ng-template #contentTemplate3>
+                                        <div>
+                                            <nz-table #basicTable [nzData]="data.nbfc_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>NBFC</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of basicTable.data; index as k">
+                                                        <td>{{ k + 1}}</td>
+                                                        <td>{{item.display_name}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </nz-table>
+                                        </div>
+                                    </ng-template>
+                                    <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
+                            </td>
+                            <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
+                            <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
+                            <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
+                                <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft" style="cursor: pointer;"
+                                    nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                                    <ng-template #contentTemplate>
+                                        <div class="px-3">
+                                            <ul *ngFor="let item of data.draft_reason">
+                                                <li class="text-danger">{{item}}</li>
+                                            </ul>
+                                        </div>
+                                    </ng-template>
+                            </td>
+                            <td>{{ data.activation_date | date: "mediumDate" }}</td>
+                            <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
+                            <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
+                            <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
+                            <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
+                            <td nzRight>
+                                <div>
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                        [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                        <img src="assets/images/ellipsis.png" alt="" width="30">
+                                    </a>
+                                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                        <ul nz-menu>    
+                                            <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_product']">
+                                                <span class="m-l-5">View</span>
+                                            </li> 
+                                            <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
+                                                <span class="m-l-5">Edit</span>
+                                            </li> 
+                                            <ng-container *ngxPermissionsOnly="['toggle_product']">
+                                                <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
+                                            nzPopconfirmPlacement="topLeft"
+                                            (nzOnConfirm)="activeInactiveProduct(data.id)">
+                                                <span class="m-l-5">Activate</span>
+                                            </li> 
+                                            </ng-container>
+                                            
+                                            <ng-container *ngxPermissionsOnly="['toggle_product']">
+                                                <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
+                                            nzPopconfirmPlacement="topLeft"
+                                            (nzOnConfirm)="activeInactiveProduct(data.id)">
+                                                <span class="m-l-5">Deactivate</span>
+                                            </li>
+                                            </ng-container>
+
+                                            <ng-container>
+                                                <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure to Update the product version?"
+                                            nzPopconfirmPlacement="topLeft" *ngIf="!data.is_draft"
+                                            (nzOnConfirm)="updateProductVersion(data.id)">
+                                                <span class="m-l-5">Update version</span>
+                                            </li>
+                                            </ng-container>
+                                            
                                         </ul>
+                                    </nz-dropdown-menu>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr [nzExpand]="expandSet.has(data?.product_version_parent?.id)">
+                            <div class="justify-content-center">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="personalDetail">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.product_version_parent?.id ? api_calling_loader_accordian : null">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="data?.expanddata"
+                                                [nzScroll]="{ x: '2000px', y: '' }" [nzLoading]="api_calling_loader_accordian">
+                                                <thead>
+                                                    <tr>
+                                                        <th nzWidth="3rem">#</th>
+                                                        <th>Parent Name</th>
+                                                        <th>Name</th>
+                                                        <th>Version</th>
+                                                        <th>Product Master</th>
+                                                        <th>Master Partners</th>
+                                                        <th>Partners</th>
+                                                        <th>NBFC's Mapped</th>
+                                                        <th>Fees Type</th>
+                                                        <th>Status</th>
+                                                        <th>Draft Status</th>
+                                                        <th>Activated on</th>
+                                                        <th>Created at</th>
+                                                        <th>Created by</th>
+                                                        <th>Updated at</th>
+                                                        <th>Updated by</th>
+                                                        <th nzWidth="5rem" nzRight>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let data of data?.expanddata; index as i">
+                                                        <td *ngIf="page === 1">{{i+1}}</td>
+                                                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                                                        <td>{{ data?.product_version_parent?.parent_name ? data?.product_version_parent?.parent_name : '-' }}</td>
+                                                        <td>{{ data.name ? data.name : '-' }}</td>
+                                                        <td>{{ data.version ? data.version : '-' }}</td>
+                                                        <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
+                                                        <td><span class="pointer text-blue" *ngIf="data.master_partners > 0"
+                                                                nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>
+                                                            <ng-template #contentTemplate1>
+                                                                    <div>
+                                                                        <nz-table #basicTable [nzData]="data.master_partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>Master partner</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                                                    <td>{{ k + 1}}</td>
+                                                                                    <td>{{item.display_name}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </nz-table>
+                                                                    </div>
+                                                                </ng-template>
+                                                                <span *ngIf="data.master_partners <= 0">{{data.master_partners == 0 ? data.master_partners: '-'}}</span>
+                                                        </td>
+                                                        <td><span class="pointer text-blue" *ngIf="data.partners > 0"
+                                                                nz-popover [nzPopoverContent]="contentTemplate2" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.partners > 0 ? data.partners : '-' }}</span>
+                                                            <ng-template #contentTemplate2>
+                                                                    <div>
+                                                                        <nz-table #basicTable [nzData]="data.partners_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>partner</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                                                    <td>{{ k + 1}}</td>
+                                                                                    <td>{{item.display_name}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </nz-table>
+                                                                    </div>
+                                                                </ng-template>
+                                                                <span *ngIf="data.partners <= 0">{{data.partners == 0 ? data.partners: '-'}}</span>
+                                                        </td>
+                                                        <td><span class="pointer text-blue" *ngIf="data.nbfcs > 0"
+                                                                nz-popover [nzPopoverContent]="contentTemplate3" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.nbfcs > 0 ? data.nbfcs : '-' }}</span>
+                                                            <ng-template #contentTemplate3>
+                                                                    <div>
+                                                                        <nz-table #basicTable [nzData]="data.nbfc_list" [nzFrontPagination]="false" [nzShowPagination]="false">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>NBFC</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let item of basicTable.data; index as k">
+                                                                                    <td>{{ k + 1}}</td>
+                                                                                    <td>{{item.display_name}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </nz-table>
+                                                                    </div>
+                                                                </ng-template>
+                                                                <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
+                                                        </td>
+                                                        <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
+                                                        <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
+                                                        <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
+                                                            <i nz-icon nzType="info-circle" class="text-danger" nzTheme="outline" *ngIf="data.is_draft" style="cursor: pointer;"
+                                                                nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                                                                <ng-template #contentTemplate>
+                                                                    <div class="px-3">
+                                                                        <ul *ngFor="let item of data.draft_reason">
+                                                                            <li class="text-danger">{{item}}</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </ng-template>
+                                                        </td>
+                                                        <td>{{ data.activation_date | date: "mediumDate" }}</td>
+                                                        <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
+                                                        <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
+                                                        <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
+                                                        <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
+                                                        <td nzRight>
+                                                            <div>
+                                                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                                                    <img src="assets/images/ellipsis.png" alt="" width="30">
+                                                                </a>
+                                                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                                                    <ul nz-menu>    
+                                                                        <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_product']">
+                                                                            <span class="m-l-5">View</span>
+                                                                        </li> 
+                                                                        <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
+                                                                            <span class="m-l-5">Edit</span>
+                                                                        </li> 
+                                                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
+                                                                            <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
+                                                                        nzPopconfirmPlacement="topLeft"
+                                                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
+                                                                            <span class="m-l-5">Activate</span>
+                                                                        </li> 
+                                                                        </ng-container>
+                                                                        
+                                                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
+                                                                            <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
+                                                                        nzPopconfirmPlacement="topLeft"
+                                                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
+                                                                            <span class="m-l-5">Deactivate</span>
+                                                                        </li>
+                                                                        </ng-container>
+
+                                                                        <ng-container>
+                                                                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure to Update the product version?"
+                                                                        nzPopconfirmPlacement="topLeft"
+                                                                        (nzOnConfirm)="updateProductVersion(data.id)">
+                                                                            <span class="m-l-5">Update version</span>
+                                                                        </li>
+                                                                        </ng-container>
+                                                                        
+                                                                    </ul>
+                                                                </nz-dropdown-menu>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </nz-table>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #personalDetail>
+                                    <div>
+                                        <h6 class="mb-0">Version Details</h6>
                                     </div>
                                 </ng-template>
-                        </td>
-                        <td>{{ data.activation_date | date: "mediumDate" }}</td>
-                        <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
-                        <td>{{ data.created_by ? data.created_by?.first_name : '-' }}</td>
-                        <td>{{ data.updated_at | date: "mediumDate"}} {{data.updated_at | date: "shortTime" }}</td>
-                        <td>{{ data.updated_by ? data.updated_by?.first_name : '-' }}</td>
-                        <td nzRight>
-                            <div>
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
-                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
-                                    <img src="assets/images/ellipsis.png" alt="" width="30">
-                                </a>
-                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                    <ul nz-menu>    
-                                        <li nz-menu-item [routerLink]="['../product/view-product']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_product']">
-                                            <span class="m-l-5">View</span>
-                                        </li> 
-                                        <li nz-menu-item *ngxPermissionsOnly="['edit_product']" [routerLink]="['../product/edit-product']" [queryParams]="{id: data.id}">
-                                            <span class="m-l-5">Edit</span>
-                                        </li> 
-                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
-                                            <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
-                                        nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
-                                            <span class="m-l-5">Activate</span>
-                                        </li> 
-                                        </ng-container>
-                                        
-                                        <ng-container *ngxPermissionsOnly="['toggle_product']">
-                                            <li nz-menu-item *ngIf="data.is_active" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
-                                        nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="activeInactiveProduct(data.id)">
-                                            <span class="m-l-5">Deactivate</span>
-                                        </li>
-                                        </ng-container>
-                                        
-                                    </ul>
-                                </nz-dropdown-menu>
                             </div>
-                        </td>
-                    </tr>
+                        </tr>
+                    </ng-container>
+                    
                 </tbody>
             </nz-table>
             <div class="total_count_text" *ngIf="total_count">
