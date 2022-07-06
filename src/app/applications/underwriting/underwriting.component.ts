@@ -323,7 +323,7 @@ export class UnderwritingComponent implements OnInit {
 // >>>>>>> 7bec92bfd52a785bb6c4258e3b39f2211a212131
     let data = {
       datapoint: "loan_application",
-      endpoint: `UserKycCibil?application=`+id,
+      endpoint: `UserKycCibil?loan_application=`+id,
       source: "Onboarding",
     };
     const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
