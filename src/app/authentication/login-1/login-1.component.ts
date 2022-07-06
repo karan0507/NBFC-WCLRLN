@@ -14,7 +14,8 @@ export class Login1Component {
       loginForm: FormGroup;
       forgetForm: FormGroup;
       api_calling_loader: boolean;
-      captchaSiteKey = location.origin == 'http://localhost:4200' ? '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z' : '6LdJhCEgAAAAAIDh0nvmJOoq4V52Vpopp3reNWho';
+      captchaSiteKey = '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z';
+      // captchaSiteKey = location.origin == 'http://localhost:4200' ? '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z' : '6LdJhCEgAAAAAIDh0nvmJOoq4V52Vpopp3reNWho';
       carousel_data = [
             "assets/images/image (3).png",
             "assets/images/image (4).png",
