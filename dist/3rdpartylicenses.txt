@@ -223,6 +223,9 @@ MIT
 ng-zorro-antd
 MIT
 
+ngx-captcha
+MIT
+
 ngx-json-viewer
 MIT
 MIT License
