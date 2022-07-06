@@ -358,7 +358,7 @@
 
                                                                         <ng-container>
                                                                             <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure to Update the product version?"
-                                                                        nzPopconfirmPlacement="topLeft"
+                                                                        nzPopconfirmPlacement="topLeft" *ngIf="!data.is_draft"
                                                                         (nzOnConfirm)="updateProductVersion(data.id)">
                                                                             <span class="m-l-5">Update version</span>
                                                                         </li>
