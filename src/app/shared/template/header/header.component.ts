@@ -117,7 +117,7 @@ export class HeaderComponent{
     } else if(e?.stage_id?.pk == 9){
         this.route.navigate(["applications/pre-approved"],{ queryParams: {loan_id: e?.application_code}});
     } else if(e?.stage_id?.pk == 10){
-        this.route.navigate(["nbfc-approval"],{ queryParams: {loan_id: e?.application_code}});
+        this.route.navigate(["applications/nbfc-approval"],{ queryParams: {loan_id: e?.application_code}});
     } else if(e?.stage_id?.pk == 11){
         this.route.navigate(["applications/dormant"],{ queryParams: {loan_id: e?.application_code}});
     } else if(e?.stage_id?.pk == 15){

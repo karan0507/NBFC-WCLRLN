@@ -369,6 +369,29 @@ const routes: Routes = [
                         ]
                   },
                   {
+                        path: 'nbfc-approval',
+                        data: {
+                              title: 'NBFC Approval',
+                              parent: 'NBFC Approval',
+                              custom_url: '/applications/nbfc-approval'
+                        },
+                        children: [
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    // canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'NBFC',
+                                          // permissions: {
+                                          //   only: 'track_rejected_application',
+                                          //   redirectTo: 'authentication/error-2'
+                                          // }
+                                    }
+                              }
+                        ]
+                  },
+                  {
                         path: 'offer-proposed',
                         data: {
                               title: 'Offer Proposed',

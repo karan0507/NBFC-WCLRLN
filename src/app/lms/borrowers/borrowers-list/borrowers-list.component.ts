@@ -153,7 +153,7 @@ export class BorrowersListComponent implements OnInit {
   fetchCibilPDF(id){
     let data = {
       datapoint: "loan_application",
-      endpoint: `UserKycCibil?application=`+id,
+      endpoint: `UserKycCibil?loan_application=`+id,
       source: "Onboarding",
     };
     const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
