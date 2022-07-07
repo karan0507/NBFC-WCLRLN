@@ -408,6 +408,7 @@ export class BorrowersDetailsComponent implements OnInit {
       this.message.success(res['message'])
       this.isWaiveOff = false
       this.fetchTransactionTxnList()
+      this.fetchTransactionFessList();
     }, (err) => {
       this.isdeleteloader = false
       this.isWaiveOff = false
