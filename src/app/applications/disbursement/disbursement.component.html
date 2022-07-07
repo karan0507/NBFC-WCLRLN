@@ -345,6 +345,14 @@
                     >
                       <span class="m-l-5"> Legal Agreement</span>
                     </li>
+                    <li
+                      nz-menu-item
+                      [routerLink]="['edit-form']"
+                      [queryParams]="{ id: data?.id }"
+                    >
+                    <!-- *ngxPermissionsOnly="['edit_underwriting_application']" -->
+                      <span class="m-l-5">Edit Application</span>
+                    </li>
                     <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }" *ngxPermissionsOnly="['track_disbursement_application']">
                       <span class="m-l-5">Track Status</span>
                     </li>

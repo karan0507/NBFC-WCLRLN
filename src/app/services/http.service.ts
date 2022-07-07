@@ -23,6 +23,8 @@ export class HttpService {
 
       if (location.origin == 'https://admin.fatakpay.com' || location.origin == 'http://admin.fatakpay.com') {
             dynamic_url = 'https://adminapi.fatakpay.com'
+      } else if(location.origin == 'https://uatadmin.fatakpay.com' || location.origin == 'http://uatadmin.fatakpay.com'){
+            dynamic_url = 'https://uatadminapi.fatakpay.com'
       } else {
             dynamic_url = 'https://devadminapi.fatakpay.com'
       }
