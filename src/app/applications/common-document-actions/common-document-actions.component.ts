@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpService } from 'src/app/services/http.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-common-document-actions',
@@ -10,6 +11,8 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./common-document-actions.component.css']
 })
 export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
+  @ViewChild("imageRotateClass") myNameElem: ElementRef;
+  @ViewChild("imageRotateClassF") myNameElemF: ElementRef;
   @Input() _isOpenModal: boolean = false;
   @Input() documentData: any;
   @Input() action: any;
@@ -23,18 +26,21 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     'button': false
   }
   isDoubleSide: boolean = false;
-  _currentFileName2 : any;
-  fileListSecond : any = []
-  currentDocumentType : any = 1;
-  constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService) { }
+  _currentFileName2: any;
+  fileListSecond: any = []
+  currentDocumentType: any = 1;
+  state: string = '';
+  axis = 0
+  axisF = 0
+  constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService,  private renderer: Renderer2) { }
   ngOnDestroy(): void {
     // this.close.emit(false)
   }
 
   ngOnInit(): void {
     console.log(this.documentData);
-    
-    if(this.documentData?.document_master?.require_front_back == 1){
+
+    if (this.documentData?.document_master?.require_front_back == 1) {
       // if(front_file_url){
 
       // }
@@ -42,7 +48,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
       // this._currentFileName2 = this.documentData?.front_file_url
       // this.fileList[0] = this.documentData?.front_file_name
       this.isDoubleSide = true;
-    }else{
+    } else {
       this.isDoubleSide = false;
     }
 
@@ -112,13 +118,13 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         if (this.documentData?.document_master?.id) {
           uploadDoc.append('document_id', this.documentData?.document_master?.id)
         }
-        if(this.isDoubleSide && this._currentFileName){
+        if (this.isDoubleSide && this._currentFileName) {
           uploadDoc.append('front_file', this._currentFileName)
         }
-        if(this.isDoubleSide && this._currentFileName2){
+        if (this.isDoubleSide && this._currentFileName2) {
           uploadDoc.append('back_file', this._currentFileName2)
         }
-        if(!this.isDoubleSide && this._currentFileName){
+        if (!this.isDoubleSide && this._currentFileName) {
           uploadDoc.append('file', this._currentFileName)
         }
         console.clear();
@@ -128,24 +134,24 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           ocr_formData.append('file_front', this._currentFileName)
           ocr_formData.append('file_back', this._currentFileName2)
         }
-        
+
         if (this.documentData?.document_master?.name == "Pan") {
           ocr_formData.append('document_type', 'PAN')
           ocr_formData.append('document', this._currentFileName)
         }
-        
+
         if (this.documentData?.document_master?.name == "Voter ID") {
           ocr_formData.append('document_type', 'VOTERID')
           ocr_formData.append('file_front', this._currentFileName)
           ocr_formData.append('file_back', this._currentFileName2)
         }
-        
+
         if (this.documentData?.document_master?.name == "Driving License") {
           ocr_formData.append('document_type', 'DRIVING')
           ocr_formData.append('file_front', this._currentFileName)
           ocr_formData.append('file_back', this._currentFileName2)
         }
-        
+
         this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
           if (res?.success) {
             this.api_calling_loader['button'] = false;
@@ -157,20 +163,20 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             this.message.error(res?.message)
           }
           if (this.documentData?.document_master?.name != "Aadhar Card" ||
-        this.documentData?.document_master?.name != "Pan" ||
-        this.documentData?.document_master?.name != "Voter ID" ||
-        this.documentData?.document_master?.name != "Driving License") {
-          this.handleCancel();
-        }
+            this.documentData?.document_master?.name != "Pan" ||
+            this.documentData?.document_master?.name != "Voter ID" ||
+            this.documentData?.document_master?.name != "Driving License") {
+            this.handleCancel();
+          }
         }, err => {
           this.api_calling_loader['button'] = false;
           this.message.error(err)
         })
 
         if (this.documentData?.document_master?.name == "Aadhar Card" ||
-        this.documentData?.document_master?.name == "Pan" ||
-        this.documentData?.document_master?.name == "Voter ID" ||
-        this.documentData?.document_master?.name == "Driving License") {
+          this.documentData?.document_master?.name == "Pan" ||
+          this.documentData?.document_master?.name == "Voter ID" ||
+          this.documentData?.document_master?.name == "Driving License") {
           this.https.uploadOcrDocument(ocr_formData).subscribe((res: any) => {
             if (res?.success) {
               this.handleCancel();
@@ -205,4 +211,59 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     // this.generateBase64View(file)
     return false;
   };
+
+  rotateRight() {
+    this.axis = this.axis + 90
+    if (this.axis == 90) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(-90deg)')
+    } else if (this.axis == 180) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(-180deg)')
+    } else if (this.axis == 270) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(-270deg)')
+    } else {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(0deg)')
+      this.axis = 0
+    }
+  }
+  rotateLeft() {
+    this.axis = this.axis - 90
+    if (this.axis == 90) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(90deg)')
+    } else if (this.axis == 180) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(180deg)')
+    } else if (this.axis == 270) {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(270deg)')
+    } else {
+      this.renderer.setStyle(this.myNameElem.nativeElement, 'transform', 'rotate(0deg)')
+      this.axis = 0
+    }
+  }
+
+  
+  rotateRightF() {
+    this.axisF = this.axisF + 90
+    if (this.axisF == 90) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(-90deg)')
+    } else if (this.axisF == 180) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(-180deg)')
+    } else if (this.axisF == 270) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(-270deg)')
+    } else {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(0deg)')
+      this.axisF = 0
+    }
+  }
+  rotateLeftF() {
+    this.axisF = this.axisF + 90
+    if (this.axisF == 90) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(90deg)')
+    } else if (this.axisF == 180) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(180deg)')
+    } else if (this.axisF == 270) {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(270deg)')
+    } else {
+      this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(0deg)')
+      this.axisF = 0
+    }
+  }
 }
