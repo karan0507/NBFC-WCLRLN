@@ -295,7 +295,9 @@
                   <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Section</th>
                   <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Verify</th> -->
                   <th *ngIf="selectedTab == 'recommendation'"  nzRight>Actions</th>
+                  <th *ngIf="selectedTab == 'allEmployee'"  nzRight>Uploaded Date</th>
                   <th *ngIf="selectedTab == 'allEmployee'"  nzRight>Actions</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -379,6 +381,9 @@
                   </td>
                   <td *ngIf="selectedTab == 'recommendation'" > 
                     <label nz-checkbox (ngModelChange)="ngModelChange($event,data, 'mark')"  ngModel=false></label> 
+                  </td>
+                  <td *ngIf="selectedTab == 'allEmployee'">
+                    {{ data?.date_added ? (data?.date_added | date: "medium") : ' - '}}
                   </td>
                   <td nzRight class="pr-0" *ngIf="selectedTab == 'allEmployee'">
                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
