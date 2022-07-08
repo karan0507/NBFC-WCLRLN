@@ -810,8 +810,8 @@
 <!-- Waive off Charges  -->
 <nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" (nzOnCancel)="isWaiveOff = false">
       <ng-container *nzModalContent>
-            <app-double-confirmation-popup [title]="'You are about to delete an employee detail'"
-                  [subTitle]="'This action will delete the details permanently. <br/> Are You Sure?'"
+            <app-double-confirmation-popup [title]="'You are about to waive off'"
+                  [subTitle]="'This action will waive off your transaction. <br/> Are You Sure?'"
                   [icon]="'assets/images/waiveoff.png'" (onOkCall)="fetchBorrowerDelete()"
                   (onCencelCall)="isWaiveOff = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'"
                   [isbtnLoading]="isdeleteloader">
