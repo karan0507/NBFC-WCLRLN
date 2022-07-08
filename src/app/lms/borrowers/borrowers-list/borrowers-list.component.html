@@ -161,6 +161,36 @@
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">Fetch Cibil PDF</span>
                                             </li>
+
+                                            <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                [nzDropdownMenu]="latestUploadDropDown1234">
+                                                <span class="m-l-5">Send Enach Reg Link</span>
+                                            </li>
+                                            
+                                          <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                                            <ul nz-menu>
+                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                      nzPopconfirmPlacement="topLeft"
+                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'upi')">
+                                                      <span class="m-l-5">UPI</span>
+                                                  </li>
+                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                      nzPopconfirmPlacement="topLeft"
+                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'netbanking')">
+                                                      <span class="m-l-5">Net banking</span>
+                                                  </li>
+                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                      nzPopconfirmPlacement="topLeft"
+                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'aadhar')">
+                                                      <span class="m-l-5">Aadhar card</span>
+                                                  </li>
+                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                      nzPopconfirmPlacement="topLeft"
+                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'debitcard')">
+                                                      <span class="m-l-5">Debit card</span>
+                                                  </li>
+                                            </ul>
+                                      </nz-dropdown-menu>
                         
                                             <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
                                                                     nzPopconfirmTitle="Are you sure delete this IPD Admission?"
