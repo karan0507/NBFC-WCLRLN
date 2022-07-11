@@ -138,7 +138,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/corporate-stage',
-                title: 'Corporate Employee List',
+                title: 'Employee List',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -455,6 +455,16 @@ export const ROUTES: SideNavInterface[] = [
         iconTheme: 'outline',
         permission: ['view_version'],
         icon: 'key',
+        submenu: []
+    },
+    // <i nz-icon nzType="snippets" nzTheme="outline"></i>
+    {
+        path: 'reports',
+        title: 'Report',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: ['view_reports'],
+        icon: 'snippets',
         submenu: []
     },
     // {
