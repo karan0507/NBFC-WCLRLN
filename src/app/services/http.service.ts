@@ -13,10 +13,10 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
+      url = 'https://adminapi.fatakpay.com'
 
       
-      url = this.valueFunction();
+      // url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -1080,6 +1080,10 @@ export class HttpService {
 
       viewSavedFileContent(id, data){
             return this._http.get(this.url + `/partner/v1/view-saved-employee-details-file/${id}`, {params: data});
+      }
+
+      downloadReport(data, url){
+            return this._http.get(this.url + `/nbfc/v1/${url}`, {params: data , responseType: 'blob'});
       }
 
       restrictType(event) {

@@ -1,0 +1,26 @@
+<section>
+    <nz-card>
+        <div class="row">
+            <div class="col-8">
+                <nz-form-item>
+                    <nz-form-label  nzFor="bill_date" class="text-left">Select Preferred Report</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select Type">
+                        <nz-select nzShowSearch nzPlaceHolder="Please Select" (ngModelChange)="onChange($event)" [(ngModel)]="selectedRole">
+                            <nz-option *ngFor="let item of reportList" [nzValue]="item?.url"
+                            [nzLabel]="item.name">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                    </nz-form-item>
+            </div>
+            <div class="col-4">
+                <nz-range-picker class="mx-1 mb-2" style=" width: 18rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="onClickCheckDate()" [nzRanges]="customRanges"></nz-range-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="text-align: right;">
+                <button [nzLoading]="apiLoader['onOk']" [disabled]="!selectedRole"  (click)="downloadReportOnClick()" nz-button nzType="primary">Download Report</button>          
+            </div>
+        </div>
+    </nz-card>
+</section>
