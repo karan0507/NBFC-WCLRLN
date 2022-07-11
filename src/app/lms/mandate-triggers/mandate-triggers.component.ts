@@ -35,22 +35,43 @@ export class MandateTriggersComponent implements OnInit {
   }
 
   fetchMandateTriggerList(tableFilter?) {
-    this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
-    let data = {
-      datapoint: 'admin_mandate_trigger_attempts',
-      // endpoint: 'LoanApplicationTransactions',
-      source: 'LMS',
-      page: this.page,
-      limit: this.globalPageSize,
-      // product_type: this.master_product_id ? this.master_product_id : '',
-      // txn_status: this.selectedStatus ? this.selectedStatus : '',
-      // txn_type: this.selectedType ? this.selectedType : '',
-      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      keyword: this.searchValue,
-      corporate: this.selectedCorporate ? this.selectedCorporate : '',
-      section: this.selectedTab
+    var data;
+    if (this.selectedTab == 'TXN') {
+      this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      data = {
+        datapoint: 'get_mandate_transactions',
+        // endpoint: 'LoanApplicationTransactions',
+        source: 'LMS',
+        page: this.page,
+        limit: this.globalPageSize,
+        // product_type: this.master_product_id ? this.master_product_id : '',
+        // txn_status: this.selectedStatus ? this.selectedStatus : '',
+        // txn_type: this.selectedType ? this.selectedType : '',
+        // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+        // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+        keyword: this.searchValue,
+        corporate: this.selectedCorporate ? this.selectedCorporate : '',
+        // section: this.selectedTab
+      }
+    } else {
+      this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      data = {
+        datapoint: 'admin_mandate_trigger_attempts',
+        // endpoint: 'LoanApplicationTransactions',
+        source: 'LMS',
+        page: this.page,
+        limit: this.globalPageSize,
+        // product_type: this.master_product_id ? this.master_product_id : '',
+        // txn_status: this.selectedStatus ? this.selectedStatus : '',
+        // txn_type: this.selectedType ? this.selectedType : '',
+        // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+        // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+        keyword: this.searchValue,
+        corporate: this.selectedCorporate ? this.selectedCorporate : '',
+        section: this.selectedTab
+      }
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {

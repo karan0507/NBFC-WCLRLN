@@ -11,6 +11,7 @@
                     Progress</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="SUCCESSFULL">Success</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="FAILED">Failed</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="TXN">Mandate Transactions</label>
             </nz-radio-group>
         </div>
     </div>
@@ -66,10 +67,10 @@
         <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
             [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
             (nzQueryParams)="listOfData[0] ? fetchMandateTriggerList($event) : ''" [nzData]="listOfData"
-            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"  [nzScroll]="selectedTab == 'TXN' ? { x: '2000px'} : { x: '100%'}">
             <thead>
                 <tr>
-                    <th nzWidth="3rem" [nzChecked]=" listOfData[0] ? checked : false"
+                    <th *ngIf="selectedTab != 'TXN'" nzWidth="3rem" [nzChecked]=" listOfData[0] ? checked : false"
                         [nzIndeterminate]=" listOfData[0] ? indeterminate : false"
                         (nzCheckedChange)="listOfData[0] ? onAllChecked($event) : false">
                     </th>
@@ -82,17 +83,27 @@
                     <th *ngIf="selectedTab == 'bill'">No. of Nach hit</th>
                     <th *ngIf="selectedTab == 'bill'">Bill status</th>
                     <th *ngIf="selectedTab == 'bill'">Nach status</th>
-                    <th *ngIf="selectedTab != 'bill'">Amount</th>
-                    <th *ngIf="selectedTab != 'bill'">Razor pay order Id</th>
-                    <th *ngIf="selectedTab != 'bill'">Status</th>
-                    <th *ngIf="selectedTab != 'bill'">Created at</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction id</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction name</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction Amount</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction type</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction status</th>
+                    <th *ngIf="selectedTab == 'TXN'">Order id</th>
+                    <th *ngIf="selectedTab == 'TXN'">Emandate auth type</th>
+                    <th *ngIf="selectedTab == 'TXN'">Payment id</th>
+                    <th *ngIf="selectedTab == 'TXN'">Corporate</th>
+                    <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Amount</th>
+                    <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Razor pay order Id</th>
+                    <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Status</th>
+                    <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Created at</th>
                     <th nzWidth="5rem" nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let data of listOfData; index as i">
-                    <td nzWidth="1rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                    <td *ngIf="selectedTab != 'TXN'" nzWidth="1rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                         (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <!-- all -->
                     <td *ngIf="page === 1">{{i+1}}</td>
                     <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                     <td>
@@ -101,6 +112,7 @@
                         <p *ngIf="data.user_details?.email">{{data.user_details ? data.user_details.email : '-'}}</p>
                     </td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
+                    <!-- bill -->
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.bill_date | date: "medium" }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.total_received ? data?.total_received : '-' }}</td>
@@ -111,15 +123,26 @@
                         <span *ngIf="data?.nach_status == 'No Hit'" style="text-transform: capitalize !important;" class="badge badge-pill badge-gray">{{ data?.nach_status ? data?.nach_status : '-' }}</span>
                         <span *ngIf="data?.nach_status == 'Failed'" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">{{ data?.nach_status ? data?.nach_status : '-' }}</span>
                     </td>
-                    <td *ngIf="selectedTab != 'bill'">₹ {{ data?.razorpay_order?.order_amount ? data?.razorpay_order?.order_amount : '-' }}</td>
-                    <td *ngIf="selectedTab != 'bill'">{{ data?.razorpay_order?.order_id ? data?.razorpay_order?.order_id : '-' }}</td>
-                    <td *ngIf="selectedTab != 'bill'">
+                    <!-- emandate transaction -->
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_unique_id ? data?.txn_unique_id : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_name ? data?.txn_name : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_amount ? data?.txn_amount : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_type ? data?.txn_type : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_status ? data?.txn_status : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.order_id ? data?.order_details?.order_id : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.emandate_auth_type ? data?.order_details?.emandate_auth_type : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.payment_id ? data?.order_details?.payment_id : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.corporate ? data?.corporate : '-'}}</td>
+                    <!-- success, failed, in progress -->
+                    <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">₹ {{ data?.razorpay_order?.order_amount ? data?.razorpay_order?.order_amount : '-' }}</td>
+                    <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">{{ data?.razorpay_order?.order_id ? data?.razorpay_order?.order_id : '-' }}</td>
+                    <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">
                         <!-- <Badge *ngIf="selectedTab == 'IN PROGRESS'" style="text-transform: capitalize !important;">{{ data?.status ? data?.status : '-' }}</Badge> -->
                         <span *ngIf="selectedTab == 'IN PROGRESS'" style="text-transform: capitalize !important;" class="badge badge-pill badge-info">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
                         <span *ngIf="selectedTab == 'SUCCESSFULL'" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
                         <span *ngIf="selectedTab == 'FAILED'" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
                     </td>
-                    <td *ngIf="selectedTab != 'bill'">{{ data?.created_at ? (data?.created_at | date: "medium" ) : '-' }}</td>
+                    <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">{{ data?.created_at ? (data?.created_at | date: "medium" ) : '-' }}</td>
                     <td nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">
                         <div>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"

@@ -460,7 +460,7 @@
                               <td *ngIf="page4 > 1">{{((page4-1)*globalPageSize4)+(i+1)}}</td>
                               <td>{{ data?.credit_utilization_bill?.outstanding_amount ? data?.credit_utilization_bill?.outstanding_amount : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.bill_date | date: "medium" }}</td>
-                              <td>{{ data?.credit_utilization_bill?.paid_on ? data?.credit_utilization_bill?.paid_on : '-' }}</td>
+                              <td>{{ data?.credit_utilization_bill?.paid_on ? (data?.credit_utilization_bill?.paid_on | date: "medium") : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.paid_status ? 'Paid' : 'Unpaid' }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
                               <td nzRight>
