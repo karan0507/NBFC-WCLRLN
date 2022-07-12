@@ -106,6 +106,7 @@ export class CorporateStageComponent implements OnInit {
     this.date = "";
     this.page = 1;
     this.searchValue = "";
+    this.selectedAppStatus = '';
     this.selectedCorporate = null;
     this.getListOfAllEmployees();
     // this.getListOfAllEmployees();
