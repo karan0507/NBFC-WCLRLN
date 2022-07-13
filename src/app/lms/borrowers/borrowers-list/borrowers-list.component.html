@@ -18,13 +18,19 @@
                     </button>
                 </div>
                 <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                    <!-- <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
                         (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
                         (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
-                    </nz-select>
+                    </nz-select> -->
+                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3"
+                        (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBorrowerList()" nzAllowClear [nzMaxTagCount]="1"
+                        [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+                        </nz-option>
+                  </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>

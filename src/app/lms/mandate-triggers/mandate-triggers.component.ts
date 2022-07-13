@@ -25,6 +25,8 @@ export class MandateTriggersComponent implements OnInit {
   selectedCorporate: any;
   debounce: any;
   corporateList: any[];
+  amount: any;
+  isCaptureCollection: boolean;
 
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -85,20 +87,20 @@ export class MandateTriggersComponent implements OnInit {
   }
 
 
-  captureCollection(bill_id) {
+  captureCollection(bill_id, i?) {
     let data = {
       'source': 'LMS',
       'datapoint': 'mandate_trigger_admin',
-      'bill_id': bill_id
+      'bill_id': bill_id,
+      'amount': this.amount ? this.amount : null
     }
-    // data.append('source', 'LMS'),
-    // data.append('datapoint', 'mandate_trigger_admin'),
-    // data.append('bill_id', JSON.stringify(bill_id))
-      // console.log(JSON.stringify(bill_id))
     const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
       this.message.success(res['message'])
+      if (i != undefined) {
+        this.listOfData[i].isCaptureCollection = false
+      }
       this.fetchMandateTriggerList()
     }, (err) => {
       this.message.remove(generateloader);

@@ -78,6 +78,8 @@
                     <th nzWidth="15rem">User Name</th>
                     <th>Loan Id</th>
                     <th *ngIf="selectedTab == 'bill'">Bill Amount</th>
+                    <th *ngIf="selectedTab == 'bill'">In progress Amount</th>
+                    <th *ngIf="selectedTab == 'bill'">Pending Amount</th>
                     <th *ngIf="selectedTab == 'bill'">Bill date</th>
                     <th *ngIf="selectedTab == 'bill'">Total received</th>
                     <th *ngIf="selectedTab == 'bill'">No. of Nach hit</th>
@@ -96,7 +98,7 @@
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Razor pay order Id</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Status</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Created at</th>
-                    <th nzWidth="5rem" nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">Actions</th>
+                    <th nzWidth="6rem" nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,7 +115,9 @@
                     </td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
                     <!-- bill -->
-                    <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : '-' }}</td>
+                    <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : 0 }}</td>
+                    <td *ngIf="selectedTab == 'bill'">₹ {{ data?.inprogress_amount ? data?.inprogress_amount : 0 }}</td>
+                    <td *ngIf="selectedTab == 'bill'">₹ {{ data?.pending_amount ? data?.pending_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.bill_date | date: "medium" }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.total_received ? data?.total_received : '-' }}</td>
                     <td *ngIf="selectedTab == 'bill'">{{ data?.nach_trigger_count ? data?.nach_trigger_count : '-' }}</td>
@@ -157,9 +161,16 @@
                                     <ng-container *ngIf="!data?.paid_status">
                                         <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Capture collection - Enach?"
                                         nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="captureCollection([data?.id])">
+                                        (nzOnConfirm)="amount = data?.outstanding_amount ; data['isCaptureCollection'] = true">
                                             <span class="m-l-5">Capture collection - Enach</span>
                                         </li>
+                                        <nz-modal [(nzVisible)]="data['isCaptureCollection']" [nzTitle]="'Enter amount'" (nzOnCancel)="data['isCaptureCollection'] = false"
+                                              (nzOnOk)="captureCollection([data?.id], i)" nzOkText="Capture Collection"
+                                              [nzOkDisabled]="!amount">
+                                            <ng-container *nzModalContent>
+                                                <input nz-input type="number" min="0" [(ngModel)]="amount" placeholder="Please input Amount" />
+                                            </ng-container>
+                                        </nz-modal>
                                     </ng-container>
                                     <!-- <ng-container *ngIf="!data?.paid_status">
                                                       <li nz-menu-item nz-dropdown [nzClickHide]="false"
