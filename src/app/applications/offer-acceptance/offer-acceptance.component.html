@@ -224,8 +224,8 @@
               </td>
               <td>
                 <div class="d-flex flex-column">
-                  <div>{{ data?.created_at | date: "shortDate" }}</div>
-                  <div>{{ data?.created_at | date: "shortTime" }}</div>
+                  <div>{{ data?.created_at | date: "medium" }}</div>
+                  <!-- <div>{{ data?.created_at | date: "shortTime" }}</div> -->
                 </div>
               </td>
               <!-- <td>{{data?.pending_steps ? data?.pending_steps : '-'}}</td> -->
@@ -237,14 +237,14 @@
               <td>
                 {{
                   data?.moved_to_stage_on
-                    ? (data?.moved_to_stage_on | date: "shortDate")
+                    ? (data?.moved_to_stage_on | date: "medium")
                     : "-"
                 }}
-                {{
+                <!-- {{
                   data?.moved_to_stage_on
                     ? (data?.moved_to_stage_on | date: "shortTime")
                     : ""
-                }}
+                }} -->
               </td>
               <td>
                 {{
@@ -396,8 +396,7 @@
                             data?.expanddata?.user?.dob
                               ? (data?.expanddata?.user?.dob
                                 | date
-                                  : "dd
-                                                                              MMM, yyyy")
+                                  : "dd MMM, yyyy")
                               : "-"
                           }}
                         </div>
@@ -984,7 +983,7 @@
                                 >(Last Pulled :
                                 {{
                                   data?.expanddata?.cibil_data?.results[0]
-                                    ?.created_at | date: "short"
+                                    ?.created_at | date: "medium"
                                 }}
                                 )</span
                               >
