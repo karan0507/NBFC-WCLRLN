@@ -145,7 +145,7 @@
                                                 <span class="m-l-5">Refund Transaction</span>
                                             </li>
                                         </ng-container>
-                                        <ng-container *ngIf="data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                        <ng-container *ngIf="data?.txn_type != 'Fees Charge' && data?.txn_type != 'Emandate Authorization Transaction'">
                                             <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
                                                 <span class="m-l-5">Reverse Charges</span>
                                             </li>

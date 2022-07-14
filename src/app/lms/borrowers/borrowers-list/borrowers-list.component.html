@@ -111,7 +111,7 @@
                             <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
                             <td>{{ data.latest_token_status ? (data.latest_token_status | titlecase) : '-' }}</td>
                             <td>{{data.activation_date | date: "medium"}}</td>
-                            <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
+                            <td>{{data.disbursement_date ? (data.disbursement_date| date: "MMM dd, yyyy") : '-'}}</td>
                             <td>₹ {{data.closing_credit_balance}}</td>
                             <td>₹ {{data.loan_amount_provided}}</td>
                             <td>₹ {{data.credit_utilization_amount}}</td>
