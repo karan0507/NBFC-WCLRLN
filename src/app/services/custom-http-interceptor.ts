@@ -24,6 +24,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     let check_status;
     this.httpService.createOnline$().subscribe((isOnline) => {
       check_status = isOnline
+      console.log(check_status)
     })
     if (check_status) {
       if (!(req.url.includes("user/auth/"))) {

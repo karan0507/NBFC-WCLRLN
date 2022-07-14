@@ -18,13 +18,19 @@
                     </button>
                 </div>
                 <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                    <!-- <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
                         (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
                         (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
-                    </nz-select>
+                    </nz-select> -->
+                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3"
+                        (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBorrowerList()" nzAllowClear [nzMaxTagCount]="1"
+                        [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+                        </nz-option>
+                  </nz-select>
                     <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
@@ -105,7 +111,7 @@
                             <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
                             <td>{{ data.latest_token_status ? (data.latest_token_status | titlecase) : '-' }}</td>
                             <td>{{data.activation_date | date: "medium"}}</td>
-                            <td>{{data.disbursement_date ? data.disbursement_date : '-'}}</td>
+                            <td>{{data.disbursement_date ? (data.disbursement_date| date: "MMM dd, yyyy") : '-'}}</td>
                             <td>₹ {{data.closing_credit_balance}}</td>
                             <td>₹ {{data.loan_amount_provided}}</td>
                             <td>₹ {{data.credit_utilization_amount}}</td>
@@ -117,8 +123,8 @@
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
                             <td>
-                                <span *ngIf="!data?.is_blocked">Active</span>
-                                <span *ngIf="data?.is_blocked">Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
                             </td>
                             <td>
                                 {{data?.account_status}}
@@ -132,8 +138,8 @@
                                                       </nz-tag> -->
                             </td>
                             <td>
-                                <span *ngIf="!data?.is_user_blocked">Active</span>
-                                <span *ngIf="data?.is_user_blocked">Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_user_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_user_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
                             </td>
                             <td nzRight>
                                 <div>

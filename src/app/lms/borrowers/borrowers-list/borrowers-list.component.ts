@@ -76,6 +76,11 @@ export class BorrowersListComponent implements OnInit {
       corporate_id: this.selectedCorporate ? this.selectedCorporate : '',
       spent: this.is_spend ? this.is_spend : ''
     }
+    
+    if (this.selectedCorporate) {
+      // data['page'] = 1
+      data['corporate_id'] = this.selectedCorporate
+    }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
