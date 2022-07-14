@@ -163,8 +163,8 @@
                                         </td>
                                         <td>
                                               <div class="d-flex flex-column">
-                                                    <div>{{ data?.created_at | date:'shortDate' }}</div>
-                                                    <div>{{ data?.created_at | date:'shortTime' }}</div>
+                                                    <div>{{ data?.created_at | date:'medium' }}</div>
+                                                    <!-- <div>{{ data?.created_at | date:'shortTime' }}</div> -->
                                               </div>
                                         </td>
                                         <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
@@ -172,8 +172,8 @@
                                         <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
                                         <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
                                           <td>{{ data?.last_stage ? data?.last_stage : '-' }}</td>
-                                          <td>{{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortDate')): '-' }}
-                                              {{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortTime')): '' }}
+                                          <td>{{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'medium')): '-' }}
+                                              <!-- {{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'medium')): '' }} -->
                                           </td>
                                         <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
                                         <td>{{data?.status ? data?.status : '-'}}</td>

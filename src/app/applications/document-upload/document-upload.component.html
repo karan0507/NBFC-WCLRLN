@@ -230,8 +230,8 @@
               </td>
               <td>
                 <div class="d-flex flex-column">
-                  <div>{{ data?.created_at | date: "shortDate" }}</div>
-                  <div>{{ data?.created_at | date: "shortTime" }}</div>
+                  <div>{{ data?.created_at | date: "medium" }}</div>
+                  <!-- <div>{{ data?.created_at | date: "shortTime" }}</div> -->
                 </div>
               </td>
               <td>
@@ -244,14 +244,14 @@
               <td>
                 {{
                   data?.moved_to_stage_on
-                    ? (data?.moved_to_stage_on | date: "shortDate")
+                    ? (data?.moved_to_stage_on | date: "medium")
                     : "-"
                 }}
-                {{
+                <!-- {{
                   data?.moved_to_stage_on
                     ? (data?.moved_to_stage_on | date: "shortTime")
                     : ""
-                }}
+                }} -->
               </td>
               <td>
                 {{
