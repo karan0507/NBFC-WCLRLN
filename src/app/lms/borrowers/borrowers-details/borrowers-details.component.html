@@ -131,6 +131,18 @@
                   </div>
             </div>
       </nz-card>
+      <nz-card class="brr-detail-section">
+            <div class="row">
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Emandate max amount</p>
+                        <h5>₹ {{borrowertList?.emandate_max_amount}}</h5>
+                  </div>
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Emandate expiry date</p>
+                        <h5>{{borrowertList?.emandate_expiry ? (borrowertList?.emandate_expiry | date : 'MMM dd, yyyy') : '-'}}</h5>
+                  </div>
+            </div>
+      </nz-card>
       <nz-card nzTitle="Nominees">
             <nz-table #basicTable [nzData]="borrowertList?.nominee" [nzFrontPagination]="false" [nzShowPagination]="false">
                   <thead>

@@ -123,8 +123,8 @@
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
                             <td>
-                                <span *ngIf="!data?.is_blocked">Active</span>
-                                <span *ngIf="data?.is_blocked">Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
                             </td>
                             <td>
                                 {{data?.account_status}}
@@ -138,8 +138,8 @@
                                                       </nz-tag> -->
                             </td>
                             <td>
-                                <span *ngIf="!data?.is_user_blocked">Active</span>
-                                <span *ngIf="data?.is_user_blocked">Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_user_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_user_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
                             </td>
                             <td nzRight>
                                 <div>
