@@ -67,16 +67,17 @@
         <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
             [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
             (nzQueryParams)="listOfData[0] ? fetchMandateTriggerList($event) : ''" [nzData]="listOfData"
-            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"  [nzScroll]="selectedTab == 'TXN' ? { x: '2000px'} : { x: '100%'}">
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"  [nzScroll]="selectedTab == 'TXN' || selectedTab == 'bill' ? { x: '110%'} : { x: '100%'}">
             <thead>
                 <tr>
                     <th *ngIf="selectedTab != 'TXN'" nzWidth="3rem" [nzChecked]=" listOfData[0] ? checked : false"
                         [nzIndeterminate]=" listOfData[0] ? indeterminate : false"
                         (nzCheckedChange)="listOfData[0] ? onAllChecked($event) : false">
                     </th>
-                    <th>#</th>
+                    <th nzWidth="3rem">#</th>
                     <th nzWidth="15rem">User Name</th>
                     <th>Loan Id</th>
+                    <th *ngIf="selectedTab == 'bill'">Corporate name</th>
                     <th *ngIf="selectedTab == 'bill'">Bill Amount</th>
                     <th *ngIf="selectedTab == 'bill'">In progress Amount</th>
                     <th *ngIf="selectedTab == 'bill'">Pending Amount</th>
@@ -115,6 +116,7 @@
                     </td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
                     <!-- bill -->
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.company_name ? data?.company_name : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.inprogress_amount ? data?.inprogress_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.pending_amount ? data?.pending_amount : 0 }}</td>

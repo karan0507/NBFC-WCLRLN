@@ -18,6 +18,8 @@
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit">Credit</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Debit</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit inprogress">Credit Inprogress</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit inprogress">Debit Inprogress</label>
                 <!-- <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Payment">Payment</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Repayment">Repayment</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Balance transfer">Balance transfer</label> -->
@@ -70,12 +72,15 @@
                         <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
                         <nz-option nzValue="Emandate Authorization Transaction" nzLabel="Emandate Authorization Transaction"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
-                        nzPlaceHolder="Filter By Status">
-                        <nz-option nzValue="Success" nzLabel="Success"></nz-option>
-                        <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
-                        <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
-                    </nz-select>
+                    <ng-container *ngIf="selectedTab != 'credit inprogress' && selectedTab != 'debit inprogress'">
+                        <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedStatus"
+                            (ngModelChange)="fetchTransactionList()" nzPlaceHolder="Filter By Status">
+                            <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                            <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                            <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+                        </nz-select>
+                    </ng-container>
+                    
                     <nz-range-picker style="width: 20rem;"  [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
@@ -145,9 +150,9 @@
                                                 <span class="m-l-5">Refund Transaction</span>
                                             </li>
                                         </ng-container>
-                                        <ng-container *ngIf="data?.txn_type != 'Fees Charge' && data?.txn_type != 'Emandate Authorization Transaction'">
+                                        <ng-container *ngIf="data?.txn_type != 'Fees Charge' && data?.txn_type != 'Emandate Authorization Transaction' && data?.txn_type != 'Reverse'">
                                             <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
-                                                <span class="m-l-5">Reverse Charges</span>
+                                                <span class="m-l-5">Reverse Transaction</span>
                                             </li>
                                         </ng-container>
                                         
