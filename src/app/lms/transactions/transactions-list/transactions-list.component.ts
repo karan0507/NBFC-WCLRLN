@@ -83,13 +83,16 @@ export class TransactionsListComponent implements OnInit {
       page: this.page,
       limit: this.globalPageSize,
       product_type: this.master_product_id ? this.master_product_id : '',
-      txn_status: this.selectedStatus ? this.selectedStatus : '',
+      txn_status: this.selectedTab == 'credit inprogress' || this.selectedTab == 'debit inprogress' ? 'In Progress' : (this.selectedStatus ? this.selectedStatus : ''),
       txn_type: this.selectedType ? this.selectedType : '',
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue,
       corporate: this.selectedCorporate ? this.selectedCorporate : '',
-      tab_filter: this.selectedTab
+      tab_filter: this.selectedTab ?
+                  (this.selectedTab == 'credit inprogress' ? 'credit' :
+                  (this.selectedTab == 'debit inprogress' ? 'debit' : this.selectedTab)) 
+                  : ''
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -258,6 +261,7 @@ export class TransactionsListComponent implements OnInit {
       this.is_set_amt = false
       this.reverseId = ''
       this.message.success(res['message'])
+      this.fetchTransactionList()
     }, (err) => {
       this.is_revese_loading = false
     })
