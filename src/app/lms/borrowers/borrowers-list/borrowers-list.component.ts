@@ -96,7 +96,7 @@ export class BorrowersListComponent implements OnInit {
     this.is_blocked = ''
     this.master_product_id = ''
     this.is_active = ''
-    this.selectedCorporate = ''
+    this.selectedCorporate = []
     this.is_spend = ''
     this.fetchBorrowerList()
   }
