@@ -91,10 +91,11 @@
                     <th *ngIf="selectedTab == 'TXN'">Transaction Amount</th>
                     <th *ngIf="selectedTab == 'TXN'">Transaction type</th>
                     <th *ngIf="selectedTab == 'TXN'">Transaction status</th>
+                    <th *ngIf="selectedTab == 'TXN'">Transaction date and time</th>
                     <th *ngIf="selectedTab == 'TXN'">Order id</th>
                     <th *ngIf="selectedTab == 'TXN'">Emandate auth type</th>
                     <th *ngIf="selectedTab == 'TXN'">Payment id</th>
-                    <th *ngIf="selectedTab == 'TXN'">Corporate</th>
+                    <!-- <th *ngIf="selectedTab == 'TXN'">Corporate</th> -->
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Amount</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Razor pay order Id</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Status</th>
@@ -116,7 +117,7 @@
                     </td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
                     <!-- bill -->
-                    <td *ngIf="selectedTab == 'bill'">{{ data?.company_name ? data?.company_name : 0 }}</td>
+                    <td *ngIf="selectedTab == 'bill'">{{ data?.corporate ? data?.corporate : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.inprogress_amount ? data?.inprogress_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.pending_amount ? data?.pending_amount : 0 }}</td>
@@ -135,10 +136,11 @@
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_amount ? data?.txn_amount : '-'}}</td>
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_type ? data?.txn_type : '-'}}</td>
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.txn_status ? data?.txn_status : '-'}}</td>
+                    <td *ngIf="selectedTab == 'TXN'">{{ data?.transaction_datetime ? (data?.transaction_datetime | date: 'medium') : '-'}}</td>
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.order_id ? data?.order_details?.order_id : '-'}}</td>
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.emandate_auth_type ? data?.order_details?.emandate_auth_type : '-'}}</td>
                     <td *ngIf="selectedTab == 'TXN'">{{ data?.order_details?.payment_id ? data?.order_details?.payment_id : '-'}}</td>
-                    <td *ngIf="selectedTab == 'TXN'">{{ data?.corporate ? data?.corporate : '-'}}</td>
+                    <!-- <td *ngIf="selectedTab == 'TXN'">{{ data?.corporate ? data?.corporate : '-'}}</td> -->
                     <!-- success, failed, in progress -->
                     <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">₹ {{ data?.razorpay_order?.order_amount ? data?.razorpay_order?.order_amount : '-' }}</td>
                     <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">{{ data?.razorpay_order?.order_id ? data?.razorpay_order?.order_id : '-' }}</td>
