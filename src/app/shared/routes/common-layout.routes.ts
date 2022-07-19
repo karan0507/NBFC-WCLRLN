@@ -110,6 +110,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/mandate-triggers/mandate-triggers.module').then(m => m.MandateTriggersModule),
     },
     {
+        path: 'lms/billed-unbilled-data',
+        loadChildren: () => import('../../lms/billed-unbilled/billed-unbilled.module').then(m => m.BilledUnbilledModule),
+    },
+    {
         path: 'version',
         loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
     },

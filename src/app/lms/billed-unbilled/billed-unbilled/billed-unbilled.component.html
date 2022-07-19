@@ -1,0 +1,151 @@
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchBilledData()">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="billed">Billed</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="unbilled">Unbilled</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <div class="col-md-3 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input (keyup.enter)="fetchBilledData()" [(ngModel)]="searchValue" type="text" nz-input
+                    placeholder="Search text" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button (click)="fetchBilledData()" nz-button nzType="secondary" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </div>
+        <div class="col-md-9 mb-3 d-flex justify-content-md-end">
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="mr-1"
+                (click)="resetFilter()">
+                <i nz-icon nzType="undo"></i>
+            </button>
+            <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                (ngModelChange)="fetchBilledData()" (nzFocus)="fetchPartnerList()">
+                <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                    <div *ngIf="item.name">{{ item?.name }}</div>
+                </nz-option>
+            </nz-select>
+            <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBilledData()"
+                nzPlaceHolder="Filter By Product Master">
+                <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+            </nz-select>
+            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
+                nzPlaceHolder="Filter By Type">
+                <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
+                <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                <nz-option nzValue="Expense Spend" nzLabel="Payment"></nz-option>
+                <nz-option nzValue="Cashback" nzLabel="Cashback"></nz-option>
+                <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
+            </nz-select>
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus" (ngModelChange)="fetchTransactionList()"
+                nzPlaceHolder="Filter By Status">
+                <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+            </nz-select> -->
+        </div>
+    </div>
+    <nz-card>
+        <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            (nzQueryParams)="listOfData[0] ? fetchBilledData($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '2500px'}">
+            <thead>
+                <tr>
+                    <th nzWidth="3rem">#</th>
+                    <th nzWidth="15rem">User Name</th>
+                    <th>Loan Id</th>
+                    <th>Corporate</th>
+                    <th>Loan amount provided</th>
+                    <th>Available limit</th>
+                    <th>Opening bill balance</th>
+                    <th>Closing bill balance</th>
+                    <th>Total outstanding</th>
+                    <th>Cashback</th>
+                    <th>Convenience fee</th>
+                    <th>Late fees</th>
+                    <th>Other charges</th>
+                    <th>Previous bill amount</th>
+                    <th>Repayment done after bill</th>
+                    <th>Repayment amount</th>
+                    <th>Spend amount</th>
+                    <th>Waived off amount</th>
+                    <th>Bill date</th>
+                    <th>Bill status</th>
+                    <th nzWidth="6rem" nzRight *ngIf="selectedTab === 'billed'">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of listOfData; index as i">
+                    <td *ngIf="page === 1">{{i+1}}</td>
+                    <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                    <td>
+                        <h5>{{data.user_details?.name ? data.user_details.name : '-'}}</h5>
+                        <span *ngIf="data.user_details?.mobile">Contact No: {{data.user_details ? data.user_details.mobile : '-'}}</span>
+                        <p *ngIf="data.user_details?.email">{{data.user_details ? data.user_details.email : '-'}}</p>
+                    </td>
+                    <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
+                    <td>{{ data?.corporate ? data?.corporate : '-'}}</td>
+                    <td>₹ {{ data?.loan_amount_provided ? data?.loan_amount_provided : '0'}}</td>
+                    <td>₹ {{ data?.available_limit ? data?.available_limit : '0'}}</td>
+                    <td>₹ {{ data?.opening_bill_balance ? data?.opening_bill_balance : '0'}}</td>
+                    <td>₹ {{ data?.closing_bill_balance ? data?.closing_bill_balance : '0'}}</td>
+                    <td>₹ {{ data?.total_outstanding ? data?.total_outstanding : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.cashback ? data?.transaction_meta_data.cashback : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.convenience ? data?.transaction_meta_data.convenience : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.late_fees ? data?.transaction_meta_data.late_fees : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.other_charges ? data?.transaction_meta_data.other_charges : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.previous_bill_amount ? data?.transaction_meta_data.previous_bill_amount : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.repayments_done_after_bill ? data?.transaction_meta_data.repayments_done_after_bill : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.repayments_done_in_bill_cycle ? data?.transaction_meta_data.repayments_done_in_bill_cycle : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.spends ? data?.transaction_meta_data.spends : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.waived_off ? data?.transaction_meta_data.waived_off : '0'}}</td>
+                    <td>{{ data?.bill_date | date: "medium" }}</td>
+                    <td>{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
+                    <td nzRight *ngIf="selectedTab === 'billed'">
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="fetchLatestBilledData(data?.id)">
+                                        <span class="m-l-5">Latest bills</span>
+                                    </li>
+                                    <li nz-menu-item [routerLink]="['all-bills']" [queryParams]="{id: data.id}" routerLinkActive="router-link-active" >
+                                        <span class="m-l-5">Previous bills</span>
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="total_count_text" *ngIf="total_count">
+            <b>Total Count : </b>{{total_count}}
+        </div>
+    </nz-card>
+</section>
+
+<nz-modal [(nzVisible)]="latest_bill_show" nzWidth="60vw" nzKeyboard="true"
+      [nzTitle]="'Latest bill'" (nzOnCancel)="latest_bill_show = false" [nzFooter]="modalFooter">
+      <ng-container *nzModalContent>
+            <div class="pdf_viewer_container">
+                  <embed [src]="latest_bill" width="100%" height="100%" />
+            </div>
+      </ng-container>
+      <ng-template #modalFooter>
+            <button nz-button nzType="primary" (click)="latest_bill_show = false">Close</button>
+      </ng-template>
+</nz-modal>
