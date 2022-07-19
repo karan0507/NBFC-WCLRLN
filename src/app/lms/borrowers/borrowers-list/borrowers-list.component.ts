@@ -205,16 +205,20 @@ export class BorrowersListComponent implements OnInit {
   }
 
   exportGlobalFunctionTnx(file_formate, offer_id ){
+    console.log(offer_id);
+    const stringName: string = offer_id?.loan_application_id + '_' + offer_id?.user ?.full_name
+    // console.log(name);
+    // return;
     let data = {
       datapoint: 'lender_master_export',
       endpoint: 'LoanApplicationTransactions',
       source: 'LMS',
-      offer_id: offer_id ,
+      offer_id: offer_id?.id ,
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
-      this.http.exportMasterSectionModule(res, 'transaction', file_formate, generateloader)
+      this.http.exportMasterSectionModule(res, stringName, file_formate, generateloader)
     })
   }
 
