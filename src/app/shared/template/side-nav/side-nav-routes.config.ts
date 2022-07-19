@@ -364,6 +364,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'lms/billed-unbilled-data',
+                title: 'Billed data',
+                iconType: '',
+                icon: '',
+                permission: [''],
+                iconTheme: '',
+                submenu: []
+            },
+            {
                 path: 'lms/lender-management',
                 title: 'Lender Management',
                 permission: ['view_lender_management'],

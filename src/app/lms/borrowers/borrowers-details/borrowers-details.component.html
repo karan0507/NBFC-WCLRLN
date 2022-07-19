@@ -123,10 +123,10 @@
                                     nz-icon nzType="info-circle" nzTheme="outline" class="ml-1" nz-popover
                                     nzPopoverTitle="" [nzPopoverContent]="contentTemplate"></i></h5>
                         <ng-template #contentTemplate>
-                              <p>Principal - N/A</p>
-                              <p>Interest - N/A</p>
-                              <p>Login Fees -N/A</p>
-                              <p>Convenience Fees -N/A</p>
+                              <p>Late fee -  <span class="h5">₹ {{borrowertList?.outstanding_amount_bifurcation?.late_fees_amount}}</span></p>
+                              <p>Interest -  <span class="h5">N/A</span></p>
+                              <p>Login Fees - <span class="h5">N/A</span></p>
+                              <p>Convenience Fees - <span class="h5">N/A</span></p>
                         </ng-template>
                   </div>
             </div>
