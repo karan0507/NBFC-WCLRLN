@@ -469,7 +469,7 @@ export const ROUTES: SideNavInterface[] = [
     // <i nz-icon nzType="snippets" nzTheme="outline"></i>
     {
         path: 'reports',
-        title: 'Report',
+        title: 'Reports',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_reports'],
