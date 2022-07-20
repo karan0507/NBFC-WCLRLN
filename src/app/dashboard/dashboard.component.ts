@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
         pointBackgroundColor : [this.gray]
     }];
     customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
-    mandateChartLabels: string[] = ['Aadhar Mandate', 'Debit Card Mandate', 'Net Banking Mandate', 'Total Mandate Done', 'Upi Mandate'];
+    mandateChartLabels: string[] = ['Aadhar Mandate', 'Debit Card Mandate', 'Net Banking Mandate', 'Upi Mandate'];
     customersChartType = 'doughnut';
     customersChartColors: Array<any> =  [{ 
         backgroundColor: [this.cyan, this.purple, this.gold, this.pink],
@@ -317,7 +317,7 @@ export class DashboardComponent implements OnInit {
             this.mandateChartData.push(res?.data?.aadhar_mandate ? res?.data?.aadhar_mandate : 0)
             this.mandateChartData.push(res?.data?.debitcard_mandate ? res?.data?.debitcard_mandate   : 0 )
             this.mandateChartData.push(res?.data?.netbanking_mandate ? res?.data?.netbanking_mandate : 0 )
-            this.mandateChartData.push(res?.data?.total_mandate_done ? res?.data?.total_mandate_done : 0)
+            // this.mandateChartData.push(res?.data?.total_mandate_done ? res?.data?.total_mandate_done : 0)
             this.mandateChartData.push(res?.data?.upi_mandate ? res?.data?.upi_mandate : 0)
             this.isLoading['mandate'] = false;
         }, err => {
