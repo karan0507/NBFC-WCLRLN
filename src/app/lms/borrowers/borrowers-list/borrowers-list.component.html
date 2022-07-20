@@ -31,7 +31,7 @@
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                   </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1 mb-3" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
@@ -77,6 +77,7 @@
                         <th>Corporate</th>
                         <th>Loan ID</th>
                         <th>Employee code</th>
+                        <th>Employee status</th>
                         <th>Nach status</th>
                         <th>Applied on</th>
                         <th>Disbursement date</th>
@@ -108,7 +109,13 @@
                             <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
                             <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
                             <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
-                            <td>{{ data.emp_code ? data.emp_code : '-' }}</td>
+                            <td>{{ data.emp_code?.emp_id ? data.emp_code?.emp_id : '-' }}</td>
+                            <td>
+                                <span style="color: #27C24C;" *ngIf="data.emp_code?.status === 'Active'"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; {{data.emp_code?.status}}</span>
+                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Inactive'"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; {{data.emp_code?.status}}</span>
+                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Exited'"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; {{data.emp_code?.status}}</span>
+                                <span *ngIf="data.emp_code?.status === '-'">{{data.emp_code?.status}}</span>
+                            </td>
                             <td>{{ data.latest_token_status ? (data.latest_token_status | titlecase) : '-' }}</td>
                             <td>{{data.activation_date | date: "medium"}}</td>
                             <td>{{data.disbursement_date ? (data.disbursement_date| date: "MMM dd, yyyy") : '-'}}</td>
@@ -154,7 +161,7 @@
                                                 <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                 <span class="m-l-5">View Details</span>
                                             </li>
-                                            <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data.id)">
+                                            <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data)">
                                                 <span class="m-l-5">Export transaction</span>
                                             </li>
                                             <li nz-menu-item (click)="holdIgnoreMandateTrigger(data.id, data.ignore_enach_trigger)">

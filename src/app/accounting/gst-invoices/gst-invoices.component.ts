@@ -42,6 +42,7 @@ export class GstInvoicesComponent implements OnInit {
   };
   debounce: any;
   corporateList: any[];
+  search_params = '';
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute,
@@ -56,7 +57,7 @@ export class GstInvoicesComponent implements OnInit {
     this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
     let data = {
       page: this.page,
-      // name: this.search_params,
+      search_param: this.search_params,
       limit: this.globalPageSize,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
