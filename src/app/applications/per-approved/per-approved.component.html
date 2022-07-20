@@ -794,7 +794,7 @@
                 </ng-template>
               </div>
               <!-- Document Details  -->
-              <div class="mt-3">
+              <div class="mt-3" *ngxPermissionsOnly="['upload_pre_approved_document_details']" >
                 <nz-page-header
                   class="site-page-header acc-bg-light"
                   [nzTitle]="document"

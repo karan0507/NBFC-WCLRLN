@@ -311,7 +311,7 @@
                                                                   </a> -->
                       <span class="m-l-5">Generate Offer</span>
                     </li>
-                    <li nz-menu-item *ngxPermissionsOnly="['generate_offer_rejected_application','move_to_underwriting_rejected_application','move_to_original_stage_rejected_application']"
+                    <li nz-menu-item *ngxPermissionsOnly="['manual_offer_underwriting']"
                           (click)="generateOffer(data?.id)">
                           <span class="m-l-5">Manual offer</span>
                     </li>
@@ -324,7 +324,7 @@
                       <span class="m-l-5">Edit Application</span>
                     </li>
                     <li
-                      nz-menu-item *ngxPermissionsOnly="['']"
+                      nz-menu-item *ngxPermissionsOnly="['download_cibil_pdf_underwriting_application']"
                       (click)="fetchCibilPDF(data?.id)"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
@@ -339,14 +339,14 @@
                     >
                       <span class="m-l-5">Track Application</span>
                     </li>
-                    <li>
+                    <li *ngxPermissionsOnly="['move_to_dormant_underwriting']">
                       <span class="" style="cursor: pointer;margin-left: 27px" nz-popconfirm
                       [nzPopconfirmTitle]=" data?.is_dormant ? 'Are you sure you want to Move this application to Normal ? ' : 'Are you sure you want to Move this application to Dormant ?'"
                       nzPopconfirmPlacement="bottom"
                       (nzOnConfirm)="confirm(data?.id)"
                       (nzOnCancel)="cancel()">{{data?.is_dormant ? 'Move To Normal' : 'Move To Dormant'}}</span>
                       </li>
-                    <li nz-menu-item>
+                    <li nz-menu-item  *ngxPermissionsOnly="['pull_cibil_underwriting_application']">
                       <a
                         nz-popconfirm
                         [nzPopconfirmTitle]="popupTitle"
@@ -356,7 +356,6 @@
                         "
                         (nzOnCancel)="cancel()"
                         class="m-l-5"
-                        *ngxPermissionsOnly="['pull_cibil_application']"
                         >Pull Cibil from Third Party</a
                       >
                     </li>
@@ -375,17 +374,16 @@
                     <!-- <li nz-menu-item>
                       <span class="m-l-5">Download Cibil PDF</span>
                     </li> -->
-                    <li
+                    <li *ngxPermissionsOnly="['pull_sms_underwriting_application']"
                       nz-menu-item
                       (click)="pullDataSMSCibil('thirdPartySMS', data)"
                     >
                       <span
                         class="m-l-5"
-                        *ngxPermissionsOnly="['pull_sms_underwriting_application']"
                         >Pull SMS from Third Party</span
                       >
                     </li>
-                    <li
+                    <li *ngxPermissionsOnly="['fetch_sms_underwriting_application']"
                       nz-menu-item
                       (click)="getCibilScoreData('sms', data?.user?.id)"
                     >
@@ -849,7 +847,7 @@
                 </ng-template>
               </div>
 
-              <div class="mt-3">
+              <div class="mt-3" *ngxPermissionsOnly="['upload_underwriting_document_details']">
                 <nz-page-header
                   class="site-page-header acc-bg-light"
                   [nzTitle]="document"
@@ -1004,7 +1002,7 @@
                           </div>
                         </h6>
                         <b>
-                          <a
+                          <a nz-menu-item *ngxPermissionsOnly="['pull_cibil_underwriting_application']"
                             class="text-primary"
                             (click)="getCibilScoreData('cibil', data?.id)"
                             >Fetch Cibil</a
