@@ -47,10 +47,20 @@ export class BorrowersListComponent implements OnInit {
   api_calling_loader_accordian: boolean;
   corporate_Id: any;
   month: any;
+  storedParams: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     public sanitize: DomSanitizer,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      this.route.queryParams.subscribe((params: any) => {
+        if(params?.loan_id){
+              // alert(params?.loan_id);
+              this.storedParams = params?.loan_id 
+              this.search_params = params?.loan_id;
+              this.fetchBorrowerList();
+        }
+  });
+     }
 
   ngOnInit(): void {
     this.page = 1;

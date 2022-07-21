@@ -25,13 +25,14 @@
             </li>
         </ul>
         <span style="align-self: center;min-width: 26%;">
-            <nz-select (nzOnSearch)="onSearchGetList($event)" 
+            <nz-select (nzOnSearch)="onSearchGetList($event)"
             [(ngModel)]="selectedApplication" 
                        (ngModelChange)="onClickRedirectToSpecificComponent($event)"
                        nzPlaceHolder="Select Application" 
-                       (nzFocus)="getFormLoanData()" 
                        style="width: 100%;" nzAllowClear nzShowSearch [nzLoading]="isLoading">
-                <nz-option *ngFor="let item of loanApplicationData" [nzValue]="item" [nzLabel]="item?.full_name  + ' '  + item?.user?.mobile + ' ' + item?.application_code"  [nzLoading]="isLoading">
+                       <!-- (nzFocus)="getFormLoanData()"  -->
+                <nz-option *ngFor="let item of loanApplicationData" [nzValue]="item" [nzLabel]="item?.product_type + ' ' + item?.full_name  + ' '  + item?.mobile + ' ' + item?.application_code + ' ' "  [nzLoading]="isLoading">
+                    <!-- + ' ' + item?.application_code -->
                 </nz-option>
             </nz-select>
         </span>

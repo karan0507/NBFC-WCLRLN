@@ -25,6 +25,7 @@ export class HeaderComponent{
         ,private globaldata: GlobalservicesService) {}
 
     ngOnInit(): void {
+        this.getFormLoanData();
         this.globalFunction.globalUserData.subscribe(res => {
             console.log(res);
             this.userDetails = res;
@@ -60,12 +61,14 @@ export class HeaderComponent{
         this.isLoading = true;
         // this.api_calling_loader['listLoader'] = true
         // this.loanApplicationData = [];
-        var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication', 'source': 'Onboarding', 'page': 1, 'limit': 30 }
+        // source=Onboarding&datapoint=loan_application_global_search&keyword=9167937459
+        var data = { 'datapoint': 'loan_application_global_search', 'source': 'Onboarding', 'page': 1, 'limit': 30,'keyword': this.searchValue ? this.searchValue : ''}
 
         if (this.searchValue) {
             //   data['page'] = 1
-              data['name'] = this.searchValue
+              data['keyword'] = this.searchValue
         }
+        this.loanApplicationData = [];
         this.https.fetchLoanApplicationList(data).subscribe(res => {
               if (res?.success) {
                   console.log(res);
@@ -77,7 +80,18 @@ export class HeaderComponent{
                     //        });  
                     // }
                     // this.global.setApplicationCount();
-                    this.loanApplicationData = res?.data?.results;
+                    if(res?.data){
+                        res?.data.map((data)=>{
+                            if(data['product_type'] == 'loan_application_onboarding'){
+                                data['product_type'] = 'Application'
+                            } else {
+                                data['product_type'] = 'lms'
+                            }
+                            this.loanApplicationData.push(data);
+                        })
+                    }
+                    console.log(this.loanApplicationData);
+                    // this.loanApplicationData = res?.data?.results;
               } else {
                 this.isLoading = false;
                 this.message.error(res?.message)
@@ -90,38 +104,51 @@ export class HeaderComponent{
         })
   }
 
+//   nzFilterOption(query, option){
+//     let val = option.nzLabel
+//     console.log(option.nzLabel)
+//     return option.nzLabel.toString().includes(query.toLowerCase());
+//     // return option.nzLabel.includes(query.toLowerCase());
+//   }
+
+    nzFilterOption(inputValue: string, item: any) {
+        return item.title.indexOf(inputValue) > -1;
+    }
+
   onClickRedirectToSpecificComponent(e){
     console.log(e)
     console.log(this.selectedApplication);
-    this.selectedApplication = null;
     // this.globaldata.selectedGlobalApplicationLoan(e?.application_code);
     if(!e){
         return null;
     }
-    if(e?.stage_id?.pk == 1){
+    if(e?.product_type == "Application"){
+    if(e?.stage_id == 1){
         this.route.navigate(["applications/form-filling"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 2){
+    } else if(e?.stage_id == 2){
         this.route.navigate(["applications/document-upload"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 3){
+    } else if(e?.stage_id == 3){
         this.route.navigate(["applications/underwriting"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 4){
+    } else if(e?.stage_id == 4){
         this.route.navigate(["applications/offer-proposed"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 5){
+    } else if(e?.stage_id == 5){
         this.route.navigate(["applications/offer-acceptance"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 6){
+    } else if(e?.stage_id == 6){
         this.route.navigate(["applications/e-signing"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 7){
+    } else if(e?.stage_id == 7){
         this.route.navigate(["applications/disbursement"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 8){
+    } else if(e?.stage_id == 8){
         this.route.navigate(["applications/rejected"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 9){
+    } else if(e?.stage_id == 9){
         this.route.navigate(["applications/pre-approved"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 10){
+    } else if(e?.stage_id == 10){
         this.route.navigate(["applications/nbfc-approval"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 11){
+    } else if(e?.stage_id == 11){
         this.route.navigate(["applications/dormant"],{ queryParams: {loan_id: e?.application_code}});
-    } else if(e?.stage_id?.pk == 15){
+    } else if(e?.stage_id == 15){
         this.route.navigate(["applications/closed"],{ queryParams: {loan_id: e?.application_code}});
+    } } else {
+        this.route.navigate(["lms/borrowers"],{ queryParams: {loan_id: e?.application_code}});
     }
     return null
     // return e = -1, this.selectedApplication = null;
@@ -144,7 +171,7 @@ export class HeaderComponent{
           clearTimeout(this.debounce);
           this.debounce = setTimeout(() => {
           this.getFormLoanData();
-      }, 500);
+      }, 1000);
     }
   }
 
