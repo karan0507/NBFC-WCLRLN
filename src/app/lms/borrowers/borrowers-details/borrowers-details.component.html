@@ -10,7 +10,7 @@
                                     {{borrowertList?.loan_unique_id ? borrowertList?.loan_unique_id : '-'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Employee code -:
-                                    {{borrowertList?.emp_code ? borrowertList?.emp_code : '-'}}</span>
+                                    {{borrowertList?.emp_code?.emp_id ? borrowertList?.emp_code?.emp_id : '-'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
                                     Status -: {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
@@ -305,7 +305,7 @@
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
                                                             </ng-container>
-                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
                                                                 <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
                                                                     <span class="m-l-5">Refund Transaction</span>
                                                                 </li>
@@ -430,7 +430,7 @@
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
                                                             </ng-container>
-                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment'">
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
                                                                 <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
                                                                     <span class="m-l-5">Refund Transaction</span>
                                                                 </li>
