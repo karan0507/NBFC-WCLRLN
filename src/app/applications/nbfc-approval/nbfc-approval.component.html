@@ -100,13 +100,13 @@
                               <nz-option [nzValue]="'system'" [nzLabel]="'System'">
                               </nz-option>
                         </nz-select>
-                        <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
+                        <!-- <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
                               (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
                               [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
                               <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                     [nzLabel]="item.status">
                               </nz-option>
-                        </nz-select>
+                        </nz-select> -->
                         <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
                               class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
                               nzPlaceHolder="Sort by date">
@@ -555,7 +555,7 @@
                                                 </ng-template>
                                           </div>
                                           
-                                          <div class="mt-3">
+                                          <div class="mt-3" *ngxPermissionsOnly="['Upload_NBFC_Document_Details']">
                                                 <nz-page-header class="site-page-header acc-bg-light"
                                                       [nzTitle]="document">
                                                 </nz-page-header>
@@ -645,7 +645,7 @@
                                                                                     </div>
                                                                               </div>
                                                                         </h6>
-                                                                        <b> <a class="text-primary"
+                                                                        <b> <a class="text-primary" *ngxPermissionsOnly="['pull_cibil_nbfc_application']"
                                                                                     (click)="getCibilScoreData('cibil',data?.id)">Fetch
                                                                                     Cibil</a> </b>
                                                                         <div>

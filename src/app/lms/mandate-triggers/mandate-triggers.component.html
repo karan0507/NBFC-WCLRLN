@@ -77,7 +77,7 @@
                     <th nzWidth="3rem">#</th>
                     <th nzWidth="15rem">User Name</th>
                     <th>Loan Id</th>
-                    <th *ngIf="selectedTab == 'bill'">Corporate name</th>
+                    <th>Corporate name</th>
                     <th *ngIf="selectedTab == 'bill'">Bill Amount</th>
                     <th *ngIf="selectedTab == 'bill'">In progress Amount</th>
                     <th *ngIf="selectedTab == 'bill'">Pending Amount</th>
@@ -117,7 +117,7 @@
                     </td>
                     <td>{{ data?.loan_unique_id ? data?.loan_unique_id : '-' }}</td>
                     <!-- bill -->
-                    <td *ngIf="selectedTab == 'bill'">{{ data?.corporate ? data?.corporate : 0 }}</td>
+                    <td>{{ data?.corporate ? data?.corporate : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.outstanding_amount ? data?.outstanding_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.inprogress_amount ? data?.inprogress_amount : 0 }}</td>
                     <td *ngIf="selectedTab == 'bill'">₹ {{ data?.pending_amount ? data?.pending_amount : 0 }}</td>

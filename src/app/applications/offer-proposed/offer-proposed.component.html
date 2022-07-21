@@ -769,7 +769,7 @@
               </div>
               
               <!-- Document Data -->
-              <div class="mt-3">
+              <div class="mt-3" *ngxPermissionsOnly="['upload_offer_proposed_document_details']">
                 <nz-page-header
                   class="site-page-header acc-bg-light"
                   [nzTitle]="document"

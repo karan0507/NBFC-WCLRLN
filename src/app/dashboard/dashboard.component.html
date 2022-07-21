@@ -282,11 +282,11 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="m-l-5">
-                  <p class="m-b-0 muted">Total Mandate Done</p>
+                  <p class="m-b-0 muted">UPI Mandate Done</p>
                   <h4 class="m-b-0">
                     {{
-                      fetchedList["mandate"]?.total_mandate_done
-                        ? fetchedList["mandate"]?.total_mandate_done
+                      fetchedList["mandate"]?.upi_mandate
+                        ? fetchedList["mandate"]?.upi_mandate
                         : " 0 "
                     }}
                   </h4>
@@ -297,15 +297,15 @@
               <div class="media align-items-center">
                 <nz-badge
                   nzStatus="default"
-                  [nzColor]="pink"
+                  [nzColor]="red"
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="m-l-5">
-                  <p class="m-b-0 muted">UPI Mandate Done</p>
+                  <p class="m-b-0 muted">Total Mandate Done</p>
                   <h4 class="m-b-0">
                     {{
-                      fetchedList["mandate"]?.upi_mandate
-                        ? fetchedList["mandate"]?.upi_mandate
+                      fetchedList["mandate"]?.total_mandate_done
+                        ? fetchedList["mandate"]?.total_mandate_done
                         : " 0 "
                     }}
                   </h4>
