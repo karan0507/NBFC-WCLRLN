@@ -85,7 +85,7 @@ export class HeaderComponent{
                             if(data['product_type'] == 'loan_application_onboarding'){
                                 data['product_type'] = 'Application'
                             } else {
-                                data['product_type'] = 'lms'
+                                data['product_type'] = 'LMS'
                             }
                             this.loanApplicationData.push(data);
                         })

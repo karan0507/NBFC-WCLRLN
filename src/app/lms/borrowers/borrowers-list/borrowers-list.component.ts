@@ -102,6 +102,9 @@ export class BorrowersListComponent implements OnInit {
     })
   }
   resetFilters() {
+    if(this.storedParams){
+      this.router.navigate(["lms/borrowers"]);
+    }
     this.search_params = ''
     this.is_blocked = ''
     this.master_product_id = ''
