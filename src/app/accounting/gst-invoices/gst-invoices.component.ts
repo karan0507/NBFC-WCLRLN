@@ -95,6 +95,7 @@ export class GstInvoicesComponent implements OnInit {
   resetFilters() {
     this.date = ''
     this.selectedCorporate = ''
+    this.search_params = ''
     this.fetchGSTInvoiceList();
   }
   
