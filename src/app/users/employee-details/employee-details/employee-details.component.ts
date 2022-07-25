@@ -241,7 +241,8 @@ export class EmployeeDetailsComponent implements OnInit {
       partner: [null, [Validators.required]],
       branch: [null, [Validators.required]],
       remarks: [null, [Validators.required]],
-      branch_name: [{ value: null, disabled: true }, [Validators.required]],
+      branch_name: [null, [Validators.required]],
+      // { value: null, disabled: true }
       section: [
         this.selectedTab ? this.selectedTab : null,
         [Validators.required],
@@ -728,16 +729,25 @@ export class EmployeeDetailsComponent implements OnInit {
         console.log(res?.data);
         if (res?.success) {
           this.message.success(res?.message);
-          this.branchName = res?.data?.branch_name;
-          this.uploadSelectedCorporateFile.patchValue({
-            branch: res?.data[0]?.id,
-            branch_name: res?.data[0]?.branch_name,
-          });
+          this.branchName = res?.data;
+          // this.uploadSelectedCorporateFile.patchValue({
+          //   branch: res?.data[0]?.id,
+          //   branch_name: res?.data[0]?.branch_name,
+          // });
           console.log(this.uploadSelectedCorporateFile.value);
         } else {
           this.message.error(res?.message);
         }
       });
+    }
+  }
+
+  onClickUpdateBranch(e){
+    console.log(e)
+    if(e){
+          this.uploadSelectedCorporateFile.patchValue({
+            branch: e,
+          });
     }
   }
 
