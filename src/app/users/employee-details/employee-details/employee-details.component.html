@@ -685,13 +685,25 @@
                 [nzXs]="24"
                 nzErrorTip="Please Select Valid Corporate"
               >
-                <input
+                <!-- <input
                   nz-input
                   type="text"
                   placeholder="Branch"
                   formControlName="branch_name"
                   [disabled]="true"
-                />
+                /> -->
+                <nz-select
+                  formControlName="branch_name" nzShowSearch 
+                  nzAllowClear
+                  nzPlaceHolder="Branch Name"
+                  (ngModelChange)="onClickUpdateBranch($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of branchName"
+                    [nzValue]="item?.id"
+                    [nzLabel]="item?.branch_name"
+                  ></nz-option>
+                </nz-select>
               </nz-form-control>
             </nz-form-item>
           </div>
