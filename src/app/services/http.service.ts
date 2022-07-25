@@ -1100,4 +1100,10 @@ export class HttpService {
       toggleApplicationTODormantBasedOnTimeSpan(id,data) {
             return this._http.put(this.url + `/platform_central/v1/toggle-application-dormant/${id}`, data);
       }
+
+      getListOfOTPSent( data){
+            return this._http.get(this.url + `/platform_central/v1/fetch-otp-send-customers`, {params: data});
+      }
+
+      // platform_central/v1/fetch-otp-send-customers
 }

@@ -458,6 +458,15 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
+        path: 'otp-list',
+        title: 'OTP List',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'file',
+        submenu: []
+    },
+    {
         path: 'version',
         title: 'Version',
         iconType: 'nzIcon',

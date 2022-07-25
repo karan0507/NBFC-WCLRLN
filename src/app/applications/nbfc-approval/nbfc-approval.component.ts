@@ -401,6 +401,12 @@ export class NbfcApprovalComponent implements OnInit {
             //       console.log(error);
             // })
             let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  10}
+            if(this.partner){
+                  // data['page'] = 1
+                  data['company'] = this.partner
+                  }
+              data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+              data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
             // let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchExportData(data).subscribe(res => {
