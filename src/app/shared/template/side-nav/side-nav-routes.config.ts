@@ -381,6 +381,15 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: []
             },
+            {
+                path: 'lms/expense-management',
+                title: 'Corporate Expense',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
         ]
     },
     {
@@ -451,6 +460,15 @@ export const ROUTES: SideNavInterface[] = [
     {
         path: 'third-party-api-call',
         title: 'API buckets Statistics',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'file',
+        submenu: []
+    },
+    {
+        path: 'otp-list',
+        title: 'OTP List',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: [''],

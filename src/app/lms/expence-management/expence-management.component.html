@@ -1,0 +1,146 @@
+<header>
+    <section>
+          <div class="row my-2">
+                <div class="col-md-4" *ngFor="let item of matrixDataList">
+                      <ng-template #corp_exp> 
+                        <img class="mr-2" [src]="item?.src" alt=""> {{item?.name}}
+                      </ng-template>
+                      <div class="bg-light-orange">
+                            <nz-card [nzLoading]="api_calling_loader['matrixData']" [nzTitle]="corp_exp">
+                                  {{item?.value}}
+                            </nz-card>
+                      </div>
+                </div>
+          </div>
+    </section>
+</header>
+
+<main>
+    <section>
+          <nz-card>
+                <!-- <div class="row mb-3"> -->
+                      <!-- <div class="col-md-4"> -->
+                            <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton"> -->
+                                  <!-- (key.up)="getFormLoanData()" [(ngModel)]="searchValue" -->
+                                  <!-- <input type="text" nz-input placeholder="Search text" />
+                            </nz-input-group>
+                            <ng-template #suffixIconButton>
+                                  <button nz-button nzType="secondary" nzSearch><i nz-icon
+                                              nzType="search"></i></button>
+                            </ng-template> -->
+                      <!-- </div> -->
+                      <!-- <div class="col-md-8 d-flex flex-wrap justify-content-end">
+                            <button nz-button nzType="default" nzShape="circle" nz-tooltip
+                                  nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="mr-2">
+                                  <i nz-icon nzType="undo"></i>
+                            </button>
+                            <nz-select class="mx-3 w-auto" [(ngModel)]="currentEmployee" nzAllowClear
+                                  nzPlaceHolder="Employee" (nzFocus)="getAllEmployees()"
+                                  (ngModelChange)="getExpenseManagementList()">
+                                  <nz-option *ngFor="let item of employeeList" [nzValue]="item?.id"
+                                        [nzLabel]="item?.name"></nz-option>
+                            </nz-select>
+                            <nz-select class="mr-3" [(ngModel)]="currentStatus" nzAllowClear nzPlaceHolder="Status"
+                                  (ngModelChange)="getExpenseManagementList()">
+                                  <nz-option [nzValue]="1" nzLabel="Approved"></nz-option>
+                                  <nz-option [nzValue]="2" nzLabel="Rejected"></nz-option>
+                                  <nz-option [nzValue]="3" nzLabel="Pending"></nz-option>
+                            </nz-select>
+                            <button nz-button nzType="link" class="border" (click)="exportFuntion()">Export</button>
+                      </div> -->
+                <!-- </div> -->
+                <div class="totalCount">
+                      <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="expenseDataList"
+                            [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true"
+                            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
+                            (nzQueryParams)="expenseDataList[0] ? getExpenseManagementList($event) : null"
+                            [nzLoading]="api_calling_loader['listLoader']">
+                            <thead>
+                                  <tr>
+                                        <th [nzWidth]="'2rem'">#</th>
+                                        <th> Name of employee </th>
+                                        <th> Transaction Type </th>
+                                        <th> Transaction amount</th>
+                                        <th>Transaction status</th>
+                                        <th>Date & Time</th>
+                                        <!-- <th nzRight [nzWidth]="'15rem'">Action</th> -->
+                                  </tr>
+                            </thead>
+                            <tbody>
+                                  <tr *ngFor="let data of expenseDataList; index as i">
+                                        <td [nzWidth]="'2rem'" *ngIf="page == 1">{{i+1}}</td>
+                                        <td [nzWidth]="'2rem'" *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                                        <td>{{data?.full_name}}</td>
+                                        <td>{{data?.txn_type}}</td>
+                                        <td>{{data?.txn_amount}}</td>
+                                        <td>{{data?.txn_status}}</td>
+                                        <td>{{data?.transaction_datetime | date: 'short'}}</td>
+                                        <!-- <td nzRight [nzWidth]="'15rem'">
+                                              <div *ngIf="data?.expense_status == 'Pending'" class="d-flex">
+                                                    <button nz-button nzType="primary" class="py-0 mr-3 font-size-12"
+                                                          [nzSize]="'small'" nz-popconfirm
+                                                          nzPopconfirmTitle="Are you sure you want to accept {{data?.user}} expense?"
+                                                          nzPopconfirmPlacement="bottomRight"
+                                                          (nzOnConfirm)="handleOk('approve', data?.id)"
+                                                          (nzOnCancel)="cancel()">Approve</button>
+                                                    <button nz-button nzType="secondary" class="py-0 font-size-12"
+                                                          [nzSize]="'small'" nz-popconfirm
+                                                          nzPopconfirmTitle="Are you sure you want to reject {{data?.user}} expense?"
+                                                          nzPopconfirmPlacement="bottomRight"
+                                                          (nzOnConfirm)="modalAction(data)"
+                                                          (nzOnCancel)="cancel()">Reject</button>
+                                              </div>
+                                              <div *ngIf="data?.expense_status !== 'Pending'">
+                                                    <i *ngIf="data?.expense_status == 'Approved'" nz-icon
+                                                          nzType="check-circle" nzTheme="fill"
+                                                          class="text-success"></i>
+                                                    <i *ngIf="data?.expense_status == 'Rejected'" nz-icon
+                                                          nzType="close-circle" nzTheme="fill"
+                                                          class="text-danger"></i>
+                                              </div>
+                                        </td> -->
+                                  </tr>
+                            </tbody>
+                      </nz-table>
+                      <ng-template #botTotalCount>
+                            <div *ngIf="total_count && expenseDataList[0]"
+                                  class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+                      </ng-template>
+                </div>
+          </nz-card>
+    </section>
+</main>
+
+<!-- Modal Section -->
+<section>
+    <nz-modal [(nzVisible)]="isModalOpen" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+          [nzFooter]="footerModal">
+          <nz-card class="border-0" [nzLoading]="api_calling_loader['cardLoader']">
+                <section *ngIf="isRejectModal">
+                      <h6>{{currentExpenseData?.user + '/ Expense' + ' ₹' + (currentExpenseData?.credit ?
+                            currentExpenseData?.credit : currentExpenseData?.debit) }}</h6>
+                      <div class="row my-3">
+                            <div class="col-md-3">
+                                  Remarks
+                            </div>
+                            <div class="col-md-9">
+                                  <nz-textarea-count [(ngModel)]="rejectReason" [nzMaxCharacterCount]="100">
+                                        <textarea rows="4" nz-input></textarea>
+                                  </nz-textarea-count>
+                            </div>
+                      </div>
+                </section>
+          </nz-card>
+
+    </nz-modal>
+
+    <ng-template #footerModal>
+          <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+          <button nz-button nzType="primary" (click)="handleOk('reject')"
+                [nzLoading]="api_calling_loader['button']">Submit</button>
+    </ng-template>
+    <ng-template #modalTitle>
+          <label *ngIf="isRejectModal"><i nz-icon nzType="close-circle" class="mr-2" nzTheme="outline"></i>
+                Reject</label>
+    </ng-template>
+</section>

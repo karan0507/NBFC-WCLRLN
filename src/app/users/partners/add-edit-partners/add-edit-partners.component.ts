@@ -148,12 +148,25 @@ export class AddEditPartnersComponent implements OnInit {
       ) {
         data[i] = data[i]?.id;
       }
-      if (i != "document_data" && i != "nach_date_time_mappings") {
+      // nach_step: [data ? data?.nach_data['nach_step'] : null, [Validators.required]],
+      // cashback_amount: [data ? data?.nach_data['cashback_amount'] : null, [Validators.required]],
+      if (i != "document_data" && i != "nach_date_time_mappings" && i !== 'nach_data') {
         if (data[i]) {
           this.addEditProductForm.controls[i].setValue(data[i], {
             emitEvent: false,
           });
         }
+      }
+      if(i ='nach_data'){
+        this.addEditProductForm.patchValue({
+          'nach_step': data[i]?.nach_step,
+          'cashback_amount': data[i]?.cashback_amount,
+        })
+        // if (data[i]) {
+        //   this.addEditProductForm.controls[i].setValue(data[i], {
+        //     emitEvent: false,
+        //   });
+        // }
       }
       this.addEditProductForm.patchValue({
         flag:data ? data?.corporate_limit_settings?.flag :  data?.corporate_limit_settings?.flag,
@@ -420,6 +433,11 @@ export class AddEditPartnersComponent implements OnInit {
         [Validators.required],
       ],
       city: [data ? data?.city : null, [Validators.required]],
+      allow_bank_transfer: [data ? data?.allow_bank_transfer : null, [Validators.required]],
+      allow_scan_and_pay: [data ? data?.allow_scan_and_pay : null, [Validators.required]],
+      nach_step: [data ? data?.nach_data['nach_step'] : null, [Validators.required]],
+      cashback_amount: [data ? data?.nach_data['cashback_amount'] : null, [Validators.required]],
+
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
       salary_date: [data ? data?.salary_date : null],
@@ -471,6 +489,7 @@ export class AddEditPartnersComponent implements OnInit {
       payout: [data ? data?.payout : null, [Validators.required]],
       document_data: this.fb.array([]),
       corporate_limit_settings: {},
+      nach_data: {},
       nach_date_time_mappings: this.fb.array([]),
       // documents: [null, [Validators.required]],
       // if m creating master always share the value 1
@@ -1094,6 +1113,13 @@ export class AddEditPartnersComponent implements OnInit {
     console.log(this.addEditProductForm.value, ' <== Value')
     let corporate_limit_settings;
     const storeData = this.addEditProductForm.value;
+    let nach_data = {
+      'nach_step': this.addEditProductForm.value?.nach_step,
+      'cashback_amount': this.addEditProductForm.value?.cashback_amount
+    };
+    this.addEditProductForm.patchValue({
+      nach_data: JSON.stringify(nach_data)
+    })
     if(this.addEditProductForm.value.flag === 'Card'){
       corporate_limit_settings = {
         flag: this.addEditProductForm.value?.flag,
@@ -1131,6 +1157,8 @@ export class AddEditPartnersComponent implements OnInit {
     }
     const saveDoc = [];
     var sendDate = this.addEditProductForm.value;
+        delete this.addEditProductForm.value?.nach_step;
+        delete this.addEditProductForm.value?.cashback_amount;
         delete this.addEditProductForm.value?.permanent_min;
         delete this.addEditProductForm.value?.permanent_max;
         delete this.addEditProductForm.value?.contractual_min;
@@ -1259,6 +1287,8 @@ export class AddEditPartnersComponent implements OnInit {
         let data = new FormData();
         console.log(this.addEditProductForm.value);
         var sendDate = this.addEditProductForm.value;
+            delete this.addEditProductForm.value?.nach_step;
+            delete this.addEditProductForm.value?.cashback_amount;
             delete this.addEditProductForm.value?.permanent_min;
             delete this.addEditProductForm.value?.permanent_max;
             delete this.addEditProductForm.value?.contractual_min;

@@ -220,13 +220,13 @@
                           <nz-option [nzValue]="'system'" [nzLabel]="'System'">
                           </nz-option>
                     </nz-select>
-                    <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
+                    <!-- <nz-select [(ngModel)]="filters" nzMode="multiple" style="width: 15rem;" class="mb-2"
                           (nzFocus)="onFocusMethod('status')" (ngModelChange)="getFormLoanData()" nzAllowClear
                           [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Status">
                           <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
                                 [nzLabel]="item.status">
                           </nz-option>
-                    </nz-select>
+                    </nz-select> -->
                     <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
                           class="mx-1 mb-2" (ngModelChange)="getFormLoanData()" nzAllowClear
                           nzPlaceHolder="Sort by date">
@@ -281,7 +281,7 @@
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
-            <th>Status</th>
+            <!-- <th>Status</th> -->
             <th>Nach Step's</th>
             <th>Nach Status</th>
             <th>Remarks</th>
@@ -351,7 +351,7 @@
                     : "-"
                 }}
               </td>
-              <td>{{ data?.status ? data?.status : "-" }}</td>
+              <!-- <td>{{ data?.status ? data?.status : "-" }}</td> -->
               <td>
                 <i
                   nz-icon

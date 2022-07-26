@@ -114,6 +114,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/billed-unbilled/billed-unbilled.module').then(m => m.BilledUnbilledModule),
     },
     {
+        path: 'lms/expense-management',
+        loadChildren: () => import('../../lms/expence-management/expence-management.module').then(m => m.ExpenceManagementModule),
+    },
+    {
         path: 'version',
         loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
     },
@@ -124,6 +128,10 @@ export const CommonLayout_ROUTES: Routes = [
     {
         path: 'third-party-api-call',
         loadChildren: () => import('../../third-party-api-call/third-party-api-call.module').then(m => m.ThirdPartyApiCallModule),
+    },
+    {
+        path: 'otp-list',
+        loadChildren: () => import('../../otp-customer-list/otp-customer-list.module').then(m => m.OtpCustomerListModule),
     },
     {
         path: 'dormant',

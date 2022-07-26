@@ -478,6 +478,11 @@ export class OfferAcceptanceComponent implements OnInit {
       exportData(file_formate?) {
             // let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
             let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  5}
+            if(this.partner){
+                  data['company'] = this.partner
+            }
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchExportData(data).subscribe(res => {
                   this._exportDocument = res;
