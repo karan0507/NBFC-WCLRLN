@@ -114,6 +114,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/billed-unbilled/billed-unbilled.module').then(m => m.BilledUnbilledModule),
     },
     {
+        path: 'lms/expense-management',
+        loadChildren: () => import('../../lms/expence-management/expence-management.module').then(m => m.ExpenceManagementModule),
+    },
+    {
         path: 'version',
         loadChildren: () => import('../../versioning/versioning.module').then(m => m.VersioningModule),
     },

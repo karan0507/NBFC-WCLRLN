@@ -381,6 +381,15 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: []
             },
+            {
+                path: 'lms/expense-management',
+                title: 'Corporate Expense',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
         ]
     },
     {

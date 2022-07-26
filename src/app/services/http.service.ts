@@ -1101,6 +1101,9 @@ export class HttpService {
             return this._http.put(this.url + `/platform_central/v1/toggle-application-dormant/${id}`, data);
       }
 
+      public getAllExployees() {
+            return this._http.get(this.url + `/partner/v1/corporate/get-all-employees`)
+      }
       getListOfOTPSent( data){
             return this._http.get(this.url + `/platform_central/v1/fetch-otp-send-customers`, {params: data});
       }
