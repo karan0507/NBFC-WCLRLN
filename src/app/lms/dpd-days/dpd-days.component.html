@@ -87,20 +87,11 @@
                         <th>Employee code</th>
                         <th>DPD Bucket</th>
                         <th>DPD Days</th>
-
-                        <!-- <th>Token status</th>
-                        <th>Applied on</th>
-                        <th>Disbursement date</th>
-                        <th>Available limit</th>
-                        <th>Credit Line Assigned</th>
-                        <th>Credit Utilized</th>
-                        <th>Ignore Enach Trigger</th>
-                        <th>Outstanding</th>
-                        <th>Fees/Charges</th> -->
                         <th>Is using app</th>
                         <th>Card Status</th>
                         <th>A/c Status</th>
                         <th>User Status</th>
+                        <th>Payment Allocation Info</th>
                         <!-- <th nzWidth="5rem" nzRight>Action</th> -->
                     </tr>
                 </thead>
@@ -154,6 +145,61 @@
                                 <span *ngIf="!data?.is_user_blocked">Active</span>
                                 <span *ngIf="data?.is_user_blocked">Block</span>
                             </td>
+                            <td>
+                                <i
+                                  nz-icon
+                                  nzType="info-circle"
+                                  nzTheme="outline"
+                                  *ngIf="data?.payment_allocation"
+                                  style="cursor: pointer"
+                                  nz-popover
+                                  [nzPopoverContent]="contentTemplate"
+                                  nzPopoverPlacement="top"
+                                ></i>
+                                <ng-template #contentTemplate>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <nz-table [nzData]="data?.payment_allocation" nzFrontPagination="false">
+                                            <thead>
+                                                    <tr>
+                                                        <!-- <th nzWidth="2rem"></th> -->
+                                                        <th nzWidth="3rem">#</th>
+                                                        <th>Amount Type</th>
+                                                        <th>Amount</th>
+                                                        <th>Amount Paid</th>
+                                                        <th>Last Paid</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let item of data?.payment_allocation; index as i">
+                                                        <tr>
+                                                            <td *ngIf="page === 1">{{i+1}}</td>
+                                                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                                                            <td>{{ item?.type ? item?.type : ' -- '}}</td>
+                                                            <td>{{ item?.amount ? item?.amount : ' -- '}}</td>
+                                                            <td>
+                                                                <i *ngIf="item?.is_paid" nz-icon nzType="check-circle" nzTheme="fill"
+                                                                                    class="text-success"></i>
+                                                                              <i *ngIf="!(item?.is_paid)" nz-icon nzType="close-circle" nzTheme="fill"
+                                                                                    class="text-danger"></i>
+                                                            </td>
+                                                            <td>{{ item?.last_paid ? (data.last_paid | date: 'medium') : ' -- ' }}</td>
+                                                        </tr>
+                                                        
+                                                    </ng-container>
+                                                    
+                                                </tbody>
+                                            </nz-table>
+
+                                        </div>
+                                    </div>
+                                  <!-- <div class="px-3">
+                                    <ul *ngFor="let item of data?.payment_allocation">
+                                      <li class="text-danger">{{ item }}</li>
+                                    </ul>
+                                  </div> -->
+                                </ng-template>
+                              </td>
                             <!-- <td nzRight>
                                 <div>
                                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
