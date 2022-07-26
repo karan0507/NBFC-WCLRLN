@@ -110,7 +110,7 @@
                     <td>₹ {{ data?.transaction_meta_data.spends ? data?.transaction_meta_data.spends : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.waived_off ? data?.transaction_meta_data.waived_off : '0'}}</td>
                     <td>{{ data?.bill_date | date: "medium" }}</td>
-                    <td>{{ data?.paid_status ? 'Paid' : 'Unpaid' }}</td>
+                    <td>{{ data?.transaction_meta_data.previous_bill_status ? 'Paid' : 'Unpaid' }}</td>
                     <td nzRight *ngIf="selectedTab === 'billed'">
                         <div>
                             <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
