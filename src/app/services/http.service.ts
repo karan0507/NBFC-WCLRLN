@@ -13,10 +13,10 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
-      url = 'https://adminapi.fatakpay.com'
+      // url = 'https://adminapi.fatakpay.com'
 
       
-      // url = this.valueFunction();
+      url = this.valueFunction();
 
       valueFunction(){
       var dynamic_url;
@@ -1104,4 +1104,9 @@ export class HttpService {
       public getAllExployees() {
             return this._http.get(this.url + `/partner/v1/corporate/get-all-employees`)
       }
+      getListOfOTPSent( data){
+            return this._http.get(this.url + `/platform_central/v1/fetch-otp-send-customers`, {params: data});
+      }
+
+      // platform_central/v1/fetch-otp-send-customers
 }

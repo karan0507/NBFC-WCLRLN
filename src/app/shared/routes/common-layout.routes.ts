@@ -130,6 +130,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../third-party-api-call/third-party-api-call.module').then(m => m.ThirdPartyApiCallModule),
     },
     {
+        path: 'otp-list',
+        loadChildren: () => import('../../otp-customer-list/otp-customer-list.module').then(m => m.OtpCustomerListModule),
+    },
+    {
         path: 'dormant',
         loadChildren: () => import('../../dormant-stage-trigger/dormant-stage-trigger.module').then(m => m.DormantStageTriggerModule),
     },
