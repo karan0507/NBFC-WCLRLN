@@ -494,13 +494,11 @@
                                                                 <span class="m-l-5">Capture collection</span>
                                                           </li>
                                                       </ng-container>
-                                                      <!-- <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
-                                                          <li nz-menu-item nz-dropdown [nzClickHide]="false"
-                                                          [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                                          [nzDropdownMenu]="latestUploadDropDown1234">
-                                                              <span class="m-l-5">Send Enach Reg Link</span>
+                                                      <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
+                                                          <li nz-menu-item (click)="send_payment_amount_popup = true">
+                                                              <span class="m-l-5">Send Payment Link</span>
                                                           </li>
-                                                      </ng-container> -->
+                                                      </ng-container>
                                                 </ul>
                                           </nz-dropdown-menu>
                                           <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
@@ -921,5 +919,14 @@
       [nzOkDisabled]="!selectedDateforStatement">
       <ng-container *nzModalContent>
             <nz-range-picker [(ngModel)]="selectedDateforStatement" [nzDisabledDate]="disabledDate"></nz-range-picker>
+      </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="send_payment_amount_popup" [nzTitle]="'Enter amount'" (nzOnCancel)="send_payment_amount_popup = false"
+      (nzOnOk)="sendPaymentLink()" nzOkText="Send Link"
+      [nzOkDisabled]="!send_payment_amount">
+      <ng-container *nzModalContent>
+            <input (keyup.enter)="sendPaymentLink()" [(ngModel)]="send_payment_amount" type="number" nz-input placeholder="Enter amount" />
       </ng-container>
 </nz-modal>
