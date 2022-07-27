@@ -68,17 +68,17 @@
                     <th>Loan amount provided</th>
                     <th>Available limit</th>
                     <th>Opening bill balance</th>
-                    <th>Closing bill balance</th>
-                    <th>Total outstanding</th>
-                    <th>Cashback</th>
+                    <th>Spend amount</th>
                     <th>Convenience fee</th>
                     <th>Late fees</th>
                     <th>Other charges</th>
-                    <th>Previous bill amount</th>
-                    <th>Repayment done after bill</th>
                     <th>Repayment amount</th>
-                    <th>Spend amount</th>
+                    <th>Cashback</th>
                     <th>Waived off amount</th>
+                    <th>Closing bill balance</th>
+                    <th>Total outstanding</th>
+                    <th>Repayment done after bill</th>
+                    <th>Previous bill amount</th>
                     <th>Bill date</th>
                     <th>Bill status</th>
                     <th nzWidth="6rem" nzRight *ngIf="selectedTab === 'billed'">Actions</th>
@@ -98,17 +98,17 @@
                     <td>₹ {{ data?.loan_amount_provided ? data?.loan_amount_provided : '0'}}</td>
                     <td>₹ {{ data?.available_limit ? data?.available_limit : '0'}}</td>
                     <td>₹ {{ data?.opening_bill_balance ? data?.opening_bill_balance : '0'}}</td>
-                    <td>₹ {{ data?.closing_bill_balance ? data?.closing_bill_balance : '0'}}</td>
-                    <td>₹ {{ data?.total_outstanding ? data?.total_outstanding : '0'}}</td>
-                    <td>₹ {{ data?.transaction_meta_data.cashback ? data?.transaction_meta_data.cashback : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.spends ? data?.transaction_meta_data.spends : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.convenience ? data?.transaction_meta_data.convenience : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.late_fees ? data?.transaction_meta_data.late_fees : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.other_charges ? data?.transaction_meta_data.other_charges : '0'}}</td>
-                    <td>₹ {{ data?.transaction_meta_data.previous_bill_amount ? data?.transaction_meta_data.previous_bill_amount : '0'}}</td>
-                    <td>₹ {{ data?.transaction_meta_data.repayments_done_after_bill ? data?.transaction_meta_data.repayments_done_after_bill : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.repayments_done_in_bill_cycle ? data?.transaction_meta_data.repayments_done_in_bill_cycle : '0'}}</td>
-                    <td>₹ {{ data?.transaction_meta_data.spends ? data?.transaction_meta_data.spends : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.cashback ? data?.transaction_meta_data.cashback : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.waived_off ? data?.transaction_meta_data.waived_off : '0'}}</td>
+                    <td>₹ {{ data?.closing_bill_balance ? data?.closing_bill_balance : '0'}}</td>
+                    <td>₹ {{ data?.total_outstanding ? data?.total_outstanding : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.repayments_done_after_bill ? data?.transaction_meta_data.repayments_done_after_bill : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.previous_bill_amount ? data?.transaction_meta_data.previous_bill_amount : '0'}}</td>
                     <td>{{ data?.bill_date | date: "medium" }}</td>
                     <td>{{ data?.transaction_meta_data.previous_bill_status ? 'Paid' : 'Unpaid' }}</td>
                     <td nzRight *ngIf="selectedTab === 'billed'">
