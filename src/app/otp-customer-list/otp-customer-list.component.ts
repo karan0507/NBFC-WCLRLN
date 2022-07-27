@@ -42,7 +42,11 @@ export class OtpCustomerListComponent implements OnInit {
   }
 
   resetFilters(){
-    
+    this.page =1;
+    this.globalPageSize = 30;
+    this.searchValue = '';
+    this.date = '';
+    this.fetListOfFailOTP();
   }
 
   fetListOfFailOTP(tableFilter?){
