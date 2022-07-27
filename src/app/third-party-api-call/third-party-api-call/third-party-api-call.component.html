@@ -30,54 +30,184 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Aadhar captcha API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.aadhar_captcha_api_count ? ApiStatsData?.aadhar_captcha_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.aadhar_captcha_api_count ? ApiStatsData?.aadhar_captcha_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_captcha_api_count_success ? ApiStatsData?.success_response?.aadhar_captcha_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_captcha_api_count_success ? ApiStatsData?.fail_response?.aadhar_captcha_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Aadhar OTP API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.aadhar_otp_api_count ? ApiStatsData?.aadhar_otp_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.aadhar_otp_api_count ? ApiStatsData?.aadhar_otp_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_otp_api_count_success ? ApiStatsData?.success_response?.aadhar_otp_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_otp_api_count_success ? ApiStatsData?.fail_response?.aadhar_otp_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Aadhar OCR API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.aadhar_ocr_api_count ? ApiStatsData?.aadhar_ocr_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.aadhar_ocr_api_count ? ApiStatsData?.aadhar_ocr_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_ocr_api_count_success ? ApiStatsData?.success_response?.aadhar_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_ocr_api_count_success ? ApiStatsData?.fail_response?.aadhar_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Pan API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.pan_api_count ? ApiStatsData?.pan_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.pan_api_count ? ApiStatsData?.pan_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_api_count_success ? ApiStatsData?.success_response?.pan_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_api_count_success ? ApiStatsData?.fail_response?.pan_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Pan OCR API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.pan_ocr_api_count ? ApiStatsData?.pan_ocr_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.pan_ocr_api_count ? ApiStatsData?.pan_ocr_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_ocr_api_count_success ? ApiStatsData?.success_response?.pan_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_ocr_api_count_success ? ApiStatsData?.fail_response?.pan_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="DL OCR API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.dl_ocr_api_count ? ApiStatsData?.dl_ocr_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.dl_ocr_api_count ? ApiStatsData?.dl_ocr_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.dl_ocr_api_count_success ? ApiStatsData?.success_response?.dl_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.dl_ocr_api_count_success ? ApiStatsData?.fail_response?.dl_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Voter API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.voter_api_count ? ApiStatsData?.voter_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.voter_api_count ? ApiStatsData?.voter_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_api_count_success ? ApiStatsData?.success_response?.voter_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_api_count_success ? ApiStatsData?.fail_response?.voter_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Voter OCR API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.voter_ocr_api_count ? ApiStatsData?.voter_ocr_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.voter_ocr_api_count ? ApiStatsData?.voter_ocr_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_ocr_api_count_success ? ApiStatsData?.success_response?.voter_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_ocr_api_count_success ? ApiStatsData?.fail_response?.voter_ocr_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Cibil API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.cibil_api_count ? ApiStatsData?.cibil_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.cibil_api_count ? ApiStatsData?.cibil_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.cibil_api_count_success ? ApiStatsData?.success_response?.cibil_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.cibil_api_count_success ? ApiStatsData?.fail_response?.cibil_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <nz-card nzTitle="Selfie API count" [nzLoading]="api_calling_loader">
-                        <h4>{{ApiStatsData?.selfie_api_count ? ApiStatsData?.selfie_api_count : '0'}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.selfie_api_count ? ApiStatsData?.selfie_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.selfie_api_count_success ? ApiStatsData?.success_response?.selfie_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.selfie_api_count_success ? ApiStatsData?.fail_response?.selfie_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
                     </nz-card>
                 </div>
             </div>

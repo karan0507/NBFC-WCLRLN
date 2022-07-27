@@ -54,6 +54,8 @@
                         <th>Master Partners</th>
                         <th>Partners</th>
                         <th>NBFC's Mapped</th>
+                        <th>Number of users</th>
+                        <th>Bill Date</th>
                         <th>Fees Type</th>
                         <th>Status</th>
                         <th>Draft Status</th>
@@ -142,6 +144,8 @@
                                     </ng-template>
                                     <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
                             </td>
+                            <td>{{ data.no_of_users ? data.no_of_users : 0  }}</td>
+                            <td>{{convertBillDateToText(data.bill_day)}}</td>
                             <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                             <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
                             <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
@@ -223,6 +227,8 @@
                                                         <th>Master Partners</th>
                                                         <th>Partners</th>
                                                         <th>NBFC's Mapped</th>
+                                                        <th>Number of users</th>
+                                                        <th>Bill Date</th>
                                                         <th>Fees Type</th>
                                                         <th>Status</th>
                                                         <th>Draft Status</th>
@@ -308,6 +314,8 @@
                                                                 </ng-template>
                                                                 <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
                                                         </td>
+                                                        <td>{{ data.no_of_users ? data.no_of_users : 0  }}</td>
+                                                        <td>convertBillDateToText(data.bill_day)</td>
                                                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                                                         <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
                                                         <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
