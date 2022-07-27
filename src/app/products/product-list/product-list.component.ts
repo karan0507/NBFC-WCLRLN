@@ -156,11 +156,12 @@ expandSet = new Set<number>();
   public convertBillDateToText(date) {
     var finalDate = ''
     if (date) {
-      if (date[0] == 1) {
+      date = String(date)
+      if (date[date.length - 1] == '1') {
         finalDate = date + 'st every month'
-      } else if (date[0] == 2) {
+      } else if (date[date.length - 1] == '2') {
         finalDate = date + 'nd every month'
-      } else if (date[0] == 3) {
+      } else if (date[date.length - 1] == '3') {
         finalDate = date + 'rd every month'
       } else { 
         finalDate = date + 'th every month'
