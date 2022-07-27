@@ -165,9 +165,10 @@
                                                         <!-- <th nzWidth="2rem"></th> -->
                                                         <th nzWidth="3rem">#</th>
                                                         <th>Amount Type</th>
-                                                        <th>Amount</th>
+                                                        <th>Total Amount</th>
                                                         <th>Amount Paid</th>
                                                         <th>Last Paid</th>
+                                                        <th>Is Paid</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -177,13 +178,14 @@
                                                             <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                                                             <td>{{ item?.type ? item?.type : ' -- '}}</td>
                                                             <td>{{ item?.amount ? item?.amount : ' -- '}}</td>
+                                                            <td>{{ item?.amount_paid ? item?.amount_paid : ' -- '}}</td>
+                                                            <td>{{ item?.last_paid ? (item.last_paid | date: "medium") : ' -- ' }}</td>
                                                             <td>
                                                                 <i *ngIf="item?.is_paid" nz-icon nzType="check-circle" nzTheme="fill"
                                                                                     class="text-success"></i>
                                                                               <i *ngIf="!(item?.is_paid)" nz-icon nzType="close-circle" nzTheme="fill"
                                                                                     class="text-danger"></i>
                                                             </td>
-                                                            <td>{{ item?.last_paid ? (data.last_paid | date: 'medium') : ' -- ' }}</td>
                                                         </tr>
                                                         
                                                     </ng-container>
