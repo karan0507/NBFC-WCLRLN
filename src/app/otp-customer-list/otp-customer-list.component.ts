@@ -42,7 +42,11 @@ export class OtpCustomerListComponent implements OnInit {
   }
 
   resetFilters(){
-    
+    this.page =1;
+    this.globalPageSize = 30;
+    this.searchValue = '';
+    this.date = '';
+    this.fetListOfFailOTP();
   }
 
   fetListOfFailOTP(tableFilter?){
@@ -53,7 +57,7 @@ export class OtpCustomerListComponent implements OnInit {
     data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
     data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
     if (this.searchValue) {
-      data["search"] = this.searchValue;
+      data["search_param"] = this.searchValue;
     }
     this.apiLoader = true;
     this.http.getListOfOTPSent(data).subscribe((res: any)=>{

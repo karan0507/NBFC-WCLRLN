@@ -63,6 +63,7 @@
                             <th>System Status</th>
                             <th> Updated By</th>
                             <th>Created By</th>
+                            <th>Bill Date</th>
                             <th> Master Partner</th>
                             <th>Source ID</th>
                             <th>Refer ID</th>
@@ -106,6 +107,7 @@
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                                 <td>{{ data?.updated_by?.name ? data?.updated_by?.name : ' - ' }}</td>
                                 <td>{{ data?.created_by?.name ? data?.created_by?.name : ' -' }}</td>
+                                <td>{{ data?.bill_date ? data?.bill_date : ' - ' }}</td>
                                 <td>{{ data?.master_partner ? data?.master_partner : ' - ' }}</td>
                                 <td>{{ data?.source_id ? data?.source_id : ' - ' }}</td>
                                 <td>{{ data?.refer_id ? data?.refer_id : ' -' }}</td>
