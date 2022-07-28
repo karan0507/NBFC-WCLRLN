@@ -48,7 +48,7 @@
                                 (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
                             <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>{{ data?.mobile ? data?.mobile : '-'}}</td>
-                            <td>{{ data?.updated_at ? data?.updated_at : ' - ' }}</td>
+                            <td>{{ data?.created_at ? (data?.created_at | date: 'medium') : ' - ' }}</td>
                         </tr>
                     </ng-container>
                 </tbody>

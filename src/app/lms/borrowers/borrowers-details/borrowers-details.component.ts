@@ -24,6 +24,8 @@ export class BorrowersDetailsComponent implements OnInit {
   isAcClosureError = false
   isReverseCharges = false
   reverse_type;
+  send_payment_amount
+  send_payment_amount_popup = false
   reverse_amount;
   isRefundTransaction = false
   isWaiveOff = false
@@ -602,6 +604,20 @@ export class BorrowersDetailsComponent implements OnInit {
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader8 = false
+    })
+  }
+  sendPaymentLink() {
+    let data = {
+      'source': 'LMS',
+      'id': this.borrower_id,
+      'amount': this.send_payment_amount
+    }
+    const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.message.remove(generateloader);
+      this.message.success(res['message'])
+    }, (err) => {
+      this.message.remove(generateloader);
     })
   }
 }

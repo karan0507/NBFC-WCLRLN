@@ -63,6 +63,7 @@
                             <th>System Status</th>
                             <th> Updated By</th>
                             <th>Created By</th>
+                            <th>Bill Date</th>
                             <th> Master Partner</th>
                             <th>Source ID</th>
                             <th>Refer ID</th>
@@ -106,6 +107,7 @@
                                 <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
                                 <td>{{ data?.updated_by?.name ? data?.updated_by?.name : ' - ' }}</td>
                                 <td>{{ data?.created_by?.name ? data?.created_by?.name : ' -' }}</td>
+                                <td>{{ data?.bill_date ? data?.bill_date : ' - ' }}</td>
                                 <td>{{ data?.master_partner ? data?.master_partner : ' - ' }}</td>
                                 <td>{{ data?.source_id ? data?.source_id : ' - ' }}</td>
                                 <td>{{ data?.refer_id ? data?.refer_id : ' -' }}</td>
@@ -730,7 +732,11 @@
                             <nz-form-item>
                                 <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>New Password</nz-form-label>
                                 <nz-form-control [nzSm]="20" nzErrorTip="Please Add New Password!">
-                                    <input nz-input type="text" formControlName="new_password"  placeholder="New Password"/>
+                                    <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
+                                        <input nz-input [type]="isView ? 'text' : 'password'" formControlName="new_password"
+                                            placeholder="Type new password" />
+                                    <!-- <input nz-input type="text" formControlName="new_password"  placeholder="New Password"/> -->
+                                    </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
                     </div>
@@ -738,7 +744,11 @@
                         <nz-form-item>
                             <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Confirm Password</nz-form-label>
                             <nz-form-control [nzSm]="20" nzErrorTip="Please Add Confirm Password!">
-                                <input nz-input type="text" formControlName="retype_password"  placeholder="Confirm Password"/>
+                                <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
+                                    <input nz-input [type]="isView ? 'text' : 'password'" formControlName="retype_password"
+                                        placeholder="Type new password" />
+                                </nz-input-group>
+                                <!-- <input nz-input type="text" formControlName="retype_password"  placeholder="Confirm Password"/> -->
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -751,6 +761,12 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+                    <ng-template #viewPassword>
+                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline"
+                            style="cursor: pointer;"></i>
+                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()"
+                            nzTheme="outline" style="cursor: pointer;"></i>
+                    </ng-template>
                 </form>
             </div>
         </nz-card>

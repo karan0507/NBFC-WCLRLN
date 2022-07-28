@@ -1362,8 +1362,7 @@
   [(nzVisible)]="isVisibleUploadedImage"
   nzTitle="Fetched Selfie Response"
   (nzOnCancel)="isVisibleUploadedImage = false"
-  (nzOnOk)="isVisibleUploadedImage = false"
-  [nzWidth]="'70%'"
+  [nzWidth]="'70%'" [nzFooter]="selfieFooter"
 >
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
@@ -1386,6 +1385,16 @@
       </div>
     </nz-card>
   </ng-container>
+  <ng-template #selfieFooter>
+    <button
+      nz-button
+      nzType="link"
+      class="border"
+      (click)="isVisibleUploadedImage = false"
+    >
+      Cancel
+    </button>
+  </ng-template>
 </nz-modal>
 <nz-modal
   [(nzVisible)]="isVisibleThirdPartyResp"

@@ -148,7 +148,10 @@ export class UploadTransactionsListComponent implements OnInit {
         this.is_approve_loading = false
         this.rejactRemarks = ''
         this.isRejectSuccess = true;
-        this.getManualTransactionList()
+        setInterval(() => {
+          this.isRejectSuccess = false
+          this.getManualTransactionList()
+        }, 2000);
       }
     }, (err) => {
       this.is_approve_loading = false
@@ -203,7 +206,10 @@ export class UploadTransactionsListComponent implements OnInit {
         this.isImport = false
         this.isPreviewBeforeUpload = false;
         this.uploadSuccessfully = true
-        this.getManualTransactionList()
+        setInterval(() => {
+          this.isPreviewBeforeUpload = false
+          this.getManualTransactionList()
+        }, 2000);
       }, (err) => {
         this.isPreviewBeforeUpload = false;
         this.isFail = true
@@ -252,6 +258,10 @@ export class UploadTransactionsListComponent implements OnInit {
         this.isApprove = false;
         this.isApprovedSuccess = true
         this.is_approve_loading = false
+        setInterval(() => {
+          this.isApprovedSuccess = false
+          this.getManualTransactionList()
+        }, 2000);
       }
     }, (err) => {
       this.is_approve_loading = false
