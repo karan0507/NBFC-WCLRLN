@@ -1,5 +1,6 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['create-employee']" routerLinkActive="router-link-active"  *ngxPermissionsOnly="['add_employee']">+ Add Employee</button>
+    <button nz-button nzType="primary" class="ml-auto" [routerLink]="['create-employee']"
+        routerLinkActive="router-link-active" *ngxPermissionsOnly="['add_employee']">+ Add Employee</button>
 </div>
 <section>
     <div class="row">
@@ -7,32 +8,38 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchEmployeeList()"/>
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchEmployeeList()" />
                     </nz-input-group>
                     <ng-template #suffixIconButton>
-                        <button nz-button nzType="secondary" nzSearch (click)="fetchEmployeeList()"><i nz-icon nzType="search"></i></button>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchEmployeeList()"><i nz-icon
+                                nzType="search"></i></button>
                     </ng-template>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2" (click)="resetFilters()">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="ml-2" (click)="resetFilters()">
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchEmployeeList()" [nzRanges]="customRanges"></nz-range-picker>
+                    <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchEmployeeList()" [nzRanges]="customRanges"></nz-range-picker>
                     <nz-select class="mx-1" style="width: 15rem;" nzAllowClear [(ngModel)]="roles"
                         (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Role" (nzFocus)="fetchRoles()">
                         <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
 
-                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="deactivated" (ngModelChange)="fetchEmployeeList()"
-                        nzPlaceHolder="Filter By Status">
+                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="deactivated"
+                        (ngModelChange)="fetchEmployeeList()" nzPlaceHolder="Filter By Status">
                         <nz-option nzValue="0" nzLabel="Active"></nz-option>
                         <nz-option nzValue="1" nzLabel="Inactive"></nz-option>
                     </nz-select>
                 </div>
             </div>
-            <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="employeeList" [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            (nzQueryParams)="employeeList[0] ? fetchEmployeeList($event) : ''" [nzScroll]="{ y: '' }">
+            <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="employeeList"
+                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
+                [nzPageSize]="globalPageSize" (nzQueryParams)="employeeList[0] ? fetchEmployeeList($event) : ''"
+                [nzScroll]="{ y: '' }">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -48,7 +55,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of employeeList; index as i">
-                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data.first_name ? data.first_name + ' ' + data.last_name : '-' }}</td>
                         <td>{{ data.unique_code ? data.unique_code : '-' }}</td>
                         <td>{{ data.role ? data.role.role_name : '-' }}</td>
@@ -58,32 +66,35 @@
                         <td>{{ data.is_active ? 'Active' : 'Inactive' }}</td>
                         <td nzRight>
                             <div>
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
-                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
                                     <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="changePasswordFunction(data)" *ngxPermissionsOnly="['change_password_employee']">
+                                        <li nz-menu-item (click)="changePasswordFunction(data)"
+                                            *ngxPermissionsOnly="['change_password_employee']">
                                             <span class="m-l-5">Change Password</span>
                                         </li>
                                         <!-- (click)="editEmployeeFunction(data)" -->
-                                        <li nz-menu-item [routerLink]="['edit-employee']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_employee']">
+                                        <li nz-menu-item [routerLink]="['edit-employee']" [queryParams]="{id: data.id}"
+                                            *ngxPermissionsOnly="['edit_employee']">
                                             <span class="m-l-5">Edit</span>
                                         </li>
 
                                         <!-- <li nz-menu-item (click)="deleteEmployeeFunction(data.id)">
                                             <span class="m-l-5">Delete</span>
                                         </li> -->
-                                        
+
                                         <!-- <li nz-menu-item [routerLink]="['edit-employee-permission']" [queryParams]="{id: data.id}">
                                             <span class="m-l-5">Edit Permissions</span>
                                         </li> -->
 
-                                        <li nz-menu-item nz-popconfirm  *ngxPermissionsOnly="['toggle_employee']"
-                                        nzPopconfirmTitle="Are you sure {{ !data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
-                                        nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="deleteEmployeeFunction(data.id)">
+                                        <li nz-menu-item nz-popconfirm *ngxPermissionsOnly="['toggle_employee']"
+                                            nzPopconfirmTitle="Are you sure {{ !data.is_active ? 'Activate' : 'Inactivate' }} Employee?"
+                                            nzPopconfirmPlacement="topLeft"
+                                            (nzOnConfirm)="deleteEmployeeFunction(data.id)">
                                             <span class="m-l-5">{{ !data.is_active ? 'Active' : 'Inactive' }}</span>
                                         </li>
                                     </ul>
@@ -101,20 +112,16 @@
 </section>
 <nz-modal [nzWidth]="400" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'You are about to delete an employee detail'"
+        <app-double-confirmation-popup [title]="'You are about to delete an employee detail'"
             [subTitle]="'This action will delete the details permanently. Are You Sure?'"
-            [icon]="'assets/images/delete-icon.png'"
-            (onOkCall)="deleteEmployee()"
-            (onCencelCall)="isDelete = false; idForDeleteEmployee = ''"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'OK'">
+            [icon]="'assets/images/delete-icon.png'" (onOkCall)="deleteEmployee()"
+            (onCencelCall)="isDelete = false; idForDeleteEmployee = ''" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isEdit" [nzTitle]="modalTitle" (nzOnCancel)="isEdit = false; createEditForm.reset()" (nzOnOk)="editEmployee(createEditForm.value)"
-    nzOkText="Save">
+<nz-modal [(nzVisible)]="isEdit" [nzTitle]="modalTitle" (nzOnCancel)="isEdit = false; createEditForm.reset()"
+    (nzOnOk)="editEmployee(createEditForm.value)" nzOkText="Save">
     <!-- [nzOkDisabled]="createEditForm.invalid" -->
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
@@ -122,7 +129,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="first_name" class="text-left" nzRequired>Employee
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="first_name" class="text-left" nzRequired>
+                                Employee
                                 First Name</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee First Name!">
                                 <input nz-input type="text" formControlName="first_name" />
@@ -131,7 +139,8 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="last_name" class="text-left" nzRequired>Employee Last
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="last_name" class="text-left" nzRequired>
+                                Employee Last
                                 Name</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Last Name!">
                                 <input nz-input type="text" formControlName="last_name" />
@@ -140,7 +149,8 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Employee
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>
+                                Employee
                                 Code</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Employee Code!">
                                 <input nz-input type="text" formControlName="unique_code" />
@@ -154,7 +164,8 @@
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Associated Team!">
                                 <nz-select nzAllowClear formControlName="associated_team"
                                     nzPlaceHolder="Please select Associated Team" (nzFocus)="fetchRoles()">
-                                    <nz-option *ngFor="let item of teamName" [nzValue]="item.name" [nzLabel]="item.name">
+                                    <nz-option *ngFor="let item of teamName" [nzValue]="item.name"
+                                        [nzLabel]="item.name">
                                     </nz-option>
                                 </nz-select>
                             </nz-form-control>
@@ -178,7 +189,8 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="reporting_manager" class="text-left">
                                 Reporting Manager</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Reporting Manager!">
-                                <nz-select nzAllowClear formControlName="reporting_manager" nzPlaceHolder="Please select Reporting Manager"
+                                <nz-select nzAllowClear formControlName="reporting_manager"
+                                    nzPlaceHolder="Please select Reporting Manager"
                                     (nzFocus)="fetchEmployeeManagerList()">
                                     <nz-option *ngFor="let item of employeeManagerList" [nzValue]="item.id"
                                         [nzLabel]="item.first_name + ' ' + item.last_name">
@@ -189,7 +201,8 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="mobile" class="text-left" nzRequired>Mobile No.
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="mobile" class="text-left" nzRequired>Mobile
+                                No.
                             </nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Mobile No.!">
                                 <input nz-input type="text" formControlName="mobile" />
@@ -210,7 +223,8 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="is_active" class="text-left" nzRequired>Status
                             </nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Status!">
-                                <nz-select nzAllowClear formControlName="is_active" nzPlaceHolder="Please select Status">
+                                <nz-select nzAllowClear formControlName="is_active"
+                                    nzPlaceHolder="Please select Status">
                                     <nz-option [nzValue]="true" nzLabel="Active"></nz-option>
                                     <nz-option [nzValue]="false" nzLabel="Inactive"></nz-option>
                                 </nz-select>
@@ -223,8 +237,8 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false" (nzOnOk)="changePassword()"
-    nzOkText="Update">
+<nz-modal [(nzVisible)]="isChangePassword" nzTitle="Change Password" (nzOnCancel)="isChangePassword = false"
+    (nzOnOk)="changePassword()" nzOkText="Update">
     <ng-container *nzModalContent>
         <nz-spin [nzSpinning]="formLoading">
             <form [formGroup]="changePasswordForm">
@@ -236,19 +250,39 @@
                     </div>
                     <div class="col-md-12">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="new_password" class="text-left" nzRequired>New Password
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="new_password" class="text-left" nzRequired>New
+                                Password
                             </nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input New Password!">
-                                <input nz-input type="text" formControlName="new_password" placeholder="Type new password"/>
+                                <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
+                                    <input nz-input [type]="isView ? 'text' : 'password'" formControlName="new_password"
+                                        placeholder="Type new password" />
+                                </nz-input-group>
+                                <ng-template #viewPassword>
+                                    <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline"
+                                        style="cursor: pointer;"></i>
+                                    <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()"
+                                        nzTheme="outline" style="cursor: pointer;"></i>
+                                </ng-template>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                     <div class="col-md-12">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="retype_password" class="text-left" nzRequired>Confirm new Password
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="retype_password" class="text-left" nzRequired>
+                                Confirm new Password
                             </nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Confirm new Password!">
-                                <input nz-input type="text" formControlName="retype_password" placeholder="Type new password"/>
+                                <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
+                                    <input nz-input [type]="isView ? 'text' : 'password'"
+                                        formControlName="retype_password" placeholder="Type new password" />
+                                </nz-input-group>
+                                <ng-template #viewPassword>
+                                    <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline"
+                                        style="cursor: pointer;"></i>
+                                    <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()"
+                                        nzTheme="outline" style="cursor: pointer;"></i>
+                                </ng-template>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
