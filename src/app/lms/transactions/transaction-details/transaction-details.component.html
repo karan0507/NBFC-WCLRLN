@@ -4,19 +4,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User name :</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.user?.full_name ? listOfData?.user?.full_name : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.user?.full_name ? listOfData?.user?.full_name : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User mobile no :</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.user?.mobile ? listOfData?.user?.mobile : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.user?.mobile ? listOfData?.user?.mobile : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Email ID</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.user?.email ? listOfData?.user?.email : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.user?.email ? listOfData?.user?.email : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -24,13 +24,13 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee name</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_name ? listOfData?.payee_data?.payee_name : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payee_data?.payee_name ? listOfData?.payee_data?.payee_name : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee UPI ID</div>
-                    <div class="col-md-6 font-size-16">
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">
                         <span nz-tooltip nzTooltipTitle="{{listOfData?.payee_data?.payee_upi_id}}">
                             {{listOfData?.payee_data?.payee_upi_id?.length >=18 ? (listOfData?.payee_data?.payee_upi_id | slice : 0:18) : (listOfData?.payee_data?.payee_upi_id ? listOfData?.payee_data?.payee_upi_id : '-')}}
                       </span>
@@ -41,7 +41,7 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee mobile no</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.payee_data?.payee_mobile ? listOfData?.payee_data?.payee_mobile : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payee_data?.payee_mobile ? listOfData?.payee_data?.payee_mobile : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -49,19 +49,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payer UPI ID</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.payer_data?.payer_upi ? listOfData?.payer_data?.payer_upi : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payer_data?.payer_upi ? listOfData?.payer_data?.payer_upi : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Bank Name</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.bank_detail?.bank_name ? listOfData?.bank_detail?.bank_name : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.bank_detail?.bank_name ? listOfData?.bank_detail?.bank_name : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Bank Account no</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.bank_detail?.bank_account ? listOfData?.bank_detail?.bank_account : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.bank_detail?.bank_account ? listOfData?.bank_detail?.bank_account : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -69,19 +69,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Unique ID</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.txn_unique_id ? listOfData?.txn_unique_id : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.txn_unique_id ? listOfData?.txn_unique_id : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Amount</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.txn_amount ? listOfData?.txn_amount : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.txn_amount ? listOfData?.txn_amount : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Status</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.txn_status ? listOfData?.txn_status : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.txn_status ? listOfData?.txn_status : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -89,19 +89,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">UPI Transaction ID</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.upi_transaction_id ? listOfData?.upi_transaction_id : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.upi_transaction_id ? listOfData?.upi_transaction_id : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Type</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.txn_type ? listOfData?.txn_type : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.txn_type ? listOfData?.txn_type : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Details</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.details ? listOfData?.details : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.details ? listOfData?.details : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -109,19 +109,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Reason</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.reason ? listOfData?.reason : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.reason ? listOfData?.reason : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction Entry type</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.txn_entry_type ? listOfData?.txn_entry_type : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.txn_entry_type ? listOfData?.txn_entry_type : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Mode of payment</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.mode_of_payment ? listOfData?.mode_of_payment : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.mode_of_payment ? listOfData?.mode_of_payment : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -129,19 +129,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Paid to</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.paid_to ? listOfData?.paid_to : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.paid_to ? listOfData?.paid_to : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">MCC code</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.mcc_code ? listOfData?.mcc_code : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.mcc_code ? listOfData?.mcc_code : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction date</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.transaction_datetime ? (listOfData?.transaction_datetime | date: 'medium') : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.transaction_datetime ? (listOfData?.transaction_datetime | date: 'medium') : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -149,19 +149,19 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">MCC description</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.mcc_description ? listOfData?.mcc_description : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.mcc_description ? listOfData?.mcc_description : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">User Remarks</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.user_remark ? listOfData?.user_remark : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.user_remark ? listOfData?.user_remark : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Transaction category</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.transaction_category ? listOfData?.transaction_category : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.transaction_category ? listOfData?.transaction_category : '-'}}</div>
                 </div>
             </div>
         <!-- </div>
@@ -169,38 +169,38 @@
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Corporate transaction status</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.corporate_transaction_status ? listOfData?.corporate_transaction_status : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.corporate_transaction_status ? listOfData?.corporate_transaction_status : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Corporate Remarks</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.corporate_remarks ? listOfData?.corporate_remarks : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.corporate_remarks ? listOfData?.corporate_remarks : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Expense type</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.expense_type ? listOfData?.expense_type : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.expense_type ? listOfData?.expense_type : '-'}}</div>
                 </div>
             </div>
             
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">RRN no</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.bank_rrn ? listOfData?.bank_rrn : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.bank_rrn ? listOfData?.bank_rrn : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Latitude</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.latitude ? listOfData?.latitude : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.latitude ? listOfData?.latitude : '-'}}</div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Longitude</div>
-                    <div class="col-md-6 font-size-16">{{listOfData?.longitude ? listOfData?.longitude : '-'}}</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.longitude ? listOfData?.longitude : '-'}}</div>
                 </div>
             </div>
         </div>

@@ -182,6 +182,12 @@
                                             </li>
                                             </ng-container>
                                             
+                                            <li nz-menu-item 
+                                            [routerLink]="['/lms/borrowers/track-status']"
+                                            [queryParams]="{id: data?.loan_application_id}">
+                                            <span class="m-l-5">Track Status</span>
+                                      </li>
+                                            
                                           <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                                             <ul nz-menu>
                                                   <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
