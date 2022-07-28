@@ -15,7 +15,7 @@
                     {{ 'Count ' + data?.count}}
                 </span>
                 <span>
-                    {{ 'Total Outstanding' + outstanding_amount}}
+                    {{ 'Total Outstanding ' + outstanding_amount ? outstanding_amount : ' -- '}}
                 </span>
             </nz-card>
         </div>
