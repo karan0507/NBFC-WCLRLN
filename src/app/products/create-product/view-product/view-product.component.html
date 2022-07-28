@@ -404,7 +404,7 @@
                             Time Period :
                         </div>
                         <div class="col-md-8">
-                            {{item?.time_period ? item?.time_period + 'Months' : '-'}}
+                            {{item?.time_period ? item?.time_period + ' Months' : '-'}}
                         </div>
                     </div>
                 </div>
@@ -751,7 +751,7 @@
                         Buffer :
                     </div>
                     <div class="col-md-8">
-                        {{item.buffer_months ? item?.buffer_months + "Months" : '-'}}
+                        {{item.buffer_months ? item?.buffer_months + " Months" : '-'}}
                     </div>
                 </div>
             </div>
@@ -775,26 +775,48 @@
                     </div>
                 </div>
             </div>
-            <h5 class="w-100 ml-2">Slabs</h5>
-            <ng-container *ngFor="let item of item?.slabs; index as i">
+            
+            <div class="col-md-6 mb-3">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Fees based on :
+                    </div>
+                    <div class="col-md-8">
+                        {{item.fees_based_on ? item?.fees_based_on : '-'}}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3" *ngIf="!item?.slabs">
+                <div class="row">
+                    <div class="col-md-4 font-weight-semibold">
+                        Amount :
+                    </div>
+                    <div class="col-md-8">
+                        {{item?.amount ? item?.amount : '-'}} &nbsp; {{item?.fee_calculation_type == "Flat" ? '₹' : '%'}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="w-100 ml-2" *ngIf="item?.slabs">Slabs</h5>
+            <ng-container *ngFor="let items of item?.slabs; index as i">
                 <h5 class="w-100 ml-2">Slab {{i+1}} :</h5>
                 <div class="col-md-6 mb-3">
                     <div class="row">
                         <div class="col-md-4 font-weight-semibold">
-                            Minimum Amount :
+                            Minimum {{item.fees_based_on ? item?.fees_based_on : ''}} :
                         </div>
                         <div class="col-md-8">
-                            {{item?.minimum_charge ? item?.minimum_charge : '-'}}
+                            {{items?.minimum_charge ? items?.minimum_charge : '-'}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <div class="row">
                         <div class="col-md-4 font-weight-semibold">
-                            Maximum Amount :
+                            Maximum {{item.fees_based_on ? item?.fees_based_on : ''}} :
                         </div>
                         <div class="col-md-8">
-                            {{item?.maximum_charge ? item?.maximum_charge : '-'}}
+                            {{items?.maximum_charge ? items?.maximum_charge : '-'}}
                         </div>
                     </div>
                 </div>
@@ -804,7 +826,7 @@
                             Amount :
                         </div>
                         <div class="col-md-8">
-                            {{item?.amount ? item?.amount : '-'}}
+                            {{items?.amount ? items?.amount : '-'}} &nbsp; {{items?.fee_calculation_type == "Flat" ? '₹' : '%'}}
                         </div>
                     </div>
                 </div>

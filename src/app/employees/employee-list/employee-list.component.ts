@@ -21,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
     differenceInCalendarDays(current, new Date()) > 0;
   api_calling_loader: boolean;
   total_count: any;
-  employeeList: any =[];
+  employeeList: any = [];
   deactivated: any = '';
   roleData: any;
   roles = ''
@@ -29,26 +29,28 @@ export class EmployeeListComponent implements OnInit {
   isEdit = false
   isChangePassword = false
   date = ''
+
+  isView: boolean = false;
   customRanges = {
     Today: [new Date(), new Date()],
     'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
     'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
-    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
     'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
     // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
-};
+  };
   createEditForm: any;
   teamName = [
-    {name: 'Admin'},
-    {name: 'Leads'},
-    {name: 'Operations'},
-    {name: 'Collection'},
-    {name: 'Marketing'},
-    {name: 'Sales'},
+    { name: 'Admin' },
+    { name: 'Leads' },
+    { name: 'Operations' },
+    { name: 'Collection' },
+    { name: 'Marketing' },
+    { name: 'Sales' },
   ]
   formLoading: boolean;
   idForDeleteEmployee: any;
@@ -58,8 +60,8 @@ export class EmployeeListComponent implements OnInit {
   modalTitle: string;
 
   constructor(public http: HttpService, private message: NzMessageService,
-    private router : Router,
-    private route: ActivatedRoute,private fb: FormBuilder,) { }
+    private router: Router,
+    private route: ActivatedRoute, private fb: FormBuilder,) { }
 
   ngOnInit(): void {
     this.page = 1;
@@ -68,7 +70,7 @@ export class EmployeeListComponent implements OnInit {
     this.createEditFormFunction()
   }
 
-  
+
   createEditFormFunction(data?) {
     if (data) {
       this.createEditForm = this.fb.group({
@@ -93,25 +95,25 @@ export class EmployeeListComponent implements OnInit {
         reporting_manager: [''],
         mobile: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
         email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-        is_active: [ '', [Validators.required]]
+        is_active: ['', [Validators.required]]
       })
     }
   }
   changePasswordFormFunction(data?) {
     this.changePasswordForm = this.fb.group({
       id: [data ? data.id : ''],
-      name: [data? data.first_name : ''],
+      name: [data ? data.first_name : ''],
       code: [data ? data.unique_code : ''],
       mobile: [data ? data.mobile : ''],
       new_password: [''],
       retype_password: [''],
     })
   }
-  
+
   fetchEmployeeList(tabelFilter?) {
     // if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     // }
     let data = {
       page: this.page,
@@ -135,7 +137,7 @@ export class EmployeeListComponent implements OnInit {
     })
   }
 
-  
+
   fetchRoles() {
     let data;
     this.http.fetchRoles(data).subscribe(res => {
@@ -143,7 +145,7 @@ export class EmployeeListComponent implements OnInit {
       // this.message.success(res['message'])
     })
   }
-  
+
   resetFilters() {
     this.search_params = ''
     this.deactivated = ''
@@ -194,7 +196,7 @@ export class EmployeeListComponent implements OnInit {
     })
   }
   deleteEmployee() {
-    var data = {id: this.idForDeleteEmployee, is_deleted: true}
+    var data = { id: this.idForDeleteEmployee, is_deleted: true }
     this.editEmployee(data)
   }
 
@@ -232,5 +234,13 @@ export class EmployeeListComponent implements OnInit {
         this.fetchEmployeeList()
       })
     }
+  }
+  hidePassword() {
+    if (this.isView) {
+      this.isView = false;
+    } else {
+      this.isView = true
+    }
+
   }
 }
