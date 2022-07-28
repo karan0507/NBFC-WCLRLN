@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -120,8 +121,10 @@ export class FeesComponent implements OnInit {
         slabs: this.fb.array([]),
         id: [data ? data.id : ''],
         amount: [data?.amount ? data?.amount : ''],
-        fee_calculation_type: ['Flat'],
+        fee_calculation_type: [ data ? data?.fee_calculation_type :'Flat'],
         gst_flag: [ data ? data.gst_flag : true, [Validators.required]],
+        activate_from: [ data?.activate_from ? data.activate_from : '', [Validators.required]],
+        deactivate_from: [ data?.deactivate_from ? data.deactivate_from : '', [Validators.required]],
       });
     } else {
       return this.fb.group({
@@ -142,6 +145,8 @@ export class FeesComponent implements OnInit {
         amount: [''],
         fee_calculation_type: ['Flat'],
         gst_flag: [true, [Validators.required]],
+        activate_from: [ '', [Validators.required]],
+        deactivate_from: [ '', [Validators.required]],
       });
     }
   }
@@ -154,7 +159,7 @@ export class FeesComponent implements OnInit {
         amount: [ data ? data.amount : ''],
         id: [data ? data.id : ''],
         amount_include_gst: [data.amount_include_gst],
-        fee_calculation_type: ["Flat"]
+        fee_calculation_type: [data ? data?.fee_calculation_type : "Flat"]
       });
     } else {
       return this.fb.group({
@@ -210,6 +215,8 @@ export class FeesComponent implements OnInit {
     this.createEditForm.value.fees.forEach(element => {
       element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
+      element.activate_from = moment(element.activate_from).format("YYYY-MM-DD")
+      element.deactivate_from = moment(element.deactivate_from).format("YYYY-MM-DD")
       if (element.slab_specific) {
         element.amount = ''
       }
@@ -227,6 +234,8 @@ export class FeesComponent implements OnInit {
     this.createEditForm.value.fees.forEach(element => {
       element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
+      element.activate_from = moment(element.activate_from).format("YYYY-MM-DD")
+      element.deactivate_from = moment(element.deactivate_from).format("YYYY-MM-DD")
       if (element.slab_specific) {
         element.amount = ''
       }
