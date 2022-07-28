@@ -442,6 +442,16 @@ export class PartnersListComponent implements OnInit {
     this.toggleOnUpgradeUser = false;
   }
 
+  isView: boolean;
+  hidePassword() {
+    if (this.isView) {
+      this.isView = false;
+    } else {
+      this.isView = true
+    }
+
+  }
+
 }
 
 
