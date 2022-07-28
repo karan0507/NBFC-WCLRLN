@@ -84,12 +84,13 @@
                         <!-- <th>Product type</th> -->
                         <th>Corporate</th>
                         <th>Loan ID</th>
+                        <th>Outstanding</th>
                         <th>Employee code</th>
                         <th>DPD Bucket</th>
                         <th>DPD Days</th>
                         <th>Is using app</th>
                         <th>Card Status</th>
-                        <th>A/c Status</th>
+                        <!-- <th>A/c Status</th> -->
                         <th>User Status</th>
                         <th>Payment Allocation Info</th>
                         <!-- <th nzWidth="5rem" nzRight>Action</th> -->
@@ -110,6 +111,7 @@
                             <!-- <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td> -->
                             <td>{{ data?.corporate ? data?.corporate.display_name : '-'}}</td>
                             <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
+                            <td>{{ data.outstanding_amount ? data.outstanding_amount : '-'}}</td>
                             <td>{{ data.emp_code ? data.emp_code['emp_id'] : '-' }}</td>
                             <td>{{ data.dpd_details?.dpd_bucket ? data.dpd_details?.dpd_bucket : '-' }}</td>
                             <td>{{ data.dpd_details?.dpd_days ? data.dpd_details?.dpd_days  : '-' }}</td>
@@ -130,17 +132,9 @@
                                 <span *ngIf="!data?.is_blocked">Active</span>
                                 <span *ngIf="data?.is_blocked">Block</span>
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{data?.account_status}}
-                                <!-- <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
-                                                        <i nz-icon nzType="check-circle"></i>
-                                                        <span>Active</span>
-                                                      </nz-tag>
-                                                      <nz-tag nzColor="orange" *ngIf="data?.account_status != 'Active'">
-                                                        <i nz-icon nzType="close-circle"></i>
-                                                        <span>{{data?.account_status}}</span>
-                                                      </nz-tag> -->
-                            </td>
+                            </td> -->
                             <td>
                                 <span *ngIf="!data?.is_user_blocked">Active</span>
                                 <span *ngIf="data?.is_user_blocked">Block</span>
