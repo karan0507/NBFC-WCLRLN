@@ -437,6 +437,9 @@ export class AddEditPartnersComponent implements OnInit {
       allow_scan_and_pay: [data ? data?.allow_scan_and_pay : null, [Validators.required]],
       nach_step: [data ? data?.nach_data['nach_step'] : null, [Validators.required]],
       cashback_amount: [data ? data?.nach_data['cashback_amount'] : null, [Validators.required]],
+      bill_days: [data ? data?.bill_days : null],
+      due_days: [data ? data?.due_days : null],
+      api_check_flag: [data ? data?.api_check_flag : null],
 
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
