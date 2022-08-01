@@ -175,7 +175,7 @@
                                             <span class="m-l-5">Fetch Cibil PDF</span>
                                             </li>
 
-                                            <ng-container *ngIf="data?.latest_token_status == 'confirmed'" >
+                                            <ng-container *ngIf="data?.latest_token_status != 'confirmed'" >
                                             <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                                 [nzDropdownMenu]="latestUploadDropDown1234">
                                                     <span class="m-l-5">Send Enach Reg Link</span>
@@ -202,7 +202,7 @@
                                                   </li>
                                                   <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
                                                       nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'aadhar')">
+                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'aadhaar')">
                                                       <span class="m-l-5">Aadhar card</span>
                                                   </li>
                                                   <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
