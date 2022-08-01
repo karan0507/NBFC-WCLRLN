@@ -239,8 +239,33 @@ export class FormFillingComponent implements OnInit {
       selectedTabFilter: any ='all';
       onClickChangeTabFilter(e){
             console.log(e);
-            this.resetFilters();
+            if(e == 'otp'){
+                  this.fetListOfFailOTP();
+            } else {
+                  this.resetFilters();
+            }
       }
+
+      apiLoader: boolean = false;
+      otpFailuerResponse: any;
+      fetListOfFailOTP(tableFilter?){
+            let data = [];
+            data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
+            data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
+            if (this.searchValue) {
+              data["search_param"] = this.searchValue;
+            }
+            this.apiLoader = true;
+            this.https.getListOfOTPSent(data).subscribe((res: any)=>{
+              this.otpFailuerResponse = res?.data?.results;
+              this.total_count = res?.data?.total_count
+              this.apiLoader = false;
+            }, error=>{
+              this.apiLoader = false;
+            });
+          }
 
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
@@ -355,6 +380,13 @@ export class FormFillingComponent implements OnInit {
             if(this.storedParams){
                   this.router.navigate(["applications/form-filling"]);
             }
+            if(this.selectedTabFilter == 'otp'){
+                  this.page =1;
+                  this.globalPageSize = 30;
+                  this.searchValue = '';
+                  this.date = '';
+                  this.fetListOfFailOTP();
+            } else {
             this.date = '';
             this.date_sorter = ''
             this.stageFilters = null;
@@ -362,7 +394,8 @@ export class FormFillingComponent implements OnInit {
             this.filters = null;
             this.searchValue = null;
             this.partner = null
-            this.getFormLoanData()
+            this.getFormLoanData();
+            }
             
       }
 

@@ -14,8 +14,9 @@
                 <span>
                     {{ 'Count ' + data?.count}}
                 </span>
+                <br>
                 <span>
-                    {{ 'Total Outstanding ' + outstanding_amount ? outstanding_amount : ' -- '}}
+                    {{ 'Total Outstanding ' + data?.outstanding_amount ? data?.outstanding_amount : ' -- '}}
                 </span>
             </nz-card>
         </div>
@@ -81,7 +82,7 @@
             <!-- , y: '45vh'     -->
             <thead>
                     <tr>
-                        <!-- <th nzWidth="2rem"></th> -->
+                        <th nzWidth="2rem"></th>
                         <th nzWidth="3rem">#</th>
                         <th nzWidth="15rem">User Name</th>
                         <!-- <th>Product type</th> -->
@@ -102,8 +103,8 @@
                 <tbody>
                     <ng-container *ngFor="let data of dpdDaysList; index as i">
                         <tr>
-                            <!-- <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)"
-                                (nzExpandChange)="onExpandChange(data?.loan_application_id, $event, i)"></td> -->
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)"
+                                (nzExpandChange)="onExpandChange(data?.loan_application_id, $event, i)"></td>
                             <td *ngIf="page === 1">{{i+1}}</td>
                             <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
@@ -222,7 +223,309 @@
                                 </div>
                             </td> -->
                         </tr>
+                        <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
+                            <div class="justify-content-center">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="personalDetail">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.loan_application_id ? api_calling_loader_accordian : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Email
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.user?.email ?
+                                                    data?.expanddata?.user?.email : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    D.O.B
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.user?.dob ?
+                                                    (data?.expanddata?.user?.dob
+                                                    | date:'dd MMM, yyyy' ): '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Monthly Income
+                                                </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.income_details?.results[0]?.income_range_id
+                                                    ?
+                                                    data?.expanddata?.income_details?.results[0]?.income_range_id?.name
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #personalDetail>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Personal Details</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="my-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="empHeader">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.loan_application_id ? api_calling_loader_accordian : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Company Name
+                                                </span>
+                                                <div>
+                                                    <!-- created_at -->
+                                                    {{data?.expanddata?.partner?.name ?
+                                                    data?.expanddata?.partner?.name : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Address
+                                                </span>
+                                                <div>
+                                                    {{ data?.expanddata?.partner ?
+                                                    data?.expanddata?.partner?.address :
+                                                    '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    EMP Code
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.emp_code ?
+                                                    data?.expanddata?.emp_code : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #empHeader>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> Employement Details</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
                         
+                            <!-- KYC Details -->
+                            <div class="my-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="kycDetails">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.loan_application_id ? api_calling_loader_accordian : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    PAN No.
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.pan ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    - 1]['pan_no'] : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Aadhaar No.
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.aadhar ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    - 1]['aadhar_no'] : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #kycDetails>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> KYC Details</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        
+                            <!-- Aadhar Address -->
+                            <div class="my-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="aadharAddress">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.loan_application_id ? api_calling_loader_accordian : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Address Line 1
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.address_1
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Address Line 2
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.address_2
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Address Line 3
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.address_3
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    City
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.city
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    State
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.state
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Pincode
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.kyc_details ?
+                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length
+                                                    -1]?.pincode
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #aadharAddress>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> Aadhar Address</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        
+                            <!-- API Response -->
+                            <div class="my-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="response">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data?.loan_application_id ? api_calling_loader_accordian : null">
+                                    <nz-table #colSpanTable [nzFrontPagination]="false" [nzShowSizeChanger]="false"
+                                        [nzData]="data?.expanddata?.api_calls_response" nzBordered>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th *ngFor="let item of data?.expanddata?.api_calls_response">
+                                                    {{item?.name }} </th>
+                        
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                        
+                                            <tr>
+                                                <td class="font-weight-semibold">API Call</td>
+                                                <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                                                    <i *ngIf="item?.called" nz-icon nzType="check-circle" nzTheme="fill"
+                                                        class="text-success"></i>
+                                                    <i *ngIf="!(item?.called)" nz-icon nzType="close-circle" nzTheme="fill"
+                                                        class="text-danger"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                        
+                                                <td>Response came</td>
+                                                <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                                                    <i *ngIf="item?.response" nz-icon nzType="check-circle" nzTheme="fill"
+                                                        class="text-success"></i>
+                                                    <i *ngIf="!(item?.response)" nz-icon nzType="close-circle" nzTheme="fill"
+                                                        class="text-danger"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-card>
+                                <ng-template #response>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> API response</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <!-- History -->
+                            <div class="my-3" *ngIf="_currentId == data?.loan_application_id">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="history">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #history>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>History</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        
+                        </tr>
                     </ng-container>
                     
                 </tbody>
