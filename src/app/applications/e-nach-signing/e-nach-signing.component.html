@@ -282,7 +282,7 @@
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
             <!-- <th>Status</th> -->
-            <th>Nach Step's</th>
+            <th>Corporate Nach Step's</th>
             <th>Nach Status</th>
             <th>Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
@@ -353,7 +353,8 @@
               </td>
               <!-- <td>{{ data?.status ? data?.status : "-" }}</td> -->
               <td>
-                <i
+                {{ data?.corporate_nach_status ? data?.corporate_nach_status : "-" }}
+                <!-- <i
                   nz-icon
                   nzType="info-circle"
                   nzTheme="outline"
@@ -369,7 +370,7 @@
                       <li class="text-danger">{{ item }}</li>
                     </ul>
                   </div>
-                </ng-template>
+                </ng-template> -->
               </td>
               <td>{{data?.nach_status}}</td>
               <td>

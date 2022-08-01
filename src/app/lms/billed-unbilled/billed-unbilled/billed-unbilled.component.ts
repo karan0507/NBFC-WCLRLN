@@ -23,6 +23,22 @@ export class BilledUnbilledComponent implements OnInit {
   debounce: any;
   latest_bill: any;
   latest_bill_show: boolean;
+  month = ''
+  month_list = [
+    { name: 'January', value: 1 },
+    { name: 'February', value: 2 },
+    { name: 'March', value: 3 },
+    { name: 'April', value: 4 },
+    { name: 'May', value: 5 },
+    { name: 'June', value: 6 },
+    { name: 'July', value: 7 },
+    { name: 'August', value: 8 },
+    { name: 'September', value: 9 },
+    { name: 'October', value: 10 },
+    { name: 'November', value: 11 },
+    { name: 'December', value: 12 }
+  ]
+
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -42,7 +58,7 @@ export class BilledUnbilledComponent implements OnInit {
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
-      // product_type: this.master_product_id ? this.master_product_id : '',
+      month: this.month ? this.month : '',
       // txn_status: this.selectedStatus ? this.selectedStatus : '',
       // txn_type: this.selectedType ? this.selectedType : '',
       // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
@@ -66,7 +82,7 @@ export class BilledUnbilledComponent implements OnInit {
     this.searchValue = ''
     // this.selectedType = ''
     // this.selectedStatus = ''
-    // this.date = ''
+    this.month = ''
     this.selectedCorporate = ''
     this.fetchBilledData();
   }
