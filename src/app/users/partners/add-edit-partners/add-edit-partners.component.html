@@ -610,6 +610,37 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bill_days" class="text-left" nzRequired>Bill Day
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Day!">
+                            <input nz-input type="number" formControlName="bill_days" placeholder="Bill Days"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="due_days" class="text-left" nzRequired>Due Days
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Day!">
+                            <input nz-input type="number" formControlName="due_days" placeholder="Due Days"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="api_check_flag" class="text-left" nzRequired>API Check Flag
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='api_check_flag'>
+                                <label nz-radio nzValue="INTERNAL">Internal</label>
+                                <label nz-radio nzValue="EXTERNAL">External</label>
+                                <label nz-radio nzValue="BOTH">Both</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
             <div class="mt-2">
                 <h5>

@@ -152,26 +152,28 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           ocr_formData.append('file_back', this._currentFileName2)
         }
 
-        this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
-          if (res?.success) {
+        if (this.documentData?.document_master?.name == "Selfie"){
+          this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+            if (res?.success) {
+              this.api_calling_loader['button'] = false;
+              this.fileList = [];
+              this.message.success(res?.message)
+            } else {
+              this.api_calling_loader['button'] = false;
+              this.fileList = [];
+              this.message.error(res?.message)
+            }
+            if (this.documentData?.document_master?.name != "Aadhar Card" ||
+              this.documentData?.document_master?.name != "Pan" ||
+              this.documentData?.document_master?.name != "Voter ID" ||
+              this.documentData?.document_master?.name != "Driving License") {
+              this.handleCancel();
+            }
+          }, err => {
             this.api_calling_loader['button'] = false;
-            this.fileList = [];
-            this.message.success(res?.message)
-          } else {
-            this.api_calling_loader['button'] = false;
-            this.fileList = [];
-            this.message.error(res?.message)
-          }
-          if (this.documentData?.document_master?.name != "Aadhar Card" ||
-            this.documentData?.document_master?.name != "Pan" ||
-            this.documentData?.document_master?.name != "Voter ID" ||
-            this.documentData?.document_master?.name != "Driving License") {
-            this.handleCancel();
-          }
-        }, err => {
-          this.api_calling_loader['button'] = false;
-          this.message.error(err)
-        })
+            this.message.error(err)
+          })
+        }
 
         if (this.documentData?.document_master?.name == "Aadhar Card" ||
           this.documentData?.document_master?.name == "Pan" ||

@@ -43,7 +43,8 @@
             color: $table-head-color;
             font-weight: 500;
             border-bottom: 1px solid $table-border;
-            padding: $table-spacing;
+            // padding: $table-spacing;
+            padding: 5px $table-spacing;
 
             .ant-table-filter-icon,
             .anticon-filter {
@@ -104,7 +105,8 @@
     > tr {
 
         > td {
-            padding: $table-spacing;
+            // padding: $table-spacing;
+            padding: 5px $table-spacing;
             border-bottom: 1px solid $table-border;
 
             @include screen-mobile {

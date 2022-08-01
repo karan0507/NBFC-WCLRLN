@@ -185,6 +185,7 @@
             <th>Master Partner</th>
             <th>Source Id</th>
             <th>Company</th>
+            <th>Document Upload Check</th>
             <th>Reference Id</th>
             <th>Previous stage</th>
             <th>Move to stage on</th>
@@ -239,6 +240,42 @@
               </td>
               <td>{{ data?.source_id ? data?.source_id : "-" }}</td>
               <td>{{ data?.partner?.name ? data?.partner?.name : "-" }}</td>
+              <td>
+                <i
+                  nz-icon
+                  nzType="info-circle"
+                  nzTheme="outline"
+                  *ngIf="data?.document_upload_list"
+                  style="cursor: pointer"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate"
+                  nzPopoverPlacement="top"
+                ></i>
+                <ng-template #contentTemplate>
+                  <div class="px-3">
+                    <ul *ngFor="let item of data?.document_upload_list">
+                      <li  class=""> <span style="font-weight: bolder ;">{{ item?.document_name }} </span> <br> {{ item?.check_type }}</li>
+                      <!-- <li class="'text-danger"> -->
+                        <!-- <i
+                            *ngIf="!item?.check_type"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                          <i
+                            *ngIf="item?.check_type"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i> -->
+                          <!-- {{ item?.check_type }} -->
+                        <!-- </li> -->
+                    </ul>
+                  </div>
+                </ng-template>
+              </td>
               <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td>
               <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
               <td>
