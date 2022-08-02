@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-expence-management',
-  templateUrl: './expence-management.component.html',
-  styleUrls: ['./expence-management.component.css']
+      selector: 'app-expence-management',
+      templateUrl: './expence-management.component.html',
+      styleUrls: ['./expence-management.component.css']
 })
 export class ExpenceManagementComponent implements OnInit {
 
-  expenseDataList: any = [];
+      expenseDataList: any = [];
       employeeList: any = []
       currentEmployee: any;
       branches: any = []
@@ -53,12 +54,31 @@ export class ExpenceManagementComponent implements OnInit {
       // Modal Actions
       isModalOpen: boolean = false;
       isRejectModal: boolean = false;
+      corporateList: any[];
+      debounce: any;
+      customRanges = {
+        Today: [new Date(), new Date()],
+        'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+        'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+        'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+        'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+        'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+        'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+        // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+        'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+        // d.setMonth(d.getMonth() - 3);
+    };
+    disabledDate = (current: Date): boolean =>
+      // Can not select days before today and today
+      differenceInCalendarDays(current, new Date()) > 0;
+      txn_type: any;
+      txn_status: any;
       constructor(public http: HttpService, public message: NzMessageService) {
             this.page = 1;
             this.globalPageSize = 30;
 
-            
-       }
+
+      }
       ngOnDestroy(): void {
             this.globalFilter['branch']?.unsubscribe()
             this.globalFilter['date']?.unsubscribe()
@@ -72,18 +92,21 @@ export class ExpenceManagementComponent implements OnInit {
             this.expenseDataList = []
             this.api_calling_loader['listLoader'] = true;
             let data = {
-              datapoint: 'corporate_expense_management',
-              // endpoint: '',
-              source: 'LMS',
+                  datapoint: 'corporate_expense_management',
+                  // endpoint: '',
+                  source: 'LMS',
             };
             if (this.searchValue) {
                   data['keyword'] = this.searchValue
             }
-            if (this.currentBranch) {
-                  data['branch'] = this.currentBranch
+            if (this.txn_type) {
+                  data['txn_type'] = this.txn_type
+            }
+            if (this.txn_status) {
+                  data['txn_status'] = this.txn_status
             }
 
-            data['expense_status'] = (this.currentStatus == 1 ? 'Approved' : (this.currentStatus == 2 ? 'Rejected' : (this.currentStatus == 3 ? 'Pending' : 'All')))
+            // data['expense_status'] = (this.currentStatus == 1 ? 'Approved' : (this.currentStatus == 2 ? 'Rejected' : (this.currentStatus == 3 ? 'Pending' : 'All')))
 
             if (tableFilter) {
                   this.page = tableFilter?.pageIndex
@@ -96,12 +119,12 @@ export class ExpenceManagementComponent implements OnInit {
             }
             if (this.date) {
 
-                  data['from_date'] = moment(this.date[0]).format("DD-MM-YYYY")
-                  data['to_date'] = moment(this.date[1]).format("DD-MM-YYYY")
+                  data['start_date'] = moment(this.date[0]).format("YYYY-MM-DD")
+                  data['end_date'] = moment(this.date[1]).format("YYYY-MM-DD")
 
             }
             if (this.currentEmployee) {
-                  data['employee'] = this.currentEmployee
+                  data['corporate_id'] = this.currentEmployee
             }
             this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
                   if (res?.success) {
@@ -156,12 +179,40 @@ export class ExpenceManagementComponent implements OnInit {
 
       resetFilters() {
             this.searchValue = '';
-            this.currentBranch = null;
-            this.date = null;
-            this.currentEmployee = null;
-            this.currentStatus = null;
+            this.currentBranch = '';
+            this.date = '';
+            this.currentEmployee = '';
+            this.txn_status = '';
+            this.txn_type = '';
+            this.currentStatus = '';
             this.page = 1;
             this.getExpenseManagementList();
+      }
+      OnTypeSearchList(event) {
+            clearTimeout(this.debounce);
+            this.debounce = setTimeout(() => {
+                  this.fetchPartnerList(event);
+            }, 500);
+      }
+
+      fetchPartnerList(e?) {
+            let data = {};
+            if (e) {
+                  data['name'] = e;
+            }
+            this.http.fetchPartner(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.corporateList = [];
+                        res?.data?.results.map((res: any) => {
+                              if (res?.name) {
+                                    this.corporateList.push(res)
+                              }
+                        })
+                        // this.corporateList = res?.data?.results;
+                        console.log(this.corporateList);
+                  }
+            });
+            // }
       }
 
 }

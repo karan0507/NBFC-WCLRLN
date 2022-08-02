@@ -32,11 +32,13 @@
                     <div *ngIf="item.name">{{ item?.name }}</div>
                 </nz-option>
             </nz-select>
-            <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="month" (ngModelChange)="fetchBilledData()"
+            <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="month" (ngModelChange)="fetchBilledData()"
                 nzPlaceHolder="Filter By bill month">
                 <nz-option *ngFor="let item of month_list" [nzValue]="item.value" [nzLabel]="item.name">
                 </nz-option>
-            </nz-select>
+            </nz-select> -->
+            <nz-date-picker class="mx-1" nzMode="month" style=" width: 15rem;" [nzFormat]="'MMMM yyyy'" [(ngModel)]="month" (ngModelChange)="fetchBilledData()"></nz-date-picker>
+
             <!-- <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
             <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                 nzPlaceHolder="Filter By Type">

@@ -315,7 +315,7 @@
                                                                 <span *ngIf="data.nbfcs <= 0">{{data.nbfcs == 0 ? data.nbfcs: '-'}}</span>
                                                         </td>
                                                         <td>{{ data.no_of_users ? data.no_of_users : 0  }}</td>
-                                                        <td>convertBillDateToText(data.bill_day)</td>
+                                                        <td>{{convertBillDateToText(data.bill_day)}}</td>
                                                         <td>{{ data.fees_type >= 0 ? data.fees_type : '-' }}</td>
                                                         <td>{{ data.is_active ? 'Active' : 'Inactive'  }}</td>
                                                         <td>{{ data.is_draft ? 'Draft' : 'Complete'  }} &nbsp;
