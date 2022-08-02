@@ -123,8 +123,8 @@ export class FeesComponent implements OnInit {
         amount: [data?.amount ? data?.amount : ''],
         fee_calculation_type: [ data ? data?.fee_calculation_type :'Flat'],
         gst_flag: [ data ? data.gst_flag : true, [Validators.required]],
-        activate_from: [ data?.activate_from ? data.activate_from : '', [Validators.required]],
-        deactivate_from: [ data?.deactivate_from ? data.deactivate_from : '', [Validators.required]],
+        activate_from: [ data?.activate_from ? data.activate_from : ''],
+        deactivate_from: [ data?.deactivate_from ? data.deactivate_from : ''],
       });
     } else {
       return this.fb.group({
@@ -145,8 +145,8 @@ export class FeesComponent implements OnInit {
         amount: [''],
         fee_calculation_type: ['Flat'],
         gst_flag: [true, [Validators.required]],
-        activate_from: [ '', [Validators.required]],
-        deactivate_from: [ '', [Validators.required]],
+        activate_from: [ ''],
+        deactivate_from: [ ''],
       });
     }
   }
@@ -215,8 +215,8 @@ export class FeesComponent implements OnInit {
     this.createEditForm.value.fees.forEach(element => {
       element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
-      element.activate_from = moment(element.activate_from).format("YYYY-MM-DD")
-      element.deactivate_from = moment(element.deactivate_from).format("YYYY-MM-DD")
+      element.activate_from = element.activate_from ? moment(element.activate_from).format("YYYY-MM-DD") : ''
+      element.deactivate_from = element.deactivate_from ? moment(element.deactivate_from).format("YYYY-MM-DD") : ''
       if (element.slab_specific) {
         element.amount = ''
       }
@@ -234,8 +234,8 @@ export class FeesComponent implements OnInit {
     this.createEditForm.value.fees.forEach(element => {
       element.gst_rate = element.gst_flag ? element.gst_rate : ''
       element.slabs = element.slab_specific ? element.slabs : []
-      element.activate_from = moment(element.activate_from).format("YYYY-MM-DD")
-      element.deactivate_from = moment(element.deactivate_from).format("YYYY-MM-DD")
+      element.activate_from = element.activate_from ? moment(element.activate_from).format("YYYY-MM-DD") : ''
+      element.deactivate_from = element.deactivate_from ? moment(element.deactivate_from).format("YYYY-MM-DD") : ''
       if (element.slab_specific) {
         element.amount = ''
       }
