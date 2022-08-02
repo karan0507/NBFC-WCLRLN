@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -58,7 +59,7 @@ export class BilledUnbilledComponent implements OnInit {
       source: 'LMS',
       page: this.page,
       limit: this.globalPageSize,
-      month: this.month ? this.month : '',
+      month_year_filter: this.month ? moment(this.month).format("MM/YYYY") : '',
       // txn_status: this.selectedStatus ? this.selectedStatus : '',
       // txn_type: this.selectedType ? this.selectedType : '',
       // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',

@@ -61,6 +61,8 @@ export class TransactionsListComponent implements OnInit {
   debounce: any;
   selectedCorporate: any;
   corporateList: any[];
+  feeTypeData: any;
+  fees_name = ''
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -89,6 +91,7 @@ export class TransactionsListComponent implements OnInit {
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       search_param: this.searchValue,
       corporate: this.selectedCorporate ? this.selectedCorporate : '',
+      fees_name: this.fees_name ? this.fees_name :'',
       tab_filter: this.selectedTab ?
                   (this.selectedTab == 'credit inprogress' ? 'credit' :
                   (this.selectedTab == 'debit inprogress' ? 'debit' : this.selectedTab)) 
@@ -111,6 +114,7 @@ export class TransactionsListComponent implements OnInit {
     this.date = ''
     this.master_product_id = ''
     this.selectedCorporate = ''
+    this.fees_name = ''
     this.fetchTransactionList();
   }
 
@@ -161,6 +165,15 @@ export class TransactionsListComponent implements OnInit {
       this.isWaiveOff = false
     })
   }
+  
+  fetchFeeTypeMaster() {
+    let data;
+    this.http.fetchFeeTypeMaster(data).subscribe(res => {
+      this.feeTypeData = res['data'].results
+      // this.message.success(res['message'])
+    })
+  }
+  
   onChange(result: Date[]): void {
     console.log('onChange: ', this.date);
   }

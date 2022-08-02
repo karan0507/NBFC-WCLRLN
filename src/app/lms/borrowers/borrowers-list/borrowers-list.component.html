@@ -58,6 +58,8 @@
                         <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
                         <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>Disbursement
                     </nz-select>
+                    <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges"></nz-range-picker>
+                    <nz-range-picker style="width: 20rem;" class="mx-1" [nzPlaceHolder]="['Start disbursement date', 'End disbursement date']" [(ngModel)]="disbursement_date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges"></nz-range-picker>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
@@ -66,7 +68,7 @@
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '2500px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
+            [nzScroll]="{ x: '3000px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
             <!-- , y: '45vh'     -->
             <thead>
                     <tr>
@@ -85,6 +87,7 @@
                         <th>Credit Line Assigned</th>
                         <th>Credit Utilized</th>
                         <th>Enach Trigger</th>
+                        <th>View DPD details/th>
                         <th>Outstanding</th>
                         <th>Fees/Charges</th>
                         <th>Is using app</th>
@@ -126,6 +129,7 @@
                                 <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">Enabled</span>
                                 <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">Disabled</span>
                             </td>
+                            <td><a><i nz-icon nzType="eye" nzTheme="outline"></i></a></td>
                             <td>₹ {{data.outstanding_amount}}</td>
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
