@@ -136,6 +136,8 @@ export class BorrowersListComponent implements OnInit {
     this.is_active = ''
     this.selectedCorporate = []
     this.is_spend = ''
+    this.date = ''
+    this.disbursement_date = ''
     this.fetchBorrowerList()
   }
   OnTypeSearchList(event){
