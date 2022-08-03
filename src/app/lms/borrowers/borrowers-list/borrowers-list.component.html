@@ -87,7 +87,10 @@
                         <th>Credit Line Assigned</th>
                         <th>Credit Utilized</th>
                         <th>Enach Trigger</th>
-                        <th>View DPD details/th>
+                        <th>DPD bucket</th>
+                        <th>DPD days</th>
+                        <th>DPS days</th>
+                        <th>MOB number</th>
                         <th>Outstanding</th>
                         <th>Fees/Charges</th>
                         <th>Is using app</th>
@@ -129,7 +132,10 @@
                                 <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">Enabled</span>
                                 <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">Disabled</span>
                             </td>
-                            <td><a><i nz-icon nzType="eye" nzTheme="outline"></i></a></td>
+                            <td>{{ data?.dpd_details?.dpd_bucket ? data?.dpd_details?.dpd_bucket : 0}}</td>
+                            <td>{{ data?.dpd_details?.dpd_days ? data?.dpd_details?.dpd_days : 0}}</td>
+                            <td>{{ data?.dpd_details?.dps_days ? data?.dpd_details?.dps_days : 0}}</td>
+                            <td>{{ data?.dpd_details?.mob_number ? data?.dpd_details?.mob_number : 0}}</td>
                             <td>₹ {{data.outstanding_amount}}</td>
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>

@@ -151,9 +151,21 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           ocr_formData.append('file_front', this._currentFileName)
           ocr_formData.append('file_back', this._currentFileName2)
         }
+        // this.documentData?.document_master?.name == "Other Document"
 
-        if (this.documentData?.document_master?.name == "Selfie"){
-          this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+        // console.log(this.documentData?.document_master?.name + ' Testing Is In progress');
+        // return;
+        // "Other Document" this.documentData?.document_master?.name == "Selfie" ||
+        if ( this.documentData?.document_master?.name == "Other Document"){
+          let uploadDocForOtherDoc = new FormData()
+          console.log(uploadDoc);
+          // delete uploadDoc['kyc_document_id'];
+          uploadDocForOtherDoc.append('application_id', this.documentData?.application);
+          uploadDocForOtherDoc.append('document_id', this.documentData?.document_master?.id);
+          uploadDocForOtherDoc.append('source', 'Onboarding');
+          uploadDocForOtherDoc.append('datapoint', 'upload_kyc_doc');
+          uploadDocForOtherDoc.append('file', this._currentFileName)
+          this.https.uploadLoanDocument(uploadDocForOtherDoc).subscribe((res: any) => {
             if (res?.success) {
               this.api_calling_loader['button'] = false;
               this.fileList = [];
@@ -174,6 +186,29 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             this.message.error(err)
           })
         }
+        // uploadOtherDocument
+        // if ( this.documentData?.document_master?.name == "Other Document"){
+        //   this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
+        //     if (res?.success) {
+        //       this.api_calling_loader['button'] = false;
+        //       this.fileList = [];
+        //       this.message.success(res?.message)
+        //     } else {
+        //       this.api_calling_loader['button'] = false;
+        //       this.fileList = [];
+        //       this.message.error(res?.message)
+        //     }
+        //     if (this.documentData?.document_master?.name != "Aadhar Card" ||
+        //       this.documentData?.document_master?.name != "Pan" ||
+        //       this.documentData?.document_master?.name != "Voter ID" ||
+        //       this.documentData?.document_master?.name != "Driving License") {
+        //       this.handleCancel();
+        //     }
+        //   }, err => {
+        //     this.api_calling_loader['button'] = false;
+        //     this.message.error(err)
+        //   })
+        // }
 
         if (this.documentData?.document_master?.name == "Aadhar Card" ||
           this.documentData?.document_master?.name == "Pan" ||
