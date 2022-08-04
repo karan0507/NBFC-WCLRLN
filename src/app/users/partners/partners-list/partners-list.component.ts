@@ -72,7 +72,6 @@ export class PartnersListComponent implements OnInit {
     this.selectedTab = 'all';
     this.page = 1
     this.getPartnerList();
-    
   }
 
   onExpandChange(id: number, checked: boolean, i): void {
@@ -107,6 +106,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   onClickExportExcelData(id, action){
+    let currentDate = new Date();
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     if(action == 'excel'){
     this.http.exportExcelDataOfPerticularCorporate(id).subscribe((res)=>{
@@ -120,6 +120,14 @@ export class PartnersListComponent implements OnInit {
     }, error=> {
       this.message.remove(generateloader);
     })
+    } else if(action == 'invoicePDF') {
+      this.http.getInvpoiceOfCorrespondingCorporate(id?.id).subscribe((res)=>{
+        this.http.exportMasterSectionModule(res, `${id?.name + ' ' + currentDate}`, 'pdf', generateloader)
+        console.log(res);
+      }, error =>{
+        this.message.error('No Data Found');
+        this.message.remove(generateloader);
+      })
     } else {
       this.http.exportAppDataOfPerticularCorporate(id).subscribe((res)=>{
         if (res.size > 41) {
@@ -132,6 +140,7 @@ export class PartnersListComponent implements OnInit {
         this.message.remove(generateloader);
       })
     }
+    
     // this.http.exportMasterSectionModule(res, 'export', file_formate, generateloader, false)
   }
 

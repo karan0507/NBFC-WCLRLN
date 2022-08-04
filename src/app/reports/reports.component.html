@@ -1,7 +1,7 @@
 <section>
     <nz-card>
         <div class="row">
-            <div class="col-8">
+            <div class='col-8'>
                 <nz-form-item>
                     <nz-form-label  nzFor="bill_date" class="text-left">Select Preferred Report</nz-form-label>
                     <nz-form-control nzErrorTip="Please select Type">
@@ -13,9 +13,44 @@
                     </nz-form-control>
                     </nz-form-item>
             </div>
-            <div class="col-4">
+            <div class='col-4' *ngIf="selectedRole != 'total-outstanding-report-corporate-wise'">
                 <nz-range-picker class="mx-1 mb-2" style=" width: 18rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="onClickCheckDate()" [nzRanges]="customRanges"></nz-range-picker>
             </div>
+            <!-- <span *ngIf="selectedRole == 'total-outstanding-report-corporate-wise'">
+                <div [class]="selectedRole == 'total-outstanding-report-corporate-wise' ? 'col-5' : 'col-4'">
+                    <nz-select [(ngModel)]="partner" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3" (nzOnSearch)="OnTypeSearchList($event)" (ngModelChange)="onClickUpdateCorporate()" nzAllowClear
+                        [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk"
+                            [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
+                </div>
+            </span> -->
+        </div>
+        <div class="row" *ngIf="selectedRole == 'total-outstanding-report-corporate-wise'">
+            <div class="col-12">
+                <span class="mr-4">
+                    <nz-range-picker class="mx-1 mb-2" style=" width: 18rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="onClickCheckDate()" [nzRanges]="customRanges"></nz-range-picker>
+                </span>
+                <span>
+                    <nz-select [(ngModel)]="partner" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3" (nzOnSearch)="OnTypeSearchList($event)" (ngModelChange)="onClickUpdateCorporate()" nzAllowClear
+                        [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk"
+                            [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
+                </span>
+            </div>
+            <!-- <div class="col-5">
+                <div [class]="selectedRole == 'total-outstanding-report-corporate-wise' ? 'col-5' : 'col-4'">
+                    <nz-select [(ngModel)]="partner" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3" (nzOnSearch)="OnTypeSearchList($event)" (ngModelChange)="onClickUpdateCorporate()" nzAllowClear
+                        [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk"
+                            [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
+                </div>
+            </div> -->
         </div>
         <div class="row">
             <div class="col-12" style="text-align: right;">
@@ -24,3 +59,11 @@
         </div>
     </nz-card>
 </section>
+
+<!-- <nz-select [(ngModel)]="partner" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3"
+    (nzFocus)="onFocusMethod('partner')" (ngModelChange)="getFormLoanData()" nzAllowClear
+    [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+    <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk"
+        [nzLabel]="item.name">
+    </nz-option>
+</nz-select> -->

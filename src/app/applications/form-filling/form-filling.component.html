@@ -684,6 +684,7 @@
                                       <th nzWidth="5rem">#</th>
                                       <th>Mobile No</th>
                                       <th>Updated At</th>
+                                      <th>Rremarks</th>
                                       <!-- <th nzWidth="5.5rem" nzRight *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']"> Actions</th> -->
                                   </tr>
                               </thead>
@@ -695,6 +696,7 @@
                                           <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                                           <td>{{ data?.mobile ? data?.mobile : '-'}}</td>
                                           <td>{{ data?.created_at ? (data?.created_at | date: 'medium') : ' - ' }}</td>
+                                          <td>{{ data?.remarks ? data?.remarks : '-'}}</td>
                                       </tr>
                                   </ng-container>
                               </tbody>
