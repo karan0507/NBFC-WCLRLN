@@ -16,6 +16,7 @@ export class HttpService {
       // url = 'https://uatadminapi.fatakpay.com'
 
       // url = 'https://uatadminapi.fatakpay.com'; // UAT URL
+      // url = 'http://10.32.29.143:8000'
       url = this.valueFunction();
 
       valueFunction(){
@@ -1101,9 +1102,15 @@ export class HttpService {
             return this._http.put(this.url + `/platform_central/v1/toggle-application-dormant/${id}`, data);
       }
 
+      // 
+      public getInvpoiceOfCorrespondingCorporate(id) {
+            return this._http.get(this.url + `/partner/v1/export-invoice-pdf/${id}`,{responseType: 'blob'})
+      }
+
       public getAllExployees() {
             return this._http.get(this.url + `/partner/v1/corporate/get-all-employees`)
       }
+
       getListOfOTPSent( data){
             return this._http.get(this.url + `/platform_central/v1/fetch-otp-send-customers`, {params: data});
       }

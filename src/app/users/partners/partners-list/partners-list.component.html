@@ -130,6 +130,9 @@
                                             <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
                                                 <span class="m-l-5">Export App Data</span>
                                             </li>
+                                            <li nz-menu-item (click)="onClickExportExcelData(data, 'invoicePDF')" >
+                                                <span class="m-l-5">Export Invoice PDF</span>
+                                            </li>
                                             <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
