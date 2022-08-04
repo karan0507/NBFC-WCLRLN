@@ -73,6 +73,7 @@
                     <th>Spend amount</th>
                     <th>Convenience fee</th>
                     <th>Late fees</th>
+                    <th>Late fees charges</th>
                     <th>Nach fees</th>
                     <th>Other charges</th>
                     <th>Payment amount</th>
@@ -105,6 +106,7 @@
                     <td>₹ {{ data?.transaction_meta_data.spends ? data?.transaction_meta_data.spends : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.convenience ? data?.transaction_meta_data.convenience : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.late_fees ? data?.transaction_meta_data.late_fees : '0'}}</td>
+                    <td>₹ {{ data?.transaction_meta_data.late_fees_charges ? data?.transaction_meta_data.late_fees_charges : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.nach_fees ? data?.transaction_meta_data.nach_fees : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.other_charges ? data?.transaction_meta_data.other_charges : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.repayments_done_in_bill_cycle ? data?.transaction_meta_data.repayments_done_in_bill_cycle : '0'}}</td>
