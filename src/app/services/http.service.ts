@@ -16,7 +16,6 @@ export class HttpService {
       // url = 'https://uatadminapi.fatakpay.com'
 
       // url = 'https://uatadminapi.fatakpay.com'; // UAT URL
-      // url = 'http://10.32.29.143:8000'
       url = this.valueFunction();
 
       valueFunction(){
