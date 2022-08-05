@@ -8,15 +8,15 @@
         <div  class="col-3" *ngFor="let data of dpdDaysMatrix">
             <nz-card [nzLoading]="api_calling_loader">
                 <span>
-                    {{ 'DPD Days ' + data?.name}}
+                    {{ data?.name ?  'DPD Days ' + data?.name : 'DPD Days ' + 0}}
                 </span>
                 <br>
                 <span>
-                    {{ 'Count ' + data?.count}}
+                    {{ data?.count ? 'Count ' + data?.count : 'Count ' +  0}}
                 </span>
                 <br>
                 <span>
-                    {{ 'Total Outstanding ' + data?.outstanding_amount ? data?.outstanding_amount : ' -- '}}
+                    {{  data?.outstanding_amount ? 'Total Outstanding ' + data?.outstanding_amount :  'Total Outstanding ' + 0}}
                 </span>
             </nz-card>
         </div>
