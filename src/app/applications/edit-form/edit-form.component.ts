@@ -55,6 +55,7 @@ export class EditFormComponent implements OnInit {
       isEditName: boolean = false;
       ifCorporateNotMapped: any;
       employmentType: any;
+      userIdOfUser: any;
       nomineeDetails: FormGroup;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
@@ -252,6 +253,7 @@ export class EditFormComponent implements OnInit {
             let data = { 'source': 'Onboarding', 'datapoint': 'get_edit_application', 'endpoint': this.userId };
             this.https.fetchLoanApplicationList(data).subscribe(res => {
                   if (res.success) {
+                        this.userIdOfUser = res?.data
                         this.patchNomineeDetails(res?.data?.nominee);
                         this.api_calling_loader['accordian'] = false;
                         this.ifCorporateNotMapped = res?.data?.company_details?.name;

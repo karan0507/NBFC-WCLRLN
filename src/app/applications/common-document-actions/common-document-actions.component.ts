@@ -15,6 +15,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   @ViewChild("imageRotateClassF") myNameElemF: ElementRef;
   @Input() _isOpenModal: boolean = false;
   @Input() documentData: any;
+  @Input() userApplicationData: any;
   @Input() action: any;
   @Output() close = new EventEmitter<any>();
   documentStatus: any;
@@ -167,7 +168,8 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             uploadDocForOtherDoc.append('file', this._currentFileName);
           }
           if(this.documentData?.document_master?.name == "Selfie"){
-            uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
+            // uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
+            uploadDocForOtherDoc.append('endpoint', this.userApplicationData?.user_info?.id);
             uploadDocForOtherDoc.append('selfie', this._currentFileName);
           }
           // endpoint
