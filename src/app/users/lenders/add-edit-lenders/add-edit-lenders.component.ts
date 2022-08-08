@@ -220,6 +220,9 @@ export class AddEditLendersComponent implements OnInit {
       // Attribute Nature under business detail
       // business_nature: [data ? data?.name : null, [Validators.required]],
 
+      relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
+      relationship_manager_contact:[data ? data?.relationship_manager_contact : null, [Validators.required, , Validators.pattern("^[1-9][0-9]{9}$")]],
+      relationship_manager_email:[data ? data?.relationship_manager_email : null, [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$"),]],
       total_commitment: [data ? data?.total_commitment : null],
       roi_unutilized_fund: [data ? data?.roi_unutilized_fund : null],
       roi_utilized_fund: [data ? data?.roi_utilized_fund : null],
