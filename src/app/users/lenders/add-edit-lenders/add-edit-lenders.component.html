@@ -374,6 +374,44 @@
                     </nz-form-item>
                 </div>
             </div>
+
+            <div class="mt-2 border-top">
+                <h5>
+                    Relationship Manager Details
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_name" class="text-left"
+                            nzRequired>Relationship Manager Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Name">
+                            <input nz-input type="text" formControlName="relationship_manager_name"
+                                placeholder="Relationship Manager Name" (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_email" class="text-left"
+                            nzRequired>Relationship Manager Email</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Email">
+                            <input nz-input type="text" formControlName="relationship_manager_email"
+                                placeholder="Relationship Manager Email" style="text-transform:lowercase" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_contact" class="text-left"
+                            nzRequired>Relationship Manager Contact No</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Number">
+                            <input nz-input type="number" formControlName="relationship_manager_contact"
+                                placeholder="Relationship Manager Number" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
         </form>
     </nz-card>
     <div class="row my-3 justify-content-between">

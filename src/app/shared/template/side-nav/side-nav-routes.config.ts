@@ -127,6 +127,24 @@ export const ROUTES: SideNavInterface[] = [
         permission: ['view_form_filling_application', 'view_pre_approved_application', 'view_document_upload_application', 'view_underwriting_application', 'view_applicants','view_nbfc_approval_application', 'view_offer_proposed_application', 'view_offer_acceptance_application', 'view_e_sining_application', 'view_disbursement_application', 'view_dormant_application', 'view_closed_application'],
         icon: 'picture',
         submenu: [
+            // {
+    //     path: 'otp-list',
+    //     title: 'OTP List',
+    //     iconType: 'nzIcon',
+    //     iconTheme: 'outline',
+    //     permission: [''],
+    //     icon: 'file',
+    //     submenu: []
+    // },
+            {
+                path: 'otp-list',
+                title: 'UNREGISTERED OTP',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
             {
                 path: 'applications/all-application',
                 title: 'All Applicants',

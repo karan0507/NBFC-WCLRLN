@@ -48,16 +48,18 @@
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select> -->
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchDpdDaysList()"
-                        nzPlaceHolder="Filter By Card Status">
-                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
-                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    <nz-select class="mx-1" style=" width: 12rem;" nzAllowClear [(ngModel)]="selectedFilterOfEmp" (ngModelChange)="fetchDpdDaysList()"
+                        nzPlaceHolder="Filter By Emp Status">
+                        <nz-option *ngFor="let item of dpdEmployeeFilter" [nzValue]="item.employee_status"
+                                    [nzLabel]="item.employee_status">
+                              </nz-option>
                     </nz-select>
-                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_spend" (ngModelChange)="fetchDpdDaysList()"
-                        nzPlaceHolder="Filter By spend">
-                        <nz-option [nzValue]="'Yes'" nzLabel="Spend"></nz-option>
-                        <nz-option [nzValue]="'No'" nzLabel="Not spend"></nz-option>
-                    </nz-select> -->
+                    <nz-select class="mx-1" style=" width: 12rem;" [(ngModel)]="selectedFilterOfDays" nzAllowClear (ngModelChange)="fetchDpdDaysList()"
+                        nzPlaceHolder="Filter By DPD Days">
+                        <nz-option *ngFor="let item of dpdFilterList" [nzValue]="item.name"
+                                    [nzLabel]="item.label">
+                              </nz-option>
+                    </nz-select>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
