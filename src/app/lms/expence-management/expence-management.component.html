@@ -63,7 +63,7 @@
                         </ng-template>
                         <div class="bg-light-orange">
                               <nz-card [nzLoading]="api_calling_loader['matrixData']" [nzTitle]="corp_exp">
-                                    {{item?.value}}
+                                    {{item?.value ? item?.value : 0}}
                               </nz-card>
                         </div>
                   </div>
@@ -75,15 +75,15 @@
       <section>
             <nz-card>
                   <div class="totalCount">
-                        <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="expenseDataList"
-                              [nzTotal]="total_count" [nzFrontPagination]="false" [nzShowSizeChanger]="true"
-                              [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
+                        <nz-table #rowSelectionTable [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true"
+                              [nzShowTotal]="botTotalCount" [nzData]="expenseDataList"
                               (nzQueryParams)="expenseDataList[0] ? getExpenseManagementList($event) : null"
                               [nzLoading]="api_calling_loader['listLoader']">
                               <thead>
                                     <tr>
                                           <th [nzWidth]="'2rem'">#</th>
                                           <th> Name of employee </th>
+                                          <th> Corporate </th>
                                           <th> Transaction Type </th>
                                           <th> Transaction amount</th>
                                           <th>Transaction status</th>
@@ -96,11 +96,12 @@
                                           <td [nzWidth]="'2rem'" *ngIf="page == 1">{{i+1}}</td>
                                           <td [nzWidth]="'2rem'" *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}
                                           </td>
-                                          <td>{{data?.full_name}}</td>
-                                          <td>{{data?.txn_type}}</td>
-                                          <td>{{data?.txn_amount}}</td>
-                                          <td>{{data?.txn_status}}</td>
-                                          <td>{{data?.transaction_datetime | date: 'short'}}</td>
+                                          <td>{{data?.full_name ? data?.full_name : '-'}}</td>
+                                          <td>{{data?.corporate_name ? data?.corporate_name : '-'}}</td>
+                                          <td>{{data?.txn_type ? data?.txn_type : ''}}</td>
+                                          <td>{{data?.txn_amount ? data?.txn_amount : ''}}</td>
+                                          <td>{{data?.txn_status ? data?.txn_status : ''}}</td>
+                                          <td>{{data?.transaction_datetime ? (data?.transaction_datetime | date: 'short') : '-'}}</td>
                                           <!-- <td nzRight [nzWidth]="'15rem'">
                                               <div *ngIf="data?.expense_status == 'Pending'" class="d-flex">
                                                     <button nz-button nzType="primary" class="py-0 mr-3 font-size-12"
