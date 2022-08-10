@@ -1106,8 +1106,8 @@ export class HttpService {
       }
 
       // 
-      public getInvpoiceOfCorrespondingCorporate(id) {
-            return this._http.get(this.url + `/partner/v1/export-invoice-pdf/${id}`,{responseType: 'blob'})
+      public getInvpoiceOfCorrespondingCorporate(id, data) {
+            return this._http.get(this.url + `/partner/v1/export-invoice-pdf/${id}`,{responseType: 'blob',params: data})
       }
 
       public getAllExployees() {
