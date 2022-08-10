@@ -7,6 +7,8 @@ import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
+import { differenceInCalendarDays } from 'date-fns';
+import * as moment from 'moment';
 // import * as jsPDF from 'jspdf';  
 
 @Component({
@@ -38,6 +40,7 @@ export class PartnersListComponent implements OnInit {
     list: false,
     detailList: false,
     upgradeLoading: false,
+    invoicePdfLoader: false
   };
   globalPageSize = 30;
   page;
@@ -61,8 +64,31 @@ export class PartnersListComponent implements OnInit {
     'url': '',
     'title': ''
   }
+  isModalVisibleForInvoicePDF: boolean;
+  selectedDataForInvoicePDF: any;
   statusOfSelectedLender: any;
   selectedIndexOfExpand: any;
+  date: any = ''
+
+  today = new Date();
+
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+};
+
+customRanges = {
+    Today: [new Date(), new Date()],
+    'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+    'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+    // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+    'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+    // d.setMonth(d.getMonth() - 3);
+};
   
 
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder) { }
@@ -121,11 +147,22 @@ export class PartnersListComponent implements OnInit {
       this.message.remove(generateloader);
     })
     } else if(action == 'invoicePDF') {
-      this.http.getInvpoiceOfCorrespondingCorporate(id?.id).subscribe((res)=>{
+      this._apiLoader['invoicePdfLoader'] = true;
+      let data = []
+        data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+        data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      // }
+      this.http.getInvpoiceOfCorrespondingCorporate(id?.id, data).subscribe((res)=>{
+        this.isModalVisibleForInvoicePDF = false;
+        this.date = '';
+        this._apiLoader['invoicePdfLoader'] = false;
         this.http.exportMasterSectionModule(res, `${id?.name + ' ' + currentDate}`, 'pdf', generateloader)
         console.log(res);
       }, error =>{
         this.message.error('No Data Found');
+        this._apiLoader['invoicePdfLoader'] = false;
+        this.isModalVisibleForInvoicePDF = false;
+        this.date = '';
         this.message.remove(generateloader);
       })
     } else {

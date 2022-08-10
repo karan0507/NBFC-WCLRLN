@@ -93,7 +93,7 @@ export class AppSideChangeBillDateComponent implements OnInit {
       if (res.success) {
         this.isReject = false;
         this.isRejectSuccess = true;
-        setInterval(() => {
+        setTimeout(() => {
           this.isRejectSuccess = false
           this.getManualTransactionList()
         }, 2000);
@@ -115,7 +115,7 @@ export class AppSideChangeBillDateComponent implements OnInit {
         this.isApprove = false;
         this.isApprovedSuccess = true
         this.is_approve_loading = false
-        setInterval(() => {
+        setTimeout(() => {
           this.isApprovedSuccess = false
           this.getManualTransactionList()
         }, 2000);

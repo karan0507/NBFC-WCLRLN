@@ -570,8 +570,8 @@ export class HttpService {
             return this._http.post((this.url + `/central-api/v1/call-api`), data, { responseType: 'blob' });
       }
 
-      public exportDPDDays(): any {
-            return this._http.get((this.url + `/loan-application/v1/export-dpd-borrowers-list`), { responseType: 'blob' });
+      public exportDPDDays(data): any {
+            return this._http.get((this.url + `/loan-application/v1/export-dpd-borrowers-list`), { responseType: 'blob', params: data });
       }
 
       public editLoanData(data): any {
@@ -1106,8 +1106,8 @@ export class HttpService {
       }
 
       // 
-      public getInvpoiceOfCorrespondingCorporate(id) {
-            return this._http.get(this.url + `/partner/v1/export-invoice-pdf/${id}`,{responseType: 'blob'})
+      public getInvpoiceOfCorrespondingCorporate(id, data) {
+            return this._http.get(this.url + `/partner/v1/export-invoice-pdf/${id}`,{responseType: 'blob',params: data})
       }
 
       public getAllExployees() {

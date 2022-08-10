@@ -24,12 +24,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NgxPermissionsModule } from 'ngx-permissions';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @NgModule({
   declarations: [PartnersListComponent, AddEditPartnersComponent],
   imports: [
     CommonModule,
+    NzDatePickerModule,
     PartnersRoutingModule,
     NzRadioModule,
     FormsModule,

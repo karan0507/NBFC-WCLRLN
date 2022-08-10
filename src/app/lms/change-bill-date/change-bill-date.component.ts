@@ -177,7 +177,7 @@ export class ChangeBillDateComponent implements OnInit {
         this.isApprove = false;
         this.isApprovedSuccess = true
         this.is_approve_loading = false
-        setInterval(() => {
+        setTimeout(() => {
           this.isApprovedSuccess = false
           this.getManualTransactionList()
         }, 2000);
@@ -202,7 +202,7 @@ export class ChangeBillDateComponent implements OnInit {
         this.isImport = false
         this.isPreviewBeforeUpload = false;
         this.uploadSuccessfully = true
-        setInterval(() => {
+        setTimeout(() => {
           this.uploadSuccessfully = false
           this.getManualTransactionList()
         }, 2000);
@@ -234,7 +234,7 @@ export class ChangeBillDateComponent implements OnInit {
         this.isReject = false;
         this.is_approve_loading = false
         this.isRejectSuccess = true;
-        setInterval(() => {
+        setTimeout(() => {
           this.isRejectSuccess = false
           this.getManualTransactionList()
         }, 2000);
