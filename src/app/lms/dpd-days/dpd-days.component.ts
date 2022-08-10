@@ -136,8 +136,12 @@ export class DpdDaysComponent implements OnInit {
     //   spent: this.is_spend ? this.is_spend : '',
     //   file_type: file_formate
     // }
+    let data = [];
+    if(this.selectedCorporate){
+      data['corporate_id'] = this.selectedCorporate;
+    }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-    this.http.exportDPDDays().subscribe(res => {
+    this.http.exportDPDDays(data).subscribe(res => {
       this.http.exportMasterSectionModule(res, 'dpd_days', file_formate, generateloader)
       // this.isVisible = false
     }, error => {
