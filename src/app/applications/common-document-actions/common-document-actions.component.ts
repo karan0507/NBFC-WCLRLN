@@ -15,6 +15,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   @ViewChild("imageRotateClassF") myNameElemF: ElementRef;
   @Input() _isOpenModal: boolean = false;
   @Input() documentData: any;
+  @Input() userApplicationData: any;
   @Input() action: any;
   @Output() close = new EventEmitter<any>();
   documentStatus: any;
@@ -167,13 +168,15 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             uploadDocForOtherDoc.append('file', this._currentFileName);
           }
           if(this.documentData?.document_master?.name == "Selfie"){
-            uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
+            // uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
+            uploadDocForOtherDoc.append('endpoint', this.userApplicationData?.user_info?.id);
             uploadDocForOtherDoc.append('selfie', this._currentFileName);
           }
           // endpoint
           uploadDocForOtherDoc.append('source', 'Onboarding');
           uploadDocForOtherDoc.append('datapoint', this.documentData?.document_master?.name == "Selfie" ? 'upload_selfie_appuser' : 'upload_kyc_doc');
-          this.https.uploadLoanDocument(uploadDocForOtherDoc).subscribe((res: any) => {
+          const httpURL =  this.documentData?.document_master?.name == "Selfie" ? this.https.uploadLoanSelfieDocument(uploadDocForOtherDoc) : this.https.uploadLoanDocument(uploadDocForOtherDoc)
+          httpURL.subscribe((res: any) => {
             if (res?.success) {
               this.api_calling_loader['button'] = false;
               this.fileList = [];

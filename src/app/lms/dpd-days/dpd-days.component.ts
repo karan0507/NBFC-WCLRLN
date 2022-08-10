@@ -26,6 +26,22 @@ export class DpdDaysComponent implements OnInit {
   _currentId: any;
   _activeLoans: any = [];
 
+  dpdFilterList = [
+    {'name':'<30', 'label': 'Less Than >30' },
+    {'name':'>30', 'label': 'Greater Than >30' },
+    {'name':'>60', 'label': 'Greater Than >60'},
+    {'name':'>90', 'label': 'Greater Than >90'},
+  ];
+
+  dpdEmployeeFilter = [
+    {'employee_status':'Active'},
+    {'employee_status':'Exited'}
+  ];
+
+  // employee_status | values = Active | Exited
+  selectedFilterOfDays: any = '';
+  selectedFilterOfEmp: any = '';
+
   api_calling_loader_accordian: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -34,7 +50,7 @@ export class DpdDaysComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.globalPageSize = 30
-    this.fetchDpdDaysList()
+    this.fetchDpdDaysList();
   }
 
 
@@ -84,6 +100,15 @@ export class DpdDaysComponent implements OnInit {
       spent: this.is_spend ? this.is_spend : '',
       is_dpd_tab_set: 'YES'
     }
+    if(this.selectedFilterOfDays){
+      data['dpd_bucket'] = this.selectedFilterOfDays;
+    }
+
+    if(this.selectedFilterOfEmp){
+      data['employee_status'] = this.selectedFilterOfEmp;
+    }
+
+    // employee_status | values = Active | Exited
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
@@ -123,6 +148,8 @@ export class DpdDaysComponent implements OnInit {
   resetFilters(){
   this.search_params = '';
   this.page = 1,
+  this.selectedFilterOfDays = '';
+  this.selectedFilterOfEmp = '';
   this.globalPageSize = 30;
   this.is_blocked = '';
   this.search_params ='';

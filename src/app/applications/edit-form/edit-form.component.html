@@ -397,7 +397,7 @@
 
 </section>
 <section *ngIf="_isUpload">
-      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
+      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false" [userApplicationData]="userIdOfUser"
             [documentData]="_currentModalData" (close)="_isUpload = false; (!_isUpload ? getFormLoanData() : false)">
       </app-common-document-actions>
 </section>

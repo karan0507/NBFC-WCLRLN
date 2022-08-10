@@ -619,6 +619,10 @@ export class HttpService {
       public uploadLoanDocument(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
+      
+      public uploadLoanSelfieDocument(data): any {
+            return this._http.put((this.url + `/central-api/v1/call-api`), data);
+      }
 
       // Upload document for loan application
       public uploadOcrDocument(data): any {
