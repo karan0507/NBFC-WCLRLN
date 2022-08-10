@@ -96,18 +96,26 @@ export class MandateTriggersComponent implements OnInit {
     }
     if (i == undefined) {
       data['bill_id'] = []
+      var bill_arry = []
       bill_id.forEach(element => {
-        data['bill_id'].push({
-          id: element
-        })
+        bill_arry.push(
+          {
+            id : element,
+            amount : ''
+          }
+        )
+        // data['bill_id'].push({
+        //   id: element
+        // })
       });
-      data['bill_id'] = bill_id
+      data['bill_id'] = bill_arry
     } else {
       data['bill_id'] = [{
         id : bill_id,
         amount : this.amount
       }]
     }
+    console.log(data)
     const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);

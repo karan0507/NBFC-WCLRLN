@@ -74,7 +74,7 @@
                         [nzIndeterminate]=" listOfData[0] ? indeterminate : false"
                         (nzCheckedChange)="listOfData[0] ? onAllChecked($event) : false">
                     </th>
-                    <th nzWidth="3rem">#</th>
+                    <th nzWidth="5rem">#</th>
                     <th nzWidth="15rem">User Name</th>
                     <th>Loan Id</th>
                     <th>Corporate name</th>
@@ -99,6 +99,7 @@
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Amount</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Razor pay order Id</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Status</th>
+                    <th *ngIf="selectedTab == 'FAILED'">Reason</th>
                     <th *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">Created at</th>
                     <th nzWidth="6rem" nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">Actions</th>
                 </tr>
@@ -108,8 +109,8 @@
                     <td *ngIf="selectedTab != 'TXN'" nzWidth="1rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                         (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <!-- all -->
-                    <td *ngIf="page === 1">{{i+1}}</td>
-                    <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                    <td nzWidth="5rem" *ngIf="page === 1">{{i+1}}</td>
+                    <td nzWidth="5rem" *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                     <td>
                         <h5>{{data.user_details?.name ? data.user_details.name : '-'}}</h5>
                         <span *ngIf="data.user_details?.mobile">Contact No: {{data.user_details ? data.user_details.mobile : '-'}}</span>
@@ -150,6 +151,7 @@
                         <span *ngIf="selectedTab == 'SUCCESSFULL'" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
                         <span *ngIf="selectedTab == 'FAILED'" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">{{ data?.status ? (data?.status | titlecase) : '-' }}</span>
                     </td>
+                    <th *ngIf="selectedTab == 'FAILED'">{{ data?.reason ? data?.reason : '-'}}</th>
                     <td *ngIf="selectedTab != 'bill' && selectedTab != 'TXN'">{{ data?.created_at ? (data?.created_at | date: "medium" ) : '-' }}</td>
                     <td nzRight *ngIf="selectedTab == 'bill' || selectedTab == 'FAILED'">
                         <div>
@@ -169,7 +171,7 @@
                                             <span class="m-l-5">Capture collection - Enach</span>
                                         </li>
                                         <nz-modal [(nzVisible)]="data['isCaptureCollection']" [nzTitle]="'Enter amount'" (nzOnCancel)="data['isCaptureCollection'] = false"
-                                              (nzOnOk)="captureCollection([data?.id], i)" nzOkText="Capture Collection"
+                                              (nzOnOk)="captureCollection(data?.id, i)" nzOkText="Capture Collection"
                                               [nzOkDisabled]="!amount">
                                             <ng-container *nzModalContent>
                                                 <input nz-input type="number" min="0" [(ngModel)]="amount" placeholder="Please input Amount" />
