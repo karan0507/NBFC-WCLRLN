@@ -106,6 +106,7 @@ export class UnderwritingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.global.setApplicationCount();
     this.page = 1;
     this.globalPageSize = this.global.globalPageSize;
     this.offerForm = this.fb.group({
@@ -247,7 +248,7 @@ export class UnderwritingComponent implements OnInit {
               this.expandSet.delete(element?.id);
             });
           }
-          this.global.setApplicationCount();
+          // this.global.setApplicationCount();
           this.loanApplicationData = res?.data?.results;
           this.total_count = res?.data?.total_count;
           this.api_calling_loader["listLoader"] = false;
