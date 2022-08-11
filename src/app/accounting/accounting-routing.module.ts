@@ -25,7 +25,7 @@ const routes: Routes = [
     canActivate: [NgxPermissionsGuard],
     data: {
       title: 'Escrow statement',
-      parent: 'Accounting',
+      parent: 'LMS',
       custom_url: 'accounting/escrow-statement',
       permissions: {
         only: 'view_escrow_statement',

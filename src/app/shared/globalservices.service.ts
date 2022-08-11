@@ -11,6 +11,10 @@ export class GlobalservicesService {
       public globalUserData = new ReplaySubject<any>();
       public globalApplicationLoan = new ReplaySubject<any>();
 
+      
+      public borrowersStageCount = new ReplaySubject<any>();
+      public borrowersSubStageCount = new ReplaySubject<any>();
+
       constructor(public http: HttpService) { }
 
      setApplicationCount() {
@@ -20,6 +24,20 @@ export class GlobalservicesService {
             this.applicationStageCount.next(res?.data)
       });
      
+      }
+
+      setBorrowersSubCount() {
+            let param = { 'stage_type': 'SUB', 'stage_master': '1' }
+            this.http.getBorrowersStageCount(param).subscribe((res: any) => {
+                  this.borrowersSubStageCount.next(res?.data)
+            });
+      }
+
+      setBorrowersStageCount() {
+            let param = { 'stage_type': '', 'stage_master': '1' }
+            this.http.getBorrowersStageCount(param).subscribe((res: any) => {
+                  this.borrowersStageCount.next(res?.data)
+            });
       }
 
       selectedGlobalApplicationLoan(data:any){
