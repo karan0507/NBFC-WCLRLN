@@ -106,6 +106,7 @@ export class DisbursementComponent implements OnInit {
 
 
       ngOnInit(): void {
+            this.global.setApplicationCount();
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.offerForm = this.fb.group({

@@ -90,6 +90,7 @@ export class PerApprovedComponent implements OnInit {
        }
 
       ngOnInit(): void {
+            this.global.setApplicationCount();
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
@@ -222,7 +223,7 @@ export class PerApprovedComponent implements OnInit {
                                     this.expandSet.delete(element?.id)    
                                });  
                         }
-                        this.global.setApplicationCount();
+                        // this.global.setApplicationCount();
                         this.loanApplicationData = res?.data?.results;
                         this.total_count = res?.data?.total_count;
                         this.api_calling_loader['listLoader'] = false
