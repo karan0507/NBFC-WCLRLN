@@ -130,8 +130,9 @@
                                             <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
                                                 <span class="m-l-5">Export App Data</span>
                                             </li>
-                                            <li nz-menu-item (click)="onClickExportExcelData(data, 'invoicePDF')" >
+                                            <li nz-menu-item (click)="isModalVisibleForInvoicePDF = true;selectedDataForInvoicePDF = data">
                                                 <span class="m-l-5">Export Invoice PDF</span>
+                                                <!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Export Invoice PDF</span></button> ; onClickExportExcelData(data, 'invoicePDF')"-->
                                             </li>
                                             <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">
@@ -774,4 +775,17 @@
             </div>
         </nz-card>
     <!-- </ng-container> -->
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isModalVisibleForInvoicePDF" [nzOkLoading]="_apiLoader['invoicePdfLoader']" [nzTitle]="'Export Invoice of ' + selectedDataForInvoicePDF?.name " (nzOnCancel)="isModalVisibleForInvoicePDF = false" [nzOkDisabled]="date ? false : true " (nzOnOk)="onClickExportExcelData(selectedDataForInvoicePDF, 'invoicePDF')">
+    <!-- (nzOnOk)="handleOk()" -->
+    <ng-container *nzModalContent>
+      <!-- <p>Content one</p>
+      <p>Content two</p>
+      <p>Content three</p> -->
+      <span style="font-weight: bold;"> Select Date to Export Invoice </span>
+      <nz-range-picker class="mx-1 my-2" [(ngModel)]="date" [nzDisabledDate]="disabledDate"  [nzRanges]="customRanges"></nz-range-picker>
+      <!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Export Invoice PDF</span></button> ; onClickExportExcelData(data, 'invoicePDF')"-->
+    </ng-container>
 </nz-modal>

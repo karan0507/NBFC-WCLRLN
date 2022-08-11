@@ -89,6 +89,7 @@ export class FormFillingComponent implements OnInit {
       {name: 'income'}]
 
       ngOnInit(): void {
+            this.global.setApplicationCount();
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
