@@ -105,12 +105,12 @@ export class SideNavComponent {
 
       getBorrowersMainStageId(item) {
             switch (item) {
-                  case 'All': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'All')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'All')?.pk : 0
-                  case 'Activation': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Activation')?.pk  !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Activation')?.pk : 0
-                  case 'Active': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Active')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Active')?.pk : 0
-                  case 'Inactive': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Inactive')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Inactive')?.pk : 0
-                  case 'Deliquent': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Deliquent')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Deliquent')?.pk : 0
-                  case 'Close': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Close')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Close')?.pk : 0
+                  case 'All': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'All')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'All')?.pk : ''
+                  case 'Activation': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Activation')?.pk  !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Activation')?.pk : ''
+                  case 'Active': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Active')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Active')?.pk : ''
+                  case 'Inactive': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Inactive')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Inactive')?.pk : ''
+                  case 'Deliquent': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Deliquent')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Deliquent')?.pk : ''
+                  case 'Close': return this.borrowersStageCount && this.borrowersStageCount.find(res => res?.name == 'Close')?.pk !== undefined ? this.borrowersStageCount.find(res => res?.name == 'Close')?.pk : ''
                   
             }
       }
