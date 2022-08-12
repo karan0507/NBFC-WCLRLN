@@ -79,10 +79,10 @@ export class BorrowersListComponent implements OnInit {
     public sanitize: DomSanitizer,
     private route: ActivatedRoute) {
       this.route.queryParams.subscribe((params: any) => {
-        if(params?.main_stage){
+        // if(params?.main_stage){
           this.main_stage = params?.main_stage ? params?.main_stage : ''
           this.setBorrowersSubCount()
-        }
+        // }
         if(params?.loan_id){
               // alert(params?.loan_id);
               this.storedParams = params?.loan_id 
