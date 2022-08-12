@@ -52,6 +52,7 @@ export class BorrowersListComponent implements OnInit {
   storedParams: any;
   date = ''
   disbursement_date = ''
+  selectedTab;
 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -69,11 +70,19 @@ export class BorrowersListComponent implements OnInit {
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
   };
+  main_stage: any;
+  borrowersSubStageCount: any;
+  sub_stage = ''
+  all_count = 0
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     public sanitize: DomSanitizer,
     private route: ActivatedRoute) {
       this.route.queryParams.subscribe((params: any) => {
+        if(params?.main_stage){
+          this.main_stage = params?.main_stage ? params?.main_stage : ''
+          this.setBorrowersSubCount()
+        }
         if(params?.loan_id){
               // alert(params?.loan_id);
               this.storedParams = params?.loan_id 
@@ -86,7 +95,15 @@ export class BorrowersListComponent implements OnInit {
   ngOnInit(): void {
     this.page = 1;
     this.globalPageSize = 30
-    this.fetchBorrowerList()
+  }
+
+  setBorrowersSubCount() {
+    let param = { 'stage_type': 'SUB', 'stage_master': this.main_stage }
+    this.http.getBorrowersStageCount(param).subscribe((res: any) => {
+      this.borrowersSubStageCount = res?.data
+      // this.sub_stage = this.borrowersSubStageCount[0] ? this.borrowersSubStageCount[0].pk : ''
+      this.fetchBorrowerList()
+    });
   }
 
   fetchBorrowerList(tabelFilter?) {
@@ -110,6 +127,8 @@ export class BorrowersListComponent implements OnInit {
       to_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       from_disbursement_date: this.disbursement_date[0] ? moment(this.disbursement_date[0]).format("YYYY-MM-DD") : '',
       to_disbursement_date: this.disbursement_date[1] ? moment(this.disbursement_date[1]).format("YYYY-MM-DD") : '',
+      sub_stage: this.sub_stage ? this.sub_stage : '',
+      main_stage: this.main_stage ? this.main_stage : '',
     }
     
     if (this.selectedCorporate) {
@@ -120,6 +139,9 @@ export class BorrowersListComponent implements OnInit {
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
       this.borrowertList = res['data']
+      if (!this.sub_stage) {
+        this.all_count = res.total_count
+      }
       this.total_count = res.total_count
       // this.message.success(res['message'])
     }, (err) => {

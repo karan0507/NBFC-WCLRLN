@@ -619,7 +619,7 @@ export class HttpService {
       public uploadLoanDocument(data): any {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
-      
+
       public uploadLoanSelfieDocument(data): any {
             return this._http.put((this.url + `/central-api/v1/call-api`), data);
       }
@@ -1119,4 +1119,9 @@ export class HttpService {
       }
 
       // platform_central/v1/fetch-otp-send-customers
+
+      // Get Application stage count
+      public getBorrowersStageCount(data?){
+            return this._http.get(this.url + (`/loan-application/v1/get-lms-staging-list`), {params : data})
+      }
 }

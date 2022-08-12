@@ -289,106 +289,256 @@ export const ROUTES: SideNavInterface[] = [
                 icon: '',
                 iconTheme: '',
                 permission: ['view_borrowers'],
-                submenu: []
+                submenu: [
+                    {
+                        path: 'lms/borrowers/all',
+                        title: 'All',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/borrowers/activation',
+                        title: 'Activation',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/borrowers/active',
+                        title: 'Active',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/borrowers/inactive',
+                        title: 'Inactive',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/borrowers/delinquent',
+                        title: 'Deliquent',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/borrowers/close',
+                        title: 'Close',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_borrowers'],
+                        submenu: []
+                    },
+                ]
             },
+            // {
+            //     path: '',
+            //     title: 'Customer Actions',
+            //     iconType: '',
+            //     icon: '',
+            //     iconTheme: '',
+            //     permission: [''],
+            //     submenu: [
+            //         {
+            //             path: '',
+            //             title: 'ECM Underwriting',
+            //             iconType: '',
+            //             icon: '',
+            //             iconTheme: '',
+            //             permission: [''],
+            //             submenu: []
+            //         },
+            //     ]
+            // },
             {
-                path: 'lms/dpd-days',
-                title: 'DPD Days',
+                path: '',
+                title: 'ECM Actions',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
                 permission: [''],
-                submenu: []
+                submenu: [
+                    // {
+                    //     path: '',
+                    //     title: 'Restructuring',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: [''],
+                    //     submenu: []
+                    // },
+                    {
+                        path: 'lms/change-bill-date',
+                        title: 'Change Bill date',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_change_bill_date'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/change-credit-line',
+                        title: 'Change Credit Line',
+                        iconType: '',
+                        icon: '',
+                        permission: ['view_change_credit_line'],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/authorization-policy',
+                        title: 'Authorization Policy',
+                        iconType: '',
+                        icon: '',
+                        permission: ['view_athorization_policy'],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/send-payment-link',
+                        title: 'Send Payment Link',
+                        iconType: '',
+                        icon: '',
+                        permission: ['view_send_payment_link'],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/mandate-triggers',
+                        title: 'Mandate triggers',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/risk-policy',
+                        title: 'Risk Policy',
+                        iconType: '',
+                        icon: '',
+                        permission: ['view_borrowers'],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                ]
             },
             {
-                path: 'lms/change-bill-date',
-                title: 'Change Bill date',
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                permission: ['view_change_bill_date'],
-                submenu: []
-            },
-            {
-                path: 'lms/transactions',
+                path: '',
                 title: 'Transactions',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                permission: ['view_transaction'],
-                submenu: []
-            },
-            {
-                path: 'lms/manual-transaction',
-                title: 'Manual Transactions',
-                iconType: '',
-                permission: ['view_manual_transaction'],
-                icon: '',
-                iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/authorization-policy',
-                title: 'Authorization Policy',
-                iconType: '',
-                icon: '',
-                permission: ['view_athorization_policy'],
-                iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/risk-policy',
-                title: 'Risk Policy',
-                iconType: '',
-                icon: '',
-                permission: ['view_borrowers'],
-                iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/change-credit-line',
-                title: 'Change Credit Line',
-                iconType: '',
-                icon: '',
-                permission: ['view_change_credit_line'],
-                iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/send-payment-link',
-                title: 'Send Payment Link',
-                iconType: '',
-                icon: '',
-                permission: ['view_send_payment_link'],
-                iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/refunds',
-                title: 'Refunds',
-                iconType: '',
-                icon: '',
                 permission: [''],
-                iconTheme: '',
-                submenu: []
+                submenu: [
+                    {
+                        path: 'lms/transactions',
+                        title: 'Transactions Data',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_transaction'],
+                        submenu: []
+                    },
+                    // {
+                    //     path: '',
+                    //     title: 'Repayments',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     permission: [''],
+                    //     iconTheme: '',
+                    //     submenu: []
+                    // },
+                    {
+                        path: 'lms/manual-transaction',
+                        title: 'Manual Transactions',
+                        iconType: '',
+                        permission: ['view_manual_transaction'],
+                        icon: '',
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'accounting/escrow-statement',
+                        title: 'Escrow Statement',
+                        permission: ['view_escrow_statement'],
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/expense-management',
+                        title: 'Corporate Expense',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    // {
+                    //     path: '',
+                    //     title: 'Deduction Approvals',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: [''],
+                    //     submenu: []
+                    // },
+
+                ]
             },
             {
-                path: 'lms/mandate-triggers',
-                title: 'Mandate triggers',
+                path: '',
+                title: 'Metrics',
                 iconType: '',
                 icon: '',
-                permission: [''],
                 iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/billed-unbilled-data',
-                title: 'Billed data',
-                iconType: '',
-                icon: '',
                 permission: [''],
-                iconTheme: '',
-                submenu: []
+                submenu: [
+                    {
+                        path: 'lms/dpd-days',
+                        title: 'DPD Days',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/billed-unbilled-data',
+                        title: 'Billed data',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/refunds',
+                        title: 'Refunds',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                ]
             },
             {
                 path: 'lms/lender-management',
@@ -397,15 +547,6 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                submenu: []
-            },
-            {
-                path: 'lms/expense-management',
-                title: 'Corporate Expense',
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                permission: [''],
                 submenu: []
             },
         ]
@@ -427,15 +568,15 @@ export const ROUTES: SideNavInterface[] = [
                 iconTheme: '',
                 submenu: []
             },
-            {
-                path: 'accounting/escrow-statement',
-                title: 'Escrow Statement',
-                permission: ['view_escrow_statement'],
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                submenu: []
-            },
+            // {
+            //     path: 'accounting/escrow-statement',
+            //     title: 'Escrow Statement',
+            //     permission: ['view_escrow_statement'],
+            //     iconType: '',
+            //     icon: '',
+            //     iconTheme: '',
+            //     submenu: []
+            // },
         ]
     },
     {
@@ -521,3 +662,24 @@ export const ROUTES: SideNavInterface[] = [
     //     submenu: []
     // }
 ]    
+
+
+// {
+//     path: 'lms',
+//     title: 'LMS',
+//     iconType: 'nzIcon',
+//     iconTheme: 'outline',
+//     permission: ['view_borrowers', 'view_change_bill_date', 'view_transaction', 'view_manual_transaction', 'view_athorization_policy', 'view_borrowers', 'view_change_credit_line', 'view_lender_management'],
+//     icon: 'file',
+//     submenu: [
+//         {
+//             path: 'lms/lender-management',
+//             title: 'Lender Management',
+//             permission: ['view_lender_management'],
+//             iconType: '',
+//             icon: '',
+//             iconTheme: '',
+//             submenu: []
+//         },
+//     ]
+// },
