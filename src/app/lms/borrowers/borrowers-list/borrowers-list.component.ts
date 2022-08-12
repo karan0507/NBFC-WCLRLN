@@ -98,7 +98,7 @@ export class BorrowersListComponent implements OnInit {
   }
 
   setBorrowersSubCount() {
-    let param = { 'stage_type': 'SUB', 'stage_master': this.main_stage }
+    let param = { 'stage_type': 'SUB', 'stage_master': this.main_stage ? this.main_stage : 0 }
     this.http.getBorrowersStageCount(param).subscribe((res: any) => {
       this.borrowersSubStageCount = res?.data
       // this.sub_stage = this.borrowersSubStageCount[0] ? this.borrowersSubStageCount[0].pk : ''
