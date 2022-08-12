@@ -2,6 +2,17 @@
     <button nz-button (click)="isVisible = true" nzType="primary" class="ml-1" nzGhost>Export Outstanding</button>
     <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
 </div>
+
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="sub_stage" (ngModelChange)="fetchBorrowerList()">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="">All ({{all_count}})</label>
+                <label *ngFor="let item of borrowersSubStageCount" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" [nzValue]="item.pk">{{item.name}} ({{item.count}})</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
 <section>
     <div class="row">
         <nz-card class="w-100 accordianLoanApp">

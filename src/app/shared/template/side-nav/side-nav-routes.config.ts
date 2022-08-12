@@ -328,7 +328,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/borrowers/delinquent',
-                        title: 'Delinquent',
+                        title: 'Deliquent',
                         iconType: '',
                         icon: '',
                         iconTheme: '',
