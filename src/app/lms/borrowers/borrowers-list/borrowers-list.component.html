@@ -177,7 +177,7 @@
                                     </a>
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                         <ul nz-menu>
-                                            <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}"
+                                            <li nz-menu-item [routerLink]="['../details']" [queryParams]="{id: data.id}"
                                                 *ngxPermissionsOnly="['view_borrowers']">
                                                 <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                                 <span class="m-l-5">View Details</span>

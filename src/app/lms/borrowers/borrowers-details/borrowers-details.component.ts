@@ -6,6 +6,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-borrowers-details',
@@ -123,7 +124,7 @@ export class BorrowersDetailsComponent implements OnInit {
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitized: DomSanitizer,) {
+    private sanitized: DomSanitizer,public location: Location) {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.borrower_id = params['id']
