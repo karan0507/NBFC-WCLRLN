@@ -9,6 +9,7 @@ import { BorrowersComponent } from './borrowers.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'lms/borrowers/all',
     component: BorrowersListComponent,
     canActivate: [NgxPermissionsGuard],
     data: {
