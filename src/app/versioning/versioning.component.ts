@@ -14,6 +14,7 @@ export class VersioningComponent implements OnInit {
     'getLoader': false,
     'onUpdate': false
   };
+  checked;
   versionForm: FormGroup;
   constructor(private service: HttpService, private message: NzMessageService, private fb: FormBuilder) { }
 
@@ -26,6 +27,7 @@ export class VersioningComponent implements OnInit {
     this.versionForm = this.fb.group({
       app_version: [null, [Validators.required],
       ],
+      is_optional: [false]
     })
   }
 
@@ -33,8 +35,8 @@ export class VersioningComponent implements OnInit {
     this.apiLoader['getLoader'] = true;
     this.service.getAppVersion().subscribe((res: any)=>{
       if(res?.success){
-        this.message.success(res?.message)
-        console.log(res?.data['VERSION']);
+        // this.message.success(res?.message)
+        // console.log(res?.data['VERSION']);
         this.versionForm.patchValue({
           app_version: res?.data['VERSION']
         })
