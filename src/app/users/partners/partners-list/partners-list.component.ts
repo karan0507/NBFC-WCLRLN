@@ -314,13 +314,28 @@ customRanges = {
     })
   }
 
+  valueFunction(){
+    var dynamic_url;
+
+    if (location.origin == 'https://admin.fatakpay.com' || location.origin == 'http://admin.fatakpay.com') {
+          dynamic_url = 'https://partner.fatakpay.com/'
+    } else if(location.origin == 'https://uatadmin.fatakpay.com' || location.origin == 'http://uatadmin.fatakpay.com'){
+          dynamic_url = 'https://uatpartner.fatakpay.com/'
+    } else {
+          dynamic_url = 'https://devpartner.fatakpay.com'
+    }
+    return dynamic_url
+    }
+
+
   onClickImpersonateCorporate(id){
+    const locationOrigin = this.valueFunction();
     this._apiLoader['list'] = true;
     this.http.impersonateCorporate(id).subscribe((res: any)=>{
       if(res?.success){
         const token = res?.data?.token;
         const allowAccess = res?.data?.access;
-        const url = `https://partner.fatakpay.com/authentication/login?token=${token}&allow_access=${allowAccess}`
+        const url = `${locationOrigin}/authentication/login?token=${token}&allow_access=${allowAccess}`
         window.open(url,'_blank');
       } else {
         this.message.error(res?.message);
