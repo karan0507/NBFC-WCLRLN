@@ -320,7 +320,7 @@ customRanges = {
       if(res?.success){
         const token = res?.data?.token;
         const allowAccess = res?.data?.access;
-        const url = `http://localhost:4201/authentication/login?token=${token}&allow_access=${allowAccess}`
+        const url = `https://partner.fatakpay.com/authentication/login?token=${token}&allow_access=${allowAccess}`
         window.open(url,'_blank');
       } else {
         this.message.error(res?.message);
