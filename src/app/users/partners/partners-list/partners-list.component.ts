@@ -314,6 +314,24 @@ customRanges = {
     })
   }
 
+  onClickImpersonateCorporate(id){
+    this._apiLoader['list'] = true;
+    this.http.impersonateCorporate(id).subscribe((res: any)=>{
+      if(res?.success){
+        const token = res?.data?.token;
+        const allowAccess = res?.data?.access;
+        const url = `http://localhost:4201/authentication/login/token=${token}&allow_access=${allowAccess}`
+        window.open(url,'_blank');
+      } else {
+        this.message.error(res?.message);
+      }
+      this._apiLoader['list'] = false;
+    }, error=>{
+      this.message.error(error);
+      this._apiLoader['list'] = false;
+    })
+  }
+
   handleCancel(){
     this.isDelete = false;
     this.pdf_viewer_object_values['boolean'] = false
@@ -335,7 +353,7 @@ customRanges = {
     this.selectedUserData = [];
     const selectedData = {
       id: data?.user?.id,
-      email: data?.contact_person_email,
+      // email: data?.contact_person_email,
       phone:data?.contact_person_phone,
       name: data?.name
     }

@@ -164,6 +164,11 @@ export class HttpService {
             return this._http.get((this.url + `/platform_central/v1/refund/get-list`), { params: data });
       }
 
+      public impersonateCorporate(data?) {
+            return this._http.get((this.url + `/platform_central/v1/impersonate/user/${data}`));
+            // , { params: data }
+      }
+
       /**
        * fetchGSTInvoiceList
        */

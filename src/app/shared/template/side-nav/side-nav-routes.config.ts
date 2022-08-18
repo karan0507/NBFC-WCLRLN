@@ -138,7 +138,7 @@ export const ROUTES: SideNavInterface[] = [
     // },
             {
                 path: 'otp-list',
-                title: 'UNREGISTERED OTP',
+                title: 'UNREGISTERED',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
