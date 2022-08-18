@@ -35,6 +35,9 @@ export class Login1Component {
             private message: NzMessageService,
             private router: Router,
             private permissionsService: NgxPermissionsService) {
+                  if (JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token) {
+                        this.router.navigate(['/dashboard/home']);
+                  }
       }
 
       ngOnInit(): void {

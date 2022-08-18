@@ -17,6 +17,32 @@
                 </div>
             </div>
         </form>
-        
+        <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            (nzQueryParams)="listOfData[0] ? fetchVersionList($event) : ''" [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th nzWidth="5rem">#</th>
+                    <th>Version name</th>
+                    <th>is Optional</th>
+                    <th>Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of listOfData; index as i">
+                    <td nzWidth="5rem" *ngIf="page === 1">{{i+1}}</td>
+                    <td nzWidth="5rem" *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                    <td>{{ data?.app_version ? 'V ' +data?.app_version : '-' }}</td>
+                    <td>
+                        <i *ngIf="data?.is_optional" nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                        <i *ngIf="!data?.is_optional" nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                    </td>
+                    <td>{{ data?.created_at ? (data?.created_at | date: 'medium') : 0 }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="total_count_text" *ngIf="total_count">
+            <b>Total Count : </b>{{total_count}}
+        </div>
     </nz-card>
 </section>

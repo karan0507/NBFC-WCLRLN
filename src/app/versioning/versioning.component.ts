@@ -16,11 +16,20 @@ export class VersioningComponent implements OnInit {
   };
   checked;
   versionForm: FormGroup;
+  page = 1;
+  globalPageSize: number;
+  searchValue = '';
+  api_calling_loader: boolean;
+  total_count: any;
+  listOfData: any;
   constructor(private service: HttpService, private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.page = 1;
+    this.globalPageSize = 30;
     this.createVersionForm();
     this.getVersion();
+    this.fetchVersionList();
   }
 
   createVersionForm(){
@@ -64,6 +73,27 @@ export class VersioningComponent implements OnInit {
         this.apiLoader['onUpdate'] = false;
       }
     }, error=>{this.apiLoader['onUpdate'] = false;})
+  }
+
+  fetchVersionList(tableFilter?) {
+    var data;
+      this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      data = {
+        page: this.page,
+        limit: this.globalPageSize,
+        keyword: this.searchValue,
+      }
+    this.api_calling_loader = true
+    this.service.fetchVersionList(data).subscribe(res => {
+      this.api_calling_loader = false
+      this.listOfData = res['data']
+      this.versionForm.get('is_optional').setValue(this.listOfData[0].is_optional)
+      this.total_count = res['data'].total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader = false
+    })
   }
 
 }
