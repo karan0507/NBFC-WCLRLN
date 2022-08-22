@@ -19,6 +19,7 @@ export class EscrowStatementComponent implements OnInit {
   total_count: any;
   list_data: any;
   date = ''
+  search_params = ''
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
@@ -34,6 +35,7 @@ export class EscrowStatementComponent implements OnInit {
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
   };
+  type = ''
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) { }
@@ -47,11 +49,11 @@ export class EscrowStatementComponent implements OnInit {
     this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
     let data = {
       page: this.page,
-      // name: this.search_params,
+      search_param: this.search_params ? this.search_params : '',
       limit: this.globalPageSize,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      // id: this.product_id
+      type: this.type ? this.type : ''
     }
     this.list_data = null
     this.total_count = null
@@ -69,6 +71,8 @@ export class EscrowStatementComponent implements OnInit {
   
   resetFilters() {
     this.date = ''
+    this.search_params = ''
+    this.type = ''
     this.fetchEscrowStatementList();
   }
 
