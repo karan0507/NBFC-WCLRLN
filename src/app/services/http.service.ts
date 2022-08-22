@@ -13,6 +13,7 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
+      // url = 'https://adminapi.fatakpay.com'
 
       // url = 'https://uatadminapi.fatakpay.com'; // UAT URL
       url = this.valueFunction();
