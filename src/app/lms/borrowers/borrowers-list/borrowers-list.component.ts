@@ -5,6 +5,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
 @Component({
   selector: 'app-borrowers-list',
@@ -77,7 +78,7 @@ export class BorrowersListComponent implements OnInit {
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     public sanitize: DomSanitizer,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, public global: GlobalservicesService) {
       this.route.queryParams.subscribe((params: any) => {
         // if(params?.main_stage){
           this.main_stage = params?.main_stage ? params?.main_stage : ''
@@ -90,6 +91,8 @@ export class BorrowersListComponent implements OnInit {
               this.fetchBorrowerList();
         }
   });
+  
+  this.global.setBorrowersStageCount();
      }
 
   ngOnInit(): void {

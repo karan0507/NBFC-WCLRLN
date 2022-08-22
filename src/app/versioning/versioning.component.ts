@@ -14,18 +14,29 @@ export class VersioningComponent implements OnInit {
     'getLoader': false,
     'onUpdate': false
   };
+  checked;
   versionForm: FormGroup;
+  page = 1;
+  globalPageSize: number;
+  searchValue = '';
+  api_calling_loader: boolean;
+  total_count: any;
+  listOfData: any;
   constructor(private service: HttpService, private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.page = 1;
+    this.globalPageSize = 30;
     this.createVersionForm();
     this.getVersion();
+    this.fetchVersionList();
   }
 
   createVersionForm(){
     this.versionForm = this.fb.group({
       app_version: [null, [Validators.required],
       ],
+      is_optional: [false]
     })
   }
 
@@ -33,8 +44,8 @@ export class VersioningComponent implements OnInit {
     this.apiLoader['getLoader'] = true;
     this.service.getAppVersion().subscribe((res: any)=>{
       if(res?.success){
-        this.message.success(res?.message)
-        console.log(res?.data['VERSION']);
+        // this.message.success(res?.message)
+        // console.log(res?.data['VERSION']);
         this.versionForm.patchValue({
           app_version: res?.data['VERSION']
         })
@@ -62,6 +73,27 @@ export class VersioningComponent implements OnInit {
         this.apiLoader['onUpdate'] = false;
       }
     }, error=>{this.apiLoader['onUpdate'] = false;})
+  }
+
+  fetchVersionList(tableFilter?) {
+    var data;
+      this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      data = {
+        page: this.page,
+        limit: this.globalPageSize,
+        keyword: this.searchValue,
+      }
+    this.api_calling_loader = true
+    this.service.fetchVersionList(data).subscribe(res => {
+      this.api_calling_loader = false
+      this.listOfData = res['data']
+      this.versionForm.get('is_optional').setValue(this.listOfData[0].is_optional)
+      this.total_count = res['data'].total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader = false
+    })
   }
 
 }
