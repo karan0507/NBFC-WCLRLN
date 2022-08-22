@@ -148,7 +148,7 @@ export class HeaderComponent{
     } else if(e?.stage_id == 15){
         this.route.navigate(["applications/closed"],{ queryParams: {loan_id: e?.application_code}});
     } } else {
-        this.route.navigate(["lms/borrowers/all"],{ queryParams: {loan_id: e?.application_code}});
+        this.route.navigate(["lms/borrowers/all"],{ queryParams: {main_stage: '', loan_id: e?.application_code}});
     }
     return null
     // return e = -1, this.selectedApplication = null;
