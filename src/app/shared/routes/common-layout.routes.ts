@@ -137,4 +137,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'dormant',
         loadChildren: () => import('../../dormant-stage-trigger/dormant-stage-trigger.module').then(m => m.DormantStageTriggerModule),
     },
+    {
+        path: 'lms/deductions',
+        loadChildren: () => import('../../lms/deductions/deductions.module').then(m => m.DeductionsModule),
+    },
 ];

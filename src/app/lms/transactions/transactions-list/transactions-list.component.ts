@@ -63,6 +63,9 @@ export class TransactionsListComponent implements OnInit {
   corporateList: any[];
   feeTypeData: any;
   fees_name = ''
+  waive_off_type: any;
+  waive_off_amount: any;
+  waive_off_sub_title: string;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -144,8 +147,8 @@ export class TransactionsListComponent implements OnInit {
   selectedDetail: any;
   waiveOffToggle(id) {
     console.log(this.selectedDetail);
-    this.isWaiveOff = true
     this.waiveOffId = id
+    this.getTnxAmount(id)
   }
 
   fetchBorrowerDelete() {
@@ -153,12 +156,15 @@ export class TransactionsListComponent implements OnInit {
       datapoint: 'wave_off_transaction',
       endpoint: this.waiveOffId,
       source: 'LMS',
+      amount: this.waive_off_amount
     }
     this.isdeleteloader = true
     this.http.fetchLoanApplicationDelete(data).subscribe(res => {
       this.isdeleteloader = false
       this.message.success(res['message'])
       this.isWaiveOff = false
+      this.is_set_amt = false
+      this.waiveOffId = ''
       this.fetchTransactionList()
     }, (err)=> {
       this.isdeleteloader = false
@@ -218,8 +224,10 @@ export class TransactionsListComponent implements OnInit {
       if (res.data.amount > 0) {
         if (this.reverseId) {
           this.isReverseCharges = true
-        } else {
+        } else if (this.refundId) {
           this.isRefundTransaction = true
+        } else if (this.waiveOffId) {
+          this.isWaiveOff = true
         }
         this.final_reverse_amount = res.data.amount
       } else {
@@ -239,11 +247,11 @@ export class TransactionsListComponent implements OnInit {
       return false
     }
     if (this.reverse_amount > this.final_reverse_amount) {
-      this.message.error('Amount should be less than or equal to' + this.final_reverse_amount)
+      this.message.error('Amount should be less than or equal to ' + this.final_reverse_amount)
       return false
     }
     this.is_set_amt = true
-    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount+ '<br/> Are you sure about performing this action?'
+    this.reverse_sub_title = 'Amount to be reversed - ₹'  + this.reverse_amount+ '<br/> Are you sure about performing this action?'
   }
   setTypeandAmtrefund() {
     if (!this.refund_type) {
@@ -255,11 +263,27 @@ export class TransactionsListComponent implements OnInit {
       return false
     }
     if (this.refund_amount > this.final_reverse_amount) {
-      this.message.error('Amount should be less than or equal to' + this.final_reverse_amount)
+      this.message.error('Amount should be less than or equal to ' + this.final_reverse_amount)
       return false
     }
     this.is_set_amt = true
-    this.refund_sub_title = 'Amount to be refundd - ₹' + this.refund_amount+ '<br/> Are you sure about performing this action?'
+    this.refund_sub_title = 'Amount to be refund - ₹' + this.refund_amount+ '<br/> Are you sure about performing this action?'
+  }
+  setTypeandAmtWaiveoff() {
+    if (!this.waive_off_type) {
+      this.message.error('Please select waive off type')
+      return false
+    }
+    if (!this.waive_off_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.waive_off_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to ' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.waive_off_sub_title = 'Amount to be waive off - ₹ ' + this.waive_off_amount+ '<br/> Are you sure about performing this action?'
   }
   reverseChargesFunction() {
     let data = new FormData()
