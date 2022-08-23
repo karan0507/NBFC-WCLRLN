@@ -1,1 +1,110 @@
-<p>deductions-list works!</p>
+<!-- <div class="header_breadcrumb_section"> -->
+    <!-- <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
+        ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button> -->
+<!-- </div> -->
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchDeductionList()">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="PENDING">Pending</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="APPROVED">Approved</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="REJECTED">Rejected</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchDeductionList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchDeductionList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="type" (ngModelChange)="fetchDeductionList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="'CR'" nzLabel="Credit"></nz-option>
+                        <nz-option [nzValue]="'DR'" nzLabel="Debit"></nz-option>
+                    </nz-select>
+                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchDeductionList()" [nzRanges]="customRanges"></nz-range-picker>
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%' }" (nzQueryParams)="list_data ? fetchDeductionList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Loan reference no</th>
+                        <th>Employee code</th>
+                        <th>Amount</th>
+                        <th>Corporate</th>
+                        <th>Deduction date</th>
+                        <th>Deduction month</th>
+                        <th>Reference no</th>
+                        <th>Unique reference no</th>
+                        <th>Source</th>
+                        <th>Created at</th>
+                        <th nzWidth="6rem" nzRight *ngIf="selectedTab == 'PENDING'">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['Loan_Reference_no'] ? data['Loan_Reference_no']: '-' }}</td>
+                        <td>{{ data['employee_code'] ? data['employee_code']: '-' }}</td>
+                        <td>{{ data['amount'] ? data['amount']: '-' }}</td>
+                        <td>{{ data['corporate'] ? data['corporate']: '-' }}</td>
+                        <td>{{ data['date'] ? data['date']: '-' }}</td>
+                        <td>{{ data['month'] ? data['month']: '-' }}</td>
+                        <td>{{ data['reference_no'] ? data['reference_no']: '-' }}</td>
+                        <td>{{ data['unique_reference_no'] ? data['unique_reference_no']: '-' }}</td>
+                        <td>{{ data['source'] ? data['source']: '-' }}</td>
+                        <td>{{ data['created_at'] ? (data['created_at'] | date: 'medium'): '-' }}</td>
+                        <td nzRight *ngIf="selectedTab == 'PENDING'">
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="isVisible = true; isApprove = true; getDeductionDetails(data)">
+                                            <span class="m-l-5">Deduction Approval</span>
+                                        </li>
+                                        <!-- <li nz-menu-item (click)="isVisible = true; isApprove = false; getDeductionDetails(data)">
+                                            <span class="m-l-5">Deduction Rejected</span>
+                                        </li> -->
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="null"
+    (nzOnCancel)="isVisible = false" (nzOnOk)="deductionApproval()"
+    [nzOkText]="isApprove ? 'Approve' : 'Reject'">
+    <ng-container *nzModalContent>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>You want sure {{isApprove ? 'Approve' : 'Reject'}} deduction?</h3>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>
