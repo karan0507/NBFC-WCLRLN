@@ -192,6 +192,7 @@ export class EmployeeDetailsComponent implements OnInit {
     return differenceInCalendarDays(current, this.today) > 0;
   };
   date = '';
+  dateTillEnd = [];
 
   constructor(
     private fb: FormBuilder,
@@ -202,6 +203,12 @@ export class EmployeeDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    for (let i = 0; i < 12; i++) {
+      const data = {
+        id: i + 1,
+      };
+      this.dateTillEnd.push(data);
+    }
     this.fetchPartnerList();
     this.route.queryParams.subscribe((params) => {
       // if (params['id'] && params['depo']) {
@@ -242,6 +249,8 @@ export class EmployeeDetailsComponent implements OnInit {
       branch: [null, [Validators.required]],
       remarks: [null, [Validators.required]],
       branch_name: [null, [Validators.required]],
+      unique_identifier: [null],
+      month: [null],
       // { value: null, disabled: true }
       section: [
         this.selectedTab ? this.selectedTab : null,
@@ -266,6 +275,7 @@ export class EmployeeDetailsComponent implements OnInit {
     this.router.navigate(["/employeeDetail"], {
       queryParams: { id: this.selectedId, targetCategory: this.selectedTab },
     });
+    this.uploadSelectedCorporateFile.reset();
   }
 
   getResultBasedOnSearch() {
@@ -436,6 +446,13 @@ export class EmployeeDetailsComponent implements OnInit {
           this.isViewLoader['isVisible'] = false;
         }
       );
+    } else if(action === "error"){
+      // console.log(id)
+      // return;
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+      // this.downloadFile(id);
+      this.message.remove(generateloader);
+      window.open(`${id}`, '_blank');
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
       // downloadUploadedUserDetailFile
@@ -463,7 +480,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   returnPixel(axes, columns){
-    if(columns?.length < 4){
+    if(columns?.length < 3){
       return null;
     } 
     const columns_count =  columns?.length;
@@ -752,33 +769,48 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   isFail = false;
+  // uploadFileLoader: boolean;
   onClickUploadFile() {
-    if(!this.overallFileStatus){
-      this.isFail = true;
-      this.isVisibleModal["toggleHeaderText"] = false;
-      this.isVisibleModal["uploadButtonLoading"] = false;
-      this.isVisibleModal["previewIsVisible"] = false;
-      this.isVisibleModal["previewForAttandance"] = false;
-      this.isVisibleModal["previewForExitEmployee"] = false;
-      this.isVisibleModal["hideUpload"] = false;
-      this.isVisibleModal["modalIsVisible"] = false;
-      this.uploadSelectedCorporateFile.controls["partner"].reset();
-      this.uploadSelectedCorporateFile.controls["remarks"].reset();
-      this.uploadSelectedCorporateFile.controls["branch"].reset();
-      this.uploadSelectedCorporateFile.controls["file"].reset();
-      this.fileName = null;
-      return;
+    // if(!this.overallFileStatus){
+    //   this.isFail = true;
+    //   this.isVisibleModal["toggleHeaderText"] = false;
+    //   this.isVisibleModal["uploadButtonLoading"] = false;
+    //   this.isVisibleModal["previewIsVisible"] = false;
+    //   this.isVisibleModal["previewForAttandance"] = false;
+    //   this.isVisibleModal["previewForExitEmployee"] = false;
+    //   this.isVisibleModal["hideUpload"] = false;
+    //   this.isVisibleModal["modalIsVisible"] = false;
+    //   this.uploadSelectedCorporateFile.controls["partner"].reset();
+    //   this.uploadSelectedCorporateFile.controls["remarks"].reset();
+    //   this.uploadSelectedCorporateFile.controls["branch"].reset();
+    //   this.uploadSelectedCorporateFile.controls["file"].reset();
+    //   this.uploadSelectedCorporateFile.controls["unique_identifier"].reset();
+    //   this.uploadSelectedCorporateFile.controls["file"].reset();
+    //   this.fileName = null;
+    //   return;
+    // }
+    this.isVisibleModal['uploadButtonLoading'] = true;
+    if(this.selectedTab != 'New Joinees'){
+      delete this.uploadSelectedCorporateFile.value?.month;
     }
     if (this.uploadSelectedCorporateFile.valid) {
+      // this.isVisibleModal['uploadButtonLoading'] = true;
       this.isVisibleModal["uploadButtonLoading"] = true;
       let data = new FormData();
       let sendDate = this.uploadSelectedCorporateFile.value;
       for (var i in sendDate) {
-        data.append(i, sendDate[i]);
+        // if(this.selectedTab == 'New Joinees'){
+          data.append(i, sendDate[i]);
+        // } else {
+        //   if(sendDate[i] !== 'unique_identifier'){
+        //     data.append(i, sendDate[i]);
+        //   }
+        // }
       }
       // let data = this.uploadSelectedCorporateFile.value
       this.http.uploadUserEmployeePreviewedFile(data).subscribe((res: any) => {
         if (res.success) {
+          this.isVisibleModal['uploadButtonLoading'] = false;
           this.uploadSelectedCorporateFile.reset();
           this.isVisibleModal["toggleHeaderText"] = false;
           this.isVisibleModal["uploadButtonLoading"] = false;
@@ -790,6 +822,7 @@ export class EmployeeDetailsComponent implements OnInit {
           this.message.success("File Uploaded");
           this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
         } else {
+          this.isVisibleModal['uploadButtonLoading'] = false;
           this.isVisibleModal["toggleHeaderText"] = false;
           this.isVisibleModal["previewIsVisible"] = false;
           this.isVisibleModal["previewForAttandance"] = false;
@@ -798,12 +831,15 @@ export class EmployeeDetailsComponent implements OnInit {
           this.isVisibleModal["uploadButtonLoading"] = false;
           this.message.error("Unable to File Uploaded");
         }
+      }, error=>{
+        this.isVisibleModal['uploadButtonLoading'] = false;
       });
     } else {
       for (const i in this.uploadSelectedCorporateFile.controls) {
         this.uploadSelectedCorporateFile.controls[i].markAsDirty();
         this.uploadSelectedCorporateFile.controls[i].updateValueAndValidity();
       }
+      this.isVisibleModal['uploadButtonLoading'] = false;
       this.isVisibleModal["previewIsVisible"] = false;
     }
   }

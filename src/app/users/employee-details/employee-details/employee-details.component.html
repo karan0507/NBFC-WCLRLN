@@ -2,10 +2,10 @@
   <div class="d-flex justify-content-md-between flex-wrap w-100">
     <div></div>
     <!--  -->
-    <div *ngIf="selectedTab == 'corporate' || selectedTab == 'allEmployee' || selectedTab == 'recommendation' " style="min-height: 32px;">
+    <div *ngIf="selectedTab == 'corporate' || selectedTab == 'allEmployee' || selectedTab == 'recommendation' && selectedTab == 'Notice Period'" style="min-height: 32px;">
       
     </div>
-    <div *ngIf="selectedTab !== 'corporate' && selectedTab !== 'allEmployee' && selectedTab !== 'recommendation'">
+    <div *ngIf="selectedTab !== 'corporate' && selectedTab !== 'allEmployee' && selectedTab !== 'recommendation' && selectedTab != 'Notice Period'">
       <!-- <button nz-button nzType="primary" class="ml-auto px-3 mx-3" nzSize="small" (click)="onClickUploadSelectedFileOfCurrentSection()"> sampleFil </button> -->
       <button  
         nz-button 
@@ -52,7 +52,7 @@
         Upload
       </button>
       </ng-container>
-      <ng-container *ngIf="selectedTab == 'Notice Period'" >
+      <!-- <ng-container *ngIf="selectedTab == 'Notice Period'" >
         <button
         nz-button
         class="ml-auto px-3 text-primary"
@@ -62,7 +62,7 @@
       >
         Upload
       </button>
-      </ng-container>
+      </ng-container> -->
       <!-- <button nz-button nzType="link"  class="ml-3 border">Upload</button> -->
     </div>
   </div>
@@ -134,6 +134,9 @@
   </div>
 </section>
 
+<!-- This list section is for only Employee List and Recommendation -->
+
+
 <section
   *ngIf="
     selectedTab === 'recommendation' ||
@@ -154,9 +157,6 @@
                 placeholder="Search text"
               />
             </nz-input-group>
-            <!-- <ng-template #suffixIconButton>
-                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
-                        </ng-template> -->
             <ng-template #suffixIconButton>
               <button
                 (click)="getResultBasedOnSearch()"
@@ -181,13 +181,6 @@
           </div>
 
           <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-            <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
-                        (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
-                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
-                        </nz-option>
-                        <nz-option nzValue="All" nzLabel="all">
-                        </nz-option>
-                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
               <nz-select *ngIf="selectedTab == 'corporate'"
                   class="mx-1"
                   [(ngModel)]="selectedSection"
@@ -201,7 +194,6 @@
                     [nzValue]="item?.value"
                     [nzLabel]="item?.value"
                   >
-                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
                   </nz-option>
             </nz-select>
             <nz-select
@@ -237,8 +229,6 @@
                 <div *ngIf="item.name">{{ item?.name }}</div>
               </nz-option>
             </nz-select>
-            <!-- (nzOnSearch)="OnTypeSearchList($event)" 
-            (ngModelChange)="getResultWithSelectedFilter($event)"-->
             <nz-select *ngIf="selectedTab == 'recommendation'" 
               class="mx-1"
               [(ngModel)]="selectedAction"
@@ -419,6 +409,8 @@
   </section>
 </section>
 
+<!-- This list section is for only New Joiness, Employee Databases, Exit Employee, Attandance, Notice Period, Corporate -->
+
 <section
   *ngIf="
     selectedTab === 'New Joinees' ||
@@ -470,13 +462,6 @@
           </div>
 
           <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-            <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
-                        (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
-                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
-                        </nz-option>
-                        <nz-option nzValue="All" nzLabel="all">
-                        </nz-option>
-                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
               <nz-select *ngIf="selectedTab == 'corporate'"
                   class="mx-1"
                   [(ngModel)]="selectedSection"
@@ -490,7 +475,6 @@
                     [nzValue]="item?.value"
                     [nzLabel]="item?.value"
                   >
-                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
                   </nz-option>
             </nz-select>
             <nz-select
@@ -544,7 +528,7 @@
                   <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']" >
                     <th *ngIf="selectedTab == 'corporate'">Verify</th>
                   </ng-container>
-                  <th *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" nzRight>Actions</th>
+                  <th *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" nzRight [nzWidth]="20">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -590,7 +574,7 @@
                       <label nz-checkbox (ngModelChange)="ngModelChange($event,data)" [nzDisabled]="data.is_verified" [(ngModel)]="data.is_verified"></label> 
                     </td>
                   </ng-container>
-                  <td nzRight *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" >
+                  <td nzRight [nzWidth]="20" *ngxPermissionsOnly="['download_uploaded_corporate_file','view_uploaded_corporate_file']" >
                     <a
                       nz-button
                       class="primary"
@@ -606,6 +590,20 @@
                       "
                       >Download</a
                     >
+                    <a *ngIf="data?.error_file && selectedTab != 'corporate'"
+                      nz-button
+                      nzType="link"
+                      (click)="
+                        onClickGetUploadedDocDetail(data?.error_file, 'error')
+                      "
+                      >Download Error File</a>
+                      <a  *ngIf="!data?.error_file  && selectedTab != 'corporate'" class="text-danger"
+                      nz-button
+                      nzType="link"
+                      >No File To Download</a>
+                      <!-- (click)="
+                        onClickGetUploadedDocDetail(data?.error_file, 'download')
+                      " -->
                   </td>
                 </tr>
               </tbody>
@@ -707,6 +705,50 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+          <div class="col-md-12"  *ngIf="selectedTab == 'New Joinees'">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="7"
+                [nzXs]="24"
+                class="text-left"
+                nzFor="partner"
+                nzRequired
+                >Selected Month</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="17"
+                [nzXs]="24"
+                nzErrorTip="Please Select Valid Corporate"
+              >
+                <nz-select formControlName="month" nzPlaceHolder="Select Month">
+                  <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
+                  </nz-option>
+              </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-12">
+              <nz-form-item>
+                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="unique_identifier" class="text-left" nzRequired>Unique Identifiew
+                </nz-form-label>
+                <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                    <nz-radio-group formControlName='unique_identifier'>
+                        <label nz-radio [nzValue]="'CODE'">CODE</label>
+                        <label nz-radio [nzValue]="'MOBILE'">MOBILE</label>
+                    </nz-radio-group>
+                </nz-form-control>
+            </nz-form-item>
+          </div>
+          <!-- <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="salary_date" class="text-left">Salary Date
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                <nz-select formControlName="salary_date" nzPlaceHolder="Select Date">
+                    <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item> -->
           <div class="col-md-12">
             <nz-form-item>
               <nz-form-label
@@ -835,271 +877,7 @@
                               </td>  
                             </ng-container>
                           </tr>
-                          <!-- <tr *ngFor="let item of retrievedFileResponse; index as i">
-                            <td>{{ i + 1 }}</td>
-                              <td *ngFor="let sub_item of item| keyvalue : returnZero">
-                                <label>
-                                  {{ sub_item?.value ? sub_item?.value : ' - ' }}
-                                </label>
-                              </td>  
-                          </tr> -->
                         </tbody>
-            <!-- <thead>
-              <tr>
-                <ng-container  *ngFor="let data of retrievedFileResponseKey; index as i">
-                  <th *ngIf=" i == 0" rowspan="2">#</th>
-                  <th  *ngIf="data != 'Photo' && data != 'errors' ">
-                    {{ data }}
-                  </th>
-                </ng-container>
-              </tr>
-            </thead> -->
-            <!-- <ng-container *ngFor="let item of retrievedFileResponse; index as i"> -->
-            <!-- <tbody>
-                <tr *ngFor="let item of retrievedFileResponse; index as i">
-                  <td>{{ i + 1 }}</td>
-                  <td *ngFor="let data of item | keyvalue; index as i">
-                    <label *ngIf="data.key !== 'Photo' && data.key != 'errors' && data.key != 'row_status'">
-                       {{data?.value}}
-                    </label>
-                    <label *ngIf="data.key == 'errors'">
-                      <span *ngIf="!data.key?.row_status" class="text-danger"
-                        >Error &nbsp;
-                        <i
-                          nz-icon
-                          nzType="info-circle"
-                          nzTheme="outline"
-                          style="cursor: pointer"
-                          nz-popover
-                          [nzPopoverContent]="contentTemplate"
-                          nzPopoverPlacement="top"
-                        ></i>
-                      </span>
-                      <span *ngIf="data.key?.row_status" class="text-success"
-                        >Success</span
-                      >
-                      <ng-template #contentTemplate>
-                        <div class="px-3">
-                          <ul *ngFor="let err of data.value">
-                            <li class="text-danger">{{ err }}</li>
-                          </ul>
-                        </div>
-                      </ng-template>
-                    </label>
-                    </td>
-            </tbody> -->
-            <!-- <td>
-                      <span *ngIf="!data?.row_status" class="text-danger"
-                        >Error &nbsp;
-                        <i
-                          nz-icon
-                          nzType="info-circle"
-                          nzTheme="outline"
-                          style="cursor: pointer"
-                          nz-popover
-                          [nzPopoverContent]="contentTemplate"
-                          nzPopoverPlacement="top"
-                        ></i>
-                      </span>
-                      <span *ngIf="data?.row_status" class="text-success"
-                        >Success</span
-                      >
-                      <ng-template #contentTemplate>
-                        <div class="px-3">
-                          <ul *ngFor="let item of data.errors">
-                            <li class="text-danger">{{ item }}</li>
-                          </ul>
-                        </div>
-                      </ng-template>
-                    </td> -->
-                  <!-- </ng-container>  {{ data.key  }},-->
-                <!-- <td>{{ i + 1 }}</td>
-                <td>{{ data?.First_Name ? data?.First_Name : " " }}</td>
-                <td>{{ data?.Middle_Name ? data?.Middle_Name : " " }}</td>
-                <td>{{ data?.Last_Name ? data?.Last_Name : " " }}</td>
-                <td>{{ data?.Emp_ID ? data?.Emp_ID : " -- " }}</td>
-                <td>{{ data?.Sex ? data?.Sex : " - " }}</td>
-                <td>
-                  {{ data?.DOB ? (data?.DOB | date: "dd-MM-yy") : " - " }}
-                </td>
-                <td>
-                  {{
-                    data?.Joining_Date
-                      ? (data?.Joining_Date | date: "dd-MM-yy")
-                      : " - "
-                  }}
-                </td>
-                <td>
-                  {{
-                    data?.Gross_Monthly_income
-                      ? data?.Gross_Monthly_income
-                      : " - "
-                  }}
-                </td>
-                <td>
-                  {{
-                    data?.Net_monthly_income ? data?.Net_monthly_income : " "
-                  }}
-                </td>
-                <td>
-                  {{
-                    data?.Advance_salary_from_company
-                      ? data?.Advance_salary_from_company
-                      : " -- "
-                  }}
-                </td>
-                <td>
-                  {{ data?.Marital_Status ? data?.Marital_Status : " -- " }}
-                </td>
-                <td>
-                  {{ data?.No_of_Children ? data?.No_of_Children : " - " }}
-                </td>
-                <td>{{ data?.Father_Name ? data?.Father_Name : " - " }}</td>
-                <td>{{ data?.Dependant ? data?.Dependant : " - " }}</td>
-                <td>{{ data?.Office_Tel_No ? data?.Office_Tel_No : " - " }}</td>
-                <td>{{ data?.Office_Extn_No ? data?.Office_Extn_No : " " }}</td>
-                <td>
-                  {{
-                    data?.official_Email_ID ? data?.official_Email_ID : " - "
-                  }}
-                </td>
-                <td>{{ data?.Mobile_no ? data?.Mobile_no : " - " }}</td>
-                <td>{{ data?.Home_no ? data?.Home_no : " - " }}</td>
-                <td>
-                  {{
-                    data?.Personal_Email_id ? data?.Personal_Email_id : " - "
-                  }}
-                </td>
-                <td>
-                  {{ data?.Employee_Type ? data?.Employee_Type : " -- " }}
-                </td>
-                <td>{{ data?.Active_Status ? data?.Active_Status : " - " }}</td>
-                <td>{{ data?.Branch_Name ? data?.Branch_Name : " - " }}</td>
-                <td>
-                  {{ data?.Branch_Address ? data?.Branch_Address : " - " }}
-                </td>
-                <td>
-                  {{ data?.Department_Name ? data?.Department_Name : " - " }}
-                </td>
-                <td>{{ data?.Manager_Name ? data?.Manager_Name : " -- " }}</td>
-                <td>
-                  {{ data?.Designation_Name ? data?.Designation_Name : " - " }}
-                </td>
-                <td>{{ data?.Division_Name ? data?.Division_Name : " - " }}</td>
-                <td>
-                  {{ data?.Crspnd_Street_No ? data?.Crspnd_Street_No : " - " }}
-                </td>
-                <td>{{ data?.Crspnd_Street ? data?.Crspnd_Street : " - " }}</td>
-                <td>{{ data?.Crspnd_Block ? data?.Crspnd_Block : " - " }}</td>
-                <td>
-                  {{ data?.Crspnd_Building ? data?.Crspnd_Building : " - " }}
-                </td>
-                <td>{{ data?.Crspnd_PS ? data?.Crspnd_PS : " - " }}</td>
-                <td>{{ data?.Crspnd_PO ? data?.Crspnd_PO : " - " }}</td>
-                <td>
-                  {{ data?.Crspnd_Landmark ? data?.Crspnd_Landmark : " - " }}
-                </td>
-                <td>{{ data?.Crspnd_City ? data?.Crspnd_City : " - " }}</td>
-                <td>{{ data?.Crspnd_ZIP ? data?.Crspnd_ZIP : " - " }}</td>
-                <td>{{ data?.Crspnd_State ? data?.Crspnd_State : " - " }}</td>
-                <td>
-                  {{
-                    data?.Crspnd_State_Name ? data?.Crspnd_State_Name : " - "
-                  }}
-                </td>
-                <td>
-                  {{ data?.Crspnd_Country ? data?.Crspnd_Country : " - " }}
-                </td>
-                <td>
-                  {{
-                    data?.Crspnd_Country_Name
-                      ? data?.Crspnd_Country_Name
-                      : " - "
-                  }}
-                </td>
-                <td>
-                  {{ data?.Prmnt_Street_No ? data?.Prmnt_Street_No : " - " }}
-                </td>
-                <td>{{ data?.Prmnt_Street ? data?.Prmnt_Street : " - " }}</td>
-                <td>{{ data?.Prmnt_Block ? data?.Prmnt_Block : " - " }}</td>
-                <td>
-                  {{ data?.Prmnt_Building ? data?.Prmnt_Building : " - " }}
-                </td>
-                <td>{{ data?.Prmnt_PS ? data?.Prmnt_PS : " - " }}</td>
-                <td>{{ data?.Prmnt_PO ? data?.Prmnt_PO : " - " }}</td>
-                <td>
-                  {{ data?.Prmnt_Landmark ? data?.Prmnt_Landmark : " - " }}
-                </td>
-                <td>{{ data?.Prmnt_City ? data?.Prmnt_City : " " }}</td>
-                <td>{{ data?.Prmnt_ZIP ? data?.Prmnt_ZIP : " - " }}</td>
-                <td>{{ data?.Prmnt_State ? data?.Prmnt_State : " " }}</td>
-                <td>
-                  {{ data?.Prmnt_State_Name ? data?.Prmnt_State_Name : " - " }}
-                </td>
-                <td>{{ data?.Prmnt_Country ? data?.Prmnt_Country : " - " }}</td>
-                <td>
-                  {{ data?.Prmnt_Country1 ? data?.Prmnt_Country1 : " - " }}
-                </td>
-                <td>{{ data?.Bank_Name ? data?.Bank_Name : " - " }}</td>
-                <td>{{ data?.IFSC_Code ? data?.IFSC_Code : " - " }}</td>
-                <td>{{ data?.Bank_Branch ? data?.Bank_Branch : " - " }}</td>
-                <td>{{ data?.Bank_Account ? data?.Bank_Account : " -- " }}</td>
-                <td>{{ data?.Name_in_Bank ? data?.Name_in_Bank : " -- " }}</td>
-                <td>
-                  {{ data?.Benificiary_Name ? data?.Benificiary_Name : " -- " }}
-                </td>
-                <td>
-                  {{
-                    data?.Confirmation_Date ? data?.Confirmation_Date : " -- "
-                  }}
-                </td>
-                <td>
-                  {{ data?.Resignation_Date ? data?.Resignation_Date : " -- " }}
-                </td>
-                <td>
-                  {{
-                    data?.Last_Working_Date ? data?.Last_Working_Date : " - "
-                  }}
-                </td>
-                <td>
-                  {{ data?.GratuityNominee ? data?.GratuityNominee : " - " }}
-                </td>
-                <td>{{ data?.PFNominee ? data?.PFNominee : " " }}</td>
-                <td>{{ data?.Aadhar_No ? data?.Aadhar_No : " " }}</td>
-                <td>
-                  {{
-                    data?.Driving_License_No ? data?.Driving_License_No : " - "
-                  }}
-                </td>
-                <td>{{ data?.Passport_No ? data?.Passport_No : " -- " }}</td>
-                <td>{{ data?.Pan_no ? data?.Pan_no : " -- " }}</td>
-                <td>
-                  <span *ngIf="!data?.row_status" class="text-danger"
-                    >Error &nbsp;
-                    <i
-                      nz-icon
-                      nzType="info-circle"
-                      nzTheme="outline"
-                      style="cursor: pointer"
-                      nz-popover
-                      [nzPopoverContent]="contentTemplate"
-                      nzPopoverPlacement="top"
-                    ></i>
-                  </span>
-                  <span *ngIf="data?.row_status" class="text-success"
-                    >Success</span
-                  >
-                  <ng-template #contentTemplate>
-                    <div class="px-3">
-                      <ul *ngFor="let item of data.errors">
-                        <li class="text-danger">{{ item }}</li>
-                      </ul>
-                    </div>
-                  </ng-template>
-                </td> -->
-                <!-- <td> {{data?.row_status ? data?.row_status : ' -- '}} </td> -->
-                <!-- <td> {{data?.Photo  </td> -->
-              <!-- </tr> -->
           </nz-table>
       </div>
       <div class="row" *ngIf="isVisibleModal['previewForExitEmployee']">
@@ -1225,11 +1003,11 @@
 
 <!-- For FIle Uplaod and preview -->
 <ng-template #footerModal>
-<div *ngIf="selectedTab == 'New Joinees' || selectedTab == 'Employee Database' || selectedTab == 'Notice Period'">
+<div *ngIf="selectedTab == 'Employee Database' || selectedTab == 'Notice Period'">
   <button nz-button nzType="link" class="border" (click)="handleCancel()">
     Cancel
   </button>
-  <button
+  <!-- <button
     nz-button
     nzType="primary"
     class="mx-2"
@@ -1240,14 +1018,43 @@
     (click)="handleOk()"
   >
     Click to Preview
-  </button>
+  </button> -->
+  <!-- *ngIf="isVisibleModal['previewIsVisible']" -->
   <button
     nz-button
     nzType="primary"
     class="mx-2"
-    *ngIf="isVisibleModal['previewIsVisible']"
     [nzLoading]="isVisibleModal['uploadButtonLoading']"
+    [disabled]="!uploadSelectedCorporateFile.valid"
     (click)="onClickUploadFile()"
+  >
+    Upload File
+  </button>
+</div>
+<div *ngIf="selectedTab == 'New Joinees'">
+  <button nz-button nzType="link" class="border" (click)="handleCancel()">
+    Cancel
+  </button>
+  <!-- <button
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    *ngIf="!isVisibleModal['previewForAttandance']"
+    [nzLoading]="isVisibleModal['previewButtonLoading']"
+    nzGhost
+    [disabled]="!uploadSelectedCorporateFile.valid"
+    (click)="handleOk()"
+  >
+    Click to Preview
+  </button> -->
+  <!-- *ngIf="isVisibleModal['previewForAttandance']" -->
+  <button
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    [nzLoading]="isVisibleModal['previewButtonLoading']"
+    (click)="onClickUploadFile()"
+    [disabled]="!uploadSelectedCorporateFile.valid || !uploadSelectedCorporateFile.get('month').value"
   >
     Upload File
   </button>
@@ -1256,7 +1063,7 @@
     <button nz-button nzType="link" class="border" (click)="handleCancel()">
       Cancel
     </button>
-    <button
+    <!-- <button
       nz-button
       nzType="primary"
       class="mx-2"
@@ -1267,14 +1074,15 @@
       (click)="handleOk()"
     >
       Click to Preview
-    </button>
+    </button> -->
+    <!-- *ngIf="isVisibleModal['previewForAttandance']" -->
     <button
       nz-button
       nzType="primary"
       class="mx-2"
-      *ngIf="isVisibleModal['previewForAttandance']"
       [nzLoading]="isVisibleModal['previewButtonLoading']"
       (click)="onClickUploadFile()"
+      [disabled]="!uploadSelectedCorporateFile.valid"
     >
       Upload File
     </button>
@@ -1283,7 +1091,7 @@
     <button nz-button nzType="link" class="border" (click)="handleCancel()">
       Cancel
     </button>
-    <button
+    <!-- <button
       nz-button
       nzType="primary"
       class="mx-2"
@@ -1294,18 +1102,19 @@
       (click)="handleOk()"
     >
       Click to Preview
-    </button>
+    </button> -->
     <button
       nz-button
       nzType="primary"
       class="mx-2"
-      *ngIf="isVisibleModal['previewForExitEmployee']"
       [nzLoading]="isVisibleModal['uploadButtonLoading']"
+      [disabled]="!uploadSelectedCorporateFile.valid"
       (click)="onClickUploadFile()"
     >
       Upload File
     </button>
 </div>
+<!-- *ngIf="isVisibleModal['previewForExitEmployee']" -->
 </ng-template>
 
 <section>
@@ -1356,19 +1165,13 @@
             </tr>
           </tbody>
           </nz-table>
-          <!-- <td> {{data?.Photo}} <img [url]="'{{data?.Photo}}'" >  </td> -->
-          <!-- (nzQueryParams)="onClickGetUploadedDocDetail(selectedIdForView, 'view',$event)" 
-          [nzTotal]="viewTotalCount"
-            [viewPageCount]="page"
-            [nzPageSize]="viewPageSize" 
-          (nzQueryParams)="isViewLoader['viewContent']?.data[0] ? onClickGetUploadedDocDetail(selectedIdForView, 'view',$event) : null" -->
-          <nz-table *ngIf="selectedTab == 'Attendance'"
+          <nz-table *ngIf="selectedTab == 'Attendance'" style="width: 100%;"
             [nzLoading]="isViewLoader['isVisible']"
             nzFrontPagination="false"
             nzShowSizeChanger="false"
-            [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}"
             [nzData]="isViewLoader['viewContent']"
           >
+          <!-- [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}" -->
             <thead>
               <tr>
                 <th  class="px-3" nzWidth="5rem" rowspan="2">#</th>
