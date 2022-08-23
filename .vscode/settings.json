@@ -3,5 +3,6 @@
         "Aadhar",
         "cibil",
         "generateloader"
-    ]
+    ],
+    "angular.enable-strict-mode-prompt": false
 }
