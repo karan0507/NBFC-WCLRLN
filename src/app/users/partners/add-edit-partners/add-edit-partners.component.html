@@ -558,8 +558,8 @@
                         </nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
                             <nz-radio-group formControlName='allow_bank_transfer'>
-                                <label nz-radio nzValue="True">Yes</label>
-                                <label nz-radio nzValue="False">No</label>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
@@ -568,10 +568,10 @@
                     <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_scan_and_pay" class="text-left" nzRequired>Allow Scan And Pay
                         </nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Payout Option!">
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
                             <nz-radio-group formControlName='allow_scan_and_pay'>
-                                <label nz-radio nzValue="True">Yes</label>
-                                <label nz-radio nzValue="False">No</label>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
                             </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
