@@ -1132,4 +1132,10 @@ export class HttpService {
       fetchVersionList( data){
             return this._http.get(this.url + `/loan-application/v1/get-app-version-list`, {params: data});
       }
+      public fetchDeductionList(data?) {
+            return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data });
+      }
+      public deductionApproval(id) {
+            return this._http.post((this.url + `/hrms-api/quesscorp-deduction` + id), id);
+      }
 }
