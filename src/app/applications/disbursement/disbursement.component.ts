@@ -575,4 +575,19 @@ export class DisbursementComponent implements OnInit {
         });
       }
     }
+    sendEnachLink(id, type) {
+      let data = new FormData()
+      data.append('source', 'LMS'),
+      data.append('datapoint', 'create_mandate_registration_link'),
+      data.append('auth_type', type),
+      data.append('accepted_offer_id', id)
+      const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
+      this.https.fetchLoanApplicationUpload(data).subscribe(res => {
+        this.message.remove(generateloader);
+        this.message.success(res['message'])
+        // this.EMandateRegistrationLink()
+      }, (err) => {
+        this.message.remove(generateloader);
+      })
+    }
 }

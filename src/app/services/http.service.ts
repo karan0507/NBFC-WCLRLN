@@ -13,6 +13,7 @@ export class HttpService {
 
       // dev production
       // url =  'https://adminapi.fatakpay.com'
+      // url = 'https://adminapi.fatakpay.com'
 
       // url = 'https://uatadminapi.fatakpay.com'; // UAT URL
       url = this.valueFunction();
@@ -1127,5 +1128,8 @@ export class HttpService {
       // Get Application stage count
       public getBorrowersStageCount(data?){
             return this._http.get(this.url + (`/loan-application/v1/get-lms-staging-list`), {params : data})
+      }
+      fetchVersionList( data){
+            return this._http.get(this.url + `/loan-application/v1/get-app-version-list`, {params: data});
       }
 }
