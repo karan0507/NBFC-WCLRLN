@@ -524,6 +524,7 @@
                   <th>Added on</th>
                   <th>Added By</th>
                   <th  *ngIf="selectedTab !== 'corporate'">Remarks</th>
+                  <th  *ngIf="selectedTab !== 'corporate'">Status</th>
                   <th  *ngIf="selectedTab == 'corporate'">Section</th>
                   <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']" >
                     <th *ngIf="selectedTab == 'corporate'">Verify</th>
@@ -568,6 +569,8 @@
                     </div>
                   </td>
                   <td *ngIf="selectedTab !== 'corporate'">{{ data?.remarks ? data?.remarks : " " }}</td>
+                  <td *ngIf="selectedTab !== 'corporate'" [class] = "data?.status == 'FINISHED' ? 'text-success' : 'text-danger'">{{ data?.status ? data?.status : " " }}</td>
+                  <!-- <th  *ngIf="selectedTab !== 'corporate'">Status</th> -->
                   <td *ngIf="selectedTab == 'corporate'">{{ data?.section ? data?.section : " " }}</td>
                   <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']">
                     <td *ngIf="selectedTab == 'corporate'" > 
