@@ -590,7 +590,7 @@
                       "
                       >Download</a
                     >
-                    <a *ngIf="data?.error_file && selectedTab != 'corporate'"
+                    <a *ngIf="data?.error_file && selectedTab != 'corporate'"  class="text-danger"
                       nz-button
                       nzType="link"
                       (click)="
@@ -600,7 +600,7 @@
                       <a  *ngIf="!data?.error_file  && selectedTab != 'corporate'" class="text-danger"
                       nz-button
                       nzType="link"
-                      >No File To Download</a>
+                      >Error File Not Found</a>
                       <!-- (click)="
                         onClickGetUploadedDocDetail(data?.error_file, 'download')
                       " -->
