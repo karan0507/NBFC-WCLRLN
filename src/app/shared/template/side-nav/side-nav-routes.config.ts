@@ -491,15 +491,15 @@ export const ROUTES: SideNavInterface[] = [
                         permission: [''],
                         submenu: []
                     },
-                    // {
-                    //     path: '',
-                    //     title: 'Deduction Approvals',
-                    //     iconType: '',
-                    //     icon: '',
-                    //     iconTheme: '',
-                    //     permission: [''],
-                    //     submenu: []
-                    // },
+                    {
+                        path: 'lms/deductions',
+                        title: 'Deduction Approvals',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
 
                 ]
             },
