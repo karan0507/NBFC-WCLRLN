@@ -29,6 +29,24 @@
             </div>
             <div class="col-md-4 mb-3">
                 <div class="row">
+                    <div class="col-md-6 font-weight-semibold font-size-16">Payee Account holder name</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payee_data?.bank_account_holder_name ? listOfData?.payee_data?.bank_account_holder_name : '-'}}</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="row">
+                    <div class="col-md-6 font-weight-semibold font-size-16">Payee account no</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payee_data?.bank_account_number ? listOfData?.payee_data?.bank_account_number : '-'}}</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="row">
+                    <div class="col-md-6 font-weight-semibold font-size-16">Payee Bank IFSC</div>
+                    <div class="col-md-6 font-size-16" style="word-break: break-all;">{{listOfData?.payee_data?.bank_ifsc ? listOfData?.payee_data?.bank_ifsc : '-'}}</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="row">
                     <div class="col-md-6 font-weight-semibold font-size-16">Payee UPI ID</div>
                     <div class="col-md-6 font-size-16" style="word-break: break-all;">
                         <span nz-tooltip nzTooltipTitle="{{listOfData?.payee_data?.payee_upi_id}}">

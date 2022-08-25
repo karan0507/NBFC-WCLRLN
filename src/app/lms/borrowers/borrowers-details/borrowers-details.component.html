@@ -461,6 +461,7 @@
                               <th>Amount</th>
                               <th>Bill date</th>
                               <th>Paid on</th>
+                              <th>Total received</th>
                               <th>Paid status</th>
                               <th>Created At</th>
                               <th nzWidth="5rem" nzRight>Actions</th>
@@ -473,6 +474,7 @@
                               <td>{{ data?.credit_utilization_bill?.outstanding_amount ? data?.credit_utilization_bill?.outstanding_amount : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.bill_date | date: "medium" }}</td>
                               <td>{{ data?.credit_utilization_bill?.paid_on ? (data?.credit_utilization_bill?.paid_on | date: "medium") : '-' }}</td>
+                              <td>{{ data?.credit_utilization_bill?.total_received ? data?.credit_utilization_bill?.total_received : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.paid_status ? 'Paid' : 'Unpaid' }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
                               <td nzRight>
