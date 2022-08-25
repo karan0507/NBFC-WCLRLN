@@ -91,7 +91,7 @@
             </div> -->
           </div>
           <div
-            class="col-md-7 d-flex justify-content-center"
+            class="col-md-7 d-flex justify-content-center" style="min-height: 14rem"
             *ngIf="
               fetchedList['corporate']?.fixed_count ||  fetchedList['corporate']?.ewa_count"
           >
@@ -560,7 +560,345 @@
         Mandate
       </ng-template>
     </div> -->
+
     <div class="col-md-6 mb-md-3">
+      <nz-card
+        [nzTitle]="authorisation"
+        [nzExtra]="authorizationTemplate"
+        class="h-100"
+      >
+        <nz-table
+          [nzLoading]="isLoading['authorization']"
+          [nzData]="fetchedList['authorization']"
+        >
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Credit Transactions</th>
+              <th>Total Count</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr>
+                <td>1</td>
+                <td>Total</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[0]?.total
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[0]?.amount
+                      : 0
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Success</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[1]?.success
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[1]?.amount
+                      : 0
+                  }}
+                </td>
+                <!-- <td>{{fetchedList['authorization']?.failed ? ('₹ ' + fetchedList['authorization']?.failed) : ' 0 '}}</td> -->
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Failed</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[2]?.failed : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[2]?.amount: 0
+                  }}
+                </td>
+                <!-- <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td> -->
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+        <div class="row mt-md-4 ant-card-head px-0 py-3">
+          <div class="col-md-12">
+            <p class="m-b-0 muted">Credit Failure Ratio</p>
+          </div>
+          <div class="col-md-6">
+            <h5 class="m-b-0">Failed/Total Transaction</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="m-b-0">
+              {{
+                (fetchedList["authorization"]?.failure_ratio_credit?.failed ? fetchedList["authorization"]?.failure_ratio_credit?.failed : " 0 ") +
+                  "/" +
+                  (fetchedList["authorization"]?.failure_ratio_credit?.total ? fetchedList["authorization"]?.failure_ratio_credit?.total : " 0 ")
+              }}
+            </h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="m-b-0">
+              {{
+                fetchedList["authorization"]?.failure_ratio_credit?.failed_percentage ? fetchedList["authorization"]?.failure_ratio_credit?.failed_percentage : " 0 " 
+              }}%
+            </h5>
+          </div>
+        </div>
+        <nz-table class="mt-3"
+          [nzLoading]="isLoading['authorization']"
+          [nzData]="fetchedList['authorization']">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Debit Transactions</th>
+              <th>Total Count</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr>
+                <td>1</td>
+                <td>Total</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[0]?.total
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[0]?.amount
+                      : 0
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Success</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[1]?.success
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.credit
+                      ? fetchedList["authorization"]?.credit[1]?.amount
+                      : 0
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Failed</td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[2]?.failed
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[2]?.amount: 0
+                  }}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+        <div class="row mt-md-4 ant-card-head px-0 py-3">
+          <div class="col-md-12">
+            <p class="m-b-0 muted">Debit Failure Ratio</p>
+          </div>
+          <div class="col-md-6">
+            <h5 class="m-b-0">Failed/Total Transaction</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="m-b-0">
+              {{
+                (fetchedList["authorization"]?.failure_ratio_debit?.failed ? fetchedList["authorization"]?.failure_ratio_debit?.failed :" 0 ")+
+                  "/" +
+                  (fetchedList["authorization"]?.failure_ratio_debit?.total ? fetchedList["authorization"]?.failure_ratio_debit?.total : " 0 ")
+              }}
+            </h5>
+          </div>
+          <div class="col-md-3">
+            <h5 class="m-b-0">
+              {{
+                fetchedList["authorization"]?.failure_ratio_debit?.failed_percentage ? fetchedList["authorization"]?.failure_ratio_debit?.failed_percentage : 0
+              }}%
+            </h5>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-md-12 mb-md-3">
+          <nz-card
+            [nzTitle]="repayment"
+            [nzLoading]="isLoading['repayment']"
+            [nzExtra]="repaymentTemplate"
+            class="h-100"
+          >
+            <div class="row mb-md-3">
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">No. of Borrowers Bill Due</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.number_of_borrowers_bill_due
+                      ? fetchedList["repayment"]?.number_of_borrowers_bill_due : " 0 "
+                  }}
+                </h4>
+              </div>
+              <!-- <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div> -->
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Total Borrowers Outstanding</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.total_borrower_outstanding
+                      ? '₹' + fetchedList["repayment"]?.total_borrower_outstanding : " 0 "
+                  }}
+                </h4>
+                <!-- <div style="height: 30px; width: 70%;">
+                                <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                    [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                                </canvas>
+                            </div> -->
+              </div>
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">No. Of Repayment Transaction</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.number_repayment_transactions
+                      ? fetchedList["repayment"]?.number_repayment_transactions : " 0 "}}
+                </h4>
+                <!-- <div style="height: 30px; width: 70%;">
+                                <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                    [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                                </canvas>
+                            </div> -->
+              </div>
+            </div>
+            <div class="row mt-md-4 ant-card-head px-0 py-3">
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Total Transaction Amount</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.total_transaction_amount
+                      ? "₹ " + fetchedList["repayment"]?.total_transaction_amount
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Count Fees Transaction</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.count_fee_transaction
+                      ? fetchedList["repayment"]?.count_fee_transaction : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-6">
+                <p class="m-b-0 muted">Total Fees Amount</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.total_fees_amount
+                      ? "₹ " + fetchedList["repayment"]?.total_fees_amount
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+            </div>
+          </nz-card>
+          <ng-template #repayment>
+            <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+            Repayments
+          </ng-template>
+        </div>
+        <div class="col-md-12 mb-md-3">
+          <nz-card
+            [nzTitle]="delinquent"
+            [nzExtra]="delinquentTemplate"
+            class="h-100"
+          >
+            <nz-table
+              [nzLoading]="isLoading['delinquent']"
+              nzShowPagination="false"
+              [nzData]="fetchedList['delinquent']"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>No. of Days</th>
+                  <th>Total No. of Users</th>
+                  <th>Total Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of fetchedList['delinquent']; index as i">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ data?.number_of_days }}</td>
+                  <td>{{ data?.number_of_user }}</td>
+                  <td>
+                    {{ data?.total_amount ? "₹ " + data?.total_amount : " 0 " }}
+                  </td>
+                </tr>
+                <!-- <tr>
+                                <td>2</td>
+                                <td>30+ Days</td>
+                                <td>5,000</td>
+                                <td>₹ 3,00,000</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>90+ Days</td>
+                                <td>5,000</td>
+                                <td>₹ 3,00,000</td>
+                            </tr> -->
+              </tbody>
+            </nz-table>
+          </nz-card>
+          <ng-template #delinquent>
+            <i nz-icon nzType="file-text" nzTheme="outline"></i>
+            Delinquent
+          </ng-template>
+        </div>    
+      </div>
+    </div>
+
+    
+    <div class="col-md-12 mb-md-3">
       <nz-card
         [nzTitle]="existing"
         [nzLoading]="isLoading['existing']"
@@ -568,7 +906,7 @@
         class="h-100"
       >
         <div class="row mb-md-3">
-          <div class="col-md-4 mb-md-3">
+          <div class="col-md-3 mb-md-3">
             <p class="m-b-0 muted">No. of Borrowers</p>
             <h4 class="m-b-0">
               {{
@@ -578,12 +916,7 @@
               }}
             </h4>
           </div>
-          <!-- <div style="height: 30px; width: 70%;">
-                        <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                            [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                        </canvas>
-                    </div> -->
-          <div class="col-md-4 mb-md-3">
+          <div class="col-md-3 mb-md-3">
             <p class="m-b-0 muted">Outstanding</p>
             <h4 class="m-b-0">
               {{
@@ -598,7 +931,7 @@
                             </canvas>
                         </div> -->
           </div>
-          <div class="col-md-4 mb-md-3">
+          <div class="col-md-3 mb-md-3">
             <p class="m-b-0 muted">Utilised</p>
             <h4 class="m-b-0">
               {{
@@ -612,7 +945,7 @@
                             </canvas>
                         </div> -->
           </div>
-          <div class="col-md-4 mb-md-3">
+          <div class="col-md-3 mb-md-3">
             <p class="m-b-0 muted">Spent</p>
             <h4 class="m-b-0">
               {{
@@ -627,7 +960,7 @@
                             </canvas>
                         </div> -->
           </div>
-          <div class="col-md-4 mb-md-3">
+          <div class="col-md-3 mb-md-3">
             <p class="m-b-0 muted">Average Spent</p>
             <h4 class="m-b-0">
               {{
@@ -642,15 +975,59 @@
                             </canvas>
                         </div> -->
           </div>
+          <div class="col-md-3 mb-md-3">
+            <p class="m-b-0 muted">Total Borrowers</p>
+            <h4 class="m-b-0">
+              {{
+                fetchedList["existing"]?.total_borrowers
+                  ? '₹' + fetchedList["existing"]?.total_borrowers
+                  : " 0 "
+              }}
+            </h4>
+          </div>
+          <div class="col-md-3 mb-md-3">
+            <p class="m-b-0 muted">TotaL Active User</p>
+            <h4 class="m-b-0">
+              {{
+                fetchedList["existing"]?.total_active_users
+                  ? '₹' + fetchedList["existing"]?.total_active_users : " 0 "
+              }}
+            </h4>
+            <!-- <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div> -->
+          </div>
+          <div class="col-md-3 mb-md-3">
+            <p class="m-b-0 muted">Active Credit Line Assigned</p>
+            <h4 class="m-b-0">
+              {{
+                fetchedList["existing"]?.credit_line_assigned_active
+                  ? '₹' + fetchedList["existing"]?.credit_line_assigned_active : " 0 "
+              }}
+            </h4>
+          </div>
+
+          <!-- <div class="col-md-3 mb-md-3">
+            <p class="m-b-0 muted">Total Credit Line Used</p>
+            <h4 class="m-b-0">
+              {{
+                fetchedList["existing"]?.total_credit_line_used
+                  ? '₹' + fetchedList["existing"]?.total_credit_line_used : " 0 "
+              }}
+            </h4>
+          </div> -->
+
         </div>
         <div class="row">
-          <div class="col-md-8 d-flex mb-md-3">
+          <div class="col-md-4 d-flex mb-md-3">
             <nz-badge
               nzStatus="default"
               [nzColor]="'#55268E40'"
               class="h-100 dashboard-badge"
             ></nz-badge>
-            <div class="ml-md-2">
+            <div class="ml-md-4">
               <p class="m-b-0 muted">30 Day User Activity</p>
               <h4 class="m-b-0">
                 {{
@@ -659,6 +1036,154 @@
               </h4>
             </div>
           </div>
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Total Credit Line Asssigned</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.total_credit_line_used
+                    ? fetchedList["existing"]?.total_credit_line_used
+                    : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Average Credit Line Asssigned</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.average_line_assigned
+                    ? fetchedList["existing"]?.average_line_assigned
+                    : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Average Outstanding</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.average_outstanding
+                    ? fetchedList["existing"]?.average_outstanding
+                    : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Total Active Borrowes</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.total_active_borrowers
+                    ? fetchedList["existing"]?.total_active_borrowers
+                    : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">User With First TXT this months</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.users_with_first_txn_this_month
+                    ? fetchedList["existing"]?.users_with_first_txn_this_month : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Count Of New Active Borrowers</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.count_new_active_borrowers
+                    ? fetchedList["existing"]?.count_new_active_borrowers : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>  
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Count Of New Acquisition Borrowers</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.count_new_acquisition_borrowers
+                    ? fetchedList["existing"]?.count_new_acquisition_borrowers : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>  
+
+          <div class="col-md-4 d-flex mb-md-3">
+            <nz-badge
+              nzStatus="default"
+              [nzColor]="'#55268E40'"
+              class="h-100 dashboard-badge"
+            ></nz-badge>
+            <div class="ml-md-2">
+              <p class="m-b-0 muted">Average Age in Months</p>
+              <h4 class="m-b-0">
+                ₹
+                {{
+                  fetchedList["existing"]?.average_age_in_months
+                    ? fetchedList["existing"]?.average_age_in_months : " 0 "
+                }}
+              </h4>
+            </div>
+          </div>  
+
           <div class="col-md-4 d-flex mb-md-3">
             <nz-badge
               nzStatus="default"
@@ -676,7 +1201,7 @@
               </h4>
             </div>
           </div>
-          <div class="col-md-8 d-flex mb-md-3">
+          <div class="col-md-4 d-flex mb-md-3">
             <nz-badge
               nzStatus="default"
               [nzColor]="'#55268E40'"
@@ -710,7 +1235,7 @@
               </h4>
             </div>
           </div>
-          <div class="col-md-8 d-flex mb-md-3">
+          <div class="col-md-4 d-flex mb-md-3">
             <nz-badge
               nzStatus="default"
               [nzColor]="'#55268E40'"
@@ -735,341 +1260,9 @@
         Borrowers
       </ng-template>
     </div>
-    <div class="col-md-6 mb-md-3">
-      <nz-card
-        [nzTitle]="authorisation"
-        [nzExtra]="authorizationTemplate"
-        class="h-100"
-      >
-        <nz-table
-          [nzLoading]="isLoading['authorization']"
-          [nzData]="fetchedList['authorization']"
-        >
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Credit Transactions</th>
-              <th>Total Count</th>
-              <th>Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container>
-              <tr>
-                <td>1</td>
-                <td>Total</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[0]?.total
-                      ? fetchedList["authorization"]?.credit[0]?.total
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[0]?.amount
-                      ? fetchedList["authorization"]?.credit[0]?.amount
-                      : 0
-                  }}
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Success</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[1]?.success
-                      ? fetchedList["authorization"]?.credit[1]?.success
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[1]?.amount
-                      ? fetchedList["authorization"]?.credit[1]?.amount
-                      : 0
-                  }}
-                </td>
-                <!-- <td>{{fetchedList['authorization']?.failed ? ('₹ ' + fetchedList['authorization']?.failed) : ' 0 '}}</td> -->
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Failed</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[2]?.failed
-                      ? fetchedList["authorization"]?.credit[2]?.failed
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[2]?.amount
-                      ? fetchedList["authorization"]?.credit[2]?.amount: 0
-                  }}
-                </td>
-                <!-- <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td> -->
-              </tr>
-            </ng-container>
-          </tbody>
-        </nz-table>
-        <div class="row mt-md-4 ant-card-head px-0 py-3">
-          <div class="col-md-12">
-            <p class="m-b-0 muted">Credit Failure Ratio</p>
-          </div>
-          <div class="col-md-6">
-            <h5 class="m-b-0">Failed/Total Transaction</h5>
-          </div>
-          <div class="col-md-3">
-            <h5 class="m-b-0">
-              {{
-                fetchedList["authorization"]?.failure_ratio_credit?.failed +
-                  "/" +
-                  fetchedList["authorization"]?.failure_ratio_credit?.total
-              }}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <h5 class="m-b-0">
-              {{
-                fetchedList["authorization"]?.failure_ratio_credit?.failed_percentage
-              }}%
-            </h5>
-          </div>
-        </div>
-        <nz-table class="mt-3"
-          [nzLoading]="isLoading['authorization']"
-          [nzData]="fetchedList['authorization']">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Debit Transactions</th>
-              <th>Total Count</th>
-              <th>Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container>
-              <tr>
-                <td>1</td>
-                <td>Total</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.debit[0]?.total
-                      ? fetchedList["authorization"]?.debit[0]?.total
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.debit[0]?.amount
-                      ? fetchedList["authorization"]?.debit[0]?.amount
-                      : 0
-                  }}
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Success</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.debit[1]?.success
-                      ? fetchedList["authorization"]?.debit[1]?.success
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.credit[1]?.amount
-                      ? fetchedList["authorization"]?.credit[1]?.amount
-                      : 0
-                  }}
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Failed</td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.debit[2]?.failed
-                      ? fetchedList["authorization"]?.debit[2]?.failed
-                      : 0
-                  }}
-                </td>
-                <td>
-                  {{
-                    fetchedList["authorization"]?.debit[2]?.amount
-                      ? fetchedList["authorization"]?.debit[2]?.amount: 0
-                  }}
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </nz-table>
-        <div class="row mt-md-4 ant-card-head px-0 py-3">
-          <div class="col-md-12">
-            <p class="m-b-0 muted">Debit Failure Ratio</p>
-          </div>
-          <div class="col-md-6">
-            <h5 class="m-b-0">Failed/Total Transaction</h5>
-          </div>
-          <div class="col-md-3">
-            <h5 class="m-b-0">
-              {{
-                fetchedList["authorization"]?.failure_ratio_debit?.failed +
-                  "/" +
-                  fetchedList["authorization"]?.failure_ratio_debit?.total
-              }}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <h5 class="m-b-0">
-              {{
-                fetchedList["authorization"]?.failure_ratio_debit?.failed_percentage
-              }}%
-            </h5>
-          </div>
-        </div>
-      </nz-card>
-    </div>
 
       <!-- Repayment In Progress -->
 
-    <div class="col-md-6 mb-md-3">
-      <nz-card
-        [nzTitle]="repayment"
-        [nzLoading]="isLoading['repayment']"
-        [nzExtra]="repaymentTemplate"
-        class="h-100"
-      >
-        <div class="row mb-md-3">
-          <div class="col-md-4 mb-md-3">
-            <p class="m-b-0 muted">No. of Borrowers Bill Due</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.number_of_borrowers_bill_due
-                  ? fetchedList["repayment"]?.number_of_borrowers_bill_due : " 0 "
-              }}
-            </h4>
-          </div>
-          <!-- <div style="height: 30px; width: 70%;">
-                        <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                            [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                        </canvas>
-                    </div> -->
-          <div class="col-md-4 mb-md-3">
-            <p class="m-b-0 muted">Total Borrowers Outstanding</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.total_borrower_outstanding
-                  ? '₹' + fetchedList["repayment"]?.total_borrower_outstanding : " 0 "
-              }}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-4 mb-md-3">
-            <p class="m-b-0 muted">No. Of Repayment Transaction</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.number_repayment_transactions
-                  ? fetchedList["repayment"]?.number_repayment_transactions : " 0 "}}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-        </div>
-        <div class="row mt-md-4 ant-card-head px-0 py-3">
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Total Transaction Amount</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.total_transaction_amount
-                  ? "₹ " + fetchedList["repayment"]?.total_transaction_amount
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Count Fees Transaction</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.count_fee_transaction
-                  ? fetchedList["repayment"]?.count_fee_transaction : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-6">
-            <p class="m-b-0 muted">Total Fees Amount</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["repayment"]?.total_fees_amount
-                  ? "₹ " + fetchedList["repayment"]?.total_fees_amount
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-        </div>
-      </nz-card>
-      <ng-template #repayment>
-        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-        Repayments
-      </ng-template>
-    </div>
-    <div class="col-md-6 mb-md-3">
-      <nz-card
-        [nzTitle]="delinquent"
-        [nzExtra]="delinquentTemplate"
-        class="h-100"
-      >
-        <nz-table
-          [nzLoading]="isLoading['delinquent']"
-          nzShowPagination="false"
-          [nzData]="fetchedList['delinquent']"
-        >
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>No. of Days</th>
-              <th>Total No. of Users</th>
-              <th>Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of fetchedList['delinquent']; index as i">
-              <td>{{ i + 1 }}</td>
-              <td>{{ data?.number_of_days }}</td>
-              <td>{{ data?.number_of_user }}</td>
-              <td>
-                {{ data?.total_amount ? "₹ " + data?.total_amount : " 0 " }}
-              </td>
-            </tr>
-            <!-- <tr>
-                            <td>2</td>
-                            <td>30+ Days</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>90+ Days</td>
-                            <td>5,000</td>
-                            <td>₹ 3,00,000</td>
-                        </tr> -->
-          </tbody>
-        </nz-table>
-      </nz-card>
-      <ng-template #delinquent>
-        <i nz-icon nzType="file-text" nzTheme="outline"></i>
-        Delinquent
-      </ng-template>
-    </div>
     <!-- <div class="col-md-6">
       <nz-card [nzTitle]="NBFC" [nzExtra]="nbfcTemplate">
         <div style="height: 360px">
