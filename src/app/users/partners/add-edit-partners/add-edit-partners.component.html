@@ -829,6 +829,7 @@
         </div>
 
     </div>
+    <app-referral-code *ngIf="isEdit"></app-referral-code>
 </section>
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzWidth]="'580px'"

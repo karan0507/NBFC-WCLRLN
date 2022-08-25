@@ -1141,6 +1141,18 @@ export class HttpService {
             return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data });
       }
       public deductionApproval(id) {
-            return this._http.post((this.url + `/hrms-api/quesscorp-deduction` + id), id);
+            return this._http.post((this.url + `/hrms-api/quesscorp-deduction/` + id), id);
+      }
+
+      public fetchReferralList(data?) {
+            return this._http.get((this.url + `/partner/v1/get-referrals-list`), { params: data });
+      }
+      public toggleReferralStatus(id) {
+            return this._http.post((this.url + `/partner/v1/change-referral-status/` + id), id);
+      }
+
+
+      public createReferral(data) {
+            return this._http.post((this.url + `/partner/v1/create-referral-program`), data);
       }
 }

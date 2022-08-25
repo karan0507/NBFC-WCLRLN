@@ -538,6 +538,15 @@ export const ROUTES: SideNavInterface[] = [
                         iconTheme: '',
                         submenu: []
                     },
+                    {
+                        path: 'lms/bill-summarization',
+                        title: 'Bill summarization',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
                 ]
             },
             {

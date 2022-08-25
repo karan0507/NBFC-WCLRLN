@@ -470,7 +470,6 @@ export class BorrowersDetailsComponent implements OnInit {
   }
 
   waiveOffToggle(id) {
-    this.isWaiveOff = true
     this.waiveOffId = id
     this.getTnxAmount(id)
   }
