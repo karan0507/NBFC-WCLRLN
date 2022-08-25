@@ -56,7 +56,8 @@ export class DeductionsListComponent implements OnInit {
       limit: this.globalPageSize,
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-      status: this.selectedTab ? this.selectedTab : ''
+      status: this.selectedTab ? this.selectedTab : '',
+      type: this.type ? this.type : ''
     }
     this.api_calling_loader = true
     this.http.fetchDeductionList(data).subscribe(res => {
