@@ -1047,6 +1047,11 @@ export class HttpService {
             return this._http.get(this.url + `/central-api/v1/call-api`, { params: data });
       }
 
+      getCorporateDashboardList(data){
+            return this._http.get(this.url + `/partner/v1/fetch-dashboard-corporate`, { params: data });
+            // http://localhost:8000/partner/v1/fetch-dashboard-corporate?filter_type=This
+      }
+
       getDetailForDashboardMandate(data) {
             return this._http.get(this.url + `/platform_central/v1/admin-dashboard/get-mandate-stats`, { params: data });
       }
