@@ -7,8 +7,10 @@
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="sub_stage" (ngModelChange)="fetchBorrowerList()">
-                <label *ngIf="main_stage" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="">All ({{all_count}})</label>
-                <label *ngFor="let item of borrowersSubStageCount" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" [nzValue]="item.pk">{{item.name}} ({{item.count}})</label>
+                <label *ngIf="main_stage" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="">All
+                    ({{all_count}})</label>
+                <label *ngFor="let item of borrowersSubStageCount" nz-radio-button
+                    class="px-5 mb-md-0 mb-3 border-radius-2" [nzValue]="item.pk">{{item.name}} ({{item.count}})</label>
             </nz-radio-group>
         </div>
     </div>
@@ -19,12 +21,15 @@
             <div class="row">
                 <div class="col-md-3 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchBorrowerList()"/>
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchBorrowerList()" />
                     </nz-input-group>
                     <ng-template #suffixIconButton>
-                        <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()"><i nz-icon nzType="search"></i></button>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()"><i nz-icon
+                                nzType="search"></i></button>
                     </ng-template>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="ml-2">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
@@ -36,28 +41,31 @@
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
                     </nz-select> -->
-                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem;" class="mx-1 my-md-0 mb-3"
-                        (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBorrowerList()" nzAllowClear [nzMaxTagCount]="1"
-                        [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem;"
+                        class="mx-1 my-md-0 mb-3" (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBorrowerList()"
+                        nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
-                  </nz-select>
-                    <nz-select class="mx-1 mb-3" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+                    </nz-select>
+                    <nz-select class="mx-1 mb-3" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
                         <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_spend" (ngModelChange)="fetchBorrowerList()"
-                        nzPlaceHolder="Filter By spend">
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_spend"
+                        (ngModelChange)="fetchBorrowerList()" nzPlaceHolder="Filter By spend">
                         <nz-option [nzValue]="'Yes'" nzLabel="Spend"></nz-option>
                         <nz-option [nzValue]="'No'" nzLabel="Not spend"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
@@ -65,12 +73,18 @@
                         <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
                         <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
                         <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
-                        <nz-option [nzValue]="'Voluntary Closure Restructuring'" nzLabel="Voluntary Closure Restructuring"></nz-option>
+                        <nz-option [nzValue]="'Voluntary Closure Restructuring'"
+                            nzLabel="Voluntary Closure Restructuring"></nz-option>
                         <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
                         <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>Disbursement
                     </nz-select>
-                    <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges"></nz-range-picker>
-                    <nz-range-picker style="width: 20rem;" class="mx-1" [nzPlaceHolder]="['Start disbursement date', 'End disbursement date']" [(ngModel)]="disbursement_date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges"></nz-range-picker>
+                    <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date"
+                        [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges">
+                    </nz-range-picker>
+                    <nz-range-picker style="width: 20rem;" class="mx-1"
+                        [nzPlaceHolder]="['Start disbursement date', 'End disbursement date']"
+                        [(ngModel)]="disbursement_date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges"></nz-range-picker>
                     <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
@@ -78,10 +92,12 @@
                     </nz-select> -->
                 </div>
             </div>
-            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '3000px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
-            <!-- , y: '45vh'     -->
-            <thead>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzScroll]="{ x: '3000px' }" [nzLoading]="api_calling_loader"
+                (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
+                <!-- , y: '45vh'     -->
+                <thead>
                     <tr>
                         <th nzWidth="2rem"></th>
                         <th nzWidth="3rem">#</th>
@@ -120,7 +136,8 @@
                             <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
-                                <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
+                                <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile :
+                                    '-'}}</span>
                                 <p *ngIf="data.user?.email">{{data.user ? data.user.email : '-'}}</p>
                             </td>
                             <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
@@ -128,9 +145,15 @@
                             <td>{{ data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
                             <td>{{ data.emp_code?.emp_id ? data.emp_code?.emp_id : '-' }}</td>
                             <td>
-                                <span style="color: #27C24C;" *ngIf="data.emp_code?.status === 'Active'"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; {{data.emp_code?.status}}</span>
-                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Inactive'"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; {{data.emp_code?.status}}</span>
-                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Exited'"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; {{data.emp_code?.status}}</span>
+                                <span style="color: #27C24C;" *ngIf="data.emp_code?.status === 'Active'"><i nz-icon
+                                        nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                                    &nbsp; {{data.emp_code?.status}}</span>
+                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Inactive'"><i nz-icon
+                                        nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                                    &nbsp; {{data.emp_code?.status}}</span>
+                                <span style="color: #dc3545;" *ngIf="data.emp_code?.status === 'Exited'"><i nz-icon
+                                        nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                                    &nbsp; {{data.emp_code?.status}}</span>
                                 <span *ngIf="data.emp_code?.status === '-'">{{data.emp_code?.status}}</span>
                             </td>
                             <td>{{ data.latest_token_status ? (data.latest_token_status | titlecase) : '-' }}</td>
@@ -140,8 +163,10 @@
                             <td>₹ {{data.loan_amount_provided}}</td>
                             <td>₹ {{data.credit_utilization_amount}}</td>
                             <td>
-                                <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-success">Enabled</span>
-                                <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;" class="badge badge-pill badge-danger">Disabled</span>
+                                <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important;"
+                                    class="badge badge-pill badge-success">Enabled</span>
+                                <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important;"
+                                    class="badge badge-pill badge-danger">Disabled</span>
                             </td>
                             <td>{{ data?.dpd_details?.dpd_bucket ? data?.dpd_details?.dpd_bucket : 0}}</td>
                             <td>{{ data?.dpd_details?.dpd_days ? data?.dpd_details?.dpd_days : 0}}</td>
@@ -151,8 +176,10 @@
                             <td>₹ {{data.fees_or_charges_amount}}</td>
                             <td>{{ data.is_using_app ? 'Yes' : 'No'}}</td>
                             <td>
-                                <span style="color: #27C24C;" *ngIf="!data?.is_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
-                                <span style="color: #dc3545;" *ngIf="data?.is_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_blocked"><i nz-icon nzType="check-circle"
+                                        [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_blocked"><i nz-icon nzType="close-circle"
+                                        [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
                             </td>
                             <td>
                                 {{data?.account_status}}
@@ -166,13 +193,18 @@
                                                       </nz-tag> -->
                             </td>
                             <td>
-                                <span style="color: #27C24C;" *ngIf="!data?.is_user_blocked"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i> &nbsp; Active</span>
-                                <span style="color: #dc3545;" *ngIf="data?.is_user_blocked"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i> &nbsp; Block</span>
+                                <span style="color: #27C24C;" *ngIf="!data?.is_user_blocked"><i nz-icon
+                                        nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                                    &nbsp; Active</span>
+                                <span style="color: #dc3545;" *ngIf="data?.is_user_blocked"><i nz-icon
+                                        nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                                    &nbsp; Block</span>
                             </td>
                             <td nzRight>
                                 <div>
-                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
-                                        [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                        [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                        [nzDropdownMenu]="latestUploadDropDown">
                                         <img src="assets/images/ellipsis.png" alt="" width="30">
                                     </a>
                                     <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
@@ -185,55 +217,58 @@
                                             <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data)">
                                                 <span class="m-l-5">Export transaction</span>
                                             </li>
-                                            <li nz-menu-item (click)="holdIgnoreMandateTrigger(data.id, data.ignore_enach_trigger)">
+                                            <li nz-menu-item
+                                                (click)="holdIgnoreMandateTrigger(data.id, data.ignore_enach_trigger)">
                                                 <span class="m-l-5">Hold/ Ignore Mandate trigger</span>
                                             </li>
-                                            <li
-                                            nz-menu-item *ngxPermissionsOnly="['']"
-                                            (click)="fetchCibilPDF(data?.loan_application_id)"
-                                            >
-                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                            <span class="m-l-5">Fetch Cibil PDF</span>
+                                            <li nz-menu-item *ngxPermissionsOnly="['']"
+                                                (click)="fetchCibilPDF(data?.loan_application_id)">
+                                                <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                <span class="m-l-5">Fetch Cibil PDF</span>
                                             </li>
 
-                                            <ng-container *ngIf="data?.latest_token_status != 'confirmed'" >
-                                            <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                                [nzDropdownMenu]="latestUploadDropDown1234">
+                                            <ng-container *ngIf="data?.latest_token_status != 'confirmed'">
+                                                <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                                    [nzPlacement]="'bottomRight'"
+                                                    [nzDropdownMenu]="latestUploadDropDown1234">
                                                     <span class="m-l-5">Send Enach Reg Link</span>
-                                            </li>
+                                                </li>
                                             </ng-container>
-                                            
-                                            <li nz-menu-item 
-                                            [routerLink]="['/lms/borrowers/track-status']"
-                                            [queryParams]="{id: data?.loan_application_id}">
-                                            <span class="m-l-5">Track Status</span>
-                                      </li>
-                                            
-                                          <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
-                                            <ul nz-menu>
-                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
-                                                      nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'upi')">
-                                                      <span class="m-l-5">UPI</span>
-                                                  </li>
-                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
-                                                      nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'netbanking')">
-                                                      <span class="m-l-5">Net banking</span>
-                                                  </li>
-                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
-                                                      nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'aadhaar')">
-                                                      <span class="m-l-5">Aadhar card</span>
-                                                  </li>
-                                                  <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
-                                                      nzPopconfirmPlacement="topLeft"
-                                                      (nzOnConfirm)="sendEnachLink(data?.id ,'debitcard')">
-                                                      <span class="m-l-5">Debit card</span>
-                                                  </li>
-                                            </ul>
-                                      </nz-dropdown-menu>
-                        
+
+                                            <li nz-menu-item [routerLink]="['/lms/borrowers/track-status']"
+                                                [queryParams]="{id: data?.loan_application_id}">
+                                                <span class="m-l-5">Track Status</span>
+                                            </li>
+
+                                            <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                                                <ul nz-menu>
+                                                    <li nz-menu-item nz-popconfirm
+                                                        nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                        nzPopconfirmPlacement="topLeft"
+                                                        (nzOnConfirm)="sendEnachLink(data?.id ,'upi')">
+                                                        <span class="m-l-5">UPI</span>
+                                                    </li>
+                                                    <li nz-menu-item nz-popconfirm
+                                                        nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                        nzPopconfirmPlacement="topLeft"
+                                                        (nzOnConfirm)="sendEnachLink(data?.id ,'netbanking')">
+                                                        <span class="m-l-5">Net banking</span>
+                                                    </li>
+                                                    <li nz-menu-item nz-popconfirm
+                                                        nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                        nzPopconfirmPlacement="topLeft"
+                                                        (nzOnConfirm)="sendEnachLink(data?.id ,'aadhaar')">
+                                                        <span class="m-l-5">Aadhar card</span>
+                                                    </li>
+                                                    <li nz-menu-item nz-popconfirm
+                                                        nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                                                        nzPopconfirmPlacement="topLeft"
+                                                        (nzOnConfirm)="sendEnachLink(data?.id ,'debitcard')">
+                                                        <span class="m-l-5">Debit card</span>
+                                                    </li>
+                                                </ul>
+                                            </nz-dropdown-menu>
+
                                             <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
                                                                     nzPopconfirmTitle="Are you sure delete this IPD Admission?"
                                                                     (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
@@ -245,7 +280,7 @@
                                 </div>
                             </td>
                         </tr>
-                        
+
                         <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
                             <div class="justify-content-center">
                                 <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="personalDetail">
@@ -294,7 +329,8 @@
                                 </nz-card>
                                 <ng-template #personalDetail>
                                     <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Personal Details</h6>
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i>
+                                            Personal Details</h6>
                                     </div>
                                 </ng-template>
                             </div>
@@ -343,11 +379,12 @@
                                 </nz-card>
                                 <ng-template #empHeader>
                                     <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> Employement Details</h6>
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                            Employement Details</h6>
                                     </div>
                                 </ng-template>
                             </div>
-                        
+
                             <!-- KYC Details -->
                             <div class="my-3">
                                 <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="kycDetails">
@@ -383,11 +420,12 @@
                                 </nz-card>
                                 <ng-template #kycDetails>
                                     <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> KYC Details</h6>
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                            KYC Details</h6>
                                     </div>
                                 </ng-template>
                             </div>
-                        
+
                             <!-- Aadhar Address -->
                             <div class="my-3">
                                 <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="aadharAddress">
@@ -421,7 +459,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4" *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
+                                        <div class="col-md-4"
+                                            *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
                                             <div class="d-flex flex-column">
                                                 <span class="text-muted">
                                                     Address Line 3
@@ -434,7 +473,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
+
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
                                                 <span class="text-muted">
@@ -461,7 +500,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
+
                                         <div class="col-md-4">
                                             <div class="d-flex flex-column">
                                                 <span class="text-muted">
@@ -479,11 +518,223 @@
                                 </nz-card>
                                 <ng-template #aadharAddress>
                                     <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> Aadhar Address</h6>
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                            Aadhar Address</h6>
                                     </div>
                                 </ng-template>
                             </div>
-                        
+
+                            <!-- Bank Details -->
+                            <div class="mt-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="bankDetails">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0" [nzLoading]="
+                                  _currentId == data.id
+                                    ? api_calling_loader['accordian']
+                                    : null
+                                ">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <div class="text-muted">Mandate type:</div>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.mandate_type
+                                                    ? data?.expanddata?.bank_details?.mandate_type
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <div class="text-muted">A/c Holder Name:</div>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank
+                                                    ?.account_holder_name
+                                                    ? data?.expanddata?.bank_details?.bank
+                                                    ?.account_holder_name
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted"> Bank Name - </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank?.bank_name
+                                                    ? data?.expanddata?.bank_details?.bank?.bank_name
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted"> A/c No. </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank?.account_no
+                                                    ? data?.expanddata?.bank_details?.bank?.account_no
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">Account Type: </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank?.account_type
+                                                    ? data?.expanddata?.bank_details?.bank
+                                                    ?.account_type
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mt-2">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">IFSC Code </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank?.ifsc_code
+                                                    ? data?.expanddata?.bank_details?.bank?.ifsc_code
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">UPI id:</span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.upi
+                                                    ? data?.expanddata?.bank_details?.upi
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">UMRN No: </span>
+                                                <div>
+                                                    {{
+                                                    data?.expanddata?.bank_details?.bank?.umrn_no
+                                                    ? data?.expanddata?.bank_details?.bank?.umrn_no
+                                                    : "-"
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #bankDetails>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0">Bank Details</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                            <!-- Excle Data -->
+                            <div class="my-3">
+                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="excleData">
+                                </nz-page-header>
+                                <nz-card class="mb-md-0 border"
+                                    [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    EMP ID
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.emp_id
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Monthly Income
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.net_monthly_income
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Date Of Joining
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.joining_date
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Mobile Number
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.mobile
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Branch Name
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.branch
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="d-flex flex-column">
+                                                <span class="text-muted">
+                                                    Partner
+                                                </span>
+                                                <div>
+                                                    {{data?.expanddata?.excel_data ?
+                                                    data?.expanddata?.excel_data?.partner
+                                                    : '-'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nz-card>
+                                <ng-template #excleData>
+                                    <div class="ml-md-2">
+                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                            Excle Data</h6>
+                                    </div>
+                                </ng-template>
+                            </div>
+
                             <!-- API Response -->
                             <div class="my-3">
                                 <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="response">
@@ -497,86 +748,85 @@
                                                 <th></th>
                                                 <th *ngFor="let item of data?.expanddata?.api_calls_response">
                                                     {{item?.name }} </th>
-                        
+
                                             </tr>
                                         </thead>
-                                        <tbody>
-                        
-                                            <tr>
-                                                <td class="font-weight-semibold">API Call</td>
-                                                <td *ngFor="let item of data?.expanddata?.api_calls_response">
-                                                    <i *ngIf="item?.called" nz-icon nzType="check-circle" nzTheme="fill"
-                                                        class="text-success"></i>
-                                                    <i *ngIf="!(item?.called)" nz-icon nzType="close-circle" nzTheme="fill"
-                                                        class="text-danger"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                        
-                                                <td>Response came</td>
-                                                <td *ngFor="let item of data?.expanddata?.api_calls_response">
-                                                    <i *ngIf="item?.response" nz-icon nzType="check-circle" nzTheme="fill"
-                                                        class="text-success"></i>
-                                                    <i *ngIf="!(item?.response)" nz-icon nzType="close-circle" nzTheme="fill"
-                                                        class="text-danger"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </nz-table>
-                                </nz-card>
-                                <ng-template #response>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> API response</h6>
-                                    </div>
-                                </ng-template>
-                            </div>
-                            <!-- History -->
-                            <div class="my-3" *ngIf="_currentId == data?.loan_application_id">
-                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="history">
-                                </nz-page-header>
-                                <nz-card class="mb-md-0 border">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
-                                        </div>
-                                    </div>
-                                </nz-card>
-                                <ng-template #history>
-                                    <div class="ml-md-2">
-                                        <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>History</h6>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        
-                        </tr>
-                    </ng-container>
-                    
+                <tbody>
+
+                    <tr>
+                        <td class="font-weight-semibold">API Call</td>
+                        <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                            <i *ngIf="item?.called" nz-icon nzType="check-circle" nzTheme="fill"
+                                class="text-success"></i>
+                            <i *ngIf="!(item?.called)" nz-icon nzType="close-circle" nzTheme="fill"
+                                class="text-danger"></i>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>Response came</td>
+                        <td *ngFor="let item of data?.expanddata?.api_calls_response">
+                            <i *ngIf="item?.response" nz-icon nzType="check-circle" nzTheme="fill"
+                                class="text-success"></i>
+                            <i *ngIf="!(item?.response)" nz-icon nzType="close-circle" nzTheme="fill"
+                                class="text-danger"></i>
+                        </td>
+                    </tr>
                 </tbody>
             </nz-table>
-            <div class="total_count_text" *ngIf="total_count">
-                <b>Total Count : </b>{{total_count}}
+        </nz-card>
+        <ng-template #response>
+            <div class="ml-md-2">
+                <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> API response</h6>
+            </div>
+        </ng-template>
+    </div>
+    <!-- History -->
+    <div class="my-3" *ngIf="_currentId == data?.loan_application_id">
+        <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="history">
+        </nz-page-header>
+        <nz-card class="mb-md-0 border">
+            <div class="row">
+                <div class="col-12">
+                    <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
+                </div>
             </div>
         </nz-card>
+        <ng-template #history>
+            <div class="ml-md-2">
+                <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>History</h6>
+            </div>
+        </ng-template>
+    </div>
+
+    </tr>
+    </ng-container>
+
+    </tbody>
+    </nz-table>
+    <div class="total_count_text" *ngIf="total_count">
+        <b>Total Count : </b>{{total_count}}
+    </div>
+    </nz-card>
     </div>
 </section>
-<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false"
-      (nzOnOk)="exportOutstandingGlobalFunction('xlsx')" nzOkText="Export"
-      [nzOkDisabled]="!(corporate_Id && start_month)">
-      <!-- [nzOkDisabled]="!selectedDateforStatement" -->
-      <ng-container *nzModalContent>
-            
-          <div class="row">
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false" (nzOnOk)="exportOutstandingGlobalFunction('xlsx')"
+    nzOkText="Export" [nzOkDisabled]="!(corporate_Id && start_month)">
+    <!-- [nzOkDisabled]="!selectedDateforStatement" -->
+    <ng-container *nzModalContent>
+
+        <div class="row">
             <div class="col-md-12">
                 <nz-form-item>
                     <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select corporate!">
                         <nz-select nzAllowClear [(ngModel)]="corporate_Id" nzPlaceHolder="Please Select corporate"
-                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
-                        (ngModelChange)="getCorporateWithBillDate()" (nzFocus)="fetchPartnerList()">
-                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
-                            <div *ngIf="item.name">{{ item?.name }}</div>
-                        </nz-option>
+                            (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                            (ngModelChange)="getCorporateWithBillDate()" (nzFocus)="fetchPartnerList()">
+                            <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                                <div *ngIf="item.name">{{ item?.name }}</div>
+                            </nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -586,15 +836,18 @@
                     <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter bill date
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter bill date!">
-                        <input [(ngModel)]="month" type="number" nz-input placeholder="Please Enter bill date" disabled/>
+                        <input [(ngModel)]="month" type="number" nz-input placeholder="Please Enter bill date"
+                            disabled />
                     </nz-form-control>
                 </nz-form-item>
             </div>
             <div class="col-md-12">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from</nz-form-label>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from
+                    </nz-form-label>
                     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input select from!">
-                        <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch nzAllowClear>
+                        <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch
+                            nzAllowClear>
                             <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
                                 [nzLabel]="item.name">
                             </nz-option>
@@ -603,7 +856,7 @@
                 </nz-form-item>
             </div>
         </div>
-      </ng-container>
+    </ng-container>
 </nz-modal>
 
 <nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
@@ -613,10 +866,10 @@
             <embed [src]="pdfData" width="100%" style="height: 37rem;" />
         </div>
         <div *ngIf="!pdf_viewer_object_values['url']">
-          <h4>No PDF Found</h4>
+            <h4>No PDF Found</h4>
         </div>
     </ng-container>
 </nz-modal>
 <ng-template #modalFooter>
-  <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
 </ng-template>
