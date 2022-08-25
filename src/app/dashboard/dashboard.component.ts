@@ -185,7 +185,7 @@ export class DashboardComponent implements OnInit {
         }
     ];
     selectedTab ={
-        'delinquent': 'Today',
+        'delinquent': 'This Month',
         'nbfc': 'Today',
         'authorization': 'Today',
         'existing': 'today',

@@ -5,382 +5,576 @@
 </div>
 <section>
   <div class="row">
-    <div class="col-md-6 mb-md-3">
-      <nz-card
-        [nzTitle]="corporate"
-        [nzLoading]="isLoading['corporate']"
-        [nzExtra]="corporateTemplate"
-        class="h-100"
-      >
-        <div class="row">
-          <div class="col-md-5">
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="cyan"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Total Corporates</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["corporate"]?.total_corporate_count
-                        ? fetchedList["corporate"]?.total_corporate_count : " 0 "
-                    }}
-                  </h4>
+
+    <!-- <div class="col-6  mb-md-3">
+      <div class="row"> -->
+        <div class="col-md-6 mb-md-3">
+          <nz-card
+            [nzTitle]="acquisition"
+            [nzLoading]="isLoading['acquisition']"
+            [nzExtra]="acquisitionTemplate"
+            class="h-100"
+          >
+            <div class="row">
+              <div class="col-md-5">
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="cyan"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Registered through App</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["acquisition"]
+                            ?.app_registered_users_exact_count
+                            ? fetchedList["acquisition"]
+                                ?.app_registered_users_exact_count
+                            : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="purple"
+                      class="h-100 dashboard-badge"
+                    >
+                    </nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Registered Users</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["acquisition"]
+                            ?.all_registered_users_exact_count
+                            ? fetchedList["acquisition"]
+                                ?.all_registered_users_exact_count
+                            : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="gold"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Registered Users (Tie-up Corporate)</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["acquisition"]
+                            ?.total_corporate_users_exact_count
+                            ? fetchedList["acquisition"]
+                                ?.total_corporate_users_exact_count
+                            : 0
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="pink"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Disburse User</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["acquisition"]?.active_users_exact_count
+                            ? fetchedList["acquisition"]?.active_users_exact_count
+                            : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="purple"
-                  class="h-100 dashboard-badge"
+              <div
+                class="col-md-7 d-flex justify-content-center"
+                *ngIf="
+                  fetchedList['acquisition']?.active_users_exact_count ||
+                  fetchedList['acquisition']?.total_corporate_users_exact_count ||
+                  fetchedList['acquisition']?.all_registered_users_exact_count ||
+                  fetchedList['acquisition']?.app_registered_users_exact_count
+                "
+              >
+                <div
+                  class="text-center chart-container"
+                  style="width: 250px; height: 250px; position: absolute; bottom: -21px; top:-64px;"
                 >
-                </nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Total Corporate Employee</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["corporate"]?.total_employees_count
-                        ? fetchedList["corporate"]?.total_employees_count : " 0 "
-                    }}
-                  </h4>
+                  <div class="w-100 text-center title">
+                    Total App Downloads
+                  </div>
+                  <br />
+                  <b class="w-100 text-center title"
+                    >{{fetchedList["acquisition"]?.app_downloads}}</b
+                  >
+                  <canvas
+                    ngChartjs
+                    [data]="customersChartData"
+                    [labels]="customersChartLabels"
+                    [chartType]="customersChartType"
+                    [colors]="customersChartColors"
+                    [options]="customersChartOptions"
+                    [legend]="false"
+                  >
+                  </canvas>
+                </div>
+                <!-- <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
+                                [chartType]="customersChartType" [colors]="customersChartColors"
+                                [options]="customersChartOptions" [legend]="false">
+                            </canvas> -->
+              </div>
+              <div
+                class="col-md-7  d-flex justify-content-center"
+                *ngIf="
+                  !fetchedList['acquisition']?.active_users_exact_count &&
+                  !fetchedList['acquisition']?.total_corporate_users_exact_count &&
+                  !fetchedList['acquisition']?.all_registered_users_exact_count &&
+                  !fetchedList['acquisition']?.app_registered_users_exact_count
+                "
+              >
+                <div
+                  class="text-center chart-container"
+                  style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
+                >
+                  <b class="w-100 text-center no-data-title" style="color: black"
+                    >No Data To Show</b
+                  >
+                  <canvas
+                    ngChartjs
+                    [data]="dummyData"
+                    [labels]="dummyDataLabels"
+                    [chartType]="customersChartType"
+                    [colors]="dummyDataColors"
+                    [options]="customersChartOptions"
+                    [legend]="false"
+                  >
+                  </canvas>
                 </div>
               </div>
             </div>
-            <!-- <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="gold"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Active Employees</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["corporate"]?.active_employees
-                        ? fetchedList["corporate"]?.active_employees
-                        : 0
-                    }}
-                  </h4>
+            <div class="row mt-md-4 ant-card-head px-0 py-3">
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Line Assigned</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.line_assigned
+                      ? "₹ " + fetchedList["acquisition"]?.line_assigned
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Approval rate</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.approval_rate
+                      ? fetchedList["acquisition"]?.approval_rate + "%"
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-6">
+                <p class="m-b-0 muted">Average Line assigned</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.average_line_assigned
+                      ? "₹ " + fetchedList["acquisition"]?.average_line_assigned
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+            </div>
+          </nz-card>
+          <ng-template #acquisition>
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            Application
+          </ng-template>
+        </div>    
+        <div class="col-md-6 mb-md-3">
+          <nz-card
+            [nzTitle]="corporate"
+            [nzLoading]="isLoading['corporate']"
+            [nzExtra]="corporateTemplate"
+            class="h-100"
+          >
+            <div class="row">
+              <div class="col-md-5">
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="cyan"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Total Corporates</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.total_corporate_count
+                            ? fetchedList["corporate"]?.total_corporate_count : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="purple"
+                      class="h-100 dashboard-badge"
+                    >
+                    </nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Total Corporate Employee</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.total_employees_count
+                            ? fetchedList["corporate"]?.total_employees_count : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="gold"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Active Employees</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.active_employees
+                            ? fetchedList["corporate"]?.active_employees
+                            : 0
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="pink"
+                      class="h-100 dashboard-badge"
+                    ></nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Disburse User</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["acquisition"]?.active_users_exact_count
+                            ? fetchedList["acquisition"]?.active_users_exact_count
+                            : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+              <div
+                class="col-md-7 d-flex justify-content-center" style="min-height: 14rem"
+                *ngIf="
+                  fetchedList['corporate']?.fixed_count ||  fetchedList['corporate']?.ewa_count"
+              >
+                <div
+                  class="text-center chart-container"
+                  style="width: 200px; height: 200px; position: absolute; bottom: -21px; top:-64px;"
+                >
+                  <div class="w-100 text-center title-corporate">
+                    Total Corporate
+                  </div>
+                  <br />
+                  <b class="w-100 text-center title-corporate-count">{{fetchedList["corporate"]?.total_corporate_count}}</b
+                  >
+                  <canvas
+                    ngChartjs
+                    [data]="corporateChartData"
+                    [labels]="corporateChartLabels"
+                    [chartType]="customersChartType"
+                    [colors]="customersChartColors"
+                    [options]="customersChartOptions"
+                    [legend]="false"
+                  >
+                  </canvas>
+                </div>
+                <!-- <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
+                                [chartType]="customersChartType" [colors]="customersChartColors"
+                                [options]="customersChartOptions" [legend]="false">
+                            </canvas> -->
+              </div>
+              <div
+                class="col-md-7  d-flex justify-content-center"
+                *ngIf="
+                !fetchedList['corporate']?.fixed_count && !fetchedList['corporate']?.ewa_count
+                "
+              >
+                <div
+                  class="text-center chart-container"
+                  style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
+                >
+                  <b class="w-100 text-center no-data-title" style="color: black"
+                    >No Data To Show</b
+                  >
+                  <canvas
+                    ngChartjs
+                    [data]="dummyData"
+                    [labels]="dummyDataLabels"
+                    [chartType]="customersChartType"
+                    [colors]="dummyDataColors"
+                    [options]="customersChartOptions"
+                    [legend]="false"
+                  >
+                  </canvas>
                 </div>
               </div>
             </div>
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="pink"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Disburse User</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["acquisition"]?.active_users_exact_count
-                        ? fetchedList["acquisition"]?.active_users_exact_count
-                        : " 0 "
-                    }}
-                  </h4>
-                </div>
+            <!-- <div class="row mt-md-4 ant-card-head px-0 py-3">
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Line Assigned</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.line_assigned
+                      ? "₹ " + fetchedList["acquisition"]?.line_assigned
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-3">
+                <p class="m-b-0 muted">Approval rate</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.approval_rate
+                      ? fetchedList["acquisition"]?.approval_rate + "%"
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-6">
+                <p class="m-b-0 muted">Average Line assigned</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["acquisition"]?.average_line_assigned
+                      ? "₹ " + fetchedList["acquisition"]?.average_line_assigned
+                      : " 0 "
+                  }}
+                </h5>
               </div>
             </div> -->
-          </div>
-          <div
-            class="col-md-7 d-flex justify-content-center" style="min-height: 14rem"
-            *ngIf="
-              fetchedList['corporate']?.fixed_count ||  fetchedList['corporate']?.ewa_count"
-          >
-            <div
-              class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; bottom: -21px; top:-64px;"
-            >
-              <div class="w-100 text-center title">
-                Total Corporate Count
-              </div>
-              <br />
-              <b class="w-100 text-center title">{{fetchedList["corporate"]?.total_corporate_count}}</b
-              >
-              <canvas
-                ngChartjs
-                [data]="corporateChartData"
-                [labels]="corporateChartLabels"
-                [chartType]="customersChartType"
-                [colors]="customersChartColors"
-                [options]="customersChartOptions"
-                [legend]="false"
-              >
-              </canvas>
-            </div>
-            <!-- <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
-                            [chartType]="customersChartType" [colors]="customersChartColors"
-                            [options]="customersChartOptions" [legend]="false">
-                        </canvas> -->
-          </div>
-          <div
-            class="col-md-7  d-flex justify-content-center"
-            *ngIf="
-            !fetchedList['corporate']?.fixed_count && !fetchedList['corporate']?.ewa_count
-            "
-          >
-            <div
-              class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
-            >
-              <b class="w-100 text-center no-data-title" style="color: black"
-                >No Data To Show</b
-              >
-              <canvas
-                ngChartjs
-                [data]="dummyData"
-                [labels]="dummyDataLabels"
-                [chartType]="customersChartType"
-                [colors]="dummyDataColors"
-                [options]="customersChartOptions"
-                [legend]="false"
-              >
-              </canvas>
-            </div>
-          </div>
+          </nz-card>
+          <ng-template #corporate>
+            <i nz-icon nzType="user" nzTheme="outline"></i>
+            Corporate
+          </ng-template>
         </div>
-        <!-- <div class="row mt-md-4 ant-card-head px-0 py-3">
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Line Assigned</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.line_assigned
-                  ? "₹ " + fetchedList["acquisition"]?.line_assigned
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Approval rate</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.approval_rate
-                  ? fetchedList["acquisition"]?.approval_rate + "%"
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-6">
-            <p class="m-b-0 muted">Average Line assigned</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.average_line_assigned
-                  ? "₹ " + fetchedList["acquisition"]?.average_line_assigned
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-        </div> -->
-      </nz-card>
-      <ng-template #corporate>
-        <i nz-icon nzType="user" nzTheme="outline"></i>
-        Corporate
-      </ng-template>
+        <div class="col-md-6 mb-md-3">
+          <nz-card
+            [nzTitle]="existing"
+            [nzLoading]="isLoading['existing']"
+            [nzExtra]="existingTemplate"
+            class="h-100"
+          >
+            <div class="row mb-md-3">
+
+              <!-- There -->
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Outstanding</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["existing"]?.outstanding
+                      ? '₹' + fetchedList["existing"]?.outstanding
+                      : " 0 "
+                  }}
+                </h4>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Total Borrowers</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["existing"]?.total_borrowers
+                      ? '₹' + fetchedList["existing"]?.total_borrowers
+                      : " 0 "
+                  }}
+                </h4>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Active Credit Line Assigned</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["existing"]?.credit_line_assigned_active
+                      ? '₹' + fetchedList["existing"]?.credit_line_assigned_active : " 0 "
+                  }}
+                </h4>
+              </div>
+
+            </div>
+            <div class="row">
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Total Credit Line Asssigned</p>
+                  <h4 class="m-b-0">
+                    ₹
+                    {{
+                      fetchedList["existing"]?.total_credit_line_used
+                        ? fetchedList["existing"]?.total_credit_line_used
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Average Outstanding</p>
+                  <h4 class="m-b-0">
+                    ₹
+                    {{
+                      fetchedList["existing"]?.average_outstanding
+                        ? fetchedList["existing"]?.average_outstanding
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Total Active Borrowes</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["existing"]?.total_active_borrowers
+                        ? fetchedList["existing"]?.total_active_borrowers
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">User With First TXT this months</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["existing"]?.users_with_first_txn_this_month
+                        ? fetchedList["existing"]?.users_with_first_txn_this_month : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Count Of New Active Borrowers</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["existing"]?.count_new_active_borrowers
+                        ? fetchedList["existing"]?.count_new_active_borrowers : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>  
+
+              <!-- There -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Count Of New Acquisition Borrowers</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["existing"]?.count_new_acquisition_borrowers
+                        ? fetchedList["existing"]?.count_new_acquisition_borrowers : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>  
+
+              <!-- THere -->
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Average Age in Months</p>
+                  <h4 class="m-b-0">
+                    {{
+                      fetchedList["existing"]?.average_age_in_months
+                        ? fetchedList["existing"]?.average_age_in_months + ' Months': " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>  
+
+            </div>
+          </nz-card>
+          <ng-template #existing>
+            <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+            Borrowers
+          </ng-template>
     </div>
-    <div class="col-md-6 mb-md-3">
-      <nz-card
-        [nzTitle]="acquisition"
-        [nzLoading]="isLoading['acquisition']"
-        [nzExtra]="acquisitionTemplate"
-        class="h-100"
-      >
-        <div class="row">
-          <div class="col-md-5">
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="cyan"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Registered through App</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["acquisition"]
-                        ?.app_registered_users_exact_count
-                        ? fetchedList["acquisition"]
-                            ?.app_registered_users_exact_count
-                        : " 0 "
-                    }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="purple"
-                  class="h-100 dashboard-badge"
-                >
-                </nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Registered Users</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["acquisition"]
-                        ?.all_registered_users_exact_count
-                        ? fetchedList["acquisition"]
-                            ?.all_registered_users_exact_count
-                        : " 0 "
-                    }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="gold"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Registered Users (Tie-up Corporate)</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["acquisition"]
-                        ?.total_corporate_users_exact_count
-                        ? fetchedList["acquisition"]
-                            ?.total_corporate_users_exact_count
-                        : 0
-                    }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex mb-md-2">
-              <div class="media align-items-center">
-                <nz-badge
-                  nzStatus="default"
-                  [nzColor]="pink"
-                  class="h-100 dashboard-badge"
-                ></nz-badge>
-                <div class="m-l-5">
-                  <p class="m-b-0 muted">Disburse User</p>
-                  <h4 class="m-b-0">
-                    {{
-                      fetchedList["acquisition"]?.active_users_exact_count
-                        ? fetchedList["acquisition"]?.active_users_exact_count
-                        : " 0 "
-                    }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-md-7 d-flex justify-content-center"
-            *ngIf="
-              fetchedList['acquisition']?.active_users_exact_count ||
-              fetchedList['acquisition']?.total_corporate_users_exact_count ||
-              fetchedList['acquisition']?.all_registered_users_exact_count ||
-              fetchedList['acquisition']?.app_registered_users_exact_count
-            "
-          >
-            <div
-              class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; bottom: -21px; top:-64px;"
-            >
-              <div class="w-100 text-center title">
-                Total App Downloads
-              </div>
-              <br />
-              <b class="w-100 text-center title"
-                >{{fetchedList["acquisition"]?.app_downloads}}</b
-              >
-              <canvas
-                ngChartjs
-                [data]="customersChartData"
-                [labels]="customersChartLabels"
-                [chartType]="customersChartType"
-                [colors]="customersChartColors"
-                [options]="customersChartOptions"
-                [legend]="false"
-              >
-              </canvas>
-            </div>
-            <!-- <canvas ngChartjs [data]="customersChartData" [labels]="customersChartLabels"
-                            [chartType]="customersChartType" [colors]="customersChartColors"
-                            [options]="customersChartOptions" [legend]="false">
-                        </canvas> -->
-          </div>
-          <div
-            class="col-md-7  d-flex justify-content-center"
-            *ngIf="
-              !fetchedList['acquisition']?.active_users_exact_count &&
-              !fetchedList['acquisition']?.total_corporate_users_exact_count &&
-              !fetchedList['acquisition']?.all_registered_users_exact_count &&
-              !fetchedList['acquisition']?.app_registered_users_exact_count
-            "
-          >
-            <div
-              class="text-center chart-container"
-              style="width: 250px; height: 250px; position: absolute; margin-top: 9px;"
-            >
-              <b class="w-100 text-center no-data-title" style="color: black"
-                >No Data To Show</b
-              >
-              <canvas
-                ngChartjs
-                [data]="dummyData"
-                [labels]="dummyDataLabels"
-                [chartType]="customersChartType"
-                [colors]="dummyDataColors"
-                [options]="customersChartOptions"
-                [legend]="false"
-              >
-              </canvas>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-md-4 ant-card-head px-0 py-3">
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Line Assigned</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.line_assigned
-                  ? "₹ " + fetchedList["acquisition"]?.line_assigned
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-3">
-            <p class="m-b-0 muted">Approval rate</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.approval_rate
-                  ? fetchedList["acquisition"]?.approval_rate + "%"
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-          <div class="col-md-6">
-            <p class="m-b-0 muted">Average Line assigned</p>
-            <h5 class="m-b-0">
-              {{
-                fetchedList["acquisition"]?.average_line_assigned
-                  ? "₹ " + fetchedList["acquisition"]?.average_line_assigned
-                  : " 0 "
-              }}
-            </h5>
-          </div>
-        </div>
-      </nz-card>
-      <ng-template #acquisition>
-        <i nz-icon nzType="user" nzTheme="outline"></i>
-        Application
-      </ng-template>
-    </div>
+      <!-- </div>
+    </div> -->
+
+    
     <!-- <div class="col-md-6 mb-md-3">
       <nz-card
         [nzTitle]="mandate"
@@ -624,13 +818,13 @@
                 <td>
                   {{
                     fetchedList["authorization"]?.credit
-                      ? fetchedList["authorization"]?.credit[2]?.failed : 0
+                      ? fetchedList["authorization"]?.credit[2]?.failure :" 0 "
                   }}
                 </td>
                 <td>
                   {{
                     fetchedList["authorization"]?.credit
-                      ? fetchedList["authorization"]?.credit[2]?.amount: 0
+                      ? fetchedList["authorization"]?.credit[2]?.amount: " 0 "
                   }}
                 </td>
                 <!-- <td>{{fetchedList['authorization']?.success ? ('₹ ' + fetchedList['authorization']?.success) : ' 0 '}}</td> -->
@@ -717,14 +911,14 @@
                 <td>
                   {{
                     fetchedList["authorization"]?.debit
-                      ? fetchedList["authorization"]?.debit[2]?.failed
-                      : 0
+                      ? fetchedList["authorization"]?.debit[2]?.failure
+                      : " 0 "
                   }}
                 </td>
                 <td>
                   {{
                     fetchedList["authorization"]?.debit
-                      ? fetchedList["authorization"]?.debit[2]?.amount: 0
+                      ? fetchedList["authorization"]?.debit[2]?.amount: " 0 "
                   }}
                 </td>
               </tr>
@@ -757,9 +951,9 @@
         </div>
       </nz-card>
     </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-md-12 mb-md-3">
+    <!-- <div class="col-6">
+      <div class="row"> -->
+        <div class="col-md-6 mb-md-3">
           <nz-card
             [nzTitle]="repayment"
             [nzLoading]="isLoading['repayment']"
@@ -846,7 +1040,7 @@
             Repayments
           </ng-template>
         </div>
-        <div class="col-md-12 mb-md-3">
+        <div class="col-md-6 mb-md-3">
           <nz-card
             [nzTitle]="delinquent"
             [nzExtra]="delinquentTemplate"
@@ -893,375 +1087,11 @@
             <i nz-icon nzType="file-text" nzTheme="outline"></i>
             Delinquent
           </ng-template>
-        </div>    
-      </div>
-    </div>
-
+        </div>          
+      <!-- </div>
+    </div> -->
     
-    <div class="col-md-12 mb-md-3">
-      <nz-card
-        [nzTitle]="existing"
-        [nzLoading]="isLoading['existing']"
-        [nzExtra]="existingTemplate"
-        class="h-100"
-      >
-        <div class="row mb-md-3">
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">No. of Borrowers</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.no_of_users
-                  ? fetchedList["existing"]?.no_of_users
-                  : " 0 "
-              }}
-            </h4>
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Outstanding</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.outstanding
-                  ? '₹' + fetchedList["existing"]?.outstanding
-                  : " 0 "
-              }}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Utilised</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.utilised
-                  ? fetchedList["existing"]?.utilised + '%'
-                  : " 0 "}}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Spent</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.spent
-                  ? '₹' + fetchedList["existing"]?.spent
-                  : " 0 "
-              }}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Average Spent</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.average_spent
-                  ? '₹' + fetchedList["existing"]?.average_spent
-                  : " 0 "
-              }}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Total Borrowers</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.total_borrowers
-                  ? '₹' + fetchedList["existing"]?.total_borrowers
-                  : " 0 "
-              }}
-            </h4>
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">TotaL Active User</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.total_active_users
-                  ? '₹' + fetchedList["existing"]?.total_active_users : " 0 "
-              }}
-            </h4>
-            <!-- <div style="height: 30px; width: 70%;">
-                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
-                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
-                            </canvas>
-                        </div> -->
-          </div>
-          <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Active Credit Line Assigned</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.credit_line_assigned_active
-                  ? '₹' + fetchedList["existing"]?.credit_line_assigned_active : " 0 "
-              }}
-            </h4>
-          </div>
-
-          <!-- <div class="col-md-3 mb-md-3">
-            <p class="m-b-0 muted">Total Credit Line Used</p>
-            <h4 class="m-b-0">
-              {{
-                fetchedList["existing"]?.total_credit_line_used
-                  ? '₹' + fetchedList["existing"]?.total_credit_line_used : " 0 "
-              }}
-            </h4>
-          </div> -->
-
-        </div>
-        <div class="row">
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-4">
-              <p class="m-b-0 muted">30 Day User Activity</p>
-              <h4 class="m-b-0">
-                {{
-                  thirty_day_user_activity ? thirty_day_user_activity : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Total Credit Line Asssigned</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.total_credit_line_used
-                    ? fetchedList["existing"]?.total_credit_line_used
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Average Credit Line Asssigned</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.average_line_assigned
-                    ? fetchedList["existing"]?.average_line_assigned
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Average Outstanding</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.average_outstanding
-                    ? fetchedList["existing"]?.average_outstanding
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Total Active Borrowes</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.total_active_borrowers
-                    ? fetchedList["existing"]?.total_active_borrowers
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">User With First TXT this months</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.users_with_first_txn_this_month
-                    ? fetchedList["existing"]?.users_with_first_txn_this_month : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Count Of New Active Borrowers</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.count_new_active_borrowers
-                    ? fetchedList["existing"]?.count_new_active_borrowers : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>  
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Count Of New Acquisition Borrowers</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.count_new_acquisition_borrowers
-                    ? fetchedList["existing"]?.count_new_acquisition_borrowers : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>  
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Average Age in Months</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.average_age_in_months
-                    ? fetchedList["existing"]?.average_age_in_months : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>  
-
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Total Line Used</p>
-              <h4 class="m-b-0">
-                {{
-                  fetchedList["existing"]?.total_line_used
-                    ? "₹ " + fetchedList["existing"]?.total_line_used
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Activated A/C in last 30 Days</p>
-              <h4 class="m-b-0">
-                {{
-                  fetchedList["existing"]?.activated_ac_in_last_30_days
-                    ? fetchedList["existing"]?.activated_ac_in_last_30_days
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Ever Active</p>
-              <h4 class="m-b-0">
-                {{
-                  fetchedList["existing"]?.ever_active
-                    ? fetchedList["existing"]?.ever_active + "%"
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex mb-md-3">
-            <nz-badge
-              nzStatus="default"
-              [nzColor]="'#55268E40'"
-              class="h-100 dashboard-badge"
-            ></nz-badge>
-            <div class="ml-md-2">
-              <p class="m-b-0 muted">Total Repayment</p>
-              <h4 class="m-b-0">
-                ₹
-                {{
-                  fetchedList["existing"]?.total_repayment
-                    ? fetchedList["existing"]?.total_repayment
-                    : " 0 "
-                }}
-              </h4>
-            </div>
-          </div>
-        </div>
-      </nz-card>
-      <ng-template #existing>
-        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-        Borrowers
-      </ng-template>
-    </div>
-
-      <!-- Repayment In Progress -->
+    <!-- Repayment In Progress -->
 
     <!-- <div class="col-md-6">
       <nz-card [nzTitle]="NBFC" [nzExtra]="nbfcTemplate">
@@ -1291,7 +1121,7 @@
     (ngModelChange)="onChangeTab($event, 'delinquent')"
     [(ngModel)]="selectedTab['delinquent']"
   >
-    <label nz-radio-button nzValue="Today">Today</label>
+    <!-- <label nz-radio-button nzValue="Today">Today</label> -->
     <label nz-radio-button nzValue="This Month">This Month</label>
     <label nz-radio-button nzValue="Overall">Overall</label>
   </nz-radio-group>

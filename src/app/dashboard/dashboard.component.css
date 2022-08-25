@@ -26,6 +26,38 @@
     left: 4px;
 }
 
+.title-corporate{
+   /* position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;   
+   top: 140px;
+   font-size: 12px; */
+   position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 142px;
+    font-size: 14px;
+    left: 0px;
+}
+
+.title-corporate-count{
+   /* position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;   
+   top: 140px;
+   font-size: 12px; */
+   position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 131px;
+    font-size: 14px;
+    left: -6px;
+}
+
 .no-data-title{
    /* position: relative;
    display: flex;
