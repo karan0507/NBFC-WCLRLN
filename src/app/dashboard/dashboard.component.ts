@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
     customersChartData: number[] = [350, 450, 100, 243];
+    corporateChartData: number[] = [350, 450, 100, 243];
     mandateChartData: number[] = [350, 450, 100, 243];
     dummyData: number[] = [1];
     dummyDataLabels: string[] = ['No Data To Show'];
@@ -32,11 +33,12 @@ export class DashboardComponent implements OnInit {
         pointBackgroundColor : [this.gray]
     }];
     customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
+    corporateChartLabels: string[] = ['Fixed product Count', 'EWA count'];
     mandateChartLabels: string[] = ['Aadhar Mandate', 'Debit Card Mandate', 'Net Banking Mandate', 'Upi Mandate'];
     customersChartType = 'doughnut';
     customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.cyan, this.purple, this.gold, this.pink],
-        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.pink]
+        backgroundColor: [this.pink, this.purple, this.gold,this.cyan],
+        pointBackgroundColor : [this.pink, this.purple, this.gold,this.cyan]
     }];
     mandateChartColors: Array<any> =  [{ 
         backgroundColor: [this.cyan, this.purple, this.gold, this.pink, this.blue],
@@ -189,6 +191,8 @@ export class DashboardComponent implements OnInit {
         'existing': 'today',
         'acquisition': 'today',
         'mandate': 'today',
+        'corporate': 'this month',
+        'repayment': 'this month',
     } 
     fetchedList ={
         'delinquent': '',
@@ -204,7 +208,9 @@ export class DashboardComponent implements OnInit {
         'authorization': false,
         'acquisition': false,
         'existing': false,
-        'mandate': false
+        'mandate': false,
+        'repayment': false,
+        'corporate': false
     } 
     thirty_day_user_activity: any;
     avgProfitChartDataCustomArray: any;
@@ -229,6 +235,8 @@ export class DashboardComponent implements OnInit {
     this.getNBFCList();    
     this.getDelinquentList();   
     this.getExistingList();
+    this.getCorporateList();
+    this.getRepaymentList();
     this.getAcquisitionList();
      }
 
@@ -266,6 +274,12 @@ export class DashboardComponent implements OnInit {
         } else if (action == 'mandate'){
             this.selectedTab['mandate'] = e;
             this.getMandateData();
+        } else if (action == 'corporate'){
+            this.selectedTab['corporate'] = e;
+            this.getCorporateList();
+        } else if (action == 'repayment'){
+            this.selectedTab['repayment'] = e;
+            this.getRepaymentList();
         } 
         // 'acquisition': false,
         // 'existing': false,
@@ -303,6 +317,46 @@ export class DashboardComponent implements OnInit {
             this.isLoading['existing'] = false;
         }, err => {
             this.isLoading['existing'] = false;
+        })
+    }
+    
+    getCorporateList(){
+        this.isLoading['corporate'] = true;
+        let data = {
+            // 'datapoint': 'dashboard_corporate',
+            // 'source': 'LMS',
+            'filter_type': this.selectedTab['corporate']
+        }
+        this.http.getCorporateDashboardList(data).subscribe((res?: any)=> {
+            this.fetchedList['corporate'] = res?.data
+            this.corporateChartData = []
+            this.corporateChartData.push(res?.data?.fixed_count ? res?.data?.fixed_count : 0)
+            this.corporateChartData.push(res?.data?.ewa_count ? res?.data?.ewa_count : 0 )
+            console.log(this.corporateChartData);
+            // this.corporateChartData.push(res?.data?.total_corporate_users_exact_count ? res?.data?.total_corporate_users_exact_count : 0 )
+            // this.corporateChartData.push(res?.data?.active_users_exact_count ? res?.data?.active_users_exact_count : 0)
+            // this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
+            // this.fetchedList['existing'] = res?.data
+            this.isLoading['corporate'] = false;
+        }, err => {
+            this.isLoading['corporate'] = false;
+        })
+    }
+
+    getRepaymentList(){
+        this.isLoading['repayment'] = true;
+        let data = {
+            'datapoint': 'dashboard_repayment',
+            'source': 'LMS',
+            'filter_type': this.selectedTab['repayment']
+        }
+        this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
+            this.fetchedList['repayment'] = res?.data
+            // this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
+            this.fetchedList['repayment'] = res?.data
+            this.isLoading['repayment'] = false;
+        }, err => {
+            this.isLoading['repayment'] = false;
         })
     }
 
@@ -400,7 +454,9 @@ export class DashboardComponent implements OnInit {
             'authorization': 'Today',
             'existing': 'today',
             'acquisition': 'today',
-            'mandate': 'today'
+            'mandate': 'today',
+            'corporate': 'this month',
+            'repayment': 'this month'
         } 
         this.getDelinquentList();
         this.getNBFCList();
@@ -408,6 +464,8 @@ export class DashboardComponent implements OnInit {
         this.getExistingList();
         this.getAcquisitionList();
         this.getMandateData();
+        this.getCorporateList();
+        this.getRepaymentList();
         
     }
 }

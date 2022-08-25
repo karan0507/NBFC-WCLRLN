@@ -461,6 +461,7 @@
                               <th>Amount</th>
                               <th>Bill date</th>
                               <th>Paid on</th>
+                              <th>Total received</th>
                               <th>Paid status</th>
                               <th>Created At</th>
                               <th nzWidth="5rem" nzRight>Actions</th>
@@ -473,6 +474,7 @@
                               <td>{{ data?.credit_utilization_bill?.outstanding_amount ? data?.credit_utilization_bill?.outstanding_amount : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.bill_date | date: "medium" }}</td>
                               <td>{{ data?.credit_utilization_bill?.paid_on ? (data?.credit_utilization_bill?.paid_on | date: "medium") : '-' }}</td>
+                              <td>{{ data?.credit_utilization_bill?.total_received ? data?.credit_utilization_bill?.total_received : '-' }}</td>
                               <td>{{ data?.credit_utilization_bill?.paid_status ? 'Paid' : 'Unpaid' }}</td>
                               <td>{{ data?.created_at | date: "medium" }}</td>
                               <td nzRight>
@@ -818,7 +820,7 @@
 </nz-modal>
 
 <!-- Waive off Charges  -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" (nzOnCancel)="isWaiveOff = false">
+<!-- <nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="null" (nzOnCancel)="isWaiveOff = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup [title]="'You are about to waive off'"
                   [subTitle]="'This action will waive off your transaction. <br/> Are You Sure?'"
@@ -827,13 +829,13 @@
                   [isbtnLoading]="isdeleteloader">
             </app-double-confirmation-popup>
       </ng-container>
-</nz-modal>
+</nz-modal> -->
 
 <!-- Change bill date -->
 <nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="!is_set_amt ? modalFooter1234 : null" (nzOnCancel)="isWaiveOff = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup *ngIf="is_set_amt"
-                  [title]="'Are you sure you want to waive off ₹' +   selectedDetail?.txn_amount "
+                  [title]="'Are you sure you want to waive off ₹' +   waive_off_amount "
                   [subTitle]="'This action will wave off requested amount the permanently. <br/> Are You Sure?'"
                   [icon]="'assets/images/waiveoff.png'" (onOkCall)="fetchBorrowerDelete()"
                   (onCencelCall)="isWaiveOff = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'"

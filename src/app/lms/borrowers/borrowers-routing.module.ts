@@ -27,7 +27,8 @@ const routes: Routes = [
     data: {
       title: 'Borrowers',
       parent: 'LMS',
-      custom_url: 'lms/borrowers'
+      custom_url: 'lms/borrowers/all',
+      params: 'main_stage='
     },
     children: [
       {

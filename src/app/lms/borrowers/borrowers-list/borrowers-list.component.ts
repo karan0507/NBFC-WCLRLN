@@ -80,10 +80,16 @@ export class BorrowersListComponent implements OnInit {
     public sanitize: DomSanitizer,
     private route: ActivatedRoute, public global: GlobalservicesService) {
       this.route.queryParams.subscribe((params: any) => {
-        // if(params?.main_stage){
+        if(params?.main_stage == undefined){
+          router.navigate([], {
+            queryParams: {
+              'main_stage': ''
+            }
+          })
+        } else {
           this.main_stage = params?.main_stage ? params?.main_stage : ''
           this.setBorrowersSubCount()
-        // }
+        }
         if(params?.loan_id){
               // alert(params?.loan_id);
               this.storedParams = params?.loan_id 
@@ -153,7 +159,7 @@ export class BorrowersListComponent implements OnInit {
   }
   resetFilters() {
     if(this.storedParams){
-      this.router.navigate(["lms/borrowers"]);
+      this.router.navigate(["lms/borrowers/all"], {queryParams: {main_stage : this.main_stage}});
     }
     this.search_params = ''
     this.is_blocked = ''

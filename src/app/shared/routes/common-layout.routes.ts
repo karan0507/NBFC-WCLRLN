@@ -141,4 +141,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/deductions',
         loadChildren: () => import('../../lms/deductions/deductions.module').then(m => m.DeductionsModule),
     },
+    {
+        path: 'lms/bill-summarization',
+        loadChildren: () => import('../../lms/bill-summerize/bill-summerize.module').then(m => m.BillSummerizeModule),
+    },
 ];

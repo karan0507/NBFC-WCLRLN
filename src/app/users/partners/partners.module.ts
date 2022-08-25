@@ -25,9 +25,10 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { ReferralCodeComponent } from './referral-code/referral-code.component';
 
 @NgModule({
-  declarations: [PartnersListComponent, AddEditPartnersComponent],
+  declarations: [PartnersListComponent, AddEditPartnersComponent, ReferralCodeComponent],
   imports: [
     CommonModule,
     NzDatePickerModule,

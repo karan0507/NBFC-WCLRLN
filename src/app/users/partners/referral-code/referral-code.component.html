@@ -1,0 +1,170 @@
+<!-- <div class="header_breadcrumb_section"> -->
+    <!-- <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
+        ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button> -->
+<!-- </div> -->
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <div class="row">
+                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true">+ Add</button>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchReferralList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchReferralList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="ml-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedTab" (ngModelChange)="fetchReferralList()"
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option [nzValue]="'active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'inactive'" nzLabel="Inactive"></nz-option>
+                    </nz-select>
+                    <!-- <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchReferralList()" [nzRanges]="customRanges"></nz-range-picker> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%' }" (nzQueryParams)="list_data ? fetchReferralList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Corporate</th>
+                        <th>Name</th>
+                        <th>Activation date</th>
+                        <th>Expiry date</th>
+                        <th>Is active</th>
+                        <th>Referee amount</th>
+                        <th>Referrer amount</th>
+                        <th>Referrer max amount lifetime</th>
+                        <th>Referrer max amount month</th>
+                        <th>Referrer max amount year</th>
+                        <th nzWidth="6rem" nzRight>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['corporate'] ? data['corporate']: '-' }}</td>
+                        <td>{{ data['name'] ? data['name']: '-' }}</td>
+                        <td>{{ data['activation_date'] ? (data['activation_date'] | date: 'medium'): '-' }}</td>
+                        <td>{{ data['expiry_date'] ? (data['expiry_date'] | date: 'medium'): '-' }}</td>
+                        <td>{{ data['is_active'] ? 'Yes': 'No' }}</td>
+                        <td>{{ data['referee_amount'] ? data['referee_amount']: '-' }}</td>
+                        <td>{{ data['referrer_amount'] ? data['referrer_amount']: '-' }}</td>
+                        <td>{{ data['referrer_max_amount_lifetime'] ? data['referrer_max_amount_lifetime']: '-' }}</td>
+                        <td>{{ data['referrer_max_amount_month'] ? data['referrer_max_amount_month']: '-' }}</td>
+                        <td>{{ data['referrer_max_amount_year'] ? data['referrer_max_amount_year']: '-' }}</td>
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate Product?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                            <span class="m-l-5">Deactivate</span>
+                                        </li>
+                                        <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate Product?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                            <span class="m-l-5">Activate</span>
+                                        </li>
+                                        <!-- <li nz-menu-item (click)="isVisible = true; isApprove = false; getDeductionDetails(data)">
+                                            <span class="m-l-5">Deduction Rejected</span>
+                                        </li> -->
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+
+<nz-modal [(nzVisible)]="isAddEdit" [nzTitle]="modalTitle" (nzOnCancel)="isAddEdit = false; createEditForm.reset()"
+    (nzOnOk)="addEditReferral(createEditForm.value)" nzOkText="Save" [nzOkDisabled]="createEditForm.invalid">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <form [formGroup]="createEditForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_amount" class="text-left" nzRequired>Referrer amount</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referrer amount!">
+                                <input nz-input type="number" formControlName="referrer_amount" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referee_amount" class="text-left" nzRequired> Referee amount</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referee amount!">
+                                <input nz-input type="number" formControlName="referee_amount" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_max_amount_month" class="text-left" nzRequired> Referrer max amount month</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referrer max amount month!">
+                                <input nz-input type="number" formControlName="referrer_max_amount_month" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_max_amount_year" class="text-left" nzRequired>
+                                Referrer max amount year</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referrer max amount year!">
+                                <input nz-input type="number" formControlName="referrer_max_amount_year" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_max_amount_lifetime" class="text-left" nzRequired>Referrer max amount lifetime
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referrer max amount lifetime!">
+                                <input nz-input type="number" formControlName="referrer_max_amount_lifetime" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>
+                                Activation date</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Activation date!">
+                                <nz-date-picker formControlName="activation_date" ></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="expiry_date" class="text-left" nzRequired>
+                                Expiry date</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Reporting Manager!">
+                                <nz-date-picker formControlName="expiry_date" ></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>
