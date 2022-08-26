@@ -82,8 +82,8 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../reports/reports.module').then(m => m.ReportsModule),
     },
     {
-      path: 'coupon-code',
-      loadChildren: () => import('../../coupon-code/coupon-code.module').then(m => m.CouponCodeModule),
+        path: 'coupon-code',
+        loadChildren: () => import('../../coupon-code/coupon-code.module').then(m => m.CouponCodeModule),
     },
     {
         path: 'black-box',
@@ -144,5 +144,9 @@ export const CommonLayout_ROUTES: Routes = [
     {
         path: 'lms/bill-summarization',
         loadChildren: () => import('../../lms/bill-summerize/bill-summerize.module').then(m => m.BillSummerizeModule),
+    },
+    {
+        path: 'lms/nach-upload',
+        loadChildren: () => import('../../lms/nach-upload/nach-upload.module').then(m => m.NachUploadModule),
     },
 ];
