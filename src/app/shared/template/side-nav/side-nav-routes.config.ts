@@ -436,6 +436,15 @@ export const ROUTES: SideNavInterface[] = [
                         iconTheme: '',
                         submenu: []
                     },
+                    {
+                        path: 'lms/nach-upload',
+                        title: 'Nach upload',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
                 ]
             },
             {
