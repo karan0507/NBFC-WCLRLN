@@ -335,7 +335,7 @@ customRanges = {
       if(res?.success){
         const token = res?.data?.token;
         const allowAccess = res?.data?.access;
-        const url = `${locationOrigin}/authentication/login?token=${token}&allow_access=${allowAccess}`
+        const url = `${locationOrigin}authentication/login?token=${token}&allow_access=${allowAccess}`
         window.open(url,'_blank');
       } else {
         this.message.error(res?.message);

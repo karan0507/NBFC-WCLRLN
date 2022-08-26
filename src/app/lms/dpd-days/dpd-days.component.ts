@@ -122,20 +122,6 @@ export class DpdDaysComponent implements OnInit {
   }
 
   exportGlobalFunction(file_formate){
-    // let data = {
-    //   datapoint: 'export_borrowers',
-    //   // endpoint: 'LoanApplicationTransactions',
-    //   source: 'LMS',
-    //   page: this.page,
-    //   limit: this.globalPageSize,
-    //   product_type: this.master_product_id ? this.master_product_id : '',
-    //   is_blocked: this.is_blocked ? (this.is_blocked == 1 ? false : true) : '',
-    //   search_param: this.search_params ? this.search_params : '',
-    //   account_status: this.is_active ? this.is_active : '',
-    //   corporate_id: this.selectedCorporate ? this.selectedCorporate : '',
-    //   spent: this.is_spend ? this.is_spend : '',
-    //   file_type: file_formate
-    // }
     let data = [];
     if(this.selectedCorporate){
       data['corporate_id'] = this.selectedCorporate;

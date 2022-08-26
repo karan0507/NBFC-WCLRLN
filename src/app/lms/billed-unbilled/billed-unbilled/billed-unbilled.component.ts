@@ -78,6 +78,28 @@ export class BilledUnbilledComponent implements OnInit {
       this.api_calling_loader = false
     })
   }
+
+
+  exportGlobalFunction(file_formate){
+    let data;
+    data = {
+      datapoint: 'admin_bill_section',
+      endpoint: this.selectedTab,
+      source: 'LMS',
+      month_year_filter: this.month ? moment(this.month).format("MM/YYYY") : '',
+      export: true
+    }
+    if(this.selectedCorporate){
+      data['corporate_id'] = this.selectedCorporate;
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, `${this.selectedTab}`, file_formate, generateloader)
+      // this.isVisible = false
+    }, error => {
+      this.message.remove(generateloader);
+    })
+  }
   
   resetFilter() {
     this.searchValue = ''
