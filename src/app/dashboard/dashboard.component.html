@@ -190,7 +190,7 @@
 
               <!-- There -->
               <div class="col-md-6">
-                <p class="m-b-0 muted">Average Line assigned</p>
+                <p class="m-b-0 muted">Average Line</p>
                 <h5 class="m-b-0">
                   {{
                     fetchedList["acquisition"]?.average_line_assigned
@@ -452,19 +452,6 @@
           >
             <div class="row mb-md-3">
 
-              <!-- There -->
-              <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Outstanding</p>
-                <h4 class="m-b-0">
-                  {{
-                    fetchedList["existing"]?.outstanding
-                      ? '₹' + fetchedList["existing"]?.outstanding
-                      : " 0 "
-                  }}
-                </h4>
-              </div>
-
-              <!-- There 9-->
               <div class="col-md-4 mb-md-3">
                 <p class="m-b-0 muted">Total Borrowers</p>
                 <h4 class="m-b-0">
@@ -478,7 +465,7 @@
 
               <!-- There 6-->
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Total Credit Line Assigned</p>
+                <p class="m-b-0 muted">Total Line Assigned</p>
                 <h4 class="m-b-0">
                   {{
                     fetchedList["existing"]?.credit_line_assigned_active
@@ -486,9 +473,6 @@
                   }}
                 </h4>
               </div>
-
-            </div>
-            <div class="row">
 
               <!-- There 10-->
               <div class="col-md-4 d-flex mb-md-3">
@@ -509,7 +493,53 @@
                   </h4>
                 </div>
               </div>
+              
 
+              <!-- There 9-->
+
+
+            </div>
+            <div class="row">
+
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Total Outstanding</p>
+                  <h4 class="m-b-0">
+                    ₹
+                    {{
+                      fetchedList["existing"]?.outstanding
+                        ? fetchedList["existing"]?.outstanding
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              <div class="col-md-4 d-flex mb-md-3">
+                <nz-badge
+                  nzStatus="default"
+                  [nzColor]="'#55268E40'"
+                  class="h-100 dashboard-badge"
+                ></nz-badge>
+                <div class="ml-md-2">
+                  <p class="m-b-0 muted">Average Line</p>
+                  <h4 class="m-b-0">
+                    ₹
+                    {{
+                      fetchedList["existing"]?.average_line_assigned
+                        ? fetchedList["existing"]?.average_line_assigned
+                        : " 0 "
+                    }}
+                  </h4>
+                </div>
+              </div>
+
+              
               <!-- There 7 -->
               <div class="col-md-4 d-flex mb-md-3">
                 <nz-badge
@@ -518,7 +548,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">Average Outstanding</p>
+                  <p class="m-b-0 muted">Average Outstanding Balance</p>
                   <h4 class="m-b-0">
                     ₹
                     {{
