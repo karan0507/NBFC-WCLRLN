@@ -105,10 +105,11 @@ export class ReferralCodeComponent implements OnInit {
     if (data) {
       this.createEditForm = this.fb.group({
         id: [data ? data.id : '', [Validators.required]],
+        name: [data ? data.name : '', [Validators.required]],
         referrer_amount: [data ? data.referrer_amount : '', [Validators.required]],
         referee_amount: [data ? data.referee_amount : '', [Validators.required]],
         referrer_max_amount_month: [data ? data.referrer_max_amount_month : '', [Validators.required]],
-        referrer_max_amount_year: [data ? data.referrer_max_amount_year : '', [Validators.required]],
+        referrer_max_amount_year: [data ? data.referrer_max_amount_year : ''],
         referrer_max_amount_lifetime: [data ? data.referrer_max_amount_lifetime : '', [Validators.required]],
         activation_date: [data ? data.activation_date : '', [Validators.required]],
         expiry_date: [data ? data.expiry_date : '', [Validators.required]],
@@ -116,10 +117,11 @@ export class ReferralCodeComponent implements OnInit {
       })
     } else {
       this.createEditForm = this.fb.group({
+        name: ['', [Validators.required]],
         referrer_amount: ['', [Validators.required]],
         referee_amount: ['', [Validators.required]],
         referrer_max_amount_month: ['', [Validators.required]],
-        referrer_max_amount_year: ['', [Validators.required]],
+        referrer_max_amount_year: [''],
         referrer_max_amount_lifetime: ['', [Validators.required]],
         activation_date: ['', [Validators.required]],
         expiry_date: ['', [Validators.required]],
@@ -137,6 +139,8 @@ export class ReferralCodeComponent implements OnInit {
 
     this.http.createReferral(data).subscribe(res => {
       if (res['success']) {
+        this.isAddEdit = false
+        this.fetchReferralList()
         this.message.success(res['message'])
       } else {
         this.message.error(res['message'])
