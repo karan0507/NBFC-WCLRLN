@@ -14,6 +14,9 @@ export class CommonCibilSmsComponent implements OnInit {
       api_calling_loader = {
             'cardData': false
       }
+
+      erroMessage: any;
+      toggleForceFullyPull: any;
       cibilData: JSON
       constructor(public https: HttpService, public message: NzMessageService) { }
 
@@ -24,6 +27,35 @@ export class CommonCibilSmsComponent implements OnInit {
                   this.getDetails();
             }
 
+      }
+
+      getForceFullyData(){
+            const retrivedData: any = JSON.parse(localStorage.getItem('fatakpay_user_data'));
+            console.log(retrivedData)
+            const sortedString =  `${retrivedData?.user?.first_name + ' ' + retrivedData?.user?.last_name} `
+            // alert(sortedString)
+            // return;
+            this.api_calling_loader['cardData'] = true;
+                        let param = { 'source': 'Onboarding', 'datapoint': 'fetch-bureau-data', 'application': this._currentLoanDetails, 'force_pull': true,'force_pulled_by':  sortedString}
+                        // force_pull == true
+// force_pulled_by = Name of the logged in user
+                        this.https.pullCibilThirdParty(param).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.api_calling_loader['cardData'] = false;
+                                    this.message.success(res?.message);
+                                    this.cibilData = res?.data
+                                    this.toggleForceFullyPull = false; 
+                              } else {
+                                    this.message.error(res?.message);
+                                    this.api_calling_loader['cardData'] = false;
+                                    this.erroMessage = res?.message;
+                                    this.toggleForceFullyPull = true; 
+                                    // alert('Ajmal 1B' + res?.message)
+                              }
+                        }, err => {
+                              this.message.error(err);
+                              this.api_calling_loader['cardData'] = false;
+                        })
       }
 
       getDetails() {
@@ -38,9 +70,12 @@ export class CommonCibilSmsComponent implements OnInit {
                                     this.message.success(res?.message);
                                     console.log(res?.data);
                                     this.cibilData = res?.data
+                                    this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
                                     this.api_calling_loader['cardData'] = false;
+                                    this.toggleForceFullyPull = false; 
+                                    // alert('Ajmal ' + res?.message)
                               }
                         })
                   } else {
@@ -52,10 +87,13 @@ export class CommonCibilSmsComponent implements OnInit {
                                     this.message.success(res?.message);
                                     this.api_calling_loader['cardData'] = false;
                                     this.cibilData = res?.data
+                                    this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
                                     this.api_calling_loader['cardData'] = false;
+                                    // alert('Ajmal 1A' + res?.message)
                               }
+
                         })
                   }
             } else {
@@ -67,9 +105,13 @@ export class CommonCibilSmsComponent implements OnInit {
                                     this.api_calling_loader['cardData'] = false;
                                     this.message.success(res?.message);
                                     this.cibilData = res?.data
+                                    this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
                                     this.api_calling_loader['cardData'] = false;
+                                    this.erroMessage = res?.message;
+                                    this.toggleForceFullyPull = true; 
+                                    // alert('Ajmal 1B' + res?.message)
                               }
                         }, err => {
                               this.message.error(err);
@@ -83,8 +125,10 @@ export class CommonCibilSmsComponent implements OnInit {
                                     this.api_calling_loader['cardData'] = false;
                                     this.message.success(res?.message);
                                     this.cibilData = res?.data
+                                    this.toggleForceFullyPull = false; 
                               }
                               else {
+                                    // alert('Ajmal 1C' + res?.message)
                                     this.message.error(res?.message);
                                     this.api_calling_loader['cardData'] = false;
                               }

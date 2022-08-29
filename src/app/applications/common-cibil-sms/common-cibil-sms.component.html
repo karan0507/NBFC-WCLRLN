@@ -5,7 +5,22 @@
             </pre> -->
             <ngx-json-viewer [json]="cibilData" [expanded]="false"></ngx-json-viewer>
       </section>
-      <section *ngIf="!cibilData">
+      <section *ngIf="!cibilData && !toggleForceFullyPull">
            <h6> No Data Found</h6>
+      </section>
+      <section *ngIf="toggleForceFullyPull">
+            <h6>
+                  {{erroMessage}}
+            </h6>
+            <div class="mt-3">
+                  <span class="mr-5">
+                        Still You want to pull latest cibil data ?
+                  </span>
+                  <span>
+                        <button nzSize="small" nz-button nzType="primary" (click)="getForceFullyData()">Pull Data</button>
+                  </span>
+            </div>
+            <!-- this.erroMessage = res?.message;
+                                    this.toggleForceFullyPull = true;  -->
       </section>
 </nz-card>
