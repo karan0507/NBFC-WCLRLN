@@ -6,24 +6,59 @@
                 <nz-comment-content>
                     <nz-collapse>
                         <nz-collapse-panel
-                            [nzHeader]="item.key_changes[0].key + (item.key_changes.length > 1 ? ' and ' + (item.key_changes.length - 1) + ' More' : '') + ' changed in ' + (item.model)">
+                            [nzHeader]="headerTemp">
                             <div *ngFor="let sub_item of item.key_changes" class="mt-3">
                                 <b>{{sub_item.key}}</b>
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4 mt-2 pl-0">{{sub_item.old_value ?
-                                            checkIfdateorString(sub_item.old_value) : (sub_item.old_value
-                                            === 0 ? 0 : (sub_item.new_value === false ? false : '-'))}}
+                                        <div class="col-md-12 pl-0">
+                                            <span>
+                                                {{sub_item.old_value ?
+                                                    checkIfdateorString(sub_item.old_value) : (sub_item.old_value
+                                                    === 0 ? 0 : (sub_item.new_value === false ? false : '-'))}}
+                                            </span>
+                                            <span class="mx-2">
+                                                <i nz-icon nzType="arrow-right" class="text-danger"
+                                                nzTheme="outline"></i>
+                                            </span>
+                                            <span>
+                                                {{sub_item.new_value ?
+                                                    checkIfdateorString(sub_item.new_value) : (sub_item.new_value
+                                                    === 0 ? 0 : (sub_item.new_value === false ? false : '-'))}}
+                                            </span>
                                         </div>
-                                        <div class="col-md-1"><i nz-icon nzType="arrow-right"
-                                                nzTheme="outline"></i></div>
-                                        <div class="col-md mt-1 pr-0">{{sub_item.new_value ?
+                                        <!-- <div class="col-md-1"><i nz-icon nzType="arrow-right" class="text-primary"
+                                                nzTheme="outline"></i></div> -->
+                                        <!-- <div class="col-md mt-1 pr-0">{{sub_item.new_value ?
                                             checkIfdateorString(sub_item.new_value) : (sub_item.new_value
                                             === 0 ? 0 : (sub_item.new_value === false ? false : '-'))}}
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
+                            <ng-template #headerTemp>
+                                <div>
+                                    <span style="font-weight: 500;">
+                                        {{ item.key_changes[0].key }}
+                                        <!-- + (item.key_changes.length > 1 ? ' and ' + (item.key_changes.length - 1) + ' More' : '') + ' changed in ' + (item.model) + ' ' + (item.created_at | date: 'medium') -->
+                                    </span>
+                                    <span>
+                                        {{(item.key_changes.length > 1 ? ' and ' + (item.key_changes.length - 1) + ' More' : '') }}
+                                        <!-- + ' changed in ' + (item.model) + ' ' + (item.created_at | date: 'medium') -->
+                                    </span>
+                                    <span style="font-weight: 500;">
+                                        {{' changed in ' }}
+                                        <!--  + (item.model) + ' ' + (item.created_at | date: 'medium') -->
+                                    </span>
+                                    <span>
+                                        {{(item.model) + '  ' }}
+                                        <!--  + (item.model) + ' ' + (item.created_at | date: 'medium') -->
+                                    </span>
+                                    <span class="text-primary mx-3" style="font-weight: 500;">
+                                        {{(item.created_at | date: 'medium')}}
+                                    </span>
+                                </div>
+                            </ng-template>
                         </nz-collapse-panel>
                     </nz-collapse>
                 </nz-comment-content>
