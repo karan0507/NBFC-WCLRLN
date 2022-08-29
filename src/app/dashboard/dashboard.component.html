@@ -237,16 +237,73 @@
                   <div class="media align-items-center">
                     <nz-badge
                       nzStatus="default"
+                      [nzColor]="blue"
+                      class="h-100 dashboard-badge"
+                    >
+                    </nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Total Corporate Employees</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.total_employees_count
+                            ? fetchedList["corporate"]?.total_employees_count : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="gold"
+                      class="h-100 dashboard-badge"
+                    >
+                    </nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">Active Employees</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.active_employees
+                            ? fetchedList["corporate"]?.active_employees : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
                       [nzColor]="purple"
                       class="h-100 dashboard-badge"
                     >
                     </nz-badge>
                     <div class="m-l-5">
-                      <p class="m-b-0 muted">Total Corporate Employee</p>
+                      <p class="m-b-0 muted">No Of EWA</p>
                       <h4 class="m-b-0">
                         {{
-                          fetchedList["corporate"]?.total_employees_count
-                            ? fetchedList["corporate"]?.total_employees_count : " 0 "
+                          fetchedList["corporate"]?.ewa_count
+                            ? fetchedList["corporate"]?.ewa_count : " 0 "
+                        }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-md-2">
+                  <div class="media align-items-center">
+                    <nz-badge
+                      nzStatus="default"
+                      [nzColor]="pink"
+                      class="h-100 dashboard-badge"
+                    >
+                    </nz-badge>
+                    <div class="m-l-5">
+                      <p class="m-b-0 muted">No Of Fixed Product</p>
+                      <h4 class="m-b-0">
+                        {{
+                          fetchedList["corporate"]?.fixed_count
+                            ? fetchedList["corporate"]?.fixed_count : " 0 "
                         }}
                       </h4>
                     </div>
@@ -407,7 +464,7 @@
                 </h4>
               </div>
 
-              <!-- There -->
+              <!-- There 9-->
               <div class="col-md-4 mb-md-3">
                 <p class="m-b-0 muted">Total Borrowers</p>
                 <h4 class="m-b-0">
@@ -419,9 +476,9 @@
                 </h4>
               </div>
 
-              <!-- There -->
+              <!-- There 6-->
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Active Credit Line Assigned</p>
+                <p class="m-b-0 muted">Total Credit Line Assigned</p>
                 <h4 class="m-b-0">
                   {{
                     fetchedList["existing"]?.credit_line_assigned_active
@@ -433,7 +490,7 @@
             </div>
             <div class="row">
 
-              <!-- There -->
+              <!-- There 10-->
               <div class="col-md-4 d-flex mb-md-3">
                 <nz-badge
                   nzStatus="default"
@@ -441,7 +498,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">Total Credit Line Asssigned</p>
+                  <p class="m-b-0 muted">Total Line Used</p>
                   <h4 class="m-b-0">
                     ₹
                     {{
@@ -453,7 +510,7 @@
                 </div>
               </div>
 
-              <!-- There -->
+              <!-- There 7 -->
               <div class="col-md-4 d-flex mb-md-3">
                 <nz-badge
                   nzStatus="default"
@@ -473,8 +530,8 @@
                 </div>
               </div>
 
-              <!-- There -->
-              <div class="col-md-4 d-flex mb-md-3">
+              <!-- There 8 *ngIf="selectedTab['existing'] == 'overall'"-->
+              <div class="col-md-4 d-flex mb-md-3" >
                 <nz-badge
                   nzStatus="default"
                   [nzColor]="'#55268E40'"
@@ -492,15 +549,15 @@
                 </div>
               </div>
 
-              <!-- There -->
-              <div class="col-md-4 d-flex mb-md-3">
+              <!-- There 11-->
+              <div class="col-md-4 d-flex mb-md-3" >
                 <nz-badge
                   nzStatus="default"
                   [nzColor]="'#55268E40'"
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">User With First TXT this months</p>
+                  <p class="m-b-0 muted">This months Active Borrowers</p>
                   <h4 class="m-b-0">
                     {{
                       fetchedList["existing"]?.users_with_first_txn_this_month
@@ -510,7 +567,7 @@
                 </div>
               </div>
 
-              <!-- There -->
+              <!-- There 5 -->
               <div class="col-md-4 d-flex mb-md-3">
                 <nz-badge
                   nzStatus="default"
@@ -518,7 +575,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">Count Of New Active Borrowers</p>
+                  <p class="m-b-0 muted">This Month New Active Borrowers</p>
                   <h4 class="m-b-0">
                     {{
                       fetchedList["existing"]?.count_new_active_borrowers
@@ -528,7 +585,7 @@
                 </div>
               </div>  
 
-              <!-- There -->
+              <!-- There 4-->
               <div class="col-md-4 d-flex mb-md-3">
                 <nz-badge
                   nzStatus="default"
@@ -536,7 +593,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">Count Of New Acquisition Borrowers</p>
+                  <p class="m-b-0 muted">New Acquisition Active Borrowers</p>
                   <h4 class="m-b-0">
                     {{
                       fetchedList["existing"]?.count_new_acquisition_borrowers
@@ -976,7 +1033,7 @@
                             </canvas>
                         </div> -->
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Total Borrowers Outstanding</p>
+                <p class="m-b-0 muted">Due Outstanding</p>
                 <h4 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.total_borrower_outstanding
@@ -990,7 +1047,7 @@
                             </div> -->
               </div>
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">No. Of Repayment Transaction</p>
+                <p class="m-b-0 muted">Repayment Done</p>
                 <h4 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.number_repayment_transactions
@@ -1005,7 +1062,7 @@
             </div>
             <div class="row mt-md-4 ant-card-head px-0 py-3">
               <div class="col-md-3">
-                <p class="m-b-0 muted">Total Transaction Amount</p>
+                <p class="m-b-0 muted">Repayment Amount</p>
                 <h5 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.total_transaction_amount
@@ -1015,7 +1072,7 @@
                 </h5>
               </div>
               <div class="col-md-3">
-                <p class="m-b-0 muted">Count Fees Transaction</p>
+                <p class="m-b-0 muted">Count of Fee Collected</p>
                 <h5 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.count_fee_transaction
@@ -1024,7 +1081,7 @@
                 </h5>
               </div>
               <div class="col-md-6">
-                <p class="m-b-0 muted">Total Fees Amount</p>
+                <p class="m-b-0 muted">Amount Of Fee Collected</p>
                 <h5 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.total_fees_amount
@@ -1060,7 +1117,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of fetchedList['delinquent']; index as i">
+                <tr *ngFor="let data of fetchedList['delinquent']?.delinquent_data; index as i">
                   <td>{{ i + 1 }}</td>
                   <td>{{ data?.number_of_days }}</td>
                   <td>{{ data?.number_of_user }}</td>
@@ -1082,6 +1139,49 @@
                             </tr> -->
               </tbody>
             </nz-table>
+            <div class="row mb-md-3">
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Write Off</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["delinquent"]?.number_of_write_offs
+                      ? fetchedList["delinquent"]?.number_of_write_offs : " 0 "
+                  }}
+                </h4>
+              </div>
+              <!-- <div style="height: 30px; width: 70%;">
+                            <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                            </canvas>
+                        </div> -->
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Total Amount</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["delinquent"]?.total_delinquent_amount
+                      ? '₹' + fetchedList["delinquent"]?.total_delinquent_amount : " 0 "
+                  }}
+                </h4>
+                <!-- <div style="height: 30px; width: 70%;">
+                                <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                    [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                                </canvas>
+                            </div> -->
+              </div>
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Total Number Of Users</p>
+                <h4 class="m-b-0">
+                  {{
+                    fetchedList["delinquent"]?.total_users
+                      ? fetchedList["delinquent"]?.total_users : " 0 "}}
+                </h4>
+                <!-- <div style="height: 30px; width: 70%;">
+                                <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
+                                    [colors]="revenueChartColors" [legend]="false" [chartType]="revenueChartType">
+                                </canvas>
+                            </div> -->
+              </div>
+            </div>
           </nz-card>
           <ng-template #delinquent>
             <i nz-icon nzType="file-text" nzTheme="outline"></i>
@@ -1121,9 +1221,9 @@
     (ngModelChange)="onChangeTab($event, 'delinquent')"
     [(ngModel)]="selectedTab['delinquent']"
   >
-    <!-- <label nz-radio-button nzValue="Today">Today</label> -->
-    <label nz-radio-button nzValue="This Month">This Month</label>
-    <label nz-radio-button nzValue="Overall">Overall</label>
+    <label nz-radio-button nzValue="Today">Today</label>
+    <label nz-radio-button nzValue="This Month">Start of Month</label>
+    <!-- <label nz-radio-button nzValue="Overall">Overall</label> -->
   </nz-radio-group>
   
   <!-- <nz-radio-group (ngModelChange)="onChangeTab($event, 'delinquent')"
@@ -1149,7 +1249,7 @@
   >
     <label nz-radio-button nzValue="Today">Today</label>
     <label nz-radio-button nzValue="This Month">This Month</label>
-    <label nz-radio-button nzValue="Overall">Overall</label>
+    <!-- <label nz-radio-button nzValue="Overall">Overall</label> -->
   </nz-radio-group>
 </ng-template>
 <ng-template #acquisitionTemplate>
@@ -1177,9 +1277,9 @@
     (ngModelChange)="onChangeTab($event, 'repayment')"
     [(ngModel)]="selectedTab['repayment']"
   >
-    <!-- <label nz-radio-button nzValue="today">Today</label> -->
+    <label nz-radio-button nzValue="today">Today</label>
     <label nz-radio-button nzValue="this month">This Month</label>
-    <label nz-radio-button nzValue="overall">Overall</label>
+    <!-- <label nz-radio-button nzValue="overall">Overall</label> -->
   </nz-radio-group>
 </ng-template>
 <ng-template #mandateTemplate>
@@ -1197,7 +1297,7 @@
     (ngModelChange)="onChangeTab($event, 'existing')"
     [(ngModel)]="selectedTab['existing']"
   >
-    <label nz-radio-button nzValue="today">Today</label>
+    <!-- <label nz-radio-button nzValue="today">Today</label> -->
     <label nz-radio-button nzValue="this month">This Month</label>
     <label nz-radio-button nzValue="overall">Overall</label>
   </nz-radio-group>
@@ -1209,7 +1309,7 @@
   >
     <label nz-radio-button nzValue="Today">Today</label>
     <label nz-radio-button nzValue="This Month">This Month</label>
-    <label nz-radio-button nzValue="Overall">Overall</label>
+    <!-- <label nz-radio-button nzValue="Overall">Overall</label> -->
   </nz-radio-group>
 </ng-template>
 <ng-template #authorisation>
