@@ -75,6 +75,12 @@ export class BorrowersListComponent implements OnInit {
   borrowersSubStageCount: any;
   sub_stage = ''
   all_count = 0
+  isVisibleThirdPartyResp: boolean;
+  thirdPartyDataResponse: any;
+  _isUpdateStatus: boolean;
+  isFetchCibilSms: boolean;
+  _currentLoanDetails: any;
+  private _isCibil: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     public sanitize: DomSanitizer,
@@ -361,4 +367,24 @@ export class BorrowersListComponent implements OnInit {
       this.message.remove(generateloader);
     })
   }
+  onClickShowJSONPreview(res){
+    this.isVisibleThirdPartyResp = true
+    this.api_calling_loader['xmlLoader'] = true;
+    this.thirdPartyDataResponse = res
+    this.api_calling_loader['xmlLoader'] = false;
+}
+ // Get Cibil Data API
+ getCibilScoreData(type?, id?) {
+  this._isUpdateStatus = true
+  this.isFetchCibilSms = true;
+  let data = { source: 'Onboarding', endpoint: id }
+  if (type == 'cibil' && id) {
+        this._isCibil = true;
+        this._currentLoanDetails = id
+
+  } else if (type == 'sms' && id) {
+        this._isCibil = false;
+        this._currentLoanDetails = id
+  }
+}
 }
