@@ -1155,4 +1155,8 @@ export class HttpService {
       public createReferral(data) {
             return this._http.post((this.url + `/partner/v1/create-referral-program`), data);
       }
+
+      public editReferral(data) {
+            return this._http.put((this.url + `/partner/v1/edit-referral-program`), data);
+      }
 }

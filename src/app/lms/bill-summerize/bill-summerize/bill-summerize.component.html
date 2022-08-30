@@ -59,12 +59,9 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="getDeductionDetails(data)">
+                                        <li nz-menu-item (click)="isVisible = true; setDay(data)">
                                             <span class="m-l-5">Export outstanding</span>
                                         </li>
-                                        <!-- <li nz-menu-item (click)="isVisible = true; isApprove = false; getDeductionDetails(data)">
-                                            <span class="m-l-5">Deduction Rejected</span>
-                                        </li> -->
                                     </ul>
                                 </nz-dropdown-menu>
                             </div>
@@ -78,3 +75,41 @@
         </nz-card>
     </div>
 </section>
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false" (nzOnOk)="exportOutstandingGlobalFunction('xlsx')"
+    nzOkText="Export" [nzOkDisabled]="!(corporate_Id && start_month)">
+    <!-- [nzOkDisabled]="!selectedDateforStatement" -->
+    <ng-container *nzModalContent>
+
+        <div class="row">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select corporate!">
+                        <nz-select nzAllowClear [(ngModel)]="corporate_Id" nzPlaceHolder="Please Select corporate"
+                        style="min-width: 13rem" (nzFocus)="fetchPartnerList()">
+                            <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                                <div *ngIf="item.name">{{ item?.name }}</div>
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input select from!">
+                        <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch
+                            nzAllowClear>
+                            <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
+                                [nzLabel]="item.name">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>
