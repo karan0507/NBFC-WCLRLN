@@ -35,6 +35,25 @@ export class BillSummerizeComponent implements OnInit {
     // d.setMonth(d.getMonth() - 3);
   };
   selectedTab = 'bill'
+  isVisible = false
+  corporate_Id: any;
+  time_period_arr = [
+    { name: 'January', value: 1 },
+    { name: 'February', value: 2 },
+    { name: 'March', value: 3 },
+    { name: 'April', value: 4 },
+    { name: 'May', value: 5 },
+    { name: 'June', value: 6 },
+    { name: 'July', value: 7 },
+    { name: 'August', value: 8 },
+    { name: 'September', value: 9 },
+    { name: 'October', value: 10 },
+    { name: 'November', value: 11 },
+    { name: 'December', value: 12 }
+  ]
+  start_month: any;
+  corporateList: any[];
+  day: any;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -73,4 +92,55 @@ export class BillSummerizeComponent implements OnInit {
     this.fetchBillDateSummarization();
   }
 
+
+  exportOutstandingGlobalFunction(file_formate){
+    let data = {
+      datapoint: 'export_outstanding_data',
+      endpoint: this.corporate_Id,
+      source: 'LMS',
+      month: this.start_month,
+      day: this.day,
+      bill_date_type: this.selectedTab == 'bill' ? 'bill_date' : 'due_date'
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+      // if (!res?.success) {
+      //   this.message.remove(generateloader);
+      //   this.message.warning('Data not found')
+      // } else {
+        this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
+      // }
+      this.isVisible = false
+    })
+  }
+
+  fetchPartnerList() {
+    let data = {
+      datapoint: 'admin_bill_summarization_partner_list',
+      source: 'LMS',
+      endpoint: this.selectedTab,
+      day: this.day
+    }
+    this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
+      if (res?.success) {
+        this.corporateList = [];
+        res?.data?.results.map((res: any)=>{
+          if(res?.name){
+            this.corporateList.push(res)    
+          }
+        })
+        // this.corporateList = res?.data?.results;
+        console.log(this.corporateList);
+      }
+    });
+    // }
+  }
+
+  setDay(data) {
+    if (this.selectedTab == 'bill') {
+      this.day = data['bill_day']
+    } else {
+      this.day = data['due_day']
+    }
+  }
 }

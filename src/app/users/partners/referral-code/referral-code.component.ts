@@ -42,6 +42,7 @@ export class ReferralCodeComponent implements OnInit {
   modalTitle = 'Add Referral'
   createEditForm: FormGroup;
   formLoading: any;
+  isEdit: any;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
@@ -129,7 +130,7 @@ export class ReferralCodeComponent implements OnInit {
       })
     }
   }
-  addEditReferral(form) {
+  addReferral() {
     var data = new FormData()
     this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
     this.createEditForm.get('expiry_date').setValue(moment(this.createEditForm.get('expiry_date').value).format("YYYY-MM-DD"))
@@ -152,4 +153,34 @@ export class ReferralCodeComponent implements OnInit {
 
   }
 
+  editReferral() {
+    var data = new FormData()
+    this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
+    this.createEditForm.get('expiry_date').setValue(moment(this.createEditForm.get('expiry_date').value).format("YYYY-MM-DD"))
+    data = this.createEditForm.value
+
+    this.formLoading = true
+
+    this.http.editReferral(data).subscribe(res => {
+      if (res['success']) {
+        this.isAddEdit = false
+        this.fetchReferralList()
+        this.message.success(res['message'])
+      } else {
+        this.message.error(res['message'])
+      }
+      this.formLoading = false
+    }, (err) => {
+      this.formLoading = false
+    })
+
+  }
+
+  submitForm() {
+    if (this.isEdit) {
+      this.editReferral()
+    } else {
+      this.addReferral()
+    }
+  }
 }
