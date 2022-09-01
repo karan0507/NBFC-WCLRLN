@@ -842,6 +842,12 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/corporate/all-employees`),{params: data});
       }
 
+      public getListOfEmployeeAttandance(data) {
+            return this._http.get((this.url + `/partner/v1/get-corporate-attendance-data`),{params: data});
+      }
+
+      // /partner/v1/get-corporate-attendance-data
+
       public markEmployeeDetailsAsVerify(data){
             return this._http.post((this.url + `/partner/v1/mark-as-done-by-admin`), data);
       }
@@ -897,8 +903,18 @@ export class HttpService {
             return this._http.get((this.url + `/partner/v1/view-corporate-uploads/${id}`), { params: data });
       }
 
+      public getDetailsOfUploadedEmpAttendanceFile(id,data) {
+            return this._http.get((this.url + `/partner/v1/view-detailed-attendance-data/${id}`), { params: data });
+      }
+
+      // /partner/v1/view-detailed-attendance-data
+
       public downloadUploadedUserDetailFile(id) {
             return this._http.get((this.url + `/partner/v1/download-corporate-upload/${id}`), { responseType:'blob' });
+      }
+
+      public downloadUploadedEmpAttendanceDetailFile(id) {
+            return this._http.get((this.url + `/partner/v1/export-detailed-attendance-data/${id}`), { responseType:'blob' });
       }
 
       public verifyUploadedFile(id, data){
