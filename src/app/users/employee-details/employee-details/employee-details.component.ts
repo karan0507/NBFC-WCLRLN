@@ -192,6 +192,7 @@ export class EmployeeDetailsComponent implements OnInit {
     return differenceInCalendarDays(current, this.today) > 0;
   };
   date = '';
+  month = '';
   dateTillEnd = [];
 
   constructor(
@@ -225,6 +226,8 @@ export class EmployeeDetailsComponent implements OnInit {
     // this.getNewJoineeList();
     if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
       this.getListOfAllEmployees();
+    } else if(this.selectedTab == 'empAttendance'){
+      this.getEmployeeDetailWithEmployeeAttendance();
     } else {
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     }
@@ -269,6 +272,8 @@ export class EmployeeDetailsComponent implements OnInit {
     this.searchValue = ''
     if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
       this.getListOfAllEmployees();
+    } else if(this.selectedTab == 'empAttendance'){
+      this.getEmployeeDetailWithEmployeeAttendance();
     } else {
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     }
@@ -283,6 +288,9 @@ export class EmployeeDetailsComponent implements OnInit {
     this.selectedTab === 'allEmployee'){
       this.page = 1;
       this.getListOfAllEmployees();
+    } else if(this.selectedTab === 'empAttendance'){
+      this.page = 1;
+      this.getEmployeeDetailWithEmployeeAttendance();
     } else {
       this.page = 1;
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
@@ -298,6 +306,8 @@ export class EmployeeDetailsComponent implements OnInit {
       this.selectedCorporate = null;
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
       this.getListOfAllEmployees();  
+      } else if(this.selectedTab == 'empAttendance'){
+        this.getEmployeeDetailWithEmployeeAttendance();  
       } else {
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       }
@@ -348,6 +358,8 @@ export class EmployeeDetailsComponent implements OnInit {
       if(e){
       if(this.selectedTab == 'allEmployee' || this.selectedTab == 'recommendation'){
         this.getListOfAllEmployees();
+      }  else if(this.selectedTab == 'empAttendance'){
+        this.getEmployeeDetailWithEmployeeAttendance();
       } else {
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       }
@@ -355,6 +367,8 @@ export class EmployeeDetailsComponent implements OnInit {
       if(this.selectedTab == 'allEmployee' || this.selectedTab == 'recommendation'){
         this.selectedCorporate = null;
         this.getListOfAllEmployees();
+      } else if(this.selectedTab == 'empAttendance'){
+        this.getEmployeeDetailWithEmployeeAttendance();
       } else {
         this.selectedCorporate = null;
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
@@ -408,6 +422,65 @@ export class EmployeeDetailsComponent implements OnInit {
     console.log(data);
   }
 
+
+  onClickGetUploadedEmpAttandaceDocDetail(id, action, e?){
+    if (action === "view") {
+      if(this.isViewLoader['isVisible']){return;}
+      this.isViewUploadedData = true;
+      if(e){
+        this.viewPageCount = e?.pageIndex
+        this.viewPageSize = e?.pageSize
+      } 
+      // else {
+      //   this.viewPageCount = 1;
+      //   this.viewPageSize = 10  ;
+      // }
+      let data = {
+        'page': this.viewPageCount,
+        'limit': this.viewPageSize
+      }
+          // alert(this.viewTotalCount + ' <= BS Total Count ');
+          // alert(this.viewPageSize + ' <= BS Page Size ');
+          // alert(this.viewPageCount + ' <= BS Page Page Count ');
+      this.isViewLoader['isVisible'] = true;
+      const url = this.http.getDetailsOfUploadedEmpAttendanceFile(this.selectedIdForView,data);
+      url.subscribe(
+        (res: any) => {
+          this.viewTotalCount = res?.data?.total_count;
+          this.isViewLoader['viewContent'] =res?.data;
+          // this.isViewLoader['viewContent'] = res?.data?.results;
+          this.isViewLoader['keyContent'] = res?.data;
+          this.isViewLoader['isVisible'] = false;
+          // alert(this.viewTotalCount + ' <= AS Total Count ');
+          // alert(this.viewPageSize + ' <= AS Page Size ');
+          // alert(this.viewPageCount + ' <= AS Page Page Count ');
+          // viewPageSize
+        },
+        (err) => {
+          this.isViewLoader['isVisible'] = false;
+        }
+      );
+    } else {
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+      // downloadUploadedUserDetailFile
+      // const url = this.selected
+      const url = this.http.downloadUploadedEmpAttendanceDetailFile(id);
+      url.subscribe(
+        (res: any) => {
+        if (res.size > 41) {
+          this.downloadFile(res);
+          this.message.remove(generateloader);
+        } else {
+          this.message.remove(generateloader);
+          this.message.error("No File to download");
+        }
+        },
+        error => {
+          this.message.remove(generateloader);
+          console.log(error);
+        });
+    }
+  }
 
   onClickGetUploadedDocDetail(id, action, e?) {
     if (action === "view") {
@@ -496,14 +569,18 @@ export class EmployeeDetailsComponent implements OnInit {
     if(e){
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
         this.getListOfAllEmployees();
-      } else {
+      } else if(this.selectedTab == 'empAttendance'){
+        this.getEmployeeDetailWithEmployeeAttendance();
+      }  else {
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       }
     } else {
       // this.date = e;
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
         this.getListOfAllEmployees();
-      } else {
+      } else if(this.selectedTab == 'empAttendance'){
+        this.getEmployeeDetailWithEmployeeAttendance();
+      }  else {
         this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
       }
       // this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
@@ -558,6 +635,52 @@ export class EmployeeDetailsComponent implements OnInit {
     );
     
   }
+
+  getEmployeeDetailWithEmployeeAttendance(event?){
+    if (this.apiLoader["list"]) {
+      return;
+    }
+    this.listOfEmployee = [];
+    if (event) {
+      this.page = event?.pageIndex;
+      this.size = event?.pageSize;
+    }
+    let data = {
+      // section: this.selectedTab,
+      keyword: this.searchValue ? this.searchValue : "",
+      page: this.page,
+      limit: this.size,
+    };
+    if(this.date){
+      data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
+      data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+    } 
+    if(this.month){
+      console.log(this.month)
+      data["month"] =  moment(this.month).format("MM")
+      // console.log(testMonth);
+      // data["month"] = moment(this.date[0]).format("YYYY-MM-DD");
+      // data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+    } 
+    // month
+    if (this.selectedCorporate) {
+      data["partner"] = this.selectedCorporate;
+    }
+    this.apiLoader["list"] = true
+    this.http.getListOfEmployeeAttandance(data).subscribe((res: any)=>{
+      console.log(res);
+      // (res?: any) => {
+        this.total_count = res?.data?.count;
+        this.listOfEmployee = res?.data?.results;
+        this.apiLoader["list"] = false;
+      },
+      (err) => {
+        console.log(err);
+        this.apiLoader["list"] = false;
+      }
+    )
+  }
+
 
   getEmployeeDetailWithEmployeeTypeAndCorporateId(event?) {
     if (this.apiLoader["list"]) {

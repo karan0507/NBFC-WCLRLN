@@ -102,6 +102,12 @@
           >Attendance</label
         >
         <label
+          nz-radio-button
+          class="px-5 mb-md-0 mb-3 border-radius-2"
+          nzValue="empAttendance"
+          >Employee Attendance</label
+        >
+        <label
           *ngxPermissionsOnly="['view_exit_employee']"
           nz-radio-button
           class="px-5 mb-md-0 mb-3 border-radius-2"
@@ -388,6 +394,182 @@
                               nzPopconfirmTitle="Are you sure abt this Action?"
                               nzPopconfirmPlacement="bottom"
                               (nzOnConfirm)="deactiveEmployeeStatus(data?.id)">Deactive Employee</a>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+              <b>Total Count : </b>{{total_count}}
+            </div>
+            <!-- <ng-template #botTotalCount>
+              <div *ngIf="total_count && listOfEmployee[0]" class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+            </ng-template> -->
+          <!-- </div> -->
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </section>
+</section>
+
+<section
+  *ngIf="selectedTab === 'empAttendance'"
+>
+  <section>
+    <div class="row">
+      <nz-card class="w-100">
+        <div class="row">
+          <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                (keyup.enter)="getResultBasedOnSearch()"
+                [(ngModel)]="searchValue"
+                type="text"
+                nz-input
+                placeholder="Search text"
+              />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button
+                (click)="getResultBasedOnSearch()"
+                nz-button
+                nzType="secondary"
+                nzSearch
+              >
+                <i nz-icon nzType="search"></i>
+              </button>
+            </ng-template>
+            <button
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Reset Filter"
+              class="mx-3"
+              (click)="resetFilter()"
+            >
+              <i nz-icon nzType="undo"></i>
+            </button>
+          </div>
+
+          <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedCorporate"
+              nzAllowClear nzShowSearch
+              nzPlaceHolder="Select Corporate"
+              (nzOnSearch)="OnTypeSearchList($event)"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of corporateList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+            <nz-range-picker
+              class="mx-1"
+              [(ngModel)]="date"
+              [nzDisabledDate]="disabledDate"
+              nzAllowClear="true"
+              (ngModelChange)="onChange($event)"
+             [nzRanges]="customRanges"></nz-range-picker>
+
+             <nz-date-picker 
+             class="mx-1"
+              [(ngModel)]="month"
+              nzAllowClear="true"
+              (ngModelChange)="onChange($event)"
+              nzMode="month" [nzSize]="size"></nz-date-picker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <!-- <div class="totalCount"> -->
+            <nz-table
+              [nzTotal]="total_count" [nzFrontPagination]="false"
+              [nzPageIndex]="page"
+              [nzLoading]="apiLoader['list']"
+              [nzPageSize]="size"
+              (nzQueryParams)="getEmployeeDetailWithEmployeeAttendance($event)"
+              [nzShowSizeChanger]="true"
+              [nzData]="listOfEmployee"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <!-- <th>Partner Name</th> -->
+                  <th>Corporate Name</th>
+                  <th>Branch Name</th>
+                  <th>Employee ID</th>
+                  <th>Employee Name</th>
+                  <th>Month</th>
+                  <th>Total Days</th>
+                  <th>Present Days</th>
+                  <th>Absent Days</th>
+                  <th nzRight>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of listOfEmployee; index as i">
+                  <!-- <td>{{ i + 1 }}</td> -->
+                  <td *ngIf="page === 1">{{ i + 1 }}</td>
+                  <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
+                  <!-- <td>
+                    {{ data?.partner ? data?.partner : ' - '}}
+                  </td> -->
+                  <td>
+                    {{ data?.partner?.display_name ? data?.partner?.display_name : ' - '}}
+                  </td>
+                  <td>
+                    <!-- <div> -->
+                      {{data?.branch?.branch_name  ? data?.branch?.branch_name : ' - '}}
+                    <!-- </div> -->
+                  </td>
+                  <td>
+                    {{ data?.emp_id ? data?.emp_id : ' - '}}
+                  </td>
+                  <td>
+                    {{ data?.first_name + ' ' + data?.middle_name + ' ' + data?.last_name}}
+                  </td>
+                  <td>
+                    {{ data?.month ? data?.month[0] : ' - '}}
+                  </td>
+                  <td>
+                    {{ data?.days_metrics ? data?.days_metrics?.total_days : ' - '}}
+                  </td>
+                  <td>
+                    {{ data?.days_metrics ? data?.days_metrics?.present_days : ' - '}}
+                  </td>
+                  <td>
+                    {{ data?.days_metrics ? data?.days_metrics?.absent_days : ' - '}}
+                  </td>
+                  <td nzRight class="pr-0">
+                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                        [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                        [nzDropdownMenu]="latestUploadDropDown">
+                        <img src="assets/images/ellipsis.png" alt="" width="30">
+                    </a>
+                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item *ngxPermissionsOnly="['']">
+                              <a
+                                nz-button
+                                class="primary"
+                                nzType="link"
+                                (click)="onClickGetUploadedEmpAttandaceDocDetail(selectedIdForView = data?.id, 'view')">View Detailed View</a>
+                              <a
+                                nz-button
+                                nzType="link"
+                                (click)="
+                                onClickGetUploadedEmpAttandaceDocDetail(data?.id, 'download')
+                                ">Export Detailed View</a>
                             </li>
                         </ul>
                     </nz-dropdown-menu>
@@ -1246,6 +1428,49 @@
               </tr>
             </tbody>
           </nz-table>
+
+
+          <!-- In Progress -->
+          <nz-table *ngIf="selectedTab == 'empAttendance'" style="width: 100%;"
+            [nzLoading]="isViewLoader['isVisible']"
+            nzFrontPagination="false"
+            nzShowSizeChanger="false"
+            [nzData]="isViewLoader['viewContent']"
+          >
+          <!-- [nzScroll]=" {x: returnPixel('', isViewLoader['keyContent']?.keys), y: '55vh'}" -->
+            <thead>
+              <tr>
+                <th  class="px-3" nzWidth="5rem" rowspan="2">#</th>
+                <th  class="px-3" nzWidth="5rem" rowspan="2">Date</th>
+                <th  class="px-3" nzWidth="5rem" rowspan="2">Status</th>
+                <!-- <th
+                  *ngFor="
+                    let data of isViewLoader['keyContent']?.keys;
+                    index as i
+                  "
+                >
+                  <label style="clear: both;
+                  display: inline-block;
+                  overflow: hidden;
+                  white-space: nowrap;" *ngIf="data != 'Photo'">{{ data }}</label>
+                </th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let data of isViewLoader['viewContent'];
+                  index as i
+                "
+              >
+                <td class="px-3">{{ i + 1 }}</td>
+                <td class="px-3">{{ data?.date ? data?.date : " " }}</td>
+                <!-- <td class="px-3">{{ data?.Date ? (data?.Date | date: 'dd MMM yyyy') : " " }}</td> -->
+                <td class="px-3">{{ data?.status ? data?.status : " " }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+
           <div class="col-12">
             <nz-pagination class="text-right" [nzPageIndex]="viewPageCount" (nzPageIndexChange)="pageIndexChange($event)" [(nzPageSize)]="viewPageSize"  [nzTotal]="viewTotalCount"></nz-pagination> `
           </div>
