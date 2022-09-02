@@ -105,7 +105,7 @@ export class ReferralCodeComponent implements OnInit {
   createEditFormFunction(data?) {
     if (data) {
       this.createEditForm = this.fb.group({
-        id: [data ? data.id : '', [Validators.required]],
+        id: [data ? data.id : ''],
         name: [data ? data.name : '', [Validators.required]],
         referrer_amount: [data ? data.referrer_amount : '', [Validators.required]],
         referee_amount: [data ? data.referee_amount : '', [Validators.required]],
@@ -114,7 +114,7 @@ export class ReferralCodeComponent implements OnInit {
         referrer_max_amount_lifetime: [data ? data.referrer_max_amount_lifetime : '', [Validators.required]],
         activation_date: [data ? data.activation_date : '', [Validators.required]],
         expiry_date: [data ? data.expiry_date : '', [Validators.required]],
-        corporate: [ this.partnerId, [Validators.required]]
+        corporate: [ this.partnerId]
       })
     } else {
       this.createEditForm = this.fb.group({
@@ -126,7 +126,7 @@ export class ReferralCodeComponent implements OnInit {
         referrer_max_amount_lifetime: ['', [Validators.required]],
         activation_date: ['', [Validators.required]],
         expiry_date: ['', [Validators.required]],
-        corporate: [ this.partnerId, [Validators.required]]
+        corporate: [ this.partnerId]
       })
     }
   }
