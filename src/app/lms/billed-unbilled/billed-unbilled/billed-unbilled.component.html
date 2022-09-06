@@ -32,6 +32,20 @@
                     <div *ngIf="item.name">{{ item?.name }}</div>
                 </nz-option>
             </nz-select>
+            <nz-range-picker
+                class="mx-1 mb-2"
+                style="width: 15rem"
+                [(ngModel)]="date"
+                [nzDisabledDate]="disabledDate"
+                (ngModelChange)="fetchBilledData()"
+                [nzRanges]="customRanges"
+            ></nz-range-picker>
+            <nz-select class="mx-1" style=" width: 12rem;" nzAllowClear [(ngModel)]="selectedFilterOfStatus" (ngModelChange)="fetchBilledData()"
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option *ngFor="let item of statusFilter" [nzValue]="item.status"
+                                    [nzLabel]="item.status">
+                              </nz-option>
+                    </nz-select>
             <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="month" (ngModelChange)="fetchBilledData()"
                 nzPlaceHolder="Filter By bill month">
                 <nz-option *ngFor="let item of month_list" [nzValue]="item.value" [nzLabel]="item.name">
@@ -85,6 +99,7 @@
                     <th *ngIf="selectedTab == 'unbilled'">Repayment done after bill</th>
                     <th>Previous bill amount</th>
                     <th>Bill date</th>
+                    <th>Due date</th>
                     <th *ngIf="selectedTab == 'unbilled'">Next Bill Date</th>
                     <th>Bill status</th>
                     <th nzWidth="6rem" nzRight *ngIf="selectedTab === 'billed'">Actions</th>
@@ -118,6 +133,7 @@
                     <td *ngIf="selectedTab == 'unbilled'">₹ {{ data?.transaction_meta_data.repayments_done_after_bill ? data?.transaction_meta_data.repayments_done_after_bill : '0'}}</td>
                     <td>₹ {{ data?.transaction_meta_data.previous_bill_amount ? data?.transaction_meta_data.previous_bill_amount : '0'}}</td>
                     <td>{{ data?.bill_date | date: "medium" }}</td>
+                    <td>{{ data?.due_date | date: "medium" }}</td>
                     <td *ngIf="selectedTab == 'unbilled'">{{ data?.next_bill_date ? (data?.next_bill_date | date: "MMM dd, YYYY") : '-'}}</td>
                     <td>{{ data?.transaction_meta_data.previous_bill_status ? 'Paid' : 'Unpaid' }}</td>
                     <td nzRight *ngIf="selectedTab === 'billed'">

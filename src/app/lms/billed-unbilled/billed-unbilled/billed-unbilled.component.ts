@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
@@ -25,6 +26,29 @@ export class BilledUnbilledComponent implements OnInit {
   latest_bill: any;
   latest_bill_show: boolean;
   month = ''
+  selectedFilterOfStatus: any;
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+  today = new Date();
+  statusFilter = [
+    {'status':'paid'},
+    {'status':'unpaid'}
+  ];
+  customRanges = {
+    Today: [new Date(), new Date()],
+    'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
+    'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
+    // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
+    'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
+    // d.setMonth(d.getMonth() - 3);
+  };
+  date = ''
   month_list = [
     { name: 'January', value: 1 },
     { name: 'February', value: 2 },
@@ -68,6 +92,14 @@ export class BilledUnbilledComponent implements OnInit {
       corporate: this.selectedCorporate ? this.selectedCorporate : '',
       // section: this.selectedTab
     }
+    if(this.date){
+      data['bill_start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      data['bill_end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
+    };
+    if(this.selectedFilterOfStatus){
+      data['bill_status'] = this.selectedFilterOfStatus;
+    }
+    // selectedFilterOfStatus
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
