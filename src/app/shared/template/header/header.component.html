@@ -25,7 +25,8 @@
             </li>
         </ul>
         <span style="align-self: center;min-width: 26%;">
-            <nz-select (nzOnSearch)="onSearchGetList($event)"
+            <!-- *ngIf="currentRoute != '/dashboard/home'" -->
+            <nz-select (nzOnSearch)="onSearchGetList($event)" 
             [(ngModel)]="selectedApplication" 
                        (ngModelChange)="onClickRedirectToSpecificComponent($event)"
                        nzPlaceHolder="Select Application" 

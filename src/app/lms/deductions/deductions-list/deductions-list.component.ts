@@ -75,7 +75,7 @@ export class DeductionsListComponent implements OnInit {
     this.fetchDeductionList();
   }
   deductionApproval() {
-    this.http.deductionApproval(this.deduction_id).subscribe(res => {
+    this.http.deductionApprovalAmount(this.deduction_id).subscribe(res => {
       if (res['success']) {
         this.message.success(res['message'])
       } else {
