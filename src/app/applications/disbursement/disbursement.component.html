@@ -365,19 +365,19 @@
                       <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                         <ul nz-menu>
                           <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?" nzPopconfirmPlacement="topLeft"
-                            (nzOnConfirm)="sendEnachLink(data?.user?.id ,'upi')">
+                            (nzOnConfirm)="sendEnachLink(data?.offer_id ,'upi')">
                             <span class="m-l-5">UPI</span>
                           </li>
                           <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?" nzPopconfirmPlacement="topLeft"
-                            (nzOnConfirm)="sendEnachLink(data?.user?.id ,'netbanking')">
+                            (nzOnConfirm)="sendEnachLink(data?.offer_id ,'netbanking')">
                             <span class="m-l-5">Net banking</span>
                           </li>
                           <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?" nzPopconfirmPlacement="topLeft"
-                            (nzOnConfirm)="sendEnachLink(data?.user?.id ,'aadhaar')">
+                            (nzOnConfirm)="sendEnachLink(data?.offer_id ,'aadhaar')">
                             <span class="m-l-5">Aadhar card</span>
                           </li>
                           <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?" nzPopconfirmPlacement="topLeft"
-                            (nzOnConfirm)="sendEnachLink(data?.user?.id ,'debitcard')">
+                            (nzOnConfirm)="sendEnachLink(data?.offer_id ,'debitcard')">
                             <span class="m-l-5">Debit card</span>
                           </li>
                         </ul>

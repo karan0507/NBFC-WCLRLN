@@ -1165,6 +1165,10 @@ export class HttpService {
       public deductionApproval(id) {
             return this._http.post((this.url + `/hrms-api/quesscorp-deduction/` + id), id);
       }
+      
+      public deductionApprovalAmount(id) {
+            return this._http.post((this.url + `/hrms-api/quesscorp-approve-deduction/` + id), id);
+      }
 
       public fetchReferralList(data?) {
             return this._http.get((this.url + `/partner/v1/get-referrals-list`), { params: data });
