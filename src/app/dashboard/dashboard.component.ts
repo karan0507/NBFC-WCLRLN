@@ -213,6 +213,8 @@ export class DashboardComponent implements OnInit {
         'corporate': false
     } 
     thirty_day_user_activity: any;
+    partner: any;
+    partnerList: any;
     avgProfitChartDataCustomArray: any;
     nbfcGraphValue: any[];
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
@@ -221,6 +223,7 @@ export class DashboardComponent implements OnInit {
     if (!localStorage.getItem('fatakpay_user_data')) {
             return;
     }
+    this.onFocusMethod();
     // let data = {
     //     // 'datapoint': 'dashboard_acquisition',
     //     // 'source': 'LMS',
@@ -293,6 +296,9 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['delinquent']
         }
+        if(this.partner){
+            data['partner'] = this.partner
+        }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['delinquent'] = res?.data
             // customersChartData: number[] = [350, 450, 100, 243];
@@ -310,6 +316,9 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['existing']
         }
+        if(this.partner){
+            data['partner'] = this.partner
+        }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             // this.fetchedList['delinquent'] = res?.data
             this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
@@ -319,6 +328,28 @@ export class DashboardComponent implements OnInit {
             this.isLoading['existing'] = false;
         })
     }
+
+    onFocusMethod(keyword?){
+        
+        // if(keyword){
+
+        // }
+        this. http.fetchPartner().subscribe((res:any)=>{
+            this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
+      })
+    }
+
+    onSearch(e){
+        console.log(e);
+        // if(e?.length > 3){
+        //     this.onFocusMethod(e)
+        // }
+        console.log(this.partner);
+    }
+
+    onSelectFetchCorrespondingData(){
+        this.resetFilters();
+    }
     
     getCorporateList(){
         this.isLoading['corporate'] = true;
@@ -326,6 +357,9 @@ export class DashboardComponent implements OnInit {
             // 'datapoint': 'dashboard_corporate',
             // 'source': 'LMS',
             'filter_type': this.selectedTab['corporate']
+        }
+        if(this.partner){
+            data['partner'] = this.partner
         }
         this.http.getCorporateDashboardList(data).subscribe((res?: any)=> {
             this.fetchedList['corporate'] = res?.data
@@ -350,6 +384,12 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['repayment']
         }
+        if(this.partner){
+            data['partner'] = this.partner
+        }
+        if(this.partner){
+            data['partner'] = this.partner
+        }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['repayment'] = res?.data
             // this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
@@ -364,6 +404,9 @@ export class DashboardComponent implements OnInit {
         this.isLoading['mandate'] = true;
         let data = {
             'time_filter': this.selectedTab['mandate']
+        }
+        if(this.partner){
+            data['partner'] = this.partner
         }
         this.http.getDetailForDashboardMandate(data).subscribe((res?: any)=> {
             this.fetchedList['mandate'] = res?.data
@@ -386,6 +429,9 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['acquisition']
         }
+        if(this.partner){
+            data['partner'] = this.partner
+        }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['acquisition'] = res?.data
             this.customersChartData = []
@@ -405,6 +451,9 @@ export class DashboardComponent implements OnInit {
             'datapoint': 'dashboard_nbfc',
             'source': 'LMS',
             'filter_type': this.selectedTab['nbfc']
+        }
+        if(this.partner){
+            data['partner'] = this.partner
         }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['nbfc'] = res?.data

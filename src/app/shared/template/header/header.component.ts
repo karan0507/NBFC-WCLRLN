@@ -20,9 +20,14 @@ export class HeaderComponent{
     loanApplicationData: any;
     isLoading: boolean = false
     debounce;
+    currentRoute: any;
     
     constructor( private themeService: ThemeConstantService, private globalFunction :GlobalservicesService, private https: HttpService, private message: NzMessageService, private route: Router
-        ,private globaldata: GlobalservicesService) {}
+        ,private globaldata: GlobalservicesService) {
+            // console.log(this.route.url);
+            // this.currentRoute = this.route.url
+            // /dashboard/home
+        }
 
     ngOnInit(): void {
         this.getFormLoanData();

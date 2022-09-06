@@ -1,8 +1,22 @@
 <div class="header_breadcrumb_section">
-  <button nz-button class="ml-auto" nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()">
-    <i nz-icon nzType="undo"></i>
-</button>
-</div>
+  <div class="row" style="width: 100%;">
+    <div class="col"></div>
+      <div class="col text-center">
+        <nz-select [(ngModel)]="partner" style="width: 15rem;" class="mx-2 my-md-0 mb-3" nzAllowClear
+        (ngModelChange)="onSelectFetchCorrespondingData()" nzAllowClear (nzOnSearch)="onSearch($event)" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+      <nz-option *ngFor="let item of partnerList" [nzValue]="item.pk"
+            [nzLabel]="item.name">
+      </nz-option>
+      </nz-select>
+    </div>
+      <div class="col text-right">
+        <button class="mx-2" nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()">
+          <i nz-icon nzType="undo"></i>
+          <!-- class="ml-auto" -->
+      </button>
+      </div>
+    </div>
+  </div>
 <section>
   <div class="row">
 
