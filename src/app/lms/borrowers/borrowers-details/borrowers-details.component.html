@@ -406,7 +406,7 @@
                                     <td>{{ data?.txn_type }}</td>
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
-                                    <td>{{ data?.created_at | date: "medium" }}</td>
+                                    <td>{{ data?.transaction_datetime | date: "medium" }}</td>
                                     <td>₹{{ data?.txn_amount }}</td>
                                     <td *ngIf="data?.is_waived_off"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
                                     <td *ngIf="!data?.is_waived_off"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
