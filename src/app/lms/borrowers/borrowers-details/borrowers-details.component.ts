@@ -416,6 +416,8 @@ export class BorrowersDetailsComponent implements OnInit {
       this.isWaiveOff = false
       this.is_set_amt = false
       this.waiveOffId = ''
+      this.waive_off_type = ''
+      this.waive_off_amount = ''
       this.fetchTransactionTxnList()
       this.fetchTransactionFessList();
     }, (err) => {

@@ -43,9 +43,9 @@
                       <h4 class="m-b-0">
                         {{
                           fetchedList["acquisition"]
-                            ?.app_registered_users_exact_count
+                            ?.app_downloads
                             ? fetchedList["acquisition"]
-                                ?.app_registered_users_exact_count
+                                ?.app_downloads
                             : " 0 "
                         }}
                       </h4>
@@ -1199,12 +1199,11 @@
                             </canvas>
                         </div> -->
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Total Amount</p>
+                <p class="m-b-0 muted">Total Number Of Users</p>
                 <h4 class="m-b-0">
                   {{
-                    fetchedList["delinquent"]?.total_delinquent_amount
-                      ? '₹' + fetchedList["delinquent"]?.total_delinquent_amount : " 0 "
-                  }}
+                    fetchedList["delinquent"]?.total_users
+                      ? fetchedList["delinquent"]?.total_users : " 0 "}}
                 </h4>
                 <!-- <div style="height: 30px; width: 70%;">
                                 <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"
@@ -1213,11 +1212,12 @@
                             </div> -->
               </div>
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Total Number Of Users</p>
+                <p class="m-b-0 muted">Total Amount</p>
                 <h4 class="m-b-0">
                   {{
-                    fetchedList["delinquent"]?.total_users
-                      ? fetchedList["delinquent"]?.total_users : " 0 "}}
+                    fetchedList["delinquent"]?.total_delinquent_amount
+                      ? '₹' + fetchedList["delinquent"]?.total_delinquent_amount : " 0 "
+                  }}
                 </h4>
                 <!-- <div style="height: 30px; width: 70%;">
                                 <canvas ngChartjs [datasets]="revenueChartData" [labels]="revenueChartLabels" [options]="revenueChartOptions"

@@ -17,7 +17,10 @@
                         Still You want to pull latest cibil data ?
                   </span>
                   <span>
-                        <button nzSize="small" nz-button nzType="primary" (click)="getForceFullyData()">Pull Data</button>
+                        <button class="mx-3" nzSize="small" nz-button nzType="primary" (click)="getForceFullyData()">Pull Data</button>
+                  </span>
+                  <span>
+                        <button class="mx-3" nzSize="small" nz-button nzType="primary" (click)="toggleForceFullyPull = false">Show Stored Data</button>
                   </span>
             </div>
             <!-- this.erroMessage = res?.message;
