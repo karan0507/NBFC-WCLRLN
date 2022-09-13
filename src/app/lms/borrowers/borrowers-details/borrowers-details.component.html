@@ -283,7 +283,7 @@
                                     <td>{{ data?.details }}</td>
                                     <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
                                     <td>{{ data?.created_at | date: "medium" }}</td>
-                                    <td>₹ {{data?.txn_type == 'Repayment' ? '+' : '-'}} {{ data?.txn_amount }}</td>
+                                    <td>₹ {{data?.symbol}} {{ data?.txn_amount }}</td>
                                     <!-- <td>{{ data?.pan }}</td>
                                     <td>{{ data?.pan }}</td> -->
                                     <td>{{ data?.txn_status }}</td>
@@ -831,7 +831,6 @@
       </ng-container>
 </nz-modal> -->
 
-<!-- Change bill date -->
 <nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="!is_set_amt ? modalFooter1234 : null" (nzOnCancel)="isWaiveOff = false">
       <ng-container *nzModalContent>
             <app-double-confirmation-popup *ngIf="is_set_amt"
