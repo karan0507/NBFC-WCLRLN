@@ -658,6 +658,7 @@ export class EmployeeDetailsComponent implements OnInit {
     if(this.month){
       console.log(this.month)
       data["month"] =  moment(this.month).format("MM")
+      data["year"] =  moment(this.month).format("YYYY")
       // console.log(testMonth);
       // data["month"] = moment(this.date[0]).format("YYYY-MM-DD");
       // data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");

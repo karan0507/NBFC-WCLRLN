@@ -538,8 +538,25 @@
                   <td>
                     {{ data?.first_name + ' ' + data?.middle_name + ' ' + data?.last_name}}
                   </td>
-                  <td>
-                    {{ data?.month ? data?.month[0] : ' - '}}
+                  <td class="text-center">
+                    <!-- {{ data?.month ? data?.month[0] : ' - '}} -->
+                    <i
+                  nz-icon
+                  nzType="info-circle"
+                  nzTheme="outline"
+                  *ngIf="data?.month"
+                  style="cursor: pointer"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate"
+                  nzPopoverPlacement="top"
+                ></i>
+                <ng-template #contentTemplate>
+                  <div class="px-3">
+                    <ul *ngFor="let item of data?.month">
+                      <li class="text-success">{{ item }}</li>
+                    </ul>
+                  </div>
+                </ng-template>
                   </td>
                   <td>
                     {{ data?.days_metrics ? data?.days_metrics?.total_days : ' - '}}
@@ -706,7 +723,7 @@
                   <th>Added on</th>
                   <th>Added By</th>
                   <th  *ngIf="selectedTab !== 'corporate'">Remarks</th>
-                  <th  *ngIf="selectedTab !== 'corporate'">Status</th>
+                  <th  *ngIf="selectedTab !== 'corporate'">Upload Status</th>
                   <th  *ngIf="selectedTab == 'corporate'">Section</th>
                   <ng-container *ngxPermissionsOnly="['verify_corporate_employee_details']" >
                     <th *ngIf="selectedTab == 'corporate'">Verify</th>

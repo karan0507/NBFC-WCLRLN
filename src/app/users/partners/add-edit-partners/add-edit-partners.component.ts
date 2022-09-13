@@ -480,12 +480,12 @@ export class AddEditPartnersComponent implements OnInit {
       ],
       contact_person_email: [
         data ? data?.contact_person_email : null,
-        [
-          Validators.required,
-          Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$")
-          // ^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$
-          // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-90-9._%+-]+\.[a-zA-Z0-9-.]+$
-        ],
+        // [
+        //   Validators.required,
+        //   Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$")
+        // ],
+        // ^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$
+        // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-90-9._%+-]+\.[a-zA-Z0-9-.]+$
       ],
 
       // employee: [data ? data?.employee : null, [Validators.required]],
