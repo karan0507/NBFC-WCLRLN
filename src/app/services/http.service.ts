@@ -1159,9 +1159,13 @@ export class HttpService {
       fetchVersionList( data){
             return this._http.get(this.url + `/loan-application/v1/get-app-version-list`, {params: data});
       }
-      public fetchDeductionList(data?) {
-            return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data });
+      public fetchDeductionList(data?): Observable<any> {
+            return this._http.get<Blob>((this.url + `/hrms-api/quesscorp-deduction`), { params: data, responseType: 'blob' as 'json'});
       }
+      // public fetchLoanApplicationListExportGet(data): Observable<any> {
+      //       // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+      //       return this._http.get<Blob>((this.url + `/central-api/v1/call-api`), { params: data, responseType: 'blob' as 'json'});
+      // }
       public deductionApproval(id) {
             return this._http.post((this.url + `/hrms-api/quesscorp-deduction/` + id), id);
       }

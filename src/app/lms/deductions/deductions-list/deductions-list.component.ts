@@ -36,6 +36,7 @@ export class DeductionsListComponent implements OnInit {
     // d.setMonth(d.getMonth() - 3);
   };
   type = ''
+  status = ''
   isVisible = false
   isApprove = false
   deduction_id: any;
@@ -54,10 +55,14 @@ export class DeductionsListComponent implements OnInit {
       page: this.page,
       search_param: this.search_params ? this.search_params : '',
       limit: this.globalPageSize,
-      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       status: this.selectedTab ? this.selectedTab : '',
-      type: this.type ? this.type : ''
+      type_deduction: this.type ? this.type : '',
+      type_status: this.status ? this.status : '',
+      export: false
+    }
+    if(this.date){
+      data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+      data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
     }
     this.api_calling_loader = true
     this.http.fetchDeductionList(data).subscribe(res => {
@@ -69,9 +74,49 @@ export class DeductionsListComponent implements OnInit {
       this.api_calling_loader = false
     })
   }
+
+  exportGlobalFunction(file_formate){
+    let data = {
+      // page: this.page,
+      // search_param: this.search_params ? this.search_params : '',
+      // limit: this.globalPageSize,
+      // status: this.selectedTab ? this.selectedTab : '',
+      // type_deduction: this.type ? this.type : '',
+      // type_status: this.status ? this.status : '',
+      export: true
+    }
+    if(this.date){
+      data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+      data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
+    }
+
+
+    // let data = {
+    //   datapoint: 'lender_master_export',
+    //   endpoint: 'LoanApplicationTransactions',
+    //   source: 'LMS',
+    //   start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+    //   end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+    //   txn_status: this.selectedStatus ? this.selectedStatus : '',
+    //   product_type: this.master_product_id ? this.master_product_id : '',
+    //   txn_type: this.selectedType ? this.selectedType : '',
+    //   search_param: this.searchValue,
+    //   corporate: this.selectedCorporate ? this.selectedCorporate : '',
+    //   // tab_filter: this.selectedTab,
+    //   file_type: file_formate
+    // }
+    let date = Date.now();
+    const formatedDate = moment(date[0]).format("YYYY-MM-DD")
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.fetchDeductionList(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, `'deduction_approval ' ${formatedDate}`, file_formate, generateloader)
+    })
+  }
   resetFilters() {
     this.date = ''
-    this.search_params = ''
+    this.search_params = '';
+    this.type = '';
+    this.status = '';
     this.fetchDeductionList();
   }
   deductionApproval() {
