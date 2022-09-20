@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
     purple = this.themeColors.purple;
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
-    customersChartData: number[] = [350, 450, 100, 243];
+    customersChartData: number[] = [350, 450, 100];
     corporateChartData: number[] = [350, 450, 100, 243];
     mandateChartData: number[] = [350, 450, 100, 243];
     dummyData: number[] = [1];
@@ -32,13 +32,18 @@ export class DashboardComponent implements OnInit {
         backgroundColor: [this.gray],
         pointBackgroundColor : [this.gray]
     }];
-    customersChartLabels: string[] = ['Registered Through App', 'Total Registered Users', 'Total Corporate Users', 'Active User'];
+    customersChartLabels: string[] = ['Registered Users (Tie-up Corporate)', 'Disbursed User', 'Registered Users'];
     corporateChartLabels: string[] = ['Fixed product Count', 'EWA count'];
     mandateChartLabels: string[] = ['Aadhar Mandate', 'Debit Card Mandate', 'Net Banking Mandate', 'Upi Mandate'];
     customersChartType = 'doughnut';
+    // , this.cyan
     customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.pink, this.purple, this.gold,this.cyan],
-        pointBackgroundColor : [this.pink, this.purple, this.gold,this.cyan]
+        backgroundColor: [this.gold, this.pink, this.purple],
+        pointBackgroundColor : [this.gold, this.pink, this.purple]
+    }];
+    corporateChartColors: Array<any> =  [{ 
+        backgroundColor: [ this.pink, this.purple,this.gold],
+        pointBackgroundColor : [this.pink, this.purple,this.gold]
     }];
     mandateChartColors: Array<any> =  [{ 
         backgroundColor: [this.cyan, this.purple, this.gold, this.pink, this.blue],
@@ -435,10 +440,10 @@ export class DashboardComponent implements OnInit {
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             this.fetchedList['acquisition'] = res?.data
             this.customersChartData = []
-            this.customersChartData.push(res?.data?.app_registered_users_exact_count ? res?.data?.app_registered_users_exact_count : 0)
-            this.customersChartData.push(res?.data?.all_registered_users_exact_count ? res?.data?.all_registered_users_exact_count : 0 )
+            // this.customersChartData.push(res?.data?.app_registered_users_exact_count ? res?.data?.app_registered_users_exact_count : 0)
             this.customersChartData.push(res?.data?.total_corporate_users_exact_count ? res?.data?.total_corporate_users_exact_count : 0 )
             this.customersChartData.push(res?.data?.active_users_exact_count ? res?.data?.active_users_exact_count : 0)
+            this.customersChartData.push(res?.data?.all_registered_users_exact_count ? res?.data?.all_registered_users_exact_count : 0 )
             this.isLoading['acquisition'] = false;
         }, err => {
             this.isLoading['acquisition'] = false;

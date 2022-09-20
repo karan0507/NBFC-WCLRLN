@@ -162,6 +162,7 @@ export class DpdDaysComponent implements OnInit {
   }
 
   resetFilters(){
+  this.date = ''
   this.search_params = '';
   this.page = 1,
   this.selectedFilterOfDays = '';
