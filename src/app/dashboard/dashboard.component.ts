@@ -497,11 +497,12 @@ export class DashboardComponent implements OnInit {
             }]
     }
     resetFilters() {
+        this.partner = '';
         this.selectedTab ={
             'delinquent': 'Today',
             'nbfc': 'Today',
             'authorization': 'Today',
-            'existing': 'today',
+            'existing': 'this month',
             'acquisition': 'today',
             'mandate': 'today',
             'corporate': 'this month',

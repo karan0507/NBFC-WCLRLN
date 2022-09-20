@@ -482,8 +482,8 @@
                 <p class="m-b-0 muted">Total Line Assigned</p>
                 <h4 class="m-b-0">
                   {{
-                    fetchedList["existing"]?.credit_line_assigned_active
-                      ? '₹' + fetchedList["existing"]?.credit_line_assigned_active : " 0 "
+                    fetchedList["existing"]?.total_credit_line_assigned
+                      ? '₹' + fetchedList["existing"]?.total_credit_line_assigned : " 0 "
                   }}
                 </h4>
               </div>
@@ -1000,8 +1000,8 @@
                 </td>
                 <td>
                   {{
-                    fetchedList["authorization"]?.credit
-                      ? fetchedList["authorization"]?.credit[1]?.amount
+                    fetchedList["authorization"]?.debit
+                      ? fetchedList["authorization"]?.debit[1]?.amount
                       : 0
                   }}
                 </td>
