@@ -6,7 +6,8 @@
     <div class="row">
         <nz-card class="w-100 mb-0">
             <div class="row">
-                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add</button>
+                <h4 class="mb-0">Refer & Earn</h4>
+                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Program</button>
             </div>
             <div class="row">
                 <div class="col-md-3 mb-3 d-flex">
@@ -137,7 +138,7 @@
                     </div>
                     <div class="col-md-6">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_max_amount_year" class="text-left">
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="referrer_max_amount_year" class="text-left" nzRequired>
                                 Referrer max amount year</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Referrer max amount year!">
                                 <input nz-input type="number" formControlName="referrer_max_amount_year" placeholder="Please enter input"/>
@@ -158,7 +159,7 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>
                                 Activation date</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Activation date!">
-                                <nz-date-picker formControlName="activation_date" ></nz-date-picker>
+                                <nz-date-picker formControlName="activation_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -167,7 +168,7 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="expiry_date" class="text-left" nzRequired>
                                 Expiry date</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input expiry date!">
-                                <nz-date-picker formControlName="expiry_date" ></nz-date-picker>
+                                <nz-date-picker formControlName="expiry_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
