@@ -21,6 +21,10 @@ export class ReferralCodeComponent implements OnInit {
   list_data: any;
   date = ''
   search_params = ''
+  disabledDatePre = (current: Date): boolean =>
+  // Can not select days before today and today
+  differenceInCalendarDays(new Date(), current) > 0;
+
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
@@ -110,7 +114,7 @@ export class ReferralCodeComponent implements OnInit {
         referrer_amount: [data ? data.referrer_amount : '', [Validators.required]],
         referee_amount: [data ? data.referee_amount : '', [Validators.required]],
         referrer_max_amount_month: [data ? data.referrer_max_amount_month : '', [Validators.required]],
-        referrer_max_amount_year: [data ? data.referrer_max_amount_year : ''],
+        referrer_max_amount_year: [data ? data.referrer_max_amount_year : '', [Validators.required]],
         referrer_max_amount_lifetime: [data ? data.referrer_max_amount_lifetime : '', [Validators.required]],
         activation_date: [data ? data.activation_date : '', [Validators.required]],
         expiry_date: [data ? data.expiry_date : '', [Validators.required]],
@@ -122,7 +126,7 @@ export class ReferralCodeComponent implements OnInit {
         referrer_amount: ['', [Validators.required]],
         referee_amount: ['', [Validators.required]],
         referrer_max_amount_month: ['', [Validators.required]],
-        referrer_max_amount_year: [''],
+        referrer_max_amount_year: ['', [Validators.required]],
         referrer_max_amount_lifetime: ['', [Validators.required]],
         activation_date: ['', [Validators.required]],
         expiry_date: ['', [Validators.required]],
@@ -134,6 +138,7 @@ export class ReferralCodeComponent implements OnInit {
     var data = new FormData()
     this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
     this.createEditForm.get('expiry_date').setValue(moment(this.createEditForm.get('expiry_date').value).format("YYYY-MM-DD"))
+    this.createEditForm.get('corporate').setValue(this.partnerId)
     data = this.createEditForm.value
 
     this.formLoading = true
@@ -157,6 +162,7 @@ export class ReferralCodeComponent implements OnInit {
     var data = new FormData()
     this.createEditForm.get('activation_date').setValue(moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"))
     this.createEditForm.get('expiry_date').setValue(moment(this.createEditForm.get('expiry_date').value).format("YYYY-MM-DD"))
+    this.createEditForm.get('corporate').setValue(this.partnerId)
     data = this.createEditForm.value
 
     this.formLoading = true
