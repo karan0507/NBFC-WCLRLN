@@ -43,10 +43,11 @@ export class CommonCibilSmsComponent implements OnInit {
                               if (res?.success) {
                                     this.api_calling_loader['cardData'] = false;
                                     this.message.success(res?.message);
-                                    this.cibilData = res?.data
+                                    this.cibilData = res?.data?.api_response
                                     this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
+                                    this.cibilData = res?.data?.api_response
                                     this.api_calling_loader['cardData'] = false;
                                     this.erroMessage = res?.message;
                                     this.toggleForceFullyPull = true; 
@@ -65,6 +66,7 @@ export class CommonCibilSmsComponent implements OnInit {
                         this.api_calling_loader['cardData'] = true;
                         data['datapoint'] = 'fetch-cibil-from-db'
                         this.https.getCibilSMSData(data).subscribe(res => {
+
                               if (res?.success) {
                                     this.api_calling_loader['cardData'] = false;
                                     this.message.success(res?.message);
@@ -73,6 +75,7 @@ export class CommonCibilSmsComponent implements OnInit {
                                     this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
+                                    this.cibilData = res?.data
                                     this.api_calling_loader['cardData'] = false;
                                     this.toggleForceFullyPull = false; 
                                     // alert('Ajmal ' + res?.message)
@@ -104,10 +107,11 @@ export class CommonCibilSmsComponent implements OnInit {
                               if (res?.success) {
                                     this.api_calling_loader['cardData'] = false;
                                     this.message.success(res?.message);
-                                    this.cibilData = res?.data
+                                    this.cibilData = res?.data?.api_response
                                     this.toggleForceFullyPull = false; 
                               } else {
                                     this.message.error(res?.message);
+                                    this.cibilData = res?.data?.api_response
                                     this.api_calling_loader['cardData'] = false;
                                     this.erroMessage = res?.message;
                                     this.toggleForceFullyPull = true; 
