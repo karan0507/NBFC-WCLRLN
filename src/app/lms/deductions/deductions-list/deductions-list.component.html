@@ -39,12 +39,12 @@
                         <nz-option [nzValue]="'Deduction'" nzLabel="Deduction"></nz-option>
                         <nz-option [nzValue]="'Non-Deduction'" nzLabel="Non-Deduction"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchDeductionList()"
+                    <!-- <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchDeductionList()"
                         nzPlaceHolder="Filter By Status">
                         <nz-option [nzValue]="'Pending'" nzLabel="Pending"></nz-option>
                         <nz-option [nzValue]="'Approved'" nzLabel="Approved"></nz-option>
                         <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
-                    </nz-select>
+                    </nz-select> -->
                     <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
                         (ngModelChange)="fetchDeductionList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
