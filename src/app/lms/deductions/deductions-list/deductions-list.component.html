@@ -2,9 +2,9 @@
     <!-- <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
         ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button> -->
 <!-- </div> -->
-<div class="header_breadcrumb_section" *ngxPermissionsOnly="['export_transaction']">
+<div class="header_breadcrumb_section">
     <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
-    <button nz-button nz-dropdown  nzType="primary" class="ml-1" (click)="exportGlobalFunction('xlsx')" nzGhost>Export</button>
+    <button nz-button nz-dropdown  nzType="primary" class="ml-auto" (click)="exportGlobalFunction('xlsx')" nzGhost>Export</button>
     <!-- [nzDropdownMenu]="fileFormate" -->
 </div>
 <section>
