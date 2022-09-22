@@ -1160,7 +1160,7 @@ export class HttpService {
             return this._http.get(this.url + `/loan-application/v1/get-app-version-list`, {params: data});
       }
       public fetchDeductionList(data?): Observable<any> {
-            return this._http.get<Blob>((this.url + `/hrms-api/quesscorp-deduction`), { params: data, responseType: 'blob' as 'json'});
+            return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data});
       }
       // public fetchLoanApplicationListExportGet(data): Observable<any> {
       //       // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
