@@ -353,7 +353,15 @@ export class DashboardComponent implements OnInit {
     }
 
     onSelectFetchCorrespondingData(){
-        this.resetFilters();
+        // this.resetFilters();
+        this.getDelinquentList();
+        this.getNBFCList();
+        this.getAuthorizationList();
+        this.getExistingList();
+        this.getAcquisitionList();
+        this.getMandateData();
+        this.getCorporateList();
+        this.getRepaymentList();
     }
     
     getCorporateList(){
@@ -389,9 +397,9 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['repayment']
         }
-        if(this.partner){
-            data['partner'] = this.partner
-        }
+        // if(this.partner){
+        //     data['partner'] = this.partner
+        // }
         if(this.partner){
             data['partner'] = this.partner
         }
@@ -511,7 +519,7 @@ export class DashboardComponent implements OnInit {
             'acquisition': 'today',
             'mandate': 'today',
             'corporate': 'this month',
-            'repayment': 'this month'
+            'repayment': 'today'
         } 
         this.getDelinquentList();
         this.getNBFCList();
