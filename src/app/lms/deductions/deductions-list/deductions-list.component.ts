@@ -108,8 +108,8 @@ export class DeductionsListComponent implements OnInit {
     let date = Date.now();
     const formatedDate = moment(date[0]).format("YYYY-MM-DD")
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-    this.http.fetchDeductionList(data).subscribe(res => {
-      this.http.exportMasterSectionModule(res, `'deduction_approval ' ${formatedDate}`, file_formate, generateloader)
+    this.http.exportDeductionList(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'deduction_approval ' + formatedDate, file_formate, generateloader)
     })
   }
   resetFilters() {
@@ -123,15 +123,32 @@ export class DeductionsListComponent implements OnInit {
     this.http.deductionApprovalAmount(this.deduction_id).subscribe(res => {
       if (res['success']) {
         this.message.success(res['message'])
+        this.fetchDeductionList()
       } else {
         this.message.error(res['message'])
       }
+      this.isVisible = false
     }, (err) => {
       this.api_calling_loader = false
+      this.isVisible = false
     })
   }
-  getDeductionDetails(data) {
-    this.deduction_id = data.id
+  getDeductionDetails(id) {
+    this.deduction_id = id
+  }
+  deductionReject() {
+    this.http.deductionRejectAmount(this.deduction_id).subscribe(res => {
+      if (res['success']) {
+        this.message.success(res['message'])
+        this.fetchDeductionList()
+      } else {
+        this.message.error(res['message'])
+      }
+      this.isVisible = false
+    }, (err) => {
+      this.api_calling_loader = false
+      this.isVisible = false
+    })
   }
 
 }

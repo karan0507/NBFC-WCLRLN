@@ -1,20 +1,20 @@
 <section>
-    <div class="row mb-md-3">
+    <!-- <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchBillDateSummarization()">
                 <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="bill">By Bill date</label>
                 <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="due">By due date</label>
             </nz-radio-group>
         </div>
-    </div>
+    </div> -->
 </section>
 <section>
     <div class="row">
         <nz-card class="w-100 mb-0">
-            <!-- <div class="row">
+            <div class="row">
                 <div class="col-md-3 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchBillDateSummarization()"/>
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (ngModelChange)="search_params = $event.toUpperCase()" (keyup.enter)="fetchBillDateSummarization()"/>
                     </nz-input-group>
                     <ng-template #suffixIconButton>
                         <button nz-button nzType="secondary" nzSearch (click)="fetchBillDateSummarization()"><i nz-icon nzType="search"></i></button>
@@ -24,49 +24,105 @@
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="type" (ngModelChange)="fetchBillDateSummarization()"
+                    <!-- <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="type" (ngModelChange)="fetchBillDateSummarization()"
                         nzPlaceHolder="Filter By Type">
                         <nz-option [nzValue]="'CR'" nzLabel="Credit"></nz-option>
                         <nz-option [nzValue]="'DR'" nzLabel="Debit"></nz-option>
-                    </nz-select>
+                    </nz-select> -->
+                    <nz-select [(ngModel)]="selectedCorporate" style="width: 15rem;"
+                    class="mx-1 my-md-0 mb-3" (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBillDateSummarization()"
+                    nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                    <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+                    </nz-option>
+                </nz-select>
                     <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
                         (ngModelChange)="fetchBillDateSummarization()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
-            </div> -->
+            </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%' }" (nzQueryParams)="list_data ? fetchBillDateSummarization($event) : ''">
+            [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchBillDateSummarization($event) : ''">
                 <thead>
                     <tr>
+                        <th nzWidth="2rem"></th>
                         <th nzWidth="3rem">#</th>
-                        <th *ngIf="selectedTab == 'bill'">Bill day</th>
-                        <th *ngIf="selectedTab == 'due'">Due day</th>
-                        <th>Count</th>
-                        <th nzWidth="6rem" nzRight>Actions</th>
+                        <th>Corporate name</th>
+                        <th>No. of employee</th>
+                        <th>Total outstanding</th>
+                        <!-- <th nzWidth="6rem" nzRight>Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of list_data; index as i">
-                        <td *ngIf="page === 1">{{i+1}}</td>
-                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
-                        <td *ngIf="selectedTab == 'bill'">{{ data['bill_day'] ? data['bill_day']: '-' }}</td>
-                        <td *ngIf="selectedTab == 'due'">{{ data['due_day'] ? data['due_day']: '-' }}</td>
-                        <td>{{ data['count'] ? data['count']: '-' }}</td>
-                        <td nzRight>
-                            <div>
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
-                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
-                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
-                                </a>
-                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
-                                    <ul nz-menu>
-                                        <li nz-menu-item (click)="isVisible = true; setDay(data)">
-                                            <span class="m-l-5">Export outstanding</span>
-                                        </li>
-                                    </ul>
-                                </nz-dropdown-menu>
-                            </div>
-                        </td>
-                    </tr>
+                    <ng-container *ngFor="let data of list_data; index as i">
+                        <tr>
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.id)"
+                                (nzExpandChange)="onExpandChange(data?.id, $event, i)"></td>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{ data['name'] ? data['name']: '-' }}</td>
+                            <td>{{ data['no_of_employees'] ? data['no_of_employees']: '0' }}</td>
+                            <td>₹ {{ data['total_outstanding'] ? data['total_outstanding']: '0' }}</td>
+                            <!-- <td nzRight>
+                                <div>
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                        [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                        <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                    </a>
+                                    <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                        <ul nz-menu>
+                                            <li nz-menu-item (click)="isVisible = true; corporate_Id = data.id">
+                                                <span class="m-l-5">Export outstanding</span>
+                                            </li>
+                                        </ul>
+                                    </nz-dropdown-menu>
+                                </div>
+                            </td> -->
+                        </tr>
+                        <tr [nzExpand]="expandSet.has(data?.id)">
+                            <nz-table [nzFrontPagination]="false" [nzData]="data?.branch" [nzLoading]="!data?.branch" class="mt-4">
+                                <thead>
+                                    <tr>
+                                        <th nzWidth="3rem">#</th>
+                                        <th>Branch name</th>
+                                        <th>No. of employee</th>
+                                        <th>Bill day</th>
+                                        <th>Due day</th>
+                                        <th>Salary day</th>
+                                        <th>Total outstanding</th>
+                                        <th nzWidth="6rem" nzRight>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let data_item of data?.branch; index as i">
+                                        <tr>
+                                            <td *ngIf="page === 1">{{i+1}}</td>
+                                            <!-- <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td> -->
+                                            <td>{{ data_item['namee'] ? data_item['namee']: '-' }}</td>
+                                            <td>{{ data_item['no_of_employees'] ? data_item['no_of_employees']: '0' }}</td>
+                                            <td>{{ data_item['bill_day'].length > 0 ? (data_item['bill_day']): '0' }}</td>
+                                            <td>{{ data_item['due_day'].length > 0 ? (data_item['due_day']): '0' }}</td>
+                                            <td>{{ data_item['salary_day'].length > 0 ? (data_item['salary_day']): '0' }}</td>
+                                            <td>₹ {{ data_item['total_outstanding'] ? data_item['total_outstanding']: '0' }}</td>
+                                            <td nzRight>
+                                                <div>
+                                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                                        [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                                        <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                                    </a>
+                                                    <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                                        <ul nz-menu>
+                                                            <li nz-menu-item (click)="isVisible = true; corporate_Id = data.id; day = data_item['bill_day']">
+                                                                <span class="m-l-5">Export outstanding</span>
+                                                            </li>
+                                                        </ul>
+                                                    </nz-dropdown-menu>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </nz-table>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </nz-table>
             <div class="total_count_text" *ngIf="total_count">
@@ -82,7 +138,7 @@
     <ng-container *nzModalContent>
 
         <div class="row">
-            <div class="col-md-12">
+            <!-- <div class="col-md-12">
                 <nz-form-item>
                     <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
                     </nz-form-label>
@@ -95,7 +151,7 @@
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
-            </div>
+            </div> -->
             <div class="col-md-12">
                 <nz-form-item>
                     <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from

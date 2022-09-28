@@ -89,12 +89,12 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item (click)="isVisible = true; isApprove = true; getDeductionDetails(data)">
+                                        <li nz-menu-item (click)="isVisible = true; isApprove = true; getDeductionDetails(data.id)">
                                             <span class="m-l-5">Deduction Approval</span>
                                         </li>
-                                        <!-- <li nz-menu-item (click)="isVisible = true; isApprove = false; getDeductionDetails(data)">
+                                        <li nz-menu-item (click)="isVisible = true; isApprove = false; getDeductionDetails(data.id)">
                                             <span class="m-l-5">Deduction Rejected</span>
-                                        </li> -->
+                                        </li>
                                     </ul>
                                 </nz-dropdown-menu>
                             </div>
@@ -109,7 +109,7 @@
     </div>
 </section>
 <nz-modal [(nzVisible)]="isVisible" [nzTitle]="null"
-    (nzOnCancel)="isVisible = false" (nzOnOk)="deductionApproval()"
+    (nzOnCancel)="isVisible = false" (nzOnOk)="isApprove ? deductionApproval() : deductionReject()"
     [nzOkText]="isApprove ? 'Approve' : 'Reject'">
     <ng-container *nzModalContent>
         <div class="row">
