@@ -12,6 +12,9 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class BillSummerizeComponent implements OnInit {
 
+
+  expandSet = new Set<number>();
+  _currentId: any;
   page = 1;
   globalPageSize = 30
   api_calling_loader: boolean;
@@ -54,6 +57,7 @@ export class BillSummerizeComponent implements OnInit {
   start_month: any;
   corporateList: any[];
   day: any;
+  selectedCorporate = ''
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -71,10 +75,10 @@ export class BillSummerizeComponent implements OnInit {
       source: 'LMS',
       endpoint: this.selectedTab,
       page: this.page,
-      // search_param: this.search_params ? this.search_params : '',
+      search_param: this.search_params ? this.search_params : '',
       limit: this.globalPageSize,
-      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -100,7 +104,7 @@ export class BillSummerizeComponent implements OnInit {
       source: 'LMS',
       month: this.start_month,
       day: this.day,
-      bill_date_type: this.selectedTab == 'bill' ? 'bill_date' : 'due_date'
+      bill_date_type: 'bill_date'
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
@@ -109,19 +113,18 @@ export class BillSummerizeComponent implements OnInit {
       //   this.message.warning('Data not found')
       // } else {
         this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
+        this.start_month = ''
       // }
       this.isVisible = false
     })
   }
 
-  fetchPartnerList() {
-    let data = {
-      datapoint: 'admin_bill_summarization_partner_list',
-      source: 'LMS',
-      endpoint: this.selectedTab,
-      day: this.day
+  fetchPartnerList(e?) {
+    let data = {};
+    if(e){
+      data['name'] = e;
     }
-    this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
+    this.http.fetchPartner(data).subscribe((res: any) => {
       if (res?.success) {
         this.corporateList = [];
         res?.data?.results.map((res: any)=>{
@@ -136,11 +139,29 @@ export class BillSummerizeComponent implements OnInit {
     // }
   }
 
-  setDay(data) {
-    if (this.selectedTab == 'bill') {
-      this.day = data['bill_day']
+  onExpandChange(id: number, checked: boolean, index?): void {
+
+    if (checked) {
+      this.expandSet.add(id);
+      this.fetchBillDateSummarizationDetails(this._currentId = id, index);
     } else {
-      this.day = data['due_day']
+      this.expandSet.delete(id);
     }
+  }
+  fetchBillDateSummarizationDetails(id, index) {
+    let data = {
+      datapoint: 'admin_corporate_bill_summarization_section',
+      source: 'LMS',
+      endpoint: 'bill',
+      corporate: id,
+    }
+    // this.api_calling_loader = true
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
+      this.api_calling_loader = false
+      this.list_data[index] = res.data[0]
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader = false
+    })
   }
 }
