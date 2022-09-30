@@ -26,7 +26,7 @@ export class HttpService {
       } else if(location.origin == 'https://uatadmin.fatakpay.com' || location.origin == 'http://uatadmin.fatakpay.com'){
             dynamic_url = 'https://uatadminapi.fatakpay.com'
       } else {
-            dynamic_url = 'https://uatadminapi.fatakpay.com'
+            dynamic_url = 'https://devadminapi.fatakpay.com'
       }
       return dynamic_url
       }
@@ -1162,6 +1162,10 @@ export class HttpService {
       public fetchDeductionList(data?): Observable<any> {
             return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data});
       }
+
+      public exportDeductionList(data?): Observable<any> {
+            return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { responseType: 'blob', params: data});
+      }
       // public fetchLoanApplicationListExportGet(data): Observable<any> {
       //       // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
       //       return this._http.get<Blob>((this.url + `/central-api/v1/call-api`), { params: data, responseType: 'blob' as 'json'});
@@ -1172,6 +1176,10 @@ export class HttpService {
       
       public deductionApprovalAmount(id) {
             return this._http.post((this.url + `/hrms-api/quesscorp-approve-deduction/` + id), id);
+      }
+
+      public deductionRejectAmount(id) {
+            return this._http.post((this.url + `/hrms-api/quesscorp-reject-deduction/` + id), id);
       }
 
       public fetchReferralList(data?) {
