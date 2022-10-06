@@ -58,6 +58,7 @@ export class BillSummerizeComponent implements OnInit {
   corporateList: any[];
   day: any;
   selectedCorporate = ''
+  result_type: any;
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -75,16 +76,16 @@ export class BillSummerizeComponent implements OnInit {
       source: 'LMS',
       endpoint: this.selectedTab,
       page: this.page,
-      search_param: this.search_params ? this.search_params : '',
+      result_type: this.result_type ? this.result_type : '',
       limit: this.globalPageSize,
-      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
-      this.list_data = res['data']
-      this.total_count = res['total_count']
+      this.list_data = res['data'].results
+      this.total_count = res['data']['total_count']
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
@@ -92,7 +93,8 @@ export class BillSummerizeComponent implements OnInit {
   }
   resetFilters() {
     this.date = ''
-    this.search_params = ''
+    this.result_type = ''
+    this.expandSet.clear()
     this.fetchBillDateSummarization();
   }
 
@@ -158,7 +160,7 @@ export class BillSummerizeComponent implements OnInit {
     // this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
-      this.list_data[index] = res.data[0]
+      this.list_data[index] = res.data.results[0]
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false

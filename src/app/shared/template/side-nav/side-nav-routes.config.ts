@@ -556,6 +556,15 @@ export const ROUTES: SideNavInterface[] = [
                         iconTheme: '',
                         submenu: []
                     },
+                    {
+                        path: 'lms/insurance',
+                        title: 'Insurance',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
                 ]
             },
             {
