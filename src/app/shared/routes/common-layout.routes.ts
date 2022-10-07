@@ -149,4 +149,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/nach-upload',
         loadChildren: () => import('../../lms/nach-upload/nach-upload.module').then(m => m.NachUploadModule),
     },
+    {
+        path: 'lms/insurance',
+        loadChildren: () => import('../../lms/insurance/insurance.module').then(m => m.InsuranceModule),
+    },
 ];

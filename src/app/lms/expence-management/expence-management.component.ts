@@ -129,8 +129,8 @@ export class ExpenceManagementComponent implements OnInit {
             this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
                   if (res?.success) {
                         this.api_calling_loader['listLoader'] = false;
-                        this.expenseDataList = res?.data
-                        this.total_count = res?.total
+                        this.expenseDataList = res?.data.results
+                        this.total_count = res?.data.total_count
                         this.matrixDataList[0]['value'] = res?.total_corporate_expense
                         this.matrixDataList[1]['value'] = res?.approved_corporate_expense
                         this.matrixDataList[2]['value'] = res?.rejected_corporate_expense

@@ -102,9 +102,9 @@
                 
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="due_days" class="text-left">Due Date</nz-form-label>
-                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please select Valid Date">
-                            <nz-select formControlName="due_days" nzPlaceHolder="Select Due Date">
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="due_days" class="text-left">Due Day</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please select Day">
+                            <nz-select formControlName="due_days" nzPlaceHolder="Select Due Day">
                                 <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
                                     [nzLabel]="item.id">
                                 </nz-option>

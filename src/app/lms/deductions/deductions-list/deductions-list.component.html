@@ -39,6 +39,14 @@
                         <nz-option [nzValue]="'Deduction'" nzLabel="Deduction"></nz-option>
                         <nz-option [nzValue]="'Non-Deduction'" nzLabel="Non-Deduction"></nz-option>
                     </nz-select>
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="currentEmployee" nzAllowClear nzShowSearch
+                          nzPlaceHolder="Select Corporate" (nzOnSearch)="OnTypeSearchList($event)"
+                          style="min-width: 13rem" (ngModelChange)="fetchDeductionList()"
+                          (nzFocus)="fetchPartnerList()">
+                          <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                                <div *ngIf="item.name">{{ item?.name }}</div>
+                          </nz-option>
+                    </nz-select>
                     <!-- <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="status" (ngModelChange)="fetchDeductionList()"
                         nzPlaceHolder="Filter By Status">
                         <nz-option [nzValue]="'Pending'" nzLabel="Pending"></nz-option>

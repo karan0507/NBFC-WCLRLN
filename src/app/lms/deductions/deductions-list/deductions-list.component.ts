@@ -20,6 +20,7 @@ export class DeductionsListComponent implements OnInit {
   list_data: any;
   date = ''
   search_params = ''
+  currentEmployee: any;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
@@ -40,8 +41,10 @@ export class DeductionsListComponent implements OnInit {
   isVisible = false
   isApprove = false
   deduction_id: any;
+  debounce: any;
+  corporateList: any;
   constructor(public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -60,9 +63,13 @@ export class DeductionsListComponent implements OnInit {
       type_status: this.status ? this.status : '',
       export: false
     }
-    if(this.date){
+    if (this.date) {
       data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
       data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
+    }
+
+    if (this.currentEmployee) {
+      data['corporate'] = this.currentEmployee
     }
     this.api_calling_loader = true
     this.http.fetchDeductionList(data).subscribe(res => {
@@ -75,17 +82,19 @@ export class DeductionsListComponent implements OnInit {
     })
   }
 
-  exportGlobalFunction(file_formate){
+  exportGlobalFunction(file_formate) {
     let data = {
       // page: this.page,
       // search_param: this.search_params ? this.search_params : '',
       // limit: this.globalPageSize,
       // status: this.selectedTab ? this.selectedTab : '',
-      // type_deduction: this.type ? this.type : '',
-      // type_status: this.status ? this.status : '',
+      type_deduction: this.type ? this.type : '',
+      corporate: this.currentEmployee ? this.currentEmployee : '',
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       export: true
     }
-    if(this.date){
+    if (this.date) {
       data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
       data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
     }
@@ -116,8 +125,35 @@ export class DeductionsListComponent implements OnInit {
     this.date = ''
     this.search_params = '';
     this.type = '';
+    this.currentEmployee = '';
     this.status = '';
     this.fetchDeductionList();
+  }
+
+  OnTypeSearchList(event) {
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => {
+      this.fetchPartnerList(event);
+    }, 500);
+  }
+  fetchPartnerList(e?) {
+    let data = {};
+    if (e) {
+      data['name'] = e;
+    }
+    this.http.fetchPartner(data).subscribe((res: any) => {
+      if (res?.success) {
+        this.corporateList = [];
+        res?.data?.results.map((res: any) => {
+          if (res?.name) {
+            this.corporateList.push(res)
+          }
+        })
+        // this.corporateList = res?.data?.results;
+        console.log(this.corporateList);
+      }
+    });
+    // }
   }
   deductionApproval() {
     this.http.deductionApprovalAmount(this.deduction_id).subscribe(res => {

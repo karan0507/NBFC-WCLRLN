@@ -1,0 +1,105 @@
+<div class="header_breadcrumb_section d-flex" style="justify-content: right;">
+    <!-- <button nz-button (click)="isVisible = true" nzType="primary" class="ml-1" nzGhost>Export Outstanding</button> -->
+    <button nz-button  nzType="primary" class="ml-1" (click)="exportGlobalFunction('xlsx')" nzGhost>Export</button>
+    <!-- (click)="exportGlobalFunction('xlsx')" -->
+</div>
+<section>
+    <div class="row">
+        <nz-card class="w-100 accordianLoanApp">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchInsuranceData()" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchInsuranceData()"><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button> -->
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <!-- <nz-range-picker 
+                        class="mx-1 mb-2"
+                        [(ngModel)]="date"
+                        [nzDisabledDate]="disabledDate" 
+                        (ngModelChange)="fetchInsuranceData()"
+                        [nzRanges]="customRanges">
+                    </nz-range-picker> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzScroll]="{ x: '3500px' }" [nzLoading]="api_calling_loader"
+                (nzQueryParams)="list_data ? fetchInsuranceData($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th nzWidth="15rem">Applicant's Name</th>
+                        <th>Aadhar No</th>
+                        <th>Alternate Policy No.</th>
+                        <th>Application No/LAN No</th>
+                        <th>City / Town / Village</th>
+                        <th>Date of Birth</th>
+                        <th>Email Address</th>
+                        <th>Insured DOB</th>
+                        <th>Insured Gender</th>
+                        <th>Insured Name</th>
+                        <th>Insured Relationship</th>
+                        <th>Loan Tenure (months)</th>
+                        <th>Mailing Address Final</th>
+                        <th>Mobile Number</th>
+                        <th>Nominee Name</th>
+                        <th>Nominee Relationship with Insured</th>
+                        <th>Pin Code</th>
+                        <th>Policy Start Date</th>
+                        <th>Policy Tenure</th>
+                        <th>Policy sum insured</th>
+                        <th>Product Name</th>
+                        <th>Sanction Amount</th>
+                        <th>Sex</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of list_data; index as i">
+                        <tr>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{data["Applicant's Name"] ? data["Applicant's Name"] : '-'}}</td>
+                            <td>{{ data["Aadhar No"] ? data["Aadhar No"] : '-'}}</td>
+                            <td>{{ data["Alternate Policy No"] ? data["Alternate Policy No"] : '-'}}</td>
+                            <td>{{ data["Application No/LAN No"] ? data["Application No/LAN No"] : '-'}}</td>
+                            <td>{{ data["City / Town / Village"] ? data["City / Town / Village"] : '-'}}</td>
+                            <td>{{ data["Date of Birth"] ? data["Date of Birth"] : '-'}}</td>
+                            <td>{{ data["Email Address"] ? data["Email Address"] : '-'}}</td>
+                            <td>{{ data["Insured DOB"] ? data["Insured DOB"] : '-'}}</td>
+                            <td>{{ data["Insured Gender"] ? data["Insured Gender"] : '-'}}</td>
+                            <td>{{ data["Insured Name"] ? data["Insured Name"] : '-'}}</td>
+                            <td>{{ data["Insured Relationship"] ? data["Insured Relationship"] : '-'}}</td>
+                            <td>{{ data["Loan Tenure (months"] ? data["Loan Tenure (months"] : '-'}}</td>
+                            <td>{{ data["Mailing Address Final"] ? data["Mailing Address Final"] : '-'}}</td>
+                            <td>{{ data["Mobile Number"] ? data["Mobile Number"] : '-'}}</td>
+                            <td>{{ data["Nominee Name"] ? data["Nominee Name"] : '-'}}</td>
+                            <td>{{ data["Nominee Relationship with Insured"] ? data["Nominee Relationship with Insured"] : '-'}}</td>
+                            <td>{{ data["PINCODE"] ? data["PINCODE"] : '-'}}</td>
+                            <td>{{ data["Policy Start Date"] ? data["Policy Start Date"] : '-'}}</td>
+                            <td>{{ data["Policy Tenure"] ? data["Policy Tenure"] : '-'}}</td>
+                            <td>{{ data["Policy sum insured"] ? data["Policy sum insured"] : '-'}}</td>
+                            <td>{{ data["Product Name"] ? data["Product Name"] : '-'}}</td>
+                            <td>{{ data["Sanction Amount"] ? data["Sanction Amount"] : '-'}}</td>
+                            <td>{{ data["Sex"] ? data["Sex"] : '-'}}</td>
+                            <td>{{ data["State"] ? data["State"] : '-'}}</td>
+                    </ng-container>
+
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
