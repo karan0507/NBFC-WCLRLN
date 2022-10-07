@@ -324,10 +324,8 @@
                     >
                       <span class="m-l-5">Edit Application</span>
                     </li>
-                    <li
-                      nz-menu-item *ngxPermissionsOnly="['download_cibil_pdf_underwriting_application']"
-                      (click)="fetchCibilPDF(data?.id)"
-                    >
+                    <li nz-menu-item *ngxPermissionsOnly="['download_cibil_pdf_underwriting_application']"
+                      (click)="fetchCibilPDF(data?.id)">
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Fetch Cibil PDF</span>
                     </li>

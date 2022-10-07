@@ -16,6 +16,12 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
       styleUrls: ['./offer-acceptance.component.css']
 })
 export class OfferAcceptanceComponent implements OnInit {
+      pdfData: any;
+      pdf_viewer_object_values = {
+        'boolean': false,
+        'url': '',
+        'title': ''
+      }
       _exportDocument: any;
       emandateValue;
       date = ''
@@ -368,6 +374,8 @@ export class OfferAcceptanceComponent implements OnInit {
             this._isDocument = false;
             this._isEditOffer = false;
             this._isAgreementOpen = false
+            this.pdf_viewer_object_values['boolean'] = false
+            this.pdf_viewer_object_values['url'] = null
             this.isRejectModal = false;
       }
 
@@ -615,5 +623,31 @@ export class OfferAcceptanceComponent implements OnInit {
                   }
             })
       }
+      fetchCibilPDF(id){
+            // >>>>>>> 7bec92bfd52a785bb6c4258e3b39f2211a212131
+                let data = {
+                  datapoint: "loan_application",
+                  endpoint: `UserKycCibil?loan_application=`+id,
+                  source: "Onboarding",
+                };
+                const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
+                this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
+                  if(res?.data?.results[0]?.credit_pdf){
+                    this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
+                    this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+                    this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+                    this.pdf_viewer_object_values['boolean'] = true
+                    this.message.remove(generateloader);
+                    console.log(this.router.url)
+                  } else {
+                    this.message.remove(generateloader);
+                    this.message.error('No Cibil PDF Found');
+                  }
+                  // this.pdfData = res?.data?.results[0];
+                }, error => {
+                  this.message.remove(generateloader);
+                  console.log(error);
+                })
+              }
       
 }

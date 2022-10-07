@@ -407,6 +407,11 @@
                     [nzDropdownMenu]="latestUploadDropDown1234">
                       <span class="m-l-5">Send E-sign Link</span>
                     </li>
+                    <li nz-menu-item *ngxPermissionsOnly="['']"
+                      (click)="fetchCibilPDF(data?.id)">
+                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                      <span class="m-l-5">Fetch Cibil PDF</span>
+                    </li>
                     
                     <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                       <ul nz-menu>
@@ -2208,3 +2213,17 @@
     </button>
   </ng-template>
 </section>
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values['url']">
+            <embed [src]="pdfData" width="100%" style="height: 37rem;" />
+        </div>
+        <div *ngIf="!pdf_viewer_object_values['url']">
+          <h4>No PDF Found</h4>
+        </div>
+    </ng-container>
+</nz-modal>
+<ng-template #modalFooter>
+  <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+</ng-template>

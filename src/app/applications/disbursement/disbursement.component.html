@@ -358,6 +358,11 @@
                     <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }" *ngxPermissionsOnly="['track_disbursement_application']">
                       <span class="m-l-5">Track Status</span>
                     </li>
+                    <li nz-menu-item *ngxPermissionsOnly="['']"
+                      (click)="fetchCibilPDF(data?.id)">
+                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                      <span class="m-l-5">Fetch Cibil PDF</span>
+                    </li>
                     <ng-container *ngIf="data?.latest_token_status != 'confirmed'">
                       <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                         [nzDropdownMenu]="latestUploadDropDown1234">
@@ -2419,4 +2424,15 @@
       </div>
     </nz-card>
   </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="pdf_viewer_object_values1['boolean']" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values1['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values1['url']">
+            <embed [src]="pdfData" width="100%" style="height: 37rem;" />
+        </div>
+        <div *ngIf="!pdf_viewer_object_values1['url']">
+          <h4>No PDF Found</h4>
+        </div>
+    </ng-container>
 </nz-modal>

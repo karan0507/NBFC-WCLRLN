@@ -511,7 +511,8 @@ export class UnderwritingComponent implements OnInit {
     this._isPullData = false;
     this._isCibil = false;
     this.isFetchCibilSms = false;
-    this.pdf_viewer_object_values['boolean'] = false;
+    this.pdf_viewer_object_values['boolean'] = false
+    this.pdf_viewer_object_values['url'] = null
     this._generateOffer = false;
   }
 

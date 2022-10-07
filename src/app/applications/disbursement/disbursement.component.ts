@@ -17,6 +17,12 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
       styleUrls: ['./disbursement.component.css']
 })
 export class DisbursementComponent implements OnInit {
+      pdfData: any;
+      pdf_viewer_object_values1 = {
+        'boolean': false,
+        'url': '',
+        'title': ''
+      }
       _exportDocument: any;
       checked: boolean = false;
       filters: any;
@@ -347,6 +353,8 @@ export class DisbursementComponent implements OnInit {
             this.isRejectModal = false;
             this.pdf_viewer_object_values['boolean'] = false
             this.pdf_viewer_object_values['url'] = null
+            this.pdf_viewer_object_values1['boolean'] = false
+            this.pdf_viewer_object_values1['url'] = null
       }
 
       handleOk(type?) {
@@ -590,4 +598,30 @@ export class DisbursementComponent implements OnInit {
         this.message.remove(generateloader);
       })
     }
+    fetchCibilPDF(id){
+      // >>>>>>> 7bec92bfd52a785bb6c4258e3b39f2211a212131
+          let data = {
+            datapoint: "loan_application",
+            endpoint: `UserKycCibil?loan_application=`+id,
+            source: "Onboarding",
+          };
+          const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
+          this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
+            if(res?.data?.results[0]?.credit_pdf){
+              this.pdf_viewer_object_values1['title'] = 'Show Cibil PDF'
+              this.pdf_viewer_object_values1['url'] = res?.data?.results[0]?.credit_pdf
+              this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values1['url']);
+              this.pdf_viewer_object_values1['boolean'] = true
+              this.message.remove(generateloader);
+              console.log(this.router.url)
+            } else {
+              this.message.remove(generateloader);
+              this.message.error('No Cibil PDF Found');
+            }
+            // this.pdfData = res?.data?.results[0];
+          }, error => {
+            this.message.remove(generateloader);
+            console.log(error);
+          })
+        }
 }

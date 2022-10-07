@@ -7,12 +7,19 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service'
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
       selector: 'app-nbfc-approval',
       templateUrl: './nbfc-approval.component.html',
       styleUrls: ['./nbfc-approval.component.css']
 })
 export class NbfcApprovalComponent implements OnInit {
+      pdfData: any;
+      pdf_viewer_object_values = {
+        'boolean': false,
+        'url': '',
+        'title': ''
+      }
       _exportDocument: any;
       filters: any;
       _currentDocumentReq: any;
@@ -101,7 +108,7 @@ export class NbfcApprovalComponent implements OnInit {
             'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
             // d.setMonth(d.getMonth() - 3);
         };
-      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) { }
+      constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer) { }
 
       ngOnInit(): void {
             this.global.setApplicationCount();
@@ -296,6 +303,8 @@ export class NbfcApprovalComponent implements OnInit {
             this._isStatus = false;
             this._isDocument = false;
             this._isAcceptOffer = false;
+            this.pdf_viewer_object_values['boolean'] = false
+            this.pdf_viewer_object_values['url'] = null
             this.isRejectOffer = false;
       }
 
@@ -537,4 +546,30 @@ export class NbfcApprovalComponent implements OnInit {
                   }
             })
       }
+      fetchCibilPDF(id){
+            // >>>>>>> 7bec92bfd52a785bb6c4258e3b39f2211a212131
+                let data = {
+                  datapoint: "loan_application",
+                  endpoint: `UserKycCibil?loan_application=`+id,
+                  source: "Onboarding",
+                };
+                const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
+                this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
+                  if(res?.data?.results[0]?.credit_pdf){
+                    this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
+                    this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+                    this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+                    this.pdf_viewer_object_values['boolean'] = true
+                    this.message.remove(generateloader);
+                  //   console.log(this.router.url)
+                  } else {
+                    this.message.remove(generateloader);
+                    this.message.error('No Cibil PDF Found');
+                  }
+                  // this.pdfData = res?.data?.results[0];
+                }, error => {
+                  this.message.remove(generateloader);
+                  console.log(error);
+                })
+              }
 }
