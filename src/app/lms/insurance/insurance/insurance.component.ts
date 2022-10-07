@@ -61,8 +61,8 @@ export class InsuranceComponent implements OnInit {
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
-      this.list_data = res['data']
-      this.total_count = res['total_count']
+      this.list_data = res['data'].results
+      this.total_count = res.data['total_counts']
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader = false
