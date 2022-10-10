@@ -1197,4 +1197,7 @@ export class HttpService {
       public editReferral(data) {
             return this._http.put((this.url + `/partner/v1/edit-referral-program`), data);
       }
+      getBlockReason(id) {
+            return this._http.get((this.url + `/loan-application/v1/get-borrowers-block-reasons/` + id));
+      }
 }

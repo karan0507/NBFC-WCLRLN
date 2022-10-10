@@ -15,7 +15,7 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 export class BorrowersListComponent implements OnInit {
   borrowertList;
   isVisible = false
-  page : any
+  page: any
   start_month
   time_period_arr = [
     { name: 'January', value: 1 },
@@ -40,13 +40,13 @@ export class BorrowersListComponent implements OnInit {
   _currentId: any;
   _activeLoans: any = [];
   loanApplicationData: any = [];
-  
+
   selectedCorporate: any;
   master_product_id = '';
   is_blocked;
   is_active: any;
   corporateList: any[];
-  debounce:any;
+  debounce: any;
   api_calling_loader_accordian: boolean;
   corporate_Id: any;
   month: any;
@@ -54,6 +54,8 @@ export class BorrowersListComponent implements OnInit {
   date = ''
   disbursement_date = ''
   selectedTab;
+  reason = ''
+  error_description = ''
 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -81,31 +83,32 @@ export class BorrowersListComponent implements OnInit {
   isFetchCibilSms: boolean;
   _currentLoanDetails: any;
   private _isCibil: boolean;
+  showReason: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     public sanitize: DomSanitizer,
     private route: ActivatedRoute, public global: GlobalservicesService) {
-      this.route.queryParams.subscribe((params: any) => {
-        if(params?.main_stage == undefined){
-          router.navigate([], {
-            queryParams: {
-              'main_stage': ''
-            }
-          })
-        } else {
-          this.main_stage = params?.main_stage ? params?.main_stage : ''
-          this.setBorrowersSubCount()
-        }
-        if(params?.loan_id){
-              // alert(params?.loan_id);
-              this.storedParams = params?.loan_id 
-              this.search_params = params?.loan_id;
-              this.fetchBorrowerList();
-        }
-  });
-  
-  this.global.setBorrowersStageCount();
-     }
+    this.route.queryParams.subscribe((params: any) => {
+      if (params?.main_stage == undefined) {
+        router.navigate([], {
+          queryParams: {
+            'main_stage': ''
+          }
+        })
+      } else {
+        this.main_stage = params?.main_stage ? params?.main_stage : ''
+        this.setBorrowersSubCount()
+      }
+      if (params?.loan_id) {
+        // alert(params?.loan_id);
+        this.storedParams = params?.loan_id
+        this.search_params = params?.loan_id;
+        this.fetchBorrowerList();
+      }
+    });
+
+    this.global.setBorrowersStageCount();
+  }
 
   ngOnInit(): void {
     this.page = 1;
@@ -123,8 +126,8 @@ export class BorrowersListComponent implements OnInit {
 
   fetchBorrowerList(tabelFilter?) {
     // if (tabelFilter) {
-      this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -145,7 +148,7 @@ export class BorrowersListComponent implements OnInit {
       sub_stage: this.sub_stage ? this.sub_stage : '',
       main_stage: this.main_stage ? this.main_stage : '',
     }
-    
+
     if (this.selectedCorporate) {
       // data['page'] = 1
       data['corporate_id'] = this.selectedCorporate
@@ -164,8 +167,8 @@ export class BorrowersListComponent implements OnInit {
     })
   }
   resetFilters() {
-    if(this.storedParams){
-      this.router.navigate(["lms/borrowers/all"], {queryParams: {main_stage : this.main_stage}});
+    if (this.storedParams) {
+      this.router.navigate(["lms/borrowers/all"], { queryParams: { main_stage: this.main_stage } });
     }
     this.search_params = ''
     this.is_blocked = ''
@@ -177,7 +180,7 @@ export class BorrowersListComponent implements OnInit {
     this.disbursement_date = ''
     this.fetchBorrowerList()
   }
-  OnTypeSearchList(event){
+  OnTypeSearchList(event) {
     clearTimeout(this.debounce);
     this.debounce = setTimeout(() => {
       this.fetchPartnerList(event);
@@ -186,15 +189,15 @@ export class BorrowersListComponent implements OnInit {
 
   fetchPartnerList(e?) {
     let data = {};
-    if(e){
+    if (e) {
       data['name'] = e;
     }
     this.http.fetchPartner(data).subscribe((res: any) => {
       if (res?.success) {
         this.corporateList = [];
-        res?.data?.results.map((res: any)=>{
-          if(res?.name){
-            this.corporateList.push(res)    
+        res?.data?.results.map((res: any) => {
+          if (res?.name) {
+            this.corporateList.push(res)
           }
         })
         // this.corporateList = res?.data?.results;
@@ -204,7 +207,7 @@ export class BorrowersListComponent implements OnInit {
     // }
   }
   // export function
-  exportGlobalFunction(file_formate){
+  exportGlobalFunction(file_formate) {
     let data = {
       datapoint: 'export_borrowers',
       // endpoint: 'LoanApplicationTransactions',
@@ -232,18 +235,18 @@ export class BorrowersListComponent implements OnInit {
     'url': '',
     'title': ''
   }
-  fetchCibilPDF(id){
+  fetchCibilPDF(id) {
     let data = {
       datapoint: "loan_application",
-      endpoint: `UserKycCibil?loan_application=`+id,
+      endpoint: `UserKycCibil?loan_application=` + id,
       source: "Onboarding",
     };
     const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
-    this.http.fetchLoanApplicationList(data).subscribe((res: any) =>{
-      if(res?.data?.results[0]?.credit_pdf){
+    this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
+      if (res?.data?.results[0]?.credit_pdf) {
         this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
         this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
-        this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+        this.pdfData = this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
         this.pdf_viewer_object_values['boolean'] = true
         this.message.remove(generateloader);
         console.log(this.router.url)
@@ -258,11 +261,12 @@ export class BorrowersListComponent implements OnInit {
     })
   }
 
-  handleCancel(){
+  handleCancel() {
     this.pdf_viewer_object_values['boolean'] = false
+    this.showReason = false
   }
 
-  exportOutstandingGlobalFunction(file_formate){
+  exportOutstandingGlobalFunction(file_formate) {
     let data = {
       datapoint: 'export_outstanding_data',
       endpoint: this.corporate_Id,
@@ -275,22 +279,22 @@ export class BorrowersListComponent implements OnInit {
       //   this.message.remove(generateloader);
       //   this.message.warning('Data not found')
       // } else {
-        this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
+      this.http.exportMasterSectionModule(res, 'outstanding_list', file_formate, generateloader)
       // }
       this.isVisible = false
     })
   }
 
-  exportGlobalFunctionTnx(file_formate, offer_id ){
+  exportGlobalFunctionTnx(file_formate, offer_id) {
     console.log(offer_id);
-    const stringName: string = offer_id?.loan_application_id + '_' + offer_id?.user ?.full_name
+    const stringName: string = offer_id?.loan_application_id + '_' + offer_id?.user?.full_name
     // console.log(name);
     // return;
     let data = {
       datapoint: 'lender_master_export',
       endpoint: 'LoanApplicationTransactions',
       source: 'LMS',
-      offer_id: offer_id?.id ,
+      offer_id: offer_id?.id,
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
@@ -299,7 +303,7 @@ export class BorrowersListComponent implements OnInit {
     })
   }
 
-  
+
   onExpandChange(id: number, checked: boolean, index?): void {
 
     if (checked) {
@@ -355,9 +359,9 @@ export class BorrowersListComponent implements OnInit {
   sendEnachLink(id, type) {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'create_mandate_registration_link'),
-    data.append('auth_type', type),
-    data.append('accepted_offer_id', id)
+      data.append('datapoint', 'create_mandate_registration_link'),
+      data.append('auth_type', type),
+      data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
@@ -367,24 +371,36 @@ export class BorrowersListComponent implements OnInit {
       this.message.remove(generateloader);
     })
   }
-  onClickShowJSONPreview(res){
+  onClickShowJSONPreview(res) {
     this.isVisibleThirdPartyResp = true
     this.api_calling_loader['xmlLoader'] = true;
     this.thirdPartyDataResponse = res
     this.api_calling_loader['xmlLoader'] = false;
-}
- // Get Cibil Data API
- getCibilScoreData(type?, id?) {
-  this._isUpdateStatus = true
-  this.isFetchCibilSms = true;
-  let data = { source: 'Onboarding', endpoint: id }
-  if (type == 'cibil' && id) {
-        this._isCibil = true;
-        this._currentLoanDetails = id
-
-  } else if (type == 'sms' && id) {
-        this._isCibil = false;
-        this._currentLoanDetails = id
   }
-}
+  // Get Cibil Data API
+  getCibilScoreData(type?, id?) {
+    this._isUpdateStatus = true
+    this.isFetchCibilSms = true;
+    let data = { source: 'Onboarding', endpoint: id }
+    if (type == 'cibil' && id) {
+      this._isCibil = true;
+      this._currentLoanDetails = id
+
+    } else if (type == 'sms' && id) {
+      this._isCibil = false;
+      this._currentLoanDetails = id
+    }
+  }
+  getBlockReason(id) {
+    const generateloader = this.message.loading('Fetching reasons..', { nzDuration: 0 }).messageId;
+    this.http.getBlockReason(id).subscribe(res => {
+      if (res['success']) {
+        this.reason = res['data']
+        this.showReason = true
+      }
+      this.message.remove(generateloader);
+    }, (err) => {
+      this.message.remove(generateloader);
+    })
+  }
 }

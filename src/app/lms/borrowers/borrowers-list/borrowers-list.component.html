@@ -240,6 +240,10 @@
                                                 <span class="m-l-5">Track Status</span>
                                             </li>
 
+                                            <li nz-menu-item *ngIf="data.is_blocked" (click)="getBlockReason(data.id)">
+                                                <span class="m-l-5">Block reason</span>
+                                            </li>
+
                                             <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                                                 <ul nz-menu>
                                                     <li nz-menu-item nz-popconfirm
@@ -1831,3 +1835,10 @@
       Submit
     </button>
   </ng-template>
+
+  <nz-modal [(nzVisible)]="showReason" (nzOnCancel)="handleCancel()" [nzFooter]="null">
+    <ng-container *nzModalContent>
+      <h5 style="color: #dc3545;" *ngFor="let item of reason">{{item.reason}}</h5>
+      <!-- <h5>{{error_description}}</h5> -->
+    </ng-container>
+  </nz-modal>
