@@ -13,8 +13,8 @@ export class AppComponent {
         private permissionsService: NgxPermissionsService
         ) 
         {
-          if(localStorage.getItem('fatakpay_user_data')){
-            var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
+          if(sessionStorage.getItem('fatakpay_user_data')){
+            var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions;
             if(check_token_exists){
               check_token_exists.push('')
             this.permissionsService.loadPermissions(check_token_exists);
@@ -22,7 +22,7 @@ export class AppComponent {
           }
           this.UserPermissionDataSubscription = this.HttpService.globalUserPermissionsData.subscribe((value) => {
             value.push('')
-            if(JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions){
+            if(JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions){
               this.permissionsService.loadPermissions(value);
             }
           });

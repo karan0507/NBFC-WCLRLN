@@ -32,7 +32,7 @@ export class QuickViewComponent {
         private modal: NzModalService,public http: HttpService, private fb: FormBuilder) {}
 
     ngOnInit(): void {
-        this.userData = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+        this.userData = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isSideNavDarkChanges.subscribe(isDark => this.isSideNavDark = isDark);
         this.themeService.selectedHeaderColor.subscribe(color => this.selectedHeaderColor = color);
@@ -44,7 +44,7 @@ export class QuickViewComponent {
 
     fetchEmployeeList() {
         if (!this.userData?.user?.id) {
-            this.userData = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+            this.userData = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))
         }
         let data = {
           id : this.userData?.user?.id
@@ -88,7 +88,7 @@ export class QuickViewComponent {
     //// logout user 
     logoutUserFunction() {
         this.modal.closeAll()
-        localStorage.removeItem("fatakpay_user_data");
+        sessionStorage.removeItem("fatakpay_user_data");
         this.router.navigate(['/authentication/login']);
     }
     changePasswordFormFunction() {

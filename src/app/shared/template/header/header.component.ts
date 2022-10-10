@@ -36,17 +36,17 @@ export class HeaderComponent{
             this.userDetails = res;
         })
         // this.getFormLoanData();
-        // this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'));
+        // this.userDetails = JSON.parse(sessionStorage.getItem('fatakpay_user_data'));
         // if(!this.userDetails){
-        //     this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+        //     this.userDetails = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))
         //     console.log(this?.userDetails);
         // } 
         // else {
             // setTimeout(function () {
             //     // ...
-            //     this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+            //     this.userDetails = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))
             // }, 10000);
-            // this.userDetails = JSON.parse(localStorage.getItem('fatakpay_user_data'))
+            // this.userDetails = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))
             // console.log(this?.userDetails);
         // }
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);

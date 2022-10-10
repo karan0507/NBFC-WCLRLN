@@ -47,11 +47,17 @@ export class CommonLayoutComponent  {
         ).subscribe( (data: any) => {
             this.contentHeaderDisplay = data;
         });
+        // window.onbeforeunload = function (e) {
+        //     window.onunload = function () {
+        //             window.sessionStorage.clear()
+        //     }
+        //     return undefined;
+        // };
     }
 
     ngOnInit() {
-        if(localStorage.getItem('fatakpay_user_data')){
-            var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).token;
+        if(sessionStorage.getItem('fatakpay_user_data')){
+            var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).token;
             if(check_token_exists){
               this.VerifyUserFunction()
             }
@@ -110,10 +116,10 @@ export class CommonLayoutComponent  {
         this.http.VerifyUser().subscribe((res) => {
           if(res.success){
             // this.http.setPermissionValue(res.data.data.permissions_slug_list)
-            localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+            sessionStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
             this.globaldata.sendUserData(res?.data);
-            if(localStorage.getItem('fatakpay_user_data')){
-                var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
+            if(sessionStorage.getItem('fatakpay_user_data')){
+                var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions;
                 check_token_exists.push('')
                 this.permissionsService.loadPermissions(check_token_exists);
               }
@@ -128,12 +134,12 @@ export class CommonLayoutComponent  {
           else{
             this.router.navigate(['/authentication/login']);
             this.message.error(res.message);
-            localStorage.removeItem('fatakpay_user_data')
+            sessionStorage.removeItem('fatakpay_user_data')
           }
         }, (err) => {
           this.router.navigate(['/authentication/login']);
           this.message.error('Oops! something went wrong, Kindly Login again');
-          localStorage.removeItem('fatakpay_user_data')
+          sessionStorage.removeItem('fatakpay_user_data')
         })
       }
 }

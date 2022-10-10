@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
 
 export class Error2Component {
     constructor(private router: Router){
-        if(!JSON.parse(localStorage.getItem('fatakpay_user_data'))){
+        if(!JSON.parse(sessionStorage.getItem('fatakpay_user_data'))){
           this.router.navigate(["/authentication/login"]);
         }
       } 
 
       onClickRedirectToAssignedRouter(){
-        // localStorage.removeItem("fatakpay_user_data");
+        // sessionStorage.removeItem("fatakpay_user_data");
         // this.router.navigate(['/authentication/login']);
         history.back()
     }

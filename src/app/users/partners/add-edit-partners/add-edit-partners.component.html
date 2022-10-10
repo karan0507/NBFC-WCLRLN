@@ -606,7 +606,7 @@
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="cashback_amount" class="text-left" nzRequired>Cashback
                         </nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Amount!">
-                            <input nz-input type="number" formControlName="cashback_amount" placeholder="CashBack"/>
+                            <input nz-input type="number" formControlName="cashback_amount" placeholder="CashBack" [disabled]="addEditProductForm.get('nach_step').value == 'MANDATORY'"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

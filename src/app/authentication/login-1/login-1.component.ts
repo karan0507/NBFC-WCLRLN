@@ -35,7 +35,7 @@ export class Login1Component {
             private message: NzMessageService,
             private router: Router,
             private permissionsService: NgxPermissionsService) {
-                  if (JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token) {
+                  if (JSON.parse(sessionStorage.getItem('fatakpay_user_data'))?.token) {
                         this.router.navigate(['/dashboard/home']);
                   }
       }
@@ -48,6 +48,7 @@ export class Login1Component {
             });
             this.forgetForm = this.fb.group({
                   email: ['', [Validators.required]],
+                  recaptcha: ['', [Validators.required]]
             });
       }
       submitForm(form): void {
@@ -83,9 +84,9 @@ export class Login1Component {
                         this.http.UserLogin(data).subscribe((res) => {
                               this.api_calling_loader = false
                               if (res.success) {
-                                    localStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
-                                    if(localStorage.getItem('fatakpay_user_data')){
-                                          var check_token_exists = JSON.parse(localStorage.getItem('fatakpay_user_data')).permissions;
+                                    sessionStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+                                    if(sessionStorage.getItem('fatakpay_user_data')){
+                                          var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions;
                                           check_token_exists.push('')
                                           this.permissionsService.loadPermissions(check_token_exists);
                                         }

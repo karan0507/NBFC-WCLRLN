@@ -28,7 +28,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     })
     if (check_status) {
       if (!(req.url.includes("user/auth/"))) {
-        this.token = JSON.parse(localStorage.getItem('fatakpay_user_data'))?.token
+        this.token = JSON.parse(sessionStorage.getItem('fatakpay_user_data'))?.token
         if (this.token) {
           req = req.clone({
             setHeaders: {

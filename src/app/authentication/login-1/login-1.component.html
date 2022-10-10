@@ -31,7 +31,7 @@
                                 <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your Password!">
                                     <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
-                                        <input [type]="isView ? 'text' : 'password'" type="password" nz-input formControlName="password" placeholder="Password">
+                                        <input [type]="isView ? 'text' : 'password'" type="password" nz-input formControlName="password" placeholder="Password"  autocomplete="new-password">
                                     </nz-input-group>
                                     <ng-template #viewPassword>
                                         <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
@@ -70,7 +70,17 @@
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
-                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="!is_link_send" (click)="submitForm(forgetForm)" [nzLoading]="api_calling_loader" [nzType]="'primary'">Send</button>
+                            <nz-form-item>
+                                <div class="my-3">
+                                    <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" formControlName="recaptcha"
+                                    (success)="handleSuccess($event)">
+                                    </ngx-recaptcha2>
+                                    <button class="test-1 d-none">
+
+                                    </button>
+                                </div>
+                              </nz-form-item>
+                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="!is_link_send" (click)="submitForm(forgetForm)" [nzLoading]="api_calling_loader" [nzType]="'primary'" [disabled]="forgetForm.invalid">Send</button>
                         </form>
                         <form *ngIf="is_link_send" nz-form nzLayout="vertical" class="login-form">
                             <nz-form-item *ngIf="is_link_send">

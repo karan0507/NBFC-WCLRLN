@@ -30,7 +30,7 @@ export class CommonCibilSmsComponent implements OnInit {
       }
 
       getForceFullyData(){
-            const retrivedData: any = JSON.parse(localStorage.getItem('fatakpay_user_data'));
+            const retrivedData: any = JSON.parse(sessionStorage.getItem('fatakpay_user_data'));
             console.log(retrivedData)
             const sortedString =  `${retrivedData?.user?.first_name + ' ' + retrivedData?.user?.last_name} `
             // alert(sortedString)
