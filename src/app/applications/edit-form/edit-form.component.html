@@ -306,6 +306,23 @@
       </nz-card>
 </section> -->
 
+<section>
+      <div class="d-flex justify-content-md-end mb-3">
+            <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
+            <button nz-button nzType="primary"
+                  [disabled]="( !personalDetails.valid ? true : ( !employementDetails.valid ? true : false))"
+                  [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="submitForm()">Save</button>
+      </div>
+      <ng-template #footerModal>
+            <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+            <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2" [disabled]="!fileList[0] ? true : false"
+                  [nzLoading]="api_calling_loader['modalButton']" (click)="handleOk('uploadDocument')">Submit</button>
+            <button *ngIf="_isVerify" nz-button nzType="primary"
+                  [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
+                  [nzLoading]="api_calling_loader['modalButton']" (click)="handleOk('verify')">Submit</button>
+      </ng-template>
+</section>
+
 <!-- Document Details Section -->
 <section>
       <ng-template #modalTitle>
@@ -402,19 +419,114 @@
       </app-common-document-actions>
 </section>
 
+
 <section>
-      <div class="d-flex justify-content-md-end">
-            <button nz-button nzType="link" class="border" (click)="resetForm()">Reset</button>
-            <button nz-button nzType="primary"
-                  [disabled]="( !personalDetails.valid ? true : ( !employementDetails.valid ? true : false))"
-                  [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="submitForm()">Save</button>
-      </div>
-      <ng-template #footerModal>
-            <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-            <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2" [disabled]="!fileList[0] ? true : false"
-                  [nzLoading]="api_calling_loader['modalButton']" (click)="handleOk('uploadDocument')">Submit</button>
-            <button *ngIf="_isVerify" nz-button nzType="primary"
-                  [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-                  [nzLoading]="api_calling_loader['modalButton']" (click)="handleOk('verify')">Submit</button>
+      <ng-template #additional>
+            <div class="d-flex justify-content-between">
+                  <div> <span class="font-weight-normal font-size-14">Additional Details</span></div>
+            </div>
       </ng-template>
+      <nz-card [nzTitle]="additional" [nzLoading]="api_calling_loader['accordian']" *ngIf="additionalDetails?.get('aadhar_no')
+      || additionalDetails?.get('pan_no')
+      || additionalDetails?.get('address_1')
+      || additionalDetails?.get('address_2')
+      || additionalDetails?.get('address_3')
+      || additionalDetails?.get('city')
+      || additionalDetails?.get('landmark')
+      || additionalDetails?.get('state')
+      || additionalDetails?.get('pincode')">
+            <form nz-form [formGroup]="additionalDetails" [nzLayout]="'vertical'">
+                  <div class="row">
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('aadhar_no')">
+                              <nz-form-item>
+                                    <nz-form-label>Aadhar No:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your aadhar no">
+                                          <input  nz-input type="number" formControlName="aadhar_no" (keypress)="omit_special_char($event)"
+                                          placeholder="Enter your aadhar no" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('pan_no')">
+                              <nz-form-item>
+                                    <nz-form-label>Pan No:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Pan no">
+                                          <input  nz-input type="text" formControlName="pan_no" (keypress)="omit_special_char($event)"
+                                          placeholder="Enter your Pan no" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('address_1')">
+                              <nz-form-item>
+                                    <nz-form-label>Address 1:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Address 1">
+                                          <input  nz-input type="text" formControlName="address_1"
+                                          placeholder="Enter your Address 1" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('address_2')">
+                              <nz-form-item>
+                                    <nz-form-label>Address 2:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Address 2">
+                                          <input  nz-input type="text" formControlName="address_2"
+                                          placeholder="Enter your Address 2" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('address_3')">
+                              <nz-form-item>
+                                    <nz-form-label>Address 3:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your Address 3">
+                                          <input  nz-input type="text" formControlName="address_3"
+                                          placeholder="Enter your Address 3" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('city')">
+                              <nz-form-item>
+                                    <nz-form-label>City:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your city">
+                                          <input  nz-input type="text" formControlName="city"
+                                          placeholder="Enter your city" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('landmark')">
+                              <nz-form-item>
+                                    <nz-form-label>Landmark:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your landmark">
+                                          <input  nz-input type="text" formControlName="landmark"
+                                          placeholder="Enter your landmark" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('state')">
+                              <nz-form-item>
+                                    <nz-form-label>State:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your state">
+                                          <input  nz-input type="text" formControlName="state"
+                                          placeholder="Enter your state" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4" *ngIf="additionalDetails?.get('pincode')">
+                              <nz-form-item>
+                                    <nz-form-label>Pin code:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your pin code">
+                                          <input  nz-input type="text" formControlName="pincode"
+                                          placeholder="Enter your pin code" />
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                  </div>
+            </form>
+            <div class="row">
+                  <div class="col-md-12 d-flex justify-content-md-end">
+                        <button nz-button nzType="primary"
+                              [nzLoading]="api_calling_loader['button']" class="mx-2" (click)="saveAdditionalDetails()">Save</button>
+                  </div>
+            </div>
+      </nz-card>
 </section>

@@ -17,6 +17,7 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 })
 export class EditFormComponent implements OnInit {
       personalDetails: FormGroup;
+      additionalDetails: FormGroup;
       employementDetails: FormGroup;
       preApprovedForm: FormGroup;
       documentForm: FormGroup;
@@ -66,6 +67,7 @@ export class EditFormComponent implements OnInit {
             } else {
                   this.isEditName = true
             }
+            this.addEditForm();
             this.fetchEmploymentType();
             this.fetchProductList();
             this.fetchMasterIncomeRange();
@@ -110,7 +112,22 @@ export class EditFormComponent implements OnInit {
                   document_name: ['1'],
                   document_name_2: ['1']
             })
+      }
 
+      addEditForm(data?) {
+            this.additionalDetails = this.fb.group({
+                  application :     [data ? data?.id : ""],
+                  id:               [""],
+                  pan_no:           [""],
+                  aadhar_no:        [""],
+                  address_1:        [data ? data?.address_details?.address_1 : ""],
+                  address_2:        [data ? data?.address_details?.address_2 : ""],
+                  address_3:        [data ? data?.address_details?.address_3 : ""],
+                  landmark:         [data ? data?.address_details?.landmark : ""],
+                  city:             [data ? data?.address_details?.city : ""],
+                  state:            [data ? data?.address_details?.state : ""],
+                  pincode:          [data ? data?.address_details?.pincode : ""]
+            })
       }
 
       get nominee(): FormArray {
@@ -324,6 +341,44 @@ export class EditFormComponent implements OnInit {
                         }
                         this.personalInfo = res?.data?.user_info
                         this.documentList = res?.data?.kyc_documents;
+                        this.addEditForm(this.userIdOfUser)
+
+                        this.userIdOfUser?.kyc_documents.forEach(element => {
+                              if (element.document_master?.name == 'Aadhar Card') {
+                                    if (element.aadhar_no) {
+                                          this.additionalDetails.get('aadhar_no').setValue(element.aadhar_no)
+                                          this.additionalDetails.get('id').setValue(element.kyc_obj_id)
+                                          this.additionalDetails.removeControl('aadhar_no')  
+                                    }
+                              }
+                              if (element.document_master?.name == 'Pan') {
+                                    if (element.pan_no) {
+                                          this.additionalDetails.get('pan_no').setValue(element.pan_no)  
+                                          this.additionalDetails.removeControl('pan_no')  
+                                    }
+                              }
+                        });
+                        if (this.userIdOfUser?.address_details?.address_1) {
+                              this.additionalDetails.removeControl('address_1')
+                        }
+                        if (this.userIdOfUser?.address_details?.address_2) {
+                              this.additionalDetails.removeControl('address_2')
+                        }
+                        if (this.userIdOfUser?.address_details?.address_3) {
+                              this.additionalDetails.removeControl('address_3')
+                        }
+                        if (this.userIdOfUser?.address_details?.city) {
+                              this.additionalDetails.removeControl('city')
+                        }
+                        if (this.userIdOfUser?.address_details?.landmark) {
+                              this.additionalDetails.removeControl('landmark')
+                        }
+                        if (this.userIdOfUser?.address_details?.pincode) {
+                              this.additionalDetails.removeControl('pincode')
+                        }
+                        if (this.userIdOfUser?.address_details?.state) {
+                              this.additionalDetails.removeControl('state')
+                        }
 
                   } else {
                         this.api_calling_loader['accordian'] = false;
@@ -505,4 +560,59 @@ export class EditFormComponent implements OnInit {
             // this.generateBase64View(file)
             return false;
       };
+      saveAdditionalDetails() {
+            console.log(this.additionalDetails.value)
+            var data = new FormData();
+            data.append('source', 'Onboarding');
+            data.append('model', 'UserKycDetail');
+            data.append('datapoint', 'edit_application');
+            data.append('edit', 'true');
+            if (this.additionalDetails.value.pan_no) {
+                  data.append('pan_no', this.additionalDetails.value.pan_no)
+            }
+            if (this.additionalDetails.value.aadhar_no) {
+                  data.append('aadhar_no', this.additionalDetails.value.aadhar_no)
+            }
+            if (this.additionalDetails.value.address_1) {
+                  data.append('address_1', this.additionalDetails.value.address_1)
+            }
+            if (this.additionalDetails.value.address_2) {
+                  data.append('address_2', this.additionalDetails.value.address_2)
+            }
+            if (this.additionalDetails.value.address_3) {
+                  data.append('address_2', this.additionalDetails.value.address_3)
+            }
+            if (this.additionalDetails.value.landmark) {
+                  data.append('landmark', this.additionalDetails.value.landmark)
+            }
+            if (this.additionalDetails.value.city) {
+                  data.append('city', this.additionalDetails.value.city)
+            }
+            if (this.additionalDetails.value.state) {
+                  data.append('state', this.additionalDetails.value.state)
+            }
+            if (this.additionalDetails.value.pincode) {
+                  data.append('pincode', this.additionalDetails.value.pincode)
+            }
+            if (this.additionalDetails.value.application) {
+                  data.append('application', this.additionalDetails.value.application)
+            }
+            if (this.additionalDetails.value.id) {
+                  data.append('id', this.additionalDetails.value.id)
+            }
+            this.api_calling_loader['accordian'] = false
+            this.https.editLoanData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        // this.router.navigateByUrl('/applications/form-filling');
+                        this.api_calling_loader['accordian'] = false
+                        this.message.success(res?.message)
+                        this.getFormLoanData()
+                        // this.router.navigate(['.'], { relativeTo: this.route.parent });
+                  } else {
+                        this.message.error(res?.message)
+                        // this.router.navigateByUrl('/applications/form-filling')
+                        this.api_calling_loader['accordian'] = false
+                  }
+            })
+      }
 }
