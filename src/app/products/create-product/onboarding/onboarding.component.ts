@@ -76,6 +76,9 @@ export class OnboardingComponent implements OnInit {
       // secondary_product: [data ? data?.product_priority[0]?.secondary_product?.id: '', [Validators.required]],
       // field_rules: this.fb.array([]),
       document_rules: this.fb.array([]),
+      document_rules1: this.fb.array([]),
+      document_rules2: this.fb.array([]),
+      document_rules3: this.fb.array([]),
       third_party_calls: this.fb.array([]),
       aadhar_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.aadhar_check : 'Mandatory') : 'Mandatory'],
       pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory'],
@@ -88,13 +91,15 @@ export class OnboardingComponent implements OnInit {
     // } else {
     //   this.fetchEntityData()
     // }
-    if (data?.document_rules[0]) {
-      data?.document_rules.forEach(element => {
-        this.addDocumentRules(element, true)  
-      });
-    } else {
+    // if (data?.document_rules[0]) {
+    //   data?.document_rules.forEach(element => {
+    //     this.addDocumentRules(element, true)  
+    //   });
+
+    //   // this.fetchDocumentMaster()
+    // } else {
       this.fetchDocumentMaster()
-    }
+    // }
     if (data?.third_party_calls[0]) {
       data?.third_party_calls.forEach(element => {
         this.addThirdParty(element, true)  
@@ -167,24 +172,96 @@ export class OnboardingComponent implements OnInit {
   get document_rules(): FormArray {
     return <FormArray>this.createEditForm.get('document_rules');
   }
-
-  addDocumentRules(data?, bool?) {
-    this.document_rules.push(this.addDocumentRulesControls(data, bool))
+  get document_rules1(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules1');
   }
-  public addDocumentRulesControls(data, bool?): FormGroup {
-    if (data && bool) {
+  get document_rules2(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules2');
+  }
+  get document_rules3(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules3');
+  }
+
+  addDocumentRules(data?) {
+    this.document_rules.push(this.addDocumentRulesControls(data))
+  }
+  addDocumentRules1(data?) {
+    this.document_rules1.push(this.addDocumentRulesControls1(data))
+  }
+  addDocumentRules2(data?) {
+    this.document_rules2.push(this.addDocumentRulesControls2(data))
+  }
+  addDocumentRules3(data?) {
+    this.document_rules3.push(this.addDocumentRulesControls3(data))
+  }
+  public addDocumentRulesControls(data): FormGroup {
+    if (data) {
       return this.fb.group({
         id: [data.id],
-        document: [data.document ? data.document.id : ''],
-        label_txt: [data.document ? data.document.name : ''],
-        check_type: [data ? data.check_type : 'Mandatory'],
-        employment_type: [data.employment_type ? data.employment_type.id : ''],
+        document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
+        label_txt: [data.name ? data.name : ''],
+        check_type: [data.product_document_data ? data.product_document_data.check_type : 'Mandatory'],
+        employment_type: [data.product_document_data ? data.product_document_data.employment_type__id : ''],
       });
     } else {
       return this.fb.group({
-        document: [data.pk],
+        document: [data?.product_document_data?.document__id],
         label_txt: [data.name],
-        check_type: ['Mandatory'],
+        check_type: [''],
+        employment_type: [''],
+      });
+    }
+  }
+  public addDocumentRulesControls1(data): FormGroup {
+    if (data) {
+      return this.fb.group({
+        id: [data.id],
+        document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
+        label_txt: [data.name ? data.name : ''],
+        check_type: [data.product_document_data ? data.product_document_data.check_type : 'Mandatory'],
+        employment_type: [data.product_document_data ? data.product_document_data.employment_type__id : ''],
+      });
+    } else {
+      return this.fb.group({
+        document: [data?.product_document_data?.document__id],
+        label_txt: [data.name],
+        check_type: [''],
+        employment_type: [''],
+      });
+    }
+  }
+  public addDocumentRulesControls2(data): FormGroup {
+    if (data) {
+      return this.fb.group({
+        id: [data.id],
+        document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
+        label_txt: [data.name ? data.name : ''],
+        check_type: [data.product_document_data ? data.product_document_data.check_type : 'Mandatory'],
+        employment_type: [data.product_document_data ? data.product_document_data.employment_type__id : ''],
+      });
+    } else {
+      return this.fb.group({
+        document: [data?.product_document_data?.document__id],
+        label_txt: [data.name],
+        check_type: [''],
+        employment_type: [''],
+      });
+    }
+  }
+  public addDocumentRulesControls3(data): FormGroup {
+    if (data) {
+      return this.fb.group({
+        id: [data.id],
+        document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
+        label_txt: [data.name ? data.name : ''],
+        check_type: [data.product_document_data ? data.product_document_data.check_type : 'Mandatory'],
+        employment_type: [data.product_document_data ? data.product_document_data.employment_type__id : ''],
+      });
+    } else {
+      return this.fb.group({
+        document: [data?.product_document_data?.document__id],
+        label_txt: [data.name],
+        check_type: [''],
         employment_type: [''],
       });
     }
@@ -199,10 +276,19 @@ export class OnboardingComponent implements OnInit {
   }
   fetchDocumentMaster() {
     let data;
-    this.http.fetchDocumentMaster(data).subscribe(res => {
-      this.documentData = res['data'].results
-      this.documentData.forEach(element => {
-        this.addDocumentRules(element, false)
+    this.http.fetchAllDocumentRules(this.product_id).subscribe(res => {
+      this.documentData = res['data']      
+      this.documentData['Address Proof'].forEach(element => {
+        this.addDocumentRules(element)
+      });
+      this.documentData['Identity Proof'].forEach(element => {
+        this.addDocumentRules1(element)
+      });
+      this.documentData['Income Proof'].forEach(element => {
+        this.addDocumentRules2(element)
+      });
+      this.documentData['Nationality Proof'].forEach(element => {
+        this.addDocumentRules3(element)
       });
       // this.message.success(res['message'])
     })
@@ -230,15 +316,21 @@ export class OnboardingComponent implements OnInit {
   get_document_rules(form) {
     return form.controls.document_rules.controls;
   }
+  get_document_rules1(form) {
+    return form.controls.document_rules1.controls;
+  }
+  get_document_rules2(form) {
+    return form.controls.document_rules2.controls;
+  }
+  get_document_rules3(form) {
+    return form.controls.document_rules3.controls;
+  }
 
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine && this.isRuledAdded) {
       this.message.warning('data saved already')
       return false
     }
-    this.createEditForm.value.document_rules.forEach(element => {
-      element.employment_type = this.selectedTab
-    });
     // this.createEditForm.value.field_rules.forEach(element => {
     //   element.employment_type = this.selectedTab
     // });
@@ -278,14 +370,30 @@ export class OnboardingComponent implements OnInit {
         employment_type: this.selectedTab
       }
     }
+    let document_rules = []
+    this.createEditForm.value.document_rules.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules1.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules2.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules3.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
     let data = {
       // product_priority : product_priority,
       // field_rules : this.createEditForm.value.field_rules,
-      document_rules: this.createEditForm.value.document_rules,
+      document_rules: document_rules,
       third_party_calls: this.createEditForm.value.third_party_calls,
       aadhar_pan_rules: aadhar_pan_rules
     }
-    
     if (this.isRuledAdded) {
       this.editOnboardingRules(data);
     } else {

@@ -31,6 +31,18 @@
 
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_type" class="text-left" nzRequired>Product type</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Product type!">
+                            <nz-radio-group formControlName="product_type">
+                                <label nz-radio nzValue="B2B">B2B</label>
+                                <label nz-radio nzValue="D2C">D2C</label>
+                              </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-12">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Master Product!">
                             <nz-radio-group formControlName="product_master" (ngModelChange)="changeProductMaster($event)">
