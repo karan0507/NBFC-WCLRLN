@@ -50,6 +50,7 @@
                         <th>Parent Name</th>
                         <th>Name</th>
                         <th>Version</th>
+                        <th>Product type</th>
                         <th>Product Master</th>
                         <th>Master Partners</th>
                         <th>Partners</th>
@@ -77,6 +78,7 @@
                             <td>{{ data?.product_version_parent?.parent_name ? data?.product_version_parent?.parent_name : '-' }}</td>
                             <td>{{ data.name ? data.name : '-' }}</td>
                             <td>{{ data.version ? data.version : '-' }}</td>
+                            <td>{{ data.product_type ? data.product_type : '-' }}</td>
                             <td>{{ data.product_master ? data.product_master.name : '-' }}</td>
                             <td><span class="pointer text-blue" *ngIf="data.master_partners > 0"
                                     nz-popover [nzPopoverContent]="contentTemplate1" nzPopoverTrigger="click" nzPopoverPlacement="top">{{ data.master_partners > 0 ? data.master_partners : '-' }}</span>

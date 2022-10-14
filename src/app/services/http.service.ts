@@ -453,6 +453,13 @@ export class HttpService {
       }
 
       /**
+       * fetchAllDocumentRules
+       */
+       public fetchAllDocumentRules(data) {
+            return this._http.get((this.url + `/product/v1/get-product-document-rules/` + data));
+      }
+
+      /**
        * fetchRoles
        */
       public fetchRoles(data) {
@@ -1123,7 +1130,6 @@ export class HttpService {
       }
 
       restrictType(event) {
-            console.log(event.which)
             if (event.which == 107 || event.which == 109 || event.which == 69 || event.which == 187 || event.which == 189) {
                   return false;
             }

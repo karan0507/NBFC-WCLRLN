@@ -68,6 +68,7 @@ export class ProductDetailsComponent implements OnInit {
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       bill_day: [ this.productDetails ? this.productDetails.bill_day : ''],
       due_days: [ this.productDetails ? this.productDetails.due_days : ''],
+      product_type: [ this.productDetails ? this.productDetails.product_type : '' , [Validators.required]],
       tenures: this.fb.array([]),
       nach_date_time_mappings: this.fb.array([]),
       })
@@ -103,7 +104,6 @@ export class ProductDetailsComponent implements OnInit {
   get_nachArr(form) {
     this.indexOfLatestNach =
       form.controls.nach_date_time_mappings.controls?.length;
-    // console.log(form.controls.nach_date_time_mappings.controls[this.indexOfLatestNach - 1]?.controls?.value);
     return form.controls.nach_date_time_mappings.controls;
   }
   
@@ -112,7 +112,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   newNach(data?): FormGroup {
-    console.log(data);
     // const datePipe = new DatePipe('en-US');
     return this.fb.group({
       day_of_month: [data ? data?.day_of_month : null],
@@ -207,7 +206,8 @@ export class ProductDetailsComponent implements OnInit {
         bill_day: this.createEditForm.value.bill_day,
         tenures: this.createEditForm.value.tenures,
         due_days: this.createEditForm.value.due_days,
-        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings
+        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
+        product_type: this.createEditForm.value.product_type
       }          
     } else {
       data = {
@@ -219,7 +219,8 @@ export class ProductDetailsComponent implements OnInit {
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,
         due_days: this.createEditForm.value.due_days,
-        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings
+        nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
+        product_type: this.createEditForm.value.product_type
       }        
     }
     if (this.product_id) {
@@ -231,7 +232,6 @@ export class ProductDetailsComponent implements OnInit {
   }
   removeSlab(control, slab_index) {
     control = <FormArray>this.createEditForm.get('tenures');
-    console.log(control);
     if (control.value[slab_index].id) {
       control.value[slab_index].is_deleted = true;
       control.controls.splice(slab_index, 1)
