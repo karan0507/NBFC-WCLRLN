@@ -559,11 +559,11 @@ export class DisbursementComponent implements OnInit {
             this.api_calling_loader['xmlLoader'] = false;
       }
       
-  pdfViewerAndDownload(title, loan_application_id) {
+  pdfViewerAndDownload(title, loan_application_id, datapoint) {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
       var data;
         data = {
-          datapoint: 'fetch-application-agreement',
+          datapoint: datapoint,
           endpoint: loan_application_id,
           source: 'Onboarding',
         }

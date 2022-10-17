@@ -565,8 +565,8 @@ export class EditFormComponent implements OnInit {
             var data = new FormData();
             data.append('source', 'Onboarding');
             data.append('model', 'UserKycDetail');
-            data.append('datapoint', 'edit_application');
-            data.append('edit', 'true');
+            data.append('datapoint', 'edit_application_new');
+            data.append('edit', '1');
             if (this.additionalDetails.value.pan_no) {
                   data.append('pan_no', this.additionalDetails.value.pan_no)
             }
@@ -580,7 +580,7 @@ export class EditFormComponent implements OnInit {
                   data.append('address_2', this.additionalDetails.value.address_2)
             }
             if (this.additionalDetails.value.address_3) {
-                  data.append('address_2', this.additionalDetails.value.address_3)
+                  data.append('address_3', this.additionalDetails.value.address_3)
             }
             if (this.additionalDetails.value.landmark) {
                   data.append('landmark', this.additionalDetails.value.landmark)

@@ -340,11 +340,14 @@
                                                             <li nz-menu-item>
                                                                   <span class="m-l-5">Send E-sign Link</span>
                                                             </li> -->
-                    <li
-                      nz-menu-item
-                      (click)="pdfViewerAndDownload('Agreement', data.id)"
-                    >
+                    <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', data.id, 'fetch-application-agreement')">
                       <span class="m-l-5"> Legal Agreement</span>
+                    </li>
+                    <li nz-menu-item (click)="pdfViewerAndDownload('Sanction Lette', data.id, 'fetch-sanction-letter')">
+                      <span class="m-l-5"> Sanction Letter</span>
+                    </li>
+                    <li nz-menu-item (click)="pdfViewerAndDownload('KFS document', data.id, 'fetch-kfs-document')">
+                      <span class="m-l-5"> KFS document</span>
                     </li>
                     <li
                       nz-menu-item

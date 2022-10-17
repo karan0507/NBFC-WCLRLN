@@ -1191,6 +1191,12 @@ export class HttpService {
       public fetchReferralList(data?) {
             return this._http.get((this.url + `/partner/v1/get-referrals-list`), { params: data });
       }
+
+
+      public fetchCashbackList(data?) {
+            return this._http.get((this.url + `/partner/v1/get-corporate-cashback-program/`), { params: data });
+      }
+
       public toggleReferralStatus(id) {
             return this._http.post((this.url + `/partner/v1/change-referral-status/` + id), id);
       }
@@ -1198,6 +1204,10 @@ export class HttpService {
 
       public createReferral(data) {
             return this._http.post((this.url + `/partner/v1/create-referral-program`), data);
+      }
+
+      public createCashback(data) {
+            return this._http.post((this.url + `/partner/v1/create-corporate-cashback-program/`), data);
       }
 
       public editReferral(data) {
