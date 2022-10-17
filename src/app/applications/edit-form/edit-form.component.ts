@@ -580,7 +580,7 @@ export class EditFormComponent implements OnInit {
                   data.append('address_2', this.additionalDetails.value.address_2)
             }
             if (this.additionalDetails.value.address_3) {
-                  data.append('address_2', this.additionalDetails.value.address_3)
+                  data.append('address_3', this.additionalDetails.value.address_3)
             }
             if (this.additionalDetails.value.landmark) {
                   data.append('landmark', this.additionalDetails.value.landmark)
