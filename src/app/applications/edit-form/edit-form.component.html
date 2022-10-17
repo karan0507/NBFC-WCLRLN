@@ -420,13 +420,13 @@
 </section>
 
 
-<section>
+<section *ngIf="isKycObj">
       <ng-template #additional>
             <div class="d-flex justify-content-between">
                   <div> <span class="font-weight-normal font-size-14">Additional Details</span></div>
             </div>
       </ng-template>
-      <nz-card [nzTitle]="additional" [nzLoading]="api_calling_loader['accordian']" *ngIf="(additionalDetails?.get('aadhar_no')
+      <nz-card [nzTitle]="additional" [nzLoading]="api_calling_loader['accordian']" *ngIf="additionalDetails?.get('aadhar_no')
       || additionalDetails?.get('pan_no')
       || additionalDetails?.get('address_1')
       || additionalDetails?.get('address_2')
@@ -434,8 +434,7 @@
       || additionalDetails?.get('city')
       || additionalDetails?.get('landmark')
       || additionalDetails?.get('state')
-      || additionalDetails?.get('pincode'))
-      && additionalDetails.get('id').value">
+      || additionalDetails?.get('pincode')">
             <form nz-form [formGroup]="additionalDetails" [nzLayout]="'vertical'">
                   <div class="row">
                         <div class="col-md-4" *ngIf="additionalDetails?.get('aadhar_no')">

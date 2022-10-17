@@ -58,6 +58,7 @@ export class EditFormComponent implements OnInit {
       employmentType: any;
       userIdOfUser: any;
       nomineeDetails: FormGroup;
+      isKycObj: boolean;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -349,6 +350,11 @@ export class EditFormComponent implements OnInit {
                                           this.additionalDetails.get('aadhar_no').setValue(element.aadhar_no)
                                           this.additionalDetails.get('id').setValue(element.kyc_obj_id)
                                           this.additionalDetails.removeControl('aadhar_no')  
+                                    }
+                                    if (element.kyc_obj_id) {
+                                          this.isKycObj = true
+                                    } else {
+                                          this.isKycObj = false
                                     }
                               }
                               if (element.document_master?.name == 'Pan') {
