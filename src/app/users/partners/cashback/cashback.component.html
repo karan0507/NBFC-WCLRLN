@@ -1,0 +1,155 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <div class="row">
+                <h4 class="mb-0">Cashback</h4>
+                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Cashback</button>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchCashbackList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchCashbackList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template> -->
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="ml-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedTab" (ngModelChange)="fetchCashbackList()"
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option [nzValue]="'active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'inactive'" nzLabel="Inactive"></nz-option>
+                    </nz-select>
+                    <!-- <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchCashbackList()" [nzRanges]="customRanges"></nz-range-picker> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%' }" (nzQueryParams)="list_data ? fetchCashbackList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Corporate</th>
+                        <th>Name</th>
+                        <th>Start Date </th>
+                        <th>End Date</th>
+                        <th>Is active</th>
+                        <th>Cashback amount</th>
+                        <th>Convenience Fee Waived</th>
+                        <!-- <th nzWidth="6rem" nzRight>Actions</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['corporate'] ? data['corporate']: '-' }}</td>
+                        <td>{{ data['name'] ? data['name']: '-' }}</td>
+                        <td>{{ data['start_date'] ? (data['start_date']): '-' }}</td>
+                        <td>{{ data['end_date'] ? (data['end_date']): '-' }}</td>
+                        <td>{{ data['is_active'] ? 'Yes': 'No' }}</td>
+                        <td>{{ data['cashback_amount'] ? data['cashback_amount']: '-' }}</td>
+                        <td>{{ data['convenience_fee_waived'] ? 'Yes': 'No' }}</td>
+                        <!-- <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a> -->
+                                <!-- <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu> -->
+                                        <!-- <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                            <span class="m-l-5">Deactivate</span>
+                                        </li> -->
+                                        <!-- <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate?"
+                                        nzPopconfirmPlacement="topLeft"
+                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                            <span class="m-l-5">Activate</span>
+                                        </li> -->
+                                        <!-- <li nz-menu-item (click)="isAddEdit = true; isEdit = true; createEditFormFunction(data)">
+                                            <span class="m-l-5">Edit</span>
+                                        </li> -->
+                                    <!-- </ul>
+                                </nz-dropdown-menu> -->
+                            <!-- </div>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+
+<nz-modal [(nzVisible)]="isAddEdit" [nzTitle]="modalTitle" (nzOnCancel)="isAddEdit = false; createEditForm.reset()"
+    (nzOnOk)="submitForm()" nzOkText="Save" [nzOkDisabled]="createEditForm.invalid">
+    <ng-container *nzModalContent>
+        <nz-spin [nzSpinning]="formLoading">
+            <form [formGroup]="createEditForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Name</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input name!">
+                                <input nz-input type="text" formControlName="name" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="cashback_amount" class="text-left" nzRequired>Cashback amount</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Cashback amount!">
+                                <input nz-input type="number" formControlName="cashback_amount" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="convenience_fee_waived" class="text-left" nzRequired> Convenience Fee Waived</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Convenience Fee Waived!">
+                                <!-- <input nz-input type="number" placeholder="Please enter input"/> -->
+                                <nz-radio-group  formControlName="convenience_fee_waived">
+                                    <label nz-radio [nzValue]="true">Yes</label>
+                                    <label nz-radio [nzValue]="false">No</label>
+                                  </nz-radio-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="max_users" class="text-left" nzRequired> Max users</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Max users!">
+                                <input nz-input type="number" formControlName="max_users" placeholder="Please enter input"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="start_date" class="text-left" nzRequired>
+                                Start date</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Start date!">
+                                <nz-date-picker formControlName="start_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="end_date" class="text-left" nzRequired>
+                                End date</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input End date!">
+                                <nz-date-picker formControlName="end_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-spin>
+    </ng-container>
+</nz-modal>

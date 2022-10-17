@@ -26,9 +26,10 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { ReferralCodeComponent } from './referral-code/referral-code.component';
+import { CashbackComponent } from './cashback/cashback.component';
 
 @NgModule({
-  declarations: [PartnersListComponent, AddEditPartnersComponent, ReferralCodeComponent],
+  declarations: [PartnersListComponent, AddEditPartnersComponent, ReferralCodeComponent, CashbackComponent],
   imports: [
     CommonModule,
     NzDatePickerModule,
