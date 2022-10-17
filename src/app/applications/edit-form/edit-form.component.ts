@@ -348,11 +348,11 @@ export class EditFormComponent implements OnInit {
                               if (element.document_master?.name == 'Aadhar Card') {
                                     if (element.aadhar_no) {
                                           this.additionalDetails.get('aadhar_no').setValue(element.aadhar_no)
-                                          this.additionalDetails.get('id').setValue(element.kyc_obj_id)
                                           this.additionalDetails.removeControl('aadhar_no')  
                                     }
                                     if (element.kyc_obj_id) {
                                           this.isKycObj = true
+                                          this.additionalDetails.get('id').setValue(element.kyc_obj_id)
                                     } else {
                                           this.isKycObj = false
                                     }
