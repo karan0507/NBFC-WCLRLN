@@ -565,8 +565,8 @@ export class EditFormComponent implements OnInit {
             var data = new FormData();
             data.append('source', 'Onboarding');
             data.append('model', 'UserKycDetail');
-            data.append('datapoint', 'edit_application');
-            data.append('edit', 'true');
+            data.append('datapoint', 'edit_application_new');
+            data.append('edit', '1');
             if (this.additionalDetails.value.pan_no) {
                   data.append('pan_no', this.additionalDetails.value.pan_no)
             }
