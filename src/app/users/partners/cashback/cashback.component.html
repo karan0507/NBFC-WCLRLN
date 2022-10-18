@@ -3,7 +3,7 @@
         <nz-card class="w-100 mb-0">
             <div class="row">
                 <h4 class="mb-0">Cashback</h4>
-                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Cashback</button>
+                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Cashback Program</button>
             </div>
             <div class="row">
                 <div class="col-md-3 mb-3 d-flex">
@@ -39,7 +39,7 @@
                         <th>Is active</th>
                         <th>Cashback amount</th>
                         <th>Convenience Fee Waived</th>
-                        <!-- <th nzWidth="6rem" nzRight>Actions</th> -->
+                        <th nzWidth="6rem" nzRight>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,31 +53,31 @@
                         <td>{{ data['is_active'] ? 'Yes': 'No' }}</td>
                         <td>{{ data['cashback_amount'] ? data['cashback_amount']: '-' }}</td>
                         <td>{{ data['convenience_fee_waived'] ? 'Yes': 'No' }}</td>
-                        <!-- <td nzRight>
+                        <td nzRight>
                             <div>
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                     [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
                                     <i nz-icon nzType="ellipsis" theme="outline"></i>
-                                </a> -->
-                                <!-- <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
-                                    <ul nz-menu> -->
-                                        <!-- <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate?"
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate?"
                                         nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                        (nzOnConfirm)="toggleCashbackStatus(data.id)">
                                             <span class="m-l-5">Deactivate</span>
-                                        </li> -->
-                                        <!-- <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate?"
+                                        </li>
+                                        <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate?"
                                         nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="toggleReferralStatus(data.id)">
+                                        (nzOnConfirm)="toggleCashbackStatus(data.id)">
                                             <span class="m-l-5">Activate</span>
-                                        </li> -->
-                                        <!-- <li nz-menu-item (click)="isAddEdit = true; isEdit = true; createEditFormFunction(data)">
+                                        </li>
+                                        <li nz-menu-item (click)="isAddEdit = true; isEdit = true; createEditFormFunction(data)">
                                             <span class="m-l-5">Edit</span>
-                                        </li> -->
-                                    <!-- </ul>
-                                </nz-dropdown-menu> -->
-                            <!-- </div>
-                        </td> -->
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </nz-table>

@@ -74,7 +74,7 @@ export class CashbackComponent implements OnInit {
       // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       status: this.selectedTab ? this.selectedTab : '',
-      corporate: this.partnerId ? this.partnerId : ''
+      corporate_id: this.partnerId ? this.partnerId : ''
     }
     this.api_calling_loader = true
     this.http.fetchCashbackList(data).subscribe(res => {
@@ -92,8 +92,8 @@ export class CashbackComponent implements OnInit {
     this.fetchCashbackList();
   }
 
-  toggleReferralStatus(id) {
-    this.http.toggleReferralStatus(id).subscribe(res => {
+  toggleCashbackStatus(id) {
+    this.http.toggleCashbackStatus(id).subscribe(res => {
       if (res['success']) {
         this.message.success(res['message'])
         this.fetchCashbackList();
@@ -162,7 +162,7 @@ export class CashbackComponent implements OnInit {
 
     this.formLoading = true
 
-    this.http.editReferral(data).subscribe(res => {
+    this.http.editCashback(data).subscribe(res => {
       if (res['success']) {
         this.isAddEdit = false
         this.fetchCashbackList()

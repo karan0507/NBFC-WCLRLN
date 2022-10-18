@@ -1201,6 +1201,9 @@ export class HttpService {
             return this._http.post((this.url + `/partner/v1/change-referral-status/` + id), id);
       }
 
+      public toggleCashbackStatus(id) {
+            return this._http.post((this.url + `/partner/v1/change-corporate-cashback-status/` + id), id);
+      }
 
       public createReferral(data) {
             return this._http.post((this.url + `/partner/v1/create-referral-program`), data);
@@ -1210,9 +1213,13 @@ export class HttpService {
             return this._http.post((this.url + `/partner/v1/create-corporate-cashback-program/`), data);
       }
 
+      public editCashback(data) {
+            return this._http.put((this.url + `/partner/v1/edit-corporate-cashback-program`), data);
+      }
       public editReferral(data) {
             return this._http.put((this.url + `/partner/v1/edit-referral-program`), data);
       }
+
       getBlockReason(id) {
             return this._http.get((this.url + `/loan-application/v1/get-borrowers-block-reasons/` + id));
       }
