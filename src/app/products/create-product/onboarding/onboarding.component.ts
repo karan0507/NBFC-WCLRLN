@@ -195,7 +195,7 @@ export class OnboardingComponent implements OnInit {
     this.document_rules3.push(this.addDocumentRulesControls3(data))
   }
   public addDocumentRulesControls(data): FormGroup {
-    if (data) {
+    if (data.id) {
       return this.fb.group({
         id: [data.id],
         document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
@@ -213,7 +213,7 @@ export class OnboardingComponent implements OnInit {
     }
   }
   public addDocumentRulesControls1(data): FormGroup {
-    if (data) {
+    if (data.id) {
       return this.fb.group({
         id: [data.id],
         document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
@@ -231,7 +231,7 @@ export class OnboardingComponent implements OnInit {
     }
   }
   public addDocumentRulesControls2(data): FormGroup {
-    if (data) {
+    if (data.id) {
       return this.fb.group({
         id: [data.id],
         document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
@@ -249,7 +249,7 @@ export class OnboardingComponent implements OnInit {
     }
   }
   public addDocumentRulesControls3(data): FormGroup {
-    if (data) {
+    if (data.id) {
       return this.fb.group({
         id: [data.id],
         document: [data?.product_document_data?.document__id ? data?.product_document_data?.document__id : ''],
