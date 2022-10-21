@@ -530,6 +530,12 @@ customRanges = {
     }
 
   }
+  activeInactive(id) {
+    this.http.activeInactive(id).subscribe(res => {
+      this.message.success(res['message'])
+      this.getPartnerList()
+    })
+  }
 
 }
 

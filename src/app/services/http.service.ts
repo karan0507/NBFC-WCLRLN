@@ -524,6 +524,10 @@ export class HttpService {
             return this._http.put((this.url + `/product/v1/activate-deactivate-product/` + id), null);
       }
 
+      public activeInactive(id) {
+            return this._http.put((this.url + `/partner/v1/toggle-corporate-status/` + id), null);
+      }
+
       /**
        * createLoanAgreement
        */

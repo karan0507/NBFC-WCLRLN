@@ -337,9 +337,9 @@ export class EmployeeDetailsComponent implements OnInit {
     let data = {
       page: this.page,
       limit: this.size,
-      corporate: this.selectedCorporate ? this.selectedCorporate : '',
-      keyword: this.searchValue ? this.searchValue : '',
-      month: this.month ? this.month : '',
+      // corporate: this.selectedCorporate ? this.selectedCorporate : '',
+      // keyword: this.searchValue ? this.searchValue : '',
+      // month: this.month ? this.month : '',
       file_type: file_formate
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
