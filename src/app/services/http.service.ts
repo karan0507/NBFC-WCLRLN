@@ -524,6 +524,10 @@ export class HttpService {
             return this._http.put((this.url + `/product/v1/activate-deactivate-product/` + id), null);
       }
 
+      public activeInactive(id) {
+            return this._http.put((this.url + `/partner/v1/toggle-corporate-status/` + id), null);
+      }
+
       /**
        * createLoanAgreement
        */
@@ -785,6 +789,12 @@ export class HttpService {
             return this._http.get<Blob>((this.url + `/central-api/v1/call-api`), { params: data, responseType: 'blob' as 'json'});
       }
 
+      public exportMonthWiseCorporateData(data): Observable<any> {
+            // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
+            return this._http.get<Blob>((this.url + `/partner/v1/corporate-employee-month-wise-data-export`), { params: data, responseType: 'blob' as 'json'});
+      }
+
+
       public exportBilledUnBilled(data) {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data, responseType:'blob'});
@@ -857,6 +867,9 @@ export class HttpService {
 
       public getListOfEmployeeAttandance(data) {
             return this._http.get((this.url + `/partner/v1/get-corporate-attendance-data`),{params: data});
+      }
+      public getMonthWiseCorporateData(data) {
+            return this._http.get((this.url + `/partner/v1/corporate-employee-month-wise-data`),{params: data});
       }
 
       // /partner/v1/get-corporate-attendance-data

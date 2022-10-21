@@ -194,6 +194,7 @@ export class EmployeeDetailsComponent implements OnInit {
   date = '';
   month = '';
   dateTillEnd = [];
+  listOfMonthWise: any;
 
   constructor(
     private fb: FormBuilder,
@@ -228,6 +229,8 @@ export class EmployeeDetailsComponent implements OnInit {
       this.getListOfAllEmployees();
     } else if(this.selectedTab == 'empAttendance'){
       this.getEmployeeDetailWithEmployeeAttendance();
+    } else if(this.selectedTab == 'monthWiseCorporateData'){
+      this.getMonthWiseCorporateData();
     } else {
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     }
@@ -274,6 +277,8 @@ export class EmployeeDetailsComponent implements OnInit {
       this.getListOfAllEmployees();
     } else if(this.selectedTab == 'empAttendance'){
       this.getEmployeeDetailWithEmployeeAttendance();
+    } else if(this.selectedTab == 'monthWiseCorporateData'){
+      this.getMonthWiseCorporateData();
     } else {
       this.getEmployeeDetailWithEmployeeTypeAndCorporateId();
     }
@@ -282,6 +287,69 @@ export class EmployeeDetailsComponent implements OnInit {
     });
     this.uploadSelectedCorporateFile.reset();
   }
+  getMonthWiseCorporateData(event?) {
+    if (this.apiLoader["list"]) {
+      return;
+    }
+    this.listOfEmployee = [];
+    if (event) {
+      this.page = event?.pageIndex;
+      this.size = event?.pageSize;
+    }
+    let data = {
+      // section: this.selectedTab,
+      keyword: this.searchValue ? this.searchValue : "",
+      page: this.page,
+      limit: this.size,
+    };
+    // if(this.date){
+    //   data["from_date"] = moment(this.date[0]).format("YYYY-MM-DD");
+    //   data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+    // } 
+    if(this.month){
+      console.log(this.month)
+      data["month"] =  moment(this.month).format("MM")
+      // data["year"] =  moment(this.month).format("YYYY")
+      // console.log(testMonth);
+      // data["month"] = moment(this.date[0]).format("YYYY-MM-DD");
+      // data["to_date"] = moment(this.date[1]).format("YYYY-MM-DD");
+    } 
+    // month
+    if (this.selectedCorporate) {
+      data["corporate"] = this.selectedCorporate;
+    }
+    this.apiLoader["list"] = true
+    this.http.getMonthWiseCorporateData(data).subscribe((res: any)=>{
+      console.log(res);
+      // (res?: any) => {
+        this.total_count = res?.data?.total_count;
+        this.listOfEmployee = res?.data?.results;
+        this.apiLoader["list"] = false;
+      },
+      (err) => {
+        console.log(err);
+        this.apiLoader["list"] = false;
+      }
+    )
+  }
+
+  exportGlobalFunction(file_formate) {
+    let data = {
+      page: this.page,
+      limit: this.size,
+      // corporate: this.selectedCorporate ? this.selectedCorporate : '',
+      // keyword: this.searchValue ? this.searchValue : '',
+      // month: this.month ? this.month : '',
+      file_type: file_formate
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.exportMonthWiseCorporateData(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'month-wise-corporate-list', file_formate, generateloader)
+      // this.isVisible = false
+    })
+  }
+
+  
 
   getResultBasedOnSearch() {
     if(this.selectedTab === 'recommendation' ||
@@ -304,8 +372,11 @@ export class EmployeeDetailsComponent implements OnInit {
       this.searchValue = "";
       this.selectedSection = null;
       this.selectedCorporate = null;
+      this.month = ''
       if(this.selectedTab == 'recommendation' || this.selectedTab == 'allEmployee'){
       this.getListOfAllEmployees();  
+      } else if(this.selectedTab == 'monthWiseCorporateData'){
+        this.getMonthWiseCorporateData();
       } else if(this.selectedTab == 'empAttendance'){
         this.getEmployeeDetailWithEmployeeAttendance();  
       } else {

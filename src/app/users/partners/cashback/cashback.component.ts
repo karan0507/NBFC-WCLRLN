@@ -42,7 +42,7 @@ export class CashbackComponent implements OnInit {
   status = ''
   partnerId: any;
   isAddEdit;
-  modalTitle = 'Add Referral'
+  modalTitle = 'Add Cashback'
   createEditForm: FormGroup;
   formLoading: any;
   isEdit: any;
