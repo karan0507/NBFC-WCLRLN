@@ -87,9 +87,15 @@ export class QuickViewComponent {
 
     //// logout user 
     logoutUserFunction() {
-        this.modal.closeAll()
-        sessionStorage.removeItem("fatakpay_user_data");
-        this.router.navigate(['/authentication/login']);
+      let data;
+      this.http.logout(data).subscribe((res: any)=>{
+        if(res?.success){
+          this.message.success(res?.message);
+          this.modal.closeAll()
+          sessionStorage.removeItem("fatakpay_user_data");
+          this.router.navigate(['/authentication/login']);
+        }
+      })
     }
     changePasswordFormFunction() {
         this.changePasswordForm = this.fb.group({
