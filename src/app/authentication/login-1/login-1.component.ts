@@ -78,7 +78,7 @@ export class Login1Component {
                   }
                   else {
                         let data = new FormData();
-                        data.append('mobile', form.value.mobile)
+                        data.append('username', form.value.mobile)
                         data.append('password', form.value.password)
                         this.api_calling_loader = true
                         this.http.UserLogin(data).subscribe((res) => {
