@@ -49,7 +49,7 @@
                         class="mr-1" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_type" (ngModelChange)="fetchTransactionList()"
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="app_prod_type" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Product type">
                         <nz-option [nzValue]="''" nzLabel="All"></nz-option>
                         <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>

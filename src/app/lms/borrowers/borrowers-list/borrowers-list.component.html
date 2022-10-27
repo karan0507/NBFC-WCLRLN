@@ -41,7 +41,7 @@
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
                     </nz-select> -->
-                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_type" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="app_prod_type" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product type">
                         <nz-option [nzValue]="''" nzLabel="All"></nz-option>
                         <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>

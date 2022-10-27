@@ -85,6 +85,7 @@ export class BorrowersListComponent implements OnInit {
   _currentLoanDetails: any;
   private _isCibil: boolean;
   showReason: boolean;
+  app_prod_type = '';
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     public sanitize: DomSanitizer,
@@ -148,6 +149,7 @@ export class BorrowersListComponent implements OnInit {
       to_disbursement_date: this.disbursement_date[1] ? moment(this.disbursement_date[1]).format("YYYY-MM-DD") : '',
       sub_stage: this.sub_stage ? this.sub_stage : '',
       main_stage: this.main_stage ? this.main_stage : '',
+      app_prod_type: this.app_prod_type ? this.app_prod_type : ''
     }
 
     if (this.selectedCorporate) {
@@ -179,6 +181,7 @@ export class BorrowersListComponent implements OnInit {
     this.is_spend = ''
     this.date = ''
     this.disbursement_date = ''
+    this.app_prod_type = ''
     this.fetchBorrowerList()
   }
   OnTypeSearchList(event) {
