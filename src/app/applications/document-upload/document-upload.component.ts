@@ -187,7 +187,15 @@ export class DocumentUploadComponent implements OnInit {
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
+            var data;
+            if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2', 'source': 'Onboarding' }
+            } else if(this.selectedTabFilter == 'B2B'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2&app_prod_type=B2B', 'source': 'Onboarding' }
+            } else if(this.selectedTabFilter == 'D2C'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=2&app_prod_type=D2C', 'source': 'Onboarding' }
+            }
+            
 
             data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
             data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
