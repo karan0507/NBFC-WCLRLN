@@ -195,11 +195,21 @@ export class UnderwritingComponent implements OnInit {
   getFormLoanData(tableFilter?) {
     this.api_calling_loader["listLoader"] = true;
     this.loanApplicationData = [];
-    var data = {
-      datapoint: "loan_application",
-      endpoint: "LoanApplication?stage_id=3",
-      source: "Onboarding",
-    };
+    var data;
+
+    if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
+      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
+    } else if(this.selectedTabFilter == 'B2B'){
+      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3&app_prod_type=B2B', 'source': 'Onboarding' }
+    } else if(this.selectedTabFilter == 'D2C'){
+      data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3&app_prod_type=D2C', 'source': 'Onboarding' }
+    }
+
+    // data = {
+    //   datapoint: "loan_application",
+    //   endpoint: "LoanApplication?stage_id=3",
+    //   source: "Onboarding",
+    // };
 
     // if (tableFilter) {
     //   this.page = tableFilter?.pageIndex;
