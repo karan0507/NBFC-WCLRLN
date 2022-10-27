@@ -49,6 +49,12 @@
                         class="mr-1" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="product_type" (ngModelChange)="fetchTransactionList()"
+                        nzPlaceHolder="Filter By Product type">
+                        <nz-option [nzValue]="''" nzLabel="All"></nz-option>
+                        <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>
+                        <nz-option [nzValue]="'B2B'" nzLabel="B2B"></nz-option>
+                    </nz-select>
                     <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
                         (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
                         (ngModelChange)="fetchTransactionList()" (nzFocus)="fetchPartnerList()">

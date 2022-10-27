@@ -76,6 +76,7 @@ export class BorrowersListComponent implements OnInit {
   main_stage: any;
   borrowersSubStageCount: any;
   sub_stage = ''
+  product_type = ''
   all_count = 0
   isVisibleThirdPartyResp: boolean;
   thirdPartyDataResponse: any;

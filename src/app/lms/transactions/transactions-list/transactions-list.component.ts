@@ -16,6 +16,7 @@ export class TransactionsListComponent implements OnInit {
   _apiLoader = {
     'list': false,
   }
+  product_type = ''
   reverse_type;
   reverse_amount;
   page = 1;
