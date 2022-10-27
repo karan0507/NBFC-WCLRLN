@@ -91,6 +91,12 @@ export class HttpService {
             return this._http.post((this.url + `/user/forgot-password-validate/`), data);
       }
 
+      public logout(data): any {
+            return this._http.post((this.url + `/user/admin-logout`), data);
+      }
+
+      // /user/admin-logout
+
       public createOnline$() {
             return merge<boolean>(
                   fromEvent(window, 'offline').pipe(map(() => false)),
