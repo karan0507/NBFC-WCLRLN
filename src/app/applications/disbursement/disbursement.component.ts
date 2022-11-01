@@ -97,6 +97,7 @@ export class DisbursementComponent implements OnInit {
       moved_by = 'all';
       storedParams: any;
       date_sorter = ''
+      selectedTabFilter: any ='all';
       isVisibleThirdPartyResp: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, 
             public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) {
@@ -171,7 +172,15 @@ export class DisbursementComponent implements OnInit {
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
-            var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
+            var data;
+            // data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
+            if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
+            } else if(this.selectedTabFilter == 'B2B'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7&app_prod_type=B2B', 'source': 'Onboarding' }
+            } else if(this.selectedTabFilter == 'D2C'){
+                  data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7&app_prod_type=D2C', 'source': 'Onboarding' }
+            }
 
             // if (tableFilter) {
             //       this.page = tableFilter?.pageIndex
@@ -182,6 +191,7 @@ export class DisbursementComponent implements OnInit {
             //       data['page'] = this.page
             //       data['limit'] = this.globalPageSize
             // }
+            data['flag'] = this.selectedTabFilter
             data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
             data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
 
@@ -536,6 +546,12 @@ export class DisbursementComponent implements OnInit {
 
             }
       }
+
+      onClickChangeTabFilter(e){
+            console.log(e);
+            this.resetFilters();
+      }
+
 
       resetFilters() {
             if(this.storedParams){
