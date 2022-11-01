@@ -343,7 +343,7 @@
       <nz-card [nzTitle]="documentModal" [nzLoading]="api_calling_loader['accordian']">
             <form nz-form [formGroup]="documentForm" [nzLayout]="'vertical'">
                   <div class="row">
-                        <div class="col-md-4" *ngFor="let item of documentList">
+                        <div class="col-md-4 mb-3" *ngFor="let item of documentList">
                               <div class="d-flex flex-column">
                                     <div class="d-flex flex-wrap justify-content-between">
                                           <label class="text-muted">{{
@@ -381,19 +381,21 @@
                                     </div>
                                     <div *ngIf="item?.document_master?.name == 'Aadhar Card'">
 
-                                          <p>
-                                                <label>Aadhar No: {{ item?.aadhar_no ? item?.aadhar_no : ''}}
+                                          <!-- <p> -->
+                                                <label *ngIf="item?.aadhar_no" class="text-gray">Aadhar No: {{ item?.aadhar_no ? item?.aadhar_no : ''}}
                                                 </label>
-                                          </p>
+                                                <span *ngIf="item?.aadhar_no" nz-icon nzType="edit" class="ml-2 text-primary" nzTheme="outline" (click)="changeAadharPanNumber(1)"></span>
+                                          <!-- </p> -->
                                     </div>
                                     <div *ngIf="item?.document_master?.name == 'Pan'">
 
-                                          <p>
-                                                <label>PAN No: {{ item?.pan_no ? item?.pan_no : ''}} </label>
-                                          </p>
+                                          <!-- <p> -->
+                                                <label *ngIf="item?.pan_no" class="text-gray">PAN No: {{ item?.pan_no ? item?.pan_no : ''}} </label>
+                                                <span *ngIf="item?.pan_no" nz-icon nzType="edit" class="ml-2 text-primary" nzTheme="outline" (click)="changeAadharPanNumber(2)"></span>
+                                          <!-- </p> -->
                                     </div>
-                                    <div>
-                                          {{ item?.reason ? item?.reason : '--'}}
+                                    <div *ngIf="item?.reason">
+                                          {{ item?.reason}}
                                     </div>
                               </div>
                         </div>
@@ -530,3 +532,15 @@
             </div>
       </nz-card>
 </section>
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle1" [nzContent]="modalContent" [nzFooter]="modalFooter"
+      (nzOnCancel)="handleCancel()">
+      <ng-template #modalTitle1>{{modalTitleString}} : </ng-template>
+
+      <ng-template #modalContent>
+            <input  nz-input [type]="isAadhar ? 'number' : 'text'" [(ngModel)]="updatedNumber" [placeholder]="modalTitleString" />
+      </ng-template>
+
+      <ng-template #modalFooter>
+            <button nz-button nzType="primary" (click)="changeAadharPanNumberAPICall(isAadhar)" [nzLoading]="isConfirmLoading">Submit</button>
+      </ng-template>
+</nz-modal>
