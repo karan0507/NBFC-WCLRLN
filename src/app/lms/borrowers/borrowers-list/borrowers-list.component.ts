@@ -275,7 +275,8 @@ export class BorrowersListComponent implements OnInit {
       datapoint: 'export_outstanding_data',
       endpoint: this.corporate_Id,
       source: 'LMS',
-      month: this.start_month,
+      month: moment(this.start_month).format("MM"),
+      year: moment(this.start_month).format("YYYY"),
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
