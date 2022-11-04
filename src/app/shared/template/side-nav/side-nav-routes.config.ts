@@ -627,7 +627,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'cashback-program',
-        title: 'Corporate cashback program',
+        title: 'Cashback Program Statistics',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: [''],
