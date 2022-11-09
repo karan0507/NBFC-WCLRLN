@@ -205,4 +205,33 @@ fetchPartnerList(e?) {
   // }
 }
 
+exportGlobalFunction(file_formate) {
+  let data = {
+    datapoint: 'export_mandate_trigger_attempts',
+    source: 'LMS',
+    page: this.page,
+    limit: this.globalPageSize,
+    section: this.selectedTab
+  }
+  const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+  this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+    this.http.exportMasterSectionModule(res, 'Mandate Against Bill', file_formate, generateloader)
+    // this.isVisible = false
+  })
+}
+
+exportGlobalFunctionTnx(file_formate) {
+  let data = {
+    datapoint: 'export_mandate_transactions',
+    source: 'LMS',
+    page: this.page,
+    limit: this.globalPageSize
+  }
+  const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+  this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
+    this.http.exportMasterSectionModule(res, 'Mandate Transaction', file_formate, generateloader)
+    // this.isVisible = false
+  })
+}
+
 }

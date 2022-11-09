@@ -1,5 +1,7 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
+    <button nz-button *ngIf="selectedTab != 'TXN'" (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+    <button nz-button *ngIf="selectedTab == 'TXN'" (click)="exportGlobalFunctionTnx('xlsx')" nzType="primary" class="ml-1" nzGhost>Export Transaction</button>
+    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-1" (click)="updateStatus()">Capture collection - Enach
         ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button>
 </div>
 <section>

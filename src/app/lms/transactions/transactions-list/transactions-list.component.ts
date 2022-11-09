@@ -16,6 +16,7 @@ export class TransactionsListComponent implements OnInit {
   _apiLoader = {
     'list': false,
   }
+  product_type = ''
   reverse_type;
   reverse_amount;
   page = 1;
@@ -66,6 +67,7 @@ export class TransactionsListComponent implements OnInit {
   waive_off_type: any;
   waive_off_amount: any;
   waive_off_sub_title: string;
+  app_prod_type = '';
   
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
@@ -98,7 +100,8 @@ export class TransactionsListComponent implements OnInit {
       tab_filter: this.selectedTab ?
                   (this.selectedTab == 'credit inprogress' ? 'credit' :
                   (this.selectedTab == 'debit inprogress' ? 'debit' : this.selectedTab)) 
-                  : ''
+                  : '',
+      app_prod_type: this.app_prod_type ? this.app_prod_type : ''
     }
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -118,6 +121,7 @@ export class TransactionsListComponent implements OnInit {
     this.master_product_id = ''
     this.selectedCorporate = ''
     this.fees_name = ''
+    this.app_prod_type = ''
     this.fetchTransactionList();
   }
 

@@ -59,6 +59,11 @@ export class EditFormComponent implements OnInit {
       userIdOfUser: any;
       nomineeDetails: FormGroup;
       isKycObj: boolean;
+      isVisible: boolean;
+      modalTitleString = '';
+      isAadhar: boolean;
+      updatedNumber;
+      isConfirmLoading: boolean;
       constructor(private fb: FormBuilder, public https: HttpService, public route: ActivatedRoute, public router: Router, public datePipe: DatePipe, public message: NzMessageService, public global: GlobalservicesService) { }
 
       ngOnInit(): void {
@@ -188,6 +193,7 @@ export class EditFormComponent implements OnInit {
             this._isUpload = false;
             this._isVerify = false;
             this.isRequestDoc = false;
+            this.isVisible = false;
       }
       handleOk(type?) {
             switch (type) {
@@ -566,9 +572,12 @@ export class EditFormComponent implements OnInit {
             // this.generateBase64View(file)
             return false;
       };
-      saveAdditionalDetails() {
+      saveAdditionalDetails(isAadhar?, dataAadhar?) {
             console.log(this.additionalDetails.value)
             var data = new FormData();
+            if (isAadhar) {
+                  data = dataAadhar
+            }
             data.append('source', 'Onboarding');
             data.append('model', 'UserKycDetail');
             data.append('datapoint', 'edit_application_new');
@@ -613,6 +622,8 @@ export class EditFormComponent implements OnInit {
                         this.api_calling_loader['accordian'] = false
                         this.message.success(res?.message)
                         this.getFormLoanData()
+                        this.isVisible = false
+                        this.isConfirmLoading = false
                         // this.router.navigate(['.'], { relativeTo: this.route.parent });
                   } else {
                         this.message.error(res?.message)
@@ -620,5 +631,38 @@ export class EditFormComponent implements OnInit {
                         this.api_calling_loader['accordian'] = false
                   }
             })
+      }
+
+      changeAadharPanNumber(section) {
+            this.updatedNumber = ''
+            if (section == 1) {
+                  this.modalTitleString = `Enter Aadhar number `
+                  this.isAadhar = true
+            } else if (section == 2) {
+                  this.modalTitleString = `Enter Pan number `
+                  this.isAadhar = false
+            }
+            this.isVisible = true
+      }
+      changeAadharPanNumberAPICall(isAadhar) {
+            var data = new FormData()
+            if (isAadhar) {
+                  if (!this.updatedNumber.match('[0-9]{12}')) {
+                        this.message.error('Please enter valid Aadhar number.')
+                        return;
+                  } else {
+                        this.isConfirmLoading = true
+                        data.append('aadhar_no', this.updatedNumber)
+                  }
+            } else {
+                  if (!this.updatedNumber.match('[a-zA-Z]{4}[0-9]{4}[a-zA-Z]{1}')) {
+                        this.message.error('Please enter valid Pan number.')
+                        return;
+                  } else {
+                        this.isConfirmLoading = true
+                        data.append('pan_no', this.updatedNumber)
+                  }
+            }
+            this.saveAdditionalDetails(true, data)
       }
 }
