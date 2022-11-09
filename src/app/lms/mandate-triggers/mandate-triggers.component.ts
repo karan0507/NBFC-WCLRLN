@@ -211,7 +211,8 @@ exportGlobalFunction(file_formate) {
     source: 'LMS',
     page: this.page,
     limit: this.globalPageSize,
-    section: this.selectedTab
+    section: this.selectedTab,
+    keyword: this.searchValue,
   }
   const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
   this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {
@@ -225,7 +226,8 @@ exportGlobalFunctionTnx(file_formate) {
     datapoint: 'export_mandate_transactions',
     source: 'LMS',
     page: this.page,
-    limit: this.globalPageSize
+    limit: this.globalPageSize,
+    keyword: this.searchValue,
   }
   const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
   this.http.fetchLoanApplicationListExportGet(data).subscribe(res => {

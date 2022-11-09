@@ -1590,12 +1590,13 @@
                     <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from
                     </nz-form-label>
                     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input select from!">
-                        <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch
+                        <!-- <nz-select [(ngModel)]="start_month" nzPlaceHolder="Select select from!" nzShowSearch
                             nzAllowClear>
                             <nz-option *ngFor="let item of time_period_arr" [nzValue]="item.value"
                                 [nzLabel]="item.name">
                             </nz-option>
-                        </nz-select>
+                        </nz-select> -->
+                        <nz-date-picker nzMode="month" [(ngModel)]="start_month" nzFormat="MM-YYYY" [nzDisabledDate]="disabledDate"></nz-date-picker>
                     </nz-form-control>
                 </nz-form-item>
             </div>
