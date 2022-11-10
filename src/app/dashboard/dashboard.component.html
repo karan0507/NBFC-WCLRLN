@@ -496,7 +496,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">Total Line Used</p>
+                  <p class="m-b-0 muted">Total Spends</p>
                   <h4 class="m-b-0">
                     ₹
                     {{
@@ -666,13 +666,6 @@
               </div>  
 
             </div>
-            <div class="row">
-              <div class="w-100" >
-                <canvas ngChartjs [datasets]="barChartData" [colors]="barChartColors" [labels]="barChartLabels" [options]="barChartOptions" 
-                [legend]="barChartLegend" [chartType]="barChartType"></canvas>
-                 
-             </div>
-            </div>
             <div class="row pt-2" style="justify-content:right">
               <span class="row m-5">
                 <div class="purplecircle"></div>
@@ -682,6 +675,13 @@
                 <div class="skycircle m-t-5"></div>
                 <h5 style="margin-left:15px;color: black;">New Disbursed Users</h5>
               </span> -->
+            </div>
+            <div class="row">
+              <div class="w-100" >
+                <canvas ngChartjs [datasets]="barChartData" [colors]="barChartColors" [labels]="barChartLabels" [options]="barChartOptions" 
+                [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+                 
+             </div>
             </div>
           </nz-card>
           <ng-template #existing>
