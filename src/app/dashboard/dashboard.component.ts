@@ -456,6 +456,9 @@ export class DashboardComponent implements OnInit {
             'source': 'LMS',
             'filter_type': this.selectedTab['authorization']
         }
+        if(this.partner){
+          data['partner'] = this.partner
+      }
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
         this.fetchedList['authorization'] = res?.data
             this.isLoading['authorization'] = false;
