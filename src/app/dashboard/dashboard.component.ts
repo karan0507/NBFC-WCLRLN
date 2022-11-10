@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
     themeColors = this.colorConfig.get().colors;
     // gray
     gray = this.themeColors.limeLight;
+    skyblue = this.themeColors.skyblue;
     blue = this.themeColors.blue;
     blueLight = this.themeColors.blueLight;
     pink = this.themeColors.pink;
@@ -222,6 +223,206 @@ export class DashboardComponent implements OnInit {
     partnerList: any;
     avgProfitChartDataCustomArray: any;
     nbfcGraphValue: any[];
+
+    // Bar Chart 
+
+    creditHistoryChartData: any[] = [];
+    totalCreditHistoryLabels:any;
+    creditHistoryChartOptions: any = {
+        scaleShowVerticalLines: false,
+        responsive: true,
+        scales: {
+         xAxes: [
+           {
+             gridLines: {
+               display: false
+             }
+           }
+         ],
+         yAxes: [
+           {
+             gridLines: {
+               display: true,
+               borderDash: [3, 4],
+             }
+             ,
+             ticks: {
+               stepSize:0,
+               beginAtZero: true,
+               callback: function (value, index, values) {
+                return value;
+               }
+             }
+           }
+         ]
+       },
+        cornerRadius: 100,
+        plugins: {
+          labels: {
+            render: 'value'
+          }
+        },
+        legend: {
+          position: 'bottom',
+          labels: {
+            fontColor: 'black',
+            boxWidth: 20,
+            padding: 20,
+            fontFamily: 'Poppins',
+            fontSize: 13
+          }
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+       };
+
+
+    // 2nd log
+    
+    barChartData: any[] = [
+        {
+          data: [],
+          label: "Series A",
+          categoryPercentage: 0.35,
+          barPercentage: 0.7,
+        },
+      ];
+    
+      barChartLabels: string[] = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      barChartType = "bar";
+      barChartLegend = false;
+      barChartColors: Array<any> = [
+        // {
+        //   backgroundColor: this.purple,
+        // },
+        {
+          backgroundColor: this.purple,
+        },
+      ];
+    
+      // *************Bar Chart Data******************
+      barChartOptions: any = {
+        // scaleShowVerticalLines: false,
+    
+        tooltips: {
+          // mode: 'index',
+          // intersect: false,
+          enabled: false
+        },
+        "hover": {
+          "animationDuration": 0
+        },
+    
+        "animation": {
+          "duration": 1,
+          "onComplete": function () {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+            // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+    
+            this.data.datasets.forEach(function (dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+    
+              meta.data.forEach(function (bar, index) {
+                if (bar?._datasetIndex !== 1) {
+                  if (dataset.data[index] !== 'undefined') {
+                    var val: any;
+                    val = Math.abs(dataset.data[index]);
+                    if (val >= 10000000) {
+                      val = (val / 10000000).toFixed(2) + " Cr";
+                    } else if (val >= 100000) {
+                      val = (val / 100000).toFixed(2) + " Lacs";
+                    }
+                  }
+                  var data = val
+                  ctx.fillText('Achievement: ' + data, bar._model.x, bar._model.y - 5);
+    
+                }
+              });
+            });
+          }
+        },
+        plugins: {
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: {
+              weight: 'bold'
+            }
+          }
+        },
+        responsive: true,
+        scales: {
+          xAxes: [
+            {
+              display: true,
+              stacked: true,
+              scaleLabel: {
+                display: false,
+                labelString: "Month",
+              },
+              gridLines: false,
+              ticks: {
+                display: true,
+                beginAtZero: true,
+                fontSize: 10,
+                padding: 10,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              display: true,
+              stacked: false,
+              responsive: true,
+              gridLines: {
+                drawBorder: true,
+                offsetGridLines: true,
+                drawTicks: true,
+                borderDash: [3, 4],
+                zeroLineWidth: 1,
+                zeroLineBorderDash: [3, 4],
+              },
+              ticks: {
+                stepSize: 0,
+                display: true,
+                beginAtZero: true,
+                fontSize: 13,
+                padding: 4,
+                callback: function (value, index, values) {
+                  // return value + ' Lacs';
+                  var val: any;
+                  val = Math.abs(value);
+                  if (val >= 10000000) {
+                    val = (val / 10000000).toFixed(2) + " Cr";
+                  } else if (val >= 100000) {
+                    val = (val / 100000).toFixed(2) + " Lacs";
+                  }
+                  return val;
+                },
+              },
+            },
+          ],
+        },
+      };
     constructor( private colorConfig:ThemeConstantService, public router: Router, private http: HttpService) { }
 
     ngOnInit(): void {
@@ -329,9 +530,64 @@ export class DashboardComponent implements OnInit {
             this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
             this.fetchedList['existing'] = res?.data
             this.isLoading['existing'] = false;
+            this.designGraph(res?.data?.spend_graph_data);
         }, err => {
             this.isLoading['existing'] = false;
         })
+    }
+
+    designGraph(e){
+        // this.totalUserCountDPDLabels = data.map((val) => {
+        //     //  if(val.dpd_count > 0){
+        //        return val.label;
+        //     // }
+            
+        //   });
+        //   this.countChartData = [    
+        //     {
+        //       data: data.map((val) => {
+        //         return val.total_line_used;        
+        //       }),
+        //       label: "DPD Count",
+        //       type: "bar",
+        //       categoryPercentage: 0.35,
+        //       barPercentage: 0.4,
+        //      }   
+        //   ];
+        
+        this.barChartLabels = e.map((val) => {
+            console.log(val)
+            return val?.label;
+           
+         });
+        //  barChartData: any[] = [
+        //     {
+        //       data: [],
+        //       label: "Series A",
+        //       categoryPercentage: 0.35,
+        //       barPercentage: 0.7,
+        //     },
+        //   ];
+         this.barChartData = [  
+           {
+             data: e.map((val) => {
+                return val.total_line_used;        
+             }),
+             label: "Total Line Used",
+             type: "bar",
+             categoryPercentage: 0.35,
+             barPercentage: 0.7,
+            },  
+        //    {
+        //      data: this.creditHistoryChart?.total_disbursement.map((val) => {
+        //        return val?.month_count;        
+        //      }),
+        //      label: "Credit History",
+        //      type: "bar",
+        //      categoryPercentage: 0.35,
+        //      barPercentage: 0.7,
+        //      }     
+         ];
     }
 
     onFocusMethod(keyword?){

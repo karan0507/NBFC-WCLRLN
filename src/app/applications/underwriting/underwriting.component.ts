@@ -362,7 +362,10 @@ export class UnderwritingComponent implements OnInit {
     })
   }
 
+
+
   getIdWiseData(id?, index?) {
+    // return;
     this.blackBoxData = null;
     this.api_calling_loader["accordian"] = true;
     let data = {

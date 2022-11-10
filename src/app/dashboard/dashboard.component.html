@@ -479,7 +479,7 @@
 
               <!-- There 6-->
               <div class="col-md-4 mb-md-3">
-                <p class="m-b-0 muted">Total Line Assigned</p>
+                <p class="m-b-0 muted">Total Spend</p>
                 <h4 class="m-b-0">
                   {{
                     fetchedList["existing"]?.total_credit_line_assigned
@@ -665,6 +665,13 @@
                 </div>
               </div>  
 
+            </div>
+            <div class="row">
+              <div class="w-100" >
+                <canvas ngChartjs [datasets]="barChartData" [colors]="barChartColors" [labels]="barChartLabels" [options]="barChartOptions" 
+                [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+                 
+             </div>
             </div>
           </nz-card>
           <ng-template #existing>
@@ -1104,8 +1111,8 @@
                             </div> -->
               </div>
             </div>
-            <div class="row mt-md-4 ant-card-head px-0 py-3">
-              <div class="col-md-3">
+            <div class="row mt-md-4  px-0 py-3">
+              <div class="col-md-4 mb-md-3">
                 <p class="m-b-0 muted">Repayment Amount</p>
                 <h5 class="m-b-0">
                   {{
@@ -1115,7 +1122,7 @@
                   }}
                 </h5>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4 mb-md-3">
                 <p class="m-b-0 muted">Count of Fee Collected</p>
                 <h5 class="m-b-0">
                   {{
@@ -1124,12 +1131,32 @@
                   }}
                 </h5>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4 mb-md-3">
                 <p class="m-b-0 muted">Amount Of Fee Collected</p>
                 <h5 class="m-b-0">
                   {{
                     fetchedList["repayment"]?.total_fees_amount
                       ? "₹ " + fetchedList["repayment"]?.total_fees_amount
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">No.Of Borrowers Due Date</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.number_of_borrowers_due_date
+                      ?fetchedList["repayment"]?.number_of_borrowers_due_date
+                      : " 0 "
+                  }}
+                </h5>
+              </div>
+              <div class="col-md-4 mb-md-3">
+                <p class="m-b-0 muted">Total Dues</p>
+                <h5 class="m-b-0">
+                  {{
+                    fetchedList["repayment"]?.total_due_outstanding 
+                      ? "₹ " + fetchedList["repayment"]?.total_due_outstanding 
                       : " 0 "
                   }}
                 </h5>
