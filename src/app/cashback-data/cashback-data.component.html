@@ -19,9 +19,9 @@
                                     <th>Corporate name</th>
                                     <th>Total corporate cashback amount</th>
                                     <th>Total corporate cashbacks</th>
+                                    <th>Total referrer cashback</th>
                                     <th>Total referee cashback</th>
                                     <th>Total referrals</th>
-                                    <th>Total referrer cashback</th>
                                     <th nzRight>Actions</th>
                               </tr>
                         </thead>
@@ -33,9 +33,9 @@
                                           <td>{{ data?.name ? data?.name : '-'}}</td>
                                           <td>{{ data?.total_corporate_cashback_amount ? data?.total_corporate_cashback_amount : '-'}}</td>
                                           <td>{{ data?.total_corporate_cashbacks ? data?.total_corporate_cashbacks : '-'}}</td>
-                                          <td>{{ data?.total_referee_cashback ? data?.total_referee_cashback : '-'}}</td>
+                                          <td>{{ data?.total_referrer_cashback ? '₹ ' + data?.total_referrer_cashback : '-'}}</td>
+                                          <td>{{ data?.total_referee_cashback ? '₹ ' + data?.total_referee_cashback : '-'}}</td>
                                           <td>{{ data?.total_referrals ? data?.total_referrals : '-'}}</td>
-                                          <td>{{ data?.total_referrer_cashback ? data?.total_referrer_cashback : '-'}}</td>
                                           <td nzRight>
                                             <div>
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"

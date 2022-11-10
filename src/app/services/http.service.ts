@@ -1251,4 +1251,11 @@ export class HttpService {
       getBlockReason(id) {
             return this._http.get((this.url + `/loan-application/v1/get-borrowers-block-reasons/` + id));
       }
+
+      showAttendance(id) {
+            return this._http.get((this.url + `/partner/v1/show-attendance/` + id), {responseType: 'blob'});
+      }
+      pullAttendance(data) {
+            return this._http.post((this.url + `/partner/v1/pull-attendance`), data);
+      }
 }
