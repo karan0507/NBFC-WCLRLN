@@ -157,4 +157,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'cashback-program',
         loadChildren: () => import('../../cashback-data/cashback-data.module').then(m => m.CashbackDataModule),
     },
+    {
+        path: 'lms/bbps',
+        loadChildren: () => import('../../lms/bbps/bbps.module').then(m => m.BbpsModule),
+    },
 ];

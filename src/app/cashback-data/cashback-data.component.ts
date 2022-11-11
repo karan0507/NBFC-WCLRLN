@@ -56,8 +56,8 @@ export class CashbackDataComponent implements OnInit {
       param['limit'] = this.globalPageSize
     }
 
-    param['from_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : ''
-    param['to_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : ''
+    param['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : ''
+    param['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : ''
     this.https.getCashbackList(param).subscribe((res: any) => {
       if (res?.success) {
         this.total_count = res.total;

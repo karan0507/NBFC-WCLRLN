@@ -1258,4 +1258,19 @@ export class HttpService {
       pullAttendance(data) {
             return this._http.post((this.url + `/partner/v1/pull-attendance`), data);
       }
+      public getCategoryList(data?) {
+            return this._http.get((this.url + `/bbps/v1/category`), { params: data });
+      }
+      public getCategoryById(id) {
+            return this._http.get((this.url + `/bbps/v1/category/`+ id));
+      }
+      public getBillersList(data?) {
+            return this._http.get((this.url + `/bbps/v1/billers/`), { params: data });
+      }
+      public toogleStatusBillers(id) {
+            return this._http.put((this.url + `/bbps/v1/billers/status/` + id), id);
+      }
+      public toogleStatusCategory(id) {
+            return this._http.put((this.url + `/bbps/v1/category/status/` + id), id);
+      }
 }

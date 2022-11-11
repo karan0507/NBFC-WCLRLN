@@ -509,6 +509,34 @@ export const ROUTES: SideNavInterface[] = [
                         permission: [''],
                         submenu: []
                     },
+                    {
+                        path: '',
+                        title: 'BBPS',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: [
+                            {
+                                path: 'lms/bbps/category',
+                                title: 'Category data',
+                                iconType: '',
+                                icon: '',
+                                permission: [''],
+                                iconTheme: '',
+                                submenu: []
+                            },
+                            {
+                                path: 'lms/bbps/billers',
+                                title: 'Billers data',
+                                iconType: '',
+                                icon: '',
+                                permission: [''],
+                                iconTheme: '',
+                                submenu: []
+                            },
+                        ]
+                    },
 
                 ]
             },
