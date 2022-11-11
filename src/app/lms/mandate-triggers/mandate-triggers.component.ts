@@ -119,7 +119,11 @@ export class MandateTriggersComponent implements OnInit {
     const generateloader = this.message.loading('Capturing collection..', { nzDuration: 0 }).messageId;
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
-      this.message.success(res['message'])
+      if (res.success) {
+        this.message.success(res['message'])
+      } else {
+        this.message.error(res['message'])
+      }
       if (i != undefined) {
         this.listOfData[i].isCaptureCollection = false
       }
