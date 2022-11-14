@@ -352,7 +352,8 @@ export class DashboardComponent implements OnInit {
                     }
                   }
                   var data = val
-                  ctx.fillText('Total Spends: ' + data, bar._model.x, bar._model.y - 5);
+                  // 'Total Spends: ' +
+                  ctx.fillText( data, bar._model.x, bar._model.y - 5);
     
                 }
               });

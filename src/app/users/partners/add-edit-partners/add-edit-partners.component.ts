@@ -433,6 +433,8 @@ export class AddEditPartnersComponent implements OnInit {
         [Validators.required],
       ],
       city: [data ? data?.city : null, [Validators.required]],
+      show_transactions_history_section: [data ? data?.show_transactions_history_section : null],
+      show_expense_management_section: [data ? data?.show_expense_management_section : null],
       allow_bank_transfer: [data ? data?.allow_bank_transfer : null, [Validators.required]],
       allow_scan_and_pay: [data ? data?.allow_scan_and_pay : null, [Validators.required]],
       nach_step: [data ? data?.nach_data['nach_step'] : null, [Validators.required]],
