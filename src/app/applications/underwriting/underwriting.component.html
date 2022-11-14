@@ -733,6 +733,23 @@
                         </div>
                       </div>
                     </div>
+                    <h3 class="mt-3 col-md-12">Salary details</h3>
+                    <nz-table [nzData]="data?.expanddata?.excel_data?.last_salary_details" class="col-md-12">
+                      <thead>
+                        <tr>
+                          <th>Sr. no.</th>
+                          <th>Date</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let data of data?.expanddata?.excel_data?.last_salary_details; index as i">
+                          <td>{{i+1}}</td>
+                          <td>{{data.credited_date}}</td>
+                          <td>₹ {{data.amount}}</td>
+                        </tr>
+                      </tbody>
+                    </nz-table>
 
                     <div class="col-md-12 mt-3">
                       <button nzSize="small" nz-button nzType="primary" (click)="expand_application_id = data.id; isVisible = true" class="mr-3">
