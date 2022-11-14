@@ -153,4 +153,12 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/insurance',
         loadChildren: () => import('../../lms/insurance/insurance.module').then(m => m.InsuranceModule),
     },
+    {
+        path: 'cashback-program',
+        loadChildren: () => import('../../cashback-data/cashback-data.module').then(m => m.CashbackDataModule),
+    },
+    {
+        path: 'lms/bbps',
+        loadChildren: () => import('../../lms/bbps/bbps.module').then(m => m.BbpsModule),
+    },
 ];

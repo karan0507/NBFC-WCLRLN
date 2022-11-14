@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
   globalPageSize: number;
   draft_status: any;
   date = ''
+  product_type = ''
   status: any;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -66,7 +67,8 @@ expandSet = new Set<number>();
       start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
       end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
       status: this.status ? this.status : 'all',
-      partner: this.partner ? this.partner : ''
+      partner: this.partner ? this.partner : '',
+      product_type: this.product_type ? this.product_type : ''
       // id: this.product_id
     }
     this.productList = null
@@ -89,6 +91,7 @@ expandSet = new Set<number>();
     this.date = ''
     this.status = ''
     this.partner = ''
+    this.product_type = ''
     this.fetchProductList();
   }
 

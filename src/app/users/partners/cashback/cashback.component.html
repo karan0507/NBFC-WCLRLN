@@ -36,6 +36,7 @@
                         <th>Name</th>
                         <th>Start Date </th>
                         <th>End Date</th>
+                        <th>Max users</th>
                         <th>Is active</th>
                         <th>Cashback amount</th>
                         <th>Convenience Fee Waived</th>
@@ -50,6 +51,7 @@
                         <td>{{ data['name'] ? data['name']: '-' }}</td>
                         <td>{{ data['start_date'] ? (data['start_date']): '-' }}</td>
                         <td>{{ data['end_date'] ? (data['end_date']): '-' }}</td>
+                        <td>{{ data['max_users'] ? (data['max_users']): '0' }}</td>
                         <td>{{ data['is_active'] ? 'Yes': 'No' }}</td>
                         <td>{{ data['cashback_amount'] ? data['cashback_amount']: '-' }}</td>
                         <td>{{ data['convenience_fee_waived'] ? 'Yes': 'No' }}</td>
@@ -135,7 +137,7 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="start_date" class="text-left" nzRequired>
                                 Start date</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input Start date!">
-                                <nz-date-picker formControlName="start_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
+                                <nz-date-picker formControlName="start_date"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -144,7 +146,7 @@
                             <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="end_date" class="text-left" nzRequired>
                                 End date</nz-form-label>
                             <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please input End date!">
-                                <nz-date-picker formControlName="end_date" [nzDisabledDate]="disabledDatePre"></nz-date-picker>
+                                <nz-date-picker formControlName="end_date"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>

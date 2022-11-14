@@ -210,6 +210,43 @@
                         </div>
                     </nz-card>
                 </div>
+
+                <div class="col-md-4">
+                    <nz-card nzTitle="Algo 360 API count" [nzLoading]="api_calling_loader">
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.algo_api_count ? ApiStatsData?.algo_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.algo_api_count_success ? ApiStatsData?.success_response?.algo_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.algo_api_count_success ? ApiStatsData?.fail_response?.algo_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div class="col-md-4">
+                    <nz-card nzTitle="NACH API count" [nzLoading]="api_calling_loader">
+                        <div class="row">
+                            <div class="col">
+                                <span>Total count</span>
+                                <h4>{{ApiStatsData?.nach_api_count ? ApiStatsData?.nach_api_count : '0'}}</h4>
+                            </div>
+                            <div class="col text-green">
+                                <span>Success count</span>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.nach_api_count_success ? ApiStatsData?.success_response?.nach_api_count_success : '0'}}</h4>
+                            </div>
+                            <div class="col text-red">
+                                <span>Failed count</span>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.nach_api_count_success ? ApiStatsData?.fail_response?.nach_api_count_success : '0'}}</h4>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
             </div>
         </nz-card>
     </div>

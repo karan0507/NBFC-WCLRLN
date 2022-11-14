@@ -509,6 +509,34 @@ export const ROUTES: SideNavInterface[] = [
                         permission: [''],
                         submenu: []
                     },
+                    {
+                        path: '',
+                        title: 'BBPS',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: [
+                            {
+                                path: 'lms/bbps/category',
+                                title: 'Category data',
+                                iconType: '',
+                                icon: '',
+                                permission: [''],
+                                iconTheme: '',
+                                submenu: []
+                            },
+                            {
+                                path: 'lms/bbps/billers',
+                                title: 'Billers data',
+                                iconType: '',
+                                icon: '',
+                                permission: [''],
+                                iconTheme: '',
+                                submenu: []
+                            },
+                        ]
+                    },
 
                 ]
             },
@@ -623,6 +651,15 @@ export const ROUTES: SideNavInterface[] = [
         permission: [''],
         // view_dormant
         icon: 'file',
+        submenu: []
+    },
+    {
+        path: 'cashback-program',
+        title: 'Cashback Program Statistics',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'tags',
         submenu: []
     },
     {

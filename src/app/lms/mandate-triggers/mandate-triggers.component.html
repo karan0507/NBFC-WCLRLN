@@ -1,5 +1,7 @@
 <div class="header_breadcrumb_section">
-    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus()">Capture collection - Enach
+    <button nz-button *ngIf="selectedTab != 'TXN'" (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+    <button nz-button *ngIf="selectedTab == 'TXN'" (click)="exportGlobalFunctionTnx('xlsx')" nzType="primary" class="ml-1" nzGhost>Export Transaction</button>
+    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-1" (click)="updateStatus()">Capture collection - Enach
         ({{_checkedLoanList ? _checkedLoanList?.length : '0'}})</button>
 </div>
 <section>
@@ -40,12 +42,13 @@
                     <div *ngIf="item.name">{{ item?.name }}</div>
                 </nz-option>
             </nz-select>
+            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchMandateTriggerList()" [nzRanges]="customRanges"></nz-range-picker>
+            
             <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchMandateTriggerList()"
                 nzPlaceHolder="Filter By Product Master">
                 <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                 <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
             </nz-select>
-            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
             <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                 nzPlaceHolder="Filter By Type">
                 <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>

@@ -794,6 +794,12 @@ export class HttpService {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
             return this._http.get<Blob>((this.url + `/central-api/v1/call-api`), { params: data, responseType: 'blob' as 'json'});
       }
+      public exportReferral(id): Observable<any> {
+            return this._http.get<Blob>((this.url + `/partner/v1/export-corporate-referral-cashback/` + id), { responseType: 'blob' as 'json'});
+      }
+      public exportCashback(id): Observable<any> {
+            return this._http.get<Blob>((this.url + `/partner/v1/export-corporate-cashback-program/` + id), { responseType: 'blob' as 'json'});
+      }
 
       public exportMonthWiseCorporateData(data): Observable<any> {
             // const headers = new HttpHeaders().set('Authorization', 'Token e910e4048d4b1bde8df20a0d6e9d0250a4d39cc9');
@@ -1025,6 +1031,9 @@ export class HttpService {
       public getCouponCodeList(data?) {
             return this._http.get((this.url + `/platform_central/v1/coupon-code-list`), { params: data });
       }
+      public getCashbackList(data?) {
+            return this._http.get((this.url + `/partner/v1/corporate-cashback-screen`), { params: data });
+      }
 
       // Add Edit Coupon Code Data
       public addEditCouponCode(data?) {
@@ -1241,5 +1250,27 @@ export class HttpService {
 
       getBlockReason(id) {
             return this._http.get((this.url + `/loan-application/v1/get-borrowers-block-reasons/` + id));
+      }
+
+      showAttendance(id) {
+            return this._http.get((this.url + `/partner/v1/show-attendance/` + id), {responseType: 'blob'});
+      }
+      pullAttendance(data) {
+            return this._http.post((this.url + `/partner/v1/pull-attendance`), data);
+      }
+      public getCategoryList(data?) {
+            return this._http.get((this.url + `/bbps/v1/category`), { params: data });
+      }
+      public getCategoryById(id) {
+            return this._http.get((this.url + `/bbps/v1/category/`+ id));
+      }
+      public getBillersList(data?) {
+            return this._http.get((this.url + `/bbps/v1/billers/`), { params: data });
+      }
+      public toogleStatusBillers(id) {
+            return this._http.put((this.url + `/bbps/v1/billers/status/` + id), id);
+      }
+      public toogleStatusCategory(id) {
+            return this._http.put((this.url + `/bbps/v1/category/status/` + id), id);
       }
 }

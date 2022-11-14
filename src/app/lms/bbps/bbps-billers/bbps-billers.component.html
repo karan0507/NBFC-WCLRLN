@@ -1,0 +1,92 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100 accordianLoanApp">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="getBillersList()" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="getBillersList()"><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-select [(ngModel)]="category_id" style="width: 15rem;"
+                        class="mx-1 my-md-0 mb-3" (nzFocus)="getCategoryList()" (ngModelChange)="getBillersList()"
+                        nzAllowClear [nzSize]="'small'" nzPlaceHolder="Select Category">
+                        <nz-option *ngFor="let item of categoryList" [nzValue]="item.id" [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" nzAllowClear
+                        [(ngModel)]="status" (ngModelChange)="getBillersList()"
+                        nzPlaceHolder="Filter By Status">
+                        <nz-option [nzValue]="'true'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'false'" nzLabel="Inactive"></nz-option>
+                    </nz-select>
+                    <!-- <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date"
+                        [nzDisabledDate]="disabledDate" (ngModelChange)="getBillersList()" [nzRanges]="customRanges">
+                    </nz-range-picker> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="dataList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" (nzQueryParams)="dataList ? getBillersList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Biller Id</th>
+                        <th>Biller name</th>
+                        <th>Biller Fetch</th>
+                        <th>Mode of payment accepted</th>
+                        <th>Status</th>
+                        <th nzWidth="6rem" nzRight>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of dataList; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['biller_id'] ? data['biller_id']: '-' }}</td>
+                        <td>{{ data['biller_name'] ? data['biller_name']: '-' }}</td>
+                        <td>{{ data['fetch_requirement'] ? data['fetch_requirement']: '-' }}</td>
+                        <td>{{ data['biller_mode'] ? data['biller_mode']: '-' }}</td>
+                        <td>
+                            <span style="color: #27C24C;" *ngIf="data?.status"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'"
+                                    [nzTwotoneColor]="'#27C24C'"></i>
+                                &nbsp; Active</span>
+                            <span style="color: #dc3545;" *ngIf="!data?.status"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'"
+                                    [nzTwotoneColor]="'#dc3545'"></i>
+                                &nbsp; Inactive</span>
+                        </td>
+                        <!-- <td>{{ data['corporate'] ? data['corporate']: '-' }}</td> -->
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item nz-popconfirm
+                                        [nzPopconfirmTitle]="'Are you sure to '+ (data?.status ? 'inactive': 'active') +' biller?'"
+                                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="toggleStatus(data.id)">
+                                            <span class="m-l-5">toggle status</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>

@@ -17,9 +17,9 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 export class PerApprovedComponent implements OnInit {
       pdfData: any;
       pdf_viewer_object_values = {
-        'boolean': false,
-        'url': '',
-        'title': ''
+            'boolean': false,
+            'url': '',
+            'title': ''
       }
       _exportDocument: any;
       checked: boolean = false;
@@ -46,7 +46,7 @@ export class PerApprovedComponent implements OnInit {
       stageMasterList: any;
       documentStatus = 1
       _currentStageStatus: any = null;
-      currentDropDownId : any
+      currentDropDownId: any
       disabledDate = (current: Date): boolean => {
             // Can not select days before today and today
             return differenceInCalendarDays(current, this.today) > 0;
@@ -75,8 +75,8 @@ export class PerApprovedComponent implements OnInit {
       productList: any = []
       stageStatusList: any = []
       kycDetailsList: any = []
-      partner : any
-      partnerList : any = []
+      partner: any
+      partnerList: any = []
       remarksDescription: any;
       isVisibleXMLModal: boolean;
       xmlDataResponse: any;
@@ -84,16 +84,21 @@ export class PerApprovedComponent implements OnInit {
       date_sorter = ''
       storedParams: any;
       isVisibleThirdPartyResp: boolean;
+      isVisible: boolean;
+      expand_application_id
+      attendance_date = ''
+      isAttendanceVisible: boolean;
+      attendance_data: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
-                  if(params?.loan_id){
+                  if (params?.loan_id) {
                         // alert(params?.loan_id);
-                        this.storedParams = params?.loan_id 
+                        this.storedParams = params?.loan_id
                         this.searchValue = params?.loan_id;
                         this.getFormLoanData();
                   }
             });
-       }
+      }
 
       ngOnInit(): void {
             this.global.setApplicationCount();
@@ -104,28 +109,28 @@ export class PerApprovedComponent implements OnInit {
 
 
       thirdPartyDataResponse = [];
-      onClickShowJSONPreview(res){
+      onClickShowJSONPreview(res) {
             this.isVisibleThirdPartyResp = true
             this.api_calling_loader['xmlLoader'] = true;
             this.thirdPartyDataResponse = res
             this.api_calling_loader['xmlLoader'] = false;
       }
 
-      onClickFetchXML(action, id){
+      onClickFetchXML(action, id) {
             this.isVisibleXMLModal = true
             this.api_calling_loader['xmlLoader'] = true;
             let data = {
                   'source': 'Onboarding',
                   'datapoint': 'get_xml_data',
-                  'endpoint':id,
+                  'endpoint': id,
                   'xml_source': action
             };
-            this.https.fetchXMLData(data).subscribe((res)=>{
+            this.https.fetchXMLData(data).subscribe((res) => {
                   console.log(res);
                   this.xmlDataResponse = res?.data
                   this.api_calling_loader['xmlLoader'] = false;
                   // this.isVisibleXMLModal = false;
-            }, error=>{
+            }, error => {
                   console.log(error);
                   this.api_calling_loader['xmlLoader'] = false;
                   // this.isVisibleXMLModal = false;
@@ -147,8 +152,8 @@ export class PerApprovedComponent implements OnInit {
                   this.https.getStatusStageWise(params).subscribe((res: any) => {
                         this.stageStatusList = res?.data
                   })
-            } else if(type == 'partner'){
-                  this.https.fetchPartner().subscribe((res:any)=>{
+            } else if (type == 'partner') {
+                  this.https.fetchPartner().subscribe((res: any) => {
                         this.partnerList = res?.data?.results?.filter(res => { if (res?.name) { return res } });
                   })
             }
@@ -159,31 +164,31 @@ export class PerApprovedComponent implements OnInit {
             Today: [new Date(), new Date()],
             'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
             'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
-            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+            'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+            'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+            'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
             'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
             // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
             'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
             // d.setMonth(d.getMonth() - 3);
-        };
+      };
       stageFilters: any
       stageList = [
-            {name: 'pan'},
-            {name: 'aadhar'},
-            {name: 'company'},
-            {name: 'name'},
-            {name: 'income'}
+            { name: 'pan' },
+            { name: 'aadhar' },
+            { name: 'company' },
+            { name: 'name' },
+            { name: 'income' }
       ]
       getFormLoanData(tableFilter?) {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data;
-            if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
+            if (this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C') {
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9', 'source': 'Onboarding' }
-            } else if(this.selectedTabFilter == 'B2B'){
+            } else if (this.selectedTabFilter == 'B2B') {
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9&app_prod_type=B2B', 'source': 'Onboarding' }
-            } else if(this.selectedTabFilter == 'D2C'){
+            } else if (this.selectedTabFilter == 'D2C') {
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=9&app_prod_type=D2C', 'source': 'Onboarding' }
             }
 
@@ -210,7 +215,7 @@ export class PerApprovedComponent implements OnInit {
                   // data['page'] = 1
                   data['product_master'] = this.productFilters
             }
-            if(this.stageFilters){
+            if (this.stageFilters) {
                   // data['page'] = 1
                   data['step'] = this.stageFilters
             }
@@ -218,37 +223,37 @@ export class PerApprovedComponent implements OnInit {
                   // data['page'] = 1
                   data['name'] = this.searchValue
             }
-            if(this.partner){
+            if (this.partner) {
                   // data['page'] = 1
                   data['company'] = this.partner
             }
 
-            if(this.date_sorter){
+            if (this.date_sorter) {
                   data['date_sorter'] = this.date_sorter
             }
             data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
-            data['moved_by'] = this.moved_by,
-            
-            
-            this.https.fetchLoanApplicationList(data).subscribe(res => {
-                  if (res?.success) {
-                        if(this._activeLoans){
-                              this._activeLoans.forEach(element => {
-                                    this.expandSet.delete(element?.id)    
-                               });  
+                  data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+                  data['moved_by'] = this.moved_by,
+
+
+                  this.https.fetchLoanApplicationList(data).subscribe(res => {
+                        if (res?.success) {
+                              if (this._activeLoans) {
+                                    this._activeLoans.forEach(element => {
+                                          this.expandSet.delete(element?.id)
+                                    });
+                              }
+                              // this.global.setApplicationCount();
+                              this.loanApplicationData = res?.data?.results;
+                              this.total_count = res?.data?.total_count;
+                              this.api_calling_loader['listLoader'] = false
+                        } else {
+                              this.api_calling_loader['listLoader'] = false
+                              this.total_count = null
                         }
-                        // this.global.setApplicationCount();
-                        this.loanApplicationData = res?.data?.results;
-                        this.total_count = res?.data?.total_count;
+                  }, (err) => {
                         this.api_calling_loader['listLoader'] = false
-                  } else {
-                        this.api_calling_loader['listLoader'] = false
-                        this.total_count = null
-                  }
-            }, (err) => {
-                  this.api_calling_loader['listLoader'] = false
-            })
+                  })
       }
 
       getIdWiseData(id?, index?) {
@@ -332,7 +337,7 @@ export class PerApprovedComponent implements OnInit {
 
       isVisibleUploadedImage = false;
       storedSelfieImage: any;
-      onClickPreviewImage(id){
+      onClickPreviewImage(id) {
             this.isVisibleUploadedImage = true;
             this.api_calling_loader['previewSelfie'] = true;
             let data = {
@@ -340,22 +345,22 @@ export class PerApprovedComponent implements OnInit {
                   'datapoint': 'get_aadhar_selfie_image',
                   'endpoint': id
             }
-            this.https.fetchXMLData(data).subscribe((res: any)=>{
-                  if(res?.success){
-                  this.api_calling_loader['previewSelfie'] = false;
-                  this.storedSelfieImage = res.data 
-            } else {
-                  this.message.error(res?.message);
-                  this.api_calling_loader['previewSelfie'] = false;
-            }
-            }, error =>{
+            this.https.fetchXMLData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.api_calling_loader['previewSelfie'] = false;
+                        this.storedSelfieImage = res.data
+                  } else {
+                        this.message.error(res?.message);
+                        this.api_calling_loader['previewSelfie'] = false;
+                  }
+            }, error => {
                   // this.message.error(res?.message);
                   this.api_calling_loader['previewSelfie'] = false;
             })
       }
 
       selectedTabFilter: any = 'all'
-      onClickChangeTabFilter(e){
+      onClickChangeTabFilter(e) {
             console.log(e);
             this.resetFilters();
       }
@@ -370,6 +375,9 @@ export class PerApprovedComponent implements OnInit {
             this.isRequestDoc = false;
             this.pdf_viewer_object_values['boolean'] = false
             this.pdf_viewer_object_values['url'] = null
+            this.isVisible = false
+            this.isAttendanceVisible = false
+            this.expand_application_id = ''
       }
 
       handleOk(type?) {
@@ -378,7 +386,7 @@ export class PerApprovedComponent implements OnInit {
                         break;
                   case 'StatusModal':
                         this.api_calling_loader['button'] = true
-                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks':this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
+                        let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks': this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     this._currentStageStatus = null;
@@ -456,6 +464,31 @@ export class PerApprovedComponent implements OnInit {
                               this.message.error(err)
                         })
                         break;
+                  case 'attendance':
+                        var newdata = {
+                              application: this.expand_application_id,
+                              start_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : '',
+                              end_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : ''
+                        }
+                        this.api_calling_loader['button'] = true
+                        this.isVisible = false
+                        this.https.pullAttendance(newdata).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.attendance_data = res.data
+                                    if (this.attendance_data[0]) {
+                                          this.isAttendanceVisible = true  
+                                    } else {
+                                          this.message.success(res.message)
+                                    }
+                              } else {
+                                    this.message.error(res?.message)
+                              }
+                              this.api_calling_loader['button'] = false;
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(err)
+                        })
+                        break;
             }
       }
 
@@ -470,13 +503,13 @@ export class PerApprovedComponent implements OnInit {
 
       exportData(file_formate?) {
             // let data = { source: 'Onboarding', datapoint: 'export_data', records: JSON.stringify(this._checkedLoanList), file_type: file_formate }
-            let data = { source: 'Onboarding', datapoint: 'export_application_by_stage',stage_id:  9}
-            if(this.partner){
+            let data = { source: 'Onboarding', datapoint: 'export_application_by_stage', stage_id: 9 }
+            if (this.partner) {
                   // data['page'] = 1
                   data['company'] = this.partner
-                  }
-              data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
-              data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
+            }
+            data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';
+            data['end_date'] = this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '';
             const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
             this.https.fetchExportData(data).subscribe(res => {
                   this._exportDocument = res;
@@ -501,7 +534,7 @@ export class PerApprovedComponent implements OnInit {
             this._currentLoanDetails = loanData;
             if (type == 'download') {
                   let data = { source: 'Onboarding', datapoint: 'download_document', 'endpoint': 'kyc', 'id': this._currentModalData?.id }
-                  if(this._currentModalData?.document_master?.require_front_back == 1){
+                  if (this._currentModalData?.document_master?.require_front_back == 1) {
                         data['side'] = 'front'
                   }
                   this.https.downloadDocuments(data).subscribe((res: any) => {
@@ -531,7 +564,7 @@ export class PerApprovedComponent implements OnInit {
       };
 
       resetFilters() {
-            if(this.storedParams){
+            if (this.storedParams) {
                   this.router.navigate(["applications/pre-approved"]);
             }
             this.date = '';
@@ -546,7 +579,7 @@ export class PerApprovedComponent implements OnInit {
 
 
       // testing
-      test(){
+      test() {
             this._isViewDocument = true
             // alert('Testing working')
       }
@@ -556,10 +589,10 @@ export class PerApprovedComponent implements OnInit {
       //     this._isUpload = true;
       // }
 
-      confirm(id){
+      confirm(id) {
             let data;
-            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any)=>{
-                  if(res?.success){
+            this.https.toggleApplicationTODormantBasedOnTimeSpan(id, data).subscribe((res: any) => {
+                  if (res?.success) {
                         this.message.success(res.message);
                         this.getFormLoanData();
                   } else {
@@ -567,30 +600,40 @@ export class PerApprovedComponent implements OnInit {
                   }
             })
       }
-      fetchCibilPDF(id){
+      fetchCibilPDF(id) {
             // >>>>>>> 7bec92bfd52a785bb6c4258e3b39f2211a212131
-                let data = {
+            let data = {
                   datapoint: "loan_application",
-                  endpoint: `UserKycCibil?loan_application=`+id,
+                  endpoint: `UserKycCibil?loan_application=` + id,
                   source: "Onboarding",
-                };
-                const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
-                this.https.fetchLoanApplicationList(data).subscribe((res: any) =>{
-                  if(res?.data?.results[0]?.credit_pdf){
-                    this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
-                    this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
-                    this.pdfData =  this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
-                    this.pdf_viewer_object_values['boolean'] = true
-                    this.message.remove(generateloader);
-                    console.log(this.router.url)
+            };
+            const generateloader = this.message.loading('Generating PDF..', { nzDuration: 0 }).messageId;
+            this.https.fetchLoanApplicationList(data).subscribe((res: any) => {
+                  if (res?.data?.results[0]?.credit_pdf) {
+                        this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
+                        this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+                        this.pdfData = this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+                        this.pdf_viewer_object_values['boolean'] = true
+                        this.message.remove(generateloader);
+                        console.log(this.router.url)
                   } else {
-                    this.message.remove(generateloader);
-                    this.message.error('No Cibil PDF Found');
+                        this.message.remove(generateloader);
+                        this.message.error('No Cibil PDF Found');
                   }
                   // this.pdfData = res?.data?.results[0];
-                }, error => {
+            }, error => {
                   this.message.remove(generateloader);
                   console.log(error);
-                })
-              }
+            })
+      }
+      showAttendance(id) {
+            const generateloader = this.message.loading('Generating file..', { nzDuration: 0 }).messageId;
+            this.https.showAttendance(id).subscribe((res: any) => {
+                  this.https.exportMasterSectionModule(res, 'attendance-'+ id, 'xlsx', generateloader)
+                  this.message.remove(generateloader);
+            }, error => {
+                  this.message.remove(generateloader);
+                  console.log(error);
+            })
+      }
 }
