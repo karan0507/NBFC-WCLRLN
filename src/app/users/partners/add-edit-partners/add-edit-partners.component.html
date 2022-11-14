@@ -554,6 +554,30 @@
                 </div>
                 <div class="col-md-6 mt-4">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Expense Management" class="text-left" nzRequired>Show Expense Management
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='show_expense_management_section'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left" nzRequired>Show Transactions History
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='show_transactions_history_section'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_bank_transfer" class="text-left" nzRequired>Allow Bank Transfer
                         </nz-form-label>
                         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
