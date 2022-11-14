@@ -42,12 +42,13 @@
                     <div *ngIf="item.name">{{ item?.name }}</div>
                 </nz-option>
             </nz-select>
+            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchMandateTriggerList()" [nzRanges]="customRanges"></nz-range-picker>
+            
             <!-- <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchMandateTriggerList()"
                 nzPlaceHolder="Filter By Product Master">
                 <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                 <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
             </nz-select>
-            <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
             <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
                 nzPlaceHolder="Filter By Type">
                 <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
