@@ -279,11 +279,13 @@ export class UnderwritingComponent implements OnInit {
       'datapoint': "admin_generate_offer",
       'application': id
     }
+    this.api_calling_loader["listLoader"] = true;
     this.https.generateOfferForCorrespondingApplication(data).subscribe((res: any)=>{
       if(res?.success){
+        this.api_calling_loader["listLoader"] = false;
         this.message.success(res?.message)
         this.getFormLoanData();
-      } else {this.message.error(res?.message)}
+      } else {this.message.error(res?.message); this.api_calling_loader["listLoader"] = false;}
     })
     // this.api_calling_loader['offerButton'] = true
     //   let form_data = { 
@@ -630,6 +632,9 @@ export class UnderwritingComponent implements OnInit {
         this.https.updateMultipleLoanApp(data).subscribe(
           (res) => {
             if (res.success) {
+              this._currentStageStatus = null;
+              this.remarksDescription = ''
+              this.setOfCheckedId.clear();
               this.api_calling_loader["button"] = false;
               this.handleCancel();
               this.message.success(res?.message);
