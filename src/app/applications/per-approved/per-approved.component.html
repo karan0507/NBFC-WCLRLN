@@ -291,12 +291,12 @@
                     <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
                       <span class="m-l-5">Track Status</span>
                     </li>
-                    <li nz-menu-item *ngxPermissionsOnly="['']"
+                    <li nz-menu-item *ngxPermissionsOnly="['Fetch_cibil_pdf']"
                       (click)="fetchCibilPDF(data?.id)">
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Fetch Cibil PDF</span>
                     </li>
-                    <li>
+                    <li *ngxPermissionsOnly="['Move_to_dormant']">
                       <span class="" style="cursor: pointer;margin-left: 27px" nz-popconfirm
                       [nzPopconfirmTitle]=" data?.is_dormant ? 'Are you sure you want to Move this application to Normal ? ' : 'Are you sure you want to Move this application to Dormant ?'"
                       nzPopconfirmPlacement="bottom"
