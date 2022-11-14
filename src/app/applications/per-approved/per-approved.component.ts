@@ -389,6 +389,9 @@ export class PerApprovedComponent implements OnInit {
                         let data = { source: 'Onboarding', datapoint: 'update_multi_application_status', 'remarks': this.remarksDescription, stage_id: this._currentStageStatus, applications: JSON.stringify(this._checkedLoanList) };
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
+                                    this._currentStageStatus = null;
+                                    this.remarksDescription = ''
+                                    this.setOfCheckedId.clear();
                                     this.api_calling_loader['button'] = false
                                     this.handleCancel()
                                     this.message.success(res?.message);

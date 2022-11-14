@@ -329,6 +329,9 @@ export class VerificationComponent implements OnInit {
                         this.https.updateMultipleLoanApp(data).subscribe((res: any) => {
                               if (res?.success) {
                                     this.api_calling_loader['button'] = false;
+                                    this._currentStageStatus = null;
+                                    this.remarksDescription = ''
+                                    this.setOfCheckedId.clear();
                                     this.message.success(res?.success)
                                     this.handleCancel()
                                     this.global.setApplicationCount();
