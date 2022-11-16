@@ -46,6 +46,7 @@ export class VerificationComponent implements OnInit {
             'button': false
       };
       stageMasterList: any;
+      isVisible: boolean;
       _currentStageStatus: any;
       offerForm: FormGroup
       disabledDate = (current: Date): boolean => {
@@ -305,6 +306,7 @@ export class VerificationComponent implements OnInit {
       }
 
       handleCancel() {
+            this.isVisible = false;
             this._isOpenModal = false;
             this._isViewDocument = false;
             this._isUpload = false;
@@ -319,8 +321,13 @@ export class VerificationComponent implements OnInit {
             this.pdf_viewer_object_values['url'] = null
             this._isEditOffer = false;
             this.isRejectModal = false;
+            this.expand_application_id = '';
       }
 
+      expand_application_id
+      attendance_date = ''
+      attendance_data: any;
+      isAttendanceVisible: boolean;
       handleOk(type?) {
             switch (type) {
                   case 'status':
@@ -417,6 +424,31 @@ export class VerificationComponent implements OnInit {
                               // this.message.error(err);
                         })
                         break
+                        case 'attendance':
+                        var newdata = {
+                              application: this.expand_application_id,
+                              start_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : '',
+                              end_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : ''
+                        }
+                        this.api_calling_loader['button'] = true
+                        this.isVisible = false
+                        this.https.pullAttendance(newdata).subscribe((res: any) => {
+                              if (res?.success) {
+                                    this.attendance_data = res.data
+                                    if (this.attendance_data[0]) {
+                                          this.isAttendanceVisible = true  
+                                    } else {
+                                          this.message.success(res.message)
+                                    }
+                              } else {
+                                    this.message.error(res?.message)
+                              }
+                              this.api_calling_loader['button'] = false;
+                        }, err => {
+                              this.api_calling_loader['button'] = false;
+                              this.message.error(err)
+                        })
+                        break;
             }
       }
 
@@ -602,4 +634,15 @@ export class VerificationComponent implements OnInit {
                   console.log(error);
                 })
               }
+
+              showAttendance(id) {
+                  const generateloader = this.message.loading('Generating file..', { nzDuration: 0 }).messageId;
+                  this.https.showAttendance(id).subscribe((res: any) => {
+                        this.https.exportMasterSectionModule(res, 'attendance-'+ id, 'xlsx', generateloader)
+                        this.message.remove(generateloader);
+                  }, error => {
+                        this.message.remove(generateloader);
+                        console.log(error);
+                  })
+            }
 }
