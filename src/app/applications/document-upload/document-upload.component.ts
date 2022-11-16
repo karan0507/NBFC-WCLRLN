@@ -357,6 +357,9 @@ export class DocumentUploadComponent implements OnInit {
                         this.https.updateMultipleLoanApp(data).subscribe(res => {
                               if (res.success) {
                                     this.api_calling_loader['button'] = false
+                                    this._currentStageStatus = null;
+                                    this.remarksDescription = ''
+                                    this.setOfCheckedId.clear();
                                     this.handleCancel()
                                     this.message.success(res?.message);
                                     this.global.setApplicationCount();
