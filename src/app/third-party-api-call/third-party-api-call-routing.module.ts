@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'API buckets Statistics',
       custom_url: 'third-party-api-call',
       permissions: {
-        only: '',
+        only: 'view_api_statistics',
         redirectTo: 'authentication/error-2'
       }
     }

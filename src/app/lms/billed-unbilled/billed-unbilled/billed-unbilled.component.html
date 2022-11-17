@@ -52,7 +52,7 @@
                 </nz-option>
             </nz-select> -->
             <nz-date-picker class="mx-1" nzMode="month" style=" width: 15rem;" [nzFormat]="'MMMM yyyy'" [(ngModel)]="month" (ngModelChange)="fetchBilledData()"></nz-date-picker>
-            <button nz-button  class="mx-1" (click)="exportGlobalFunction('xlsx')">Export</button>
+            <button nz-button  class="mx-1" (click)="exportGlobalFunction('xlsx')" *ngxPermissionsOnly="['export_billed_data']">Export</button>
 
             <!-- <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
             <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
@@ -144,10 +144,10 @@
                             </a>
                             <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="fetchLatestBilledData(data?.id)">
+                                    <li nz-menu-item (click)="fetchLatestBilledData(data?.id)" *ngxPermissionsOnly="['view_latest_bill']">
                                         <span class="m-l-5">Latest bills</span>
                                     </li>
-                                    <li nz-menu-item [routerLink]="['all-bills']" [queryParams]="{id: data.id}" routerLinkActive="router-link-active" >
+                                    <li nz-menu-item [routerLink]="['all-bills']" *ngxPermissionsOnly="['view_previous_bill']" [queryParams]="{id: data.id}" routerLinkActive="router-link-active" >
                                         <span class="m-l-5">Previous bills</span>
                                     </li>
                                 </ul>

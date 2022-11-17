@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'LMS',
       custom_url: 'lms/mandate-triggers',
       permissions: {
-        only: '',
+        only: 'view_mandate trigger ',
         redirectTo: 'authentication/error-2'
       }
     }

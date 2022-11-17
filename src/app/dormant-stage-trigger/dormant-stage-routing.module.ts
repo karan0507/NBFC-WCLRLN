@@ -7,16 +7,16 @@ import { DormantStageComponent } from './dormant-stage/dormant-stage.component';
 const routes: Routes = [
   {
     path: '',
-    // canActivate: [NgxPermissionsGuard],
+    canActivate: [NgxPermissionsGuard],
     component: DormantStageComponent,
     data: {
       title: 'Dormant-Stage',
       parent: 'Dormant',
       custom_url: 'dormant',
-      // permissions: {
-      //   only: ['dormant'],
-      //   redirectTo: 'authentication/error-2'
-      // }
+      permissions: {
+        only: ['update_dormant_stage'],
+        redirectTo: 'authentication/error-2'
+      }
     }
   },
 ];

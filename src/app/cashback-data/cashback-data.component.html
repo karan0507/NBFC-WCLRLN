@@ -22,7 +22,7 @@
                                     <th>Total referrer cashback</th>
                                     <th>Total referee cashback</th>
                                     <th>Total referrals</th>
-                                    <th nzRight>Actions</th>
+                                    <th nzRight *ngxPermissionsOnly="['export_cashback_program ', 'export_referral_program ']">Actions</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -36,7 +36,7 @@
                                           <td>{{ data?.total_referrer_cashback ? '₹ ' + data?.total_referrer_cashback : '-'}}</td>
                                           <td>{{ data?.total_referee_cashback ? '₹ ' + data?.total_referee_cashback : '-'}}</td>
                                           <td>{{ data?.total_referrals ? data?.total_referrals : '-'}}</td>
-                                          <td nzRight>
+                                          <td nzRight *ngxPermissionsOnly="['export_cashback_program ', 'export_referral_program ']">
                                             <div>
                                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
@@ -45,10 +45,10 @@
                                                 </a>
                                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                                     <ul nz-menu>
-                                                        <li nz-menu-item (click)="exportCashback(data?.id)">
+                                                        <li nz-menu-item (click)="exportCashback(data?.id)" *ngxPermissionsOnly="['export_cashback_program ']">
                                                             <span class="m-l-5">Export cashback program</span>
                                                         </li>
-                                                        <li nz-menu-item (click)="exportReferral(data?.id)">
+                                                        <li nz-menu-item (click)="exportReferral(data?.id)" *ngxPermissionsOnly="['export_referral_program ']">
                                                             <span class="m-l-5">Export referral program</span>
                                                         </li>
                                                     </ul>

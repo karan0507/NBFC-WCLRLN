@@ -24,7 +24,7 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12" style="text-align-last: right;">
+                <div class="col-md-12" style="text-align-last: right;" *ngxPermissionsOnly="['update_dormant_stage']">
                     <button nz-button nzType="primary" [nzLoading]="apiLoader['onUpdate']" (click)="onClickUpdateDormantStage()" [disabled]="!selectedDaysOfDormantStage">Update Version</button>   
                 </div>
             </div>
