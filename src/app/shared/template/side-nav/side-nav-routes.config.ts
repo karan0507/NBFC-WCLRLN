@@ -445,6 +445,15 @@ export const ROUTES: SideNavInterface[] = [
                         iconTheme: '',
                         submenu: []
                     },
+                    {
+                        path: 'lms/transaction-remarks',
+                        title: 'Transaction remarks',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
                 ]
             },
             {

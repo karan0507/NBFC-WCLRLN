@@ -98,6 +98,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/credit-line-inc-desc/credit-line-inc-desc.module').then(m => m.CreditLineIncDescModule),
     },
     {
+        path: 'lms/transaction-remarks',
+        loadChildren: () => import('../../lms/transaction-remarks/transaction-remarks.module').then(m => m.TransactionRemarksModule),
+    },
+    {
         path: 'lms/send-payment-link',
         loadChildren: () => import('../../lms/send-payment-link/send-payment-link.module').then(m => m.SendPaymentLinkModule),
     },

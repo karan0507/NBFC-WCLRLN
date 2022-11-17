@@ -249,14 +249,17 @@
                                             <li nz-menu-item *ngIf="data.is_blocked" (click)="getBlockReason(data.id)">
                                                 <span class="m-l-5">Block reason</span>
                                             </li>
-                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 1,data.loan_application_id)">
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('KFS document', 1,data.loan_application_id)">
                                                 <span class="m-l-5">KFS document</span>
                                             </li>
-                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 4,data.loan_application_id)">
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('Loan agreement', 4,data.loan_application_id)">
                                                 <span class="m-l-5">Loan agreement</span>
                                             </li>
-                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 2,data.loan_application_id)">
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('Sanction letter', 2,data.loan_application_id)">
                                                 <span class="m-l-5">Sanction letter</span>
+                                            </li>
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('Salary agreement', 3,data.loan_application_id)">
+                                                <span class="m-l-5">Salary agreement</span>
                                             </li>
 
                                             <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">

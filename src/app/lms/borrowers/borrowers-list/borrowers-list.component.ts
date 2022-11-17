@@ -426,11 +426,11 @@ export class BorrowersListComponent implements OnInit {
         source: 'Onboarding',
       }
     } else if (index == 3) {
-      // data = {
-      //   datapoint: 'loan_service',
-      //   endpoint: this.borrower_id,
-      //   source: 'LMS',
-      // }
+      data = {
+        datapoint: 'fetch-salary-agreement',
+        endpoint: id,
+        source: 'Onboarding',
+      }
     } else if (index == 4) {
       data = {
         datapoint: 'fetch-application-agreement',
