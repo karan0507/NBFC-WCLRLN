@@ -443,6 +443,7 @@ export class AddEditPartnersComponent implements OnInit {
       due_days: [data ? data?.due_days : null],
       api_check_flag: [data ? data?.api_check_flag : null],
 
+
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
       salary_date: [data ? data?.salary_date : null],
@@ -460,9 +461,6 @@ export class AddEditPartnersComponent implements OnInit {
         data ? data?.phone : null,
         [Validators.required, Validators.pattern("([0-9]{8}|[0-9]{10})")],
       ],
-      // ^.{1,10}$
-      // unique_code: [data ? data?.unique_code : null],
-
       bank_name: [data ? data?.bank_name : ""],
       account_no: [data ? data?.account_no : ""],
       ifsc: [
