@@ -136,6 +136,7 @@
                   <th *ngIf="selectedTab === 'allEmployee'">App Status</th>
                   <th *ngIf="selectedTab === 'allEmployee'">App Last Used On</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Mobile No</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Salary Date</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Employee Added</th>
                   <th *ngIf="selectedTab === 'allEmployee'">Employee Status</th>
                   <!-- <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
@@ -177,6 +178,9 @@
                   <!-- app_status -->
                   <td *ngIf="selectedTab === 'allEmployee'">
                     {{ data?.mobile ? data?.mobile : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    {{ data?.salary_date ? data?.salary_date : ' - '}}
                   </td>
                   <td *ngIf="selectedTab === 'allEmployee'">
                     <!-- {{ data?.employee_added }} -->

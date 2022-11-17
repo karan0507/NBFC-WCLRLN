@@ -448,6 +448,7 @@ export class DashboardComponent implements OnInit {
     this.getCorporateList();
     this.getRepaymentList();
     this.getAcquisitionList();
+    this.fetchBorrowersGraph();
      }
 
     getAuthorizationList(){
@@ -534,10 +535,27 @@ export class DashboardComponent implements OnInit {
             this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
             this.fetchedList['existing'] = res?.data
             this.isLoading['existing'] = false;
-            this.designGraph(res?.data?.spend_graph_data);
+            // this.designGraph(res?.data?.spend_graph_data);
+            // this.fetchBorrowersGraph();
         }, err => {
             this.isLoading['existing'] = false;
         })
+    }
+
+    fetchBorrowersGraph(){
+      let data = {
+        source: 'LMS',
+        datapoint:'dashboard_spends_graph',
+        // partner
+      }
+      if(this.partner){
+        data['partner'] = this.partner
+      }
+              this.http.fetchXMLData(data).subscribe((res)=>{
+                console.log('AJmal');
+                this.designGraph(res?.data?.spend_graph_data);
+                console.log(res);
+              })
     }
 
     designGraph(e){
