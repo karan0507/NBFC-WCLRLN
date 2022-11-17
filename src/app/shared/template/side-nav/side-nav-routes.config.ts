@@ -423,7 +423,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Mandate triggers',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_mandate trigger '],
                         iconTheme: '',
                         submenu: []
                     },
@@ -441,7 +441,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Nach upload',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_nach_upload'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -497,7 +497,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: [''],
+                        permission: ['view _corporate expense'],
                         submenu: []
                     },
                     {
@@ -506,7 +506,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: [''],
+                        permission: ['view_deduction approval'],
                         submenu: []
                     },
                     {
@@ -554,7 +554,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: [''],
+                        permission: ['view_dpd'],
                         submenu: []
                     },
                     {
@@ -562,7 +562,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Billed data',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_billed '],
                         iconTheme: '',
                         submenu: []
                     },
@@ -571,7 +571,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Refunds',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_refund'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -580,7 +580,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Bill summarization',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_bill_summerization'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -589,7 +589,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Insurance',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_insurance'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -648,8 +648,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Application Stage Trigger',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [''],
-        // view_dormant
+        permission: ['update_dormant_stage'],
         icon: 'file',
         submenu: []
     },
@@ -658,7 +657,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Cashback Program Statistics',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [''],
+        permission: ['view_corporate_cashback_program'],
         icon: 'tags',
         submenu: []
     },
@@ -685,7 +684,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'API buckets Statistics',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [''],
+        permission: ['view_api_statistics'],
         icon: 'file',
         submenu: []
     },

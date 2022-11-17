@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { InsuranceRoutingModule } from './insurance-routing.module';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
   imports: [
     CommonModule,
     InsuranceRoutingModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
+    NgxPermissionsModule.forChild()
   ]
 })
 export class InsuranceModule { }

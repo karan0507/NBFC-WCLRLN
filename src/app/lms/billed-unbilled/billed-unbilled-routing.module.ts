@@ -14,7 +14,7 @@ const routes: Routes = [
       parent: 'LMS',
       custom_url: 'lms/billed-unbilled-data',
       permissions: {
-        only: '',
+        only: 'view_billed ',
         redirectTo: 'authentication/error-2'
       }
     }
@@ -35,7 +35,7 @@ const routes: Routes = [
           title: 'all bills',
           parent: 'LMS',
           permissions: {
-            only: '',
+            only: 'view_previous_bill_list',
             redirectTo: 'authentication/error-2'
           }
         }
@@ -51,7 +51,7 @@ const routes: Routes = [
       parent: 'LMS',
       custom_url: 'lms/billed-unbilled-data',
       permissions: {
-        only: '',
+        only: 'view_previous_bill_list',
         redirectTo: 'authentication/error-2'
       }
     }
