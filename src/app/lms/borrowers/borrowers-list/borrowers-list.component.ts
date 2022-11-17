@@ -118,6 +118,7 @@ export class BorrowersListComponent implements OnInit {
   }
 
   setBorrowersSubCount() {
+    this.api_calling_loader = true
     let param = { 'stage_type': 'SUB', 'stage_master': this.main_stage ? this.main_stage : 0 }
     this.http.getBorrowersStageCount(param).subscribe((res: any) => {
       this.borrowersSubStageCount = res?.data
@@ -236,7 +237,7 @@ export class BorrowersListComponent implements OnInit {
   pdfData: any;
   pdf_viewer_object_values = {
     'boolean': false,
-    'url': '',
+    'url': null,
     'title': ''
   }
   fetchCibilPDF(id) {
@@ -249,8 +250,8 @@ export class BorrowersListComponent implements OnInit {
     this.http.fetchLoanApplicationList(data).subscribe((res: any) => {
       if (res?.data?.results[0]?.credit_pdf) {
         this.pdf_viewer_object_values['title'] = 'Show Cibil PDF'
-        this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
-        this.pdfData = this.sanitize.bypassSecurityTrustResourceUrl(this.pdf_viewer_object_values['url']);
+        // this.pdf_viewer_object_values['url'] = res?.data?.results[0]?.credit_pdf
+        this.pdfData = this.sanitize.bypassSecurityTrustResourceUrl(res?.data?.results[0]?.credit_pdf);
         this.pdf_viewer_object_values['boolean'] = true
         this.message.remove(generateloader);
         console.log(this.router.url)
@@ -407,5 +408,56 @@ export class BorrowersListComponent implements OnInit {
     }, (err) => {
       this.message.remove(generateloader);
     })
+  }
+
+  pdfViewerAndDownload(title, index, id) {
+    const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
+    var data;
+    if (index == 1) {
+      data = {
+        datapoint: 'fetch-kfs-document',
+        endpoint: id,
+        source: 'Onboarding',
+      }
+    } else if (index == 2) {
+      data = {
+        datapoint: 'fetch-sanction-letter',
+        endpoint: id,
+        source: 'Onboarding',
+      }
+    } else if (index == 3) {
+      // data = {
+      //   datapoint: 'loan_service',
+      //   endpoint: this.borrower_id,
+      //   source: 'LMS',
+      // }
+    } else if (index == 4) {
+      data = {
+        datapoint: 'fetch-application-agreement',
+        endpoint: id,
+        source: 'Onboarding',
+      }
+    }
+    if (data) {
+      this.http.fetchLoanApplicationList(data).subscribe(res => {
+        if (res.success) {
+          this.pdf_viewer_object_values['title'] = title
+          this.sanatizeUrlToSafe(res?.data?.agreement)
+          this.pdf_viewer_object_values['boolean'] = true
+
+        } else {
+          this.message.error(res['message'])
+        }
+        this.message.remove(generateloader);
+        // this.isSelectDate = false
+      }, (err) => {
+        this.message.remove(generateloader);
+        // this.isSelectDate = false
+      });
+    }
+  }
+  
+  sanatizeUrlToSafe(value) {
+    this.pdf_viewer_object_values['url'] = this.sanitize.bypassSecurityTrustResourceUrl(value);
   }
 }

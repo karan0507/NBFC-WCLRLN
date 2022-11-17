@@ -249,6 +249,15 @@
                                             <li nz-menu-item *ngIf="data.is_blocked" (click)="getBlockReason(data.id)">
                                                 <span class="m-l-5">Block reason</span>
                                             </li>
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 1,data.loan_application_id)">
+                                                <span class="m-l-5">KFS document</span>
+                                            </li>
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 4,data.loan_application_id)">
+                                                <span class="m-l-5">Loan agreement</span>
+                                            </li>
+                                            <li nz-menu-item (click)="pdfViewerAndDownload('', 2,data.loan_application_id)">
+                                                <span class="m-l-5">Sanction letter</span>
+                                            </li>
 
                                             <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
                                                 <ul nz-menu>
@@ -1607,10 +1616,13 @@
 <nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
     [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
     <ng-container *nzModalContent>
-        <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values['url']">
+        <div class="pdf_viewer_container" *ngIf="pdfData">
             <embed [src]="pdfData" width="100%" style="height: 37rem;" />
         </div>
-        <div *ngIf="!pdf_viewer_object_values['url']">
+        <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values['url']">
+            <embed [src]="pdf_viewer_object_values['url']" width="100%" style="height: 37rem;" />
+        </div>
+        <div *ngIf="!pdf_viewer_object_values['url'] && !pdfData">
             <h4>No PDF Found</h4>
         </div>
     </ng-container>

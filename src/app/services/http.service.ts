@@ -8,14 +8,6 @@ import { map } from 'rxjs/operators';
       providedIn: 'root'
 })
 export class HttpService {
-      //dev admin 
-      // url = 'https://devadminapi.fatakpay.com'
-
-      // dev production
-      // url =  'https://adminapi.fatakpay.com'
-      // url = 'https://adminapi.fatakpay.com'
-
-      // url = 'https://uatadminapi.fatakpay.com'; // UAT URL
       url = this.valueFunction();
 
       valueFunction(){
@@ -27,6 +19,7 @@ export class HttpService {
             dynamic_url = 'https://uatadminapi.fatakpay.com'
       } else {
             dynamic_url = 'https://devadminapi.fatakpay.com'
+            // dynamic_url = 'https://adminapi.fatakpay.com'
       }
       return dynamic_url
       }

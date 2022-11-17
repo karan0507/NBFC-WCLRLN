@@ -636,12 +636,14 @@ export class BorrowersDetailsComponent implements OnInit {
   sendPaymentLink() {
     let data = {
       'source': 'LMS',
-      'id': this.borrower_id,
+      'datapoint': 'send-single-payment-link-url',
+      'offer': this.borrower_id,
       'amount': this.send_payment_amount
     }
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
-    this.http.fetchLoanApplicationList(data).subscribe(res => {
+    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
+      this.send_payment_amount_popup = false
       this.message.success(res['message'])
     }, (err) => {
       this.message.remove(generateloader);
