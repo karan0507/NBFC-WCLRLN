@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'Deduction',
       custom_url: 'lms/deductions',
       permissions: {
-        only: '',
+        only: 'view_deduction approval',
         redirectTo: 'authentication/error-2'
       }
     }

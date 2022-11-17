@@ -13,7 +13,7 @@ const routes: Routes = [
           parent: 'Corporate cashback program',
           custom_url: 'cashback-program',
           permissions: {
-                only: '',
+                only: 'view_corporate_cashback_program',
                 redirectTo: 'authentication/error-2'
               }
     }

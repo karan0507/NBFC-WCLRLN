@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'LMS',
       custom_url: 'lms/refunds',
       permissions: {
-        only: '',
+        only: 'view_refund',
         redirectTo: 'authentication/error-2'
       }
     }

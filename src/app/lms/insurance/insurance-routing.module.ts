@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'LMS',
       custom_url: 'lms/insurance',
       permissions: {
-        only: '',
+        only: 'view_insurance',
         redirectTo: 'authentication/error-2'
       }
     }

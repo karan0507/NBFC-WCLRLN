@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'Bill summarization',
       custom_url: 'lms/bill-summarization',
       permissions: {
-        only: '',
+        only: 'view_bill_summerization',
         redirectTo: 'authentication/error-2'
       }
     }

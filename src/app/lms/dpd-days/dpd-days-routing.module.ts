@@ -7,15 +7,15 @@ const routes: Routes = [
   {
     path: '',
     component: DpdDaysComponent,
-    // canActivate: [NgxPermissionsGuard],
+    canActivate: [NgxPermissionsGuard],
     data: {
       title: 'DPD Days',
       parent: 'LMS',
       custom_url: 'lms/dpd-days',
-      // permissions: {
-      //   only: 'view_lender_management',
-      //   redirectTo: 'authentication/error-2'
-      // }
+      permissions: {
+        only: 'view_dpd',
+        redirectTo: 'authentication/error-2'
+      }
     }
   },
 ];

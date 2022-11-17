@@ -88,7 +88,7 @@
                                         <th>Due day</th>
                                         <th>Salary day</th>
                                         <th>Total outstanding</th>
-                                        <th nzWidth="6rem" nzRight>Actions</th>
+                                        <th nzWidth="6rem" nzRight *ngxPermissionsOnly="['export_bill_outstanding']">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,7 +102,7 @@
                                             <td>{{ data_item['due_day'].length > 0 ? (data_item['due_day']): '0' }}</td>
                                             <td>{{ data_item['salary_day'].length > 0 ? (data_item['salary_day']): '0' }}</td>
                                             <td>₹ {{ data_item['total_outstanding'] ? data_item['total_outstanding']: '0' }}</td>
-                                            <td nzRight>
+                                            <td nzRight *ngxPermissionsOnly="['export_bill_outstanding']">
                                                 <div>
                                                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
                                                         [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
@@ -110,7 +110,7 @@
                                                     </a>
                                                     <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                                         <ul nz-menu>
-                                                            <li nz-menu-item (click)="isVisible = true; corporate_Id = data.id; day = data_item['bill_day']">
+                                                            <li nz-menu-item (click)="isVisible = true; corporate_Id = data.id; day = data_item['bill_day']" *ngxPermissionsOnly="['export_bill_outstanding']">
                                                                 <span class="m-l-5">Export outstanding</span>
                                                             </li>
                                                         </ul>

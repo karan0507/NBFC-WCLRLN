@@ -241,7 +241,7 @@
                                                 </li>
                                             </ng-container>
 
-                                            <li nz-menu-item [routerLink]="['/lms/borrowers/track-status']"
+                                            <li nz-menu-item [routerLink]="['/lms/borrowers/track-status']" *ngxPermissionsOnly="['borrower_track_status']"
                                                 [queryParams]="{id: data?.loan_application_id}">
                                                 <span class="m-l-5">Track Status</span>
                                             </li>

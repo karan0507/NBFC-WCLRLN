@@ -13,7 +13,7 @@ const routes: Routes = [
       parent: 'Nach upload',
       custom_url: 'lms/nach-upload',
       permissions: {
-        only: '',
+        only: 'view_nach_upload',
         redirectTo: 'authentication/error-2'
       }
     }
