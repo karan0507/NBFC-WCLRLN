@@ -138,7 +138,11 @@ customRanges = {
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
       this.message.remove(generateloader);
       if (res.success) {
-        this.message.success(res['message'])
+        if (res?.data?.errors[0]) {
+          this.message.error(res?.data?.errors[0].message)
+        } else {
+          this.message.success(res['message'])
+        }
       } else {
         this.message.error(res['message'])
       }

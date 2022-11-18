@@ -115,9 +115,7 @@ export class BilledUnbilledComponent implements OnInit {
   exportGlobalFunction(file_formate){
     let data;
     data = {
-      datapoint: 'admin_bill_section',
-      endpoint: this.selectedTab,
-      source: 'LMS',
+      section: this.selectedTab,
       month_year_filter: this.month ? moment(this.month).format("MM/YYYY") : '',
       export: true,
       file_type: 'xlsx'
@@ -127,8 +125,8 @@ export class BilledUnbilledComponent implements OnInit {
     }
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.exportBilledUnBilled(data).subscribe(res => {
-      this.http.exportMasterSectionModule(res, `${this.selectedTab}`, file_formate, generateloader)
-      // this.isVisible = false
+      this.message.remove(generateloader)
+      this.message.success(res['message'])
     }, error => {
       this.message.remove(generateloader);
     })

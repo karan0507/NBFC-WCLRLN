@@ -144,6 +144,10 @@ export class SendPaymentLinkComponent implements OnInit {
         this.isApprove = false;
         this.isApprovedSuccess = true
         this.is_approve_loading = false
+        setTimeout(() => {
+          this.isApprovedSuccess = false
+          this.getManualTransactionList()
+        }, 2000);
       } else {
         this.is_approve_loading = false
         this.message.error(res.message)
