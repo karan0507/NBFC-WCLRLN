@@ -601,11 +601,11 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">This months Active Borrowers</p>
+                  <p class="m-b-0 muted">Repeat Borrowers</p>
                   <h4 class="m-b-0">
                     {{
-                      fetchedList["existing"]?.users_with_first_txn_this_month
-                        ? fetchedList["existing"]?.users_with_first_txn_this_month : " 0 "
+                      fetchedList["existing"]?.repeat_borrowers
+                        ? fetchedList["existing"]?.repeat_borrowers : " 0 "
                     }}
                   </h4>
                 </div>
@@ -637,7 +637,7 @@
                   class="h-100 dashboard-badge"
                 ></nz-badge>
                 <div class="ml-md-2">
-                  <p class="m-b-0 muted">New Acquisition Active Borrowers</p>
+                  <p class="m-b-0 muted">Old Acquisition First Transaction</p>
                   <h4 class="m-b-0">
                     {{
                       fetchedList["existing"]?.count_new_acquisition_borrowers
