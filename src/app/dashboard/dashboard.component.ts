@@ -632,6 +632,7 @@ export class DashboardComponent implements OnInit {
 
     onSelectFetchCorrespondingData(){
         // this.resetFilters();
+        this.fetchBorrowersGraph();
         this.getDelinquentList();
         this.getNBFCList();
         this.getAuthorizationList();
@@ -807,6 +808,7 @@ export class DashboardComponent implements OnInit {
         this.getMandateData();
         this.getCorporateList();
         this.getRepaymentList();
+        this.fetchBorrowersGraph();
         
     }
 }
