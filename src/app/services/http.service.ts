@@ -651,7 +651,7 @@ export class HttpService {
 
       // Send E-mandate Link 
       public sendEmandateLink(data): any {
-            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+            return this._http.post((this.url + `/payment-authorizations/v1/create-emandate-registration-link`), data);
       }
 
       // Download Loan Application Documents 

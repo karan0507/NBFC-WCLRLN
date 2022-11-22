@@ -547,8 +547,8 @@ export class ENachSigningComponent implements OnInit {
       
       sendEmandateLink(offer_id, emandateValue) {
             var data = {
-                  source: 'LMS',
-                  datapoint: 'send-mandate-link',
+                  // source: 'LMS',
+                  // datapoint: 'send-mandate-link',
                   auth_type: emandateValue,
                   accepted_offer_id: offer_id
             }
