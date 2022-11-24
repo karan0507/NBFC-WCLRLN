@@ -41,17 +41,11 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log(this.documentData);
 
-    if (this.documentData?.document_master?.require_front_back == 1) {
-      // if(front_file_url){
-
-      // }
-      // this._currentFileName = this.documentData?.front_file_url
-      // this._currentFileName2 = this.documentData?.front_file_url
-      // this.fileList[0] = this.documentData?.front_file_name
-      this.isDoubleSide = true;
-    } else {
+    // if (this.documentData?.document_master?.require_front_back == 1) {
+      // this.isDoubleSide = true;
+    // } else {
       this.isDoubleSide = false;
-    }
+    // }
 
   }
 
