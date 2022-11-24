@@ -852,8 +852,12 @@
         </div>
 
     </div>
-    <app-referral-code *ngIf="isEdit"></app-referral-code>
-    <app-cashback *ngIf="isEdit"></app-cashback>
+    <section *ngxPermissionsOnly="['refer_earn_lsit']">
+        <app-referral-code *ngIf="isEdit"></app-referral-code>
+    </section>
+    <section *ngxPermissionsOnly="['cashback_list']">
+        <app-cashback *ngIf="isEdit"></app-cashback>
+    </section>
 </section>
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzWidth]="'580px'"
