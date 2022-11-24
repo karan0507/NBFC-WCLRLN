@@ -86,6 +86,7 @@ export class BorrowersListComponent implements OnInit {
   private _isCibil: boolean;
   showReason: boolean;
   app_prod_type = '';
+  xmlLoader: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     public sanitize: DomSanitizer,
@@ -379,9 +380,9 @@ export class BorrowersListComponent implements OnInit {
   }
   onClickShowJSONPreview(res) {
     this.isVisibleThirdPartyResp = true
-    this.api_calling_loader['xmlLoader'] = true;
+    this.xmlLoader = true;
     this.thirdPartyDataResponse = res
-    this.api_calling_loader['xmlLoader'] = false;
+    this.xmlLoader = false;
   }
   // Get Cibil Data API
   getCibilScoreData(type?, id?) {

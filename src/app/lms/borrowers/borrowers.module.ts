@@ -13,6 +13,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ApplicationsModule } from 'src/app/applications/applications.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [BorrowersComponent, BorrowersListComponent, BorrowersDetailsComponent, AppDownloadsComponent],
@@ -26,6 +27,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     NzPopoverModule,
     NzTagModule,
     ApplicationsModule,
+    NgxJsonViewerModule,
     NgxPermissionsModule.forChild()
   ]
 })
