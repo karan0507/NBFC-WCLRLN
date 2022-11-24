@@ -3,7 +3,7 @@
         <nz-card class="w-100 mb-0">
             <div class="row">
                 <h4 class="mb-0">Cashback</h4>
-                <button nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Cashback Program</button>
+                <button *ngxPermissionsOnly="['add_cashback_program']"  nz-button nzType="primary" class="ml-auto mb-3" (click)="isAddEdit = true; isEdit = false">+ Add Cashback Program</button>
             </div>
             <div class="row">
                 <div class="col-md-3 mb-3 d-flex">
@@ -63,17 +63,21 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate?"
-                                        nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="toggleCashbackStatus(data.id)">
-                                            <span class="m-l-5">Deactivate</span>
-                                        </li>
-                                        <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate?"
-                                        nzPopconfirmPlacement="topLeft"
-                                        (nzOnConfirm)="toggleCashbackStatus(data.id)">
-                                            <span class="m-l-5">Activate</span>
-                                        </li>
-                                        <li nz-menu-item (click)="isAddEdit = true; isEdit = true; createEditFormFunction(data); modalTitle='Edit Cashback'">
+                                        <span *ngxPermissionsOnly="['toggle_active_deactive_cahback_status']">
+                                            <li nz-menu-item *ngIf="data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Deactivate?"
+                                            nzPopconfirmPlacement="topLeft"
+                                            (nzOnConfirm)="toggleCashbackStatus(data.id)">
+                                                <span class="m-l-5">Deactivate</span>
+                                            </li>
+                                        </span>
+                                        <span *ngxPermissionsOnly="['toggle_active_deactive_cahback_status']">
+                                            <li nz-menu-item *ngIf="!data['is_active']" nz-popconfirm nzPopconfirmTitle="Are you sure Activate?"
+                                            nzPopconfirmPlacement="topLeft"
+                                            (nzOnConfirm)="toggleCashbackStatus(data.id)">
+                                                <span class="m-l-5">Activate</span>
+                                            </li>
+                                        </span>
+                                        <li *ngxPermissionsOnly="['edit_cashback_program']" nz-menu-item (click)="isAddEdit = true; isEdit = true; createEditFormFunction(data); modalTitle='Edit Cashback'">
                                             <span class="m-l-5">Edit</span>
                                         </li>
                                     </ul>
