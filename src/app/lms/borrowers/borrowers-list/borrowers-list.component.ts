@@ -86,6 +86,7 @@ export class BorrowersListComponent implements OnInit {
   private _isCibil: boolean;
   showReason: boolean;
   app_prod_type = '';
+  xmlLoader: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     public sanitize: DomSanitizer,
@@ -364,12 +365,12 @@ export class BorrowersListComponent implements OnInit {
 
   sendEnachLink(id, type) {
     let data = new FormData()
-    data.append('source', 'LMS'),
-      data.append('datapoint', 'create_mandate_registration_link'),
+    // data.append('source', 'LMS'),
+    //   data.append('datapoint', 'create_mandate_registration_link'),
       data.append('auth_type', type),
       data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
-    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+    this.http.sendEmandateLink(data).subscribe(res => {
       this.message.remove(generateloader);
       this.message.success(res['message'])
       // this.EMandateRegistrationLink()
@@ -379,9 +380,9 @@ export class BorrowersListComponent implements OnInit {
   }
   onClickShowJSONPreview(res) {
     this.isVisibleThirdPartyResp = true
-    this.api_calling_loader['xmlLoader'] = true;
+    this.xmlLoader = true;
     this.thirdPartyDataResponse = res
-    this.api_calling_loader['xmlLoader'] = false;
+    this.xmlLoader = false;
   }
   // Get Cibil Data API
   getCibilScoreData(type?, id?) {

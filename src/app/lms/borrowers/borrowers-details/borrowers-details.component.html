@@ -12,6 +12,9 @@
                               <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Employee code -:
                                     {{borrowertList?.emp_code?.emp_id ? borrowertList?.emp_code?.emp_id : '-'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Corporate name -:
+                                    {{borrowertList?.corporate?.display_name ? borrowertList?.corporate?.display_name : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
                                     Status -: {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>

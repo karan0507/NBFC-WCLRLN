@@ -1637,7 +1637,7 @@
 <nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'" nzTitle="Fetched Third Party Response"
     [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false">
     <ng-container *nzModalContent>
-        <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
+        <nz-card [nzLoading]="xmlLoader">
             <!-- <p>Content one</p>
                   <p>Content two</p>
                   <p>Content three</p> -->

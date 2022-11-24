@@ -596,8 +596,8 @@ export class OfferAcceptanceComponent implements OnInit {
       }
       sendEmandateLink(offer_id) {
             var data = {
-                  source: 'LMS',
-                  datapoint: 'send-mandate-link',
+                  // source: 'LMS',
+                  // datapoint: 'send-mandate-link',
                   auth_type: this.emandateValue,
                   accepted_offer_id: offer_id
             }
