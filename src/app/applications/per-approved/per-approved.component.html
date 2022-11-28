@@ -218,7 +218,14 @@
                 : "-"
                 }}
               </td>
-              <td>{{ data?.status ? data?.status : "-" }}</td>
+              <td>
+                <span class="text-danger" nz-tooltip nzTooltipTitle="{{ data?.document_needed_flag ? 'Temporary in Document Needed' : ' - ' }}">
+                  {{
+                    data?.document_needed_flag ? ('Temporary' | slice: 0:18): ' - '}}
+                  <!-- ? data?.document_needed_flag -->
+                  <!-- : "-" -->
+                </span></td>
+                <!-- {{ data?.document_needed_flag ? 'Temporary in Document Needed' : " - " }} -->
               <td>
                 <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
                   {{
@@ -250,6 +257,9 @@
                       (click)="fetchCibilPDF(data?.id)">
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Fetch Cibil PDF</span>
+                    </li>
+                    <li nz-menu-item (click)="moveToPendingDocumentUploadStage(data)">
+                      <span class="m-l-5">Move To Document Pending</span>
                     </li>
                     <li *ngxPermissionsOnly="['Move_to_dormant']">
                       <span class="" style="cursor: pointer;margin-left: 27px" nz-popconfirm

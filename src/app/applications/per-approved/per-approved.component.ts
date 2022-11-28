@@ -636,4 +636,27 @@ export class PerApprovedComponent implements OnInit {
                   console.log(error);
             })
       }
+
+      moveToPendingDocumentUploadStage(val){
+            this.api_calling_loader['listLoader'] = true;
+            // return;
+            let data = {
+                  "application_id": val?.id,
+                  "source": "Onboarding",
+                  "datapoint": "update_document_needed"
+            };
+            this.https.editLoanData(data).subscribe((res: any)=>{
+                  if(res?.success){
+                        this.message.success(res?.message);
+                        this.resetFilters();
+                        this.api_calling_loader['listLoader'] = false;
+                  } else {
+                        this.api_calling_loader['listLoader'] = false;
+                        this.message.error(res?.message)
+                  }
+            }, error=>{
+                  this.api_calling_loader['listLoader'] = false;
+            })
+      }
+      // editLoanData
 }
