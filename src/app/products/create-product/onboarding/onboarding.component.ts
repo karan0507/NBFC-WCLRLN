@@ -98,7 +98,9 @@ export class OnboardingComponent implements OnInit {
 
     //   // this.fetchDocumentMaster()
     // } else {
-      this.fetchDocumentMaster()
+      if (this.product_id) {
+        this.fetchDocumentMaster()
+      }
     // }
     if (data?.third_party_calls[0]) {
       data?.third_party_calls.forEach(element => {
