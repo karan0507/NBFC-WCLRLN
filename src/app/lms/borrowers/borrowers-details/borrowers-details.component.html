@@ -113,8 +113,16 @@
                         <h5>₹ {{borrowertList?.credit_utilization_amount}}</h5>
                   </div>
                   <div class="col-md brr-detail-section-border">
-                        <p class="mb-0">Billing Cycle</p>
+                        <p class="mb-0">Bill date</p>
                         <h5>{{billStatementList?.outstanding_data?.bill_date ? billStatementList?.outstanding_data?.bill_date : '-'}}</h5>
+                  </div>
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Salary date</p>
+                        <h5>{{borrowertList?.salary_date ? (borrowertList?.salary_date | date: "MMM dd, yyyy") : '-'}}</h5>
+                  </div>
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Due date</p>
+                        <h5>{{billStatementList?.outstanding_data?.due_date ? billStatementList?.outstanding_data?.due_date : '-'}}</h5>
                   </div>
                   <div class="col-md brr-detail-section-border">
                         <p class="mb-0">Commenced On</p>
