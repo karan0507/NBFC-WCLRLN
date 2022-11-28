@@ -738,6 +738,7 @@ export class DashboardComponent implements OnInit {
     }
 
     getNBFCList(){
+      return;
         this.isLoading['nbfc'] = true;
         let data = {
             'datapoint': 'dashboard_nbfc',
