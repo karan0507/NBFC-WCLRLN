@@ -725,6 +725,15 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'snippets',
         submenu: []
     },
+    {
+        path: 'downloads',
+        title: 'Downloads',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
+        icon: 'snippets',
+        submenu: []
+    },
     // {
     //     path: 'transactions',
     //     title: 'Transactions',
