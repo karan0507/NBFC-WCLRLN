@@ -165,4 +165,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'lms/bbps',
         loadChildren: () => import('../../lms/bbps/bbps.module').then(m => m.BbpsModule),
     },
+    {
+        path: 'downloads',
+        loadChildren: () => import('../../downloads/downloads.module').then(m => m.DownloadsModule),
+    },
 ];

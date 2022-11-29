@@ -1266,4 +1266,7 @@ export class HttpService {
       public toogleStatusCategory(id) {
             return this._http.put((this.url + `/bbps/v1/category/status/` + id), id);
       }
+      public fetchDownloads(data) {
+            return this._http.get((this.url + `/platform_central/v1/fetch-downloads`), { params: data });
+      }
 }
