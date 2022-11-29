@@ -507,7 +507,7 @@
                                                                 <span class="m-l-5">Capture collection</span>
                                                           </li>
                                                       </ng-container>
-                                                      <ng-container *ngIf="data?.credit_utilization_bill?.paid_status">
+                                                      <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
                                                           <li nz-menu-item (click)="send_payment_amount_popup = true">
                                                               <span class="m-l-5">Send Payment Link</span>
                                                           </li>
