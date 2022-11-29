@@ -49,7 +49,7 @@ export class DownloadsComponent implements OnInit {
     this.api_calling_loader = true
     this.http.fetchDownloads(data).subscribe(res => {
       this.api_calling_loader = false
-      this.listData = res['data']
+      this.listData = res['data'].data
       this.total_count = res['data'].total_count
       // this.message.success(res['message'])
     }, (err) => {
