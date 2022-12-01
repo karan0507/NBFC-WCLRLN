@@ -80,6 +80,7 @@ export class PerApprovedComponent implements OnInit {
       remarksDescription: any;
       isVisibleXMLModal: boolean;
       xmlDataResponse: any;
+      isMoveToDoc = false
       moved_by = 'all';
       date_sorter = ''
       storedParams: any;
@@ -89,6 +90,10 @@ export class PerApprovedComponent implements OnInit {
       attendance_date = ''
       isAttendanceVisible: boolean;
       attendance_data: any;
+      checkOptionsOne = [];
+      documentData: any;
+      selectApplication: any;
+      document_remark: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if (params?.loan_id) {
@@ -105,6 +110,7 @@ export class PerApprovedComponent implements OnInit {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
+            this.fetchDocumentMaster()
       }
 
 
@@ -378,6 +384,7 @@ export class PerApprovedComponent implements OnInit {
             this.isVisible = false
             this.isAttendanceVisible = false
             this.expand_application_id = ''
+            this.isMoveToDoc = false
       }
 
       handleOk(type?) {
@@ -638,17 +645,42 @@ export class PerApprovedComponent implements OnInit {
       }
 
       moveToPendingDocumentUploadStage(val){
+            let count = 0
+            this.checkOptionsOne.forEach(element => {
+                  if (!element.checked) {
+                       count++ 
+                  }
+            });
+            if (count == this.checkOptionsOne.length) {
+                  this.message.error('please select document')
+                  return
+            }
+            if (!this.document_remark) {
+                  this.message.error('please enter remarks')
+                  return
+            }
             this.api_calling_loader['listLoader'] = true;
             // return;
             let data = {
-                  "application_id": val?.id,
+                  "application_id": this.selectApplication,
                   "source": "Onboarding",
-                  "datapoint": "update_document_needed"
-            };
+                  "datapoint": "update_document_needed",
+                  "document_remark": this.document_remark,
+                  "document_list": [],
+                  "change_flag": val
+            }
+            this.checkOptionsOne.forEach(element => {
+                  if (element.checked) {
+                        data.document_list.push(element.name)
+                  }
+            });
+            console.log(data)
+            // return
             this.https.editLoanData(data).subscribe((res: any)=>{
                   if(res?.success){
                         this.message.success(res?.message);
                         this.resetFilters();
+                        this.isMoveToDoc = false
                         this.api_calling_loader['listLoader'] = false;
                   } else {
                         this.api_calling_loader['listLoader'] = false;
@@ -659,4 +691,28 @@ export class PerApprovedComponent implements OnInit {
             })
       }
       // editLoanData
+
+      updateSingleChecked(): void {
+            if (this.checkOptionsOne.every(item => !item.checked)) {
+                  this.indeterminate = false;
+            } else if (this.checkOptionsOne.every(item => item.checked)) {
+                  this.indeterminate = false;
+            } else {
+                  this.indeterminate = true;
+            }
+      }
+      fetchDocumentMaster() {
+            let data;
+            this.https.fetchDocumentMaster(data).subscribe(res => {
+                  this.checkOptionsOne = res['data'].results
+                  this.checkOptionsOne.forEach(element => {
+                        element.label = element.name
+                        element.checked = false
+                  });
+            })
+      }
+      openMoveToModal(id) {
+            this.isMoveToDoc = true
+            this.selectApplication = id
+      }
 }

@@ -258,8 +258,11 @@
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Fetch Cibil PDF</span>
                     </li>
-                    <li nz-menu-item (click)="moveToPendingDocumentUploadStage(data)">
+                    <li nz-menu-item  *ngIf="!data?.document_needed_flag" (click)="openMoveToModal(data.id)">
                       <span class="m-l-5">Move To Document Pending</span>
+                    </li>
+                    <li nz-menu-item *ngIf="data?.document_needed_flag" (click)="selectApplication = data.id; moveToPendingDocumentUploadStage(false)">
+                      <span class="m-l-5">Remove Document Pending</span>
                     </li>
                     <li *ngxPermissionsOnly="['Move_to_dormant']">
                       <span class="" style="cursor: pointer;margin-left: 27px" nz-popconfirm
@@ -1259,5 +1262,23 @@
         </tr>
       </tbody>
     </nz-table>
+  </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="isMoveToDoc" nzTitle="Move to Document Pending" (nzOnCancel)="handleCancel()" (nzOnOk)="moveToPendingDocumentUploadStage(true)">
+  <ng-container *nzModalContent>
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        Select Documents :
+      </div>
+      <div class="col-md-12 mb-3">
+        <nz-checkbox-group [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
+      </div>
+      <div class="col-md-12 mb-3">
+        Remarks :
+      </div>
+      <div class="col-md-12">
+        <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 5 }" [(ngModel)]="document_remark"></textarea>
+      </div>
+    </div>
   </ng-container>
 </nz-modal>
