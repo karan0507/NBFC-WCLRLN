@@ -7,6 +7,12 @@
 .ant-checkbox-wrapper {
     color: $body-color;
     margin-right: 10px;
+    display: inline-flex;
+    span {
+        span {
+            margin-bottom: .5rem;
+        }
+    }
 }
 
 .ant-checkbox {

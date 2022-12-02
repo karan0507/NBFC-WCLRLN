@@ -651,13 +651,15 @@ export class PerApprovedComponent implements OnInit {
                        count++ 
                   }
             });
-            if (count == this.checkOptionsOne.length) {
-                  this.message.error('please select document')
-                  return
-            }
-            if (!this.document_remark) {
-                  this.message.error('please enter remarks')
-                  return
+            if (val) {
+                  if (count == this.checkOptionsOne.length) {
+                        this.message.error('please select document')
+                        return
+                  }
+                  if (!this.document_remark) {
+                        this.message.error('please enter remarks')
+                        return
+                  } 
             }
             this.api_calling_loader['listLoader'] = true;
             // return;
@@ -682,6 +684,10 @@ export class PerApprovedComponent implements OnInit {
                         this.resetFilters();
                         this.isMoveToDoc = false
                         this.api_calling_loader['listLoader'] = false;
+                        this.document_remark = ''
+                        this.checkOptionsOne.forEach(res => {
+                              res.checked = false
+                        })
                   } else {
                         this.api_calling_loader['listLoader'] = false;
                         this.message.error(res?.message)
