@@ -54,5 +54,16 @@ export class ThirdPartyApiCallComponent implements OnInit {
       this.api_calling_loader = false
     })
   }
-
+  exportGlobalFunction(file_type, api_name) {
+    let data = {
+      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      api_name: api_name ? api_name : '',
+      file_type: file_type
+    }
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.exportApiStats(data).subscribe(res => {
+      this.http.exportMasterSectionModule(res, 'export' + api_name + moment(this.date[0]).format("YYYY-MM-DD") + 'to' + moment(this.date[1]).format("YYYY-MM-DD"), file_type, generateloader)
+    })
+  }
 }

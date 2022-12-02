@@ -1269,4 +1269,7 @@ export class HttpService {
       public fetchDownloads(data) {
             return this._http.get((this.url + `/platform_central/v1/fetch-downloads`), { params: data });
       }
+      public exportApiStats(data): Observable<any> {
+            return this._http.get<Blob>((this.url + `/platform_central/v1/export-api-stats`), { params: data, responseType: 'blob' as 'json' });
+      }
 }
