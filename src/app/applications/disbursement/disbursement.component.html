@@ -899,6 +899,46 @@
                 </ng-template>
               </div>
 
+              <div class="my-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="geoloaction">
+                </nz-page-header>
+                <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id  ? api_calling_loader['accordian']  : null">
+                  <div class="row mx-0" *ngFor="let item of data?.expanddata?.geo_location; index as k">
+                    <div class="col-md-2">
+                      {{k+1}}
+                    </div>
+                    <div class="col-md-5">
+                      <div class="col-md-4">
+                        <span class="text-muted">Latitude</span>
+                      </div>
+                      <div class="col-md-8">
+                        {{item?.latitude ?
+                        item?.latitude
+                        : '-'}}
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="col-md-4">
+                        <span class="text-muted">Longitude</span>
+                      </div>
+                      <div class="col-md-8">
+                        {{item?.longitude ?
+                        item?.longitude
+                        : '-'}}
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #geoloaction>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                      Geolocation
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
+
               <!-- Excle Data -->
               <div class="my-3">
                 <nz-page-header class="site-page-header acc-bg-light"
