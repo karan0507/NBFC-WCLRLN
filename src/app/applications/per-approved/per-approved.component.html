@@ -219,7 +219,7 @@
                 }}
               </td>
               <td>
-                <span class="text-danger" nz-tooltip nzTooltipTitle="{{ data?.document_needed_flag ? 'Temporary in Document Needed' : ' - ' }}">
+                <span class="text-danger" nz-tooltip nzTooltipTitle="{{ data?.document_needed_flag ? data?.document_remark : ' - ' }}">
                   {{
                     data?.document_needed_flag ? ('Temporary' | slice: 0:18): ' - '}}
                   <!-- ? data?.document_needed_flag -->
