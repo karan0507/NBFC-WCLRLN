@@ -85,7 +85,8 @@ export class OnboardingComponent implements OnInit {
       pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory'],
       pan_no_document_needed: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_no_document_needed : false) : false],
       email_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.email_check : 'Mandatory') : 'Mandatory'],
-      pincode_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.pincode_check : 'Mandatory') : 'Mandatory']
+      pincode_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.pincode_check : 'Mandatory') : 'Mandatory'],
+      show_nach_in_onboarding: [data ? data?.show_nach_in_onboarding : true],
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -413,7 +414,8 @@ export class OnboardingComponent implements OnInit {
       document_rules: document_rules,
       third_party_calls: this.createEditForm.value.third_party_calls,
       aadhar_pan_rules: aadhar_pan_rules,
-      email_pincode_rules: email_pincode_rules
+      email_pincode_rules: email_pincode_rules,
+      show_nach_in_onboarding: this.createEditForm.value.show_nach_in_onboarding
     }
     console.log(data)
     // return;
