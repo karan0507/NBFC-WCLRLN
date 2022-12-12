@@ -59,6 +59,34 @@
                         </div>
                     </nz-form-item>
 
+                    <nz-form-item>
+                        <div class="col-md-5">
+                            <nz-form-label nzFor="email_check" class="text-left" nzRequired>Email</nz-form-label>
+                        </div>
+                        <div class="col-md-7">
+                            <nz-form-control nzErrorTip="Please select Email rules!">
+                                <nz-radio-group formControlName="email_check">
+                                    <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                    <label nz-radio nzValue="Optional">Optional</label>
+                                </nz-radio-group>
+                            </nz-form-control>
+                        </div>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <div class="col-md-5">
+                            <nz-form-label nzFor="pincode_check" class="text-left" nzRequired>Pincode</nz-form-label>
+                        </div>
+                        <div class="col-md-7">
+                            <nz-form-control nzErrorTip="Please select pincode rules!">
+                                <nz-radio-group formControlName="pincode_check">
+                                    <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                    <label nz-radio nzValue="Optional">Optional</label>
+                                </nz-radio-group>
+                            </nz-form-control>
+                        </div>
+                    </nz-form-item>
+
                     
                     <nz-form-item>
                         <div class="col-md-5">
