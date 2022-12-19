@@ -7,7 +7,7 @@
     </div>
     <div>
       <button
-        *ngxPermissionsOnly="['update_pre_approved_status_application']"
+        *ngxPermissionsOnly="['']"
         nz-button
         nzType="primary"
         [disabled]="checkDisabledStatus()"
@@ -23,7 +23,7 @@
         (click)="exportData('xlsx')"
         class="ml-3 border"
         [routerLink]=""
-        *ngxPermissionsOnly="['export_pre_approved_application']"
+        *ngxPermissionsOnly="['']"
       >
         Export
       </button>
@@ -175,6 +175,14 @@
             >
             </nz-option>
           </nz-select>
+          <!-- <nz-select [(ngModel)]="partner" (nzFocus)="onFocusMethod('partner')" style="width: 12rem;"
+              class="mx-1 my-md-0 mb-3" (ngModelChange)="getFormLoanData()" nzAllowClear
+              nzPlaceHolder="Select Partner">
+              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name ">
+              </nz-option>
+              <nz-option nzValue="other" nzLabel="Others">
+              </nz-option>
+        </nz-select> -->
           <nz-select
             [(ngModel)]="partner"
             nzMode="multiple"
@@ -297,12 +305,14 @@
             <th>Master Partner</th>
             <!-- <th>Source Id</th> -->
             <th>Company</th>
+            <th>Document Upload Check</th>
             <!-- <th>Reference Id</th> -->
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
-            <th>Document Pending</th>
-            <th>Reason</th>
+            <th>Status</th>
+            <th>Documents Steps</th>
+            <th>Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
           </tr>
         </thead>
@@ -358,6 +368,48 @@
                     : "-"
                 }}
               </td>
+              <td>
+                <i
+                  nz-icon
+                  nzType="info-circle"
+                  nzTheme="outline"
+                  *ngIf="data?.document_upload_list"
+                  style="cursor: pointer"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate"
+                  nzPopoverPlacement="top"
+                ></i>
+                <ng-template #contentTemplate>
+                  <div class="px-3">
+                    <ul *ngFor="let item of data?.document_upload_list">
+                      <li class="">
+                        <span style="font-weight: bolder"
+                          >{{ item?.document_name }}
+                        </span>
+                        <br />
+                        {{ item?.check_type }}
+                      </li>
+                      <!-- <li class="'text-danger"> -->
+                      <!-- <i
+                            *ngIf="!item?.check_type"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                          <i
+                            *ngIf="item?.check_type"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i> -->
+                      <!-- {{ item?.check_type }} -->
+                      <!-- </li> -->
+                    </ul>
+                  </div>
+                </ng-template>
+              </td>
               <!-- <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td> -->
               <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
               <td>
@@ -379,24 +431,26 @@
                     : "-"
                 }}
               </td>
+              <td>{{ data?.status ? data?.status : "-" }}</td>
               <td>
-                <span
-                  class="text-danger"
-                  nz-tooltip
-                  nzTooltipTitle="{{
-                    data?.document_needed_flag ? data?.document_remark : ' - '
-                  }}"
-                >
-                  {{
-                    data?.document_needed_flag
-                      ? ("Temporary" | slice : 0 : 18)
-                      : " - "
-                  }}
-                  <!-- ? data?.document_needed_flag -->
-                  <!-- : "-" -->
-                </span>
+                <i
+                  nz-icon
+                  nzType="info-circle"
+                  nzTheme="outline"
+                  *ngIf="data?.documents_uploaded"
+                  style="cursor: pointer"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate"
+                  nzPopoverPlacement="top"
+                ></i>
+                <ng-template #contentTemplate>
+                  <div class="px-3">
+                    <ul *ngFor="let item of data?.documents_uploaded">
+                      <li class="text-success">{{ item }}</li>
+                    </ul>
+                  </div>
+                </ng-template>
               </td>
-              <!-- {{ data?.document_needed_flag ? 'Temporary in Document Needed' : " - " }} -->
               <td>
                 <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
                   {{
@@ -426,7 +480,7 @@
                       nz-menu-item
                       [routerLink]="['edit-form']"
                       [queryParams]="{ id: data?.id }"
-                      *ngxPermissionsOnly="['edit_pre_approved_application']"
+                      *ngxPermissionsOnly="['']"
                     >
                       <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Edit Application</span>
@@ -438,51 +492,13 @@
                     >
                       <span class="m-l-5">Track Status</span>
                     </li>
-                    <li
-                      nz-menu-item
-                      *ngxPermissionsOnly="['Fetch_cibil_pdf']"
-                      (click)="fetchCibilPDF(data?.id)"
-                    >
-                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                      <span class="m-l-5">Fetch Cibil PDF</span>
-                    </li>
-                    <li
-                      nz-menu-item
-                      *ngIf="!data?.document_needed_flag"
-                      (click)="openMoveToModal(data.id)"
-                    >
-                      <span class="m-l-5">Move To Document Pending</span>
-                    </li>
-                    <li
-                      nz-menu-item
-                      *ngIf="data?.document_needed_flag"
-                      (click)="
-                        selectApplication = data.id;
-                        moveToPendingDocumentUploadStage(false)
-                      "
-                    >
-                      <span class="m-l-5">Remove Document Pending</span>
-                    </li>
-                    <li *ngxPermissionsOnly="['Move_to_dormant']">
-                      <span
-                        class=""
-                        style="cursor: pointer; margin-left: 27px"
-                        nz-popconfirm
-                        [nzPopconfirmTitle]="
-                          data?.is_dormant
-                            ? 'Are you sure you want to Move this application to Normal ? '
-                            : 'Are you sure you want to Move this application to Dormant ?'
-                        "
-                        nzPopconfirmPlacement="bottom"
-                        (nzOnConfirm)="confirm(data?.id)"
-                        (nzOnCancel)="cancel()"
-                        >{{
-                          data?.is_dormant
-                            ? "Move To Normal"
-                            : "Move To Dormant"
-                        }}</span
-                      >
-                    </li>
+                    <!-- <li>
+                      <span class="" style="cursor: pointer;margin-left: 27px" nz-popconfirm
+                      [nzPopconfirmTitle]=" data?.is_dormant ? 'Are you sure you want to Move this application to Normal ? ' : 'Are you sure you want to Move this application to Dormant ?'"
+                      nzPopconfirmPlacement="bottom"
+                      (nzOnConfirm)="confirm(data?.id)"
+                      (nzOnCancel)="cancel()">{{data?.is_dormant ? 'Move To Normal' : 'Move To Dormant'}}</span>
+                      </li> -->
                     <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
                                                                   <span class="m-l-5">Request Documents</span>
                                                             </li> -->
@@ -678,7 +694,7 @@
                         nz-button
                         nzType="link"
                         (click)="onClickFetchXML('PAN', data?.expanddata?.id)"
-                        >Fetch Pan XML</a
+                        >Fetch PAN XML</a
                       >
                     </div>
                     <div class="col-md-6">
@@ -972,11 +988,11 @@
                 </ng-template>
               </div>
 
-              <!-- Excle Data -->
+              <!-- excel Data -->
               <div class="my-3">
                 <nz-page-header
                   class="site-page-header acc-bg-light"
-                  [nzTitle]="excleData"
+                  [nzTitle]="excelData"
                 >
                 </nz-page-header>
                 <nz-card
@@ -1086,58 +1102,9 @@
                         </div>
                       </div>
                     </div>
-                    <h3 class="mt-3 col-md-12">Salary details</h3>
-                    <nz-table
-                      [nzData]="
-                        data?.expanddata?.excel_data?.last_salary_details
-                      "
-                      class="col-md-12"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Sr. no.</th>
-                          <th>Date</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          *ngFor="
-                            let data of data?.expanddata?.excel_data
-                              ?.last_salary_details;
-                            index as i
-                          "
-                        >
-                          <td>{{ i + 1 }}</td>
-                          <td>{{ data.credited_date }}</td>
-                          <td>₹ {{ data.amount }}</td>
-                        </tr>
-                      </tbody>
-                    </nz-table>
-                    <div class="col-md-12 mt-3">
-                      <button
-                        nzSize="small"
-                        nz-button
-                        nzType="primary"
-                        (click)="
-                          expand_application_id = data.id; isVisible = true
-                        "
-                        class="mr-3"
-                      >
-                        Pull attendance
-                      </button>
-                      <button
-                        nzSize="small"
-                        nz-button
-                        nzType="primary"
-                        (click)="showAttendance(data.id)"
-                      >
-                        Show attendance
-                      </button>
-                    </div>
                   </div>
                 </nz-card>
-                <ng-template #excleData>
+                <ng-template #excelData>
                   <div class="ml-md-2">
                     <h6 class="mb-0">
                       <i
@@ -1151,60 +1118,8 @@
                   </div>
                 </ng-template>
               </div>
-
-              <div class="mt-3">
-                <nz-page-header
-                  class="site-page-header acc-bg-light"
-                  [nzTitle]="preApproval"
-                >
-                </nz-page-header>
-                <nz-card
-                  class="mb-md-0"
-                  [nzLoading]="
-                    _currentId == data.id
-                      ? api_calling_loader['accordian']
-                      : null
-                  "
-                >
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column">
-                        <span class="text-muted"> Product Name </span>
-                        <div>
-                          {{
-                            data?.expanddata?.offer_details
-                              ? data?.expanddata?.offer_details?.product_name
-                              : "-"
-                          }}
-                          <!-- {{_activeLoans[i]['id'] == data.id ? _activeLoans[i]['email']}} -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-8">
-                      <div class="d-flex flex-column">
-                        <span class="text-muted"> Limit Proposed </span>
-                        <div>
-                          {{
-                            data?.expanddata?.offer_details
-                              ? data?.expanddata?.offer_details?.limit_proposed
-                              : "-"
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </nz-card>
-                <ng-template #preApproval>
-                  <div class="ml-md-2">
-                    <h6 class="mb-0">Pre Approved Offer Details</h6>
-                  </div>
-                </ng-template>
-              </div>
               <!-- Document Details  -->
-              <div
-                class="mt-3"
-                *ngxPermissionsOnly="['upload_pre_approved_document_details']"
-              >
+              <div class="mt-3" *ngxPermissionsOnly="['']">
                 <nz-page-header
                   class="site-page-header acc-bg-light"
                   [nzTitle]="document"
@@ -1315,64 +1230,6 @@
                 <ng-template #document>
                   <div class="ml-md-2">
                     <h6 class="mb-0">Document Details</h6>
-                  </div>
-                </ng-template>
-              </div>
-
-              <div class="mt-3">
-                <nz-page-header
-                  class="site-page-header acc-bg-light"
-                  [nzTitle]="bureau"
-                >
-                </nz-page-header>
-                <nz-card
-                  class="mb-md-0"
-                  [nzLoading]="
-                    _currentId == data.id
-                      ? api_calling_loader['accordian']
-                      : null
-                  "
-                >
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="d-flex flex-column">
-                        <h6>
-                          <div class="d-flex">
-                            <label class="text-muted">Credit Score: </label>
-                            <div class="mx-3">
-                              {{
-                                data?.expanddata?.cibil_data?.results[0]
-                                  ?.cibil_score
-                                  ? data?.expanddata?.cibil_data?.results[0]
-                                      ?.cibil_score
-                                  : "-"
-                              }}
-                              <span
-                                >(Last Pulled :
-                                {{
-                                  data?.expanddata?.cibil_data?.results[0]
-                                    ?.created_at | date : "medium"
-                                }}
-                                )</span
-                              >
-                            </div>
-                          </div>
-                        </h6>
-                        <!-- <b>
-                          <a
-                            class="text-primary"
-                            (click)="getCibilScoreData('cibil', data?.id)"
-                            >Fetch Cibil</a
-                          >
-                        </b> -->
-                        <div></div>
-                      </div>
-                    </div>
-                  </div>
-                </nz-card>
-                <ng-template #bureau>
-                  <div class="ml-md-2">
-                    <h6 class="mb-0">Bureau Details</h6>
                   </div>
                 </ng-template>
               </div>
@@ -1554,19 +1411,19 @@
                             Preview
                           </button>
                           <!-- <i
-                            *ngIf="item?.api_response"
-                            nz-icon
-                            nzType="check-circle"
-                            nzTheme="fill"
-                            class="text-success"
-                          ></i>
-                          <i
-                            *ngIf="!item?.api_response"
-                            nz-icon
-                            nzType="close-circle"
-                            nzTheme="fill"
-                            class="text-danger"
-                          ></i> -->
+                              *ngIf="item?.api_response"
+                              nz-icon
+                              nzType="check-circle"
+                              nzTheme="fill"
+                              class="text-success"
+                            ></i>
+                            <i
+                              *ngIf="!item?.api_response"
+                              nz-icon
+                              nzType="close-circle"
+                              nzTheme="fill"
+                              class="text-danger"
+                            ></i> -->
                         </td>
                       </tr>
                     </tbody>
@@ -1818,9 +1675,6 @@
 >
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
-      <!-- <p>Content one</p>
-                  <p>Content two</p>
-                  <p>Content three</p> -->
       <span *ngIf="xmlDataResponse">
         <ngx-json-viewer
           [json]="xmlDataResponse"
@@ -1844,6 +1698,45 @@
   </ng-template>
 </nz-modal>
 
+<nz-modal
+  [(nzVisible)]="isVisibleUploadedImage"
+  nzTitle="Fetched Selfie Response"
+  (nzOnCancel)="isVisibleUploadedImage = false"
+  [nzWidth]="'70%'"
+  [nzFooter]="selfieFooter"
+>
+  <ng-container *nzModalContent>
+    <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
+      <!-- <span *ngIf="xmlDataResponse">
+                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
+                  </span> 
+                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
+                        No data Found
+                  </span> -->
+      <div class="row">
+        <div class="col-6">
+          <!-- <div>Aadhar Image</div> -->
+          <div><b>Aadhar Image</b></div>
+          <img alt="item" [src]="storedSelfieImage?.aadhar_url" width="100%" />
+        </div>
+        <div class="col-6">
+          <div><b>Selfie Image</b></div>
+          <img alt="item" [src]="storedSelfieImage?.selfie_url" width="100%" />
+        </div>
+      </div>
+    </nz-card>
+  </ng-container>
+  <ng-template #selfieFooter>
+    <button
+      nz-button
+      nzType="link"
+      class="border"
+      (click)="isVisibleUploadedImage = false"
+    >
+      Cancel
+    </button>
+  </ng-template>
+</nz-modal>
 <nz-modal
   [(nzVisible)]="isVisibleThirdPartyResp"
   [nzWidth]="'600'"
@@ -1877,116 +1770,4 @@
       Cancel
     </button>
   </ng-template>
-</nz-modal>
-<nz-modal
-  [(nzVisible)]="isVisibleUploadedImage"
-  nzTitle="Fetched Selfie Response"
-  (nzOnCancel)="isVisibleUploadedImage = false"
-  (nzOnOk)="isVisibleUploadedImage = false"
-  [nzWidth]="'70%'"
->
-  <ng-container *nzModalContent>
-    <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
-      <!-- <span *ngIf="xmlDataResponse">
-                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
-                  </span> 
-                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
-                        No data Found
-                  </span> -->
-      <div class="row">
-        <div class="col-6">
-          <!-- <div>Aadhar Image</div> -->
-          <div><b>Aadhar Image</b></div>
-          <img alt="item" [src]="storedSelfieImage?.aadhar_url" width="100%" />
-        </div>
-        <div class="col-6">
-          <div><b>Selfie Image</b></div>
-          <img alt="item" [src]="storedSelfieImage?.selfie_url" width="100%" />
-        </div>
-      </div>
-    </nz-card>
-  </ng-container>
-</nz-modal>
-<nz-modal
-  [(nzVisible)]="pdf_viewer_object_values['boolean']"
-  nzHeight="60vw"
-  nzWidth="80vw"
-  nzKeyboard="true"
-  [nzTitle]="pdf_viewer_object_values['title']"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="modalFooter"
->
-  <ng-container *nzModalContent>
-    <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values['url']">
-      <embed [src]="pdfData" width="100%" style="height: 37rem" />
-    </div>
-    <div *ngIf="!pdf_viewer_object_values['url']">
-      <h4>No PDF Found</h4>
-    </div>
-  </ng-container>
-</nz-modal>
-<ng-template #modalFooter>
-  <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
-</ng-template>
-<nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="Select Date Range"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk('attendance')"
-  [nzOkText]="'Fetch attendance'"
-  [nzOkLoading]="api_calling_loader['button']"
->
-  <ng-container *nzModalContent>
-    <nz-range-picker [(ngModel)]="attendance_date"></nz-range-picker>
-  </ng-container>
-</nz-modal>
-<nz-modal
-  [(nzVisible)]="isAttendanceVisible"
-  nzTitle="Attendance"
-  (nzOnCancel)="handleCancel()"
-  [nzOkText]="null"
->
-  <ng-container *nzModalContent>
-    <nz-table [nzData]="attendance_data">
-      <thead>
-        <tr>
-          <th>Sr. no.</th>
-          <th>Date</th>
-          <th>Number of hours worked</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of attendance_data; index as i">
-          <td>{{ i + 1 }}</td>
-          <td>{{ data.date }}</td>
-          <td>{{ data.number_of_hours_worked }}</td>
-          <td>{{ data.status }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </ng-container>
-</nz-modal>
-<nz-modal
-  [(nzVisible)]="isMoveToDoc"
-  nzTitle="Move to Document Pending"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="moveToPendingDocumentUploadStage(true)"
->
-  <ng-container *nzModalContent>
-    <div class="row">
-      <div class="col-md-12 mb-3">Select Documents :</div>
-      <div class="col-md-12 mb-3">
-        <nz-checkbox-group [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
-      </div>
-      <div class="col-md-12 mb-3">Remarks :</div>
-      <div class="col-md-12">
-        <textarea
-          nz-input
-          [nzAutosize]="{ minRows: 3, maxRows: 5 }"
-          [(ngModel)]="document_remark"
-        ></textarea>
-      </div>
-    </div>
-  </ng-container>
 </nz-modal>

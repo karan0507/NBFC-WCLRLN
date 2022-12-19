@@ -48,9 +48,10 @@ import { AllApplicantsComponent } from './all-applicants/all-applicants.componen
 import { CorporateStageComponent } from './corporate-stage/corporate-stage.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { DocumentPendingComponent } from './document-pending/document-pending.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
