@@ -224,10 +224,10 @@ export class UnderwritingComponent implements OnInit {
     }
   }
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
-      this.message.warning('data saved already')
-      return false
-    }
+    // if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    //   this.message.warning('data saved already')
+    //   return false
+    // }
     this.createUnderWritingRule();
   }
   createUnderWritingRule() {
