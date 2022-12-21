@@ -192,7 +192,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/pre-approved',
-                title: 'Pre Approved',
+                title: 'Document verification',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
