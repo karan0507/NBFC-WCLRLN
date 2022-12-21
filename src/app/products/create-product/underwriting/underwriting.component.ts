@@ -123,7 +123,7 @@ export class UnderwritingComponent implements OnInit {
   setFormData(data, isedit) {
     if (data) {
       data.range_entities?.forEach(element => {
-        // this.selectedTab = element.employment_type.id
+        this.selectedTab = element.employment_type.id
         this.addUnderWriting(element, isedit)
       });
       data.comparison_entities?.forEach(element => {
