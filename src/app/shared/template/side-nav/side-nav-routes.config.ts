@@ -173,20 +173,20 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
-                path: 'applications/document-pending',
-                title: 'Document Pending',
-                iconType: '',
-                icon: '',
-                permission: [''],
-                iconTheme: '',
-                submenu: []
-            },
-            {
                 path: 'applications/document-upload',
                 title: 'Document Upload',
                 iconType: '',
                 icon: '',
                 permission: ['view_document_upload_application'],
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: 'applications/document-pending',
+                title: 'Document Pending',
+                iconType: '',
+                icon: '',
+                permission: [''],
                 iconTheme: '',
                 submenu: []
             },

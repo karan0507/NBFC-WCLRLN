@@ -688,6 +688,7 @@ export class PerApprovedComponent implements OnInit {
                         this.checkOptionsOne.forEach(res => {
                               res.checked = false
                         })
+                        this.getFormLoanData()
                   } else {
                         this.api_calling_loader['listLoader'] = false;
                         this.message.error(res?.message)
