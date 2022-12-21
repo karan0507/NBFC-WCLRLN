@@ -77,7 +77,10 @@ export class SideNavComponent {
                   case 'Form Filling':
                         return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Form Filling')?.applications : 0
                   case 'Document verification': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Pre Approved')?.applications : 0
+<<<<<<< HEAD
                   case 'Document Pending': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Document Pending')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Document Pending')?.applications : 0
+=======
+>>>>>>> 192b8449bf28bc5eb064e6f2a1c6c23da8d8c128
                   case 'Document Upload': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Document Upload')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Document Upload')?.applications : 0
                   case 'Underwriting': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'Underwriting')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'Underwriting')?.applications : 0
                   case 'NBFC Approval': return this.applicationCount && this.applicationCount.find(res => res?.stage_name == 'NBFC Approval')?.applications !== undefined ? this.applicationCount.find(res => res?.stage_name == 'NBFC Approval')?.applications : 0

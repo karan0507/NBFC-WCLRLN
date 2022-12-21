@@ -123,7 +123,7 @@ export class UnderwritingComponent implements OnInit {
   setFormData(data, isedit) {
     if (data) {
       data.range_entities?.forEach(element => {
-        // this.selectedTab = element.employment_type.id
+        this.selectedTab = element.employment_type.id
         this.addUnderWriting(element, isedit)
       });
       data.comparison_entities?.forEach(element => {
@@ -224,10 +224,10 @@ export class UnderwritingComponent implements OnInit {
     }
   }
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
-      this.message.warning('data saved already')
-      return false
-    }
+    // if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    //   this.message.warning('data saved already')
+    //   return false
+    // }
     this.createUnderWritingRule();
   }
   createUnderWritingRule() {
