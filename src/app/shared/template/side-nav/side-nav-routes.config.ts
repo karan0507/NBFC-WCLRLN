@@ -308,15 +308,15 @@ export const ROUTES: SideNavInterface[] = [
                         permission: ['view_borrowers'],
                         submenu: []
                     },
-                    {
-                        path: 'lms/borrowers/activation',
-                        title: 'Activation',
-                        iconType: '',
-                        icon: '',
-                        iconTheme: '',
-                        permission: ['view_borrowers'],
-                        submenu: []
-                    },
+                    // {
+                    //     path: 'lms/borrowers/activation',
+                    //     title: 'Activation',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: ['view_borrowers'],
+                    //     submenu: []
+                    // },
                     {
                         path: 'lms/borrowers/active',
                         title: 'Active',
@@ -335,15 +335,15 @@ export const ROUTES: SideNavInterface[] = [
                         permission: ['view_borrowers'],
                         submenu: []
                     },
-                    {
-                        path: 'lms/borrowers/delinquent',
-                        title: 'Deliquent',
-                        iconType: '',
-                        icon: '',
-                        iconTheme: '',
-                        permission: ['view_borrowers'],
-                        submenu: []
-                    },
+                    // {
+                    //     path: 'lms/borrowers/delinquent',
+                    //     title: 'Deliquent',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: ['view_borrowers'],
+                    //     submenu: []
+                    // },
                     {
                         path: 'lms/borrowers/close',
                         title: 'Close',

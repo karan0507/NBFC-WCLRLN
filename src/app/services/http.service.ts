@@ -1272,4 +1272,10 @@ export class HttpService {
       public exportApiStats(data): Observable<any> {
             return this._http.get<Blob>((this.url + `/platform_central/v1/export-api-stats`), { params: data, responseType: 'blob' as 'json' });
       }
+      dpdSettlement(data) {
+            return this._http.post((this.url + `/nbfc/v1/change-borrower-stages`), data);
+      }
+      moveToDocumentPending(data) {
+            return this._http.post((this.url + `/loan-application/v1/move-to-document-pending`), data);
+      }
 }

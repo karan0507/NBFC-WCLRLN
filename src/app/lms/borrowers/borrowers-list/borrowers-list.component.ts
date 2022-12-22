@@ -87,6 +87,10 @@ export class BorrowersListComponent implements OnInit {
   showReason: boolean;
   app_prod_type = '';
   xmlLoader: boolean;
+  isSettlementVisible = false
+  selectedSettleID;
+  settleRemarks = ''
+  settleloading: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     public sanitize: DomSanitizer,
@@ -270,6 +274,8 @@ export class BorrowersListComponent implements OnInit {
   handleCancel() {
     this.pdf_viewer_object_values['boolean'] = false
     this.showReason = false
+    this.isSettlementVisible = false
+    this.settleRemarks = ''
   }
 
   exportOutstandingGlobalFunction(file_formate) {
@@ -460,5 +466,33 @@ export class BorrowersListComponent implements OnInit {
   
   sanatizeUrlToSafe(value) {
     this.pdf_viewer_object_values['url'] = this.sanitize.bypassSecurityTrustResourceUrl(value);
+  }
+
+  setValuetoSettlement(id) {
+    this.isSettlementVisible = true
+    this.selectedSettleID = id
+  }
+
+  dpdSettlement() {
+    var data = {
+      offer: this.selectedSettleID,
+      change_type: 'SETTLE',
+      remarks: this.settleRemarks
+    }
+    this.settleloading = true
+    this.http.dpdSettlement(data).subscribe(res => {
+      if (res['success']) {
+        this.message.success(res['message'])
+      } else {
+        this.message.error(res['message'])
+      }
+      this.settleloading = false
+      this.handleCancel()
+      this.borrowertList()
+      // this.isSelectDate = false
+    }, (err) => {
+      this.settleloading = false
+      // this.isSelectDate = false
+    });
   }
 }

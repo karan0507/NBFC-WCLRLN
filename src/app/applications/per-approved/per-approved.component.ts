@@ -664,21 +664,22 @@ export class PerApprovedComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true;
             // return;
             let data = {
-                  "application_id": this.selectApplication,
-                  "source": "Onboarding",
-                  "datapoint": "update_document_needed",
-                  "document_remark": this.document_remark,
-                  "document_list": [],
-                  "change_flag": val
+                  "loan_application": this.selectApplication,
+                  // "source": "Onboarding",
+                  // "datapoint": "update_document_needed",
+                  // "document_remark": this.document_remark,
+                  "requested_document": [],
+                  // "change_flag": val
+                  "option": "add"
             }
             this.checkOptionsOne.forEach(element => {
                   if (element.checked) {
-                        data.document_list.push(element.name)
+                        data.requested_document.push(element.name)
                   }
             });
             console.log(data)
             // return
-            this.https.editLoanData(data).subscribe((res: any)=>{
+            this.https.moveToDocumentPending(data).subscribe((res: any)=>{
                   if(res?.success){
                         this.message.success(res?.message);
                         this.resetFilters();
@@ -689,6 +690,7 @@ export class PerApprovedComponent implements OnInit {
                               res.checked = false
                         })
                         this.getFormLoanData()
+                        this.global.setApplicationCount();
                   } else {
                         this.api_calling_loader['listLoader'] = false;
                         this.message.error(res?.message)
