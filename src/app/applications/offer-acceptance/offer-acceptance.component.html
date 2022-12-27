@@ -294,6 +294,7 @@
             <th>Loan ID</th>
             <th nzWidth="14rem">User Details</th>
             <th>Source</th>
+            <th>Type</th>
             <th>Apply Date & Time</th>
             <!-- <th>Master Partner</th>
                                     <th>Source Id</th> -->
@@ -343,6 +344,7 @@
                 </div>
               </td>
               <td>{{ data?.user?.source }}</td>
+              <td>{{ data?.type ? data?.type : '-' }}</td>
               <td>
                 <div class="d-flex flex-column">
                   <div>{{ data?.created_at | date : "medium" }}</div>

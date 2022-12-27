@@ -213,6 +213,7 @@
             <th>Apply Date & Time</th>
             <th>Master Partner</th>
             <th>Source Id</th>
+            <th>Type</th>
             <th>Partner Id</th>
             <th>Reference Id</th>
             <th>Previous stage</th>
@@ -265,6 +266,7 @@
                 {{ data?.master_partner ? data?.master_partner?.name : "-" }}
               </td>
               <td>{{ data?.source_id ? data?.source_id : "-" }}</td>
+              <td>{{ data?.type ? data?.type : '-' }}</td>
               <td>{{ data?.partner?.name ? data?.partner?.name : "-" }}</td>
               <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td>
               <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
