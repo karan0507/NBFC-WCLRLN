@@ -87,6 +87,7 @@ export class OnboardingComponent implements OnInit {
       email_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.email_check : 'Mandatory') : 'Mandatory'],
       pincode_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.pincode_check : 'Mandatory') : 'Mandatory'],
       show_nach_in_onboarding: [data ? data?.show_nach_in_onboarding : true],
+      show_ocr: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.show_ocr : true) : true]
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -367,14 +368,16 @@ export class OnboardingComponent implements OnInit {
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
         pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
-        employment_type: this.selectedTab
+        employment_type: this.selectedTab,
+        show_ocr: this.createEditForm.value.show_ocr
       }
     } else {
       aadhar_pan_rules = {
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
         pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
-        employment_type: this.selectedTab
+        employment_type: this.selectedTab,
+        show_ocr: this.createEditForm.value.show_ocr
       }
     }
     if (this.onboardingRuleData?.email_pincode_rules) {
