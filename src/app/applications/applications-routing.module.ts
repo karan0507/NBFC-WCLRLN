@@ -501,7 +501,44 @@ const routes: Routes = [
                               }
                         ]
                   },
-                 
+
+
+                  {
+                        path: 'document-pending',
+                        data: {
+                              title: 'Document Pending',
+                              parent: 'Application',
+                              custom_url: '/applications/document-pending'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                          permissions: {
+                                                only: '',
+                                                redirectTo: 'authentication/error-2'
+                                          }
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                                only: '',
+                                                redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
             
                  
                   {
