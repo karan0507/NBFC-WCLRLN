@@ -10,7 +10,7 @@
 <section>
   <div class="row mb-md-3">
     <div class="col-md-12 mb-md-0">
-      <nz-radio-group [(ngModel)]="sub_stage" (ngModelChange)="fetchBorrowerList()">
+      <nz-radio-group [(ngModel)]="sub_stage" (ngModelChange)="setBorrowersSubCount()">
         <label *ngIf="main_stage" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="">All ({{ all_count
           }})</label>
         <label *ngFor="let item of borrowersSubStageCount" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2"

@@ -110,7 +110,7 @@ export class BorrowersListComponent implements OnInit {
         // alert(params?.loan_id);
         this.storedParams = params?.loan_id
         this.search_params = params?.loan_id;
-        this.fetchBorrowerList();
+        this.setBorrowersSubCount();
       }
     });
 
@@ -188,7 +188,7 @@ export class BorrowersListComponent implements OnInit {
     this.date = ''
     this.disbursement_date = ''
     this.app_prod_type = ''
-    this.fetchBorrowerList()
+    this.setBorrowersSubCount()
   }
   OnTypeSearchList(event) {
     clearTimeout(this.debounce);
@@ -362,7 +362,7 @@ export class BorrowersListComponent implements OnInit {
     const generateloader = this.message.loading('Ignoring Enach trigger..', { nzDuration: 0 }).messageId;
     this.http.moveApplication(data).subscribe(res => {
       this.message.remove(generateloader)
-      this.fetchBorrowerList()
+      this.setBorrowersSubCount()
       this.message.success(res['message'])
     }, (err) => {
       this.message.remove(generateloader)
