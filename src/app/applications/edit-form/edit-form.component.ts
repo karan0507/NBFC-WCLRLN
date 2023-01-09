@@ -41,6 +41,22 @@ export class EditFormComponent implements OnInit {
             return differenceInCalendarDays(current, this.today) > 0;
       };
 
+      relationDetail = [
+            // {id: 0, label: 'Select Relationship', value: 'Select Relationship'},
+            { id: 1, label: 'Brother', value: 'Brother' },
+            { id: 2, label: 'Sister', value: 'Sister' },
+            { id: 3, label: 'Father', value: 'Father' },
+            { id: 4, label: 'Mother', value: 'Mother' },
+            // {id: 5, label: 'Cousin', value: 'Cousin'},
+            { id: 8, label: 'Daughter', value: 'Daughter' },
+            { id: 9, label: 'Spouse', value: 'Spouse' },
+            // {id: 11, label: 'Uncle', value: 'Uncle'},
+            // {id: 12, label: 'Aunt', value: 'Aunt'},
+            // {id: 13, label: 'Nephew', value: 'Nephew'},
+            // {id: 14, label: 'Niece', value: 'Niece'},
+            { id: 15, label: 'Son', value: 'Son' },
+      ]
+
       // Document Values:
       _isViewDocument: boolean = false;
       _isVerify: boolean = false;

@@ -250,11 +250,14 @@
                                           <nz-form-item>
                                                 <nz-form-label nzFor="relationship" class="text-left" nzRequired>Nominee Relationship 
                                                 </nz-form-label>
-                                                <nz-form-control nzErrorTip="Please Add Valid Relationship" style="font-weight: 900;">
+                                                <nz-form-control nzErrorTip="Please Add Valid Relationship">
                                                       <!-- <input nz-input type="text" formControlName="relationship" placeholder="Nominee Relationship" [disabled]="isDisabled"/> -->
                                                       <!-- <h4 class="my-0"> -->
-                                                            <label class="pl-4">{{item.controls.relationship.value}}</label>
+                                                            <!-- <label class="pl-4">{{item.controls.relationship.value}}</label> -->
                                                       <!-- </h4> -->
+                                                      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Relationship" class="w-100" formControlName="relationship">
+                                                            <nz-option *ngFor="let item of relationDetail" [nzLabel]="item?.label" [nzValue]="item?.label">{{item?.label}}</nz-option>
+                                                      </nz-select>
                                                 </nz-form-control>
                                                 </nz-form-item>
                                     </div>
