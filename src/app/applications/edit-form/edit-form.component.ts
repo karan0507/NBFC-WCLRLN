@@ -106,6 +106,7 @@ export class EditFormComponent implements OnInit {
                         email: [null, [ Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
                         date_of_birth: [null],
                         income: [null],
+                        gender: [null]
                   })
                   this.nomineeDetails = this.fb.group({
                         nominee: this.fb.array([]),
@@ -298,6 +299,7 @@ export class EditFormComponent implements OnInit {
                         this.api_calling_loader['accordian'] = false;
                         this.ifCorporateNotMapped = res?.data?.company_details?.name;
                         this.personalDetails.patchValue({ name: res?.data?.user_info ? res?.data?.user_info?.name : null });
+                        this.personalDetails.patchValue({ gender: res?.data?.user_info ? res?.data?.user_info?.gender : null });
                         this.personalDetails.patchValue({ date_of_birth: res?.data?.dob ? res?.data?.dob : null });
                         this.personalDetails.patchValue({ email: res?.data?.email ? res?.data?.email : null });
                         this.personalDetails.patchValue({ income: res?.data?.income_range ? res?.data?.income_range?.id : null });
@@ -432,6 +434,9 @@ export class EditFormComponent implements OnInit {
             }
             if(this.personalDetails.value.email){
                   data.append('email', this.personalDetails.value.email);
+            }
+            if (this.personalDetails.value.gender) {
+                  data.append('gender', this.personalDetails.value.gender);
             }
             if(this.personalDetails.value.date_of_birth){
                   data.append('dob', this.datePipe.transform(this.personalDetails.value.date_of_birth, 'yyyy-MM-dd'));
