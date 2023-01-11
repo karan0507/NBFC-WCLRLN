@@ -436,6 +436,12 @@ export class HttpService {
       public createOnboardingRules(data, product_id) {
             return this._http.post((this.url + `/product/v1/onboarding-rules/` + product_id), data);
       }
+      /**
+       * createOnboardingRules
+       */
+      public createRules(data, product_id) {
+            return this._http.post((this.url + `/product/v1/save-product-transaction-configuration`), data);
+      }
 
       /**
        * editOnboardingRules
@@ -449,6 +455,13 @@ export class HttpService {
        */
       public fetchOnboardingRules(data) {
             return this._http.get((this.url + `/product/v1/onboarding-rules/` + data.product_id));
+      }
+
+      /**
+       * fetchOnboardingRules
+       */
+      public fetchTransactionConfig(data) {
+            return this._http.get((this.url + `/product/v1/get-product-transaction-configuration/` + data.product_id));
       }
 
       /**
