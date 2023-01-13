@@ -431,7 +431,7 @@
             <th>Type</th>
             <th>Apply Date & Time</th>
             <th>Master Partner</th>
-            <!-- <th>Source Id</th> -->
+            <th>Is transaction pin set</th>
             <th>Company</th>
             <th>Offer amount</th>
             <!-- <th>Reference Id</th> -->
@@ -487,7 +487,12 @@
               <td>
                 {{ data?.master_partner ? data?.master_partner?.name : "-" }}
               </td>
-              <!-- <td>{{ data?.source_id ? data?.source_id : "-" }}</td> -->
+              <td>
+                <span style="color: #27c24c" *ngIf="data?.is_transaction_pin_set"><i nz-icon nzType="check-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i></span>
+                <span style="color: #dc3545" *ngIf="!data?.is_transaction_pin_set"><i nz-icon nzType="close-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i></span>
+              </td>
               <td>
                 {{
                   data?.company_details?.company_name

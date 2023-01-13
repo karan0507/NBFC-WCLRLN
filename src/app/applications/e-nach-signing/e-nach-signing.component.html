@@ -347,7 +347,7 @@
                                     <th>Source Id</th> -->
             <th>Company</th>
             <th>Offer amount</th>
-            <!-- <th>Reference Id</th> -->
+            <th>Is nominee</th>
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
@@ -412,7 +412,12 @@
                 }}
               </td>
               <td>₹ {{ data ?.offer_amount }}</td>
-              <!-- <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td> -->
+              <td>
+                <span style="color: #27c24c" *ngIf="data?.is_nominee_filled"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'"
+                    [nzTwotoneColor]="'#27C24C'"></i></span>
+                <span style="color: #dc3545" *ngIf="!data?.is_nominee_filled"><i nz-icon nzType="close-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i></span>
+              </td>
               <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
               <td>
                 {{
@@ -436,7 +441,7 @@
               <td>
                 {{
                   data?.summary_checked_date
-                    ? data?.summary_checked_date
+                    ? (data?.summary_checked_date | date : "medium")
                     : "-"
                 }}
               </td>

@@ -304,6 +304,10 @@
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
+            <th>Summary Checked Date</th>
+            <th>Summary Checked Remarks</th>
+            <th>Summary Check Status</th>
+            <th>Nach Status</th>
             <th>Status</th>
             <th>E-Mandate</th>
             <th>Nach Step's</th>
@@ -387,6 +391,28 @@
                     : "-"
                 }}
               </td>
+              <td>
+                {{
+                  data?.summary_checked_date
+                    ? (data?.summary_checked_date | date : "medium")
+                    : "-"
+                }}
+              </td>
+              <td>
+                {{
+                  data?.summary_checked_remarks
+                    ? data?.summary_checked_remarks
+                    : "-"
+                }}
+              </td>
+              <td>
+                {{
+                  data?.summary_check_status
+                    ? data?.summary_check_status
+                    : "-"
+                }}
+              </td>
+              <td>{{ data?.nach_status }}</td>
               <td>{{ data?.status ? data?.status : "-" }}</td>
               <td>{{ data?.auto_debit_step }}</td>
               <td>

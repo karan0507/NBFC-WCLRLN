@@ -116,9 +116,11 @@
             <th>Loan ID</th>
             <th>Employee code</th>
             <th>Employee status</th>
+            <th>Token status</th>
             <th>Nach status</th>
             <th>Applied on</th>
             <th>Disbursement date</th>
+            <th>First transaction limit</th>
             <th>Available limit</th>
             <th>Credit Line Assigned</th>
             <th>Credit Utilized</th>
@@ -180,6 +182,13 @@
                 : "-"
                 }}
               </td>
+              <td>
+                {{
+                data.nach_step_status
+                ? (data.nach_step_status)
+                : "-"
+                }}
+              </td>
               <td>{{ data.activation_date | date : "medium" }}</td>
               <td>
                 {{
@@ -188,6 +197,7 @@
                 : "-"
                 }}
               </td>
+              <td>₹ {{ data.first_transaction_limit ? data.first_transaction_limit : '0' }}</td>
               <td>₹ {{ data.closing_credit_balance }}</td>
               <td>₹ {{ data.loan_amount_provided }}</td>
               <td>₹ {{ data.credit_utilization_amount }}</td>
