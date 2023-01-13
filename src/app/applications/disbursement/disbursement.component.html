@@ -1315,6 +1315,11 @@
                         </tr>
                       </tbody>
                     </nz-table>
+                    <div class="col-md-12 mt-3">
+                      <button nzSize="small" nz-button nzType="primary" (click)="pullprofile(data.id)" [nzLoading]="generateloading">
+                        Pull Profile data
+                      </button>
+                    </div>
                   </div>
                 </nz-card>
                 <ng-template #excleData>

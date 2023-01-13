@@ -94,6 +94,7 @@ export class PerApprovedComponent implements OnInit {
       documentData: any;
       selectApplication: any;
       document_remark: any;
+      generateloading: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if (params?.loan_id) {
@@ -644,6 +645,25 @@ export class PerApprovedComponent implements OnInit {
             })
       }
 
+      pullprofile(id) {
+            this.generateloading = true
+            this.https.pullprofile(id).subscribe((res: any) => {
+                  if (res.success) {
+                        this.getIdWiseData(id, this._currentId)
+                        this.message.success(res.message)
+                        
+                  } else {
+                        this.message.error(res.message)
+                  }
+                  // this.https.exportMasterSectionModule(res, 'attendance-' + id, 'xlsx', generateloader)
+                  this.generateloading = false
+                  
+            }, error => {
+                  this.generateloading = false
+                  console.log(error);
+            })
+      }
+
       moveToPendingDocumentUploadStage(val){
             let count = 0
             this.checkOptionsOne.forEach(element => {
@@ -667,7 +687,7 @@ export class PerApprovedComponent implements OnInit {
                   "loan_application": this.selectApplication,
                   // "source": "Onboarding",
                   // "datapoint": "update_document_needed",
-                  // "document_remark": this.document_remark,
+                  "remarks": this.document_remark,
                   "requested_document": [],
                   // "change_flag": val
                   "option": "add"

@@ -1261,6 +1261,10 @@ export class HttpService {
       showAttendance(id) {
             return this._http.get((this.url + `/partner/v1/show-attendance/` + id), {responseType: 'blob'});
       }
+
+      pullprofile(id) {
+            return this._http.get((this.url + `/loan-application/v1/pull-quess-profile-data/` + id));
+      }
       pullAttendance(data) {
             return this._http.post((this.url + `/partner/v1/pull-attendance`), data);
       }

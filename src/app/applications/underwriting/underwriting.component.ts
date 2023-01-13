@@ -93,6 +93,11 @@ export class UnderwritingComponent implements OnInit {
   attendance_date = ''
   isAttendanceVisible: boolean;
   attendance_data: any;
+  generateloading: boolean;
+  selectApplication: any;
+  isMoveToDoc: boolean;
+  checkOptionsOne: any;
+  document_remark: string;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -120,6 +125,7 @@ export class UnderwritingComponent implements OnInit {
       interest: [null],
     });
     this.getFormLoanData();
+    this.fetchDocumentMaster()
   }
 
   isVisibleXMLModal = false;
@@ -537,6 +543,7 @@ export class UnderwritingComponent implements OnInit {
     this.isVisible = false
     this.isAttendanceVisible = false
     this.expand_application_id = ''
+    this.isMoveToDoc = false
   }
 
   handleOk(type?) {
@@ -902,6 +909,94 @@ export class UnderwritingComponent implements OnInit {
     }, error => {
       this.message.remove(generateloader);
       console.log(error);
+    })
+  }
+  pullprofile(id) {
+    this.generateloading = true
+    this.https.pullprofile(id).subscribe((res: any) => {
+      if (res.success) {
+        this.getIdWiseData(id, this._currentId)
+        this.message.success(res.message)
+
+      } else {
+        this.message.error(res.message)
+      }
+      // this.https.exportMasterSectionModule(res, 'attendance-' + id, 'xlsx', generateloader)
+      this.generateloading = false
+
+    }, error => {
+      this.generateloading = false
+      console.log(error);
+    })
+  }
+  openMoveToModal(id) {
+    this.isMoveToDoc = true
+    this.selectApplication = id
+  }
+
+  moveToPendingDocumentUploadStage(val) {
+    let count = 0
+    this.checkOptionsOne.forEach(element => {
+      if (!element.checked) {
+        count++
+      }
+    });
+    if (val) {
+      if (count == this.checkOptionsOne.length) {
+        this.message.error('please select document')
+        return
+      }
+      if (!this.document_remark) {
+        this.message.error('please enter remarks')
+        return
+      }
+    }
+    this.api_calling_loader['listLoader'] = true;
+    // return;
+    let data = {
+      "loan_application": this.selectApplication,
+      // "source": "Onboarding",
+      // "datapoint": "update_document_needed",
+      "remarks": this.document_remark,
+      "requested_document": [],
+      // "change_flag": val
+      "option": "add"
+    }
+    this.checkOptionsOne.forEach(element => {
+      if (element.checked) {
+        data.requested_document.push(element.name)
+      }
+    });
+    console.log(data)
+    // return
+    this.https.moveToDocumentPending(data).subscribe((res: any) => {
+      if (res?.success) {
+        this.message.success(res?.message);
+        this.resetFilters();
+        this.isMoveToDoc = false
+        this.api_calling_loader['listLoader'] = false;
+        this.document_remark = ''
+        this.checkOptionsOne.forEach(res => {
+          res.checked = false
+        })
+        this.getFormLoanData()
+        this.global.setApplicationCount();
+      } else {
+        this.api_calling_loader['listLoader'] = false;
+        this.message.error(res?.message)
+      }
+    }, error => {
+      this.api_calling_loader['listLoader'] = false;
+    })
+  }
+  fetchDocumentMaster() {
+    let data;
+    this.https.fetchDocumentMaster(data).subscribe(res => {
+      this.checkOptionsOne = res['data'].results
+      this.checkOptionsOne.forEach(element => {
+        element.label = element.name
+        element.checked = false
+      });
     })
   }
 }

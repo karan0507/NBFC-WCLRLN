@@ -838,8 +838,11 @@
                         " class="mr-3">
           Pull attendance
         </button>
-        <button nzSize="small" nz-button nzType="primary" (click)="showAttendance(data.id)">
+        <button nzSize="small" class="mr-3" nz-button nzType="primary" (click)="showAttendance(data.id)">
           Show attendance
+        </button>
+        <button nzSize="small" nz-button nzType="primary" (click)="pullprofile(data.id)" [nzLoading]="generateloading">
+          Pull Profile data
         </button>
       </div>
     </div>
