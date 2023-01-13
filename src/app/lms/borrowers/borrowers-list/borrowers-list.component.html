@@ -103,7 +103,7 @@
         </div>
       </div>
       <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
-        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzScroll]="{ x: '3000px' }"
+        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzScroll]="{ x: '3500px' }"
         [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
         <!-- , y: '45vh'     -->
         <thead>
@@ -117,6 +117,7 @@
             <th>Employee code</th>
             <th>Employee status</th>
             <th>Token status</th>
+            <th>Corporate Nach status</th>
             <th>Nach status</th>
             <th>Applied on</th>
             <th>Disbursement date</th>
@@ -179,6 +180,13 @@
                 {{
                 data.latest_token_status
                 ? (data.latest_token_status | titlecase)
+                : "-"
+                }}
+              </td>
+              <td>
+                {{
+                data.corporate_nach_status
+                ? (data.corporate_nach_status)
                 : "-"
                 }}
               </td>
