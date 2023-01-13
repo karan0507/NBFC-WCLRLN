@@ -1476,7 +1476,7 @@
                       <div class="d-flex flex-column">
                         <h6>
                           <div class="d-flex">
-                            <label class="text-muted">Credit Score: </label>
+                            <!-- <label class="text-muted">Credit Score: </label>
                             <div class="mx-3">
                               {{
                                 data?.expanddata?.cibil_data?.results[0]
@@ -1493,7 +1493,24 @@
                                 }}
                                 )</span
                               >
-                            </div>
+                            </div> -->
+
+                            <nz-table [nzData]=" data?.expanddata?.cibil_data?.results" class="col-md-12">
+                              <thead>
+                                <tr>
+                                  <th>Sr. no.</th>
+                                  <th>Credit score</th>
+                                  <th>Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor=" let data of data?.expanddata?.cibil_data?.results; index as i">
+                                  <td>{{ i + 1 }}</td>
+                                  <td>{{ data.cibil_score }}</td>
+                                  <td>{{data?.created_at | date : "medium"}}</td>
+                                </tr>
+                              </tbody>
+                            </nz-table>
                           </div>
                         </h6>
                         <b>
