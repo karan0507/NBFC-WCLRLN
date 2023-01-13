@@ -351,7 +351,9 @@
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
-            <!-- <th>Status</th> -->
+            <th>Summary Checked Date</th>
+            <th>Summary Checked Remarks</th>
+            <th>Summary Check Status</th>
             <th>Corporate Nach Step's</th>
             <th>Nach Status</th>
             <th>Remarks</th>
@@ -431,6 +433,30 @@
                     : "-"
                 }}
               </td>
+              <td>
+                {{
+                  data?.summary_checked_date
+                    ? data?.summary_checked_date
+                    : "-"
+                }}
+              </td>
+              <td>
+                {{
+                  data?.summary_checked_remarks
+                    ? data?.summary_checked_remarks
+                    : "-"
+                }}
+              </td>
+              <td>
+                {{
+                  data?.summary_check_status
+                    ? data?.summary_check_status
+                    : "-"
+                }}
+              </td>
+              <!--
+            <th>Summary Checked Remarks</th>
+            <th>Summary Check Status</th> -->
               <!-- <td>{{ data?.status ? data?.status : "-" }}</td> -->
               <td>
                 {{
