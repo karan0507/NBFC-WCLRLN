@@ -87,6 +87,10 @@ export class BorrowersListComponent implements OnInit {
   showReason: boolean;
   app_prod_type = '';
   xmlLoader: boolean;
+  isSettlementVisible = false
+  selectedSettleID;
+  settleRemarks = ''
+  settleloading: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
     private router: Router,
     public sanitize: DomSanitizer,
@@ -106,7 +110,7 @@ export class BorrowersListComponent implements OnInit {
         // alert(params?.loan_id);
         this.storedParams = params?.loan_id
         this.search_params = params?.loan_id;
-        this.fetchBorrowerList();
+        this.setBorrowersSubCount();
       }
     });
 
@@ -184,7 +188,7 @@ export class BorrowersListComponent implements OnInit {
     this.date = ''
     this.disbursement_date = ''
     this.app_prod_type = ''
-    this.fetchBorrowerList()
+    this.setBorrowersSubCount()
   }
   OnTypeSearchList(event) {
     clearTimeout(this.debounce);
@@ -270,6 +274,8 @@ export class BorrowersListComponent implements OnInit {
   handleCancel() {
     this.pdf_viewer_object_values['boolean'] = false
     this.showReason = false
+    this.isSettlementVisible = false
+    this.settleRemarks = ''
   }
 
   exportOutstandingGlobalFunction(file_formate) {
@@ -356,7 +362,7 @@ export class BorrowersListComponent implements OnInit {
     const generateloader = this.message.loading('Ignoring Enach trigger..', { nzDuration: 0 }).messageId;
     this.http.moveApplication(data).subscribe(res => {
       this.message.remove(generateloader)
-      this.fetchBorrowerList()
+      this.setBorrowersSubCount()
       this.message.success(res['message'])
     }, (err) => {
       this.message.remove(generateloader)
@@ -365,12 +371,12 @@ export class BorrowersListComponent implements OnInit {
 
   sendEnachLink(id, type) {
     let data = new FormData()
-    data.append('source', 'LMS'),
-      data.append('datapoint', 'create_mandate_registration_link'),
+    // data.append('source', 'LMS'),
+    //   data.append('datapoint', 'create_mandate_registration_link'),
       data.append('auth_type', type),
       data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
-    this.http.fetchLoanApplicationUpload(data).subscribe(res => {
+    this.http.sendEmandateLink(data).subscribe(res => {
       this.message.remove(generateloader);
       this.message.success(res['message'])
       // this.EMandateRegistrationLink()
@@ -460,5 +466,33 @@ export class BorrowersListComponent implements OnInit {
   
   sanatizeUrlToSafe(value) {
     this.pdf_viewer_object_values['url'] = this.sanitize.bypassSecurityTrustResourceUrl(value);
+  }
+
+  setValuetoSettlement(id) {
+    this.isSettlementVisible = true
+    this.selectedSettleID = id
+  }
+
+  dpdSettlement() {
+    var data = {
+      offer: this.selectedSettleID,
+      change_type: 'SETTLE',
+      remarks: this.settleRemarks
+    }
+    this.settleloading = true
+    this.http.dpdSettlement(data).subscribe(res => {
+      if (res['success']) {
+        this.message.success(res['message'])
+      } else {
+        this.message.error(res['message'])
+      }
+      this.settleloading = false
+      this.handleCancel()
+      this.borrowertList()
+      // this.isSelectDate = false
+    }, (err) => {
+      this.settleloading = false
+      // this.isSelectDate = false
+    });
   }
 }

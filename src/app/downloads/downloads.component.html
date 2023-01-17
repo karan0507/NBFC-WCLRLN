@@ -1,0 +1,36 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+
+            <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="listData"
+                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
+                [nzPageSize]="globalPageSize" (nzQueryParams)="listData[0] ? fetchDownloads($event) : ''"
+                [nzScroll]="{ y: '' }">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>File Name</th>
+                        <th>Created at</th>
+                        <th>Status</th>
+                        <th nzWidth="5rem" nzRight>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of listData; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data.file_name ? data.file_name : '-' }}</td>
+                        <td>{{ data.created_at | date: "mediumDate"}} {{data.created_at | date: "shortTime" }}</td>
+                        <td>{{ data.status ? data.status : '-' }}</td>
+                        <td nzRight>
+                            <a [href]="data.download_file">Download</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>

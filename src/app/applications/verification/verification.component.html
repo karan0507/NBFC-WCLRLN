@@ -182,6 +182,7 @@
                                     <th>Loan ID</th>
                                     <th nzWidth="14rem">User Details</th>
                                     <th>Source</th>
+                                    <th>Type</th>
                                     <th>Apply Date & Time</th>
                                     <th>Master Partner</th>
                                     <!-- <th>Source Id</th> -->
@@ -215,6 +216,7 @@
                                                 </div>
                                           </td>
                                           <td>{{ data?.user?.source }}</td>
+                                          <td>{{ data?.type ? data?.type : '-' }}</td>
                                           <td>
                                                 <div class="d-flex flex-column">
                                                       <div>{{ data?.created_at | date:'medium' }}</div>
@@ -312,6 +314,17 @@
                                                                               ?
                                                                               data?.expanddata?.income_details?.results[0]?.income_range_id?.name
                                                                               : '-'}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                  <div class="d-flex flex-column">
+                                                                        <span class="text-muted">
+                                                                              Residential Pincode
+                                                                        </span>
+                                                                        <div>
+                                                                              {{data?.expanddata?.user?.user_entered_pincode ?
+                                                                              data?.expanddata?.user?.user_entered_pincode : '-'}}
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -509,6 +522,90 @@
                                                       </div>
                                                 </ng-template>
                                           </div>
+
+
+            <div class="my-3">
+                  <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="allAddress">
+                  </nz-page-header>
+                  <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id  ? api_calling_loader['accordian']  : null">
+                        <div class="row mx-0">
+                              <div class="col-md-3">
+                                    <span class="text-muted">Addhar address</span>
+                              </div>
+                              <div class="col-md-8">
+                                    {{data?.expanddata?.address_list?.aadhar_address ?
+                                    data?.expanddata?.address_list?.aadhar_address
+                                    : '-'}}
+                              </div>
+                              <div class="col-md-3">
+                                    <span class="text-muted">Cibil address</span>
+                              </div>
+                              <div class="col-md-8">
+                                    {{data?.expanddata?.address_list?.cibil_address ?
+                                    data?.expanddata?.address_list?.cibil_address
+                                    : '-'}}
+                              </div>
+                              <div class="col-md-3">
+                                    <span class="text-muted">Corporate address</span>
+                              </div>
+                              <div class="col-md-8">
+                                    {{data?.expanddata?.address_list?.partner_address ?
+                                    data?.expanddata?.address_list?.partner_address
+                                    : '-'}}
+            
+                              </div>
+                        </div>
+                  </nz-card>
+                  <ng-template #allAddress>
+                        <div class="ml-md-2">
+                              <h6 class="mb-0">
+                                    <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                    All Address
+                              </h6>
+                        </div>
+                  </ng-template>
+            </div>
+
+
+            <div class="my-3">
+                  <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="geoloaction">
+                  </nz-page-header>
+                  <nz-card class="mb-md-0 border" [nzLoading]="_currentId == data.id  ? api_calling_loader['accordian']  : null">
+                        <div class="row mx-0" *ngFor="let item of data?.expanddata?.geo_location; index as k">
+                              <div class="col-md-2">
+                                    {{k+1}}
+                              </div>
+                              <div class="col-md-5">
+                                    <div class="col-md-4">
+                                          <span class="text-muted">Latitude</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                          {{item?.latitude ?
+                                          item?.latitude
+                                          : '-'}}
+                                    </div>
+                              </div>
+                              <div class="col-md-5">
+                                    <div class="col-md-4">
+                                          <span class="text-muted">Longitude</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                          {{item?.longitude ?
+                                          item?.longitude
+                                          : '-'}}
+                                    </div>
+                              </div>
+                        </div>
+                  </nz-card>
+                  <ng-template #geoloaction>
+                        <div class="ml-md-2">
+                              <h6 class="mb-0">
+                                    <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                                    Geolocation
+                              </h6>
+                        </div>
+                  </ng-template>
+            </div>
 
                                           <!-- Excle Data -->
                                           <div class="my-3">
@@ -708,6 +805,14 @@
 
                                                             </div>
 
+                                                      </div>
+                                                      <div class="row">
+                                                            <div class="col-12">
+                                                                  <!-- View Uploaded Document -->
+                                                                  <button nzSize="small" nz-button nzType="link" (click)="onClickPreviewImage(data?.id)">
+                                                                        View Uploaded Document
+                                                                  </button>
+                                                            </div>
                                                       </div>
                                                       <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
                                                             Documents not uploaded
@@ -1746,3 +1851,27 @@
         <nz-range-picker [(ngModel)]="attendance_date"></nz-range-picker>
       </ng-container>
     </nz-modal>
+<nz-modal [(nzVisible)]="isVisibleUploadedImage" nzTitle="Fetched Selfie Response"
+      (nzOnCancel)="isVisibleUploadedImage = false" (nzOnOk)="isVisibleUploadedImage = false" [nzWidth]="'70%'">
+      <ng-container *nzModalContent>
+            <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
+                  <!-- <span *ngIf="xmlDataResponse">
+                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
+                  </span> 
+                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
+                        No data Found
+                  </span> -->
+                  <div class="row">
+                        <div class="col-6">
+                              <!-- <div>Aadhar Image</div> -->
+                              <div><b>Aadhar Image</b></div>
+                              <img alt="item" [src]="storedSelfieImage?.aadhar_url" width="100%" />
+                        </div>
+                        <div class="col-6">
+                              <div><b>Selfie Image</b></div>
+                              <img alt="item" [src]="storedSelfieImage?.selfie_url" width="100%" />
+                        </div>
+                  </div>
+            </nz-card>
+      </ng-container>
+</nz-modal>

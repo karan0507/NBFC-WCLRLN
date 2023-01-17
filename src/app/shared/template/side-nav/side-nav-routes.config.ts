@@ -182,8 +182,17 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'applications/document-pending',
+                title: 'Document Pending',
+                iconType: '',
+                icon: '',
+                permission: [''],
+                iconTheme: '',
+                submenu: []
+            },
+            {
                 path: 'applications/pre-approved',
-                title: 'Pre Approved',
+                title: 'Document verification',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -299,15 +308,15 @@ export const ROUTES: SideNavInterface[] = [
                         permission: ['view_borrowers'],
                         submenu: []
                     },
-                    {
-                        path: 'lms/borrowers/activation',
-                        title: 'Activation',
-                        iconType: '',
-                        icon: '',
-                        iconTheme: '',
-                        permission: ['view_borrowers'],
-                        submenu: []
-                    },
+                    // {
+                    //     path: 'lms/borrowers/activation',
+                    //     title: 'Activation',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: ['view_borrowers'],
+                    //     submenu: []
+                    // },
                     {
                         path: 'lms/borrowers/active',
                         title: 'Active',
@@ -326,15 +335,15 @@ export const ROUTES: SideNavInterface[] = [
                         permission: ['view_borrowers'],
                         submenu: []
                     },
-                    {
-                        path: 'lms/borrowers/delinquent',
-                        title: 'Deliquent',
-                        iconType: '',
-                        icon: '',
-                        iconTheme: '',
-                        permission: ['view_borrowers'],
-                        submenu: []
-                    },
+                    // {
+                    //     path: 'lms/borrowers/delinquent',
+                    //     title: 'Deliquent',
+                    //     iconType: '',
+                    //     icon: '',
+                    //     iconTheme: '',
+                    //     permission: ['view_borrowers'],
+                    //     submenu: []
+                    // },
                     {
                         path: 'lms/borrowers/close',
                         title: 'Close',
@@ -722,6 +731,15 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_reports'],
+        icon: 'snippets',
+        submenu: []
+    },
+    {
+        path: 'downloads',
+        title: 'Downloads',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: [''],
         icon: 'snippets',
         submenu: []
     },

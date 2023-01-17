@@ -6,6 +6,7 @@ import { ClosedComponent } from './closed/closed.component';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { CorporateStageComponent } from './corporate-stage/corporate-stage.component';
 import { DisbursementComponent } from './disbursement/disbursement.component';
+import { DocumentPendingComponent } from './document-pending/document-pending.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { ENachSigningComponent } from './e-nach-signing/e-nach-signing.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
@@ -61,6 +62,19 @@ const routes: Routes = [
                               permissions: {
                                 only: 'view_pre_approved_application',
                                 redirectTo: 'authentication/error-2'
+                              }
+                        }
+                  },
+                  {
+                        path: 'document-pending',
+                        component: DocumentPendingComponent,
+                        canActivate: [NgxPermissionsGuard],
+                        data: {
+                              title: 'Document Pending',
+                              parent: 'Application',
+                              permissions: {
+                                    only: '',
+                                    redirectTo: 'authentication/error-2'
                               }
                         }
                   },
@@ -487,7 +501,44 @@ const routes: Routes = [
                               }
                         ]
                   },
-                 
+
+
+                  {
+                        path: 'document-pending',
+                        data: {
+                              title: 'Document Pending',
+                              parent: 'Application',
+                              custom_url: '/applications/document-pending'
+                        },
+                        children: [
+                              {
+                                    path: 'edit-form',
+                                    component: EditFormComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Edit Form',
+                                          parent: 'Applications',
+                                          permissions: {
+                                                only: '',
+                                                redirectTo: 'authentication/error-2'
+                                          }
+                                    },
+                              },
+                              {
+                                    path: 'track-status',
+                                    component: TrackStatusComponent,
+                                    canActivate: [NgxPermissionsGuard],
+                                    data: {
+                                          title: 'Track Status',
+                                          parent: 'Application',
+                                          permissions: {
+                                                only: '',
+                                                redirectTo: 'authentication/error-2'
+                                          }
+                                    }
+                              }
+                        ]
+                  },
             
                  
                   {

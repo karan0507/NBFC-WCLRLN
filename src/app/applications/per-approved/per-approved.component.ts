@@ -80,6 +80,7 @@ export class PerApprovedComponent implements OnInit {
       remarksDescription: any;
       isVisibleXMLModal: boolean;
       xmlDataResponse: any;
+      isMoveToDoc = false
       moved_by = 'all';
       date_sorter = ''
       storedParams: any;
@@ -89,6 +90,11 @@ export class PerApprovedComponent implements OnInit {
       attendance_date = ''
       isAttendanceVisible: boolean;
       attendance_data: any;
+      checkOptionsOne = [];
+      documentData: any;
+      selectApplication: any;
+      document_remark: any;
+      generateloading: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if (params?.loan_id) {
@@ -105,6 +111,7 @@ export class PerApprovedComponent implements OnInit {
             this.page = 1
             this.globalPageSize = this.global.globalPageSize;
             this.getFormLoanData();
+            this.fetchDocumentMaster()
       }
 
 
@@ -378,6 +385,7 @@ export class PerApprovedComponent implements OnInit {
             this.isVisible = false
             this.isAttendanceVisible = false
             this.expand_application_id = ''
+            this.isMoveToDoc = false
       }
 
       handleOk(type?) {
@@ -637,19 +645,72 @@ export class PerApprovedComponent implements OnInit {
             })
       }
 
+      pullprofile(id) {
+            this.generateloading = true
+            this.https.pullprofile(id).subscribe((res: any) => {
+                  if (res.success) {
+                        this.getIdWiseData(id, this._currentId)
+                        this.message.success(res.message)
+                        
+                  } else {
+                        this.message.error(res.message)
+                  }
+                  // this.https.exportMasterSectionModule(res, 'attendance-' + id, 'xlsx', generateloader)
+                  this.generateloading = false
+                  
+            }, error => {
+                  this.generateloading = false
+                  console.log(error);
+            })
+      }
+
       moveToPendingDocumentUploadStage(val){
+            let count = 0
+            this.checkOptionsOne.forEach(element => {
+                  if (!element.checked) {
+                       count++ 
+                  }
+            });
+            if (val) {
+                  if (count == this.checkOptionsOne.length) {
+                        this.message.error('please select document')
+                        return
+                  }
+                  if (!this.document_remark) {
+                        this.message.error('please enter remarks')
+                        return
+                  } 
+            }
             this.api_calling_loader['listLoader'] = true;
             // return;
             let data = {
-                  "application_id": val?.id,
-                  "source": "Onboarding",
-                  "datapoint": "update_document_needed"
-            };
-            this.https.editLoanData(data).subscribe((res: any)=>{
+                  "loan_application": this.selectApplication,
+                  // "source": "Onboarding",
+                  // "datapoint": "update_document_needed",
+                  "remarks": this.document_remark,
+                  "requested_document": [],
+                  // "change_flag": val
+                  "option": "add"
+            }
+            this.checkOptionsOne.forEach(element => {
+                  if (element.checked) {
+                        data.requested_document.push(element.name)
+                  }
+            });
+            console.log(data)
+            // return
+            this.https.moveToDocumentPending(data).subscribe((res: any)=>{
                   if(res?.success){
                         this.message.success(res?.message);
                         this.resetFilters();
+                        this.isMoveToDoc = false
                         this.api_calling_loader['listLoader'] = false;
+                        this.document_remark = ''
+                        this.checkOptionsOne.forEach(res => {
+                              res.checked = false
+                        })
+                        this.getFormLoanData()
+                        this.global.setApplicationCount();
                   } else {
                         this.api_calling_loader['listLoader'] = false;
                         this.message.error(res?.message)
@@ -659,4 +720,28 @@ export class PerApprovedComponent implements OnInit {
             })
       }
       // editLoanData
+
+      updateSingleChecked(): void {
+            if (this.checkOptionsOne.every(item => !item.checked)) {
+                  this.indeterminate = false;
+            } else if (this.checkOptionsOne.every(item => item.checked)) {
+                  this.indeterminate = false;
+            } else {
+                  this.indeterminate = true;
+            }
+      }
+      fetchDocumentMaster() {
+            let data;
+            this.https.fetchDocumentMaster(data).subscribe(res => {
+                  this.checkOptionsOne = res['data'].results
+                  this.checkOptionsOne.forEach(element => {
+                        element.label = element.name
+                        element.checked = false
+                  });
+            })
+      }
+      openMoveToModal(id) {
+            this.isMoveToDoc = true
+            this.selectApplication = id
+      }
 }

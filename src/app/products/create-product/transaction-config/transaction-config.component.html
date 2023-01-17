@@ -1,0 +1,64 @@
+<section *ngIf="!api_calling_loader">
+    <nz-card [nzActions]="[actionSubmit]" [nzLoading]="api_calling_loader">
+        <form nz-form [formGroup]="createEditForm">
+            <nz-form-item>
+                <div class="col-md-2">
+                    <nz-form-label nzFor="allow_scan_and_pay" class="text-left">Allow Scan and Pay</nz-form-label>
+                </div>
+                <div class="col-md-7">
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="allow_scan_and_pay"></label>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+            <nz-form-item>
+                <div class="col-md-2">
+                    <nz-form-label nzFor="allow_bank_transfer" class="text-left">Allow Bank Transfer</nz-form-label>
+                </div>
+                <div class="col-md-7">
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="allow_bank_transfer"></label>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+            <nz-form-item>
+                <div class="col-md-2">
+                    <nz-form-label nzFor="allow_repayment" class="text-left">Allow Repayment</nz-form-label>
+                </div>
+                <div class="col-md-7">
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="allow_repayment"></label>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+            <nz-form-item>
+                <div class="col-md-2">
+                    <nz-form-label nzFor="allow_imps" class="text-left">Allow IMPS</nz-form-label>
+                </div>
+                <div class="col-md-7">
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="allow_imps"></label>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+            <nz-form-item>
+                <div class="col-md-2">
+                    <nz-form-label nzFor="allow_neft" class="text-left">Allow NEFT</nz-form-label>
+                </div>
+                <div class="col-md-7">
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="allow_neft"></label>
+                    </nz-form-control>
+                </div>
+            </nz-form-item>
+        </form>
+    </nz-card>
+    <ng-template #actionSubmit>
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+            <div class="col-12 d-flex justify-content-end px-4">
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading"
+                    (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</section>

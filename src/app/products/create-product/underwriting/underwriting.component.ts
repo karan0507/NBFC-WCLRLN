@@ -23,8 +23,8 @@ export class UnderwritingComponent implements OnInit {
   filterArray: any
   underWritingRuleData: any;
   loading: boolean;
-  pincodes : any = [];
-  servicePincodes : any = []
+  pincodes = [];
+  servicePincodes = []
   inputVisible = true;
   inputValue = '';
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
@@ -61,7 +61,7 @@ export class UnderwritingComponent implements OnInit {
     })
   }
 
-  handleClose(removedTag: {}, type): void {
+  handleClose(removedTag, type): void {
     if(type == 'negative'){
       this.pincodes.splice(removedTag, 1)
       // this.pincodes = this.pincodes.filter(tag => tag !== removedTag);
@@ -112,8 +112,8 @@ export class UnderwritingComponent implements OnInit {
       comparison_entities: this.fb.array([]),
       // validation_entities: this.fb.array([]),
     })
-    this.pincodes = data ? data.blacklist_pincodes : []
-    this.servicePincodes = data ? data.servicable_pincodes : []
+    this.pincodes = data?.blacklist_pincodes ? data.blacklist_pincodes : []
+    this.servicePincodes = data?.servicable_pincodes ? data.servicable_pincodes : []
     this.setFormData(isedit ? data.underwriting_rules : data, isedit)
     
     if (this.router.url.includes('view-product')) {
@@ -123,7 +123,7 @@ export class UnderwritingComponent implements OnInit {
   setFormData(data, isedit) {
     if (data) {
       data.range_entities?.forEach(element => {
-        // this.selectedTab = element.employment_type.id
+        this.selectedTab = element?.employment_type?.id ? element?.employment_type?.id : this.selectedTab
         this.addUnderWriting(element, isedit)
       });
       data.comparison_entities?.forEach(element => {
@@ -224,10 +224,10 @@ export class UnderwritingComponent implements OnInit {
     }
   }
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
-      this.message.warning('data saved already')
-      return false
-    }
+    // if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
+    //   this.message.warning('data saved already')
+    //   return false
+    // }
     this.createUnderWritingRule();
   }
   createUnderWritingRule() {

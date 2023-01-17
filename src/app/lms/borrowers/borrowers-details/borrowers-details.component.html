@@ -12,6 +12,9 @@
                               <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Employee code -:
                                     {{borrowertList?.emp_code?.emp_id ? borrowertList?.emp_code?.emp_id : '-'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>
+                              <span><i nz-icon nzType="file-text" nzTheme="outline"></i> &nbsp; Corporate name -:
+                                    {{borrowertList?.corporate?.display_name ? borrowertList?.corporate?.display_name : '-'}}</span>
+                              <nz-divider nzType="vertical"></nz-divider>
                               <span><i nz-icon nzType="check-circle" nzTheme="outline"></i> &nbsp; Card
                                     Status -: {{borrowertList?.is_blocked ? 'Block' : 'Active'}}</span>
                               <nz-divider nzType="vertical"></nz-divider>
@@ -110,8 +113,16 @@
                         <h5>₹ {{borrowertList?.credit_utilization_amount}}</h5>
                   </div>
                   <div class="col-md brr-detail-section-border">
-                        <p class="mb-0">Billing Cycle</p>
+                        <p class="mb-0">Bill date</p>
                         <h5>{{billStatementList?.outstanding_data?.bill_date ? billStatementList?.outstanding_data?.bill_date : '-'}}</h5>
+                  </div>
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Salary date</p>
+                        <h5>{{borrowertList?.salary_date ? (borrowertList?.salary_date | date: "MMM dd, yyyy") : '-'}}</h5>
+                  </div>
+                  <div class="col-md brr-detail-section-border">
+                        <p class="mb-0">Due date</p>
+                        <h5>{{billStatementList?.outstanding_data?.due_date ? billStatementList?.outstanding_data?.due_date : '-'}}</h5>
                   </div>
                   <div class="col-md brr-detail-section-border">
                         <p class="mb-0">Commenced On</p>
@@ -305,7 +316,7 @@
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
                                                             </ng-container>
-                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
                                                                 <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
                                                                     <span class="m-l-5">Refund Transaction</span>
                                                                 </li>
@@ -430,7 +441,7 @@
                                                                       <span class="m-l-5">Waive off Charges</span>
                                                                 </li>
                                                             </ng-container>
-                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
+                                                            <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
                                                                 <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
                                                                     <span class="m-l-5">Refund Transaction</span>
                                                                 </li>
@@ -496,7 +507,7 @@
                                                                 <span class="m-l-5">Capture collection</span>
                                                           </li>
                                                       </ng-container>
-                                                      <ng-container *ngIf="data?.credit_utilization_bill?.paid_status">
+                                                      <ng-container *ngIf="!data?.credit_utilization_bill?.paid_status">
                                                           <li nz-menu-item (click)="send_payment_amount_popup = true">
                                                               <span class="m-l-5">Send Payment Link</span>
                                                           </li>

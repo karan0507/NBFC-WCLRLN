@@ -24,6 +24,24 @@
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
+                                    <nz-form-label>Gender:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your gender">
+                                          <!-- <label *ngIf="!isEditName">
+                                                {{personalInfo?.name | titlecase}}
+                                          </label> -->
+                                          <!-- *ngIf="isEditName" -->
+                                          <nz-radio-group formControlName="gender">
+                                                <label nz-radio nzValue="M">Male</label>
+                                                <label nz-radio nzValue="F">Female</label>
+                                                <label nz-radio nzValue="O">Other</label>
+                                          </nz-radio-group>
+                                          <!-- <input  nz-input type="text" formControlName="gender" (keypress)="omit_special_char($event)"
+                                          placeholder="Enter your gender" /> -->
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                        <div class="col-md-4">
+                              <nz-form-item>
                                     <nz-form-label>Mobile No:</nz-form-label>
                                     <nz-form-control>
                                           <label>
@@ -230,7 +248,7 @@
                                                       </nz-form-control>
                                                       </nz-form-item> -->
                                                       <nz-form-item>
-                                                      <nz-form-label nzFor="name" class="text-left" nzRequired>Nominee Name 
+                                                      <nz-form-label nzFor="name" class="text-left">Nominee Name 
                                                       </nz-form-label>
                                                       <nz-form-control nzErrorTip="Please Add Valid Name">
                                                             <input nz-input type="text" formControlName="name" placeholder="Name"/>
@@ -239,7 +257,7 @@
                                           </div>
                                           <div class="col-md-4">
                                                 <nz-form-item>
-                                                      <nz-form-label nzFor="mobile" class="text-left" nzRequired>Mobile 
+                                                      <nz-form-label nzFor="mobile" class="text-left">Mobile 
                                                       </nz-form-label>
                                                       <nz-form-control nzErrorTip="Please Add Valid Mobile No.">
                                                             <input nz-input type="text" formControlName="mobile" placeholder="Mobile No"/>
@@ -248,13 +266,16 @@
                                           </div>
                                           <div class="col-md-4">
                                           <nz-form-item>
-                                                <nz-form-label nzFor="relationship" class="text-left" nzRequired>Nominee Relationship 
+                                                <nz-form-label nzFor="relationship" class="text-left">Nominee Relationship 
                                                 </nz-form-label>
-                                                <nz-form-control nzErrorTip="Please Add Valid Relationship" style="font-weight: 900;">
+                                                <nz-form-control nzErrorTip="Please Add Valid Relationship">
                                                       <!-- <input nz-input type="text" formControlName="relationship" placeholder="Nominee Relationship" [disabled]="isDisabled"/> -->
                                                       <!-- <h4 class="my-0"> -->
-                                                            <label class="pl-4">{{item.controls.relationship.value}}</label>
+                                                            <!-- <label class="pl-4">{{item.controls.relationship.value}}</label> -->
                                                       <!-- </h4> -->
+                                                      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Relationship" class="w-100" formControlName="relationship">
+                                                            <nz-option *ngFor="let item of relationDetail" [nzLabel]="item?.label" [nzValue]="item?.label">{{item?.label}}</nz-option>
+                                                      </nz-select>
                                                 </nz-form-control>
                                                 </nz-form-item>
                                     </div>

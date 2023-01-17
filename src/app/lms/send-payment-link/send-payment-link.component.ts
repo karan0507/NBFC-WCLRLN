@@ -229,6 +229,10 @@ export class SendPaymentLinkComponent implements OnInit {
           this.isImport = false
           this.isPreviewBeforeUpload = false;
           this.uploadSuccessfully = true
+          setTimeout(() => {
+            this.uploadSuccessfully = false
+            this.getManualTransactionList()
+          }, 2000);
         } else {
           this.isFail = true
           this.isPreviewBeforeUpload = false;

@@ -1,1085 +1,1585 @@
 <div class="header_breadcrumb_section">
-      <div class="d-flex justify-content-md-between flex-wrap w-100">
-            <div></div>
-            <div class="align-self-end font-size-20"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users
-                  : {{total_count ? total_count : '0'}}</div>
-            <div> <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto" *ngxPermissionsOnly="['update_dormant_status_application']"
-                        (click)="updateStatus('status')" [routerLink]="">Update Status ({{_checkedLoanList ?
-                        _checkedLoanList?.length
-                        : '0'}})</button>
-                  <button nz-button nzType="link" (click)="exportData('xlsx')"
-                        class="ml-3 border" [routerLink]="" *ngxPermissionsOnly="['export_dormant_application']">Export</button>
-            </div>
-      </div>
+  <div class="d-flex justify-content-md-between flex-wrap w-100">
+    <div></div>
+    <div class="align-self-end font-size-20">
+      <i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users :
+      {{ total_count ? total_count : "0" }}
+    </div>
+    <div>
+      <button
+        nz-button
+        nzType="primary"
+        [disabled]="checkDisabledStatus()"
+        class="ml-auto"
+        *ngxPermissionsOnly="['update_dormant_status_application']"
+        (click)="updateStatus('status')"
+        [routerLink]=""
+      >
+        Update Status ({{ _checkedLoanList ? _checkedLoanList?.length : "0" }})
+      </button>
+      <button
+        nz-button
+        nzType="link"
+        (click)="exportData('xlsx')"
+        class="ml-3 border"
+        [routerLink]=""
+        *ngxPermissionsOnly="['export_dormant_application']"
+      >
+        Export
+      </button>
+    </div>
+  </div>
 </div>
 <!-- Main Section  -->
 <section>
-      <nz-card class="w-100">
-            <div class="row">
-                  <div class="col-md-3 mb-3 d-flex">
-                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                              <input type="text" [(ngModel)]="searchValue" (keyup.enter)="getFormLoanData()" nz-input
-                                    placeholder="Search text" />
-                        </nz-input-group>
-                        <ng-template #suffixIconButton>
-                              <button nz-button nzType="secondary" (click)="getFormLoanData()" nzSearch><i nz-icon
-                                          nzType="search"></i></button>
-                        </ng-template>
+  <nz-card class="w-100">
+    <div class="row">
+      <div class="col-md-3 mb-3 d-flex">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            [(ngModel)]="searchValue"
+            (keyup.enter)="getFormLoanData()"
+            nz-input
+            placeholder="Search text"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="secondary"
+            (click)="getFormLoanData()"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </div>
+      <div class="col-md-9 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
+        <button
+          nz-button
+          nzType="default"
+          nzShape="circle"
+          nz-tooltip
+          nzTooltipTitle="Reset Filter"
+          (click)="resetFilters()"
+          class="mr-2"
+        >
+          <i nz-icon nzType="undo"></i>
+        </button>
+        <nz-select
+          class="mx-3"
+          nzAllowClear
+          [(ngModel)]="productFilters"
+          style="width: 12rem"
+          (nzFocus)="onFocusMethod('product')"
+          (ngModelChange)="getFormLoanData()"
+          nzPlaceHolder="Select Product"
+        >
+          <nz-option
+            *ngFor="let item of productList"
+            [nzValue]="item.id"
+            [nzLabel]="item.name"
+          >
+          </nz-option>
+        </nz-select>
+        <nz-select
+          class="mx-1"
+          nzAllowClear
+          [(ngModel)]="stageFilters"
+          style="width: 12rem"
+          (ngModelChange)="getFormLoanData()"
+          nzPlaceHolder="Select Stage"
+        >
+          <nz-option
+            *ngFor="let item of stageList"
+            [nzValue]="item?.name"
+            [nzLabel]="item.name"
+          >
+          </nz-option>
+        </nz-select>
+        <nz-select
+          [(ngModel)]="partner"
+          nzShowSearch
+          (nzFocus)="onFocusMethod('partner')"
+          class="mr-3 my-md-0 my-3"
+          style="width: 12rem"
+          (ngModelChange)="getFormLoanData()"
+          nzAllowClear
+          nzPlaceHolder="Select Partner"
+        >
+          <nz-option
+            *ngFor="let item of partnerList"
+            [nzValue]="item?.pk"
+            [nzLabel]="item?.name"
+          ></nz-option>
+          <nz-option nzValue="other" nzLabel="Others"></nz-option>
+        </nz-select>
+        <nz-select
+          class="mr-3"
+          nzMode="multiple"
+          (nzFocus)="onFocusMethod('status')"
+          style="width: 12rem"
+          [(ngModel)]="filters"
+          (ngModelChange)="getFormLoanData()"
+          nzAllowClear
+          [nzMaxTagCount]="1"
+          [nzSize]="'small'"
+          nzPlaceHolder="Select Status"
+        >
+          <nz-option
+            *ngFor="let item of stageStatusList"
+            [nzValue]="item.id"
+            [nzLabel]="item.status"
+          >
+          </nz-option>
+        </nz-select>
+        <nz-select
+          [(ngModel)]="moved_by"
+          style="width: 12rem"
+          class="mx-1"
+          (ngModelChange)="getFormLoanData()"
+          nzAllowClear
+          nzPlaceHolder="Select Moved by"
+        >
+          <nz-option [nzValue]="'all'" [nzLabel]="'Both'"> </nz-option>
+          <nz-option [nzValue]="'admin'" [nzLabel]="'Admin'"> </nz-option>
+          <nz-option [nzValue]="'system'" [nzLabel]="'System'"> </nz-option>
+        </nz-select>
+        <nz-range-picker
+          class="mx-1"
+          style="width: 12rem"
+          [(ngModel)]="date"
+          [nzDisabledDate]="disabledDate"
+          (ngModelChange)="getFormLoanData()"
+          [nzRanges]="customRanges"
+        ></nz-range-picker>
+        <nz-select
+          [(ngModel)]="date_sorter"
+          style="width: 15rem"
+          class="mx-1"
+          (ngModelChange)="getFormLoanData()"
+          nzAllowClear
+          nzPlaceHolder="Sort by date"
+        >
+          <nz-option
+            [nzValue]="'latest-apply_date'"
+            [nzLabel]="'Latest apply date'"
+          >
+          </nz-option>
+          <nz-option
+            [nzValue]="'latest-edit_date'"
+            [nzLabel]="'Latest edit date'"
+          >
+          </nz-option>
+          <nz-option [nzValue]="'old-apply_date'" [nzLabel]="'Old apply date'">
+          </nz-option>
+          <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+
+    <div class="accordianLoanApp">
+      <nz-table
+        #rowSelectionTable
+        [nzData]="loanApplicationData"
+        [nzTotal]="total_count"
+        [nzFrontPagination]="false"
+        [nzShowSizeChanger]="true"
+        [nzPageIndex]="page"
+        [nzPageSize]="globalPageSize"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+        (nzQueryParams)="
+          loanApplicationData[0] ? getFormLoanData($event) : null
+        "
+        [nzScroll]="{ x: '1500px', y: '' }"
+        [nzLoading]="api_calling_loader['listLoader']"
+      >
+        <thead>
+          <tr>
+            <th nzWidth="2rem"></th>
+            <th
+              nzWidth="3rem"
+              [nzChecked]="loanApplicationData[0] ? checked : false"
+              [nzIndeterminate]="loanApplicationData[0] ? indeterminate : false"
+              (nzCheckedChange)="
+                loanApplicationData[0] ? onAllChecked($event) : false
+              "
+            ></th>
+            <th nzWidth="100px">#</th>
+            <th>Loan ID</th>
+            <th nzWidth="14rem">User Details</th>
+            <th>Apply Date & Time</th>
+            <th>Master Partner</th>
+            <th>Source Id</th>
+            <th>Type</th>
+            <th>Partner Id</th>
+            <th>Reference Id</th>
+            <th>Previous stage</th>
+            <th>Move to stage on</th>
+            <th>Latest Action Performed By</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th nzRight [nzWidth]="'5rem'">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of loanApplicationData; index as i">
+            <tr>
+              <td
+                nzWidth="2rem"
+                [nzExpand]="expandSet.has(data.id)"
+                (nzExpandChange)="onExpandChange(data.id, $event, i)"
+              ></td>
+              <td
+                nzWidth="3rem"
+                [nzChecked]="setOfCheckedId.has(data.id)"
+                [nzDisabled]="data.disabled"
+                (nzCheckedChange)="onItemChecked(data.id, $event)"
+              ></td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ data?.application_code }}</td>
+              <td nzWidth="14rem">
+                <div class="d-flex flex-column">
+                  <div>
+                    {{
+                      data?.user?.first_name
+                        ? data?.user?.first_name +
+                          " " +
+                          (data?.user?.last_name ? data?.user?.last_name : "")
+                        : ""
+                    }}
                   </div>
-                  <div class="col-md-9 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
-                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-                              (click)="resetFilters()" class="mr-2">
-                              <i nz-icon nzType="undo"></i>
-                        </button>
-                        <nz-select class="mx-3" nzAllowClear [(ngModel)]="productFilters"  style=" width: 12rem;"
-                                    (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()"
-                                    nzPlaceHolder="Select Product">
-                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
-                                          [nzLabel]="item.name">
-                                    </nz-option>
-                              </nz-select>
-                        <nz-select class="mx-1" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem;"
-                              (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">
-                              <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">
-                              </nz-option>
-                        </nz-select>
-                        <nz-select [(ngModel)]="partner" nzShowSearch (nzFocus)="onFocusMethod('partner')" class="mr-3 my-md-0 my-3"  style=" width: 12rem;"
-                         (ngModelChange)="getFormLoanData()" nzAllowClear nzPlaceHolder="Select Partner">
-                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
-                                                [nzLabel]="item?.name "></nz-option>
-                                                <nz-option nzValue="other" nzLabel="Others"></nz-option>
-                                    </nz-select>
-                        <nz-select class="mr-3" nzMode="multiple" (nzFocus)="onFocusMethod('status')"  style=" width: 12rem;"
-                              [(ngModel)]="filters" (ngModelChange)="getFormLoanData()" nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'"
-                              nzPlaceHolder="Select Status">
-                              <nz-option *ngFor="let item of stageStatusList" [nzValue]="item.id"
-                                    [nzLabel]="item.status">
-                              </nz-option>
-                        </nz-select>
-                        <nz-select [(ngModel)]="moved_by" style="width: 12rem;"
-                              class="mx-1" (ngModelChange)="getFormLoanData()" nzAllowClear
-                              nzPlaceHolder="Select Moved by">
-                              <nz-option [nzValue]="'all'" [nzLabel]="'Both'">
-                              </nz-option>
-                              <nz-option [nzValue]="'admin'" [nzLabel]="'Admin'">
-                              </nz-option>
-                              <nz-option [nzValue]="'system'" [nzLabel]="'System'">
-                              </nz-option>
-                        </nz-select>
-                        <nz-range-picker class="mx-1" style=" width: 12rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="getFormLoanData()" [nzRanges]="customRanges"></nz-range-picker>
-                        <nz-select [(ngModel)]="date_sorter" style="width: 15rem;"
-                              class="mx-1" (ngModelChange)="getFormLoanData()" nzAllowClear
-                              nzPlaceHolder="Sort by date">
-                              <nz-option [nzValue]="'latest-apply_date'" [nzLabel]="'Latest apply date'">
-                              </nz-option>
-                              <nz-option [nzValue]="'latest-edit_date'" [nzLabel]="'Latest edit date'">
-                              </nz-option>
-                              <nz-option [nzValue]="'old-apply_date'" [nzLabel]="'Old apply date'">
-                              </nz-option>
-                              <nz-option [nzValue]="'old-edit_date'" [nzLabel]="'Old edit date'">
-                              </nz-option>
-                        </nz-select>
+                  <div *ngIf="data?.user?.mobile" class="d-flex font-size-12">
+                    Contact No: {{ data?.user?.mobile }}
                   </div>
-            </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex flex-column">
+                  <div>{{ data?.created_at | date : "shortDate" }}</div>
+                  <div>{{ data?.created_at | date : "shortTime" }}</div>
+                </div>
+              </td>
+              <td>
+                {{ data?.master_partner ? data?.master_partner?.name : "-" }}
+              </td>
+              <td>{{ data?.source_id ? data?.source_id : "-" }}</td>
+              <td>{{ data?.type ? data?.type : '-' }}</td>
+              <td>{{ data?.partner?.name ? data?.partner?.name : "-" }}</td>
+              <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td>
+              <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
+              <td>
+                {{
+                  data?.moved_to_stage_on
+                    ? (data?.moved_to_stage_on | date : "shortDate")
+                    : "-"
+                }}
+                {{
+                  data?.moved_to_stage_on
+                    ? (data?.moved_to_stage_on | date : "shortTime")
+                    : ""
+                }}
+              </td>
+              <td>
+                {{
+                  data?.latest_action_performed_by?.name
+                    ? data?.latest_action_performed_by?.name
+                    : "-"
+                }}
+              </td>
+              <td>{{ data?.status ? data?.status : "-" }}</td>
+              <td>
+                <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
+                  {{
+                    data?.remarks?.length >= 18
+                      ? (data?.remarks | slice : 0 : 18)
+                      : data?.remarks
+                      ? data?.remarks
+                      : "-"
+                  }}
+                </span>
+              </td>
+              <td nzRight [nzWidth]="'5rem'">
+                <a
+                  class="text-dark font-size-20"
+                  nz-dropdown
+                  [nzClickHide]="false"
+                  [nzTrigger]="'click'"
+                  [nzPlacement]="'bottomRight'"
+                  [nzDropdownMenu]="latestUploadDropDown"
+                >
+                  <i nz-icon nzType="ellipsis" theme="outline"></i>
+                </a>
+                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                  <ul nz-menu>
+                    <!-- [routerLink]="['edit-employee', data.id]" -->
+                    <li nz-menu-item (click)="moveStageTo('original', data)">
+                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                      <span class="m-l-5">Move to Original Stage </span>
+                    </li>
+                    <li
+                      nz-menu-item
+                      (click)="moveStageTo('underwriting', data)"
+                    >
+                      <span class="m-l-5">Move to Underwriting</span>
+                    </li>
+                    <li nz-menu-item>
+                      <span class="m-l-5">Pull SMS Data</span>
+                    </li>
+                    <li nz-menu-item>
+                      <span class="m-l-5">Pull Black Box Data</span>
+                    </li>
+                    <li nz-menu-item>
+                      <span class="m-l-5"> Download Cibil File</span>
+                    </li>
+                    <li
+                      nz-menu-item
+                      [routerLink]="['track-status']"
+                      [queryParams]="{ id: data?.id }"
+                    >
+                      <span class="m-l-5">Track Status</span>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </td>
+            </tr>
+            <tr [nzExpand]="expandSet.has(data.id)">
+              <div class="justify-content-center">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="personalDetail"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Email </span>
+                        <div>
+                          {{
+                            data?.expanddata?.user?.email
+                              ? data?.user?.email
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> D.O.B </span>
+                        <div>
+                          {{
+                            data?.expanddata?.user?.dob
+                              ? (data?.expanddata?.user?.dob
+                                | date : "dd MMM, yyyy")
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Monthly Income </span>
+                        <div>
+                          {{
+                            data?.expanddata?.income_details?.results[0]
+                              ?.income_range_id
+                              ? data?.expanddata?.income_details?.results[0]
+                                  ?.income_range_id?.name
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Residential Pincode </span>
+                        <div>
+                          {{
+                            data?.expanddata?.user?.user_entered_pincode
+                              ? data?.expanddata?.user?.user_entered_pincode
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #personalDetail>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="user"
+                        nzTheme="outline"
+                      ></i>
+                      Personal Details
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="empHeader"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Company Name </span>
+                        <div>
+                          <!-- created_at -->
+                          {{
+                            data?.expanddata?.partner?.name
+                              ? data?.expanddata?.partner?.name
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address </span>
+                        <div>
+                          {{
+                            data?.expanddata?.partner
+                              ? data?.expanddata?.partner?.address
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> EMP Code </span>
+                        <div>
+                          {{
+                            data?.expanddata?.emp_code
+                              ? data?.expanddata?.emp_code
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #empHeader>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      Employement Details
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-            <div class="accordianLoanApp">
-                  <nz-table #rowSelectionTable [nzData]="loanApplicationData" [nzTotal]="total_count"
-                        [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
-                        [nzPageSize]="globalPageSize" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                        (nzQueryParams)="loanApplicationData[0] ? getFormLoanData($event) : null"
-                        [nzScroll]="{ x: '1500px', y: '' }" [nzLoading]="api_calling_loader['listLoader']">
-                        <thead>
-                              <tr>
-                                    <th nzWidth="2rem"></th>
-                                    <th nzWidth="3rem" [nzChecked]=" loanApplicationData[0] ? checked : false"
-                                          [nzIndeterminate]=" loanApplicationData[0] ? indeterminate : false"
-                                          (nzCheckedChange)="loanApplicationData[0] ? onAllChecked($event) : false">
-                                    </th>
-                                    <th nzWidth="100px">#</th>
-                                    <th>Loan ID</th>
-                                    <th nzWidth="14rem">User Details</th>
-                                    <th>Apply Date & Time</th>
-                                    <th>Master Partner</th>
-                                    <th>Source Id</th>
-                                    <th>Partner Id</th>
-                                    <th>Reference Id</th>
-                                    <th>Previous stage</th>
-                                    <th>Move to stage on</th>
-                                    <th>Latest Action Performed By</th>
-                                    <th>Status</th>
-                                    <th>Remarks</th>
-                                    <th nzRight [nzWidth]="'5rem'">Action</th>
-                              </tr>
-                        </thead>
-                        <tbody>
-                              <ng-container *ngFor="let data of loanApplicationData; index as i">
-                                    <tr>
-                                          <td nzWidth="2rem" [nzExpand]="expandSet.has(data.id)"
-                                                (nzExpandChange)="onExpandChange(data.id, $event, i)"></td>
-                                          <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)"
-                                                [nzDisabled]="data.disabled"
-                                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                          <td>{{i+1}}</td>
-                                          <td>{{ data?.application_code }}</td>
-                                          <td nzWidth="14rem">
-                                                <div class="d-flex flex-column">
-                                                      <div>{{ data?.user?.first_name ? data?.user?.first_name + ' ' +
-                                                            (data?.user?.last_name ? data?.user?.last_name : '') : '' }}
-                                                      </div>
-                                                      <div *ngIf="data?.user?.mobile" class="d-flex font-size-12">
-                                                            Contact No: {{data?.user?.mobile}}</div>
-                                                </div>
-                                          </td>
-                                          <td>
-                                                <div class="d-flex flex-column">
-                                                      <div>{{ data?.created_at | date:'shortDate' }}</div>
-                                                      <div>{{ data?.created_at | date:'shortTime' }}</div>
-                                                </div>
-                                          </td>
-                                          <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td>
-                                          <td>{{data?.source_id ? data?.source_id : '-'}}</td>
-                                          <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
-                                          <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td>
-                                          <td>{{ data?.last_stage ? data?.last_stage : '-' }}</td>
-                                          <td>{{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortDate')): '-' }}
-                                              {{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'shortTime')): '' }}
-                                          </td>
-                                          <td>{{ data?.latest_action_performed_by?.name ? data?.latest_action_performed_by?.name : '-' }}</td>
-                                          <td>{{data?.status ? data?.status : '-'}}</td>
-                                          <td><span nz-tooltip nzTooltipTitle="{{data?.remarks}}">
-                                                {{data?.remarks?.length >=18 ? (data?.remarks | slice : 0:18) : (data?.remarks ? data?.remarks : '-')}}
-                                          </span></td>
-                                          <td nzRight [nzWidth]="'5rem'">
-                                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                                      [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                                      [nzDropdownMenu]="latestUploadDropDown">
-                                                      <i nz-icon nzType="ellipsis" theme="outline"></i>
-                                                </a>
-                                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                                      <ul nz-menu>
-                                                            <!-- [routerLink]="['edit-employee', data.id]" -->
-                                                            <li nz-menu-item (click)="moveStageTo('original', data)">
-                                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                                  <span class="m-l-5">Move to Original Stage </span>
-                                                            </li>
-                                                            <li nz-menu-item
-                                                                  (click)="moveStageTo('underwriting', data)">
-                                                                  <span class="m-l-5">Move to Underwriting</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull SMS Data</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5">Pull Black Box Data</span>
-                                                            </li>
-                                                            <li nz-menu-item>
-                                                                  <span class="m-l-5"> Download Cibil File</span>
-                                                            </li>
-                                                            <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
-                                                              <span class="m-l-5">Track Status</span>
-                                                            </li>
-                                                      </ul>
-                                                </nz-dropdown-menu>
-                                          </td>
-                                    </tr>
-                                    <tr [nzExpand]="expandSet.has(data.id)">
-                                          <div class="justify-content-center">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="personalDetail">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Email
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.user?.email ?
-                                                                              data?.user?.email : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              D.O.B
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.user?.dob ?
-                                                                                    (data?.expanddata?.user?.dob | date:'dd MMM, yyyy')
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Monthly Income
-                                                                        </span>
-                                                                        <div>
-                                                                              {{
-                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id
-                                                                              ?
-                                                                              data?.expanddata?.income_details?.results[0]?.income_range_id?.name
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #personalDetail>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="user"
-                                                                        nzTheme="outline"></i> Personal Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="empHeader">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Company Name
-                                                                        </span>
-                                                                        <div>
-                                                                              <!-- created_at -->
-                                                                              {{data?.expanddata?.partner?.name ?
-                                                                              data?.expanddata?.partner?.name : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Address
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.partner ?
-                                                                              data?.expanddata?.partner?.address : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              EMP Code
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.emp_code ?
-                                                                              data?.expanddata?.emp_code : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #empHeader>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
-                                                                        nzTheme="outline"></i> Employement Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="kycDetails"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> PAN No. </span>
+                        <div>
+                          {{
+                            data?.expanddata?.pan
+                              ? data?.expanddata?.kyc_details?.results[
+                                  data?.expanddata?.kyc_details?.results
+                                    ?.length - 1
+                                ]["pan_no"]
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Aadhaar No. </span>
+                        <div>
+                          {{
+                            data?.expanddata?.aadhar
+                              ? data?.expanddata?.kyc_details?.results[
+                                  data?.expanddata?.kyc_details?.results
+                                    ?.length - 1
+                                ]["aadhar_no"]
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #kycDetails>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      KYC Details
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <div class="my-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="kycDetails">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              PAN No.
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.pan ?
-                                                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['pan_no'] : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Aadhaar No.
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.aadhar ?
-                                                                                    data?.expanddata?.kyc_details?.results[data?.expanddata?.kyc_details?.results?.length - 1]['aadhar_no'] : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #kycDetails>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
-                                                                        nzTheme="outline"></i> KYC Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
+              <!-- Aadhar Address -->
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="aadharAddress"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address Line 1 </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]
+                                  ?.address_1
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address Line 2 </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]
+                                  ?.address_2
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        data?.expanddata?.kyc_details?.results[0]?.address_3
+                          ? true
+                          : false
+                      "
+                    >
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address Line 3 </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]
+                                  ?.address_3
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
 
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> City </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]?.city
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> State </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]?.state
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
 
-                                          <!-- Aadhar Address -->
-                                          <div class="my-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="aadharAddress">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Address Line 1
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_1
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Address Line 2
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_2
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4"
-                                                                  *ngIf="data?.expanddata?.kyc_details?.results[0]?.address_3 ? true : false">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Address Line 3
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.address_3
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Pincode </span>
+                        <div>
+                          {{
+                            data?.expanddata?.kyc_details
+                              ? data?.expanddata?.kyc_details?.results[0]
+                                  ?.pincode
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #aadharAddress>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      Aadhar Address
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              City
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.city
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              State
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.state
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="allAddress"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row mx-0">
+                    <div class="col-md-3">
+                      <span class="text-muted">Addhar address</span>
+                    </div>
+                    <div class="col-md-8">
+                      {{
+                        data?.expanddata?.address_list?.aadhar_address
+                          ? data?.expanddata?.address_list?.aadhar_address
+                          : "-"
+                      }}
+                    </div>
+                    <div class="col-md-3">
+                      <span class="text-muted">Cibil address</span>
+                    </div>
+                    <div class="col-md-8">
+                      {{
+                        data?.expanddata?.address_list?.cibil_address
+                          ? data?.expanddata?.address_list?.cibil_address
+                          : "-"
+                      }}
+                    </div>
+                    <div class="col-md-3">
+                      <span class="text-muted">Corporate address</span>
+                    </div>
+                    <div class="col-md-8">
+                      {{
+                        data?.expanddata?.address_list?.partner_address
+                          ? data?.expanddata?.address_list?.partner_address
+                          : "-"
+                      }}
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #allAddress>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      All Address
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">
-                                                                              Pincode
-                                                                        </span>
-                                                                        <div>
-                                                                              {{data?.expanddata?.kyc_details ?
-                                                                              data?.expanddata?.kyc_details?.results[0]?.pincode
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #aadharAddress>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file"
-                                                                        nzTheme="outline"></i> Aadhar Address</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-                                          
-                                            <!-- Document Data -->
-                                            <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="document">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row" *ngIf=" data?.expanddata?.kyc_documents">
-                                                            <div class="col-md-4"
-                                                                  *ngFor="let item of data?.expanddata?.kyc_documents">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div
-                                                                              class="d-flex flex-wrap justify-content-between">
-                                                                              <label class="text-muted">{{
-                                                                                    item?.document_master?.name + ' '}}
-                                                                                    <b>
-                                                                                          {{ item?.status }} </b>
-                                                                              </label>
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="geoloaction"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div
+                    class="row mx-0"
+                    *ngFor="
+                      let item of data?.expanddata?.geo_location;
+                      index as k
+                    "
+                  >
+                    <div class="col-md-2">
+                      {{ k + 1 }}
+                    </div>
+                    <div class="col-md-5">
+                      <div class="col-md-4">
+                        <span class="text-muted">Latitude</span>
+                      </div>
+                      <div class="col-md-8">
+                        {{ item?.latitude ? item?.latitude : "-" }}
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="col-md-4">
+                        <span class="text-muted">Longitude</span>
+                      </div>
+                      <div class="col-md-8">
+                        {{ item?.longitude ? item?.longitude : "-" }}
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #geoloaction>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      Geolocation
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                                              <div class="mr-5">
-                                                                                    <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
-                                                                                          nzTooltipTitle="View Document"
-                                                                                          (click)="_isViewDocument = true;_currentModalData = item;">
-                                                                                          <i nz-icon nzType="eye"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.status == 'Pending' && (item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url)"
-                                                                                          nzTooltipTitle="Verify Document"
-                                                                                          (click)="_isVerify = true; _currentModalData = item">
-                                                                                          <i nz-icon
-                                                                                                nzType="check-circle"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary mr-3"
-                                                                                          *ngIf="item?.document_master?.require_front_back == 1 ? item?.front_file_url : item?.file_url"
-                                                                                          nzTooltipTitle="Download Document"
-                                                                                          href="{{ item?.front_file_url }}"
-                                                                                          download target="_blank">
-                                                                                          <i nz-icon nzType="download"
-                                                                                                nzTheme="outline"></i></a>
-                                                                                    <a class="text-primary"
-                                                                                          nzTooltipTitle="Upload Document"
-                                                                                          (click)="_isUpload = true; _currentModalData = item">
-                                                                                          <i nz-icon nzType="upload"
-                                                                                                nzTheme="outline"></i>
-                                                                                    </a>
-                                                                              </div>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ item?.reason ? item?.reason : '-'}}
-                                                                        </div>
-                                                                  </div>
+              <!-- Document Data -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="document"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row" *ngIf="data?.expanddata?.kyc_documents">
+                    <div
+                      class="col-md-4"
+                      *ngFor="let item of data?.expanddata?.kyc_documents"
+                    >
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-wrap justify-content-between">
+                          <label class="text-muted"
+                            >{{ item?.document_master?.name + " " }}
+                            <b> {{ item?.status }} </b>
+                          </label>
 
+                          <div class="mr-5">
+                            <a
+                              class="text-primary mr-3"
+                              *ngIf="
+                                item?.document_master?.require_front_back == 1
+                                  ? item?.front_file_url
+                                  : item?.file_url
+                              "
+                              nzTooltipTitle="View Document"
+                              (click)="
+                                _isViewDocument = true; _currentModalData = item
+                              "
+                            >
+                              <i nz-icon nzType="eye" nzTheme="outline"></i
+                            ></a>
+                            <a
+                              class="text-primary mr-3"
+                              *ngIf="
+                                item?.status == 'Pending' &&
+                                (item?.document_master?.require_front_back == 1
+                                  ? item?.front_file_url
+                                  : item?.file_url)
+                              "
+                              nzTooltipTitle="Verify Document"
+                              (click)="
+                                _isVerify = true; _currentModalData = item
+                              "
+                            >
+                              <i
+                                nz-icon
+                                nzType="check-circle"
+                                nzTheme="outline"
+                              ></i
+                            ></a>
+                            <a
+                              class="text-primary mr-3"
+                              *ngIf="
+                                item?.document_master?.require_front_back == 1
+                                  ? item?.front_file_url
+                                  : item?.file_url
+                              "
+                              nzTooltipTitle="Download Document"
+                              href="{{ item?.front_file_url }}"
+                              download
+                              target="_blank"
+                            >
+                              <i nz-icon nzType="download" nzTheme="outline"></i
+                            ></a>
+                            <a
+                              class="text-primary"
+                              nzTooltipTitle="Upload Document"
+                              (click)="
+                                _isUpload = true; _currentModalData = item
+                              "
+                            >
+                              <i nz-icon nzType="upload" nzTheme="outline"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <div>
+                          {{ item?.reason ? item?.reason : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
+                    Documents not uploaded
+                  </div>
+                </nz-card>
+                <ng-template #document>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Document Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
+              <!-- CibiL Data  -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="bureau"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="d-flex flex-column">
+                        <h6>
+                          <div class="d-flex">
+                            <!-- <label class="text-muted">Credit Score: </label>
+                            <div class="mx-3">
+                              {{
+                                data?.expanddata?.cibil_data?.results[0]
+                                  ?.cibil_score
+                                  ? data?.expanddata?.cibil_data?.results[0]
+                                      ?.cibil_score
+                                  : "-"
+                              }}
+                              <span
+                                >(Last Pulled :
+                                {{
+                                  data?.expanddata?.cibil_data?.results[0]
+                                    ?.created_at | date : "short"
+                                }}
+                                )</span
+                              >
+                            </div> -->
+                            <nz-table [nzData]=" data?.expanddata?.cibil_data?.results" class="col-md-12">
+                              <thead>
+                                <tr>
+                                  <th>Sr. no.</th>
+                                  <th>Credit score</th>
+                                  <th>Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor=" let data of data?.expanddata?.cibil_data?.results; index as i">
+                                  <td>{{ i + 1 }}</td>
+                                  <td>{{ data.cibil_score }}</td>
+                                  <td>{{data?.created_at | date : "medium"}}</td>
+                                </tr>
+                              </tbody>
+                            </nz-table>
+                          </div>
+                        </h6>
+                        <b>
+                          <a
+                            class="text-primary"
+                            (click)="getCibilScoreData('cibil', data?.id)"
+                            >Fetch Cibil</a
+                          >
+                        </b>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #bureau>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Bureau Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                            </div>
-
-                                                      </div>
-                                                      <div class="row" *ngIf="!data?.expanddata?.kyc_documents">
-                                                            Documents not uploaded
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #document>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Document Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-
-                                          <!-- CibiL Data  -->
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="bureau">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-6">
-                                                                  <div class="d-flex flex-column">
-                                                                        <h6>
-                                                                              <div class="d-flex">
-                                                                                    <label class="text-muted">Credit
-                                                                                          Score: </label>
-                                                                                    <div class="mx-3">
-                                                                                          {{data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          ?
-                                                                                          data?.expanddata?.cibil_data?.results[0]?.cibil_score
-                                                                                          : '-'}} <span>(Last Pulled :
-                                                                                                {{data?.expanddata?.cibil_data?.results[0]?.created_at
-                                                                                                | date : 'short'}}
-                                                                                                )</span>
-                                                                                    </div>
-                                                                              </div>
-                                                                        </h6>
-                                                                        <b> <a class="text-primary"
-                                                                                    (click)="getCibilScoreData('cibil',data?.id)">Fetch
-                                                                                    Cibil</a> </b>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #bureau>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Bureau Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-
-                                          <!-- Black Box Data  -->
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="blackBox">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                              <div class="d-flex flex-column">
-                                                                <h6>
-                                                                  <div class="d-flex">
-                                                                    <label class="text-muted"
-                                                                      >Application Score :{{
-                                                                        data?.expanddata?.black_box_data
-                                                                      ? data?.expanddata?.black_box_data?.application_score : ''
-                                                                      }}
-                                                                    </label>
-                                                                    <div class="mx-3 text-muted">
-                                                                      <!-- Data: {{blackBoxData?.data}} -->
-                                                                    </div>
-                                                                  </div>
-                                                                </h6>
-                                                                <!-- <b>
+              <!-- Black Box Data  -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="blackBox"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <h6>
+                          <div class="d-flex">
+                            <label class="text-muted"
+                              >Application Score :{{
+                                data?.expanddata?.black_box_data
+                                  ? data?.expanddata?.black_box_data
+                                      ?.application_score
+                                  : ""
+                              }}
+                            </label>
+                            <div class="mx-3 text-muted">
+                              <!-- Data: {{blackBoxData?.data}} -->
+                            </div>
+                          </div>
+                        </h6>
+                        <!-- <b>
                                                                   <a
                                                                     class="text-primary"
                                                                     (click)="getBlackBoxData(data?.id)"
                                                                     >Pull BlackBox
                                                                   </a>
                                                                 </b> -->
-                                                                <div></div>
-                                                              </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                              <div class="d-flex flex-column">
-                                                                <h6>
-                                                                  <div class="d-flex">
-                                                                    <label class="text-muted"
-                                                                      >Product Limit Final :{{
-                                                                        data?.expanddata?.black_box_data
-                                                                      ? data?.expanddata?.black_box_data?.data?.product_limit_final : ''
-                                                                      }}
-                                                                    </label>
-                                                                    <div class="mx-3 text-muted">
-                                                                      <!-- Data: {{blackBoxData?.data}} -->
-                                                                    </div>
-                                                                  </div>
-                                                                </h6>
-                                                                <div></div>
-                                                              </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                              <div class="d-flex flex-column">
-                                                                <h6>
-                                                                  <div class="d-flex">
-                                                                    <label class="text-muted"
-                                                                      >Product Limit Final Max :{{
-                                                                        data?.expanddata?.black_box_data
-                                                                      ? data?.expanddata?.black_box_data?.data?.product_limit_final_max : ''
-                                                                      }}
-                                                                    </label>
-                                                                    <div class="mx-3 text-muted">
-                                                                      <!-- Data: {{blackBoxData?.data}} -->
-                                                                    </div>
-                                                                  </div>
-                                                                </h6>
-                                                                <div></div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                </nz-card>
-                                                <ng-template #blackBox>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Blackbox Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <h6>
+                          <div class="d-flex">
+                            <label class="text-muted"
+                              >Product Limit Final :{{
+                                data?.expanddata?.black_box_data
+                                  ? data?.expanddata?.black_box_data?.data
+                                      ?.product_limit_final
+                                  : ""
+                              }}
+                            </label>
+                            <div class="mx-3 text-muted">
+                              <!-- Data: {{blackBoxData?.data}} -->
+                            </div>
+                          </div>
+                        </h6>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <h6>
+                          <div class="d-flex">
+                            <label class="text-muted"
+                              >Product Limit Final Max :{{
+                                data?.expanddata?.black_box_data
+                                  ? data?.expanddata?.black_box_data?.data
+                                      ?.product_limit_final_max
+                                  : ""
+                              }}
+                            </label>
+                            <div class="mx-3 text-muted">
+                              <!-- Data: {{blackBoxData?.data}} -->
+                            </div>
+                          </div>
+                        </h6>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #blackBox>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Blackbox Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <!-- SMS  -->
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="smsDetails">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <b> <a class="text-primary"
-                                                                                    (click)="getCibilScoreData('sms',data?.id)">Fetch
-                                                                                    SMS</a> </b>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #smsDetails>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">SMS Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
+              <!-- SMS  -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="smsDetails"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <b>
+                          <a
+                            class="text-primary"
+                            (click)="getCibilScoreData('sms', data?.id)"
+                            >Fetch SMS</a
+                          >
+                        </b>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #smsDetails>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">SMS Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <!-- UnderWriting Rules -->
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="underWriting">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="text-muted">No. of
-                                                                              Cheque Bounce
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata?.underwriting ?
-                                                                              data?.expanddata?.underwriting?.no_of_cheque_bounce
-                                                                              :
-                                                                              (_currentCibilData ?
-                                                                              _currentCibilData?.no_of_cheque_bounce :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">Nach Trans.
-                                                                                    Declined (last 3
-                                                                                    months)</span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata?.underwriting ?
-                                                                              data?.expanddata?.underwriting?.nach_trans_declined
-                                                                              :
-                                                                              (_currentCibilData ?
-                                                                              _currentCibilData?.nach_trans_declined :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">Max.
-                                                                                    Delinquent Amt. (out of
-                                                                                    income)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata?.underwriting ?
-                                                                              data?.expanddata?.underwriting?.max_delinquent_amount
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.max_delinquent_amount :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">No. of
-                                                                                    write off cases</span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.no_of_write_off_cases
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.no_of_write_off_cases :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">Data
-                                                                                    Quality score</span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.data_Quality_score
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.data_Quality_score :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">Retail
-                                                                                    Lending score
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.retail_lending_score
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.retail_lending_score :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+              <!-- UnderWriting Rules -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="underWriting"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="text-muted">No. of Cheque Bounce</div>
+                        <div>
+                          {{
+                            data?.expanddata?.underwriting
+                              ? data?.expanddata?.underwriting
+                                  ?.no_of_cheque_bounce
+                              : _currentCibilData
+                              ? _currentCibilData?.no_of_cheque_bounce
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                          <span class="text-muted"
+                            >Nach Trans. Declined (last 3 months)</span
+                          >
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata?.underwriting
+                              ? data?.expanddata?.underwriting
+                                  ?.nach_trans_declined
+                              : _currentCibilData
+                              ? _currentCibilData?.nach_trans_declined
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                          <span class="text-muted"
+                            >Max. Delinquent Amt. (out of income)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata?.underwriting
+                              ? data?.expanddata?.underwriting
+                                  ?.max_delinquent_amount
+                              : _currentCibilData
+                              ? _currentCibilData?.max_delinquent_amount
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted">No. of write off cases</span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.no_of_write_off_cases
+                              : _currentCibilData
+                              ? _currentCibilData?.no_of_write_off_cases
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted">Data Quality score</span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.data_Quality_score
+                              : _currentCibilData
+                              ? _currentCibilData?.data_Quality_score
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted">Retail Lending score </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.retail_lending_score
+                              : _currentCibilData
+                              ? _currentCibilData?.retail_lending_score
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
 
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >No. of Inquiries (in last 3 Months)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting?.no_of_inquiries
+                              : _currentCibilData
+                              ? _currentCibilData?.no_of_inquiries
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >No negative Events (in last 6 Months)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.no_of_negative_events
+                              : _currentCibilData
+                              ? _currentCibilData?.no_of_negative_events
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >Avg. Salary Credited (last 6 months)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.avg_salary_credited
+                              : _currentCibilData
+                              ? _currentCibilData?.avg_salary_credited
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
 
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">No. of
-                                                                                    Inquiries (in last 3 Months)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.no_of_inquiries
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.no_of_inquiries : '-')
-                                                                              }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">No negative
-                                                                                    Events (in last 6 Months)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.no_of_negative_events
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.no_of_negative_events :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">Avg. Salary
-                                                                                    Credited (last 6 months)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.avg_salary_credited
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.avg_salary_credited :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >Avg Min. Balance/month (in last 90 days)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.avg_min_balance_Month
+                              : _currentCibilData
+                              ? _currentCibilData?.avg_min_balance_Month
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >No Cc Applied (last 14 days)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting?.no_of_cc_applied
+                              : _currentCibilData
+                              ? _currentCibilData?.underwriting
+                                  ?.no_of_cc_applied
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >No loan applied (last 14 days)
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting
+                                  ?.no_of_loan_applied
+                              : _currentCibilData
+                              ? _currentCibilData?.underwriting
+                                  ?.no_of_loan_applied
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                          <span class="text-muted"
+                            >FOIR (Total Debt/Monthly Salary))
+                          </span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata
+                              ? data?.expanddata?.underwriting?.foir
+                              : _currentCibilData
+                              ? _currentCibilData?.underwriting?.foir
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #underWriting>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Underwriting Rules</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">Avg Min.
-                                                                                    Balance/month (in last 90
-                                                                                    days)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.avg_min_balance_Month
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.avg_min_balance_Month :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="offerDetails"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="text-muted">Product Name</div>
+                        <div>
+                          {{
+                            data?.expanddata?.offer_details
+                              ? data?.expanddata?.offer_details?.product_name
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                          <span class="text-muted">Limit Proposed</span>
+                        </div>
+                        <div>
+                          {{
+                            data?.expanddata?.offer_details
+                              ? data?.expanddata?.offer_details?.limit_proposed
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="text-muted">Status</div>
+                        <div>
+                          {{
+                            data?.expanddata?.offer_details
+                              ? data?.expanddata?.offer_details?.status
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                      <div class="d-flex flex-column">
+                        <div class="text-muted">Pre-Approved Offer</div>
+                        <div>
+                          {{
+                            data?.expanddata?.offer_details
+                              ? data?.expanddata?.offer_details
+                                  ?.pre_approved_offer
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #offerDetails>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Offer Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">No Cc
-                                                                                    Applied (last 14 days)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.no_of_cc_applied
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.underwriting?.no_of_cc_applied
-                                                                              : '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
+              <!-- Bank Details -->
+              <div class="mt-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="bankDetails"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <div class="text-muted">A/c Holder Name:</div>
+                        <div>
+                          {{
+                            data?.expanddata?.offer_details
+                              ? data?.expanddata?.offer_details
+                                  ?.pre_approved_offer
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </div>
 
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">No loan
-                                                                                    applied (last 14 days)
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.no_of_loan_applied
-                                                                              :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.underwriting?.no_of_loan_applied
-                                                                              : '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Bank Name - </span>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> A/c No. </span>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mt-2">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted">Account Type: </span>
+                        <div></div>
+                      </div>
+                    </div>
 
-                                                                        <div class="d-flex flex-column">
-                                                                              <span class="text-muted">FOIR (Total
-                                                                                    Debt/Monthly Salary))
-                                                                              </span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{ data?.expanddata ?
-                                                                              data?.expanddata?.underwriting?.foir :
-                                                                              ( _currentCibilData ?
-                                                                              _currentCibilData?.underwriting?.foir :
-                                                                              '-') }}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #underWriting>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"> Underwriting Rules </h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
+                    <div class="col-md-4 mt-2">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted">IFSC Code </span>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mt-2">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted">UPI id:</span>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mt-2">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted">UMRN No: </span>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #bankDetails>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Bank Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="offerDetails">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="text-muted">Product
-                                                                              Name
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.product_name
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="d-flex justify-content-between">
-                                                                              <span class="text-muted">Limit
-                                                                                    Proposed</span>
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.limit_proposed
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="text-muted">
-                                                                              Status
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.status
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4 mt-3">
-                                                                  <div class="d-flex flex-column">
-                                                                        <div class="text-muted"> Pre-Approved Offer
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.pre_approved_offer
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #offerDetails>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Offer Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-
-                                          <!-- Bank Details -->
-                                          <div class="mt-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="bankDetails">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <div class="row">
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column ">
-                                                                        <div class="text-muted">A/c Holder Name:
-                                                                        </div>
-                                                                        <div>
-                                                                              {{data?.expanddata?.offer_details
-                                                                              ?
-                                                                              data?.expanddata?.offer_details?.pre_approved_offer
-                                                                              : '-'}}
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted"> Bank Name - </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted"> A/c No. </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4 mt-2">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">Account Type: </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div class="col-md-4 mt-2">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">IFSC Code </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4 mt-2">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">UPI id:</span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-4 mt-2">
-                                                                  <div class="d-flex flex-column">
-                                                                        <span class="text-muted">UMRN No:
-                                                                        </span>
-                                                                        <div>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #bankDetails>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0">Bank Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-
-                                          <!-- Address Details-->
-                                          <div class="my-3">
-                                                <nz-page-header
-                                                      class="site-page-header acc-bg-light"
-                                                      [nzTitle]="addressDetail"
-                                                >
-                                                </nz-page-header>
-                                                <nz-card
-                                                      class="mb-md-0"
-                                                      [nzLoading]="
-                                                      _currentId == data.id
-                                                      ? api_calling_loader['accordian']
-                                                      : null
-                                                      "
-                                                >
-                                                <div
-                                                class="row"
-                                                *ngFor="
-                                                      let a_data of data?.expanddata?.kyc_details?.results;
-                                                      let i = index
-                                                "
-                                                >
-                                                <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Address Line 1 </span>
-                                                      <div>
-                                                      {{ a_data ? a_data?.address_1 : "-" }}
-                                                      </div>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Address Line 2 </span>
-                                                      <div>
-                                                      {{ a_data ? a_data?.address_2 : "-" }}
-                                                      </div>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> City </span>
-                                                      <div>
-                                                      {{ a_data ? a_data?.city : "-" }}
-                                                      </div>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> State </span>
-                                                      <div>
-                                                      {{ a_data ? a_data?.state : "-" }}
-                                                      </div>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Pincode </span>
-                                                      <div>
-                                                      {{ a_data ? a_data?.pincode : "-" }}
-                                                      </div>
-                                                      </div>
-                                                </div>
-                                                <!-- <div class="col-md-4">
+              <!-- Address Details-->
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="addressDetail"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div
+                    class="row"
+                    *ngFor="
+                      let a_data of data?.expanddata?.kyc_details?.results;
+                      let i = index
+                    "
+                  >
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address Line 1 </span>
+                        <div>
+                          {{ a_data ? a_data?.address_1 : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Address Line 2 </span>
+                        <div>
+                          {{ a_data ? a_data?.address_2 : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> City </span>
+                        <div>
+                          {{ a_data ? a_data?.city : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> State </span>
+                        <div>
+                          {{ a_data ? a_data?.state : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Pincode </span>
+                        <div>
+                          {{ a_data ? a_data?.pincode : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-4">
                                                       <div class="d-flex flex-column">
                                                       <span class="text-muted"> Email </span>
                                                       <div>
@@ -1087,62 +1587,62 @@
                                                       </div>
                                                       </div>
                                                 </div> -->
-                                                </div>
-                                                </nz-card>
-                                                <ng-template #addressDetail>
-                                                      <div class="ml-md-2">
-                                                      <h6 class="mb-0">Address Details</h6>
-                                                      </div>
-                                                </ng-template>
-                                                </div>
+                  </div>
+                </nz-card>
+                <ng-template #addressDetail>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">Address Details</h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <!-- Nominee Details -->
-                                          <div class="my-3">
-                                                <nz-page-header
-                                                class="site-page-header acc-bg-light"
-                                                [nzTitle]="nomineeDetail"
-                                                >
-                                                </nz-page-header>
-                                                <nz-card
-                                                class="mb-md-0 border"
-                                                [nzLoading]="
-                                                      _currentId == data.id
-                                                      ? api_calling_loader['accordian']
-                                                      : null
-                                                "
-                                                >
-                                                <div
-                                                      class="row"
-                                                      *ngFor="
-                                                      let a_data of data?.expanddata?.references?.results;
-                                                      let i = index
-                                                      "
-                                                >
-                                                      <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Name </span>
-                                                      <div>
-                                                            {{ a_data ? a_data?.name : "-" }}
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                      <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Relationship </span>
-                                                      <div>
-                                                            {{ a_data ? a_data?.relationship : "-" }}
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                      <div class="col-md-4">
-                                                      <div class="d-flex flex-column">
-                                                      <span class="text-muted"> Mobile </span>
-                                                      <div>
-                                                            {{ a_data ? a_data?.mobile : "-" }}
-                                                      </div>
-                                                      </div>
-                                                      </div>
-                                                      <!-- <div class="col-md-4">
+              <!-- Nominee Details -->
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="nomineeDetail"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <div
+                    class="row"
+                    *ngFor="
+                      let a_data of data?.expanddata?.references?.results;
+                      let i = index
+                    "
+                  >
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Name </span>
+                        <div>
+                          {{ a_data ? a_data?.name : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Relationship </span>
+                        <div>
+                          {{ a_data ? a_data?.relationship : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column">
+                        <span class="text-muted"> Mobile </span>
+                        <div>
+                          {{ a_data ? a_data?.mobile : "-" }}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-4">
                                                       <div class="d-flex flex-column">
                                                       <span class="text-muted"> Email </span>
                                                       <div>
@@ -1150,152 +1650,199 @@
                                                       </div>
                                                       </div>
                                                       </div> -->
-                                                </div>
-                                                </nz-card>
-                                                <ng-template #nomineeDetail>
-                                                <div class="ml-md-2">
-                                                      <h6 class="mb-0">
-                                                      <i
-                                                      nz-icon
-                                                      class="mr-2"
-                                                      nzType="file"
-                                                      nzTheme="outline"
-                                                      ></i>
-                                                      Nominee Details
-                                                      </h6>
-                                                </div>
-                                                </ng-template>
-                                          </div>
+                  </div>
+                </nz-card>
+                <ng-template #nomineeDetail>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      Nominee Details
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
 
-                                          <div class="my-3">
-                                                <nz-page-header class="site-page-header acc-bg-light"
-                                                      [nzTitle]="response">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border"
-                                                      [nzLoading]="_currentId == data.id ? api_calling_loader['accordian'] : null">
-                                                      <nz-table #colSpanTable [nzFrontPagination]="false"
-                                                            [nzShowSizeChanger]="false"
-                                                            [nzData]="data?.expanddata?.api_calls_response" nzBordered>
-                                                            <thead>
-                                                                  <tr>
-                                                                        <th></th>
-                                                                        <th
-                                                                              *ngFor="let item of data?.expanddata?.api_calls_response">
-                                                                              {{item?.name }} </th>
-
-                                                                  </tr>
-                                                            </thead>
-                        <tbody>
-
-                              <tr>
-                                    <td class="font-weight-semibold">API Call</td>
-                                    <td *ngFor="let item of data?.expanddata?.api_calls_response">
-                                          <i *ngIf="item?.called" nz-icon nzType="check-circle" nzTheme="fill"
-                                                class="text-success"></i>
-                                          <i *ngIf="!(item?.called)" nz-icon nzType="close-circle" nzTheme="fill"
-                                                class="text-danger"></i>
-                                    </td>
-                              </tr>
-                              <tr>
-
-                                    <td>Response came</td>
-                                    <td *ngFor="let item of data?.expanddata?.api_calls_response">
-                                          <i *ngIf="item?.response" nz-icon nzType="check-circle" nzTheme="fill"
-                                                class="text-success"></i>
-                                          <i *ngIf="!(item?.response)" nz-icon nzType="close-circle" nzTheme="fill"
-                                                class="text-danger"></i>
-                                    </td>
-                              </tr>
-                        </tbody>
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="response"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <nz-table
+                    #colSpanTable
+                    [nzFrontPagination]="false"
+                    [nzShowSizeChanger]="false"
+                    [nzData]="data?.expanddata?.api_calls_response"
+                    nzBordered
+                  >
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th
+                          *ngFor="
+                            let item of data?.expanddata?.api_calls_response
+                          "
+                        >
+                          {{ item?.name }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="font-weight-semibold">API Call</td>
+                        <td
+                          *ngFor="
+                            let item of data?.expanddata?.api_calls_response
+                          "
+                        >
+                          <i
+                            *ngIf="item?.called"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!item?.called"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Response came</td>
+                        <td
+                          *ngFor="
+                            let item of data?.expanddata?.api_calls_response
+                          "
+                        >
+                          <i
+                            *ngIf="item?.response"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!item?.response"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
                   </nz-table>
-      </nz-card>
-      <ng-template #response>
-            <div class="ml-md-2">
-                  <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i> API response</h6>
-            </div>
-      </ng-template>
-      </div>
-      <div class="my-3">
-            <nz-page-header
-              class="site-page-header acc-bg-light"
-              [nzTitle]="thirdPartyResponse"
-            >
-            </nz-page-header>
-            <nz-card
-              class="mb-md-0 border"
-              [nzLoading]="
-                _currentId == data.id
-                  ? api_calling_loader['accordian']
-                  : null
-              "
-            >
-              <nz-table style="text-align-last: center;"
-                #colSpanTable
-                [nzFrontPagination]="false"
-                [nzShowSizeChanger]="false"
-                [nzData]="data?.expanddata?.kyc_documents"
-                nzBordered
-              >
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th
-                      *ngFor="
-                        let item of data?.expanddata?.kyc_documents
-                      "
-                    >
-                      {{ item?.document_master?.name }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="font-weight-semibold">API Response</td>
-                    <td
-                      *ngFor="
-                        let item of data?.expanddata?.kyc_documents
-                      "
-                    >
+                </nz-card>
+                <ng-template #response>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
                       <i
-                        *ngIf="item?.api_response"
                         nz-icon
-                        nzType="check-circle"
-                        nzTheme="fill"
-                        class="text-success"
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
                       ></i>
-                      <i
-                        *ngIf="!item?.api_response"
-                        nz-icon
-                        nzType="close-circle"
-                        nzTheme="fill"
-                        class="text-danger"
-                      ></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Response came</td>
-                    <td
-                      *ngFor="
-                        let item of data?.expanddata?.kyc_documents
-                      "
-                    >
-                    <button
-                          *ngIf="!item?.api_response"
-                          nz-button
-                          nzType="link"
-                          class="border" [disabled]="!item?.api_response"
-                          (click)="onClickShowJSONPreview(item)">
-                          Preview
-                    </button>
-                    <button
-                          *ngIf="item?.api_response"
-                          nz-button
-                          nzType="link"
-                          class="border"
-                          (click)="onClickShowJSONPreview(item)">
-                          Preview
-                    </button>
-                      <!-- <i
+                      API response
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="my-3">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="thirdPartyResponse"
+                >
+                </nz-page-header>
+                <nz-card
+                  class="mb-md-0 border"
+                  [nzLoading]="
+                    _currentId == data.id
+                      ? api_calling_loader['accordian']
+                      : null
+                  "
+                >
+                  <nz-table
+                    style="text-align-last: center"
+                    #colSpanTable
+                    [nzFrontPagination]="false"
+                    [nzShowSizeChanger]="false"
+                    [nzData]="data?.expanddata?.kyc_documents"
+                    nzBordered
+                  >
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th
+                          *ngFor="let item of data?.expanddata?.kyc_documents"
+                        >
+                          {{ item?.document_master?.name }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="font-weight-semibold">API Response</td>
+                        <td
+                          *ngFor="let item of data?.expanddata?.kyc_documents"
+                        >
+                          <i
+                            *ngIf="item?.api_response"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!item?.api_response"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Response came</td>
+                        <td
+                          *ngFor="let item of data?.expanddata?.kyc_documents"
+                        >
+                          <button
+                            *ngIf="!item?.api_response"
+                            nz-button
+                            nzType="link"
+                            class="border"
+                            [disabled]="!item?.api_response"
+                            (click)="onClickShowJSONPreview(item)"
+                          >
+                            Preview
+                          </button>
+                          <button
+                            *ngIf="item?.api_response"
+                            nz-button
+                            nzType="link"
+                            class="border"
+                            (click)="onClickShowJSONPreview(item)"
+                          >
+                            Preview
+                          </button>
+                          <!-- <i
                         *ngIf="item?.api_response"
                         nz-icon
                         nzType="check-circle"
@@ -1309,195 +1856,336 @@
                         nzTheme="fill"
                         class="text-danger"
                       ></i> -->
-                    </td>
-                  </tr>
-                </tbody>
-              </nz-table>
-            </nz-card>
-            <ng-template #thirdPartyResponse>
-              <div class="ml-md-2">
-                <h6 class="mb-0">
-                  <i
-                    nz-icon
-                    class="mr-2"
-                    nzType="file"
-                    nzTheme="outline"
-                  ></i>
-                  Third Party API response
-                </h6>
-              </div>
-            </ng-template>
-          </div>
-      
-                                          <!-- History -->
-                                          <div class="my-3" *ngIf="_currentId == data.id">
-                                                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="history">
-                                                </nz-page-header>
-                                                <nz-card class="mb-md-0 border">
-                                                      <div class="row">
-                                                            <div class="col-12">
-                                                                  <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
-                                                            </div>
-                                                      </div>
-                                                </nz-card>
-                                                <ng-template #history>
-                                                      <div class="ml-md-2">
-                                                            <h6 class="mb-0"><i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>History</h6>
-                                                      </div>
-                                                </ng-template>
-                                          </div>
-                                    </tr>
-                              </ng-container>
-                        </tbody>
+                        </td>
+                      </tr>
+                    </tbody>
                   </nz-table>
-            </div>
-      </nz-card>
+                </nz-card>
+                <ng-template #thirdPartyResponse>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i>
+                      Third Party API response
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
+
+              <!-- History -->
+              <div class="my-3" *ngIf="_currentId == data.id">
+                <nz-page-header
+                  class="site-page-header acc-bg-light"
+                  [nzTitle]="history"
+                >
+                </nz-page-header>
+                <nz-card class="mb-md-0 border">
+                  <div class="row">
+                    <div class="col-12">
+                      <app-audit-history
+                        [endpoint]="'LoanApplication'"
+                        [endpoint_id]="_currentId"
+                      ></app-audit-history>
+                    </div>
+                  </div>
+                </nz-card>
+                <ng-template #history>
+                  <div class="ml-md-2">
+                    <h6 class="mb-0">
+                      <i
+                        nz-icon
+                        class="mr-2"
+                        nzType="file"
+                        nzTheme="outline"
+                      ></i
+                      >History
+                    </h6>
+                  </div>
+                </ng-template>
+              </div>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-card>
 </section>
 
 <section *ngIf="_isViewDocument">
-      <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
-            [documentData]="_currentModalData" (close)="_isViewDocument = false "></app-common-document-actions>
+  <app-common-document-actions
+    [action]="'viewDocument'"
+    [_isOpenModal]="_isViewDocument ? true : false"
+    [documentData]="_currentModalData"
+    (close)="_isViewDocument = false"
+  ></app-common-document-actions>
 </section>
 
 <section *ngIf="_isVerify">
-      <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
-            [documentData]="_currentModalData"
-            (close)="_isVerify = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
-      </app-common-document-actions>
-
+  <app-common-document-actions
+    [action]="'verifyDocument'"
+    [_isOpenModal]="_isVerify ? true : false"
+    [documentData]="_currentModalData"
+    (close)="
+      _isVerify = false;
+      getIdWiseData(_currentModalData?.application, currentDropDownId)
+    "
+  >
+  </app-common-document-actions>
 </section>
 <section *ngIf="_isUpload">
-      <app-common-document-actions [action]="'uploadDocument'" [_isOpenModal]="_isUpload ? true : false"
-            [documentData]="_currentModalData"
-            (close)="_isUpload = false; getIdWiseData(_currentModalData?.application  ,currentDropDownId)">
-      </app-common-document-actions>
+  <app-common-document-actions
+    [action]="'uploadDocument'"
+    [_isOpenModal]="_isUpload ? true : false"
+    [documentData]="_currentModalData"
+    (close)="
+      _isUpload = false;
+      getIdWiseData(_currentModalData?.application, currentDropDownId)
+    "
+  >
+  </app-common-document-actions>
 </section>
 
 <!-- Modal Section -->
 <ng-template #modalTitle>
-      <label *ngIf="_isStatus">Update Status</label>
-      <label *ngIf="_isEditOffer">Edit Offer</label>
-      <label *ngIf="isRejectModal">Reject</label>
-      <label *ngIf="_isEditOffer">Edit Offer</label>
-      <label *ngIf="_isPullData"> <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third
-            Party SMS Data</span></label>
-      <label *ngIf="isFetchCibilSms"> <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS
-                  Data</span></label>
+  <label *ngIf="_isStatus">Update Status</label>
+  <label *ngIf="_isEditOffer">Edit Offer</label>
+  <label *ngIf="isRejectModal">Reject</label>
+  <label *ngIf="_isEditOffer">Edit Offer</label>
+  <label *ngIf="_isPullData">
+    <span *ngIf="_isCibil">Third Party Cibil Data</span
+    ><span *ngIf="!_isCibil">Third Party SMS Data</span></label
+  >
+  <label *ngIf="isFetchCibilSms">
+    <span *ngIf="_isCibil">Fetch Cibil Data</span
+    ><span *ngIf="!_isCibil">Fetch SMS Data</span></label
+  >
 </ng-template>
 <section>
-      <nz-modal [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
-            [nzFooter]="footerModal">
-            <section *ngIf="_isStatus">
-                  <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <nz-form-label nzRequired>Select Status</nz-form-label>
-                      </div>
-                        <div class="col-md-8 mb-3">
-                              <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
-                                    nzPlaceHolder="Select Status">
-                                    <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
-                                          [nzLabel]="item?.name"></nz-option>
-                              </nz-select>
-                        </div>
-                        <div class="col-md-4">
-                            <nz-form-label nzRequired>Remarks</nz-form-label>
-                      </div>
-                        <div class="col-md-8">
-                              <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" nz-input [(ngModel)]="remarksDescription"></textarea>
-                              </nz-textarea-count>
-                        </div>
-                  </div>
-            </section>
-            <section *ngIf="_isEditOffer">
-                  <div class="row" [formGroup]="offerForm">
-                        <div class="col-md-12 mb-3">
-                              {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
-                              + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
-                              : '')) : '-' }}
-                              <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
-                                    _currentLoanDetails?.user?.mobile : '-'}}</span>
-                              <span class="mx-2">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
-                                    '-'}}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                              Offer Amount
-                        </div>
-                        <div class="col-md-8 mb-3">
-                              <input nz-input placeholder="Enter Your Offer Amount" formControlName="amountOffered">
-                        </div>
+  <nz-modal
+    [nzWidth]="_isPullData || isFetchCibilSms ? 800 : 500"
+    [(nzVisible)]="_isUpdateStatus"
+    [nzTitle]="modalTitle"
+    (nzOnCancel)="handleCancel()"
+    [nzFooter]="footerModal"
+  >
+    <section *ngIf="_isStatus">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <nz-form-label nzRequired>Select Status</nz-form-label>
+        </div>
+        <div class="col-md-8 mb-3">
+          <nz-select
+            class="w-100"
+            [(ngModel)]="_currentStageStatus"
+            nzAllowClear
+            nzPlaceHolder="Select Status"
+          >
+            <nz-option
+              *ngFor="let item of stageMasterList"
+              [nzValue]="item?.id"
+              [nzLabel]="item?.name"
+            ></nz-option>
+          </nz-select>
+        </div>
+        <div class="col-md-4">
+          <nz-form-label nzRequired>Remarks</nz-form-label>
+        </div>
+        <div class="col-md-8">
+          <nz-textarea-count [nzMaxCharacterCount]="100">
+            <textarea
+              rows="4"
+              nz-input
+              [(ngModel)]="remarksDescription"
+            ></textarea>
+          </nz-textarea-count>
+        </div>
+      </div>
+    </section>
+    <section *ngIf="_isEditOffer">
+      <div class="row" [formGroup]="offerForm">
+        <div class="col-md-12 mb-3">
+          {{
+            _currentLoanDetails?.user?.first_name
+              ? _currentLoanDetails?.user?.first_name +
+                " " +
+                (_currentLoanDetails?.user?.last_name
+                  ? _currentLoanDetails?.user?.last_name
+                  : "")
+              : "-"
+          }}
+          <span class="mx-2">{{
+            _currentLoanDetails?.user?.mobile
+              ? _currentLoanDetails?.user?.mobile
+              : "-"
+          }}</span>
+          <span class="mx-2">{{
+            _currentLoanDetails?.id ? "ID-" + _currentLoanDetails?.id : "-"
+          }}</span>
+        </div>
+        <div class="col-md-4 mb-3">Offer Amount</div>
+        <div class="col-md-8 mb-3">
+          <input
+            nz-input
+            placeholder="Enter Your Offer Amount"
+            formControlName="amountOffered"
+          />
+        </div>
 
-                        <div class="col-md-4 mb-3">
-                              Validity
-                        </div>
-                        <div class="col-md-8 mb-3">
-                              <input nz-input readonly="readonly" placeholder="">
-                        </div>
+        <div class="col-md-4 mb-3">Validity</div>
+        <div class="col-md-8 mb-3">
+          <input nz-input readonly="readonly" placeholder="" />
+        </div>
 
-                        <div class="col-md-4 mb-3">
-                              Interest
-                        </div>
-                        <div class="col-md-8 mb-3">
-                              <input nz-input readonly="readonly" placeholder="">
-                        </div>
-                  </div>
-            </section>
-            <section *ngIf="isRejectModal">
-                  <div class="row">
-                        <div class="col-md-12 text-muted">
-                              {{ _currentLoanDetails?.user?.first_name ? ( _currentLoanDetails?.user?.first_name
-                              + ' ' + (_currentLoanDetails?.user?.last_name ? _currentLoanDetails?.user?.last_name
-                              : '')) : '-' }}
-                              <!-- <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
+        <div class="col-md-4 mb-3">Interest</div>
+        <div class="col-md-8 mb-3">
+          <input nz-input readonly="readonly" placeholder="" />
+        </div>
+      </div>
+    </section>
+    <section *ngIf="isRejectModal">
+      <div class="row">
+        <div class="col-md-12 text-muted">
+          {{
+            _currentLoanDetails?.user?.first_name
+              ? _currentLoanDetails?.user?.first_name +
+                " " +
+                (_currentLoanDetails?.user?.last_name
+                  ? _currentLoanDetails?.user?.last_name
+                  : "")
+              : "-"
+          }}
+          <!-- <span class="mx-2">{{ _currentLoanDetails?.user?.mobile ?
                                     _currentLoanDetails?.user?.mobile : '-'}}</span> -->
-                              <span class="mx-3">{{ _currentLoanDetails?.id ? 'ID-' + _currentLoanDetails?.id :
-                                    '-'}}</span>
-                        </div>
-                        <div class="col-md-12 my-4">
-                              Are you sure about rejecting the offer?
-                        </div>
-                        <div class="col-md-4 text-muted">
-                              Remarks, if any
-                        </div>
-                        <div class="col-md-8">
-                              <nz-textarea-count [nzMaxCharacterCount]="100">
-                                    <textarea rows="4" class="border" nz-input [(ngModel)]="remarks"></textarea>
-                              </nz-textarea-count>
-                        </div>
-                  </div>
-            </section>
+          <span class="mx-3">{{
+            _currentLoanDetails?.id ? "ID-" + _currentLoanDetails?.id : "-"
+          }}</span>
+        </div>
+        <div class="col-md-12 my-4">
+          Are you sure about rejecting the offer?
+        </div>
+        <div class="col-md-4 text-muted">Remarks, if any</div>
+        <div class="col-md-8">
+          <nz-textarea-count [nzMaxCharacterCount]="100">
+            <textarea
+              rows="4"
+              class="border"
+              nz-input
+              [(ngModel)]="remarks"
+            ></textarea>
+          </nz-textarea-count>
+        </div>
+      </div>
+    </section>
 
-            <section *ngIf="_isPullData">
-                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isCibil]="_isCibil ? true : false">
-                  </app-common-cibil-sms>
-            </section>
-            <section *ngIf="isFetchCibilSms">
-                  <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails"
-                        [isFetch]="isFetchCibilSms ? true : false" [isCibil]="_isCibil ? true : false">
-                  </app-common-cibil-sms>
-            </section>
-      </nz-modal>
+    <section *ngIf="_isPullData">
+      <app-common-cibil-sms
+        [_currentLoanDetails]="_currentLoanDetails"
+        [isCibil]="_isCibil ? true : false"
+      >
+      </app-common-cibil-sms>
+    </section>
+    <section *ngIf="isFetchCibilSms">
+      <app-common-cibil-sms
+        [_currentLoanDetails]="_currentLoanDetails"
+        [isFetch]="isFetchCibilSms ? true : false"
+        [isCibil]="_isCibil ? true : false"
+      >
+      </app-common-cibil-sms>
+    </section>
+  </nz-modal>
 </section>
 <ng-template #footerModal>
-      <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">Reset</button>
-      <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-      <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border"
-            (click)="handleCancel()">Cancel</button>
-            <button *ngIf="_isStatus" nz-button nzType="primary" [nzLoading]="api_calling_loader['button']" class="mx-2" [disabled]="(!_currentStageStatus || !remarksDescription) ? true : false" (click)="handleOk('status')">Submit</button>
-      <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']" (click)="handleOk('offer')">Update</button>
-      <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">Submit</button>
-      <button *ngIf="_isUpload" nz-button nzType="primary" class="mx-2"
-            [disabled]="!(fileList.length > 0) ? true : false" [nzLoading]="api_calling_loader['button']"
-            (click)="handleOk('uploadDocument')">Submit</button>
-      <button *ngIf="_isVerify" nz-button nzType="primary"
-            [disabled]="(!documentStatus && !verifyRemarks) ? true : false" class="mx-2"
-            [nzLoading]="api_calling_loader['button']" (click)="handleOk('verify')">Submit</button>
+  <button
+    nz-button
+    *ngIf="_isEditOffer"
+    nzType="link"
+    class="border"
+    (click)="handleCancel()"
+  >
+    Reset
+  </button>
+  <button
+    nz-button
+    *ngIf="isRejectModal"
+    nzType="link"
+    class="border"
+    (click)="handleCancel()"
+  >
+    Cancel
+  </button>
+  <button
+    nz-button
+    *ngIf="!isRejectModal && !_isEditOffer"
+    nzType="link"
+    class="border"
+    (click)="handleCancel()"
+  >
+    Cancel
+  </button>
+  <button
+    *ngIf="_isStatus"
+    nz-button
+    nzType="primary"
+    [nzLoading]="api_calling_loader['button']"
+    class="mx-2"
+    [disabled]="!_currentStageStatus || !remarksDescription ? true : false"
+    (click)="handleOk('status')"
+  >
+    Submit
+  </button>
+  <button
+    *ngIf="_isEditOffer"
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    [nzLoading]="api_calling_loader['button']"
+    (click)="handleOk('offer')"
+  >
+    Update
+  </button>
+  <button
+    *ngIf="isRejectModal"
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    (click)="handleOk('reject')"
+  >
+    Submit
+  </button>
+  <button
+    *ngIf="_isUpload"
+    nz-button
+    nzType="primary"
+    class="mx-2"
+    [disabled]="!(fileList.length > 0) ? true : false"
+    [nzLoading]="api_calling_loader['button']"
+    (click)="handleOk('uploadDocument')"
+  >
+    Submit
+  </button>
+  <button
+    *ngIf="_isVerify"
+    nz-button
+    nzType="primary"
+    [disabled]="!documentStatus && !verifyRemarks ? true : false"
+    class="mx-2"
+    [nzLoading]="api_calling_loader['button']"
+    (click)="handleOk('verify')"
+  >
+    Submit
+  </button>
 </ng-template>
 
 <nz-modal
-  [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'"
+  [(nzVisible)]="isVisibleThirdPartyResp"
+  [nzWidth]="'600'"
   nzTitle="Fetched Third Party Response"
-  [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false"
+  [nzFooter]="thirdPartyFooter"
+  (nzOnCancel)="isVisibleThirdPartyResp = false"
 >
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">

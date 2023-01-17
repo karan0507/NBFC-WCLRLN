@@ -99,6 +99,7 @@ export class DisbursementComponent implements OnInit {
       date_sorter = ''
       selectedTabFilter: any ='all';
       isVisibleThirdPartyResp: boolean;
+      generateloading: boolean;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, 
             public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) {
                   this.route.queryParams.subscribe((params: any) => {
@@ -601,12 +602,12 @@ export class DisbursementComponent implements OnInit {
     }
     sendEnachLink(id, type) {
       let data = new FormData()
-      data.append('source', 'LMS'),
-      data.append('datapoint', 'create_mandate_registration_link'),
+      // data.append('source', 'LMS'),
+      // data.append('datapoint', 'create_mandate_registration_link'),
       data.append('auth_type', type),
       data.append('accepted_offer_id', id)
       const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
-      this.https.fetchLoanApplicationUpload(data).subscribe(res => {
+      this.https.sendEmandateLink(data).subscribe(res => {
         this.message.remove(generateloader);
         this.message.success(res['message'])
         // this.EMandateRegistrationLink()
@@ -640,4 +641,22 @@ export class DisbursementComponent implements OnInit {
             console.log(error);
           })
         }
+      pullprofile(id) {
+            this.generateloading = true
+            this.https.pullprofile(id).subscribe((res: any) => {
+                  if (res.success) {
+                        this.getIdWiseData(id, this._currentId)
+                        this.message.success(res.message)
+
+                  } else {
+                        this.message.error(res.message)
+                  }
+                  // this.https.exportMasterSectionModule(res, 'attendance-' + id, 'xlsx', generateloader)
+                  this.generateloading = false
+
+            }, error => {
+                  this.generateloading = false
+                  console.log(error);
+            })
+      }
 }

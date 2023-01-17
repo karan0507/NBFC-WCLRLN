@@ -28,6 +28,7 @@ export class OnboardingComponent implements OnInit {
   api_calling_loader: boolean;
   loading: boolean;
   thirdPartData: any;
+  email_pincode_rules = ''
 
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
@@ -82,7 +83,11 @@ export class OnboardingComponent implements OnInit {
       third_party_calls: this.fb.array([]),
       aadhar_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.aadhar_check : 'Mandatory') : 'Mandatory'],
       pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory'],
-      pan_no_document_needed: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_no_document_needed : false) : false]
+      pan_no_document_needed: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_no_document_needed : false) : false],
+      email_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.email_check : 'Mandatory') : 'Mandatory'],
+      pincode_check: [data ? (data.email_pincode_rules ? data.email_pincode_rules?.pincode_check : 'Mandatory') : 'Mandatory'],
+      show_nach_in_onboarding: [data ? data?.show_nach_in_onboarding : true],
+      show_ocr: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.show_ocr : true) : true]
     })
     // if (data?.field_rules[0]) {
     //   data?.field_rules.forEach(element => {
@@ -98,7 +103,9 @@ export class OnboardingComponent implements OnInit {
 
     //   // this.fetchDocumentMaster()
     // } else {
-      this.fetchDocumentMaster()
+      if (this.product_id) {
+        this.fetchDocumentMaster()
+      }
     // }
     if (data?.third_party_calls[0]) {
       data?.third_party_calls.forEach(element => {
@@ -354,20 +361,37 @@ export class OnboardingComponent implements OnInit {
       ];
     }
     var aadhar_pan_rules;
+    var email_pincode_rules;
     if (this.onboardingRuleData?.aadhar_pan_rules) {
       aadhar_pan_rules = {
         id: this.onboardingRuleData?.aadhar_pan_rules.id,
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
         pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
-        employment_type: this.selectedTab
+        employment_type: this.selectedTab,
+        show_ocr: this.createEditForm.value.show_ocr
       }
     } else {
       aadhar_pan_rules = {
         aadhar_check : this.createEditForm.value.aadhar_check,
         pan_check: this.createEditForm.value.pan_check,
         pan_no_document_needed: this.createEditForm.value.pan_no_document_needed,
-        employment_type: this.selectedTab
+        employment_type: this.selectedTab,
+        show_ocr: this.createEditForm.value.show_ocr
+      }
+    }
+    if (this.onboardingRuleData?.email_pincode_rules) {
+      email_pincode_rules = {
+        employment_type: this.selectedTab,
+        email_check: this.createEditForm.value.email_check,
+        pincode_check: this.createEditForm.value.pincode_check,
+        id: this.onboardingRuleData?.email_pincode_rules.id,
+      }
+    } else {
+      email_pincode_rules = {
+        employment_type: this.selectedTab,
+        email_check: this.createEditForm.value.email_check,
+        pincode_check: this.createEditForm.value.pincode_check,
       }
     }
     let document_rules = []
@@ -392,8 +416,12 @@ export class OnboardingComponent implements OnInit {
       // field_rules : this.createEditForm.value.field_rules,
       document_rules: document_rules,
       third_party_calls: this.createEditForm.value.third_party_calls,
-      aadhar_pan_rules: aadhar_pan_rules
+      aadhar_pan_rules: aadhar_pan_rules,
+      email_pincode_rules: email_pincode_rules,
+      show_nach_in_onboarding: this.createEditForm.value.show_nach_in_onboarding
     }
+    console.log(data)
+    // return;
     if (this.isRuledAdded) {
       this.editOnboardingRules(data);
     } else {

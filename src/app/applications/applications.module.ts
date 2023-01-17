@@ -46,9 +46,12 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SharedModule } from '../shared/shared.module';
 import { AllApplicantsComponent } from './all-applicants/all-applicants.component';
 import { CorporateStageComponent } from './corporate-stage/corporate-stage.component';
+import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { DocumentPendingComponent } from './document-pending/document-pending.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
@@ -64,6 +67,7 @@ import { CorporateStageComponent } from './corporate-stage/corporate-stage.compo
     NzIconModule,
     NzDropDownModule,
     NzMenuModule,
+    NzCheckboxModule,
     NzDatePickerModule,
     NzFormModule,
     NzModalModule,
@@ -76,6 +80,7 @@ import { CorporateStageComponent } from './corporate-stage/corporate-stage.compo
     NzDividerModule,
     NgxJsonViewerModule,
     SharedModule,
+    DemoNgZorroAntdModule,
     NgxPermissionsModule.forChild()
   ],
   providers:[

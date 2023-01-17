@@ -436,6 +436,12 @@ export class HttpService {
       public createOnboardingRules(data, product_id) {
             return this._http.post((this.url + `/product/v1/onboarding-rules/` + product_id), data);
       }
+      /**
+       * createOnboardingRules
+       */
+      public createRules(data, product_id) {
+            return this._http.post((this.url + `/product/v1/save-product-transaction-configuration`), data);
+      }
 
       /**
        * editOnboardingRules
@@ -449,6 +455,13 @@ export class HttpService {
        */
       public fetchOnboardingRules(data) {
             return this._http.get((this.url + `/product/v1/onboarding-rules/` + data.product_id));
+      }
+
+      /**
+       * fetchOnboardingRules
+       */
+      public fetchTransactionConfig(data) {
+            return this._http.get((this.url + `/product/v1/get-product-transaction-configuration/` + data.product_id));
       }
 
       /**
@@ -651,7 +664,7 @@ export class HttpService {
 
       // Send E-mandate Link 
       public sendEmandateLink(data): any {
-            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+            return this._http.post((this.url + `/loan-application/v1/create-emandate-registration-link`), data);
       }
 
       // Download Loan Application Documents 
@@ -1248,6 +1261,10 @@ export class HttpService {
       showAttendance(id) {
             return this._http.get((this.url + `/partner/v1/show-attendance/` + id), {responseType: 'blob'});
       }
+
+      pullprofile(id) {
+            return this._http.get((this.url + `/loan-application/v1/pull-quess-profile-data/` + id));
+      }
       pullAttendance(data) {
             return this._http.post((this.url + `/partner/v1/pull-attendance`), data);
       }
@@ -1265,5 +1282,17 @@ export class HttpService {
       }
       public toogleStatusCategory(id) {
             return this._http.put((this.url + `/bbps/v1/category/status/` + id), id);
+      }
+      public fetchDownloads(data) {
+            return this._http.get((this.url + `/platform_central/v1/fetch-downloads`), { params: data });
+      }
+      public exportApiStats(data): Observable<any> {
+            return this._http.get<Blob>((this.url + `/platform_central/v1/export-api-stats`), { params: data, responseType: 'blob' as 'json' });
+      }
+      dpdSettlement(data) {
+            return this._http.post((this.url + `/nbfc/v1/change-borrower-stages`), data);
+      }
+      moveToDocumentPending(data) {
+            return this._http.post((this.url + `/loan-application/v1/move-to-document-pending`), data);
       }
 }

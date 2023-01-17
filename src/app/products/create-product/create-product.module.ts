@@ -22,6 +22,7 @@ import { ViewProductComponent } from './view-product/view-product.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TransactionConfigComponent } from './transaction-config/transaction-config.component';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,

@@ -113,6 +113,8 @@ export class VerificationComponent implements OnInit {
       _generate_offer: boolean;
       storedParams: any;
       isVisibleThirdPartyResp: boolean;
+      isVisibleUploadedImage: boolean;
+      storedSelfieImage: any;
       constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer, public global: GlobalservicesService,
              private route: ActivatedRoute, private router: Router) {
                   this.route.queryParams.subscribe((params: any) => {
@@ -645,4 +647,31 @@ export class VerificationComponent implements OnInit {
                         console.log(error);
                   })
             }
+
+
+      onClickPreviewImage(id) {
+            this.api_calling_loader['previewSelfie'] = true;
+            let data = {
+                  'source': 'Onboarding',
+                  'datapoint': 'get_aadhar_selfie_image',
+                  'endpoint': id
+            }
+            this.https.fetchXMLData(data).subscribe((res: any) => {
+                  if (res?.success) {
+                        this.api_calling_loader['previewSelfie'] = false;
+                        this.storedSelfieImage = res.data
+                        if (this.storedSelfieImage.aadhar_url && this.storedSelfieImage.selfie_url) {
+                              this.isVisibleUploadedImage = true;
+                        } else {
+                              this.message.warning('No image found')
+                        }
+                  } else {
+                        this.message.error(res?.message);
+                        this.api_calling_loader['previewSelfie'] = false;
+                  }
+            }, error => {
+                  // this.message.error(res?.message);
+                  this.api_calling_loader['previewSelfie'] = false;
+            })
+      }
 }
