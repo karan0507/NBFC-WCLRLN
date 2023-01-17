@@ -94,9 +94,9 @@ export class EditFormComponent implements OnInit {
                   this.nomineeDetails = this.fb.group({
                         nominee: this.fb.array([]),
                   })
-                  
+                  // Validators.required
             this.employementDetails = this.fb.group({
-                  company_name: [null, [Validators.required]],
+                  company_name: [null, []],
                   address: [null, []],
                   emp_code:[null],
                   address_1:[null],
