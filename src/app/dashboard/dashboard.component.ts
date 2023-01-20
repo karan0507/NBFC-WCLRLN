@@ -530,6 +530,7 @@ export class DashboardComponent implements OnInit {
         if(this.partner){
             data['partner'] = this.partner
         }
+        return;
         this.http.getDetailForDashboardAPI(data).subscribe((res?: any)=> {
             // this.fetchedList['delinquent'] = res?.data
             this.thirty_day_user_activity = res?.data?.['30_day_user_activity']
@@ -551,6 +552,7 @@ export class DashboardComponent implements OnInit {
       if(this.partner){
         data['partner'] = this.partner
       }
+              return;
               this.http.fetchXMLData(data).subscribe((res)=>{
                 console.log('AJmal');
                 this.designGraph(res?.data?.spend_graph_data);
