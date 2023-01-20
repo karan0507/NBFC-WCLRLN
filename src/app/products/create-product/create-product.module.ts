@@ -24,6 +24,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TransactionConfigComponent } from './transaction-config/transaction-config.component';
 import { LmhComponent } from './lmh/lmh.component';
+import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import { LmhComponent } from './lmh/lmh.component';
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,

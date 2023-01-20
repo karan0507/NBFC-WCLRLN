@@ -1299,7 +1299,14 @@ export class HttpService {
             return this._http.get((this.url + `/product/v1/get-product-lmh-configurations/` + product_id));
       }
 
+      getLmhRule(product_id) {
+            return this._http.get((this.url + `/product/v1/fetch-product-lms-rules/` + product_id));
+      }
+
       createConfiguration(data) {
             return this._http.post((this.url + `/product/v1/save-product-lmh-configurations`), data);
+      }
+      createConfigurationRule(data) {
+            return this._http.post((this.url + `/product/v1/save-product-lmh-rules`), data);
       }
 }
