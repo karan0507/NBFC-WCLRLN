@@ -123,7 +123,6 @@ export class LmhComponent implements OnInit {
   }
 
   addSlabpartners(k, data?) {
-    console.log(k + '123')
     const control = <FormArray>this.createEditForm.get('metrics_arr')['controls'][k].get('config');
     control.push(this.addCategoryArray(data))
   }
