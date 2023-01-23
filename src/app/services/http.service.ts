@@ -32,6 +32,7 @@ export class HttpService {
       refreshCreditLine = new ReplaySubject<any>();
       globalUserPermissionsData = new ReplaySubject<any>();
       limitCollapse = new ReplaySubject<any>();
+      expnadList = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
@@ -1308,5 +1309,13 @@ export class HttpService {
       }
       createConfigurationRule(data) {
             return this._http.post((this.url + `/product/v1/save-product-lmh-rules`), data);
+      }
+
+      public getPersonalDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-personal-details/`+ id));
+      }
+
+      public getBankDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-offer-details/` + id));
       }
 }

@@ -1,0 +1,730 @@
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="personalDetail">
+            </nz-page-header>
+            <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex flex-column">
+                            <span class="text-muted"> Email </span>
+                            <div>
+                                {{
+                                data?.email
+                                ? data?.email
+                                : "-"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex flex-column">
+                            <span class="text-muted"> D.O.B </span>
+                            <div>
+                                {{
+                                data?.dob
+                                ? (data?.dob
+                                | date : "dd MMM, yyyy")
+                                : "-"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex flex-column">
+                            <span class="text-muted"> Monthly Income </span>
+                            <div>
+                                {{
+                                data?.income_range
+                                ? data?.income_range
+                                : "-"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex flex-column">
+                            <span class="text-muted"> Residential Pincode </span>
+                            <div>
+                                {{
+                                data?.user_entered_pincode
+                                ? data?.user_entered_pincode
+                                : "-"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- is_using_app -->
+                </div>
+            </nz-card>
+            <ng-template #personalDetail>
+                <div class="ml-md-2">
+                    <h6 class="mb-0">
+                        <i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i>
+                        Personal Details
+                    </h6>
+                </div>
+            </ng-template>
+
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="empHeader">
+                </nz-page-header>
+                <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Company Name </span>
+                                <div>
+                                    <!-- created_at -->
+                                    {{
+                                    data?.company_name
+                                    ? data?.company_name
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Address </span>
+                                <div>
+                                    {{
+                                    data?.company_address
+                                    ? data?.company_address
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Employement type </span>
+                                <div>
+                                    {{
+                                    data?.employment_type
+                                    ? data?.employment_type
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #empHeader>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">
+                            <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                            Employement Details
+                        </h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="my-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="geoloaction">
+                </nz-page-header>
+                <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
+                    <div class="row mx-0" *ngFor="
+                                  let item of data?.geo_location;
+                                  index as k
+                                ">
+                        <div class="col-md-2">
+                            {{ k + 1 }}
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-4">
+                                <span class="text-muted">Latitude</span>
+                            </div>
+                            <div class="col-md-8">
+                                {{ item?.latitude ? item?.latitude : "-" }}
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-4">
+                                <span class="text-muted">Longitude</span>
+                            </div>
+                            <div class="col-md-8">
+                                {{ item?.longitude ? item?.longitude : "-" }}
+                            </div>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #geoloaction>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">
+                            <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                            Geolocation
+                        </h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="bureau">
+                </nz-page-header>
+                <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column">
+                                <h6>
+                                    <div class="d-flex">
+
+                                        <nz-table [nzData]=" data?.cibil_data" class="col-md-12">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr. no.</th>
+                                                    <th>Credit score</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor=" let data of data?.cibil_data; index as i">
+                                                    <td>{{ i + 1 }}</td>
+                                                    <td>{{ data.cibil_score }}</td>
+                                                    <td>{{data?.created_at | date : "medium"}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </nz-table>
+                                    </div>
+                                </h6>
+                                <b>
+                                    <a class="text-primary" (click)="getCibilScoreData('cibil', _currentId)">Fetch
+                                        Cibil</a>
+                                </b>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-md-4 mb-2" *ngFor="let item of testingData?.data?.results[0]?.sms_data_response?.processed_api_response | keyvalue"> -->
+                        <div class="col-md-4 mb-2" *ngFor="
+                                    let item of data?.sms_data_response
+                                      ?.processed_api_response | keyvalue
+                                  ">
+                            <span class="text-muted">{{ item.key + " :" }}</span>
+                            <span>{{ item.value ? item.value : 0 }}</span>
+                            <!-- <span>{{item.key}}</span> : <span>{{item.value}}</span> -->
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #bureau>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">Bureau Details</h6>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="my-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="excleData">
+                </nz-page-header>
+                <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> EMP ID </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.emp_id
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> First name </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.first_name
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Last name </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.last_name
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Monthly Income </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.net_monthly_income
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Date Of Joining </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.joining_date
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Mobile Number </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.mobile
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Branch Name </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.branch
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <span class="text-muted"> Partner </span>
+                                <div>
+                                    {{
+                                    data?.excel_data
+                                    ? data?.excel_data?.partner
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="mt-3 col-md-12">Salary details</h3>
+                        <nz-table [nzData]="data?.excel_data?.last_salary_details" class="col-md-12">
+                            <thead>
+                                <tr>
+                                    <th>Sr. no.</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of data?.excel_data?.last_salary_details;index as i">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ data.credited_date }}</td>
+                                    <td>₹ {{ data.amount }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div class="col-md-12 mt-3">
+                            <button nzSize="small" nz-button nzType="primary" (click)="pullprofile(_currentId)"
+                                [nzLoading]="generateloading">
+                                Pull Profile data
+                            </button>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #excleData>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">
+                            <i nz-icon class="mr-2" nzType="file" nzTheme="outline"></i>
+                            Excel Data
+                        </h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="blackBox">
+                </nz-page-header>
+                <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <h6>
+                                    <div class="d-flex">
+                                        <label class="text-muted">Application Score :{{
+                                            data?.black_box_data
+                                            ? data?.black_box_data
+                                            ?.application_score
+                                            : ""
+                                            }}
+                                        </label>
+                                        <div class="mx-3 text-muted">
+                                        </div>
+                                    </div>
+                                </h6>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #blackBox>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">Blackbox Details</h6>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="underWriting">
+                </nz-page-header>
+                <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="text-muted">No. of Cheque Bounce</div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.no_of_cheque_bounce
+                                    ? data?.cibil_based_variables
+                                    ?.no_of_cheque_bounce
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Nach Trans. Declined (last 3 months)</span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.nach_trans_declined
+                                    ? data?.cibil_based_variables
+                                    ?.nach_trans_declined
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Max. Delinquent Amt. (out of income)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.max_delinquent_amount
+                                    ? data?.cibil_based_variables
+                                    ?.max_delinquent_amount
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">No. of write off cases</span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.no_of_write_off_cases
+                                    ? data?.cibil_based_variables
+                                    ?.no_of_write_off_cases
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">Data Quality score</span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.data_Quality_score
+                                    ? data?.cibil_based_variables
+                                    ?.data_Quality_score
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">Retail Lending score </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.retail_lending_score
+                                    ? data?.cibil_based_variables
+                                    ?.retail_lending_score
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">No. of Inquiries (in last 3 Months)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.no_of_inquiries
+                                    ? data?.cibil_based_variables?.no_of_inquiries
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">No negative Events (in last 6 Months)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.no_of_negative_events
+                                    ? data?.cibil_based_variables
+                                    ?.no_of_negative_events
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">Avg. Salary Credited (last 6 months)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.avg_salary_credited
+                                    ? data?.cibil_based_variables
+                                    ?.avg_salary_credited
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">Avg Min. Balance/month (in last 90 days)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.avg_min_balance_Month
+                                    ? data?.cibil_based_variables
+                                    ?.avg_min_balance_Month
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">No Cc Applied (last 14 days)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables.no_of_cc_applied
+                                    ? data?.cibil_based_variables?.no_of_cc_applied
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">No loan applied (last 14 days)
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.no_of_loan_applied
+                                    ? data?.cibil_based_variables
+                                    ?.no_of_loan_applied
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">FOIR (Total Debt/Monthly Salary))
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.foir
+                                    ? data?.cibil_based_variables?.foir
+                                    : "-"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #underWriting>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">Underwriting Rules</h6>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <nz-modal [nzWidth]="800" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()"
+        [nzFooter]="footerModal">
+        <!-- <section *ngIf="_isStatus">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <nz-form-label nzRequired>Select Status</nz-form-label>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <nz-select class="w-100" [(ngModel)]="_currentStageStatus" nzAllowClear
+                        nzPlaceHolder="Select Status">
+                        <nz-option *ngFor="let item of stageMasterList" [nzValue]="item?.id"
+                            [nzLabel]="item?.name"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="col-md-4">
+                    <nz-form-label nzRequired>Remarks</nz-form-label>
+                </div>
+                <div class="col-md-8">
+                    <nz-textarea-count [nzMaxCharacterCount]="100">
+                        <textarea rows="4" nz-input [(ngModel)]="remarks"></textarea>
+                    </nz-textarea-count>
+                </div>
+            </div>
+        </section>
+        <section *ngIf="_isEditOffer">
+            <div class="row" [formGroup]="offerForm">
+                <div class="col-md-12 mb-3">
+                    {{
+                    _currentLoanDetails?.user?.first_name
+                    ? _currentLoanDetails?.user?.first_name +
+                    " " +
+                    (_currentLoanDetails?.user?.last_name
+                    ? _currentLoanDetails?.user?.last_name
+                    : "")
+                    : "-"
+                    }}
+                    <span class="mx-2">{{
+                        _currentLoanDetails?.user?.mobile
+                        ? _currentLoanDetails?.user?.mobile
+                        : "-"
+                        }}</span>
+                    <span class="mx-2">{{
+                        _currentLoanDetails?.id ? "ID-" + _currentLoanDetails?.id : "-"
+                        }}</span>
+                </div>
+                <div class="col-md-4 mb-3">Offer Amount</div>
+                <div class="col-md-8 mb-3">
+                    <input nz-input placeholder="Enter Your Offer Amount" formControlName="amountOffered" />
+                </div>
+
+                <div class="col-md-4 mb-3">Validity</div>
+                <div class="col-md-8 mb-3">
+                    <input nz-input readonly="readonly" placeholder="" />
+                </div>
+
+                <div class="col-md-4 mb-3">Interest</div>
+                <div class="col-md-8 mb-3">
+                    <input nz-input readonly="readonly" placeholder="" />
+                </div>
+            </div>
+        </section>
+        <section *ngIf="isRejectModal">
+            <div class="row">
+                <div class="col-md-12 text-muted">
+                    {{
+                    _currentLoanDetails?.user?.first_name
+                    ? _currentLoanDetails?.user?.first_name +
+                    " " +
+                    (_currentLoanDetails?.user?.last_name
+                    ? _currentLoanDetails?.user?.last_name
+                    : "")
+                    : "-"
+                    }}
+                    <span class="mx-3">{{
+                        _currentLoanDetails?.id ? "ID-" + _currentLoanDetails?.id : "-"
+                        }}</span>
+                </div>
+                <div class="col-md-12 my-4">
+                    Are you sure about rejecting the offer?
+                </div>
+                <div class="col-md-4 text-muted">Remarks, if any</div>
+                <div class="col-md-8">
+                    <nz-textarea-count [nzMaxCharacterCount]="100">
+                        <textarea rows="4" class="border" nz-input [(ngModel)]="remarks"></textarea>
+                    </nz-textarea-count>
+                </div>
+            </div>
+        </section> -->
+
+        <section *ngIf="isFetchCibilSms">
+            <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isFetch]="isFetchCibilSms ? true : false"
+                [isCibil]="_isCibil ? true : false">
+            </app-common-cibil-sms>
+        </section>
+    </nz-modal>
+</section>
+
+<!-- Modal Section -->
+<ng-template #modalTitle>
+    <label *ngIf="_isStatus">Update Status</label>
+    <label *ngIf="_isEditOffer">Edit Offer</label>
+    <label *ngIf="isRejectModal">Reject</label>
+    <label *ngIf="_isEditOffer">Edit Offer</label>
+    <!-- <label *ngIf="_isPullData">
+        <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third Party SMS Data</span></label> -->
+    <label *ngIf="isFetchCibilSms">
+        <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS Data</span></label>
+</ng-template>
+
+<ng-template #footerModal>
+    <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">
+        Reset
+    </button>
+    <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">
+        Cancel
+    </button>
+    <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border" (click)="handleCancel()">
+        Cancel
+    </button>
+    <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
+        [disabled]="!_currentStageStatus || !remarksDescription ? true : false" (click)="handleOk('status')">
+        Submit
+    </button>
+    <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">
+        Update
+    </button>
+    <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">
+        Submit
+    </button>
+</ng-template>
