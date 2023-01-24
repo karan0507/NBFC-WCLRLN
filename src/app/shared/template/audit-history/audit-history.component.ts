@@ -15,6 +15,7 @@ export class AuditHistoryComponent implements OnInit {
   @Input() endpoint: any;
   @Input() endpoint_id: any;
   history_data: any;
+  loading: boolean;
 
   constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService) {
     
@@ -46,16 +47,20 @@ export class AuditHistoryComponent implements OnInit {
         endpoint: this.endpoint,
         id: this.endpoint_id
       }
+      this.loading = true
       this.https.fetchLoanApplicationList(data).subscribe( res => {
         if (res?.success) {
           this.history_data = res.data
+          this.loading = false
         } else {
+          this.loading = false
   
         }
       }, err => {
   
       })
     } else {
+      this.loading = true
       let data = {
         id: this.endpoint_id
       }
@@ -65,6 +70,7 @@ export class AuditHistoryComponent implements OnInit {
         } else {
   
         }
+        this.loading = false
       }, err => {
   
       })
