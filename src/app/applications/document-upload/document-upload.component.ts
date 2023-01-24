@@ -278,9 +278,11 @@ export class DocumentUploadComponent implements OnInit {
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
+                  this.expandSet.clear()
+                  this._currentId = id
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
-
+                  console.log(this.expandSet)
+                  this.https.expnadList.next(this.expandSet)
             } else {
                   this.expandSet.delete(id);
             }
@@ -555,5 +557,8 @@ export class DocumentUploadComponent implements OnInit {
                         this.message.error(res.message);
                   }
             })
+      }
+      ngOnDestroy(): void {
+            this.https.expnadList.next()
       }
 }

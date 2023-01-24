@@ -196,12 +196,9 @@ customRanges = {
 
         if (checked) {
             this.expandSet.clear()
-              this._currentId = id
-              this.expandSet.add(id);
-            //   setTimeout(() => {
-                    this.https.expnadList.next(this.expandSet)
-            //   }, 100);
-            //   this.getIdWiseData(this._currentId = id, index);
+            this._currentId = id
+            this.expandSet.add(id);
+            this.https.expnadList.next(this.expandSet)
         } else {
               this.expandSet.delete(id);
               console.log('Deleted array of active ids', this._activeLoans);
@@ -325,4 +322,7 @@ customRanges = {
         
   }
 
+      ngOnDestroy(): void {
+            this.https.expnadList.next()
+      }
 }

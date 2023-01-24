@@ -400,12 +400,10 @@ export class UnderwritingComponent implements OnInit {
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean, index?): void {
     if (checked) {
+      this.expandSet.clear()
+      this._currentId = id
       this.expandSet.add(id);
-      this.getIdWiseData(
-        (this._currentId = id),
-        (this.currentDropDownId = index)
-      );
-      // console.log();
+      this.https.expnadList.next(this.expandSet)
     } else {
       this.expandSet.delete(id);
       console.log("Deleted array of active ids", this._activeLoans);
@@ -998,5 +996,8 @@ export class UnderwritingComponent implements OnInit {
         element.checked = false
       });
     })
+  }
+  ngOnDestroy(): void {
+    this.https.expnadList.next()
   }
 }

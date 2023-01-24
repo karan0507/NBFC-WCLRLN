@@ -282,8 +282,10 @@ export class PerApprovedComponent implements OnInit {
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
+                  this.expandSet.clear()
+                  this._currentId = id
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
+                  this.https.expnadList.next(this.expandSet)
 
             } else {
                   this.expandSet.delete(id);
@@ -743,5 +745,8 @@ export class PerApprovedComponent implements OnInit {
       openMoveToModal(id) {
             this.isMoveToDoc = true
             this.selectApplication = id
+      }
+      ngOnDestroy(): void {
+            this.https.expnadList.next()
       }
 }

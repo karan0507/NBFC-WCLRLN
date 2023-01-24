@@ -347,11 +347,10 @@ export class DocumentPendingComponent implements OnInit {
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean, index?): void {
     if (checked) {
+      this.expandSet.clear()
+      this._currentId = id
       this.expandSet.add(id);
-      this.getIdWiseData(
-        (this._currentId = id),
-        (this.currentDropDownId = index)
-      );
+      this.https.expnadList.next(this.expandSet)
     } else {
       this.expandSet.delete(id);
     }
@@ -688,5 +687,8 @@ export class DocumentPendingComponent implements OnInit {
           this.message.error(res.message);
         }
       });
+  }
+  ngOnDestroy(): void {
+    this.https.expnadList.next()
   }
 }

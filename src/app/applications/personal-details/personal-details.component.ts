@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { last, takeUntil } from 'rxjs/operators';
 import { HttpService } from 'src/app/services/http.service';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 
@@ -29,9 +30,9 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     var count = 0
     this.seviceCall = this.https.expnadList.subscribe(res => {
-      if (count == 0) {
+      if (count == 0 ) {
         console.log(res)
-        this._currentId = res.values().next().value
+        // this._currentId = res.values().next().value
         this.getPersonalDetails()
         count++;
       }
@@ -40,6 +41,7 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.seviceCall.unsubscribe()
+    this.https.expnadList.next()
   }
 
   getPersonalDetails() {
