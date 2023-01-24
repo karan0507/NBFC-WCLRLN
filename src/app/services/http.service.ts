@@ -1318,4 +1318,7 @@ export class HttpService {
       public getBankDetails(id) {
             return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-offer-details/` + id));
       }
+      public getKycDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-kyc-details/` + id));
+      }
 }

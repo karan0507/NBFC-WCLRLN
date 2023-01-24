@@ -52,9 +52,10 @@ import { DocumentPendingComponent } from './document-pending/document-pending.co
 import { DeatilsComponent } from './deatils/deatils.component';
 import { PersonalDetailsComponent } from './personal-details/personal-details.component';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
+import { KycDetailsComponent } from './kyc-details/kyc-details.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent, DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent, DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
