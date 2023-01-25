@@ -25,6 +25,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { TransactionConfigComponent } from './transaction-config/transaction-config.component';
 import { LmhComponent } from './lmh/lmh.component';
 import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
+import { EmiConfigurationComponent } from './emi-configuration/emi-configuration.component';
 
 
 @NgModule({
@@ -39,7 +40,7 @@ import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,

@@ -1321,4 +1321,16 @@ export class HttpService {
       public getKycDetails(id) {
             return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-kyc-details/` + id));
       }
+      public fetchGlobalProductView(id) {
+            return this._http.get((this.url + `/product/v1/global-product-view/` + id));
+      }
+      public fetchProductEMI(id) {
+            return this._http.get((this.url + `/product/v1/get-product-emi/` + id));
+      }
+      public fetchMasterData(master) {
+            return this._http.get((this.url + `/master/fetch-master-data/` + master));
+      }
+      public createEmiConfiguration(data, id) {
+            return this._http.post((this.url + `/product/v1/add-edit-product-emi/`+ id), data);
+      }
 }
