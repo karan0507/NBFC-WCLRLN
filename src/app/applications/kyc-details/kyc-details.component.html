@@ -54,10 +54,7 @@
                                             _isViewDocument = true; _currentModalData = item
                                           ">
                                             <i nz-icon nzType="eye" nzTheme="outline"></i></a>
-                                        <a class="text-primary mr-3" *ngIf="(item?.document_master?.require_front_back == 1
-                                              ? item?.front_file_url
-                                              : item?.file_url)
-                                          " nzTooltipTitle="Verify Document" (click)="
+                                        <a class="text-primary mr-3" *ngIf="item?.id" nzTooltipTitle="Verify Document" (click)="
                                             _isVerify = true; _currentModalData = item
                                           ">
                                             <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
