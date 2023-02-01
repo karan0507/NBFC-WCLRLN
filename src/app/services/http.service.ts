@@ -1333,4 +1333,12 @@ export class HttpService {
       public createEmiConfiguration(data, id) {
             return this._http.post((this.url + `/product/v1/add-edit-product-emi/`+ id), data);
       }
+
+      public fetchLoanApplicationEMIData(data) {
+            return this._http.get((this.url + `/nbfc/v1/fetch-user-loan-application-details`), {params: data});
+      }
+
+      public createOfflineEMI(data) {
+            return this._http.post((this.url + `/loan-application/v1/create-entries-offline-emi`), data);
+      }
 }

@@ -103,15 +103,29 @@
                   <div class="row">
                         <div class="col-12">
                               <div class="row">
-                              <div class="col-md-4" *ngIf="!isCorporate">
-                                    <nz-form-item *ngIf="!isCorporate">
+
+                        <div class="col-md-4">
+                              <nz-form-item>
+                                    <nz-form-label>Product type:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your product type">
+                                          <nz-radio-group formControlName="type">
+                                                <label nz-radio nzValue="B2B">B2B</label>
+                                                <label nz-radio nzValue="D2C">D2C</label>
+                                          </nz-radio-group>
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                              <div class="col-md-4" *ngIf="employementDetails.value.type == 'D2C'">
+                                    <nz-form-item *ngIf="employementDetails.value.type == 'D2C'">
                                           <nz-form-label nzRequired>Company Name</nz-form-label>
                                           <nz-form-control nzErrorTip="Please check your Company name!">
-                                                      <label>{{ifCorporateNotMapped}}</label>
+                                                      <!-- <label>{{ifCorporateNotMapped}}</label> -->
+
+                                                <input nz-input placeholder="Enter your Company name" formControlName="company_name" [(ngModel)]="ifCorporateNotMapped">
                                           </nz-form-control>                                   
                                     </nz-form-item>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4" *ngIf="employementDetails.value.type == 'B2B'">
                                     <nz-form-item>
                                           <nz-form-label nzRequired>Company Name</nz-form-label>
                                           <nz-form-control nzErrorTip="Please select your Company Name!">
@@ -124,7 +138,7 @@
                                           </nz-form-control>
                                     </nz-form-item>
                               </div>
-                              <div class="col-md-8" *ngIf="isCorporate">
+                              <div class="col-md-8" *ngIf="isCorporate && employementDetails.value.type == 'B2B'">
                                     <nz-form-item>
                                           <nz-form-label nzRequired>Address</nz-form-label>
                                           <nz-form-control nzErrorTip="Please check your company name for address">
@@ -135,7 +149,7 @@
                               </div>
                               </div>
                               <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" *ngIf="employementDetails.value.type == 'B2B'">
                                           <nz-form-item>
                                           <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Employee Code
                                           </nz-form-label>

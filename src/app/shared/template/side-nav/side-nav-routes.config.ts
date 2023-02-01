@@ -355,25 +355,15 @@ export const ROUTES: SideNavInterface[] = [
                     },
                 ]
             },
-            // {
-            //     path: '',
-            //     title: 'Customer Actions',
-            //     iconType: '',
-            //     icon: '',
-            //     iconTheme: '',
-            //     permission: [''],
-            //     submenu: [
-            //         {
-            //             path: '',
-            //             title: 'ECM Underwriting',
-            //             iconType: '',
-            //             icon: '',
-            //             iconTheme: '',
-            //             permission: [''],
-            //             submenu: []
-            //         },
-            //     ]
-            // },
+            {
+                path: 'offline-emi',
+                title: 'Offline EMI',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
             {
                 path: '',
                 title: 'ECM Actions',
