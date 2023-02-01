@@ -67,6 +67,28 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="buffer_range" class="text-left text-wrap">Buffer range</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Buffer range!">
+                            <nz-input-group>
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="buffer_range" placeholder="Please input Buffer range!" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="pre_emi_days" class="text-left text-wrap">Pre EMI days</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Pre EMI days!">
+                            <nz-input-group>
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="pre_emi_days" placeholder="Please input Pre EMI days!" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
         </form>
     </nz-card>

@@ -121,7 +121,8 @@ export class EditFormComponent implements OnInit {
                   city:[null],
                   landmark:[null],
                   pincode:[null],
-                  state:[null],
+                  state: [null],
+                  type: [null],
 
                   employment_type_id: [null, [Validators.required]]
             })
@@ -337,6 +338,9 @@ export class EditFormComponent implements OnInit {
                                     city: res?.data?.address_details?.city
                               })
                         }
+                        this.employementDetails.patchValue({
+                              type: res?.data?.type
+                        })
 
                         if(res?.data?.address_details?.landmark){
                               this.employementDetails.patchValue({
@@ -425,6 +429,16 @@ export class EditFormComponent implements OnInit {
             this.api_calling_loader['button'] = true
             console.log(this.employementDetails.value.company_name);
             data.append('application', this.userId);
+            if (this.employementDetails.value.type == 'B2B') {
+                  if (!this.employementDetails.value.company_name) {
+                        this.message.error('enter the company name')
+                        return;
+                  }
+                  if (!this.employementDetails.value.emp_code) {
+                        this.message.error('enter the employee code')
+                        return;
+                  }
+            }
             if(sendData){
                   data.append('nominee', JSON.stringify(sendData))
             }
@@ -444,20 +458,20 @@ export class EditFormComponent implements OnInit {
             if(this.personalDetails.value.income){
                   data.append('income_range', this.personalDetails.value.income);      
             }
-            if (this.isCorporate) {
+            if (this.isCorporate && this.employementDetails.value.type == 'B2B') {
                   data.append('company_id', this.employementDetails.value.company_name);
             } else {
-                  if(this.employementDetails.value.company_name){
-                        data.append('company_id', this.employementDetails.value.company_name);
-                  }
-                  // data.append('company_name', this.employementDetails.value.company_name);
+                  // if(this.employementDetails.value.company_name){
+                  //       data.append('company_id', this.employementDetails.value.company_name);
+                  // }
+                  data.append('company_name', this.employementDetails.value.company_name);
             }
             if ((this.documentsList) && (this.filesArray[0])) {
                   console.log(this.documentsList);
                   // data.append('documents_list', JSON.stringify(this.documentsList))
                   // data.append('documents', this.filesArray)
             }
-            if(this.employementDetails.value.emp_code){
+            if (this.employementDetails.value.emp_code && this.employementDetails.value.type == 'B2B'){
                   data.append('emp_code', this.employementDetails.value.emp_code);
             }
 
@@ -479,6 +493,9 @@ export class EditFormComponent implements OnInit {
             }
             if(this.employementDetails.value.state){
                   data.append('state', this.employementDetails.value.state);
+            }
+            if (this.employementDetails.value.type) {
+                  data.append('application_type', this.employementDetails.value.type);
             }
             // emp_code
             data.append('employment_type_id',this.employementDetails.value.employment_type_id)

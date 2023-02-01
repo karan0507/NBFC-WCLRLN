@@ -52,6 +52,8 @@ export class EmiConfigurationComponent implements OnInit {
       minimum_amount: [this.data ? this.data.minimum_amount : ''],
       tenure: [this.data ? tenure : []],
       priodicity: [this.data ? priodicity : []],
+      buffer_range: [this.data ? this.data.buffer_range : ''],
+      pre_emi_days: [this.data ? this.data.pre_emi_days : ''],
     })
 
     if (this.router.url.includes('view-product')) {

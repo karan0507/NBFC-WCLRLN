@@ -169,4 +169,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'downloads',
         loadChildren: () => import('../../downloads/downloads.module').then(m => m.DownloadsModule),
     },
+    {
+        path: 'offline-emi',
+        loadChildren: () => import('../../lms/offline-emi/offline-emi.module').then(m => m.OfflineEmiModule),
+    },
 ];
