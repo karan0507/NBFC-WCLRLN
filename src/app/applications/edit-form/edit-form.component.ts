@@ -113,7 +113,7 @@ export class EditFormComponent implements OnInit {
                   })
                   
             this.employementDetails = this.fb.group({
-                  company_name: [null, [Validators.required]],
+                  company_name: [null, []],
                   address: [null, []],
                   emp_code:[null],
                   address_1:[null],
