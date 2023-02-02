@@ -114,6 +114,7 @@ export class EditFormComponent implements OnInit {
                   
             this.employementDetails = this.fb.group({
                   company_name: [null, []],
+                  company_name_text: [null, []],
                   address: [null, []],
                   emp_code:[null],
                   address_1:[null],
@@ -124,12 +125,12 @@ export class EditFormComponent implements OnInit {
                   state: [null],
                   type: [null],
 
-                  employment_type_id: [null, [Validators.required]]
+                  employment_type_id: [null]
             })
 
             this.preApprovedForm = this.fb.group({
-                  product_name: [null, [Validators.required]],
-                  limitProcessed: [null, [Validators.required, Validators.min(1)]]
+                  product_name: [null],
+                  limitProcessed: [null, [Validators.min(1)]]
             })
 
             this.documentForm = this.fb.group({
@@ -310,7 +311,7 @@ export class EditFormComponent implements OnInit {
                                     this.employementDetails.patchValue({ address: res?.data?.company_details ? res?.data?.company_details?.address : null })
                                     this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.id : null });
                               } else {
-                                    this.employementDetails.patchValue({ company_name: res?.data?.company_details ? res?.data?.company_details?.name : null })
+                                    this.employementDetails.patchValue({ company_name_text: res?.data?.company_details ? res?.data?.company_details?.name : null })
                                     this.isCorporate = false
                               }
                         } else {
@@ -458,13 +459,13 @@ export class EditFormComponent implements OnInit {
             if(this.personalDetails.value.income){
                   data.append('income_range', this.personalDetails.value.income);      
             }
-            if (this.isCorporate && this.employementDetails.value.type == 'B2B') {
+            if (this.employementDetails.value.type == 'B2B') {
                   data.append('company_id', this.employementDetails.value.company_name);
             } else {
                   // if(this.employementDetails.value.company_name){
                   //       data.append('company_id', this.employementDetails.value.company_name);
                   // }
-                  data.append('company_name', this.employementDetails.value.company_name);
+                  data.append('company_name', this.employementDetails.value.company_name_text);
             }
             if ((this.documentsList) && (this.filesArray[0])) {
                   console.log(this.documentsList);
