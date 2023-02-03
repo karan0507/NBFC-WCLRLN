@@ -1341,4 +1341,8 @@ export class HttpService {
       public createOfflineEMI(data) {
             return this._http.post((this.url + `/loan-application/v1/create-entries-offline-emi`), data);
       }
+
+      public changeProductTypeAPICall(data) {
+            return this._http.post((this.url + `/loan-application/v1/change-application-product`), data);
+      }
 }

@@ -55,33 +55,8 @@
       </div>
     </div>
     <div class="row">
-      <!-- <div class="col-md-4 mb-3 d-flex">
-        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input
-            type="text"
-            [(ngModel)]="searchValue"
-            (keyup.enter)="getFormLoanData()"
-            nz-input
-            placeholder="Search text"
-          />
-        </nz-input-group>
-        <ng-template #suffixIconButton>
-          <button
-            nz-button
-            nzType="secondary"
-            (click)="getFormLoanData()"
-            nzSearch
-          >
-            <i nz-icon nzType="search"></i>
-          </button>
-        </ng-template>
-      </div> -->
       <div class="col-12 mt-md-0 mt-3 mb-3 d-flex justify-content-md-end">
         <div class="d-flex flex-wrap">
-          <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
-              (click)="resetFilters()">
-              <i nz-icon nzType="undo"></i>
-        </button> -->
           <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem"
             (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Product">
             <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
@@ -146,9 +121,7 @@
             <th>Type</th>
             <th>Apply Date & Time</th>
             <th>Master Partner</th>
-            <!-- <th>Source Id</th> -->
             <th>Company</th>
-            <!-- <th>Reference Id</th> -->
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
@@ -188,14 +161,11 @@
               <td>
                 <div class="d-flex flex-column">
                   <div>{{ data?.created_at | date : "medium" }}</div>
-                  <!-- <div>{{ data?.created_at | date: "shortTime" }}</div> -->
                 </div>
               </td>
               <td>
                 {{ data?.master_partner ? data?.master_partner?.name : "-" }}
               </td>
-              <!-- <td>{{ data?.source_id ? data?.source_id : "-" }}</td> -->
-              <!-- <td>{{ data?.partner?.name ? data?.partner?.name : "-" }}</td> -->
               <td>
                 {{
                 data?.company_details?.company_name
@@ -203,7 +173,6 @@
                 : "-"
                 }}
               </td>
-              <!-- <td>{{ data?.reference_id ? data?.reference_id : "-" }}</td> -->
               <td>{{ data?.last_stage ? data?.last_stage : "-" }}</td>
               <td>
                 {{
@@ -211,11 +180,6 @@
                 ? (data?.moved_to_stage_on | date : "medium")
                 : "-"
                 }}
-                <!-- {{
-                  data?.moved_to_stage_on
-                    ? (data?.moved_to_stage_on | date: "shortTime")
-                    : ""
-                }} -->
               </td>
               <td>
                 {{
@@ -233,11 +197,8 @@
                   ? ("Temporary" | slice : 0 : 18)
                   : " - "
                   }}
-                  <!-- ? data?.document_needed_flag -->
-                  <!-- : "-" -->
                 </span>
               </td>
-              <!-- {{ data?.document_needed_flag ? 'Temporary in Document Needed' : " - " }} -->
               <td>
                 <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
                   {{
@@ -256,32 +217,22 @@
                 </a>
                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                   <ul nz-menu>
-                    <!-- [routerLink]="['edit-employee', data.id]" -->
                     <li nz-menu-item [routerLink]="['edit-form']" [queryParams]="{ id: data?.id }"
                       *ngxPermissionsOnly="['edit_pre_approved_application']">
-                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Edit Application</span>
+                    </li>
+                    <li nz-menu-item (click)="IsClickOnChnageType(data)">
+                      <span class="m-l-5">Change product type</span>
                     </li>
                     <li nz-menu-item [routerLink]="['track-status']" [queryParams]="{ id: data?.id }">
                       <span class="m-l-5">Track Status</span>
                     </li>
                     <li nz-menu-item *ngxPermissionsOnly="['Fetch_cibil_pdf']" (click)="fetchCibilPDF(data?.id)">
-                      <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                       <span class="m-l-5">Fetch Cibil PDF</span>
                     </li>
                     <li nz-menu-item (click)="openMoveToModal(data.id)">
                       <span class="m-l-5">Move To Document Pending</span>
                     </li>
-                    <!-- <li
-                      nz-menu-item
-                      *ngIf="data?.document_needed_flag"
-                      (click)="
-                        selectApplication = data.id;
-                        moveToPendingDocumentUploadStage(false)
-                      "
-                    >
-                      <span class="m-l-5">Remove Document Pending</span>
-                    </li> -->
                     <li *ngxPermissionsOnly="['Move_to_dormant']">
                       <span class="" style="cursor: pointer; margin-left: 27px" nz-popconfirm [nzPopconfirmTitle]="
                           data?.is_dormant
@@ -293,9 +244,6 @@
                         : "Move To Dormant"
                         }}</span>
                     </li>
-                    <!-- <li nz-menu-item (click)="updateStatus('requestDoc', data)">
-                                                                  <span class="m-l-5">Request Documents</span>
-                                                            </li> -->
                   </ul>
                 </nz-dropdown-menu>
               </td>
@@ -303,14 +251,15 @@
             <tr [nzExpand]="expandSet.has(data.id)">
               <div class="row">
                 <div class="col-md-12" *ngIf="data.id === _currentId">
-                  <app-deatils [uploadPermission]="'Upload_Pre_Approved_Document_Details'" [_currentId]="_currentId"></app-deatils>
+                  <app-deatils [uploadPermission]="'Upload_Pre_Approved_Document_Details'"
+                    [_currentId]="_currentId"></app-deatils>
                 </div>
               </div>
             </tr>
-  </ng-container>
-  </tbody>
-  </nz-table>
-  </div>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
   </nz-card>
 </section>
 
@@ -343,8 +292,6 @@
 <ng-template #modalTitle>
   <label *ngIf="_isStatus">Update Status</label>
   <label *ngIf="isRequestDoc">Request Document</label>
-  <!-- <label *ngIf="_isViewDocument">{{ _currentModalData?.document_id?.name ? _currentModalData?.document_id?.name : '' -->
-  <!-- }} Document</label> -->
   <label *ngIf="_isVerify">{{
     _currentModalData?.document_id?.name
     ? _currentModalData?.document_id?.name
@@ -439,16 +386,12 @@
     (click)="handleOk('StatusModal')">
     Submit
   </button>
-  <!-- <button *ngIf="_isDownload" nz-button nzType="primary" class="mx-2" (click)="handleOk()">Submit</button> -->
 </ng-template>
 
 <nz-modal [(nzVisible)]="isVisibleXMLModal" nzTitle="Fetched XML Response" [nzFooter]="xmlFooter"
   (nzOnCancel)="isVisibleXMLModal = false">
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
-      <!-- <p>Content one</p>
-                  <p>Content two</p>
-                  <p>Content three</p> -->
       <span *ngIf="xmlDataResponse">
         <ngx-json-viewer [json]="xmlDataResponse" [expanded]="false"></ngx-json-viewer>
       </span>
@@ -468,9 +411,6 @@
   [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false">
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">
-      <!-- <p>Content one</p>
-                  <p>Content two</p>
-                  <p>Content three</p> -->
       <span *ngIf="thirdPartyDataResponse">
         <ngx-json-viewer [json]="thirdPartyDataResponse" [expanded]="true"></ngx-json-viewer>
       </span>
@@ -489,15 +429,8 @@
   (nzOnCancel)="isVisibleUploadedImage = false" (nzOnOk)="isVisibleUploadedImage = false" [nzWidth]="'70%'">
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['previewSelfie']">
-      <!-- <span *ngIf="xmlDataResponse">
-                        <ngx-json-viewer [json]="xmlDataResponse"  [expanded]="false"></ngx-json-viewer>
-                  </span> 
-                  <span *ngIf="!xmlDataResponse" style="font-weight: bolder;">
-                        No data Found
-                  </span> -->
       <div class="row">
         <div class="col-6">
-          <!-- <div>Aadhar Image</div> -->
           <div><b>Aadhar Image</b></div>
           <img alt="item" [src]="storedSelfieImage?.aadhar_url" width="100%" />
         </div>
@@ -562,6 +495,50 @@
       <div class="col-md-12 mb-3">Remarks :</div>
       <div class="col-md-12">
         <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 5 }" [(ngModel)]="document_remark"></textarea>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+<!-- change product type -->
+<nz-modal [(nzVisible)]="isChangeProductType" nzTitle="Change product type" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="changeProductTypeAPICall()" nzOkText="Change product type" [nzOkLoading]="loading">
+  <ng-container *nzModalContent>
+    <div class="row">
+      <div class="col-md-12">
+        <nz-form-item *ngIf="selectedType == 'D2C'">
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Please check your Company name!">
+            <input nz-input placeholder="Enter your Company name" [(ngModel)]="company_name">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="selectedType == 'B2B'">
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Please select your Company Name!">
+            <nz-select class="w-100" style=" width: 8rem;" nzAllowClear [(ngModel)]="company_id"
+              nzPlaceHolder="Company Name" (nzFocus)="onFocusMethod('partner')">
+              <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk" [nzLabel]="item?.name"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="selectedType == 'B2B'">
+          <nz-form-label nzFor="emp_code" class="text-left">Employee Code
+          </nz-form-label>
+          <nz-form-control nzErrorTip="Please Add Valid Code">
+            <input nz-input type="text" placeholder="EMP Code" [(ngModel)]="emp_code" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="employment_type_id" class="text-left">Employment Type
+          </nz-form-label>
+          <nz-form-control nzErrorTip="Please select Valid Type">
+            <nz-select [(ngModel)]="emp_type" nzPlaceHolder="Select Type" (nzFocus)="fetchEmploymentType()">
+              <nz-option *ngFor="let item of employmentType" [nzValue]="item.pk" [nzLabel]="item.name">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
   </ng-container>

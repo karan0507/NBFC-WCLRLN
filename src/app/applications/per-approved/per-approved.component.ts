@@ -95,6 +95,10 @@ export class PerApprovedComponent implements OnInit {
       selectApplication: any;
       document_remark: any;
       generateloading: boolean;
+      selectedType: string;
+      application_id: any;
+      loading: boolean;
+      employmentType: any;
       constructor(public https: HttpService, public message: NzMessageService, public global: GlobalservicesService, public sanitize: DomSanitizer, private route: ActivatedRoute, private router: Router) {
             this.route.queryParams.subscribe((params: any) => {
                   if (params?.loan_id) {
@@ -388,6 +392,7 @@ export class PerApprovedComponent implements OnInit {
             this.isAttendanceVisible = false
             this.expand_application_id = ''
             this.isMoveToDoc = false
+            this.isChangeProductType = false
       }
 
       handleOk(type?) {
@@ -748,5 +753,64 @@ export class PerApprovedComponent implements OnInit {
       }
       ngOnDestroy(): void {
             this.https.expnadList.next()
+      }
+
+      isChangeProductType = false
+      company_id;
+      company_name;
+      emp_code;
+      emp_type;
+
+      IsClickOnChnageType(data) {
+            this.fetchEmploymentType()
+            this.onFocusMethod('partner')
+            this.isChangeProductType = true
+            this.selectedType = data?.type == 'B2B' ? 'D2C' : 'B2B'
+            this.emp_type = data?.employment_type_id
+            this.application_id = data?.id
+      }
+
+      changeProductTypeAPICall() {
+            this.loading = true;
+            let data = {};
+            if (this.selectedType) {
+                  data['product_type'] = this.selectedType
+            }
+            if (this.company_id && this.selectedType == 'B2B') {
+                  data['company_id'] = this.company_id
+            }
+            if (this.company_name && this.selectedType == 'D2C') {
+                  data['company_name'] = this.company_name
+            }
+            if (this.emp_code && this.selectedType == 'B2B') {
+                  data['employee_code'] = this.emp_code
+            }
+            if (this.emp_type) {
+                  data['employment_type'] = this.emp_type
+            }
+            data['application'] = this.application_id
+            this.https.changeProductTypeAPICall(data).subscribe(res => {
+                  this.loading = false;
+                  if (res['success']) {
+                        this.isChangeProductType = false
+                        this.message.success(res['message'])
+                        this.getFormLoanData()
+                  } else {
+                        this.message.error(res['message'])
+                  }
+            })
+      }
+      fetchEmploymentType() {
+            let data;
+            this.https.fetchEmploymentType(data).subscribe((res: any) => {
+                  console.log(res);
+                  if (res?.success) {
+                        this.employmentType = res?.data?.results
+                  } else {
+                        this.message.error(res?.message);
+                  }
+            }, error => {
+
+            })
       }
 }
