@@ -53,6 +53,9 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
       this.isDoubleSide = false;
     }
 
+    this.documentData['back_file_url'] = this.sanatizeUrlToSafe(this.documentData?.back_file_url)
+    this.documentData['fresh_url'] = this.sanatizeUrlToSafe((this.isDoubleSide ? (this.isDoubleSide && (this.currentDocumentType == 1) ? this.documentData?.front_file_url : this.documentData?.back_file_url) : this.documentData?.file_url))
+
 
   }
 
@@ -314,5 +317,13 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
       this.renderer.setStyle(this.myNameElemF.nativeElement, 'transform', 'rotate(0deg)')
       this.axisF = 0
     }
+  }
+
+  frontUrlSanitized() {
+     return this.sanatizeUrlToSafe((this.isDoubleSide ? (this.isDoubleSide && (this.currentDocumentType == 1) ? this.documentData?.front_file_url : this.documentData?.back_file_url) : this.documentData?.file_url))
+  }
+
+  backUrlSanitized() {
+    return this.sanatizeUrlToSafe(this.documentData?.back_file_url)
   }
 }

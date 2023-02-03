@@ -17,7 +17,7 @@
                     </span>
                     <div class="image-rotate-class mt-4" #imageRotateClassF>
                         <embed
-                        [src]="sanatizeUrlToSafe((isDoubleSide ? (isDoubleSide && (currentDocumentType == 1) ? documentData?.front_file_url : documentData?.back_file_url) : documentData?.file_url))"
+                        [src]="documentData?.fresh_url"
                         class="w-100" [ngStyle]="{'height': documentData?.document_master?.name == 'Bank Statement' ? '50vh' : '100%'}" style="height: 50vh !important;">
                     </div>
                 
@@ -32,7 +32,7 @@
                             }} </a>
                     </span>
                     <div class="image-rotate-class mt-4" #imageRotateClass>
-                        <embed [src]="sanatizeUrlToSafe(documentData?.back_file_url)" class="w-100" [ngStyle]="{'height': documentData?.document_master?.name == 'Bank Statement' ? '50vh' : '100%'}" style="height: 50vh !important;">
+                        <embed [src]="documentData?.back_file_url" class="w-100" [ngStyle]="{'height': documentData?.document_master?.name == 'Bank Statement' ? '50vh' : '100%'}" style="height: 50vh !important;">
                     </div>
                 
                     <div class="col-md-12 d-flex justify-content-end h1 mt-3">

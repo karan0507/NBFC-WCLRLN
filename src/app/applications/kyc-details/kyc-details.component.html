@@ -75,6 +75,9 @@
                                 <div>
                                     {{ item?.reason ? item?.reason : "-" }}
                                 </div>
+                                <div *ngIf="item?.file_password">
+                                    Password : {{item?.file_password}}
+                                </div>
                             </div>
                         </div>
                     </div>
