@@ -131,6 +131,14 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left">Admin Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input Admin Remarks">
+                        <input type="text" nz-input  [(ngModel)]="admin_entered_remarks" placeholder="Please input Admin Remarks"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
         </div>
         <app-double-confirmation-popup 
             [title]="'Do you want to Block  line?'"

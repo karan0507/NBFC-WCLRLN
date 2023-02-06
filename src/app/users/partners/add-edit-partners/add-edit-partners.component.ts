@@ -502,6 +502,7 @@ export class AddEditPartnersComponent implements OnInit {
       no_data_flag:[data ? data?.no_data_flag : false],
       salary_deduction_flag:[data ? data?.salary_deduction_flag : false],
       initial_amount:[data ? data?.initial_amount : ''],
+      initial_amount_type: [data ? data?.initial_amount_type : ''],
       // logo:[data ? data?.logo : '', [Validators.required]],
       flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
       relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
@@ -1137,7 +1138,8 @@ export class AddEditPartnersComponent implements OnInit {
       // initial_amount: this.addEditProductForm.value?.initial_amount,
       this.addEditProductForm.patchValue({
         corporate_limit_settings: JSON.stringify(corporate_limit_settings),
-        initial_amount: null
+        initial_amount: null,
+        initial_amount_type: ''
       })
     } else {
       corporate_limit_settings = {
@@ -1145,6 +1147,7 @@ export class AddEditPartnersComponent implements OnInit {
         ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
         max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
         initial_amount: this.addEditProductForm.value?.initial_amount,
+        initial_amount_type: this.addEditProductForm.value?.initial_amount_type,
         // initial_amount
       }
       this.addEditProductForm.patchValue({
