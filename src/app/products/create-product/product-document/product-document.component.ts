@@ -124,7 +124,7 @@ export class ProductDocumentComponent implements OnInit {
 
     //   });
     // });
-    
+
     this.http.updateProductDocuments(this._curr_product_id, this.parent_document.value).subscribe((res: any) => {
       if (res.success) {
         this.message.success(res.message)
@@ -147,13 +147,35 @@ export class ProductDocumentComponent implements OnInit {
     // }
 
   }
-  // checkRadio(id) {
+  checkRadio(data, i, j) {
 
-  //   for (let i = 0; i < this.documents(id).value; i++) {
+    // console.log(this.parent_document.controls[i].get('documents').controls[j])
+    // this.documents(id).get('required_type').setValue(false, { emitEvent: false });
+  }
 
-  //     if (i !== id) {
-  //       this.documents(id).controls[i].get('document_type').setValue(false,{ emitEvent: false });
-  //     }
-  //   }
-  // }
+  check(event, i, j) {
+    // this.parent_document.controls[i].get('documents').setValue[j].required_type
+    // this.parent_document.controls[i].get('documents').setValue[j].required_type = null
+    console.log(this.parent_document.controls[i].get('documents')[j].controls,this.parent_document.controls[i].get('documents').value[j].required_type)
+    // if (this.documents(j).controls[j].get('required_type').value == type) {
+    //   this.documents(j).controls[j].get('required_type').setValue(null, { emitEvent: false })
+    // } else {
+    //   this.documents(j).controls[j].get('required_type').setValue(type, { emitEvent: false })
+    // }
+    // if (this.documents(j).controls[j].get('required_type').value !== null) {
+    //   this.documents(j).controls[j].get('required_type').setValue(null, { emitEvent: false })
+    // } else {
+    //   this.documents(j).controls[j].get('required_type').value
+    // }
+  }
+
+  resetFilters(id){
+    console.log(this.parent_document.controls[id].get('documents'),  this.documents(id).controls);
+    this.documents(id).controls.forEach((element,index) => {
+      console.log(element.get('required_type').value);
+      element.get('required_type').setValue(null,{emitEvent: false})
+      
+    });
+    
+  }
 }

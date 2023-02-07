@@ -4,7 +4,15 @@
             <div class="d-flex flex-column" formArrayName="parent_document">
                 <div class="row" [formGroupName]="i" *ngFor="let arrayItem of parent_document.controls; let i=index">
                     <div class="col-md-12">
-                        <nz-card [nzTitle]="(parent_document.value[i]?.name) | titlecase">
+                        <nz-card [nzTitle]="cardHeader">
+                            <ng-template #cardHeader>
+                               <div class="d-flex justify-content-between">
+                                <label class="">{{(parent_document.value[i]?.name) | titlecase}}</label>
+                                <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="ml-2" (click)="resetFilters(i)">
+                                    <i nz-icon nzType="undo"></i>
+                                </button>
+                               </div>
+                            </ng-template>
                             <div class="container">
                                 <div class="row" formArrayName="documents">
                                     <div class="col-md-12" *ngFor="let child_name of getParentDocuments(i); let j=index"
@@ -16,9 +24,9 @@
                                                     : ''}}</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <nz-radio-group formControlName="required_type">
-                                                    <label nz-radio [nzValue]="'mandatory'">Mandatory</label>
-                                                    <label nz-radio [nzValue]="'optional'">Optional</label>
+                                                <nz-radio-group formControlName="required_type" (ngModelChange)="checkRadio($event,i,j)">
+                                                    <label nz-radio [nzValue]="'mandatory'" >Mandatory</label>
+                                                    <label nz-radio  [nzValue]="'optional'" (click)="parent_document.controls[i].get('documents').value[j].required_type !== 'optional' ? check($event, i, j) : null">Optional</label>
                                                 </nz-radio-group>
                                             </div>
                                         </div>
