@@ -19,12 +19,12 @@ export class ProductDocumentComponent implements OnInit {
     this.acRoute.queryParams.subscribe((param) => {
       if (param['id']) {
         this._curr_product_id = param['id']
+        this.getProductsDocumentDetails()
       }
     })
     this.documentForm = this.fb.group({
       parent_document: this.fb.array([])
     })
-    this.getDocumentList()
   }
 
   getParentDocuments(form) {
@@ -97,7 +97,18 @@ export class ProductDocumentComponent implements OnInit {
   getProductsDocumentDetails() {
     this.http.getProductsDocumentDetails(this._curr_product_id).subscribe((res: any) => {
       if (res.success) {
-        this._curr_product_data = res.data
+        this._curr_product_data = res.data;
+        if (res.success) {
+          this.documentsList = res.data;
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].childrens.length > 0) {
+              this.createDocumentForm(res.data[i])
+              for (let j = 0; j < res.data[i].childrens.length; j++) {
+                this.createChildDocuments(res.data[i].childrens[j], i)
+              }
+            }
+          }
+        }
       }
     })
   }
