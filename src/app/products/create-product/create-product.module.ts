@@ -26,6 +26,7 @@ import { TransactionConfigComponent } from './transaction-config/transaction-con
 import { LmhComponent } from './lmh/lmh.component';
 import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
 import { EmiConfigurationComponent } from './emi-configuration/emi-configuration.component';
+import { ProductDocumentComponent } from './product-document/product-document.component';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { EmiConfigurationComponent } from './emi-configuration/emi-configuration
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent, ProductDocumentComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,

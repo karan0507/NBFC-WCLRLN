@@ -146,6 +146,17 @@ export class HttpService {
             return this._http.get((this.url + `/product/v1/get-all-product-versions/` + id));
       }
 
+      public fetchDocumentListProductWise() {
+            return this._http.get((this.url + `/product/v1/document-list/`));
+      }
+
+      public getProductsDocumentDetails(id) {
+            return this._http.get((this.url + `/product/v1/add-edit-product-document/` + id));
+      }
+
+      public updateProductDocuments(id,data) {
+            return this._http.post((this.url + `/product/v1/add-edit-product-document/` + id), data);
+      }
       
       /**
        * updateProductVersion
