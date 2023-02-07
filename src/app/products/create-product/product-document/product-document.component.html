@@ -1,0 +1,42 @@
+<section>
+    <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="documentForm" class="row">
+            <div class="d-flex flex-column" formArrayName="parent_document">
+                <div class="row" [formGroupName]="i" *ngFor="let arrayItem of parent_document.controls; let i=index">
+                    <div class="col-md-12">
+                        <nz-card [nzTitle]="(parent_document.value[i]?.name) | titlecase">
+                            <div class="container">
+                                <div class="row" formArrayName="documents">
+                                    <div class="col-md-12" *ngFor="let child_name of getParentDocuments(i); let j=index"
+                                        [formGroupName]="j">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label>{{child_name.value.name ? ((child_name.value.name) |
+                                                    titlecase)
+                                                    : ''}}</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nz-radio-group formControlName="required_type">
+                                                    <label nz-radio [nzValue]="'mandatory'">Mandatory</label>
+                                                    <label nz-radio [nzValue]="'optional'">Optional</label>
+                                                </nz-radio-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nz-card>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </nz-card>
+</section>
+<ng-template #actionSubmit>
+    <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+        <div class="col-12 d-flex justify-content-end px-4">
+            <button nz-button nzType="primary" [disabled]="documentForm.invalid" [nzLoading]="loading"
+                (click)="submitForm()">Submit</button>
+        </div>
+    </div>
+</ng-template>

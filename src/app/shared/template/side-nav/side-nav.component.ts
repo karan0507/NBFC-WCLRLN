@@ -34,14 +34,14 @@ export class SideNavComponent {
             this.global.applicationStageCount.subscribe(res => {
                  if(res){
                   this.applicationCount = res;
-                  console.log('res =>',this.applicationCount)
+                  // console.log('res =>',this.applicationCount)
                  }
             })
 
             this.global.borrowersStageCount.subscribe(res => {
                   if(res){
                    this.borrowersStageCount = res;
-                   console.log('res =>',this.applicationCount)
+                  //  console.log('res =>',this.applicationCount)
                   }
              })
             
