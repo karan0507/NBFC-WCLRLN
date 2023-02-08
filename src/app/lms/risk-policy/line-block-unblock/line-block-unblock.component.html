@@ -122,12 +122,20 @@
         <div class="row">
             <div class="col-md-12">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left">Remarks</nz-form-label>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left">Remarks</nz-form-label>
                     <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input Remarks">
                         <nz-select [(ngModel)]="remarks" nzPlaceHolder="Select Remarks" nzShowSearch nzAllowClear>
                             <nz-option *ngFor="let item of remarksList" [nzValue]="item" [nzLabel]="item">
                             </nz-option>
                         </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left">Admin Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input Admin Remarks">
+                        <input type="text" nz-input  [(ngModel)]="admin_entered_remarks" placeholder="Please input Admin Remarks"/>
                     </nz-form-control>
                 </nz-form-item>
             </div>

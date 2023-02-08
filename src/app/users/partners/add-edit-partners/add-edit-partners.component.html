@@ -728,6 +728,18 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Initial Amount">
+                            <nz-select formControlName="initial_amount_type" nzPlaceHolder="Initial Amount">
+                                <nz-option nzValue="FLAT" nzLabel="FLAT"></nz-option>
+                                <nz-option nzValue="VARIABLE" nzLabel="VARIABLE"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Max Salary Percent.

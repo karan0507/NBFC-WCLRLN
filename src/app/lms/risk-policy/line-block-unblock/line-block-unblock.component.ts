@@ -27,6 +27,7 @@ export class LineBlockUnblockComponent implements OnInit {
   corporateList: any;
   debounce: any;
   isbtnLoading: boolean;
+  admin_entered_remarks: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) {
@@ -94,7 +95,8 @@ export class LineBlockUnblockComponent implements OnInit {
       toggle_type: 'LINE',
       toggle_value: value,
       accepted_loan_application: this.accepted_loan_application,
-      remarks : this.remarks ?this.remarks : ''
+      remarks : this.remarks ?this.remarks : '',
+      admin_entered_remarks: this.admin_entered_remarks ? this.admin_entered_remarks : ''
     }
     this.isbtnLoading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
