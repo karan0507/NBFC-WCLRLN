@@ -356,6 +356,7 @@
             <th>Summary Check Status</th>
             <th>Corporate Nach Step's</th>
             <th>Nach Status</th>
+            <th>Offer Expiry Date</th>
             <th>Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
           </tr>
@@ -488,6 +489,7 @@
                 </ng-template> -->
               </td>
               <td>{{ data?.nach_status }}</td>
+              <td>{{data?.offer_expiry_date ? data?.offer_expiry_date : '-'}}</td>
               <td>
                 <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
                   {{

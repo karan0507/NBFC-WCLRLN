@@ -338,6 +338,13 @@
                                 [nzLoading]="generateloading">
                                 Pull Profile data
                             </button>
+
+                            <button nzSize="small" nz-button nzType="primary" (click)="isVisible = true"
+                                class="ml-3">
+                                Pull Attendance
+                            </button>
+
+
                         </div>
                     </div>
                 </nz-card>
@@ -475,7 +482,7 @@
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="col-md-4">
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-column">
@@ -523,7 +530,7 @@
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="col-md-4">
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-column">
@@ -728,3 +735,33 @@
         Submit
     </button>
 </ng-template>
+
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Select Date Range" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk('Parent')" [nzOkText]="'Fetch attendance'" [nzOkLoading]="api_calling_Loader">
+    <ng-container *nzModalContent>
+        <nz-range-picker [(ngModel)]="attendance_date"></nz-range-picker>
+    </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="isAttendanceVisible" nzTitle="Attendance" (nzOnCancel)="handleCancel()" [nzOkText]="null">
+    <ng-container *nzModalContent>
+        <nz-table [nzData]="attendance_data">
+            <thead>
+                <tr>
+                    <th>Sr. no.</th>
+                    <th>Date</th>
+                    <th>Number of hours worked</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of attendance_data; index as i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ data.date }}</td>
+                    <td>{{ data.number_of_hours_worked }}</td>
+                    <td>{{ data.status }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+</nz-modal>

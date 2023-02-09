@@ -311,7 +311,7 @@
             <th>Previous stage</th>
             <th>Move to stage on</th>
             <th>Latest Action Performed By</th>
-            <th>Status</th>
+            <th>Offer Expiry Date</th>
             <th>Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
           </tr>
@@ -390,7 +390,7 @@
                     : "-"
                 }}
               </td>
-              <td>{{ data?.status ? data?.status : "-" }}</td>
+              <td>{{ data?.offer_expiry_date ? data?.offer_expiry_date : "-" }}</td>
               <td>
                 <span nz-tooltip nzTooltipTitle="{{ data?.remarks }}">
                   {{

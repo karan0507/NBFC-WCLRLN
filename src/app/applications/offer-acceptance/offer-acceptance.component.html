@@ -308,8 +308,9 @@
             <th>Summary Checked Remarks</th>
             <th>Summary Check Status</th>
             <th>Nach Status</th>
-            <th>Status</th>
+            <!-- <th>Status</th> -->
             <th>E-Mandate</th>
+            <th>Offer Expiry Date</th>
             <th>Nach Step's</th>
             <th>Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
@@ -415,6 +416,7 @@
               <td>{{ data?.nach_status }}</td>
               <td>{{ data?.status ? data?.status : "-" }}</td>
               <td>{{ data?.auto_debit_step }}</td>
+              <td>{{ data?.offer_expiry_date ? data?.offer_expiry_date : "-" }}</td>
               <td>
                 <i
                   nz-icon
