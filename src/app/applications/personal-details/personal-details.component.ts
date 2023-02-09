@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { last, takeUntil } from 'rxjs/operators';
@@ -24,13 +25,14 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
   _isCibil: boolean;
   _currentLoanDetails: any;
   seviceCall: Subscription;
+  isAttendanceVisible: boolean = false;
   constructor(public https: HttpService, public message: NzMessageService, public fb: FormBuilder, public sanitize: DomSanitizer,
     public global: GlobalservicesService, private route: ActivatedRoute, private router: Router) { }
-  
+
   ngOnInit(): void {
     var count = 0
     this.seviceCall = this.https.expnadList.subscribe(res => {
-      if (count == 0 ) {
+      if (count == 0) {
         console.log(res)
         // this._currentId = res.values().next().value
         this.getPersonalDetails()
@@ -98,6 +100,10 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
     this._isCibil = false;
     this.isFetchCibilSms = false
     this._isUpdateStatus = false;
+    this.isVisible = false;
+    this.isAttendanceVisible = false;
+    this.attendance_date = null;
+    this.attendance_data = []
     // this._isStatus = false;
     // this._isDocument = false;
     // this._isEditOffer = false;
@@ -108,4 +114,35 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
     // this.pdf_viewer_object_values1['url'] = null
   }
 
+  attendance_date: any
+  attendance_data: any = [];
+  isVisible: boolean = false
+  api_calling_Loader : boolean = false;
+  handleOk(type?) {
+    console.log(this.attendance_date);
+    
+    var newdata = {
+      application: this._currentId,
+      start_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : '',
+      end_date: this.attendance_date[0] ? moment(this.attendance_date[0]).format("YYYY-MM-DD") : ''
+    }
+    this.api_calling_Loader = true
+    this.isVisible = false
+    this.https.pullAttendance(newdata).subscribe((res: any) => {
+      if (res?.success) {
+        this.attendance_data = res.data
+        if (this.attendance_data[0]) {
+          this.isAttendanceVisible = true
+        } else {
+          this.message.success(res.message)
+        }
+      } else {
+        this.message.error(res?.message)
+      }
+      this.api_calling_Loader = false;
+    }, err => {
+      this.api_calling_Loader = false;
+      this.message.error(err)
+    })
+  }
 }
