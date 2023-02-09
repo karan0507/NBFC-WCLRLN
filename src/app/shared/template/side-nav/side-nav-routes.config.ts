@@ -365,6 +365,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: 'lms/emi-borrowers',
+                title: 'EMI Borrowers',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                permission: [''],
+                submenu: []
+            },
+            {
                 path: '',
                 title: 'ECM Actions',
                 iconType: '',
