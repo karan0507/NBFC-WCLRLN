@@ -53,11 +53,11 @@
 .ant-card-grid {
     border-radius: 0;
     border: 0;
-    box-shadow: 1px 0 0 0 $card-border-color,
-                0 1px 0 0 $card-border-color,
-                1px 1px 0 0 $card-border-color,
-                1px 0 0 0 $card-border-color inset,
-                0 1px 0 0 $card-border-color inset;
+    // box-shadow: 1px 0 0 0 $card-border-color,
+    //             0 1px 0 0 $card-border-color,
+    //             1px 1px 0 0 $card-border-color,
+    //             1px 0 0 0 $card-border-color inset,
+    //             0 1px 0 0 $card-border-color inset;
     width: auto;
     padding: $card-spacer-y $card-spacer-x;
 }    
@@ -93,8 +93,8 @@
 .ant-card-hoverable {
 
     &:hover {
-        box-shadow: $card-hover-shadow;
-        border-color: $card-border-color;
+        box-shadow: none !important;
+        border-color: none !important;
     }
 }
 

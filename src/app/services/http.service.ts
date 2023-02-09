@@ -499,6 +499,14 @@ export class HttpService {
             return this._http.get((this.url + `/loan-application/v1/borrowers-list`), { params: data });
       }
 
+      public fetchEmiBorrowersList(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list`), { params: data });
+      }
+      
+      public fetchEmiBorrowersDetails(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-details`), { params: data });
+      }
+
       /**
        * fetchTransactionList
        */

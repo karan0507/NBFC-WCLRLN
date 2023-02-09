@@ -1,0 +1,157 @@
+<section>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Name:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                _currEMIBorrowerDetail?.user_details.full_name : '-'}}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Mobile:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                _currEMIBorrowerDetail?.user_details.mobile : '-'}}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Email:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                _currEMIBorrowerDetail?.user_details.email : '-'}}</span></label></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Loan ID:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.loan_unique_id ?
+                                _currEMIBorrowerDetail?.loan_unique_id : '-'}}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Amount
+                            Provided: <span class="font-weight-normal">₹ {{_currEMIBorrowerDetail?.loan_amount_provided
+                                ? _currEMIBorrowerDetail?.loan_amount_provided :'0' }}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Interest
+                            Rate: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.interest_rate ?
+                                _currEMIBorrowerDetail?.interest_rate : '0'}}%</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Auto
+                            Debit: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.auto_debit ?
+                                _currEMIBorrowerDetail?.auto_debit : ''}}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Activation Date
+                            Debit: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
+                                _currEMIBorrowerDetail?.activation_date : ''}}</span></label></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Product Tenure:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.product_tenure ? _currEMIBorrowerDetail?.product_tenure : '-' }}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Application Nature:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.application_nature ? _currEMIBorrowerDetail?.application_nature : '-'}}</span></label></div>
+                </div>
+                <div class="col-md-12">
+                    <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Due Day:
+                            <span class="font-weight-normal">{{_currEMIBorrowerDetail?.due_day ? _currEMIBorrowerDetail?.due_day  : '-'}}</span></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <nz-table #basicTable [nzFrontPagination]="false" [nzData]="schedulerDetails" [nzPageIndex]="page"
+        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzScroll]="{ x: '1500px' }">
+        <!-- , y: '45vh'     -->
+        <thead>
+            <tr>
+                <!-- <th nzWidth="2rem"></th> -->
+                <th nzWidth="3rem">#</th>
+                <th nzWidth="15rem">User Details</th>
+                <th>Loan ID</th>
+                <th>Product Tenure</th>
+
+                <th>Application Nature</th>
+                <th>Auto Debit</th>
+                <th>Due Day</th>
+                <th>Interest(%)</th>
+                <th>Loan Amount Provided</th>
+                <th>Activated Date</th>
+                <th nzRight>Action</th>
+
+                <!--               
+  <th>EMI Date/Refund Date</th>
+  <th>Amount Tenure(Month/Day)</th>
+  <th>Interest(%)</th>
+  <th>EMI</th>
+  <th>Fees</th>
+  <th>Added on</th> -->
+                <!-- <th nzWidth="5rem" nzRight>Action</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of schedulerDetails; index as i">
+                <tr>
+                    <!-- <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)" (nzExpandChange)="
+        onExpandChange(data?.loan_application_id, $event, i)
+      "></td> -->
+                    <td *ngIf="page === 1">{{ i + 1 }}</td>
+                    <td *ngIf="page > 1">
+                        {{ (page - 1) * globalPageSize + (i + 1) }}
+                    </td>
+                    <td>
+                        <h5 class="mb-2">{{ data.user_details?.full_name ? data.user_details.full_name : "-" }}
+                        </h5>
+                        <span *ngIf="data.user_details?.mobile">Contact No: {{ data.user_details ?
+                            data.user_details.mobile : "-" }}</span>
+                        <p *ngIf="data.user_details?.email">
+                            {{ data.user_details ? data.user_details.email : "-" }}
+                        </p>
+                    </td>
+                    <td>{{ data?.loan_unique_id ? data?.loan_unique_id : "-" }}</td>
+                    <td>
+                        {{ data?.product_tenure ? data?.product_tenure : "-" }}
+                    </td>
+                    <td>{{ data.application_nature ? data.application_nature : "-" }}</td>
+                    <td>{{ data.auto_debit ? data.auto_debit : "-" }}</td>
+                    <td>{{data.due_day ? data.due_day : '-'}}</td>
+                    <td>{{data.interest_rate ? data?.interest_rate : '0'}} %</td>
+                    <td>₹ {{ data.loan_amount_provided }}</td>
+                    <td>
+                        {{
+                        data.activation_date
+                        ? (data.activation_date | date : "MMM dd, yyyy")
+                        : "-"
+                        }}
+                    </td>
+                    <td nzRight>
+                        <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                            [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                            <img src="assets/images/ellipsis.png" alt="" width="30" />
+                        </a>
+                        <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                            <ul nz-menu>
+                                <li nz-menu-item [routerLink]="['/lms/emi-borrowers/details']"
+                                    [queryParams]="{ id: data.id }">
+                                    <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                    <span class="m-l-5">View Details</span>
+                                </li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+    <div class="total_count_text" *ngIf="total_count">
+        <b>Total Count : </b>{{ total_count }}
+    </div>
+</section>
