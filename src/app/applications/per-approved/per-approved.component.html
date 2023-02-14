@@ -137,7 +137,7 @@
                 (nzExpandChange)="onExpandChange(data.id, $event, i)"></td>
               <td nzWidth="3rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                 (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-              <td>{{ i + 1 }}</td>
+                <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
               <td>{{ data?.application_code }}</td>
               <td nzWidth="14rem">
                 <div class="d-flex flex-column">

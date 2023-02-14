@@ -12,32 +12,38 @@ export class EmiBorrowerDetailsComponent implements OnInit {
   gridStyle = {
     width: '100%',
   };
-  _currBorrowerId:any;
+  _currBorrowerId: any;
   page: any = 1
-globalPageSize: any = '30'
-  _currEMIBorrowerDetail:any
-  total_count : any;
-  schedulerDetails:any = []
-  api_call_loading = {'btnLoader':false,'card':false}
-  constructor(private http:  HttpService, private message:NzMessageService, private acRoute:ActivatedRoute,private router:Router) { }
+  globalPageSize: any = '30'
+  _currEMIBorrowerDetail: any
+  total_count: any;
+  schedulerDetails: any = [];
+  api_call_loading = { 'btnLoader': false, 'card': false }
+  cardLoading: boolean = false;
+  constructor(private http: HttpService, private message: NzMessageService, private acRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.acRoute.queryParams.subscribe((param)=>{
-      if(param['id']){
-this._currBorrowerId = param['id'];
-this.getDetailsEmiBorrowers()
+    this.acRoute.queryParams.subscribe((param) => {
+      if (param['id']) {
+        this._currBorrowerId = param['id'];
+        this.getDetailsEmiBorrowers()
       }
     })
   }
 
-  getDetailsEmiBorrowers(){
-    let data = {offer_id:this._currBorrowerId}
-    this.http.fetchEmiBorrowersDetails(data).subscribe((res:any)=>{
-      if(res.success){
-        this.message.success(res.success);
-        this._currEMIBorrowerDetail = res.data
-
+  getDetailsEmiBorrowers() {
+    this.cardLoading = true
+    let data = { offer_id: this._currBorrowerId }
+    this.http.fetchEmiBorrowersDetails(data).subscribe((res: any) => {
+      if (res.success) {
+        this._currEMIBorrowerDetail = res.data;
+        this.schedulerDetails = res?.data?.shcedular_details
+        this.cardLoading = false
+      } else {
+        this.cardLoading = false
       }
+    }, error => {
+
     })
   }
 

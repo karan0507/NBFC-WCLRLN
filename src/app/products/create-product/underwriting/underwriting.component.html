@@ -23,11 +23,21 @@
                                         nzShape="circle" (click)="handleInputConfirm('negative')">
                                         <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
                                     </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="type = 'blackListed';isPincodeVisible = true;">
+                                        <span nz-icon nzType="eye" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="exportPincodes('blacklisted')">
+                                        <span nz-icon nzType="download" nzTheme="outline"></span>
+                                    </button>
                                 </div>
                                 <div>
-                                    <nz-tag class="my-3" *ngFor="let tag of pincodes; let i = index" [nzMode]="'closeable'"
-                                        (nzOnClose)="handleClose(i,'negative')">
-                                       <!-- <span class="px-3"> </span> --> {{ tag }}
+                                    <nz-tag class="my-3" *ngFor="let tag of pincodes; let i = index"
+                                        [nzMode]="'closeable'" (nzOnClose)="handleClose(i,'negative')">
+                                        <!-- <span class="px-3"> </span> --> {{ tag }}
                                     </nz-tag>
                                 </div>
                             </div>
@@ -37,8 +47,8 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="servicable_pincodes"
-                            class="text-left">Serviceable Pincodes</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="servicable_pincodes" class="text-left">Serviceable
+                            Pincodes</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please check Serviceable Pincodes!">
                             <div class="d-flex flex-column justify-content-start">
                                 <div class="d-flex">
@@ -49,11 +59,21 @@
                                         nzShape="circle" (click)="handleInputConfirm('service')">
                                         <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
                                     </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="type = 'serviceable';isPincodeVisible = true;">
+                                        <span nz-icon nzType="eye" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="exportPincodes('servicable')">
+                                        <span nz-icon nzType="download" nzTheme="outline"></span>
+                                    </button>
                                 </div>
                                 <div>
-                                    <nz-tag class="my-3" *ngFor="let tag of servicePincodes; let i = index" [nzMode]="'closeable'"
-                                        (nzOnClose)="handleClose(i,'service')">
-                                       <!-- <span class="px-3"> </span> --> {{ tag }}
+                                    <nz-tag class="my-3" *ngFor="let tag of servicePincodes; let i = index"
+                                        [nzMode]="'closeable'" (nzOnClose)="handleClose(i,'service')">
+                                        <!-- <span class="px-3"> </span> --> {{ tag }}
                                     </nz-tag>
                                 </div>
                             </div>
@@ -149,12 +169,50 @@
     </ng-template>
 </section>
 
-<!-- <nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Rule" (nzOnCancel)="handleCancel()" (nzOnOk)="addRule()">
+<nz-modal [(nzVisible)]="isPincodeVisible" [nzTitle]="type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Entity</nz-form-label>
-        <nz-select [(ngModel)]="selectedEntity" nzPlaceHolder="Select Select Entity!">
-            <nz-option *ngFor="let item of entityData" [nzValue]="item" [nzLabel]="item.display_name">
-            </nz-option>
-        </nz-select>
+        <div class="d-flex justify-content-start mb-3">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search text" [(ngModel)]="searchValue" />
+            </nz-input-group>
+        </div>
+        <section *ngIf="type == 'blackListed'">
+            <nz-table [nzData]="pincodes" [nzScroll]="{y:'50vh'}" [nzLoading]="apiLoader" [nzFrontPagination]="false">
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Pincode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of (pincodes | filter :searchValue); index as i">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{data}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </section>
+        <section *ngIf="type == 'serviceable'">
+            <nz-table [nzData]="servicePincodes" [nzScroll]="{x:'1500px',y:'50vh'}" [nzLoading]="apiLoader" [nzFrontPagination]="false">
+                <thead>
+                    <tr>
+                        <th nzWidth="5rem">Sr. No</th>
+                        <th>Pincode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of (servicePincodes | filter :searchValue); index as i">
+                        <tr>
+                            <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
+                            <td>{{i+1}}</td>
+                            <td>{{data}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </section>
     </ng-container>
-  </nz-modal> -->
+</nz-modal>

@@ -27,6 +27,7 @@ import { LmhComponent } from './lmh/lmh.component';
 import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
 import { EmiConfigurationComponent } from './emi-configuration/emi-configuration.component';
 import { ProductDocumentComponent } from './product-document/product-document.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ProductDocumentComponent } from './product-document/product-document.co
     DemoNgZorroAntdModule,
     NzTagModule,
     SharedModule,
-    NgxPermissionsModule.forChild()
+    Ng2SearchPipeModule,
+    NgxPermissionsModule.forChild(),
   ],
   providers:[
     // HttpService

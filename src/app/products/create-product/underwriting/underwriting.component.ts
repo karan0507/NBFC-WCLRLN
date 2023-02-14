@@ -1,3 +1,4 @@
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,13 +24,16 @@ export class UnderwritingComponent implements OnInit {
   filterArray: any
   underWritingRuleData: any;
   loading: boolean;
-  pincodes = [];
-  servicePincodes = []
+  pincodes : any = [];
+  servicePincodes : any = []
   inputVisible = true;
   inputValue = '';
+  isPincodeVisible : boolean = false;
+  type:any
+  searchValue : string;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fetchEmploymentTypeData();
@@ -304,4 +308,17 @@ export class UnderwritingComponent implements OnInit {
     return form.controls.comparison_entities.controls;
   }
 
+
+  handleCancel(){
+    this.isPincodeVisible = false;
+  }
+
+  exportPincodes(type){
+    this.http.exportPincodesType(this.product_id,type).subscribe((res:any)=>{
+      if(res){
+        const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId
+        this.http.exportMasterSectionModule(res,type,'xlsx',generateloader)
+      }
+    })
+  }
 }
