@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-underwriting',
@@ -24,6 +25,7 @@ export class UnderwritingComponent implements OnInit {
   filterArray: any
   underWritingRuleData: any;
   loading: boolean;
+  api_calling_loader:boolean = false;
   pincodes : any = [];
   servicePincodes : any = []
   inputVisible = true;
@@ -31,6 +33,7 @@ export class UnderwritingComponent implements OnInit {
   isPincodeVisible : boolean = false;
   type:any
   searchValue : string;
+  isUploadPincodes : boolean = false;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -311,6 +314,26 @@ export class UnderwritingComponent implements OnInit {
 
   handleCancel(){
     this.isPincodeVisible = false;
+    this.isUploadPincodes = false;
+    this._currentFileName = null;
+    this.type = '';
+  }
+
+  handleOk(){
+    this.api_calling_loader = true;
+    let formData = new FormData()
+    formData.append('product',this.product_id)
+    formData.append('pincode_file', this._currentFileName)
+    formData.append('file_type',this.type)
+    this.http.uploadPincodes(formData).subscribe((res:any)=>{
+      if(res.success){
+        this.api_calling_loader = false;
+        this.message.success(res.message)
+      }else{
+        this.api_calling_loader = false;
+        this.message.error(res.message)
+      }
+    })
   }
 
   exportPincodes(type){
@@ -321,4 +344,12 @@ export class UnderwritingComponent implements OnInit {
       }
     })
   }
+  fileList : any = []
+  _currentFileName : any;
+  beforeUploadName = (file: NzUploadFile): boolean => {
+    this.fileList = [];
+    this.fileList = this.fileList.concat(file);
+    this._currentFileName = false
+    return false;
+};
 }

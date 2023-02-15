@@ -170,6 +170,11 @@ export class HttpService {
             let data={}
             return this._http.get((this.url + `/product/v1/export-pincodes/`+id+`/`+type), { params: data,responseType: 'blob' });
       }
+
+      public uploadPincodes(data) {
+            return this._http.post((this.url + `/product/v1/upload-pincode-file`), data);
+      }
+      
       /**
        * fetchEscrowStatementList
        */
