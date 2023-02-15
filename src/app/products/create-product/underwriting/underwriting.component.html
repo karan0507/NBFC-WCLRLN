@@ -179,7 +179,7 @@
 </section>
 
 <nz-modal [(nzVisible)]="isPincodeVisible"
-    [nzTitle]="type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes'" [nzFooter]="isUploadPincodes ? footerTemp : null"
+    [nzTitle]="isUploadPincodes ? (type == 'BlackListed' ? 'Upload BlackListed Pincodes' : 'Upload Servicable Pincodes') : (type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes')" [nzFooter]="isUploadPincodes ? footerTemp : null"
     (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
         <div class="d-flex justify-content-start mb-3"  *ngIf="!isUploadPincodes">
