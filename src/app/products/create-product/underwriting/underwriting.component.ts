@@ -1,9 +1,11 @@
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-underwriting',
@@ -23,13 +25,18 @@ export class UnderwritingComponent implements OnInit {
   filterArray: any
   underWritingRuleData: any;
   loading: boolean;
-  pincodes = [];
-  servicePincodes = []
+  api_calling_loader:boolean = false;
+  pincodes : any = [];
+  servicePincodes : any = []
   inputVisible = true;
   inputValue = '';
+  isPincodeVisible : boolean = false;
+  type:any
+  searchValue : string;
+  isUploadPincodes : boolean = false;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fetchEmploymentTypeData();
@@ -304,4 +311,45 @@ export class UnderwritingComponent implements OnInit {
     return form.controls.comparison_entities.controls;
   }
 
+
+  handleCancel(){
+    this.isPincodeVisible = false;
+    this.isUploadPincodes = false;
+    this._currentFileName = null;
+    this.type = '';
+  }
+
+  handleOk(){
+    this.api_calling_loader = true;
+    let formData = new FormData()
+    formData.append('product',this.product_id)
+    formData.append('pincode_file', this._currentFileName)
+    formData.append('file_type',this.type)
+    this.http.uploadPincodes(formData).subscribe((res:any)=>{
+      if(res.success){
+        this.api_calling_loader = false;
+        this.message.success(res.message)
+      }else{
+        this.api_calling_loader = false;
+        this.message.error(res.message)
+      }
+    })
+  }
+
+  exportPincodes(type){
+    this.http.exportPincodesType(this.product_id,type).subscribe((res:any)=>{
+      if(res){
+        const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId
+        this.http.exportMasterSectionModule(res,type,'xlsx',generateloader)
+      }
+    })
+  }
+  fileList : any = []
+  _currentFileName : any;
+  beforeUploadName = (file: NzUploadFile): boolean => {
+    this.fileList = [];
+    this.fileList = this.fileList.concat(file);
+    this._currentFileName = false
+    return false;
+};
 }

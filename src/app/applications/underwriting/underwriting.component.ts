@@ -211,7 +211,8 @@ export class UnderwritingComponent implements OnInit {
     this.api_calling_loader["listLoader"] = true;
     this.loanApplicationData = [];
     var data;
-
+    this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
     if (this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C') {
       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
     } else if (this.selectedTabFilter == 'B2B') {
@@ -219,22 +220,6 @@ export class UnderwritingComponent implements OnInit {
     } else if (this.selectedTabFilter == 'D2C') {
       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3&app_prod_type=D2C', 'source': 'Onboarding' }
     }
-
-    // data = {
-    //   datapoint: "loan_application",
-    //   endpoint: "LoanApplication?stage_id=3",
-    //   source: "Onboarding",
-    // };
-
-    // if (tableFilter) {
-    //   this.page = tableFilter?.pageIndex;
-    //   this.globalPageSize = tableFilter?.pageSize;
-    //   data["page"] = tableFilter?.pageIndex;
-    //   data["limit"] = tableFilter?.pageSize;
-    // } else {
-    //   data["page"] = this.page;
-    //   data["limit"] = this.globalPageSize;
-    // }
     data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
     data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
     data['flag'] = this.selectedTabFilter

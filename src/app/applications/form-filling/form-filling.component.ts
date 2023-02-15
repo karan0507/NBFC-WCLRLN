@@ -162,6 +162,8 @@ export class FormFillingComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data;
+            this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
             if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=1', 'source': 'Onboarding' }
             } else if(this.selectedTabFilter == 'B2B'){

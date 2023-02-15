@@ -1,6 +1,6 @@
+import { Ng2SearchPipeModule } from "ng2-search-filter"
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CreateProductRoutingModule } from './create-product-routing.module';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { MasterPartnersComponent } from './master-partners/master-partners.component';
@@ -46,12 +46,14 @@ import { ProductDocumentComponent } from './product-document/product-document.co
     CommonModule,
     CreateProductRoutingModule,
     NzCardModule,
-    FormsModule, ReactiveFormsModule,
+    FormsModule, 
+    ReactiveFormsModule,
     NzFormModule,
+    Ng2SearchPipeModule,
     DemoNgZorroAntdModule,
     NzTagModule,
     SharedModule,
-    NgxPermissionsModule.forChild()
+    NgxPermissionsModule.forChild(),
   ],
   providers:[
     // HttpService
