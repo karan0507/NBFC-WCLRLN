@@ -49,13 +49,9 @@ import { CorporateStageComponent } from './corporate-stage/corporate-stage.compo
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { DocumentPendingComponent } from './document-pending/document-pending.component';
-import { DeatilsComponent } from './deatils/deatils.component';
-import { PersonalDetailsComponent } from './personal-details/personal-details.component';
-import { BankDetailsComponent } from './bank-details/bank-details.component';
-import { KycDetailsComponent } from './kyc-details/kyc-details.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent, DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,
