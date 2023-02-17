@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
@@ -329,9 +330,11 @@ export class UnderwritingComponent implements OnInit {
       if(res.success){
         this.api_calling_loader = false;
         this.message.success(res.message)
+        this.handleCancel()
       }else{
         this.api_calling_loader = false;
         this.message.error(res.message)
+        this.handleCancel()
       }
     })
   }
@@ -352,4 +355,12 @@ export class UnderwritingComponent implements OnInit {
     this._currentFileName = false
     return false;
 };
+
+searchInternal(type){
+  this.pincodes.forEach(element => {
+    console.log(element)
+  });
+  console.log(type.key,type.target,this.pincodes.filter(element => element == type.key))
+  this.pincodes.filter(element => element == type.key)
+}
 }

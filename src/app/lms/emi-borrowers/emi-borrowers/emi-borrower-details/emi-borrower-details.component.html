@@ -49,9 +49,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div nz-card-grid [ngStyle]="gridStyle"><label
-                                class="font-weight-semibold text-dark mr-3">Activation Date
-                                Debit: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
-                                    _currEMIBorrowerDetail?.activation_date : ''}}</span></label></div>
+                                class="font-weight-semibold text-dark mr-3">Activation Date: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
+                                    (_currEMIBorrowerDetail?.activation_date | date:'medium') : ''}}</span></label></div>
                     </div>
                     <div class="col-md-12">
                         <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Product
