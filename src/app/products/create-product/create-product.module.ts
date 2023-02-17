@@ -1,4 +1,4 @@
-import { Ng2SearchPipeModule } from "ng2-search-filter"
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateProductRoutingModule } from './create-product-routing.module';
@@ -48,8 +48,8 @@ import { ProductDocumentComponent } from './product-document/product-document.co
     NzCardModule,
     FormsModule, 
     ReactiveFormsModule,
-    NzFormModule,
     Ng2SearchPipeModule,
+    NzFormModule,
     DemoNgZorroAntdModule,
     NzTagModule,
     SharedModule,
