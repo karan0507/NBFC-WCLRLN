@@ -16,6 +16,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuditHistoryComponent } from './template/audit-history/audit-history.component';
 import { HttpService } from '../services/http.service';
+import { DeatilsComponent } from '../applications/deatils/deatils.component';
+import { BankDetailsComponent } from '../applications/bank-details/bank-details.component';
+import { KycDetailsComponent } from '../applications/kyc-details/kyc-details.component';
+import { PersonalDetailsComponent } from '../applications/personal-details/personal-details.component';
 
 @NgModule({
     exports: [
@@ -29,6 +33,7 @@ import { HttpService } from '../services/http.service';
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
         AuditHistoryComponent,
+        DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent
     ],
     imports: [
         RouterModule,
@@ -47,6 +52,7 @@ import { HttpService } from '../services/http.service';
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
         AuditHistoryComponent,
+        DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent
     ],
     providers: [
         ThemeConstantService
