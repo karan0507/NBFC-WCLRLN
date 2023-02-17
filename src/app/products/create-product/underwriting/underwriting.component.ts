@@ -334,6 +334,7 @@ export class UnderwritingComponent implements OnInit {
       }else{
         this.api_calling_loader = false;
         this.message.error(res.message)
+        this.handleCancel()
       }
     })
   }
