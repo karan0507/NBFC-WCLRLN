@@ -120,6 +120,137 @@
                         </div>
                     </ng-container>
                 </div>
+                <!-- <nz-form-label class="text-left">Additional Details</nz-form-label>
+                                <div class="col-md-12">
+                                    <ng-container *ngFor="let item of get_field_rules(createEditForm); let k = index;" formArrayName="field_rules">
+                                        <div class="row mx-0" [formGroupName]="k">
+                                            <div class="col-md-12">
+                                                <nz-form-item>
+                                                    <div class="col-md-5">
+                                                        <nz-form-label nzFor="tenure" class="text-left" nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                                            <nz-radio-group formControlName="check_type" [nzDisabled]="router.url.includes('view-product')">
+                                                                <label [nzDisabled]="router.url.includes('view-product')" nz-radio nzValue="Mandatory">Mandatory</label>
+                                                                <label [nzDisabled]="router.url.includes('view-product')" nz-radio nzValue="Optional">Optional</label>
+                                                                <label [nzDisabled]="router.url.includes('view-product')" nz-radio nzValue="Not Required">Not Required</label>
+                                                              </nz-radio-group>
+                                                        </nz-form-control>
+                                                    </div>
+                                                </nz-form-item>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div> -->
+                <nz-form-label class="text-left">Address Proof</nz-form-label>
+                <div class="col-md-12 px-0">
+                    <ng-container *ngFor="let item of get_document_rules(createEditForm); let k = index;"
+                        formArrayName="document_rules">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12">
+                                <nz-form-item>
+                                    <div class="col-md-5">
+                                        <nz-form-label nzFor="tenure" class="text-left"
+                                            nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                            <nz-radio-group formControlName="check_type"
+                                                [nzDisabled]="router.url.includes('view-product')">
+                                                <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                                <label nz-radio nzValue="Optional">Optional</label>
+                                                <label nz-radio nzValue="Not Required">Not Required</label>
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                
+                <nz-form-label class="text-left">Identity Proof</nz-form-label>
+                <div class="col-md-12 px-0">
+                    <ng-container *ngFor="let item of get_document_rules1(createEditForm); let k = index;"
+                        formArrayName="document_rules1">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12">
+                                <nz-form-item>
+                                    <div class="col-md-5">
+                                        <nz-form-label nzFor="tenure" class="text-left"
+                                            nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                            <nz-radio-group formControlName="check_type"
+                                                [nzDisabled]="router.url.includes('view-product')">
+                                                <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                                <label nz-radio nzValue="Optional">Optional</label>
+                                                <label nz-radio nzValue="Not Required">Not Required</label>
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                
+                <nz-form-label class="text-left">Income Proof</nz-form-label>
+                <div class="col-md-12 px-0">
+                    <ng-container *ngFor="let item of get_document_rules2(createEditForm); let k = index;"
+                        formArrayName="document_rules2">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12">
+                                <nz-form-item>
+                                    <div class="col-md-5">
+                                        <nz-form-label nzFor="tenure" class="text-left"
+                                            nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                            <nz-radio-group formControlName="check_type"
+                                                [nzDisabled]="router.url.includes('view-product')">
+                                                <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                                <label nz-radio nzValue="Optional">Optional</label>
+                                                <label nz-radio nzValue="Not Required">Not Required</label>
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                
+                <nz-form-label class="text-left">Nationality Proof</nz-form-label>
+                <div class="col-md-12 px-0">
+                    <ng-container *ngFor="let item of get_document_rules3(createEditForm); let k = index;"
+                        formArrayName="document_rules3">
+                        <div class="row mx-0" [formGroupName]="k">
+                            <div class="col-md-12">
+                                <nz-form-item>
+                                    <div class="col-md-5">
+                                        <nz-form-label nzFor="tenure" class="text-left"
+                                            nzRequired>{{item.controls.label_txt.value.toString()}}</nz-form-label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <nz-form-control nzErrorTip="Please select Tenure Unit!">
+                                            <nz-radio-group formControlName="check_type"
+                                                [nzDisabled]="router.url.includes('view-product')">
+                                                <label nz-radio nzValue="Mandatory">Mandatory</label>
+                                                <label nz-radio nzValue="Optional">Optional</label>
+                                                <label nz-radio nzValue="Not Required">Not Required</label>
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </div>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
             </div>
         </form>
     </nz-card>

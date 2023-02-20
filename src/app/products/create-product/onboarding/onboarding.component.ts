@@ -73,6 +73,11 @@ export class OnboardingComponent implements OnInit {
   createEditFormFuction(data?) {
     this.createEditForm = this.fb.group({
       third_party_calls: this.fb.array([]),
+      document_rules: this.fb.array([]),
+      document_rules1: this.fb.array([]),
+      document_rules2: this.fb.array([]),
+      document_rules3: this.fb.array([]),
+
       aadhar_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.aadhar_check : 'Mandatory') : 'Mandatory'],
       pan_check: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_check : 'Mandatory') : 'Mandatory'],
       pan_no_document_needed: [data ? (data.aadhar_pan_rules ? data.aadhar_pan_rules?.pan_no_document_needed : false) : false],
@@ -229,8 +234,47 @@ export class OnboardingComponent implements OnInit {
     let data;
     this.http.fetchAllDocumentRules(this.product_id).subscribe(res => {
       this.documentData = res['data']
+      this.documentData['Address Proof'].forEach(element => {
+        this.addDocumentRules(element)
+      });
+      this.documentData['Identity Proof'].forEach(element => {
+        this.addDocumentRules1(element)
+      });
+      this.documentData['Income Proof'].forEach(element => {
+        this.addDocumentRules2(element)
+      });
+      this.documentData['Nationality Proof'].forEach(element => {
+        this.addDocumentRules3(element)
+      });
+
     })
   }
+  get document_rules(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules');
+  }
+  get document_rules1(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules1');
+  }
+  get document_rules2(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules2');
+  }
+  get document_rules3(): FormArray {
+    return <FormArray>this.createEditForm.get('document_rules3');
+  }
+
+  addDocumentRules(data?) {
+    this.document_rules.push(this.addDocumentRulesControls(data))
+  }
+  addDocumentRules1(data?) {
+    this.document_rules1.push(this.addDocumentRulesControls1(data))
+  }
+  addDocumentRules2(data?) {
+    this.document_rules2.push(this.addDocumentRulesControls2(data))
+  }
+  addDocumentRules3(data?) {
+    this.document_rules3.push(this.addDocumentRulesControls3(data))
+  }
+
 
   fetchEntityData() {
     let data;
@@ -244,6 +288,20 @@ export class OnboardingComponent implements OnInit {
   get_Third_party(form) {
     return form.controls.third_party_calls.controls;
   }
+  get_document_rules(form) {
+    return form.controls.document_rules.controls;
+  }
+  get_document_rules1(form) {
+    return form.controls.document_rules1.controls;
+  }
+  get_document_rules2(form) {
+    return form.controls.document_rules2.controls;
+  }
+  get_document_rules3(form) {
+    return form.controls.document_rules3.controls;
+  }
+
+
 
   submitForm() {
     if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine && this.isRuledAdded) {
@@ -299,7 +357,27 @@ export class OnboardingComponent implements OnInit {
         pincode_check: this.createEditForm.value.pincode_check,
       }
     }
+    let document_rules = []
+    this.createEditForm.value.document_rules.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules1.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules2.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+    this.createEditForm.value.document_rules3.forEach(element => {
+      element.employment_type = this.selectedTab
+      document_rules.push(element)
+    });
+
+
     let data = {
+      document_rules: document_rules,
       third_party_calls: this.createEditForm.value.third_party_calls,
       aadhar_pan_rules: aadhar_pan_rules,
       email_pincode_rules: email_pincode_rules,
