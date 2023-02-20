@@ -46,6 +46,7 @@ import { CommonDocumentActionsComponent } from '../applications/common-document-
         PerfectScrollbarModule,
         DemoNgZorroAntdModule,
         NzFormModule,
+        FormsModule,
         ReactiveFormsModule,
         NzInputModule,
         NgxJsonViewerModule
