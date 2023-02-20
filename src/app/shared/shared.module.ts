@@ -20,6 +20,7 @@ import { DeatilsComponent } from '../applications/deatils/deatils.component';
 import { BankDetailsComponent } from '../applications/bank-details/bank-details.component';
 import { KycDetailsComponent } from '../applications/kyc-details/kyc-details.component';
 import { PersonalDetailsComponent } from '../applications/personal-details/personal-details.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
     exports: [
@@ -33,6 +34,7 @@ import { PersonalDetailsComponent } from '../applications/personal-details/perso
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
         AuditHistoryComponent,
+        NgxJsonViewerModule,
         DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent
     ],
     imports: [
@@ -45,6 +47,7 @@ import { PersonalDetailsComponent } from '../applications/personal-details/perso
         NzFormModule,
         ReactiveFormsModule,
         NzInputModule,
+        NgxJsonViewerModule
         // NgxPermissionsModule
     ],
     declarations: [

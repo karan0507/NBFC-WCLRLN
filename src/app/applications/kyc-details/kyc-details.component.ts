@@ -49,7 +49,7 @@ export class KycDetailsComponent implements OnInit {
   onClickShowJSONPreview(res) {
     this.isVisibleThirdPartyResp = true
     this.api_calling_loader1 = true;
-    this.thirdPartyDataResponse = res
+    this.thirdPartyDataResponse = res.api_response
     this.api_calling_loader1 = false;
   }
 
