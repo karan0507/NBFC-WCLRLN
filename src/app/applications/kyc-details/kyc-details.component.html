@@ -51,7 +51,7 @@
                                               ? item?.front_file_url
                                               : item?.file_url
                                           " nzTooltipTitle="View Document" (click)="
-                                            _isViewDocument = true; _currentModalData = item
+                                          _currentModalData = item; _isViewDocument = true;
                                           ">
                                             <i nz-icon nzType="eye" nzTheme="outline"></i></a>
                                         <a class="text-primary mr-3" *ngIf="item?.id" nzTooltipTitle="Verify Document" (click)="
@@ -341,7 +341,7 @@
 </nz-modal>
 <section *ngIf="_isViewDocument">
     <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
-        [documentData]="_currentModalData" (close)="_isViewDocument = false"></app-common-document-actions>
+        [documentData]="_currentModalData" (close)="_isViewDocument = false; _currentModalData = null"></app-common-document-actions>
 </section>
 <section *ngIf="_isVerify">
     <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"

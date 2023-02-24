@@ -33,7 +33,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   state: string = '';
   axis = 0
   axisF = 0
-  constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService,  private renderer: Renderer2) { }
+  constructor(public sanitize: DomSanitizer, public https: HttpService, public message: NzMessageService, private renderer: Renderer2) { }
   ngOnDestroy(): void {
     // this.close.emit(false)
   }
@@ -52,15 +52,14 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     } else {
       this.isDoubleSide = false;
     }
-
-    this.documentData['back_file_url'] = this.sanatizeUrlToSafe(this.documentData?.back_file_url)
+    let temp = this.documentData['back_file_url']
+    this.documentData['back_file_url'] = typeof (this.documentData['back_file_url']) == 'object' ? temp : this.sanatizeUrlToSafe(this.documentData?.back_file_url)
     this.documentData['fresh_url'] = this.sanatizeUrlToSafe((this.isDoubleSide ? (this.isDoubleSide && (this.currentDocumentType == 1) ? this.documentData?.front_file_url : this.documentData?.back_file_url) : this.documentData?.file_url))
-
-
   }
 
   handleCancel() {
     this._isOpenModal = false;
+    this.documentData = null;
     this.close.emit(false)
   }
 
@@ -161,17 +160,17 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         // console.log(this.documentData?.document_master?.name + ' Testing Is In progress');
         // return;
         // "Other Document" this.documentData?.document_master?.name == "Selfie" ||
-        if ( this.documentData?.document_master?.name == "Other Document" || this.documentData?.document_master?.name == "Selfie"){
+        if (this.documentData?.document_master?.name == "Other Document" || this.documentData?.document_master?.name == "Selfie") {
           let uploadDocForOtherDoc = new FormData()
           console.log(uploadDoc);
           // delete uploadDoc['kyc_document_id'];
           // uploadDocForOtherDoc.append('application_id', this.documentData?.application);
-          if(this.documentData?.document_master?.name == "Other Document"){
+          if (this.documentData?.document_master?.name == "Other Document") {
             uploadDocForOtherDoc.append('document_id', this.documentData?.document_master?.id);
             uploadDocForOtherDoc.append('application_id', this.documentData?.application);
             uploadDocForOtherDoc.append('file', this._currentFileName);
           }
-          if(this.documentData?.document_master?.name == "Selfie"){
+          if (this.documentData?.document_master?.name == "Selfie") {
             // uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
             uploadDocForOtherDoc.append('endpoint', this.userApplicationData?.user_info?.id);
             uploadDocForOtherDoc.append('selfie', this._currentFileName);
@@ -179,7 +178,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           // endpoint
           uploadDocForOtherDoc.append('source', 'Onboarding');
           uploadDocForOtherDoc.append('datapoint', this.documentData?.document_master?.name == "Selfie" ? 'upload_selfie_appuser' : 'upload_kyc_doc');
-          const httpURL =  this.documentData?.document_master?.name == "Selfie" ? this.https.uploadLoanSelfieDocument(uploadDocForOtherDoc) : this.https.uploadLoanDocument(uploadDocForOtherDoc)
+          const httpURL = this.documentData?.document_master?.name == "Selfie" ? this.https.uploadLoanSelfieDocument(uploadDocForOtherDoc) : this.https.uploadLoanDocument(uploadDocForOtherDoc)
           httpURL.subscribe((res: any) => {
             if (res?.success) {
               this.api_calling_loader['button'] = false;
@@ -291,7 +290,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
   rotateRightF() {
     this.axisF = this.axisF + 90
     if (this.axisF == 90) {
@@ -320,7 +319,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
   }
 
   frontUrlSanitized() {
-     return this.sanatizeUrlToSafe((this.isDoubleSide ? (this.isDoubleSide && (this.currentDocumentType == 1) ? this.documentData?.front_file_url : this.documentData?.back_file_url) : this.documentData?.file_url))
+    return this.sanatizeUrlToSafe((this.isDoubleSide ? (this.isDoubleSide && (this.currentDocumentType == 1) ? this.documentData?.front_file_url : this.documentData?.back_file_url) : this.documentData?.file_url))
   }
 
   backUrlSanitized() {

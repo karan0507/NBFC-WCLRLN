@@ -567,7 +567,7 @@ export class HttpService {
       }
 
       public activeInactive(id) {
-            return this._http.put((this.url + `/partner/v1/toggle-corporate-status/` + id), null);
+            return this._http.put((this.url + `/partner/v1/corporate-block-all-employees/` + id), null);
       }
 
       /**

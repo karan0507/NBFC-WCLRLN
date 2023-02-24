@@ -435,10 +435,10 @@ export class EditFormComponent implements OnInit {
                         this.message.error('enter the company name')
                         return;
                   }
-                  if (!this.employementDetails.value.emp_code) {
-                        this.message.error('enter the employee code')
-                        return;
-                  }
+                  // if (!this.employementDetails.value.emp_code) {
+                  //       this.message.error('enter the employee code')
+                  //       return;
+                  // }
             }
             if(sendData){
                   data.append('nominee', JSON.stringify(sendData))
