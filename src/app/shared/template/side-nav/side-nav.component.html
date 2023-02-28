@@ -73,7 +73,7 @@
                                         <a [routerLink]="subItem.path" [queryParams]="(subItem?.path.includes('borrowers') ? {main_stage: getBorrowersMainStageId(subItem?.title)} : '')" (click)="closeMobileMenu()" class="p-l-50" *ngIf="subItem.submenu.length === 0">
                                             <i *ngIf="subItem.iconType == 'nzIcon'" nz-icon [nzType]="subItem.icon" [theme]="subItem.iconTheme"></i>
                                             <i *ngIf="subItem.iconType == 'fontawesome'" class="m-r-10" [ngClass]="[subItem.iconTheme , subItem.icon]"></i>
-                                            <span>{{subItem.title + ( subItem?.path.includes('borrowers') && (getBorrowersCount(subItem?.title) !== null || getBorrowersCount(subItem?.title) !== undefined)  ? ' (' + getBorrowersCount(subItem?.title) + ')': '' )}}</span>
+                                            <span>{{subItem.title + ( subItem?.path.includes('borrowers') && subItem.title != 'EMI Borrowers' && (getBorrowersCount(subItem?.title) !== null || getBorrowersCount(subItem?.title) !== undefined)  ? ' (' + getBorrowersCount(subItem?.title) + ')': '' )}}</span>
                                         </a>
         
                                         <ul class="ant-menu ant-menu-inline ant-menu-sub dropdown-menu" *ngIf="subItem.submenu.length > 0">

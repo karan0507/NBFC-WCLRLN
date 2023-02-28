@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { EmiBorrowersRoutingModule } from './emi-borrowers-routing.module';
 import { EmiBorrowersComponent } from './emi-borrowers/emi-borrowers.component';
 import { EmiBorrowerDetailsComponent } from './emi-borrowers/emi-borrower-details/emi-borrower-details.component';
+import { EmiEligibilityListComponent } from './emi-eligibility-list/emi-eligibility-list.component';
 
 
 @NgModule({
-  declarations: [EmiBorrowersComponent, EmiBorrowerDetailsComponent],
+  declarations: [EmiBorrowersComponent, EmiBorrowerDetailsComponent, EmiEligibilityListComponent],
   imports: [
     CommonModule,
     EmiBorrowersRoutingModule,

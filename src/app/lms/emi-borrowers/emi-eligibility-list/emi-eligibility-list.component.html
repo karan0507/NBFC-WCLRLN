@@ -1,0 +1,135 @@
+<div class="header_breadcrumb_section">
+    <button nz-button nzType="default" class="mx-1" (click)="downloadSampleFile()">Download Sample</button>
+    <button nz-button nzType="default" class="ml-1" (click)="isImport = true">Import Excel</button>
+</div>
+
+
+<section>
+    <div class="row mb-md-3" *ngIf="total_count">
+        <span>{{total_count}} Results Found</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="getEmiEligibility()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button (click)="getEmiEligibility()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="selectedTab = ''; searchValue = ''; getEmiEligibility();" class="mr-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedTab"
+                        (ngModelChange)="getEmiEligibility()" nzPlaceHolder="Filter By Type">
+                        <nz-option nzValue="pending" nzLabel="Pending"></nz-option>
+                        <nz-option nzValue="in progress" nzLabel="In Progress"></nz-option>
+                        <nz-option nzValue="finished" nzLabel="Finished"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzData]="emiEligibilityData" [nzTotal]="total_count" [nzFrontPagination]="false"
+                [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
+                (nzQueryParams)="emiEligibilityData[0] ? getEmiEligibility($event) : ''"
+                [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%', y: '45vh' }">
+                <thead>
+                    <tr>
+                        <th nzWidth="5rem">#</th>
+                        <th>File Name</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th nzRight> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of emiEligibilityData; index as i">
+                        <tr>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{ data?.file_name ? data?.file_name : '-' }}</td>
+                            <td>{{ data?.created_at | date: 'medium' }}</td>
+                            <td>{{ data?.file_processing_status }}</td>
+                            <td nzRight>
+                                <div>
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                        [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                        [nzDropdownMenu]="latestUploadDropDown">
+                                        <img src="assets/images/ellipsis.png" alt="" width="30" />
+                                    </a>
+                                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                        <ul nz-menu>
+                                            <li nz-menu-item>
+                                                <span class="m-l-5" (click)="isImport = true;isModalVisible = true; viewEligibleData(data.id)">View
+                                                    Details</span>
+                                            </li>
+                                            <li nz-menu-item (click)="downloadSampleFile('View_Eligibility_File',data.file)">
+                                                <span class="m-l-5">Download</span>
+                                            </li>
+                                            <li nz-menu-item *ngIf="data?.error_file != null" (click)="downloadSampleFile('Error File',data.error_file)">
+                                                <span class="m-l-5" >View Error</span>
+                                            </li>
+                                        </ul>
+
+                                    </nz-dropdown-menu>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{ total_count }}
+              </div>
+        </nz-card>
+    </div>
+</section>
+
+<nz-modal [(nzVisible)]="isImport" [nzTitle]="isModalVisible ? 'View Excel' : 'Import Eligibility Data'" [nzFooter]="null" (nzOnCancel)="isImport = false; isModalVisible = false; viewEmiEligibilityData = []"
+    nzOkText="Submit" [nzWidth]="isModalVisible ? '600px' : '500px'">
+    <ng-container *nzModalContent>
+        <section *ngIf="isModalVisible">
+            <div class="total_count_text" *ngIf="view_total_count">
+                <b>Total Count : </b>{{ view_total_count }}
+              </div>
+            <nz-table [nzData]="viewEmiEligibilityData.data" [nzTotal]="view_total_count" [nzFrontPagination]="false"
+                [nzShowSizeChanger]="true" [nzPageIndex]="view_page" [nzPageSize]="view_global_page_limit"
+                (nzQueryParams)="viewEmiEligibilityData.data ? viewEligibleData(current_id,$event) : ''"
+                [nzLoading]="view_api_calling_loader" [nzScroll]="{ x: '100%', y: '45vh' }">
+                <thead>
+                    <tr >
+                        <th nzWidth="5rem">#</th>
+                        <th *ngFor="let data of viewEmiEligibilityData.cols; index as i">{{data}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of viewEmiEligibilityData.data; index as i">
+                        <tr>
+                            <td *ngIf="view_page === 1">{{i+1}}</td>
+                            <td *ngIf="view_page > 1">{{((view_page-1)*view_global_page_limit)+(i+1)}}</td>
+                            <td>{{ data?.mobile ? data?.mobile : '-' }}</td>
+                            <td>{{ data['EMI eligibility status'] ? data['EMI eligibility status'] : '-' }}</td>
+                            <td *ngIf="viewEmiEligibilityData.cols.length == 3">{{data['Unnamed: 2'] ? data['Unnamed: 2'] : '-'}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </section>
+      <section *ngIf="!isModalVisible">
+        <div class="row">
+            <div class="col-md-12">
+                <nz-upload nzType="drag" [nzAccept]="'.xls, .xlsx'" [nzMultiple]="false"
+                    [nzBeforeUpload]="beforeUploadName">
+                    <p class="ant-upload-text">Drag and Drop file here</p>
+                    <button class="mt-md-5" nz-button nzType="primary">Browse</button>
+                </nz-upload>
+            </div>
+        </div>
+      </section>
+    </ng-container>
+</nz-modal>

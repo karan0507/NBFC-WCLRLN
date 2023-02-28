@@ -517,6 +517,21 @@ export class HttpService {
             return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-details`), { params: data });
       }
 
+ 
+      public fetchEMIEligibilityList(data) {
+            return this._http.get((this.url + `/platform_central/v1/emi-eligibility/list-file`), { params: data });
+      }
+
+      public viewEMIEligibilityList(id,data) {
+            return this._http.get((this.url + `/platform_central/v1/emi-eligibility/view-file/`+ id),{params:data});
+      }
+
+      public uploadEMIEligibilityData(data) {
+            return this._http.post((this.url + `/platform_central/v1/emi-eligibility/upload-file`), data);
+      }
+
+      
+
       /**
        * fetchTransactionList
        */

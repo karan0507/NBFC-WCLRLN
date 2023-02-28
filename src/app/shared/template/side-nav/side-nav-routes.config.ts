@@ -356,22 +356,41 @@ export const ROUTES: SideNavInterface[] = [
                 ]
             },
             {
-                path: 'offline-emi',
-                title: 'Offline EMI',
+                path: 'emi',
+                title: 'EMI',
                 iconType: '',
-                icon: '',
                 iconTheme: '',
-                permission: [''],
-                submenu: []
-            },
-            {
-                path: 'lms/emi-borrowers',
-                title: 'EMI Borrowers',
-                iconType: '',
+                permission: ['view_borrowers', 'view_change_bill_date', 'view_transaction', 'view_manual_transaction', 'view_athorization_policy', 'view_borrowers', 'view_change_credit_line', 'view_lender_management'],
                 icon: '',
-                iconTheme: '',
-                permission: [''],
-                submenu: []
+                submenu: [
+                    {
+                        path: 'emi/offline-emi',
+                        title: 'Offline EMI',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/emi/emi-borrowers',
+                        title: 'EMI Borrowers',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/emi/emi-eligibility',
+                        title: 'EMI Eligibility',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                ]
             },
             {
                 path: '',

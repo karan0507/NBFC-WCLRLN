@@ -9,7 +9,7 @@
                             placeholder="Please input mobile no." maxlength="10" minlength="10"/>
                     </nz-form-control>
                 </nz-form-item>
-                <button nz-button nzType="primary" nzSize="large" nzShape="round" class="px-5" [nzLoading]="loading" [disabled]="this.mobile.toString().length != 10"
+                <button nz-button nzType="primary" nzSize="large" nzShape="round" class="px-5" [nzLoading]="loading" [disabled]="this.mobile ? this.mobile.toString().length != 10 : false"
                     (click)="fetchLoanApplicationEMIData()">Submit</button>
             </div>
 
@@ -60,11 +60,11 @@
 
                     <nz-form-label [nzSm]="21" [nzXs]="24" class="text-left" nzNoColon>{{userData?.is_blocked ? 'Yes' : 'No'}}</nz-form-label>
                 </nz-form-item>
-                <nz-form-item class="mb-0 d-flex flex-nowrap">
+                <!-- <nz-form-item class="mb-0 d-flex flex-nowrap">
                     <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left">Age</nz-form-label>
 
                     <nz-form-label [nzSm]="21" [nzXs]="24" class="text-left" nzNoColon>{{userData?.age}}</nz-form-label>
-                </nz-form-item>
+                </nz-form-item> -->
                 <nz-form-item class="mb-0 d-flex flex-nowrap">
                     <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left">Outstanding amount</nz-form-label>
 

@@ -11,7 +11,7 @@ const routes: Routes = [
     data: {
       title: 'Offline EMI',
       parent: 'LMS',
-      custom_url: 'offline-emi',
+      custom_url: 'emi/offline-emi',
       permissions: {
         only: '',
         redirectTo: 'authentication/error-2'
