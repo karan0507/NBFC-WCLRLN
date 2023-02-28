@@ -36,7 +36,7 @@ const routes: Routes = [
     }
   },
   {
-    path: '',
+    path: 'emi-borrowers',
     data: {
       title: 'EMI Borrowers',
       parent: 'LMS',
