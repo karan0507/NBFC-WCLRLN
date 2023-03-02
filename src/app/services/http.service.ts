@@ -1389,4 +1389,8 @@ export class HttpService {
       public changeProductTypeAPICall(data) {
             return this._http.post((this.url + `/loan-application/v1/change-application-product`), data);
       }
+
+      public getLMSCliList(data) {
+            return this._http.get((this.url + `/platform_central/v1/admin-cli-section`), {params: data});
+      }
 }

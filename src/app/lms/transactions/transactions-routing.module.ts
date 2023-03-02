@@ -5,6 +5,7 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { TransactionsComponent } from './transactions.component';
 import { UploadTransactionsListComponent } from './upload-transactions-list/upload-transactions-list.component';
+import { CliComponent } from './cli/cli.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,20 @@ const routes: Routes = [
       custom_url: 'lms/transactions',
       permissions: {
         only: 'view_transaction',
+        redirectTo: 'authentication/error-2'
+      }
+    },
+  },
+  {
+    path: 'cli',
+    component: CliComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      title: 'Transactions',
+      parent: 'LMS',
+      custom_url: 'lms/cli',
+      permissions: {
+        only: '',
         redirectTo: 'authentication/error-2'
       }
     },

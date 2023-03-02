@@ -12,10 +12,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { CliComponent } from './cli/cli.component';
 
 
 @NgModule({
-  declarations: [TransactionsComponent, TransactionsListComponent, UploadTransactionsListComponent, UploadTransactionsPreviewComponent, TransactionDetailsComponent],
+  declarations: [TransactionsComponent, TransactionsListComponent, UploadTransactionsListComponent, UploadTransactionsPreviewComponent, TransactionDetailsComponent, CliComponent],
   imports: [
     CommonModule,
     TransactionsRoutingModule,
