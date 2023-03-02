@@ -1,0 +1,103 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchCliList()" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchCliList()"><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="ml-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <nz-select class="mx-1" [(ngModel)]="corporate" nzAllowClear nzShowSearch
+                        nzPlaceHolder="Select Corporate" (nzOnSearch)="OnTypeSearchList($event)"
+                        style="min-width: 13rem" (ngModelChange)="fetchCliList($event)">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select>
+
+                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="application_nature"
+                        (ngModelChange)="fetchCliList()" nzPlaceHolder="Filter By Application Nature">
+                        <nz-option [nzValue]="'B2B'" nzLabel="B2B"></nz-option>
+                        <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="cli_nach_status"
+                        (ngModelChange)="fetchCliList()" nzPlaceHolder="Filter By Nach Status">
+                        <nz-option [nzValue]="'Done'" nzLabel="Done"></nz-option>
+                        <nz-option [nzValue]="'Pending'" nzLabel="Pending"></nz-option>
+                        <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
+                        <nz-option [nzValue]="'Not Initiated'" nzLabel="Not Initiated"></nz-option>
+                        <nz-option [nzValue]="'Initiated'" nzLabel="Initiated"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style="width: 12rem;" nzAllowClear [(ngModel)]="user_approval_status"
+                        (ngModelChange)="fetchCliList()" nzPlaceHolder="Filter By User Status">
+                        <nz-option [nzValue]="'Pending'" nzLabel="Pending"></nz-option>
+                        <nz-option [nzValue]="'Approved'" nzLabel="Approved"></nz-option>
+                        <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="cliListData"
+                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
+                [nzPageSize]="globalPageSize" (nzQueryParams)="cliListData[0] ? fetchCliList($event) : ''"
+                [nzScroll]="{ y: '' }">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>User Details</th>
+                        <th>Employee Code</th>
+                        <th>Accepted Loan Id</th>
+                        <th>Product Type</th>
+                        <th>Corporate</th>
+                        <th>Previous Loan Amount</th>
+                        <th>CLI Amount</th>
+
+                        <th>Created At</th>
+                        <th>Activation Date</th>
+                        <th>Updated At</th>
+                        <th>Skip Count</th>
+                        <th>Nach Status</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of cliListData; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <label>{{data?.user_details?.name ? data?.user_details?.name : '-' }}</label>
+                                <label>{{data?.user_details?.mobile ? data?.user_details?.mobile : '-' }}</label>
+                            </div>
+                        </td>
+                        <td>{{ data.employee_code ? data.employee_code : '' }}</td>
+                        <td>{{ data.accepted_loan_application__loan_unique_id ?
+                            data.accepted_loan_application__loan_unique_id : '-' }}</td>
+                        <td>{{data?.product_type ? data?.product_type : '-'}}</td>
+                        <td>{{ data.corporate ? data.corporate : '-' }}</td>
+                        <td>₹{{ data.previous_loan_amount ? data.previous_loan_amount : '0' }}</td>
+                        <td>₹{{ data.cli_amount ? data.cli_amount : '0' }}</td>
+                        <td>{{data.created_at ? (data.created_at | date: "mediumDate") : '-'}} </td>
+                        <td>{{ data.activation_date ? data.activation_date : '-' }}</td>
+                        <td>{{data?.updated_at ? data?.updated_at : '-'}}</td>
+                        <td>{{ data.skip_count ? data?.skip_count : '-' }}</td>
+                        <td>{{ data.nach_status ? data?.nach_status : '-' }}</td>
+                        <td>{{data?.user_approval_status ? data?.user_approval_status : '-'}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>

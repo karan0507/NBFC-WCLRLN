@@ -473,6 +473,15 @@ export const ROUTES: SideNavInterface[] = [
                         submenu: []
                     },
                     {
+                        path: 'lms/cli',
+                        title: 'CLI',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
                         path: 'lms/transaction-remarks',
                         title: 'Transaction remarks',
                         iconType: '',

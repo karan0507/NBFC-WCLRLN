@@ -113,8 +113,8 @@
                         </td>
                         <td>{{data.repayments ? data.repayments : '-'}}</td>
                         <td> {{ data.paid_on ? (data?.paid_on | date:'medium') : '-' }}</td>
-                        <td><label [ngClass]="data?.paid_status ? 'text-success' : 'text-danger'">{{ data?.paid_status ?
-                                'PAID' : 'FAILED' }}</label> </td>
+                        <td><label [ngClass]="data?.paid_status == 'Paid' ? 'text-success' : (data?.paid_status == 'Unpaid' ? 'text-danger' : '')">{{ data?.paid_status ?
+                            data?.paid_status : '-' }}</label> </td>
     
                     </tr>
                 </ng-container>

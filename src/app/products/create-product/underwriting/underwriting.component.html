@@ -29,7 +29,7 @@
                                         <span nz-icon nzType="eye" nzTheme="outline"></span>
                                     </button>
                                     <button nz-button nzType="default" nzTooltipTitle="Export Blacklisted Pincodes" class="mx-3 align-self-center bold"
-                                         nzShape="circle" (click)="exportPincodes('blacklisted')">
+                                         nzShape="circle" (click)="exportPincodes('blacklisted_on_')">
                                         <span nz-icon nzType="download" nzTheme="outline"></span>
                                     </button>
                                     <button nz-button nzType="default" nzTooltipTitle="Import Blacklisted Pincodes" class="mx-3 align-self-center bold"
@@ -71,7 +71,7 @@
                                     </button>
                                     <button nz-button nzType="default" class="mx-3 align-self-center bold"
                                         [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
-                                        nzShape="circle" (click)="exportPincodes('servicable')">
+                                        nzShape="circle" (click)="exportPincodes('servicable_on_')">
                                         <span nz-icon nzType="download" nzTheme="outline"></span>
                                     </button>
                                     <button nz-button nzType="default" nzTooltipTitle="Import Servicable Pincodes" class="mx-3 align-self-center bold"

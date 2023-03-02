@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import * as FileSaver from 'file-saver';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-underwriting',
@@ -330,7 +332,8 @@ export class UnderwritingComponent implements OnInit {
       if(res.success){
         this.api_calling_loader = false;
         this.message.success(res.message)
-        this.handleCancel()
+        this.handleCancel();
+        this.fetchUnderWritingRule()
       }else{
         this.api_calling_loader = false;
         this.message.error(res.message)
@@ -342,8 +345,10 @@ export class UnderwritingComponent implements OnInit {
   exportPincodes(type){
     this.http.exportPincodesType(this.product_id,type).subscribe((res:any)=>{
       if(res){
-        const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId
-        this.http.exportMasterSectionModule(res,type,'xlsx',generateloader)
+        // const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId
+        let date = moment(new Date()).format("YYYY-MM-DD")
+        FileSaver.saveAs(res, type+date+'.csv')
+        // this.http.exportMasterSectionModule(res,type,'csv',generateloader)
       }
     })
   }
@@ -352,7 +357,7 @@ export class UnderwritingComponent implements OnInit {
   beforeUploadName = (file: NzUploadFile): boolean => {
     this.fileList = [];
     this.fileList = this.fileList.concat(file);
-    this._currentFileName = false
+    this._currentFileName = file
     return false;
 };
 
