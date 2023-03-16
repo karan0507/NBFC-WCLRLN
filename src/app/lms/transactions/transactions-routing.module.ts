@@ -6,6 +6,7 @@ import { TransactionsListComponent } from './transactions-list/transactions-list
 import { TransactionsComponent } from './transactions.component';
 import { UploadTransactionsListComponent } from './upload-transactions-list/upload-transactions-list.component';
 import { CliComponent } from './cli/cli.component';
+import { TransactionActionsComponent } from './transaction-actions/transaction-actions.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,20 @@ const routes: Routes = [
         redirectTo: 'authentication/error-2'
       }
     }
+  },
+  {
+    path: 'transaction-action',
+    component: TransactionActionsComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      title: 'Transactions Action',
+      parent: 'LMS',
+      custom_url: 'lms/transaction-action',
+      permissions: {
+        only: 'view_transaction',
+        redirectTo: 'authentication/error-2'
+      }
+    },
   },
 ];
 

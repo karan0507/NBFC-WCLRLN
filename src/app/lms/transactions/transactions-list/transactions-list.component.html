@@ -1,6 +1,7 @@
 <div class="header_breadcrumb_section" *ngxPermissionsOnly="['export_transaction']">
     <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
-    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost *ngxPermissionsOnly="['export_transaction']">Export</button>
+    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost
+        *ngxPermissionsOnly="['export_transaction']">Export</button>
 </div>
 
 <nz-dropdown-menu #fileFormate="nzDropdownMenu">
@@ -14,16 +15,33 @@
 <section>
     <div class="row mb-md-3">
         <div class="col-md-12 mb-md-0">
-            <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchTransactionList()">
-                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit">Credit</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Debit</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit inprogress">Credit Inprogress</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit inprogress">Debit Inprogress</label>
-                <!-- <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Payment">Payment</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Repayment">Repayment</label>
-                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Balance transfer">Balance transfer</label> -->
-            </nz-radio-group>
+            <div class="d-flex justify-content-between flex-wrap">
+                <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)="fetchTransactionList()">
+                    <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit">Credit</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit">Debit</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="credit inprogress">Credit
+                        Inprogress</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="debit inprogress">Debit
+                        Inprogress</label>
+                    <!-- <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="Payment">Payment</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Repayment">Repayment</label>
+                    <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" nzValue="Balance transfer">Balance transfer</label> -->
+                </nz-radio-group>
+                <div class="d-flex">
+                    <button nz-button nzType="primary" [disabled]="checkDisabledStatus()" class="ml-auto mr-3"
+                        *ngxPermissionsOnly="['update_form_filling_status_application']" (click)="updateStatus('WAIVE')"
+                        [routerLink]="">
+                        WAIVE OFF  ({{ _checkedLoanList ? _checkedLoanList?.length : "0" }})
+                    </button>
+                    <button nz-button nzType="link" [disabled]="checkDisabledStatus()" class="ml-auto"
+                    *ngxPermissionsOnly="['update_form_filling_status_application']" (click)="updateStatus('REVERSE')"
+                    [routerLink]="">
+                    Reverse ({{ _checkedLoanList ? _checkedLoanList?.length : "0" }})
+                </button>
+
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -49,26 +67,28 @@
                         class="mr-1" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
                     </button>
-                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="app_prod_type" (ngModelChange)="fetchTransactionList()"
-                        nzPlaceHolder="Filter By Product type">
+                    <nz-select class="mx-1 mb-2" style="min-width: 10rem;" nzAllowClear [(ngModel)]="app_prod_type"
+                        (ngModelChange)="fetchTransactionList()" nzPlaceHolder="Filter By Product type">
                         <nz-option [nzValue]="''" nzLabel="All"></nz-option>
                         <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>
                         <nz-option [nzValue]="'B2B'" nzLabel="B2B"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
-                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
-                        (ngModelChange)="fetchTransactionList()" (nzFocus)="fetchPartnerList()">
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch
+                        nzPlaceHolder="Select Corporate" (nzOnSearch)="OnTypeSearchList($event)"
+                        style="min-width: 13rem" (ngModelChange)="fetchTransactionList()"
+                        (nzFocus)="fetchPartnerList()">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchTransactionList()"
+                    <nz-select class="mx-1" style=" width: 10rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="master_product_id" (ngModelChange)="fetchTransactionList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style="width: 10rem;" nzAllowClear [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
-                        nzPlaceHolder="Filter By Type">
+                    <nz-select class="mx-1" style="width: 10rem;" nzAllowClear [(ngModel)]="selectedType"
+                        (ngModelChange)="fetchTransactionList()" nzPlaceHolder="Filter By Type">
                         <!-- <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option> -->
                         <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
                         <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
@@ -76,7 +96,8 @@
                         <nz-option nzValue="Expense Spend" nzLabel="Payment"></nz-option>
                         <nz-option nzValue="Cashback" nzLabel="Cashback"></nz-option>
                         <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
-                        <nz-option nzValue="Emandate Authorization Transaction" nzLabel="Emandate Authorization Transaction"></nz-option>
+                        <nz-option nzValue="Emandate Authorization Transaction"
+                            nzLabel="Emandate Authorization Transaction"></nz-option>
                     </nz-select>
                     <ng-container *ngIf="selectedTab != 'credit inprogress' && selectedTab != 'debit inprogress'">
                         <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedStatus"
@@ -86,25 +107,33 @@
                             <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
                         </nz-select>
                     </ng-container>
-                    <nz-select style="width: 15rem;" class="mx-1" [(ngModel)]="fees_name" nzPlaceHolder="Select Fees Type!" (nzFocus)="fetchFeeTypeMaster()" nzShowSearch
-                        nzAllowClear (ngModelChange)="fetchTransactionList()">
+                    <nz-select style="width: 15rem;" class="mx-1" [(ngModel)]="fees_name"
+                        nzPlaceHolder="Select Fees Type!" (nzFocus)="fetchFeeTypeMaster()" nzShowSearch nzAllowClear
+                        (ngModelChange)="fetchTransactionList()">
                         <nz-option *ngFor="let item of feeTypeData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
-                    <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
+                    <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date"
+                        [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"
+                        [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
-            <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"  [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
-                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '2000px' }">
+            <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
+                [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData"
+                [nzScroll]="{ x: '2000px' }">
                 <thead>
                     <tr>
-                        <!-- <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
+                        <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
                         <th nzWidth="5rem">#</th>
                         <th nzWidth="15rem">User Details</th>
                         <th>Corporate name</th>
                         <th>Transaction ID</th>
                         <th>Transaction Name</th>
                         <th>Transaction Type</th>
+                        <th>Product Master</th>
                         <th>Manual upload</th>
                         <th>Details</th>
                         <th>Date & Time</th>
@@ -113,15 +142,18 @@
                         <th>Total Amount (₹)</th> -->
                         <th>Reason</th>
                         <th>Status</th>
-                        <th nzWidth="5.5rem" nzRight *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']"> Actions</th>
+                        <th nzWidth="5.5rem" nzRight
+                            *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
+                            Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let data of listOfData; index as i">
                         <tr>
-                            <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
-                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
-                                <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
                                 <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                                 <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
@@ -130,16 +162,20 @@
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_name }}</td>
                             <td>{{ data?.txn_type }}</td>
-                            <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
-                            <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                            <td>{{data?.product_type ? data?.product_type?.name : '-'}}</td>
+                            <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle"
+                                        nzTheme="outline"></i></a></td>
+                            <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle"
+                                        nzTheme="outline"></i></a></td>
                             <td>{{ data?.details }}</td>
                             <td>{{ data?.transaction_datetime | date: "medium" }}</td>
                             <td>{{ data?.txn_amount }}</td>
                             <!-- <td>{{ 'NA' }}</td>
                             <td>{{ 'NA' }}</td> -->
-                            <td>{{ data?.reason ? data?.reason : ' N/A'  }}</td>
+                            <td>{{ data?.reason ? data?.reason : ' N/A' }}</td>
                             <td>{{ data?.txn_status }}</td>
-                            <td nzRight *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
+                            <td nzRight
+                                *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                     [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
                                     [nzDropdownMenu]="latestUploadDropDown">
@@ -148,26 +184,31 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['view_details_transaction']">
+                                        <li nz-menu-item [routerLink]="['details']" [queryParams]="{id: data.id}"
+                                            *ngxPermissionsOnly="['view_details_transaction']">
                                             <span class="m-l-5">View details</span>
                                         </li>
                                         <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
-                                            <li nz-menu-item (click)=" selectedDetail = data;waiveOffToggle(data?.id)" *ngxPermissionsOnly="['waive_off_transaction']">
-                                                  <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
-                                                  <span class="m-l-5">Waive off Charges</span>
+                                            <li nz-menu-item (click)=" selectedDetail = data;waiveOffToggle(data?.id)"
+                                                *ngxPermissionsOnly="['waive_off_transaction']">
+                                                <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                                <span class="m-l-5">Waive off Charges</span>
                                             </li>
                                         </ng-container>
-                                        <ng-container *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
-                                            <li nz-menu-item (click)="refundChargesToggle(data?.id);" *ngxPermissionsOnly="['refund_transaction']">
+                                        <ng-container
+                                            *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
+                                            <li nz-menu-item (click)="refundChargesToggle(data?.id);"
+                                                *ngxPermissionsOnly="['refund_transaction']">
                                                 <span class="m-l-5">Refund Transaction</span>
                                             </li>
                                         </ng-container>
                                         <ng-container *ngIf="data?.is_reversible">
-                                            <li nz-menu-item (click)="reverseChargesToggle(data?.id);" *ngxPermissionsOnly="['reverse_transaction']">
+                                            <li nz-menu-item (click)="reverseChargesToggle(data?.id);"
+                                                *ngxPermissionsOnly="['reverse_transaction']">
                                                 <span class="m-l-5">Reverse Transaction</span>
                                             </li>
                                         </ng-container>
-                                        
+
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>
@@ -183,17 +224,13 @@
 </section>
 
 <!-- Reverse Charges -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="!is_set_amt ? modalFooter : null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="!is_set_amt ? modalFooter : null"
+    [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup *ngIf="is_set_amt"
-            [title]="'Do you want to reverse the applied charges?'"
-            [subTitle]="reverse_sub_title"
-            [icon]="'assets/images/reverse.png'"
-            (onOkCall)="reverseChargesFunction()"
-            [isbtnLoading]="is_revese_loading"
-            (onCencelCall)="isReverseCharges = false; is_set_amt = false"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'OK'">
+        <app-double-confirmation-popup *ngIf="is_set_amt" [title]="'Do you want to reverse the applied charges?'"
+            [subTitle]="reverse_sub_title" [icon]="'assets/images/reverse.png'" (onOkCall)="reverseChargesFunction()"
+            [isbtnLoading]="is_revese_loading" (onCencelCall)="isReverseCharges = false; is_set_amt = false"
+            [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
         <div class="row" *ngIf="!is_set_amt">
             <div class="col-md-12">
@@ -202,7 +239,7 @@
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
                         <nz-select nzAllowClear [(ngModel)]="reverse_type" nzPlaceHolder="Please Select type"
-                        (ngModelChange)="reverse_type == 2 ? reverse_amount = final_reverse_amount : reverse_amount = '' ">
+                            (ngModelChange)="reverse_type == 2 ? reverse_amount = final_reverse_amount : reverse_amount = '' ">
                             <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
                             <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
                         </nz-select>
@@ -221,24 +258,21 @@
         </div>
     </ng-container>
     <ng-template #modalFooter>
-          <button nz-button (click)="isReverseCharges = false; is_set_amt = false">Close</button>
-          <button nz-button nzType="primary" (click)="setTypeandAmt()">Submit</button>
+        <button nz-button (click)="isReverseCharges = false; is_set_amt = false">Close</button>
+        <button nz-button nzType="primary" (click)="setTypeandAmt()">Submit</button>
     </ng-template>
 </nz-modal>
 <!-- Refund Transaction -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="!is_set_amt ? modalFooter123 : null" [nzClosable]="false">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isRefundTransaction" [nzFooter]="!is_set_amt ? modalFooter123 : null"
+    [nzClosable]="false">
     <ng-container *nzModalContent>
         <app-double-confirmation-popup *ngIf="is_set_amt"
-            [title]="'Do you want to refund this transaction amount to users account?'"
-            [subTitle]="refund_sub_title"
-            [icon]="'assets/images/refund.png'"
-            (onOkCall)="refundChargesFunction()"
-            [isbtnLoading]="is_refund_loading"
-            (onCencelCall)="isRefundTransaction = false; is_set_amt = false"
-            [cancelBtnTxt]="'Cancel'"
+            [title]="'Do you want to refund this transaction amount to users account?'" [subTitle]="refund_sub_title"
+            [icon]="'assets/images/refund.png'" (onOkCall)="refundChargesFunction()" [isbtnLoading]="is_refund_loading"
+            (onCencelCall)="isRefundTransaction = false; is_set_amt = false" [cancelBtnTxt]="'Cancel'"
             [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
-        
+
         <div class="row" *ngIf="!is_set_amt">
             <div class="col-md-12">
                 <nz-form-item>
@@ -246,7 +280,7 @@
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
                         <nz-select nzAllowClear [(ngModel)]="refund_type" nzPlaceHolder="Please Select type"
-                        (ngModelChange)="refund_type == 2 ? refund_amount = final_reverse_amount : refund_amount = '' ">
+                            (ngModelChange)="refund_type == 2 ? refund_amount = final_reverse_amount : refund_amount = '' ">
                             <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
                             <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
                         </nz-select>
@@ -264,48 +298,49 @@
             </div>
         </div>
     </ng-container>
-    
+
     <ng-template #modalFooter123>
         <button nz-button (click)="isRefundTransaction = false; is_set_amt = false">Close</button>
         <button nz-button nzType="primary" (click)="setTypeandAmtrefund()">Submit</button>
     </ng-template>
 </nz-modal>
 <!-- Waive off Charges  -->
-<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="!is_set_amt ? modalFooter1234 : null" (nzOnCancel)="isWaiveOff = false">
-      <ng-container *nzModalContent>
-            <app-double-confirmation-popup *ngIf="is_set_amt"
-                  [title]="'Are you sure you want to waive off ₹' +   selectedDetail?.txn_amount "
-                  [subTitle]="'This action will wave off requested amount the permanently. <br/> Are You Sure?'"
-                  [icon]="'assets/images/waiveoff.png'" (onOkCall)="fetchBorrowerDelete()"
-                  (onCencelCall)="isWaiveOff = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'"
-                  [isbtnLoading]="isdeleteloader">
-            </app-double-confirmation-popup>
-            <div class="row" *ngIf="!is_set_amt">
-                <div class="col-md-12">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select type
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
-                            <nz-select nzAllowClear [(ngModel)]="waive_off_type" nzPlaceHolder="Please Select type"
+<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="!is_set_amt ? modalFooter1234 : null"
+    (nzOnCancel)="isWaiveOff = false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup *ngIf="is_set_amt"
+            [title]="'Are you sure you want to waive off ₹' +   selectedDetail?.txn_amount "
+            [subTitle]="'This action will wave off requested amount the permanently. <br/> Are You Sure?'"
+            [icon]="'assets/images/waiveoff.png'" (onOkCall)="fetchBorrowerDelete()" (onCencelCall)="isWaiveOff = false"
+            [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'" [isbtnLoading]="isdeleteloader">
+        </app-double-confirmation-popup>
+        <div class="row" *ngIf="!is_set_amt">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select type
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
+                        <nz-select nzAllowClear [(ngModel)]="waive_off_type" nzPlaceHolder="Please Select type"
                             (ngModelChange)="waive_off_type == 2 ? waive_off_amount = final_reverse_amount : waive_off_amount = '' ">
-                                <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
-                                <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
-                            </nz-select>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-                <div class="col-md-12">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
-                            <input [(ngModel)]="waive_off_amount" type="number" nz-input placeholder="Please Enter amount" />
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
+                            <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
+                            <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
             </div>
-      </ng-container>
-      <ng-template #modalFooter1234>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
+                        <input [(ngModel)]="waive_off_amount" type="number" nz-input
+                            placeholder="Please Enter amount" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #modalFooter1234>
         <button nz-button (click)="isWaiveOff = false; is_set_amt = false">Close</button>
         <button nz-button nzType="primary" (click)="setTypeandAmtWaiveoff()">Submit</button>
     </ng-template>

@@ -62,6 +62,7 @@ export class AddEditDsaComponent {
         if (this.masterPartnerId) {
           this.getPartnerDSAListById();
           this.getListOfStates();
+          this.fetachMasters();
         }
       } else {
         // this.masterParnerPayout = null
@@ -72,6 +73,32 @@ export class AddEditDsaComponent {
     });
   }
 
+  roleData : any = []
+  departmentData : any = []
+  
+  fetachMasters(type?) {
+    let data;
+    if(type == 'designation'){
+      this.http.getMasterDesignation().subscribe(res => {
+        this.roleData = res['data'].results
+        // this.message.success(res['message'])
+      })
+    }else if(type == 'department'){
+      this.http.getMasterDepartment().subscribe(res => {
+        this.departmentData = res['data'].results
+        // this.message.success(res['message'])
+      })
+    }else {
+      this.http.getMasterDesignation().subscribe(res => {
+        this.roleData = res['data'].results
+        // this.message.success(res['message'])
+      })
+      this.http.getMasterDepartment().subscribe(res => {
+        this.departmentData = res['data'].results
+        // this.message.success(res['message'])
+      })
+    }
+  }
 
   getPartnerDSAListById(){
 
@@ -336,6 +363,8 @@ export class AddEditDsaComponent {
       state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('([0-9]{8}|[0-9]{10})')]],
+      designation_id : [data?.role?.id],
+      department_id : [data?.associated_team],
       // ^[6-9][0-9]{9}$
 
       bank_name: [data ? data?.bank_name : null],
@@ -549,7 +578,10 @@ export class AddEditDsaComponent {
     if(this.addEditProductForm.value.dsa_type === 'Individual'){
       this.addEditProductForm.patchValue({
         contact_person_name: this.addEditProductForm.value.name,
-        contact_person_phone: this.addEditProductForm.value.phone
+        contact_person_phone: this.addEditProductForm.value.phone,
+        department_id:'',
+        designation_id :'',
+        source:'admin'
       })
     }
     console.log(this.addEditProductForm.value);

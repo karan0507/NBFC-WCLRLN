@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -12,10 +12,15 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class DeductionsListComponent implements OnInit {
 
+  setOfCheckedId = new Set<number>();
+  listOfCurrentPageData = [];
+  checked = false;
+  indeterminate = false;
+  api_calling_loader: boolean;
+  
   selectedTab = 'PENDING'
   page = 1;
   globalPageSize = 30
-  api_calling_loader: boolean;
   total_count: any;
   list_data: any;
   date = ''
@@ -185,6 +190,66 @@ export class DeductionsListComponent implements OnInit {
       this.api_calling_loader = false
       this.isVisible = false
     })
+  }
+
+  _checkedDeductionList : any = []
+ 
+  updateStatus(type){
+    let data = {}
+    data['id_list'] = this._checkedLoanList
+    if(type == 'APPROVE'){
+      data['source'] = "DEDUCTION - APPROVE"
+    }else{
+      data['source'] = "DEDUCTION - REJECT"
+    }
+    this.http.updateTransactionDataStatus(data).subscribe((res:any)=>{
+      if(res.success){
+        this.message.success(res.message);
+        this.setOfCheckedId.clear();
+        this._checkedLoanList = []
+        this.fetchDeductionList();
+      }else{
+        this.message.error(res.message);
+      }
+    })
+  }
+
+  _checkedLoanList: any[];
+  checkDisabledStatus() {
+    this._checkedLoanList = Array.from(this.setOfCheckedId);
+    if (this._checkedLoanList.length > 0) {
+          return false
+    } else {
+          return true
+    }
+}
+
+  onCurrentPageDataChange(listOfCurrentPageData: Data[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+    this.refreshCheckedStatus();
+}
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+  onAllChecked(checked: boolean): void {
+    this.listOfCurrentPageData
+      .filter(({ disabled }) => !disabled)
+      .forEach(({ id }) => this.updateCheckedSet(id, checked));
+    this.refreshCheckedStatus();
+  }
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+  refreshCheckedStatus(): void {
+    const listOfEnabledData = this.listOfCurrentPageData.filter(({ disabled }) => !disabled);
+    this.checked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
+    this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.checked;
   }
 
 }

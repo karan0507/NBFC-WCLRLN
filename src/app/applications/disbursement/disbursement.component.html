@@ -287,6 +287,7 @@
             <th nzWidth="14rem">User Details</th>
             <th>Source</th>
             <th>Type</th>
+            <th>Master Product</th>
             <th>Apply Date & Time</th>
             <th>Master Partner</th>
             <th>Is transaction pin set</th>
@@ -329,6 +330,7 @@
               </td>
               <td>{{ data?.user?.source }}</td>
               <td>{{ data?.type ? data?.type : '-' }}</td>
+              <td>{{data?.product_master_name ? data?.product_master_name : '-'}}</td>
               <td>
                 <div class="d-flex flex-column">
                   <div>{{ data?.created_at | date : "medium" }}</div>
