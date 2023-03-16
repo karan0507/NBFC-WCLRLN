@@ -555,6 +555,15 @@ export const ROUTES: SideNavInterface[] = [
                         submenu: []
                     },
                     {
+                        path: 'lms/transaction-action',
+                        title: 'Transaction Action',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_deduction approval'],
+                        submenu: []
+                    },
+                    {
                         path: '',
                         title: 'BBPS',
                         iconType: '',

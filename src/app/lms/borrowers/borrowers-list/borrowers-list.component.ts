@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -56,7 +57,7 @@ export class BorrowersListComponent implements OnInit {
   selectedTab;
   reason = ''
   error_description = ''
-
+  isRefundActive: boolean = false;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
@@ -92,7 +93,7 @@ export class BorrowersListComponent implements OnInit {
   settleRemarks = ''
   settleloading: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
-    private router: Router,
+    private router: Router, private fb: FormBuilder,
     public sanitize: DomSanitizer,
     private route: ActivatedRoute, public global: GlobalservicesService) {
     this.route.queryParams.subscribe((params: any) => {
@@ -375,7 +376,7 @@ export class BorrowersListComponent implements OnInit {
     let data = new FormData()
     // data.append('source', 'LMS'),
     //   data.append('datapoint', 'create_mandate_registration_link'),
-      data.append('auth_type', type),
+    data.append('auth_type', type),
       data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
     this.http.sendEmandateLink(data).subscribe(res => {
@@ -465,7 +466,7 @@ export class BorrowersListComponent implements OnInit {
       });
     }
   }
-  
+
   sanatizeUrlToSafe(value) {
     this.pdf_viewer_object_values['url'] = this.sanitize.bypassSecurityTrustResourceUrl(value);
   }
@@ -496,5 +497,62 @@ export class BorrowersListComponent implements OnInit {
       this.settleloading = false
       // this.isSelectDate = false
     });
+  }
+
+  _currOfferId: any
+  _currLoanId : any
+  openRefundModal(loan_id,id) {
+    this._currOfferId = id;
+    this.http.getBankDetails(loan_id).subscribe((res: any) => {
+      if (res.success) {
+        this.createRefundForm(res.data.bank_details, id)
+        this.isRefundActive = true
+      } else {
+        this.message.error(res.message)
+      }
+    })
+  }
+
+  refundForm: FormGroup;
+  createRefundForm(data, id) {
+    this.refundForm = this.fb.group({
+
+      amount: ['', [Validators.required, Validators.min(1)]],
+
+      ifsc_code: [data ? data?.ifsc_code : '', [Validators.required, Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
+      account_number: [data ? data?.account_no : '', [Validators.required]],
+      account_holder_name: [data ? data?.account_holder_name : '', [Validators.required]],
+
+    })
+  }
+  buttonLoader: boolean = false;
+  onRefundInititate() {
+    this.buttonLoader = true;
+    let form = new FormData();
+    form.append('offer_id', this._currOfferId)
+    form.append('txn_type', 'Refund')
+    form.append('source', 'Onboarding')
+    form.append('datapoint', 'disburse_or_refund_payments')
+    form.append('amount', this.refundForm.value.amount)
+    form.append('ifsc_code', this.refundForm.value.ifsc_code)
+    form.append('account_number', this.refundForm.value.account_number)
+    form.append('account_holder_name', this.refundForm.value.account_holder_name)
+
+    this.http.createRefund(form).subscribe((res: any) => {
+      if (res.success) {
+        this.buttonLoader = false;
+        this.message.success(res.message);
+        this.isRefundActive = false;
+        this.refundForm.reset();
+        this.expandSet.clear()
+        this.fetchBorrowerList()
+      } else {
+        this.buttonLoader = false;
+      }
+    }, error => {
+      this.buttonLoader = false;
+      this.isRefundActive = false;
+      this.refundForm.reset();
+    })
   }
 }

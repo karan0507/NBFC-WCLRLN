@@ -241,7 +241,7 @@
         (nzQueryParams)="
           loanApplicationData[0] ? getFormLoanData($event) : null
         "
-        [nzScroll]="{ x: '1400px', y: '' }"
+        [nzScroll]="{ x: '1500px', y: '' }"
         [nzLoading]="api_calling_loader['listLoader']"
       >
         <thead>
@@ -258,6 +258,7 @@
             <th>Type</th>
             <th>Apply Date & Time</th>
             <th>Master Partner</th>
+            <th>Master Product</th>
             <!-- <th>Source Id</th> -->
             <th>Company</th>
             <!-- <th>Reference Id</th> -->
@@ -319,7 +320,7 @@
               <td>
                 {{ data?.master_partner ? data?.master_partner?.name : "-" }}
               </td>
-              <!-- <td>{{data?.source_id ? data?.source_id : '-'}}</td> -->
+              <td>{{data?.product_master_name ? data?.product_master_name : '-'}}</td>
               <!-- <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td> -->
               <td>
                 {{

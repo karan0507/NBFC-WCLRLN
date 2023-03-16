@@ -39,12 +39,13 @@
                         <th nzWidth="15rem">User Details</th>
                         <th>Loan ID</th>
                         <th>Product Tenure</th>
-
+                        
                         <th>Application Nature</th>
                         <th>Auto Debit</th>
                         <th>Due Day</th>
                         <th>Interest(%)</th>
                         <th>Loan Amount Provided</th>
+                        <th>Transaction Status</th>
                         <th>Activated Date</th>
                         <th nzRight>Action</th>
 
@@ -86,6 +87,7 @@
                             <td>{{data.due_day ? data.due_day : '-'}}</td>
                             <td>{{data.interest_rate ? data?.interest_rate : '0'}} %</td>
                             <td>₹ {{ data.loan_amount_provided }}</td>
+                            <td>{{data?.transaction_status ? data?.transaction_status : '-'}}</td>
                             <td>
                                 {{
                                 data.activation_date

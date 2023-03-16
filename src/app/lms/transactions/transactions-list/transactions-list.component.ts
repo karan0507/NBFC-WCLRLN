@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Data } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -113,6 +113,7 @@ export class TransactionsListComponent implements OnInit {
       this.api_calling_loader = false
     })
   }
+
   resetFilter(){
     this.searchValue = ''
     this.selectedType = ''
@@ -122,8 +123,25 @@ export class TransactionsListComponent implements OnInit {
     this.selectedCorporate = ''
     this.fees_name = ''
     this.app_prod_type = ''
+    this.setOfCheckedId.clear();
+    this._checkedLoanList = []
     this.fetchTransactionList();
   }
+
+  _checkedLoanList: any[];
+  checkDisabledStatus() {
+    this._checkedLoanList = Array.from(this.setOfCheckedId);
+    if (this._checkedLoanList.length > 0) {
+          return false
+    } else {
+          return true
+    }
+}
+
+  onCurrentPageDataChange(listOfCurrentPageData: Data[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+    this.refreshCheckedStatus();
+}
 
   onItemChecked(id: number, checked: boolean): void {
     this.updateCheckedSet(id, checked);
@@ -356,5 +374,26 @@ export class TransactionsListComponent implements OnInit {
       }
     });
     // }
+  }
+
+  updateStatus(type){
+    let data = {}
+    data['id_list'] = this._checkedLoanList
+    
+    if(type == 'WAIVE'){
+      data['source'] = "WAIVE OFF"
+    }else{
+      data['source'] = "REVERSE"
+    }
+    this.http.updateTransactionDataStatus(data).subscribe((res:any)=>{
+      if(res.success){
+        this.message.success(res.message);
+        this.setOfCheckedId.clear();
+        this._checkedLoanList = []
+        this.fetchTransactionList();
+      }else{
+        this.message.error(res.message);
+      }
+    })
   }
 }

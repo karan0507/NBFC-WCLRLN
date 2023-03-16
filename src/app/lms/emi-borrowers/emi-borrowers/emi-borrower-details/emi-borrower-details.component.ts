@@ -47,4 +47,16 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     })
   }
 
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean, index?, data?): void {
+    if (checked) {
+      this.expandSet.clear()
+      this.expandSet.add(id);
+      this.schedulerDetails[index]['allocation_data'] = data?.allocation_data
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
+
 }

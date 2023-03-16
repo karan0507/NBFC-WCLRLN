@@ -1393,4 +1393,30 @@ export class HttpService {
       public getLMSCliList(data) {
             return this._http.get((this.url + `/platform_central/v1/admin-cli-section`), {params: data});
       }
+
+      public getMasterDepartment() {
+            return this._http.get((this.url + `/master/fetch-master-data/Departement`));
+      }
+
+      public getMasterDesignation() {
+            return this._http.get((this.url + `/master/fetch-master-data/Desigination`));
+      }
+
+      public createRefund(data) {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+      
+      public updateTransactionDataStatus(data) {
+            return this._http.post((this.url + `/platform_central/v1/bulk-transaction-action`), data);
+      }
+
+      public getTransactionActionList(data) {
+            return this._http.get((this.url + `/platform_central/v1/bulk-transaction-action-list`),{params:data});
+      }
+
+      public getDetailTransactionAction(data,id) {
+            return this._http.get((this.url + ` /platform_central/v1/show-bulk-transaction-action-content/`+id),{params:data});
+      }
+     
+      
 }

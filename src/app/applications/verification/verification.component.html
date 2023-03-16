@@ -185,6 +185,7 @@
                                     <th>Type</th>
                                     <th>Apply Date & Time</th>
                                     <th>Master Partner</th>
+                                    <th>Master Product</th>
                                     <!-- <th>Source Id</th> -->
                                     <th>Company</th>
                                     <!-- <th>Reference Id</th> -->
@@ -224,9 +225,11 @@
                                                 </div>
                                           </td>
                                           <!-- <td>{{data?.master_partner ? data?.master_partner?.name : '-'}}</td> -->
-                                          <td>{{ data?.company_details?.company_name ? data?.company_details?.company_name : "-" }}</td>
+                                         
                                           <!-- <td>{{data?.source_id ? data?.source_id : '-'}}</td> -->
                                           <td>{{ data?.partner?.name ? data?.partner?.name : '-' }}</td>
+                                          <td>{{data?.product_master_name ? data?.product_master_name : '-'}}</td>
+                                          <td>{{ data?.company_details?.company_name ? data?.company_details?.company_name : "-" }}</td>
                                           <!-- <td>{{ data?.reference_id ? data?.reference_id : '-' }}</td> -->
                                           <td>{{ data?.last_stage ? data?.last_stage : '-' }}</td>
                                           <td>{{ data?.moved_to_stage_on ? ((data?.moved_to_stage_on | date:'medium')): '-' }}

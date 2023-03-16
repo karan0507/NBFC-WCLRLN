@@ -9,12 +9,14 @@
                                     _currEMIBorrowerDetail?.user_details.full_name : '-'}}</span></label></div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Mobile:
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Mobile:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
                                     _currEMIBorrowerDetail?.user_details.mobile : '-'}}</span></label></div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Email:
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Email:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
                                     _currEMIBorrowerDetail?.user_details.email : '-'}}</span></label></div>
                     </div>
@@ -23,17 +25,21 @@
             <div class="col-md-4">
                 <div class="row">
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Loan ID:
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Loan
+                                ID:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.loan_unique_id ?
                                     _currEMIBorrowerDetail?.loan_unique_id : '-'}}</span></label></div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Amount
-                                Provided: <span class="font-weight-normal">₹ {{_currEMIBorrowerDetail?.loan_amount_provided
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Amount
+                                Provided: <span class="font-weight-normal">₹
+                                    {{_currEMIBorrowerDetail?.loan_amount_provided
                                     ? _currEMIBorrowerDetail?.loan_amount_provided :'0' }}</span></label></div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Interest
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Interest
                                 Rate: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.interest_rate ?
                                     _currEMIBorrowerDetail?.interest_rate : '0'}}%</span></label></div>
                     </div>
@@ -42,18 +48,21 @@
                                 Debit: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.auto_debit ?
                                     _currEMIBorrowerDetail?.auto_debit : ''}}</span></label></div>
                     </div>
-                  
+
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="row">
                     <div class="col-md-12">
                         <div nz-card-grid [ngStyle]="gridStyle"><label
-                                class="font-weight-semibold text-dark mr-3">Activation Date: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
-                                    (_currEMIBorrowerDetail?.activation_date | date:'medium') : ''}}</span></label></div>
+                                class="font-weight-semibold text-dark mr-3">Activation Date: <span
+                                    class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
+                                    (_currEMIBorrowerDetail?.activation_date | date:'medium') : ''}}</span></label>
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Product
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Product
                                 Tenure:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.product_tenure ?
                                     _currEMIBorrowerDetail?.product_tenure : '-' }}</span></label></div>
@@ -65,7 +74,8 @@
                                     _currEMIBorrowerDetail?.application_nature : '-'}}</span></label></div>
                     </div>
                     <div class="col-md-12">
-                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Due Day:
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Due
+                                Day:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.due_day ?
                                     _currEMIBorrowerDetail?.due_day : '-'}}</span></label></div>
                     </div>
@@ -73,14 +83,15 @@
             </div>
         </div>
     </section>
-    
+
     <section class="mt-5">
         <nz-table #basicTable [nzFrontPagination]="false" [nzData]="schedulerDetails" [nzPageIndex]="page"
-            [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzScroll]="{ x: '1500px' }">
+            [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzScroll]="{ x: '1500px' }">
             <!-- , y: '45vh'     -->
             <thead>
                 <tr>
-                    <!-- <th nzWidth="2rem"></th> -->
+                    <th nzWidth="2rem"></th>
                     <th nzWidth="3rem">#</th>
                     <th>Narration</th>
                     <th>EMI Date</th>
@@ -97,6 +108,8 @@
             <tbody>
                 <ng-container *ngFor="let data of schedulerDetails; index as i">
                     <tr>
+                        <td nzWidth="3rem" [nzExpand]="expandSet.has(data.id)"
+                            (nzExpandChange)="onExpandChange(data.id, $event, i,data)"></td>
                         <td>{{ i + 1 }}</td>
                         <td>{{data?.narration ? data?.narration : '-'}}
                         </td>
@@ -111,11 +124,48 @@
                             <i *ngIf="!data.nach_fire" nz-icon nzType="close-circle" nzTheme="fill"
                                 class="text-danger"></i>
                         </td>
-                        <td>{{data.repayments ? data.repayments : '-'}}</td>
+                        <td>₹{{data.repayments ? data.repayments : '0'}}</td>
                         <td> {{ data.paid_on ? (data?.paid_on | date:'medium') : '-' }}</td>
-                        <td><label [ngClass]="data?.paid_status == 'Paid' ? 'text-success' : (data?.paid_status == 'Unpaid' ? 'text-danger' : '')">{{ data?.paid_status ?
-                            data?.paid_status : '-' }}</label> </td>
-    
+                        <td><label
+                                [ngClass]="data?.paid_status == 'Paid' ? 'text-success' : (data?.paid_status == 'Unpaid' ? 'text-danger' : '')">{{
+                                data?.paid_status ?
+                                data?.paid_status : '-' }}</label> </td>
+
+                    </tr>
+                    <tr [nzExpand]="expandSet.has(data.id)">
+
+
+                        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="data.allocation_data"
+                        [nzShowSizeChanger]="false"
+                        [nzScroll]="{ x: '1500px' }">
+                        <!-- , y: '45vh'     -->
+                        <thead>
+                            <tr>
+                                <th nzWidth="3rem">#</th>
+                                <th>Fees Charges Payment</th>
+                                <th>Interest Payment</th>
+                                <th>Principal Payment</th>
+                                <th>Total Amount</th>
+                                <th>Payment Date</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of data.allocation_data; index as j">
+                                <tr>
+                                    <td>{{ j + 1 }}</td>
+                                    <td>{{item?.fees_charges_payment ? item?.fees_charges_payment : '-'}}
+                                    </td>
+                                    <td>₹{{ item?.interest_payment ? item?.interest_payment : "0" }}</td>
+                                    <td>₹{{ item?.principal_payment ? item?.principal_payment : "0" }}</td>
+                                    <td>₹{{ item?.total_amount ? item?.total_amount : "0" }}</td>
+                                    <td> {{ item.payment_date ? (item?.payment_date | date:'medium') : '-' }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </nz-table>
+
+
                     </tr>
                 </ng-container>
             </tbody>
