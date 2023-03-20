@@ -130,7 +130,7 @@
                         <div class="col-md-2">
                             {{ k + 1 }}
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="col-md-4">
                                 <span class="text-muted">Latitude</span>
                             </div>
@@ -138,12 +138,20 @@
                                 {{ item?.latitude ? item?.latitude : "-" }}
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="col-md-4">
                                 <span class="text-muted">Longitude</span>
                             </div>
                             <div class="col-md-8">
                                 {{ item?.longitude ? item?.longitude : "-" }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="col-md-4">
+                                <span class="text-muted">Source</span>
+                            </div>
+                            <div class="col-md-8">
+                                {{ item?.source ? item?.source : "-" }}
                             </div>
                         </div>
                     </div>
@@ -173,6 +181,7 @@
                                                     <th>Sr. no.</th>
                                                     <th>Credit score</th>
                                                     <th>Date</th>
+                                                    <th>Credit File</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -180,6 +189,7 @@
                                                     <td>{{ i + 1 }}</td>
                                                     <td>{{ data.cibil_score }}</td>
                                                     <td>{{data?.created_at | date : "medium"}}</td>
+                                                    <td><button nz-button nzType="link" nzSize="small" (click)="downloadCibilPdf(data?.credit_pdf)">Download </button></td>
                                                 </tr>
                                             </tbody>
                                         </nz-table>

@@ -145,4 +145,11 @@ export class PersonalDetailsComponent implements OnInit, OnDestroy {
       this.message.error(err)
     })
   }
+
+  downloadCibilPdf(item){
+    let link     = document.createElement('a');
+        link.href    = item;
+        link.target  = '_blank';
+        link.click();
+  }
 }
