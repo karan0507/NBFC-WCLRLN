@@ -54,7 +54,7 @@ export class NachUploadComponent implements OnInit {
 
   downloadSampleFile() {
     var link = document.createElement('a');
-    link.href = 'assets/static files/Bulk Enach Upload Sample.xlsx';
+    link.href = 'assets/static files/SAMPLE_BULK_NACH_FILE.xlsx';
     link.download = 'Bulk Enach Upload Sample.xlsx';
     link.click();
   }
@@ -154,6 +154,16 @@ export class NachUploadComponent implements OnInit {
       this.isFail = true
       this.isPreviewBeforeUpload = false;
     }
+  }
+
+  updateStatus(id,type){
+    let data = {id:id,status_of_file:type}
+    this.http.updateNachStatus(data).subscribe((res:any)=>{
+      if(res.success){
+        this.message.success(res.message);
+        this.getManualTransactionList();
+      }
+    })
   }
 
 }

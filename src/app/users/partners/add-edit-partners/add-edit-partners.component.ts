@@ -442,8 +442,9 @@ export class AddEditPartnersComponent implements OnInit {
       bill_days: [data ? data?.bill_days : null],
       due_days: [data ? data?.due_days : null],
       api_check_flag: [data ? data?.api_check_flag : null],
-
-
+      allow_individual_attendance : [data ? data?.corporate_attendance_config?.allow_individual_attendance : null],
+      allow_team_attendance: [data ? data?.corporate_attendance_config?.allow_team_attendance : null],
+      corporate_login_mode : [data?.corporate_login_mode ? data?.corporate_login_mode : '',[Validators.required]],
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
       salary_date: [data ? data?.salary_date : null],

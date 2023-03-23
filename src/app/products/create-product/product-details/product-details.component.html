@@ -176,6 +176,16 @@
                                     class="pl-0" (click)="addNach()">+Add Nach</button> -->
                         </div>
                     </div>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_source" class="text-left" nzRequired>EMI Source
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Source!">
+                            <nz-radio-group formControlName="emi_source">
+                                <label nz-radio [nzValue]="'FILE'">File</label>
+                                <label nz-radio [nzValue]="'ALL'">ALL</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
                 </div>
                 <!-- <div class="col-md-12">
                     <nz-form-item>
@@ -203,6 +213,7 @@
                                         </nz-radio-group>
                                     </nz-form-control>
                                 </nz-form-item>
+
                                 <nz-form-item>
                                     <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="tenure" class="text-left" nzRequired>Select Tenure
                                     </nz-form-label>

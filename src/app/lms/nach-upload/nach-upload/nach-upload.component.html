@@ -94,6 +94,8 @@
                         <th>File Name</th>
                         <th>Added on</th>
                         <th>Added By</th>
+                        <th>Approved By</th>
+                        <th>Error File</th>
                         <!-- <th>Approved By</th>
                         <th>Approved on</th>
                         <th>Rejected By</th>
@@ -172,7 +174,9 @@
                     <th>Sr. no</th>
                     <th>Bill Id</th>
                     <th>Amount</th>
+                    <th>Date</th>
                     <th>Status</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -180,6 +184,7 @@
                     <td>{{i+1}}</td>
                     <td>{{item['bill_unique_code'] ? item['bill_unique_code'] : '-'}}</td>
                     <td>{{item['amount'] ? item['amount'] : '-'}}</td>
+                    <td>{{item['month_and_year'] ? item['month_and_year'] : '-'}}</td>
                     <td>
                         <span *ngIf="item.line_status == 'Error'" class="text-danger">Error &nbsp;
                             <i nz-icon nzType="info-circle" nzTheme="outline" nz-popover
