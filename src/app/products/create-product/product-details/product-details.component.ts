@@ -146,6 +146,8 @@ export class ProductDetailsComponent implements OnInit {
         emi_details: [ data ? data.emi_details : ''],
         advance_emi: [ data ? data.advance_emi : ''],
         emi_type: [ data ? data.emi_type : 'Single'],
+        emi_source: [ data ? data.emi_source : 'FILE'],
+        
       });
     } else {
       return this.fb.group({
@@ -156,6 +158,7 @@ export class ProductDetailsComponent implements OnInit {
         emi_details: [''],
         advance_emi: [''],
         emi_type: ['Single'],
+        emi_source: ['FILE'],
       });
     }
   }

@@ -1417,6 +1417,11 @@ export class HttpService {
       public getDetailTransactionAction(data,id) {
             return this._http.get((this.url + ` /platform_central/v1/show-bulk-transaction-action-content/`+id),{params:data});
       }
+
+      public updateNachStatus(data) {
+            return this._http.post((this.url + `/platform_central/v1/verify-bulk-enach-file`), data);
+      }
+      
      
       
 }
