@@ -180,11 +180,11 @@
                                             <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_agreement_partner']">
                                                 <span class="m-l-5">Show Agreement</span>
                                             </li>
-                                            <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Do you want to block all users?"
+                                            <!-- <li nz-menu-item *ngIf="!data.is_active" nz-popconfirm nzPopconfirmTitle="Do you want to block all users?"
                                             nzPopconfirmPlacement="topLeft"
                                             (nzOnConfirm)="activeInactive(data.id)">
                                                 <span class="m-l-5">Block All Users</span>
-                                            </li> 
+                                            </li>  -->
                                         </ul>
                                     </nz-dropdown-menu>
                                 </td>
