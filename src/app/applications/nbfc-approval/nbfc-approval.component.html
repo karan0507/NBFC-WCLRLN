@@ -275,21 +275,22 @@
                 loanApplicationData[0] ? onAllChecked($event) : false
               "
             ></th>
-            <th nzWidth="100px">#</th>
-            <th>Loan ID</th>
+            <th nzWidth="60px">#</th>
+            <th nzWidth="8rem">Loan ID</th>
             <th nzWidth="14rem">User Details</th>
-            <th>Apply Date & Time</th>
-            <th>Master Partner</th>
-            <th>Master Product</th>
-            <th>Source Id</th>
-            <th>Type</th>
-            <th>Company</th>
-            <th>Reference Id</th>
-            <th>Previous stage</th>
-            <th>Move to stage on</th>
-            <th>Latest Action Performed By</th>
-            <th>Status</th>
-            <th>Remarks</th>
+            <th nzWidth="8rem">UTM Source Code</th>
+            <th nzWidth="8rem">Apply Date & Time</th>
+            <th nzWidth="8rem">Master Partner</th>
+            <th nzWidth="8rem">Master Product</th>
+            <th nzWidth="8rem">Source Id</th>
+            <th nzWidth="8rem">Type</th>
+            <th nzWidth="8rem">Company</th>
+            <th nzWidth="8rem">Reference Id</th>
+            <th nzWidth="8rem">Previous stage</th>
+            <th nzWidth="8rem">Move to stage on</th>
+            <th nzWidth="8rem">Latest Action Performed By</th>
+            <th nzWidth="8rem">Status</th>
+            <th nzWidth="8rem">Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
           </tr>
         </thead>
@@ -326,6 +327,7 @@
                   </div>
                 </div>
               </td>
+              <td>{{data?.user?.utm_source_code ? data?.user?.utm_source_code : '-' }} </td>
               <td>
                 <div class="d-flex flex-column">
                   <div>{{ data?.created_at | date : "medium" }}</div>

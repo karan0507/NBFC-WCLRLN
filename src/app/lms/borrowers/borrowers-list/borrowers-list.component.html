@@ -111,6 +111,7 @@
             <th nzWidth="2rem"></th>
             <th nzWidth="3rem">#</th>
             <th nzWidth="15rem">User Name</th>
+            <th>UTM Source Code</th>
             <th>Product type</th>
             <th>Corporate</th>
             <th>Loan ID</th>
@@ -156,6 +157,7 @@
                   {{ data.user ? data.user.email : "-" }}
                 </p>
               </td>
+              <td>{{ data?.user ? data?.user.utm_source_code : "-" }}</td>
               <td>{{ data?.product_type ? data?.product_type.name : "-" }}</td>
               <td>
                 {{ data?.corporate ? data?.corporate.display_name : "-" }}

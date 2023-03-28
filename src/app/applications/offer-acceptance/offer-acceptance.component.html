@@ -140,9 +140,10 @@
               [nzIndeterminate]="loanApplicationData[0] ? indeterminate : false" (nzCheckedChange)="
                 loanApplicationData[0] ? onAllChecked($event) : false
               "></th>
-            <th nzWidth="100px">#</th>
+            <th nzWidth="60px">#</th>
             <th>Loan ID</th>
             <th nzWidth="14rem">User Details</th>
+            <th>UTM Source Code</th>
             <th>Source</th>
             <th>Type</th>
             <th> Master Product</th>
@@ -193,6 +194,7 @@
                   </div>
                 </div>
               </td>
+              <td>{{data?.user?.utm_source_code ? data?.user?.utm_source_code : '-' }} </td>
               <td>{{ data?.user?.source }}</td>
               <td>{{ data?.type ? data?.type : '-' }}</td>
               <td>{{data?.product_master_name ? data?.product_master_name : '-'}}</td>
