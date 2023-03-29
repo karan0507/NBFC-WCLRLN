@@ -101,7 +101,7 @@ export class ProductDocumentComponent implements OnInit {
         if (res.success) {
           this.documentsList = res.data;
           for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].childrens.length > 0) {
+            if (res.data[i]?.childrens?.length > 0) {
               this.createDocumentForm(res.data[i])
               for (let j = 0; j < res.data[i].childrens.length; j++) {
                 this.createChildDocuments(res.data[i].childrens[j], i)

@@ -345,21 +345,12 @@
 </section>
 <section *ngIf="_isVerify">
     <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
-        [documentData]="_currentModalData" (close)="
-      _isVerify = false;
-      getKycDetails()
-    ">
+        [documentData]="_currentModalData" (close)=" _isVerify = false; getKycDetails()">
     </app-common-document-actions>
 </section>
 <section *ngIf="_isUpload">
   <app-common-document-actions
-    [action]="'uploadDocument'"
-    [_isOpenModal]="_isUpload ? true : false"
-    [documentData]="_currentModalData"
-    (close)="
-      _isUpload = false;
-      getKycDetails()
-    "
-  >
+    [action]="'uploadDocument'"  [_isOpenModal]="_isUpload ? true : false"
+    [documentData]="_currentModalData" (close)=" _isUpload = false; getKycDetails()">
   </app-common-document-actions>
 </section>

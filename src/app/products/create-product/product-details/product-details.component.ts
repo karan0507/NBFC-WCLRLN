@@ -39,6 +39,8 @@ export class ProductDetailsComponent implements OnInit {
     http.globalProductData.subscribe(res => {
       this.isLoading = true
       this.productDetails = res
+      console.log(this.productDetails);
+      
       if (this.productDetails) {
         this.createEditFormFuction();
         this.productDetails.tenures?.forEach(element => {
@@ -68,6 +70,7 @@ export class ProductDetailsComponent implements OnInit {
       inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
       bill_day: [ this.productDetails ? this.productDetails.bill_day : ''],
       due_days: [ this.productDetails ? this.productDetails.due_days : ''],
+      emi_source: [ this.productDetails ? this.productDetails.emi_source : 'FILE'],
       product_type: [ this.productDetails ? this.productDetails.product_type : '' , [Validators.required]],
       tenures: this.fb.array([]),
       nach_date_time_mappings: this.fb.array([]),
@@ -146,7 +149,6 @@ export class ProductDetailsComponent implements OnInit {
         emi_details: [ data ? data.emi_details : ''],
         advance_emi: [ data ? data.advance_emi : ''],
         emi_type: [ data ? data.emi_type : 'Single'],
-        emi_source: [ data ? data.emi_source : 'FILE'],
         
       });
     } else {
@@ -158,7 +160,6 @@ export class ProductDetailsComponent implements OnInit {
         emi_details: [''],
         advance_emi: [''],
         emi_type: ['Single'],
-        emi_source: ['FILE'],
       });
     }
   }
@@ -175,10 +176,10 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
-      this.message.warning('data saved already')
-      return false
-    }
+    // if ((this.createEditForm.touched) && this.createEditForm.pristine) {
+    //   this.message.warning('data saved already')
+    //   return false
+    // }
     let data;
     
     for (var i in this.createEditForm.value.nach_date_time_mappings) {
@@ -210,7 +211,8 @@ export class ProductDetailsComponent implements OnInit {
         tenures: this.createEditForm.value.tenures,
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
-        product_type: this.createEditForm.value.product_type
+        product_type: this.createEditForm.value.product_type,
+        emi_source: this.createEditForm.value.emi_source
       }          
     } else {
       data = {
@@ -223,7 +225,8 @@ export class ProductDetailsComponent implements OnInit {
         bill_day: this.createEditForm.value.bill_day,
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
-        product_type: this.createEditForm.value.product_type
+        product_type: this.createEditForm.value.product_type,
+        emi_source: this.createEditForm.value.emi_source
       }        
     }
     if (this.product_id) {

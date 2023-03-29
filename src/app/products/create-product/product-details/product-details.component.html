@@ -4,22 +4,25 @@
             <div class="row">
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="version_name" class="text-left" nzRequired>Parent Name</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="version_name" class="text-left" nzRequired>Parent
+                            Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Version Name!">
-                            <input nz-input type="text" formControlName="version_name" *ngIf="!product_id"/>
-                            <nz-form-label class="text-left" formControlName="version_name" nzNoColon *ngIf="product_id">{{productDetails?.product_version_parent?.parent_name}}</nz-form-label>
+                            <input nz-input type="text" formControlName="version_name" *ngIf="!product_id" />
+                            <nz-form-label class="text-left" formControlName="version_name" nzNoColon
+                                *ngIf="product_id">{{productDetails?.product_version_parent?.parent_name}}</nz-form-label>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Product Name</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Product
+                            Name</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Product Name!">
                             <input nz-input type="text" formControlName="name" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                
+
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="text-left">Product Code</nz-form-label>
@@ -31,27 +34,31 @@
 
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_type" class="text-left" nzRequired>Product type</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_type" class="text-left" nzRequired>Product
+                            type</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Product type!">
                             <nz-radio-group formControlName="product_type">
                                 <label nz-radio nzValue="B2B">B2B</label>
                                 <label nz-radio nzValue="D2C">D2C</label>
-                              </nz-radio-group>
+                            </nz-radio-group>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
 
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master Product</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master
+                            Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Master Product!">
-                            <nz-radio-group formControlName="product_master" (ngModelChange)="changeProductMaster($event)">
+                            <nz-radio-group formControlName="product_master"
+                                (ngModelChange)="changeProductMaster($event)">
                                 <label nz-radio nzValue="1">FatakPay</label>
                                 <label nz-radio nzValue="2">Fatak EMI</label>
-                              </nz-radio-group>
+                            </nz-radio-group>
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ?
+                            (productDetails.created_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <!-- <div class="col-md-12">
@@ -67,30 +74,38 @@
                 </div> -->
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="activation_date" class="text-left" nzRequired>Activation Date</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="activation_date" class="text-left"
+                            nzRequired>Activation Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Activation Date!">
-                            <nz-date-picker formControlName="activation_date" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
+                            <nz-date-picker formControlName="activation_date"
+                                [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Created by</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true"  class="text-left">{{productDetails ? productDetails.created_by?.first_name : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ?
+                            productDetails.created_by?.first_name : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="inactivation_date" class="text-left">Inactivation Date</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="inactivation_date" class="text-left">Inactivation
+                            Date</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Inactivation Date!">
-                            <nz-date-picker formControlName="inactivation_date" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
+                            <nz-date-picker formControlName="inactivation_date"
+                                [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
                         </nz-form-control>
                         <nz-form-label [nzSm]="4" [nzXs]="24" class="ml-auto text-left">Updated at</nz-form-label>
-                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
+                        <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ?
+                            (productDetails.updated_at | date: 'yyyy-MM-dd') : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div>
-                
+
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="expiry" class="text-left" nzRequired>Expiry(no. of months)</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="expiry" class="text-left" nzRequired>Expiry(no. of
+                            months)</nz-form-label>
                         <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Enter expiry(no. of months)">
-                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="expiry" placeholder="Enter expiry(no. of months)"/>
+                            <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                formControlName="expiry" placeholder="Enter expiry(no. of months)" />
                             <!-- <nz-select formControlName="bill_day" nzPlaceHolder="">
                                 <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
                                     [nzLabel]="item.id">
@@ -101,37 +116,37 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bill_day" class="text-left">Billing Day</nz-form-label>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bill_day" class="text-left">Billing
+                            Day</nz-form-label>
                         <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please select Valid Date">
                             <nz-select formControlName="bill_day" nzPlaceHolder="Select Billing Day">
-                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
-                                    [nzLabel]="item.id">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
                                 </nz-option>
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                
+
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="due_days" class="text-left">Due Day</nz-form-label>
                         <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please select Day">
                             <nz-select formControlName="due_days" nzPlaceHolder="Select Due Day">
-                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
-                                    [nzLabel]="item.id">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
                                 </nz-option>
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                
+
                 <div class="col-md-12">
                     <ng-container *ngFor="let item of get_nachArr(createEditForm); let k = index;">
                         <div formArrayName="nach_date_time_mappings">
                             <div class="row" [formGroupName]="k">
                                 <div class="col-md-5">
                                     <nz-form-item>
-                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="day_of_month" class="text-left">Day
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="day_of_month"
+                                            class="text-left">Day
                                             Of Months
                                         </nz-form-label>
                                         <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Please select Valid Date">
@@ -149,8 +164,8 @@
                                             Nach Time</nz-form-label>
                                         <nz-form-control [nzSm]="14" [nzXs]="24"
                                             nzErrorTip="Please Select Valid Date & Time!">
-                                            <nz-time-picker
-                                                [nzDefaultOpenValue]="defaultOpenValue" formControlName="time_of_day">
+                                            <nz-time-picker [nzDefaultOpenValue]="defaultOpenValue"
+                                                formControlName="time_of_day">
                                             </nz-time-picker>
                                         </nz-form-control>
                                     </nz-form-item>
@@ -176,16 +191,22 @@
                                     class="pl-0" (click)="addNach()">+Add Nach</button> -->
                         </div>
                     </div>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_source" class="text-left" nzRequired>EMI Source
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Source!">
-                            <nz-radio-group formControlName="emi_source">
-                                <label nz-radio [nzValue]="'FILE'">File</label>
-                                <label nz-radio [nzValue]="'ALL'">ALL</label>
-                            </nz-radio-group>
-                        </nz-form-control>
-                    </nz-form-item>
+                    <section *ngIf="createEditForm.get('product_master').value == '2'">
+                        <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="emi_source" class="text-left"
+                                    nzRequired>EMI Source
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Source!">
+                                    <nz-radio-group formControlName="emi_source"
+                                        (ngModelChange)="createEditForm.touched">
+                                        <label nz-radio [nzValue]="'FILE'">File</label>
+                                        <label nz-radio [nzValue]="'ALL'">ALL</label>
+                                    </nz-radio-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </section>
                 </div>
                 <!-- <div class="col-md-12">
                     <nz-form-item>
@@ -197,7 +218,7 @@
                         <nz-form-label [nzSm]="3" [nzXs]="24" [nzNoColon]="true" class="text-left">{{productDetails ? productDetails.updated_by?.first_name : '-'}}</nz-form-label>
                     </nz-form-item>
                 </div> -->
-                <h5 *ngIf="createEditForm.get('product_master').value == '2'">EMI Tenure</h5>
+                <!-- <h5 *ngIf="createEditForm.get('product_master').value == '2'">EMI Tenure</h5>
                 <div class="col-md-12" *ngIf="createEditForm.get('product_master').value == '2'">
                     <ng-container *ngFor="let item of get_tenures(createEditForm); let k = index;" formArrayName="tenures">
                         <div class="row mx-0" [formGroupName]="k">
@@ -265,16 +286,17 @@
                         </div>
                     
                     </ng-container>
-                </div>
-                <button *ngIf="createEditForm.get('product_master').value == '2'" nz-button nzType="link" (click)="addTenure()">+Add Tenure</button>
-                
+                </div> -->
+                <!-- <button *ngIf="createEditForm.get('product_master').value == '2'" nz-button nzType="link" (click)="addTenure()">+Add Tenure</button> -->
+
             </div>
         </form>
     </nz-card>
     <ng-template #actionSubmit>
         <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
             <div class="col-12 d-flex justify-content-end px-4">
-                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="isLoading" (click)="submitForm()">Submit</button>
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="isLoading"
+                    (click)="submitForm()">Submit</button>
             </div>
         </div>
     </ng-template>
