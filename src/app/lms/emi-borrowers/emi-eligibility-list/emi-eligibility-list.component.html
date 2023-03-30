@@ -57,7 +57,7 @@
                             <td>{{ data?.created_at | date: 'medium' }}</td>
                             <td>{{ data?.file_processing_status }}</td>
                             <td>
-                                <span nz-icon *ngIf="data?.error_file else noError" (click)="downloadSampleFile('Error File',data.error_file)" nzType="file-unknown" class="text-danger pointer" nzTheme="outline"></span>
+                                <span nz-icon *ngIf="data?.error_file else noError" (click)="downloadSampleFile('Error File',data.error_file)" nzType="file" class="text-danger pointer" nzTheme="outline"></span>
                                 <ng-template #noError>-</ng-template>
                                 
                             </td>
