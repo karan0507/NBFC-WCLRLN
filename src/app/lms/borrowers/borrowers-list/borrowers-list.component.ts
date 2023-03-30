@@ -163,6 +163,7 @@ export class BorrowersListComponent implements OnInit {
       // data['page'] = 1
       data['corporate_id'] = this.selectedCorporate
     }
+
     this.api_calling_loader = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader = false
