@@ -123,7 +123,7 @@
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="department_id" class="text-left" nzRequired>Department
                         </nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please input Designation!">
-                            <nz-select nzAllowClear formControlName="department_id" nzPlaceHolder="Please select Designation"
+                            <nz-select nzAllowClear formControlName="department_id" nzPlaceHolder="Please select Department"
                                 (nzFocus)="fetachMasters('department')">
                                 <nz-option *ngFor="let item of departmentData" [nzValue]="item.pk" [nzLabel]="item.name">
                                 </nz-option>
