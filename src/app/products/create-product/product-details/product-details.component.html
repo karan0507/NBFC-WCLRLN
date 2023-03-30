@@ -198,8 +198,7 @@
                                     nzRequired>EMI Source
                                 </nz-form-label>
                                 <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select EMI Source!">
-                                    <nz-radio-group formControlName="emi_source"
-                                        (ngModelChange)="createEditForm.touched">
+                                    <nz-radio-group formControlName="emi_source">
                                         <label nz-radio [nzValue]="'FILE'">File</label>
                                         <label nz-radio [nzValue]="'ALL'">ALL</label>
                                     </nz-radio-group>

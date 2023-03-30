@@ -114,7 +114,7 @@ export class EmiEligibilityListComponent implements OnInit {
       link.download = type + '.xlsx'
     } else {
       link.href = 'assets/static files/EMI_Eligibility.xlsx';
-      link.download = 'EMI_Eligibility.xlsx';
+      link.download = 'EMI_Eligibility(1).xlsx';
     }
     link.click();
   }

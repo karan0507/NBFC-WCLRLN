@@ -263,16 +263,16 @@ export class OnboardingComponent implements OnInit {
   }
 
   addDocumentRules(data?) {
-    this.document_rules.push(this.addDocumentRulesControls(data))
+    // this.document_rules.push(this.addDocumentRulesControls(data))
   }
   addDocumentRules1(data?) {
-    this.document_rules1.push(this.addDocumentRulesControls1(data))
+    // this.document_rules1.push(this.addDocumentRulesControls1(data))
   }
   addDocumentRules2(data?) {
-    this.document_rules2.push(this.addDocumentRulesControls2(data))
+    // this.document_rules2.push(this.addDocumentRulesControls2(data))
   }
   addDocumentRules3(data?) {
-    this.document_rules3.push(this.addDocumentRulesControls3(data))
+    // this.document_rules3.push(this.addDocumentRulesControls3(data))
   }
 
 

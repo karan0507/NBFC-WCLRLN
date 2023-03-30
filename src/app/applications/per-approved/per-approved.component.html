@@ -411,7 +411,7 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'" nzTitle="Fetched Third Party Response"
+<nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'500'" nzTitle="Fetched Third Party Response"
   [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false">
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="api_calling_loader['xmlLoader']">

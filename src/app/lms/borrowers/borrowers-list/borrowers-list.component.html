@@ -385,8 +385,7 @@
                                                                                     <span class="m-l-5">Delete</span>
                                                                                 </li> -->
 
-                      <li nz-menu-item *ngIf="main_stage == 3 && sub_stage == 7"
-                        (click)="setValuetoSettlement(data?.id)">
+                      <li nz-menu-item (click)="setValuetoSettlement(data?.id)">
                         <span class="m-l-5">Settlement</span>
                       </li>
                     </ul>
@@ -471,7 +470,7 @@
   <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'" nzTitle="Fetched Third Party Response"
+<nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'500'" nzTitle="Fetched Third Party Response"
   [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false">
   <ng-container *nzModalContent>
     <nz-card [nzLoading]="xmlLoader">
