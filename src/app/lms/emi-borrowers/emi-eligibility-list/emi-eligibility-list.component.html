@@ -44,6 +44,7 @@
                         <th>File Name</th>
                         <th>Created At</th>
                         <th>Status</th>
+                        <th>Error File</th>
                         <th nzRight> Actions</th>
                     </tr>
                 </thead>
@@ -55,6 +56,11 @@
                             <td>{{ data?.file_name ? data?.file_name : '-' }}</td>
                             <td>{{ data?.created_at | date: 'medium' }}</td>
                             <td>{{ data?.file_processing_status }}</td>
+                            <td>
+                                <span nz-icon *ngIf="data?.error_file else noError" (click)="downloadSampleFile('Error File',data.error_file)" nzType="file-unknown" class="text-danger pointer" nzTheme="outline"></span>
+                                <ng-template #noError>-</ng-template>
+                                
+                            </td>
                             <td nzRight>
                                 <div>
                                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
