@@ -97,7 +97,7 @@
 </section>
 
 <nz-modal [(nzVisible)]="isImport" [nzTitle]="isModalVisible ? 'View Excel' : 'Import Eligibility Data'" [nzFooter]="null" (nzOnCancel)="isImport = false; isModalVisible = false; viewEmiEligibilityData = []"
-    nzOkText="Submit" [nzWidth]="isModalVisible ? '600px' : '500px'">
+    nzOkText="Submit" [nzWidth]="isModalVisible ? 800 : '500px'">
     <ng-container *nzModalContent>
         <section *ngIf="isModalVisible">
             <div class="total_count_text" *ngIf="view_total_count">
@@ -106,7 +106,7 @@
             <nz-table [nzData]="viewEmiEligibilityData.data" [nzTotal]="view_total_count" [nzFrontPagination]="false"
                 [nzShowSizeChanger]="true" [nzPageIndex]="view_page" [nzPageSize]="view_global_page_limit"
                 (nzQueryParams)="viewEmiEligibilityData.data ? viewEligibleData(current_id,$event) : ''"
-                [nzLoading]="view_api_calling_loader" [nzScroll]="{ x: '100%', y: '45vh' }">
+                [nzLoading]="view_api_calling_loader" [nzScroll]="{ x: '1500px', y: '45vh' }">
                 <thead>
                     <tr >
                         <th nzWidth="5rem">#</th>
