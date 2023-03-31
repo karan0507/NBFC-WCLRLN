@@ -98,6 +98,7 @@
 
 <nz-modal [(nzVisible)]="isImport" [nzTitle]="isModalVisible ? 'View Excel' : 'Import Eligibility Data'" [nzFooter]="null" (nzOnCancel)="isImport = false; isModalVisible = false; viewEmiEligibilityData = []"
     nzOkText="Submit" [nzWidth]="isModalVisible ? 800 : '500px'">
+    
     <ng-container *nzModalContent>
         <section *ngIf="isModalVisible">
             <div class="total_count_text" *ngIf="view_total_count">
