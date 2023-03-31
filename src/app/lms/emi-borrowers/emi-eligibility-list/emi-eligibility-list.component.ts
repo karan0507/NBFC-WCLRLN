@@ -77,6 +77,7 @@ export class EmiEligibilityListComponent implements OnInit {
       this.api_calling_loader = false
     })
   }
+  objectKeys = Object.keys;
 
   current_id:any;
   viewEligibleData(id, tabelFilter?) {
@@ -96,6 +97,8 @@ export class EmiEligibilityListComponent implements OnInit {
     this.http.viewEMIEligibilityList(id, data).subscribe((res: any) => {
       if (res.success) {
         this.view_total_count = res.data.total_count
+        // this.viewEmiEligibilityData['data'] = [{'name':'Akshay','mobile':'9090909090','amount':'$ 12,323'}]
+        // this.viewEmiEligibilityData['cols'] = ['name','mobile','amount']
         this.viewEmiEligibilityData = res.data;
         this.view_api_calling_loader = false
       } else {

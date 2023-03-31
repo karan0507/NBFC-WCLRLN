@@ -57,7 +57,7 @@
                             <td>{{ data?.created_at | date: 'medium' }}</td>
                             <td>{{ data?.file_processing_status }}</td>
                             <td>
-                                <span nz-icon *ngIf="data?.error_file else noError" (click)="downloadSampleFile('Error File',data.error_file)" nzType="file" class="text-danger pointer" nzTheme="outline"></span>
+                                <span nz-icon *ngIf="data?.error_file else noError" nz-tooltip="Error File" (click)="downloadSampleFile('Error File',data.error_file)" nzType="info-circle" class="text-danger pointer" nzTheme="outline"></span>
                                 <ng-template #noError>-</ng-template>
                                 
                             </td>
@@ -110,7 +110,7 @@
                 <thead>
                     <tr >
                         <th nzWidth="5rem">#</th>
-                        <th *ngFor="let data of viewEmiEligibilityData.cols; index as i">{{data}}</th>
+                        <th *ngFor="let item of viewEmiEligibilityData.cols | keyvalue">{{ item ? item.value : '-' }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,9 +118,9 @@
                         <tr>
                             <td *ngIf="view_page === 1">{{i+1}}</td>
                             <td *ngIf="view_page > 1">{{((view_page-1)*view_global_page_limit)+(i+1)}}</td>
-                            <td>{{ data?.mobile ? data?.mobile : '-' }}</td>
-                            <td>{{ data['EMI eligibility status'] ? data['EMI eligibility status'] : '-' }}</td>
-                            <td *ngIf="viewEmiEligibilityData.cols.length == 3">{{data['Unnamed: 2'] ? data['Unnamed: 2'] : '-'}}</td>
+                            <td *ngFor="let item of data | keyvalue">{{ item ? item.value : '-' }}</td>
+                            <!-- <td>{{ viewEmiEligibilityData.data[i][key] ? viewEmiEligibilityData.data[i][key] : '-' }}</td>
+                            <td *ngIf="viewEmiEligibilityData.cols.length == 3">{{data['Unnamed: 2'] ? data['Unnamed: 2'] : '-'}}</td> -->
                         </tr>
                     </ng-container>
                 </tbody>
