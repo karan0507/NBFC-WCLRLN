@@ -150,4 +150,8 @@ export class EmiEligibilityListComponent implements OnInit {
     })
   }
 
+
+  checkValue(data){
+    console.log(data)
+  }
 }

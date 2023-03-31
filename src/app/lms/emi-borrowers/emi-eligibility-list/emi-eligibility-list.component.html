@@ -109,9 +109,9 @@
                 (nzQueryParams)="viewEmiEligibilityData.data ? viewEligibleData(current_id,$event) : ''"
                 [nzLoading]="view_api_calling_loader" [nzScroll]="{ x: '1500px', y: '45vh' }">
                 <thead>
-                    <tr >
+                    <tr *ngIf="viewEmiEligibilityData?.data">
                         <th nzWidth="5rem">#</th>
-                        <th *ngFor="let item of viewEmiEligibilityData.cols | keyvalue">{{ item ? item.value : '-' }}</th>
+                        <th *ngFor="let data of viewEmiEligibilityData.data[0] | keyvalue">{{ data ? data.key : '-' }}</th>
                     </tr>
                 </thead>
                 <tbody>
