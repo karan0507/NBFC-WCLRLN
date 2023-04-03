@@ -33,7 +33,7 @@ export class MasterPartnersListComponent implements OnInit {
     list: false,
     detailList: false,
   };
-  globalPageSize = 30;
+  globalPageSize = 100;
   page;
   isVisible = false;
   total_count: any;
@@ -173,7 +173,7 @@ export class MasterPartnersListComponent implements OnInit {
 
   onClickChangeTab(e){
     this.page = 1
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.selectedTab = e;
     this.getMasterPartner();
   }

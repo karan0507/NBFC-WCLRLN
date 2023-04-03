@@ -58,7 +58,7 @@ export class UploadTransactionsListComponent implements OnInit {
   uploaded_file: any;
   uploadSuccessfully: boolean;
   is_upload_loading: boolean;
-  globalPageSize = 30
+  globalPageSize = 100
 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today

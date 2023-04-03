@@ -158,7 +158,7 @@ export class EmployeeDetailsComponent implements OnInit {
   };
   // this.apiLoader['previewList'] = true;
   page = 1;
-  size = 30;
+  size = 100;
   uploadSelectedCorporateFile!: FormGroup;
   retrievedFileResponse: any[] = [];
 
@@ -267,9 +267,9 @@ export class EmployeeDetailsComponent implements OnInit {
 
   onClickChangeTab(e) {
     this.page = 1;
-    this.size = 30;
+    this.size = 100;
     this.viewPageCount = 1;
-    this.viewPageSize = 30;
+    this.viewPageSize = 100;
     this.selectedTab = e;
     this.listOfEmployee = [];
     this.searchValue = ''
@@ -455,7 +455,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
   viewTotalCount: any;
   viewPageCount = 1;
-  viewPageSize = 30
+  viewPageSize = 100
   selectedIdForView: any
 
   pageIndexChange(e){

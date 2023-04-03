@@ -16,7 +16,7 @@ export class BillSummerizeComponent implements OnInit {
   expandSet = new Set<number>();
   _currentId: any;
   page = 1;
-  globalPageSize = 30
+  globalPageSize = 100
   api_calling_loader: boolean;
   total_count: any;
   list_data: any;

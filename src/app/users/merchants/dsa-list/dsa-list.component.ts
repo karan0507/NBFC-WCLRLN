@@ -25,7 +25,7 @@ export class DsaListComponent implements OnInit {
     list: false,
     detailList: false,
   };
-  globalPageSize = 30;
+  globalPageSize = 100;
   page;
   isVisible = false;
   total_count: any;

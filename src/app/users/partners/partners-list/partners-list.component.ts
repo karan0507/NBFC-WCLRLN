@@ -42,7 +42,7 @@ export class PartnersListComponent implements OnInit {
     upgradeLoading: false,
     invoicePdfLoader: false
   };
-  globalPageSize = 30;
+  globalPageSize = 100;
   page;
   isVisible = false;
   total_count: any;

@@ -12,7 +12,7 @@ export class TrackStatusComponent implements OnInit {
       currentLoanId: any;
       loanStatusTrackData: any;
       page = 1;
-      globalPageSize = 30
+      globalPageSize = 100
       total_count: any;
       api_calling_loader: boolean;
       constructor(public https: HttpService, public route: ActivatedRoute) { }

@@ -395,7 +395,7 @@ export class FormFillingComponent implements OnInit {
             }
             if(this.selectedTabFilter == 'otp'){
                   this.page =1;
-                  this.globalPageSize = 30;
+                  this.globalPageSize = 100;
                   this.searchValue = '';
                   this.date = '';
                   this.fetListOfFailOTP();

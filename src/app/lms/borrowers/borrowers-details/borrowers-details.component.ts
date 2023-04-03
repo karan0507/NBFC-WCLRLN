@@ -137,7 +137,7 @@ export class BorrowersDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.page1 = 1;
     this.globalPageSize1 = 10
     this.page8 = 1;

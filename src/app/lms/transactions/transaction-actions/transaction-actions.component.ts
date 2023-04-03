@@ -17,7 +17,7 @@ export class TransactionActionsComponent implements OnInit {
   actionData: any = []
 
   page = 1;
-  globalPageSize = 30
+  globalPageSize = 100
   total_count: any;
   search_params = ''
 
@@ -25,7 +25,7 @@ export class TransactionActionsComponent implements OnInit {
   _currentId: any;
   detailActionData: any = []
   det_page = 1;
-  det_globalPageSize = 30
+  det_globalPageSize = 100
   det_total_count: any;
   constructor(private http: HttpService, private message: NzMessageService) { }
 

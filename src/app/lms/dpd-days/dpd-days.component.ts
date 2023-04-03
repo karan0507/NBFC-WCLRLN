@@ -70,7 +70,7 @@ export class DpdDaysComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.fetchDpdDaysList();
   }
 
@@ -167,7 +167,7 @@ export class DpdDaysComponent implements OnInit {
   this.page = 1,
   this.selectedFilterOfDays = '';
   this.selectedFilterOfEmp = '';
-  this.globalPageSize = 30;
+  this.globalPageSize =100;
   this.is_blocked = '';
   this.search_params ='';
   this.selectedCorporate = '';

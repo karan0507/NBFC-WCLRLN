@@ -20,7 +20,7 @@ export class DeductionsListComponent implements OnInit {
   
   selectedTab = 'PENDING'
   page = 1;
-  globalPageSize = 30
+  globalPageSize = 100
   total_count: any;
   list_data: any;
   date = ''
