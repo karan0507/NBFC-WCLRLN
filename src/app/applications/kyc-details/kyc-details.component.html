@@ -165,7 +165,7 @@
                 </nz-page-header>
                 <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
                     <nz-table [nzFrontPagination]="false" [nzLoading]="api_calling_loader" [nzShowSizeChanger]="false"
-                        [nzFrontPagination]="false" [nzShowSizeChanger]="false" [nzData]="data?.cibil_pulled_addresses">
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="false" [nzData]="data?.cibil_pulled_addresses" [nzScroll]="{ x: '1500px', y: '45vh' }">
                         <thead>
                             <tr>
                                 <th rowspan="2" nzWidth="40px">#</th>
@@ -201,7 +201,7 @@
                 </nz-page-header>
                 <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
                     <nz-table #colSpanTable [nzFrontPagination]="false" [nzShowSizeChanger]="false"
-                        [nzData]="data?.api_calls_response" nzBordered>
+                        [nzData]="data?.api_calls_response" nzBordered [nzScroll]="{ x: '1500px', y: '45vh' }">
                         <thead>
                             <tr>
                                 <th></th>
@@ -248,7 +248,7 @@
                 </nz-page-header>
                 <nz-card class="mb-md-0 border" [nzLoading]="api_calling_loader">
                     <nz-table style="text-align-last: center" #colSpanTable [nzFrontPagination]="false" [nzShowSizeChanger]="false"
-                        [nzData]="data?.kyc_documents" nzBordered>
+                        [nzData]="data?.kyc_documents" nzBordered [nzScroll]="{ x: '1500px', y: '45vh' }">
                         <thead>
                             <tr>
                                 <th></th>
