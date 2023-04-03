@@ -58,7 +58,7 @@ customRanges = {
     var data;
     if (this.selectedTab == 'TXN') {
       this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
       data = {
         datapoint: 'get_mandate_transactions',
         // endpoint: 'LoanApplicationTransactions',
@@ -76,7 +76,7 @@ customRanges = {
       }
     } else {
       this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
       data = {
         datapoint: 'admin_mandate_trigger_attempts',
         // endpoint: 'LoanApplicationTransactions',

@@ -247,7 +247,7 @@ export class AddEditDsaComponent {
   getListOfMasterPartner(action?){
     let data = {
       'page': 1,
-      'limit': 30
+      'limit': 100
     }
     this.http.fetchMasterPartner(data).subscribe((res: any)=> {
       console.log(res);

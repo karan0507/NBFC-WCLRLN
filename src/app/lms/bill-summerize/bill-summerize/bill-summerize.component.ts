@@ -70,7 +70,7 @@ export class BillSummerizeComponent implements OnInit {
 
   fetchBillDateSummarization(tableFilter?) {
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       datapoint: 'admin_bill_summarization_section',
       source: 'LMS',

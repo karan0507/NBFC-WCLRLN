@@ -36,7 +36,7 @@ export class TransactionActionsComponent implements OnInit {
 
   fetchTransactionActions(tableFilter?) {
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       page: this.page,
       // search_param: this.search_params ? this.search_params : '',
@@ -56,7 +56,7 @@ export class TransactionActionsComponent implements OnInit {
 
   getDetailsAction(tableFilter?) {
     this.det_page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.det_globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.det_globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       page: this.det_page,
       // search_param: this.search_params ? this.search_params : '',

@@ -400,7 +400,7 @@ export class EmployeeDetailsComponent implements OnInit {
   fetchPartnerList(e?) {
     let data = {
       // page: 1,
-      // size: 30,
+      // size: 100,
       // partner_nature: "Partner",
       // status: "all",
     };
