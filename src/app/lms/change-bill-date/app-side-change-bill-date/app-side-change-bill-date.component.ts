@@ -14,7 +14,7 @@ export class AppSideChangeBillDateComponent implements OnInit {
   selectedTab = 'pending'
   page = 1;
   total_count;
-  globalPageSize = 30
+  globalPageSize = 100
   api_calling_loader: boolean;
   listOfData: any;
   customRanges = {

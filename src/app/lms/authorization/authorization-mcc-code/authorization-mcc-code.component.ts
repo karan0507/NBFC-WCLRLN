@@ -74,7 +74,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
     'list': false,
     'onOk': false
   }
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
   page = 1;
 
   total_count: any;
@@ -88,7 +88,7 @@ export class AuthorizationMccCodeComponent implements OnInit {
   constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.createUpdateDetailForm();
     this.getAuthorizationList();
   }

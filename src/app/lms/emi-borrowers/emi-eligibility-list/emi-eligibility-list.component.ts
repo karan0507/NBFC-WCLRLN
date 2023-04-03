@@ -22,7 +22,7 @@ export class EmiEligibilityListComponent implements OnInit {
   preview_file_name: any;
   searchValue = ''
   total_count;
-  globalPageSize = 30
+  globalPageSize = 100
   selectedTab = '';
   // customRanges = {
   //   Today: [new Date(), new Date()],
@@ -41,7 +41,7 @@ export class EmiEligibilityListComponent implements OnInit {
   viewEmiEligibilityData: any = []
   view_total_count: any;
   view_page = 1;
-  view_global_page_limit = 30;
+  view_global_page_limit = 100;
   isModalVisible: boolean = false;
   view_api_calling_loader: boolean = false;
   constructor(private http: HttpService, private message: NzMessageService) { }
@@ -139,7 +139,7 @@ export class EmiEligibilityListComponent implements OnInit {
         this.message.success(res.message);
         this.isImport = false;
         this.page = 1;
-        this.globalPageSize = 30;
+        this.globalPageSize = 100;
         this.getEmiEligibility()
       }
     }, (err) => {

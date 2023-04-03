@@ -19,7 +19,7 @@ export class CliComponent implements OnInit {
   api_calling_loader: boolean = false;
   page = 1
   total_count: any;
-  globalPageSize = 30
+  globalPageSize = 100
   constructor(private http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
@@ -61,7 +61,7 @@ export class CliComponent implements OnInit {
     this.user_approval_status = ''
     this.corporate = '';
     this.page =1 ;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.fetchCliList()
   }
 

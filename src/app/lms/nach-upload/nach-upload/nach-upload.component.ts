@@ -31,7 +31,7 @@ export class NachUploadComponent implements OnInit {
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
-  globalPageSize = 30
+  globalPageSize= 100
   api_calling_loader: boolean;
   listOfData;
   date = ''

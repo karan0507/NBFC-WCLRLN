@@ -83,7 +83,7 @@ export class AuthorizationUpiIdComponent implements OnInit {
   oldDetail: any;
   file: string;
   uploaded_file: any;
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
   storeFormData: any;
 
   constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }

@@ -12,7 +12,7 @@ export class OtpCustomerListComponent implements OnInit {
   otpFailuerResponse: any;
   apiLoader: boolean;
   page: any = 1;
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
   total_count: any;
   searchValue: string;
   date = '';
@@ -43,7 +43,7 @@ export class OtpCustomerListComponent implements OnInit {
 
   resetFilters(){
     this.page =1;
-    this.globalPageSize = 30;
+    this.globalPageSize = 100;
     this.searchValue = '';
     this.date = '';
     this.fetListOfFailOTP();

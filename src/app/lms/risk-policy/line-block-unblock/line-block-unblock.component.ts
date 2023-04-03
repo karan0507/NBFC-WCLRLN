@@ -32,7 +32,7 @@ export class LineBlockUnblockComponent implements OnInit {
     private router : Router,
     private route: ActivatedRoute) {
       this.page = 1;
-      this.globalPageSize = 30
+      this.globalPageSize = 100
       http.refreshBorrower.subscribe(res => {
         this.fetchBorrowerList()
       })

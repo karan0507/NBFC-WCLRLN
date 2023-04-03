@@ -6,7 +6,7 @@ import { HttpService } from '../services/http.service';
       providedIn: 'root'
 })
 export class GlobalservicesService {
-      public globalPageSize = 30;
+      public globalPageSize = 100;
       public applicationStageCount = new ReplaySubject<any>();
       public globalUserData = new ReplaySubject<any>();
       public globalApplicationLoan = new ReplaySubject<any>();

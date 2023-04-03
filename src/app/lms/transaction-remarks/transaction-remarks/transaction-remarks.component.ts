@@ -38,7 +38,7 @@ export class TransactionRemarksComponent implements OnInit {
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
-  globalPageSize = 30
+  globalPageSize = 100
   api_calling_loader: boolean;
   listOfData;
   selectedTab = 'pending'
@@ -56,7 +56,7 @@ export class TransactionRemarksComponent implements OnInit {
   rejactRemarks: string | Blob;
   isRejectSuccess: boolean;
   preview_page = 1;
-  preview_globalPageSize = 30;
+  preview_globalPageSize = 100;
   preview_value: any;
   preview_total_count: any;
 
@@ -175,7 +175,7 @@ export class TransactionRemarksComponent implements OnInit {
       this.preview_globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.preview_globalPageSize;
     } else {
       this.preview_page = 1
-      this.preview_globalPageSize = 30
+      this.preview_globalPageSize = 100
     }
     let data = {
       source: 'LMS',
