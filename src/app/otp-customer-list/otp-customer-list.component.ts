@@ -52,7 +52,7 @@ export class OtpCustomerListComponent implements OnInit {
   fetListOfFailOTP(tableFilter?){
     let data = [];
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
     data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
     data['start_date'] = this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '';

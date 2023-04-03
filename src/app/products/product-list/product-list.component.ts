@@ -57,7 +57,7 @@ expandSet = new Set<number>();
 
   fetchProductList(tabelFilter?) {
     this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     let data = {
       page: this.page,
       product_master: this.product_master ? this.product_master : '',

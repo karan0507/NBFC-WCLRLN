@@ -57,7 +57,7 @@ export class CreditLineIncDecComponent implements OnInit {
   fetchLoanApplicationList(tabelFilter?) {
     // if (tabelFilter) {
       this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',

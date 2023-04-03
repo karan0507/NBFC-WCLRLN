@@ -175,7 +175,7 @@ export class DisbursementComponent implements OnInit {
             this.loanApplicationData = [];
             var data;
             this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
             // data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
             if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }

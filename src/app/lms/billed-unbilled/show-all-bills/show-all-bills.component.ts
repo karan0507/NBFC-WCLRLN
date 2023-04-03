@@ -44,7 +44,7 @@ export class ShowAllBillsComponent implements OnInit {
   fetchPreviousBilledData(tableFilter?) {
     var data;
     // this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    // this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    // this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     data = {
       datapoint: 'get_previous_bills',
       endpoint: this.bill_id,

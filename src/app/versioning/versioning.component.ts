@@ -79,7 +79,7 @@ export class VersioningComponent implements OnInit {
   fetchVersionList(tableFilter?) {
     var data;
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     data = {
       page: this.page,
       limit: this.globalPageSize,

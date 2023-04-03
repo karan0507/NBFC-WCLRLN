@@ -76,7 +76,7 @@ export class BilledUnbilledComponent implements OnInit {
   fetchBilledData(tableFilter?) {
     var data;
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     data = {
       datapoint: 'admin_bill_section',
       endpoint: this.selectedTab,

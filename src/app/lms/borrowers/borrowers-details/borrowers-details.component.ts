@@ -278,7 +278,7 @@ export class BorrowersDetailsComponent implements OnInit {
   fetchBillStatementList(tabelFilter?) {
     // if (tabelFilter) {
     this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -305,7 +305,7 @@ export class BorrowersDetailsComponent implements OnInit {
   fetchInvoiceList(tabelFilter?) {
     // if (tabelFilter) {
     this.page5 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',

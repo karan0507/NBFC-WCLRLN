@@ -67,7 +67,7 @@ export class HeaderComponent{
         // this.api_calling_loader['listLoader'] = true
         // this.loanApplicationData = [];
         // source=Onboarding&datapoint=loan_application_global_search&keyword=9167937459
-        var data = { 'datapoint': 'loan_application_global_search', 'source': 'Onboarding', 'page': 1, 'limit': 30,'keyword': this.searchValue ? this.searchValue : ''}
+        var data = { 'datapoint': 'loan_application_global_search', 'source': 'Onboarding', 'page': 1, 'limit': 100,'keyword': this.searchValue ? this.searchValue : ''}
 
         if (this.searchValue) {
             //   data['page'] = 1
