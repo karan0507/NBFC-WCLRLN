@@ -1,4 +1,3 @@
-
 <section>
     <div class="row">
         <nz-card class="w-100 mb-0">
@@ -12,15 +11,17 @@
                     </ng-template>
                 </div> -->
                 <div class="col-md-12 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mr-2" (click)="resetFilters()">
                         <i nz-icon nzType="undo"></i>
                     </button>
                     <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
                         (ngModelChange)="fetchRefundsList()" [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
-            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchRefundsList($event) : ''">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchRefundsList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -29,9 +30,9 @@
                         <th>Refund created for</th>
                         <th>Amount</th>
                         <th>Refund status</th>
-                        <th>Error description</th>  
-                        <th>Refunded by</th>  
-                        <th>Refund date</th>                      
+                        <th>Error description</th>
+                        <th>Refunded by</th>
+                        <th>Refund date</th>
                     </tr>
                 </thead>
                 <tbody>

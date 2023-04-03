@@ -38,7 +38,7 @@
             </div>
             <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="employeeList"
                 [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
-                [nzPageSize]="globalPageSize" (nzQueryParams)="employeeList[0] ? fetchEmployeeList($event) : ''"
+                [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="employeeList[0] ? fetchEmployeeList($event) : ''"
                 [nzScroll]="{ y: '' }">
                 <thead>
                     <tr>

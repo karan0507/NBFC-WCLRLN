@@ -28,7 +28,7 @@
                 </div>
             </div>
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']" [nzPageSize]="globalPageSize"
-            [nzShowSizeChanger]="true" [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
             [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="UPIList">
                 <thead>
                     <tr>

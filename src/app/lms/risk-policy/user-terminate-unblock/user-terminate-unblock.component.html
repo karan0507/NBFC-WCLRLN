@@ -4,34 +4,40 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchBorrowerList()"/>
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchBorrowerList()" />
                     </nz-input-group>
                     <ng-template #suffixIconButton>
-                        <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()"><i nz-icon nzType="search"></i></button>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()"><i nz-icon
+                                nzType="search"></i></button>
                     </ng-template>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" (click)="resetFilters()" class="ml-2">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
                 <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
-                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
-                        (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch
+                        nzPlaceHolder="Select Corporate" (nzOnSearch)="OnTypeSearchList($event)"
+                        style="min-width: 13rem" (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
                         <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
                             <div *ngIf="item.name">{{ item?.name }}</div>
                         </nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 15rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Product Master">
                         <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_blocked" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By Card Status">
                         <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_active" (ngModelChange)="fetchBorrowerList()"
                         nzPlaceHolder="Filter By A/C Status">
                         <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
@@ -39,7 +45,8 @@
                         <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
                         <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
                         <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
-                        <nz-option [nzValue]="'Voluntary Closure Restructuring'" nzLabel="Voluntary Closure Restructuring"></nz-option>
+                        <nz-option [nzValue]="'Voluntary Closure Restructuring'"
+                            nzLabel="Voluntary Closure Restructuring"></nz-option>
                         <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
                         <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
                     </nz-select>
@@ -50,8 +57,10 @@
                     </nz-select> -->
                 </div>
             </div>
-            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzScroll]="{ x: '2500px' }" [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList[0] ? fetchBorrowerList($event) : ''">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzScroll]="{ x: '2500px' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzLoading]="api_calling_loader"
+                (nzQueryParams)="borrowertList[0] ? fetchBorrowerList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -72,7 +81,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of borrowertList; index as i">
-                        <td *ngIf="page === 1">{{i+1}}</td><td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>
                             <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
                             <span *ngIf="data.user?.mobile">Contact No: {{data.user ? data.user.mobile : '-'}}</span>
@@ -90,24 +100,25 @@
                         <td>{{data?.account_status}}</td>
                         <td>{{data?.is_user_blocked ? 'Block' : 'Active'}}</td>
                         <td nzRight *ngxPermissionsOnly="['toggle_user_terminate']">
-                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                    [nzDropdownMenu]="latestUploadDropDown">
-                                    <img src="assets/images/ellipsis.png" alt="" width="30">
-                                </a>
-                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                    <ul nz-menu>
-                                        <!-- [routerLink]="['edit-employee', data.id]" -->
-                                        <li nz-menu-item *ngIf="!data?.is_user_blocked" (click)="applications = data?.id; isTerminate = true">
-                                            <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
-                                            <span class="m-l-5">Terminate User</span>
-                                        </li>
-                                        <li nz-menu-item *ngIf="data?.is_user_blocked" (click)="applications = data?.id; isUnblock = true">
-                                            <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
-                                            <span class="m-l-5">Unblock User</span>
-                                        </li>
-                                    </ul>
-                                </nz-dropdown-menu>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <img src="assets/images/ellipsis.png" alt="" width="30">
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <!-- [routerLink]="['edit-employee', data.id]" -->
+                                    <li nz-menu-item *ngIf="!data?.is_user_blocked"
+                                        (click)="applications = data?.id; isTerminate = true">
+                                        <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
+                                        <span class="m-l-5">Terminate User</span>
+                                    </li>
+                                    <li nz-menu-item *ngIf="data?.is_user_blocked"
+                                        (click)="applications = data?.id; isUnblock = true">
+                                        <!-- <i nz-icon nzType="delete" theme="outline"></i> -->
+                                        <span class="m-l-5">Unblock User</span>
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
                         </td>
                     </tr>
                 </tbody>
@@ -121,28 +132,18 @@
 <!-- Terminate  -->
 <nz-modal [nzWidth]="400" [(nzVisible)]="isTerminate" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'Do you want to Terminate account?'"
-            [subTitle]="''"
-            [icon]="'assets/images/accloser.png'"
-            (onOkCall)="toggleUserLineStatus('true')"
-            (onCencelCall)="isTerminate = false;"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Terminate'">
+        <app-double-confirmation-popup [title]="'Do you want to Terminate account?'" [subTitle]="''"
+            [icon]="'assets/images/accloser.png'" (onOkCall)="toggleUserLineStatus('true')"
+            (onCencelCall)="isTerminate = false;" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'Terminate'">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 <!-- Unblock  -->
 <nz-modal [nzWidth]="400" [(nzVisible)]="isUnblock" [nzFooter]="null" [nzClosable]="false">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
-            [title]="'Do you want to Unblock account?'"
-            [subTitle]="''"
-            [icon]="'assets/images/accloser.png'"
-            (onOkCall)="toggleUserLineStatus('false')"
-            (onCencelCall)="isUnblock = false;"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Unblock'">
+        <app-double-confirmation-popup [title]="'Do you want to Unblock account?'" [subTitle]="''"
+            [icon]="'assets/images/accloser.png'" (onOkCall)="toggleUserLineStatus('false')"
+            (onCencelCall)="isUnblock = false;" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'Unblock'">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
