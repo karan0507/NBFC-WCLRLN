@@ -86,7 +86,7 @@
 
     <section class="mt-5">
         <nz-table #basicTable [nzFrontPagination]="false" [nzData]="schedulerDetails" [nzPageIndex]="page"
-            [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzShowSizeChanger]="true" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
             [nzScroll]="{ x: '1500px' }">
             <!-- , y: '45vh'     -->
             <thead>

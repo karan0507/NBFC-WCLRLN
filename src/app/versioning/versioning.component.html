@@ -19,7 +19,7 @@
             </div>
         </form>
         <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
-            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzShowSizeChanger]="true" [nzTotal]="total_count"
             (nzQueryParams)="listOfData[0] ? fetchVersionList($event) : ''" [nzData]="listOfData">
             <thead>
                 <tr>

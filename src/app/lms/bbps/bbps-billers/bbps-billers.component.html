@@ -17,15 +17,14 @@
                     </button>
                 </div>
                 <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-select [(ngModel)]="category_id" style="width: 15rem;"
-                        class="mx-1 my-md-0 mb-3" (nzFocus)="getCategoryList()" (ngModelChange)="getBillersList()"
-                        nzAllowClear [nzSize]="'small'" nzPlaceHolder="Select Category">
+                    <nz-select [(ngModel)]="category_id" style="width: 15rem;" class="mx-1 my-md-0 mb-3"
+                        (nzFocus)="getCategoryList()" (ngModelChange)="getBillersList()" nzAllowClear [nzSize]="'small'"
+                        nzPlaceHolder="Select Category">
                         <nz-option *ngFor="let item of categoryList" [nzValue]="item.id" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
-                    <nz-select class="mx-1" style=" width: 12rem;" nzAllowClear
-                        [(ngModel)]="status" (ngModelChange)="getBillersList()"
-                        nzPlaceHolder="Filter By Status">
+                    <nz-select class="mx-1" style=" width: 12rem;" nzAllowClear [(ngModel)]="status"
+                        (ngModelChange)="getBillersList()" nzPlaceHolder="Filter By Status">
                         <nz-option [nzValue]="'true'" nzLabel="Active"></nz-option>
                         <nz-option [nzValue]="'false'" nzLabel="Inactive"></nz-option>
                     </nz-select>
@@ -34,8 +33,9 @@
                     </nz-range-picker> -->
                 </div>
             </div>
-            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="dataList" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzLoading]="api_calling_loader" (nzQueryParams)="dataList ? getBillersList($event) : ''">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="dataList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                [nzLoading]="api_calling_loader" (nzQueryParams)="dataList ? getBillersList($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>
@@ -56,25 +56,26 @@
                         <td>{{ data['fetch_requirement'] ? data['fetch_requirement']: '-' }}</td>
                         <td>{{ data['biller_mode'] ? data['biller_mode']: '-' }}</td>
                         <td>
-                            <span style="color: #27C24C;" *ngIf="data?.status"><i nz-icon nzType="check-circle" [nzTheme]="'twotone'"
-                                    [nzTwotoneColor]="'#27C24C'"></i>
+                            <span style="color: #27C24C;" *ngIf="data?.status"><i nz-icon nzType="check-circle"
+                                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
                                 &nbsp; Active</span>
-                            <span style="color: #dc3545;" *ngIf="!data?.status"><i nz-icon nzType="close-circle" [nzTheme]="'twotone'"
-                                    [nzTwotoneColor]="'#dc3545'"></i>
+                            <span style="color: #dc3545;" *ngIf="!data?.status"><i nz-icon nzType="close-circle"
+                                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
                                 &nbsp; Inactive</span>
                         </td>
                         <!-- <td>{{ data['corporate'] ? data['corporate']: '-' }}</td> -->
                         <td nzRight>
                             <div>
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
-                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown123">
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown123">
                                     <i nz-icon nzType="ellipsis" theme="outline"></i>
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
                                     <ul nz-menu>
                                         <li nz-menu-item nz-popconfirm
-                                        [nzPopconfirmTitle]="'Are you sure to '+ (data?.status ? 'inactive': 'active') +' biller?'"
-                                        nzPopconfirmPlacement="topLeft" (nzOnConfirm)="toggleStatus(data.id)">
+                                            [nzPopconfirmTitle]="'Are you sure to '+ (data?.status ? 'inactive': 'active') +' biller?'"
+                                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="toggleStatus(data.id)">
                                             <span class="m-l-5">toggle status</span>
                                         </li>
                                     </ul>

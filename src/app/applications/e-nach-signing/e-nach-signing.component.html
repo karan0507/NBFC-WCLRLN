@@ -193,7 +193,7 @@
         [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" (nzQueryParams)="
           loanApplicationData[0] ? getFormLoanData($event) : null
-        " [nzScroll]="{ x: '2500px', y: '' }" [nzLoading]="api_calling_loader['listLoader']">
+        " [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '2500px', y: '' }" [nzLoading]="api_calling_loader['listLoader']">
         <thead>
           <tr>
             <th nzWidth="2rem"></th>

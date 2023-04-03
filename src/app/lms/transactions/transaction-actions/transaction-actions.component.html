@@ -16,7 +16,7 @@
             </div> -->
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="actionData" [nzPageIndex]="page"
                 [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-                [nzLoading]="api_calling_loader['card']" [nzScroll]="{ x: '100%' }"
+                [nzLoading]="api_calling_loader['card']" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 (nzQueryParams)="actionData ? fetchTransactionActions($event) : ''">
                 <thead>
                     <tr>
@@ -59,7 +59,7 @@
                 <div class="col-md-12 text-center">
                     <nz-table #basicTable [nzFrontPagination]="false" [nzData]="detailActionData" [nzPageIndex]="det_page"
                     [nzShowSizeChanger]="true" [nzTotal]="det_total_count" [nzPageSize]="det_globalPageSize"
-                    [nzLoading]="api_calling_loader['modal']" [nzScroll]="{ x: '100%' }"
+                    [nzLoading]="api_calling_loader['modal']" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                     (nzQueryParams)="detailActionData ? fetchTransactionActions($event) : ''">
                     <thead>
                         <tr>

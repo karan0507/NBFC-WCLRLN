@@ -103,7 +103,8 @@
         </div>
       </div>
       <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
-        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzScroll]="{ x: '3500px' }"
+        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+        [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '3500px' }"
         [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
         <!-- , y: '45vh'     -->
         <thead>
@@ -385,8 +386,7 @@
                                                                                     <span class="m-l-5">Delete</span>
                                                                                 </li> -->
 
-                      <li nz-menu-item *ngIf="main_stage !== '7'"
-                        (click)="setValuetoSettlement(data?.id)">
+                      <li nz-menu-item *ngIf="main_stage !== '7'" (click)="setValuetoSettlement(data?.id)">
                         <span class="m-l-5">Settlement</span>
                       </li>
                     </ul>
@@ -605,10 +605,10 @@
     <button nz-button nzType="link" class="border" (click)="isRefundActive = false; refundForm.reset()">
       Cancel
     </button>
-    <button nz-button nzType="primary" class="mx-2" 
-      [disabled]="refundForm.invalid ? true : false" (click)="onRefundInititate()" [nzLoading]="buttonLoader" >
+    <button nz-button nzType="primary" class="mx-2" [disabled]="refundForm.invalid ? true : false"
+      (click)="onRefundInititate()" [nzLoading]="buttonLoader">
       Submit
     </button>
   </ng-template>
-  
+
 </section>

@@ -47,7 +47,7 @@
                 </div>
             </div>
             <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="cliListData"
-                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
+                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 [nzPageSize]="globalPageSize" (nzQueryParams)="cliListData[0] ? fetchCliList($event) : ''"
                 [nzScroll]="{ y: '' }">
                 <thead>
