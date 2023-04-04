@@ -3,14 +3,19 @@
         <div class="col-md-6 mb-md-0">
             <nz-radio-group [(ngModel)]="selectedTab" (ngModelChange)='onClickChangeTab($event)'>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="all">All</label>
-                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2" nzValue="active">Active</label>
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                    nzValue="active">Active</label>
                 <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
                     nzValue="inactive">Inactive</label>
             </nz-radio-group>
         </div>
         <div class="col-md-6 col-12 my-md-0 my-3 d-flex justify-content-end">
             <!-- <button nz-button class='text-primary mr-4' [routerLink]="['/merchants/add-merchant']">+ Add Merchant</button> -->
-            <button nz-button class='text-primary' [routerLink]="['/merchants/DSA/add-dsa']" *ngxPermissionsOnly="['add_partner_dsa']">+ Add Partner DSA</button>
+            <button nz-button class='text-primary'
+                (click)="isMapDsaModal.type = 'importFile'; isMapDsaModal.isVisible = true">Import File</button>
+            <button nz-button class="mx-2" nzType="primary" (click)="downloadSampleFile()">Download Sample </button>
+            <button nz-button class='text-primary' [routerLink]="['/merchants/DSA/add-dsa']"
+                *ngxPermissionsOnly="['add_partner_dsa']">+ Add Partner DSA</button>
         </div>
     </div>
     <div class="row mb-md-3">
@@ -21,17 +26,20 @@
             <div class="row">
                 <div class="col-md-4 mb-3 d-flex">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input placeholder="Search text" />
-                      </nz-input-group>
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
                     <!-- <ng-template #suffixIconButton>
                         <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
                     </ng-template> -->
                     <ng-template #suffixIconButton>
-                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
-                      </ng-template>
-                      <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mx-2" (click)="resetFilter()">
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mx-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
-                      </button>
+                    </button>
                 </div>
                 <!-- <div class="col-md-8 mb-3 d-flex justify-content-md-end">
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
@@ -40,407 +48,449 @@
                 </div> -->
             </div>
             <div class="accordianLoanApp">
-            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
-            [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
-            [nzPageIndex]="page" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="getPartnerDSAList($event)" [nzShowSizeChanger]="true" [nzData]="merchantList"
-            [nzScroll]="{ x: '1200px', y: '' }">
-                <thead>
-                    <tr>
-                    <th rowspan="2" nzWidth="100px">#</th>
-                    <th>Merchant Name</th>
-                    <th>Display Name</th>
-                    <th >Type</th>
-                    <th >Regd. On</th>
-                    <!-- <th>Source ID</th> -->
-                    <th>Merchant ID</th>
-                    <!-- <th>Refer Id</th> -->
-                    <th>Registered(KYC)</th>
-                    <!-- <th>Transaction Status</th> -->
-                    <th>System Status</th>
-                    <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngFor="let data of merchantList; index as i">
+                <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
+                    [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
+                    [nzPageIndex]="page" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                    (nzQueryParams)="getPartnerDSAList($event)" [nzShowSizeChanger]="true" [nzData]="merchantList"
+                    [nzScroll]="{ x: '1200px', y: '' }">
+                    <thead>
                         <tr>
-                            <td *ngIf="page == 1" [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
-                                {{ i + 1 }}</td>
-                            <td *ngIf="page > 1" [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event, i)">
-                                {{  ((page-1)*globalPageSize)+(i+1) }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.display_name }}</td>
-                            <td>{{ data.dsa_type }}</td>
-                            <td>{{ data.created_at | date: 'dd MMM yyyy' }}
-                            <!-- <td>{{data?.source_id}}</td> -->
-                            <td>{{data?.unique_code}}</td>
-                            <!-- <td>{{data?.refer_id}}</td> -->
-                            <td *ngIf="data?.registered ">
-                                <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
-                            </td>
-                            <td *ngIf="!data?.registered ">
-                                <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
-                            </td>
-                            <!-- <td>{{data?.transaction_status}}</td> -->
-                            <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
-                            <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
-                            
-                            <!-- <td>{{ data.no_of_partner }}</td> -->
-                            <td nzRight class="pr-0">
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                    [nzDropdownMenu]="latestUploadDropDown">
-                                    <img src="assets/images/ellipsis.png" alt="" width="30">
-                                </a>
-                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
-                                    <ul nz-menu>
-                                        <!-- <li nz-menu-item  (click)="changePassword(data)">
+                            <th rowspan="2" nzWidth="100px">#</th>
+                            <th>Merchant Name</th>
+                            <th>Display Name</th>
+                            <th>Type</th>
+                            <th>Regd. On</th>
+                            <!-- <th>Source ID</th> -->
+                            <th>Merchant ID</th>
+                            <!-- <th>Refer Id</th> -->
+                            <th>Registered(KYC)</th>
+                            <!-- <th>Transaction Status</th> -->
+                            <th>System Status</th>
+                            <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let data of merchantList; index as i">
+                            <tr>
+                                <td *ngIf="page == 1" [nzExpand]="expandSet.has(data.id)"
+                                    (nzExpandChange)="onExpandChange(data.id, $event, i)">
+                                    {{ i + 1 }}</td>
+                                <td *ngIf="page > 1" [nzExpand]="expandSet.has(data.id)"
+                                    (nzExpandChange)="onExpandChange(data.id, $event, i)">
+                                    {{ ((page-1)*globalPageSize)+(i+1) }}</td>
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.display_name }}</td>
+                                <td>{{ data.dsa_type }}</td>
+                                <td>{{ data.created_at | date: 'dd MMM yyyy' }}
+                                    <!-- <td>{{data?.source_id}}</td> -->
+                                <td>{{data?.unique_code}}</td>
+                                <!-- <td>{{data?.refer_id}}</td> -->
+                                <td *ngIf="data?.registered ">
+                                    <a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                </td>
+                                <td *ngIf="!data?.registered ">
+                                    <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
+                                </td>
+                                <!-- <td>{{data?.transaction_status}}</td> -->
+                                <td *ngIf="!data?.is_deleted"><a><i nz-icon nzType="check-circle"
+                                            nzTheme="outline"></i></a></td>
+                                <td *ngIf="data?.is_deleted"><a><i nz-icon nzType="close-circle"
+                                            nzTheme="outline"></i></a></td>
+
+                                <!-- <td>{{ data.no_of_partner }}</td> -->
+                                <td nzRight class="pr-0">
+                                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                        [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                        [nzDropdownMenu]="latestUploadDropDown">
+                                        <img src="assets/images/ellipsis.png" alt="" width="30">
+                                    </a>
+                                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                        <ul nz-menu>
+                                            <!-- <li nz-menu-item  (click)="changePassword(data)">
                                             <span class="m-l-5">Change Password</span>
                                         </li> -->
-                                        <li nz-menu-item  [routerLink]="['/merchants/DSA/edit-dsa']" [queryParams]="{id: data.id}" *ngxPermissionsOnly="['edit_partner_dsa']">
-                                            <span class="m-l-5">Edit</span>
-                                        </li>
-                                        <!-- <li nz-menu-item *ngIf="!data.is_deleted"> 
+                                            <li nz-menu-item [routerLink]="['/merchants/DSA/edit-dsa']"
+                                                [queryParams]="{id: data.id}"
+                                                *ngxPermissionsOnly="['edit_partner_dsa']">
+                                                <span class="m-l-5">Edit</span>
+                                            </li>
+                                            <!-- <li nz-menu-item *ngIf="!data.is_deleted"> 
                                             <span class="m-l-5" (click)="deleteUserByUserId(data?.id)">De-activate</span>
                                         </li> -->
-                                        <ng-container *ngxPermissionsOnly="['toggle_partner_dsa']">
-                                            <li nz-menu-item *ngIf="!data.is_deleted"  (click)="deleteUserByUserId(data?.id, false)">
-                                                <span class="m-l-5">Inactive</span>
-                                            </li>
-                                        </ng-container>
-                                        <ng-container *ngxPermissionsOnly="['toggle_partner_dsa']">
-                                            <li nz-menu-item *ngIf="data.is_deleted" (click)="deleteUserByUserId(data?.id, true)">
-                                                <span class="m-l-5">Active</span>
-                                            </li>
-                                        </ng-container>
-                                        <!-- <li nz-menu-item>
+                                            <ng-container *ngxPermissionsOnly="['toggle_partner_dsa']">
+                                                <li nz-menu-item *ngIf="!data.is_deleted"
+                                                    (click)="deleteUserByUserId(data?.id, false)">
+                                                    <span class="m-l-5">Inactive</span>
+                                                </li>
+                                            </ng-container>
+                                            <ng-container *ngxPermissionsOnly="['toggle_partner_dsa']">
+                                                <li nz-menu-item *ngIf="data.is_deleted"
+                                                    (click)="deleteUserByUserId(data?.id, true)">
+                                                    <span class="m-l-5">Active</span>
+                                                </li>
+                                            </ng-container>
+                                            <!-- <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Dashboard</span>
                                         </li>
                                         <li nz-menu-item>
                                             <span class="m-l-5">Upgrade Agreement</span>
                                         </li> -->
-                                        <li nz-menu-item (click)="storeSelectedId(data?.id)"  *ngxPermissionsOnly="['upload_agreement_partner_dsa']">
-                                            <nz-upload style="cursor: pointer;" [nzMultiple]="false"
-                                                [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
-                                                class="d-flex pl-1 align-items-left" nzSize="large">
-                                                Upload Agreement
-                                            </nz-upload>
-                                        </li>
-                                        <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')" *ngxPermissionsOnly="['show_agreement_partner_dsa']">
-                                            <span class="m-l-5">Show Agreement</span>
-                                        </li>
-                                
-                                
-                                    </ul>
-                                </nz-dropdown-menu>
-                            </td>
-                        </tr>
+                                            <li nz-menu-item (click)="storeSelectedId(data?.id)"
+                                                *ngxPermissionsOnly="['upload_agreement_partner_dsa']">
+                                                <nz-upload style="cursor: pointer;" [nzMultiple]="false"
+                                                    [nzAccept]="'.xls, .xlsx, .pdf'" [nzBeforeUpload]="beforeUpload"
+                                                    class="d-flex pl-1 align-items-left" nzSize="large">
+                                                    Upload Agreement
+                                                </nz-upload>
+                                            </li>
+                                            <li nz-menu-item (click)="storeSelectedId(data?.id, 'get')"
+                                                *ngxPermissionsOnly="['show_agreement_partner_dsa']">
+                                                <span class="m-l-5">Show Agreement</span>
+                                            </li>
+                                            <li nz-menu-item (click)="_currentDsaId = data?.id; createMapForm()"
+                                                *ngxPermissionsOnly="['show_agreement_partner_dsa']">
+                                                <span class="m-l-5">Product Map</span>
+                                            </li>
+
+                                        </ul>
+                                    </nz-dropdown-menu>
+                                </td>
+                            </tr>
 
 
-                        <tr [nzExpand]="expandSet.has(data.id) ">
+                            <tr [nzExpand]="expandSet.has(data.id) ">
 
-                            <div class="justify-content-center">
-                                <nz-page-header 
-                                    class="site-page-header acc-bg-light mb-2"
-                                    [nzTitle]="basicDetail">
-                                </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    NBFC's Address
-                                                </h6>
-                                                <div>
-                                                    {{ data?.expandSet?.address_line_2 || data?.expandSet?.address_line_1 ? (data?.expandSet?.address_line_1 + '  ' + data?.expandSet?.address_line_2) : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Phone No.
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.phone ? data?.expandSet?.phone : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nz-card>
-                            </div>
-
-                            <div>
-                                <nz-page-header
-                                    class="site-page-header acc-bg-light mb-2"
-                                    [nzTitle]="contactPersonDetail">
-                                </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Name
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.contact_person_name ? data?.expandSet?.contact_person_name : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Phone No.
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.contact_person_phone ? data?.expandSet?.contact_person_phone : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Email-Id
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.contact_person_email ? data?.expandSet?.contact_person_email : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nz-card>
-                            </div>
-
-                            <div>
-                                <nz-page-header
-                                    class="site-page-header acc-bg-light mb-2"
-                                    [nzTitle]="bankingDetail">
-                                </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Bank Name
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.bank_name ? data?.expandSet?.bank_name : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    IFSC
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.ifsc ? data?.expandSet?.ifsc : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    A/c No.
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.account_no ? data?.expandSet?.account_no : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex flex-column">
-                                                <h6>
-                                                    Branch.
-                                                </h6>
-                                                <div>
-                                                    {{data?.expandSet?.branch ? data?.expandSet?.branch : ' -- '}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nz-card>
-                            </div>
-
-                            <div class="justify-content-center"  *ngxPermissionsOnly="['view_document_partner_DSA']">
-                                <nz-page-header
-                                    class="site-page-header acc-bg-light mb-2"
-                                    [nzTitle]="kycDocument">
-                                </nz-page-header>
-                                <nz-card class="mb-md-5" [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
-                                    <div class="row"  *ngIf="data?.expandSet?.documents?.length > 0">
-                                        <div class="col-md-6 mb-2" *ngFor="let data of data?.expandSet?.documents">
-                                            <div class="d-flex flex-column" *ngIf="data?.document_master?.require_front_back">
-                                            <div class="mb-2">
-                                                <h6>
-                                                    {{data?.document_master?.name + ' Front'}}
-                                                </h6>
-                                                <div class="d-flex">
-                                                    <span *ngIf="data?.document_file_front">
-                                                        <a>Submitted </a>
-                                                        & &nbsp;
-                                                    </span>
-                                                    <span *ngIf="!data?.document_file_front">
-                                                        Document Not Submitted
-                                                    </span>
-                                                    <span *ngIf="data?.is_verified">
-                                                        Verified
-                                                    </span>
-                                                    <ng-container *ngxPermissionsOnly="['verify_document_partner_dsa']">
-                                                        <span *ngIf="!data?.is_verified && data?.document_file_front">
-                                                            <a 
-                                                                nz-popconfirm
-                                                                nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
-                                                                nzPopconfirmPlacement="bottom"                                              
-                                                                (nzOnConfirm)="onClickVerifyDoc(data?.id)"
-                                                                (nzOnCancel)="cancel()"
-                                                                >
-                                                                Plz Click to verify
-                                                                </a>
-                                                        </span>
-                                                    </ng-container>
-                                                    <div class="mx-2">
-                                                        <ng-container *ngxPermissionsOnly="['download_document']">
-                                                            <i style="cursor: pointer;"  *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="download" nzTheme="outline"
-                                                            (click)="onClickDownloadSelectedDocument(data, 'front')"></i>
-                                                        </ng-container>
-                                                        <ng-container *ngxPermissionsOnly="['view_document']">
-                                                            <i style="cursor: pointer;" *ngIf="data?.document_file_front" class="mr-3" nz-icon nzType="eye" nzTheme="outline"
-                                                            (click)="storeSelectedId(data, 'submitted', 'front')"></i>
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h6>
-                                                    {{data?.document_master?.name + ' Back'}}
-                                                </h6>
-                                                <div  class="d-flex">
-                                                    <span *ngIf="data?.document_file_back">
-                                                        <a>Submitted </a>
-                                                    </span>
-                                                    <span *ngIf="!data?.document_file_back">
-                                                        Document Not Submitted
-                                                    </span>
-                                                    <div class="mx-2">
-                                                        <i style="cursor: pointer;"  *ngIf="data?.document_file_back" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'back')"></i>
-                                                        <i style="cursor: pointer;" *ngIf="data?.document_file_back" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'back')"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="d-flex flex-column" *ngIf="!data?.document_master?.require_front_back">
-                                                <div>
+                                <div class="justify-content-center">
+                                    <nz-page-header class="site-page-header acc-bg-light mb-2" [nzTitle]="basicDetail">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"
+                                        [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="d-flex flex-column">
                                                     <h6>
-                                                        {{data?.document_master?.name}}
+                                                        NBFC's Address
                                                     </h6>
-                                                    <div class="d-flex">
-                                                        <span *ngIf="data?.document_file">
-                                                            <a>Submitted </a>
-                                                            & &nbsp;
-                                                        </span>
-                                                        <span *ngIf="!data?.document_file">
-                                                            Document Not Submitted
-                                                        </span>
-                                                        <span *ngIf="data?.is_verified">
-                                                            Verified
-                                                        </span>
-                                                        <span *ngIf="!data?.is_verified && data?.document_file">
-                                                            <a 
-                                                                nz-popconfirm
-                                                                nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
-                                                                nzPopconfirmPlacement="bottom"                                              
-                                                                (nzOnConfirm)="onClickVerifyDoc(data?.id)"
-                                                                (nzOnCancel)="cancel()"
-                                                                >
-                                                                Plz Click to verify
-                                                                </a>
-                                                        </span>
-                                                        <div class="mx-2">
-                                                            <i style="cursor: pointer;"  *ngIf="data?.document_file" class="mr-3" nz-icon nzType="download" nzTheme="outline" (click)="onClickDownloadSelectedDocument(data, 'single')"></i>
-                                                            <i style="cursor: pointer;" *ngIf="data?.document_file" class="mr-3" nz-icon nzType="eye" nzTheme="outline" (click)="storeSelectedId(data, 'submitted', 'single')"></i>
+                                                    <div>
+                                                        {{ data?.expandSet?.address_line_2 ||
+                                                        data?.expandSet?.address_line_1 ?
+                                                        (data?.expandSet?.address_line_1 + ' ' +
+                                                        data?.expandSet?.address_line_2) : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Phone No.
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.phone ? data?.expandSet?.phone : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nz-card>
+                                </div>
+
+                                <div>
+                                    <nz-page-header class="site-page-header acc-bg-light mb-2"
+                                        [nzTitle]="contactPersonDetail">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"
+                                        [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Name
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.contact_person_name ?
+                                                        data?.expandSet?.contact_person_name : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Phone No.
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.contact_person_phone ?
+                                                        data?.expandSet?.contact_person_phone : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Email-Id
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.contact_person_email ?
+                                                        data?.expandSet?.contact_person_email : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nz-card>
+                                </div>
+
+                                <div>
+                                    <nz-page-header class="site-page-header acc-bg-light mb-2"
+                                        [nzTitle]="bankingDetail">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"
+                                        [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Bank Name
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.bank_name ? data?.expandSet?.bank_name : ' --
+                                                        '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        IFSC
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.ifsc ? data?.expandSet?.ifsc : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        A/c No.
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.account_no ? data?.expandSet?.account_no : '
+                                                        -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="d-flex flex-column">
+                                                    <h6>
+                                                        Branch.
+                                                    </h6>
+                                                    <div>
+                                                        {{data?.expandSet?.branch ? data?.expandSet?.branch : ' -- '}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nz-card>
+                                </div>
+
+                                <div class="justify-content-center" *ngxPermissionsOnly="['view_document_partner_DSA']">
+                                    <nz-page-header class="site-page-header acc-bg-light mb-2" [nzTitle]="kycDocument">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"
+                                        [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row" *ngIf="data?.expandSet?.documents?.length > 0">
+                                            <div class="col-md-6 mb-2" *ngFor="let data of data?.expandSet?.documents">
+                                                <div class="d-flex flex-column"
+                                                    *ngIf="data?.document_master?.require_front_back">
+                                                    <div class="mb-2">
+                                                        <h6>
+                                                            {{data?.document_master?.name + ' Front'}}
+                                                        </h6>
+                                                        <div class="d-flex">
+                                                            <span *ngIf="data?.document_file_front">
+                                                                <a>Submitted </a>
+                                                                & &nbsp;
+                                                            </span>
+                                                            <span *ngIf="!data?.document_file_front">
+                                                                Document Not Submitted
+                                                            </span>
+                                                            <span *ngIf="data?.is_verified">
+                                                                Verified
+                                                            </span>
+                                                            <ng-container
+                                                                *ngxPermissionsOnly="['verify_document_partner_dsa']">
+                                                                <span
+                                                                    *ngIf="!data?.is_verified && data?.document_file_front">
+                                                                    <a nz-popconfirm
+                                                                        nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                                        nzPopconfirmPlacement="bottom"
+                                                                        (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                                        (nzOnCancel)="cancel()">
+                                                                        Plz Click to verify
+                                                                    </a>
+                                                                </span>
+                                                            </ng-container>
+                                                            <div class="mx-2">
+                                                                <ng-container
+                                                                    *ngxPermissionsOnly="['download_document']">
+                                                                    <i style="cursor: pointer;"
+                                                                        *ngIf="data?.document_file_front" class="mr-3"
+                                                                        nz-icon nzType="download" nzTheme="outline"
+                                                                        (click)="onClickDownloadSelectedDocument(data, 'front')"></i>
+                                                                </ng-container>
+                                                                <ng-container *ngxPermissionsOnly="['view_document']">
+                                                                    <i style="cursor: pointer;"
+                                                                        *ngIf="data?.document_file_front" class="mr-3"
+                                                                        nz-icon nzType="eye" nzTheme="outline"
+                                                                        (click)="storeSelectedId(data, 'submitted', 'front')"></i>
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h6>
+                                                            {{data?.document_master?.name + ' Back'}}
+                                                        </h6>
+                                                        <div class="d-flex">
+                                                            <span *ngIf="data?.document_file_back">
+                                                                <a>Submitted </a>
+                                                            </span>
+                                                            <span *ngIf="!data?.document_file_back">
+                                                                Document Not Submitted
+                                                            </span>
+                                                            <div class="mx-2">
+                                                                <i style="cursor: pointer;"
+                                                                    *ngIf="data?.document_file_back" class="mr-3"
+                                                                    nz-icon nzType="download" nzTheme="outline"
+                                                                    (click)="onClickDownloadSelectedDocument(data, 'back')"></i>
+                                                                <i style="cursor: pointer;"
+                                                                    *ngIf="data?.document_file_back" class="mr-3"
+                                                                    nz-icon nzType="eye" nzTheme="outline"
+                                                                    (click)="storeSelectedId(data, 'submitted', 'back')"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="d-flex flex-column"
+                                                    *ngIf="!data?.document_master?.require_front_back">
+                                                    <div>
+                                                        <h6>
+                                                            {{data?.document_master?.name}}
+                                                        </h6>
+                                                        <div class="d-flex">
+                                                            <span *ngIf="data?.document_file">
+                                                                <a>Submitted </a>
+                                                                & &nbsp;
+                                                            </span>
+                                                            <span *ngIf="!data?.document_file">
+                                                                Document Not Submitted
+                                                            </span>
+                                                            <span *ngIf="data?.is_verified">
+                                                                Verified
+                                                            </span>
+                                                            <span *ngIf="!data?.is_verified && data?.document_file">
+                                                                <a nz-popconfirm
+                                                                    nzPopconfirmTitle="Are you sure you want to verify corresponding document ?"
+                                                                    nzPopconfirmPlacement="bottom"
+                                                                    (nzOnConfirm)="onClickVerifyDoc(data?.id)"
+                                                                    (nzOnCancel)="cancel()">
+                                                                    Plz Click to verify
+                                                                </a>
+                                                            </span>
+                                                            <div class="mx-2">
+                                                                <i style="cursor: pointer;" *ngIf="data?.document_file"
+                                                                    class="mr-3" nz-icon nzType="download"
+                                                                    nzTheme="outline"
+                                                                    (click)="onClickDownloadSelectedDocument(data, 'single')"></i>
+                                                                <i style="cursor: pointer;" *ngIf="data?.document_file"
+                                                                    class="mr-3" nz-icon nzType="eye" nzTheme="outline"
+                                                                    (click)="storeSelectedId(data, 'submitted', 'single')"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row" *ngIf="data?.expandSet?.documents?.length <= 0">
-                                        <div class="col-md-6">
+                                        <div class="row" *ngIf="data?.expandSet?.documents?.length <= 0">
+                                            <div class="col-md-6">
                                                 <h6>
                                                     No Documents To show
                                                 </h6>
                                             </div>
-                                    </div>
+                                        </div>
 
-                                </nz-card>
-                            </div>
+                                    </nz-card>
+                                </div>
 
-                            <div class="justify-content-center">
-                                <nz-page-header
-                                    class="site-page-header acc-bg-light mb-2"
-                                    [nzTitle]="adminDetail">
-                                </nz-page-header>
-                                <nz-card class="mb-md-5"  [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
-                                    <div class="row"  *ngIf="data?.expandSet?.corporate_admins?.length > 0">
-                                        <div class="col-md-12 mb-2" *ngFor="let data of data?.expandSet?.corporate_admins">
-                                            <div class="d-flex flex-column">
-                                                <div class="row">
-                                                    <div class="col-4">
-                                                        <div class="mb-2">
-                                                            <h6>
-                                                                Email
-                                                            </h6>
-                                                            <div class="d-flex">
-                                                                <span>
-                                                                    {{data?.email}}
-                                                                </span>
+                                <div class="justify-content-center">
+                                    <nz-page-header class="site-page-header acc-bg-light mb-2" [nzTitle]="adminDetail">
+                                    </nz-page-header>
+                                    <nz-card class="mb-md-5"
+                                        [nzLoading]="storeDetailId == data.id ? _apiLoader['detailList'] : null">
+                                        <div class="row" *ngIf="data?.expandSet?.corporate_admins?.length > 0">
+                                            <div class="col-md-12 mb-2"
+                                                *ngFor="let data of data?.expandSet?.corporate_admins">
+                                                <div class="d-flex flex-column">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="mb-2">
+                                                                <h6>
+                                                                    Email
+                                                                </h6>
+                                                                <div class="d-flex">
+                                                                    <span>
+                                                                        {{data?.email}}
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <div class="mb-2">
-                                                            <h6>
-                                                                Name
-                                                            </h6>
-                                                            <div class="d-flex">
-                                                                <span>
-                                                                    {{data?.name}}
-                                                                </span>
+                                                        <div class="col-4">
+                                                            <div class="mb-2">
+                                                                <h6>
+                                                                    Name
+                                                                </h6>
+                                                                <div class="d-flex">
+                                                                    <span>
+                                                                        {{data?.name}}
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-4 align-self-center text-right" *ngxPermissionsOnly="['show_password_partner_dsa','reset_password_partner_dsa']">
-                                                        <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                                                [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                                        <div class="col-4 align-self-center text-right"
+                                                            *ngxPermissionsOnly="['show_password_partner_dsa','reset_password_partner_dsa']">
+                                                            <a class="text-dark font-size-20" nz-dropdown
+                                                                [nzClickHide]="false" [nzTrigger]="'click'"
+                                                                [nzPlacement]="'bottomRight'"
                                                                 [nzDropdownMenu]="showPassword">
                                                                 <img src="assets/images/ellipsis.png" alt="" width="30">
-                                                        </a>
+                                                            </a>
                                                             <nz-dropdown-menu #showPassword="nzDropdownMenu">
                                                                 <ul nz-menu>
-                                                                    <li nz-menu-item (click)="onClickGetPassword('reset', data)" *ngxPermissionsOnly="['reset_password_partner_dsa']">
+                                                                    <li nz-menu-item
+                                                                        (click)="onClickGetPassword('reset', data)"
+                                                                        *ngxPermissionsOnly="['reset_password_partner_dsa']">
                                                                         <span class="m-l-5">Reset Password</span>
                                                                     </li>
-                                                                    <li nz-menu-item (click)="onClickGetPassword('show', data)" *ngxPermissionsOnly="['show_password_partner_dsa']">
+                                                                    <li nz-menu-item
+                                                                        (click)="onClickGetPassword('show', data)"
+                                                                        *ngxPermissionsOnly="['show_password_partner_dsa']">
                                                                         <span class="m-l-5">Show Password</span>
                                                                     </li>
                                                                 </ul>
                                                             </nz-dropdown-menu>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" *ngIf="data?.expandSet?.corporate_admins?.length <= 0">
-                                        <div class="col-md-6">
+                                        <div class="row" *ngIf="data?.expandSet?.corporate_admins?.length <= 0">
+                                            <div class="col-md-6">
                                                 <h6>
                                                     No Corporate Admin Detail's to show
                                                 </h6>
                                             </div>
-                                    </div>
-                                </nz-card>
-                            </div>
+                                        </div>
+                                    </nz-card>
+                                </div>
 
-                            <!-- <div class="justify-content-center">
+                                <!-- <div class="justify-content-center">
                                 <nz-page-header
                                     class="site-page-header acc-bg-light mb-2"
                                     [nzTitle]="otherDetails">
@@ -482,11 +532,11 @@
                             </div> -->
 
 
-                        </tr>
-                    </ng-container>
-                </tbody>
-            </nz-table>
-        </div>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </nz-table>
+            </div>
         </nz-card>
     </div>
 </section>
@@ -525,107 +575,159 @@
     </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isDelete" nzOkLoading="true" nzWidth="25rem" [nzTitle]="null" [nzClosable]="false" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isDelete" nzOkLoading="true" nzWidth="25rem" [nzTitle]="null" [nzClosable]="false"
+    [nzFooter]="null" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
 
-      <div class="py-4 text-center">
-        <!-- <img src="assets/images/icons/doubleconfirmationdelete.png"> -->
+        <div class="py-4 text-center">
+            <!-- <img src="assets/images/icons/doubleconfirmationdelete.png"> -->
 
-        <p class="font-weight-bold text-dark mt-4">You are about to delete an User</p>
-        <p class="font-size-12 font-weight-semibold text-dark">This action will delete the user Permanently<br> Are You Sure ?</p>
+            <p class="font-weight-bold text-dark mt-4">You are about to delete an User</p>
+            <p class="font-size-12 font-weight-semibold text-dark">This action will delete the user Permanently<br> Are
+                You Sure ?</p>
 
-        <div class="row pt-4">
-          <div class="col-6">
-            <button nz-button (click)="handleCancel()" nzType="default" nzBlock>Cancel</button>
-          </div>
-          <div class="col-6">
-            <button nz-button (click)="confirmationTrigger(true)" nzType="primary" nzBlock>{{isCancel ? 'Cancel Order' : 'Delete'}}</button>
-          </div>
+            <div class="row pt-4">
+                <div class="col-6">
+                    <button nz-button (click)="handleCancel()" nzType="default" nzBlock>Cancel</button>
+                </div>
+                <div class="col-6">
+                    <button nz-button (click)="confirmationTrigger(true)" nzType="primary" nzBlock>{{isCancel ? 'Cancel
+                        Order' : 'Delete'}}</button>
+                </div>
+            </div>
         </div>
-      </div>
     </ng-container>
-  </nz-modal>
+</nz-modal>
 
-  <nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="true" (nzOnCancel)="isDelete = false; selectedUserId = ''">
+<nz-modal [nzWidth]="500" [(nzVisible)]="isDelete" [nzFooter]="null" [nzClosable]="true"
+    (nzOnCancel)="isDelete = false; selectedUserId = ''">
     <ng-container *nzModalContent>
-        <app-double-confirmation-popup 
+        <app-double-confirmation-popup
             [title]="statusOfSelectedLender ? 'This action will Activate this account' : 'This action will Deactivate this account'"
             [subTitle]="!statusOfSelectedLender ? 'if  required, you can activate this account after 15 days.' : 'if required, you can Deactivate this account after 15 days.'"
             [alertWarning]="statusOfSelectedLender ? 'Are your sure ?' : 'Are your sure ?'"
-            [icon]="'assets/images/activate.png'"
-            (onOkCall)="confirmationTrigger()"
-            (onCencelCall)="isDelete = false; selectedUserId = ''"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'OK'">
+            [icon]="'assets/images/activate.png'" (onOkCall)="confirmationTrigger()"
+            (onCencelCall)="isDelete = false; selectedUserId = ''" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
         </app-double-confirmation-popup>
     </ng-container>
 </nz-modal>
 
-<nz-modal nzTitle="Change Password"  (nzOnCancel)="toggleChangePassword = false"[nzWidth]="800" [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true" >
+<nz-modal nzTitle="Change Password" (nzOnCancel)="toggleChangePassword = false" [nzWidth]="800"
+    [(nzVisible)]="toggleChangePassword" [nzFooter]="null" [nzClosable]="true">
     <ng-container *nzModalContent>
-        <app-change-password
-            [userData]="selectedUserData"
-            (onOkCall)="onClickChangePassword($event)"
-            (onCencelCall)="toggleChangePassword = false"
-            [cancelBtnTxt]="'Cancel'"
-            [submitBtnTxt]="'Update'">
+        <app-change-password [userData]="selectedUserData" (onOkCall)="onClickChangePassword($event)"
+            (onCencelCall)="toggleChangePassword = false" [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'Update'">
         </app-change-password>
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw"  nzWidth="60vw" nzKeyboard="true"
-	[nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
-	<ng-container *nzModalContent>
-		<div class="pdf_viewer_container">
-			<embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" style="height: 25rem;" />
-		</div>
-	</ng-container>
-	<ng-template #modalFooter>
-		<button nz-button nzType="primary" (click)="handleCancel()">Close</button>
-	</ng-template>
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe(pdf_viewer_object_values['url'])" width="100%" style="height: 25rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
 </nz-modal>
 
-<nz-modal [nzTitle]="passwordForAdmin['toggleShoePasswordField'] ? 'View Password' : 'Reset Password'" [nzWidth]="500" [(nzVisible)]="passwordForAdmin['isVisibleModal']" (nzOnOk)="onClickResetPassword()" [nzOkLoading]="passwordForAdmin['apiLoader']" 
-          [nzFooter]="passwordForAdmin['toggleShoePasswordField'] ?  null : ''" [nzClosable]="true" (nzOnCancel)="passwordForAdmin['isVisibleModal']=false; selectedUserId = ''">
+<nz-modal [nzTitle]="passwordForAdmin['toggleShoePasswordField'] ? 'View Password' : 'Reset Password'" [nzWidth]="500"
+    [(nzVisible)]="passwordForAdmin['isVisibleModal']" (nzOnOk)="onClickResetPassword()"
+    [nzOkLoading]="passwordForAdmin['apiLoader']" [nzFooter]="passwordForAdmin['toggleShoePasswordField'] ?  null : ''"
+    [nzClosable]="true" (nzOnCancel)="passwordForAdmin['isVisibleModal']=false; selectedUserId = ''">
     <!-- <ng-container *nzModalContent> -->
-        <nz-card [nzLoading]="passwordForAdmin['apiLoader']">
-            <div *ngIf="passwordForAdmin['toggleShoePasswordField']" class="row">
-                <div class="col-6">
-                    Password
-                </div>
-                <div class="col-6">
-                    {{passwordForAdmin['password']?.password}}
-                </div>
+    <nz-card [nzLoading]="passwordForAdmin['apiLoader']">
+        <div *ngIf="passwordForAdmin['toggleShoePasswordField']" class="row">
+            <div class="col-6">
+                Password
             </div>
-            <div *ngIf="!passwordForAdmin['toggleShoePasswordField']" class="row">
-                <form nz-form [formGroup]="resetPasswordForm">
-                    <div class="col-md-12">
-                            <nz-form-item>
-                                <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>New Password</nz-form-label>
-                                <nz-form-control [nzSm]="20" nzErrorTip="Please Add New Password!">
-                                    <input nz-input type="text" formControlName="new_password"  placeholder="New Password"/>
-                                </nz-form-control>
-                            </nz-form-item>
-                    </div>
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Confirm Password</nz-form-label>
-                            <nz-form-control [nzSm]="20" nzErrorTip="Please Add Confirm Password!">
-                                <input nz-input type="text" formControlName="retype_password"  placeholder="Confirm Password"/>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <div class="col-md-12">
-                        <nz-form-item>
-                            <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Send Email</nz-form-label>
-                            <nz-form-control [nzSm]="20" nzErrorTip="Please Select Action!">
-                                <label nz-checkbox formControlName="send_email"></label> 
-                                <!-- <input nz-input type="text" formControlName="send_email"/> -->
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                </form>
+            <div class="col-6">
+                {{passwordForAdmin['password']?.password}}
             </div>
-        </nz-card>
+        </div>
+        <div *ngIf="!passwordForAdmin['toggleShoePasswordField']" class="row">
+            <form nz-form [formGroup]="resetPasswordForm">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>New
+                            Password</nz-form-label>
+                        <nz-form-control [nzSm]="20" nzErrorTip="Please Add New Password!">
+                            <input nz-input type="text" formControlName="new_password" placeholder="New Password" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Confirm
+                            Password</nz-form-label>
+                        <nz-form-control [nzSm]="20" nzErrorTip="Please Add Confirm Password!">
+                            <input nz-input type="text" formControlName="retype_password"
+                                placeholder="Confirm Password" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Send Email</nz-form-label>
+                        <nz-form-control [nzSm]="20" nzErrorTip="Please Select Action!">
+                            <label nz-checkbox formControlName="send_email"></label>
+                            <!-- <input nz-input type="text" formControlName="send_email"/> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </form>
+        </div>
+    </nz-card>
     <!-- </ng-container> -->
 </nz-modal>
+
+<section *ngIf="isMapDsaModal.isVisible">
+    <ng-template #mapDsaModal>
+        <button nz-button nzType="link" class="border" (click)="handlecancel()">
+            Cancel
+        </button>
+
+        <button nz-button nzType="primary" [nzLoading]="isMapDsaModal.loader" class="mx-2"
+            [disabled]="isMapDsaModal.type == 'dsa_product' ? (dsaProductForm.invalid ? true : false) : (!fileList[0] ? true : false)"
+            (click)="handleok('dsa_product')">
+            Update
+        </button>
+
+    </ng-template>
+
+    <nz-modal [(nzVisible)]="isMapDsaModal.isVisible"
+        [nzTitle]="isMapDsaModal.type == 'dsa_product' ? 'Map DSA to Product' : 'Import Excel File'"
+        (nzOnCancel)="handlecancel()" [nzFooter]="mapDsaModal">
+        <ng-container *nzModalContent>
+            <div class="row" *ngIf="isMapDsaModal.type == 'dsa_product'">
+                <div class="col-md-12 mb-3">
+                    <form [formGroup]="dsaProductForm">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="stage" class="text-left">
+                                Select Products</nz-form-label>
+                            <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Please select product!">
+                                <nz-select nzAllowClear formControlName="product_ids" nzPlaceHolder="Please select product"
+                                    nzMode="multiple" [nzMaxTagCount]="2" [nzSize]="'small'">
+                                    <nz-option *ngFor="let item of productList" [nzValue]="item.id"
+                                        [nzLabel]="item.name">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </div>
+            </div>
+            <div class="row" *ngIf="isMapDsaModal.type == 'importFile'">
+                <div class="col-md-12 mb-3">
+                    <nz-upload nzType="drag" [nzMultiple]="false" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUploadName"
+                        [nzAccept]="'.xls, .xlsx'">
+                        <p class="ant-upload-text">Drag and Drop file here</p>
+                        <button class="mt-md-5" nz-button nzType="primary">Browse</button>
+                    </nz-upload>
+                </div>
+            </div>
+        </ng-container>
+    </nz-modal>
+</section>

@@ -1422,6 +1422,18 @@ export class HttpService {
             return this._http.post((this.url + `/platform_central/v1/verify-bulk-enach-file`), data);
       }
       
-     
+      public changeSubStage(data) {
+            return this._http.post((this.url + `/loan-application/v1/change-application-substage`), data);
+      }
+      
+      public mapDSAtoProduct(data) {
+            return this._http.post((this.url + `/product/v1/assign-product-to-dsa`), data);
+      }
+
+      public uploadCommissionDsa(data) {
+            return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
+      }
+      
+      
       
 }
