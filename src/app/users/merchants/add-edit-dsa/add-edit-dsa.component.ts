@@ -579,8 +579,8 @@ export class AddEditDsaComponent {
       this.addEditProductForm.patchValue({
         contact_person_name: this.addEditProductForm.value.name,
         contact_person_phone: this.addEditProductForm.value.phone,
-        department_id:'',
-        designation_id :'',
+        // department_id:'',
+        // designation_id :'',
         source:'admin'
       })
     }
@@ -630,13 +630,7 @@ export class AddEditDsaComponent {
         if(!sendDate.document_data[i].id){
           delete sendDate?.document_data[i]?.id;
         }
-        // if(sendDate?.document_data[i]?.documents){
-        //   saveDoc.push(sendDate?.document_data[i]?.documents)
-        //   data.append('documents', sendDate?.document_data[i]?.documents)
-        //   delete sendDate?.document_data[i]?.documents
-        // }
         if (sendDate?.document_data[i]?.front_back_flag) {
-          // saveDoc.push(sendDate?.document_data[i]?.documents)
           if(sendDate?.document_data[i]?.document_name_front) {
             data.append("documents", sendDate?.document_data[i]?.documents_front);
             delete sendDate?.document_data[i]?.documents_front;
@@ -645,8 +639,6 @@ export class AddEditDsaComponent {
             data.append("documents", sendDate?.document_data[i]?.documents_back);
             delete sendDate?.document_data[i]?.documents_back;
           }
-          // data.append("documents", sendDate?.document_data[i]?.documents);
-          // delete sendDate?.document_data[i]?.documents;
         } 
         if(!sendDate?.document_data[i]?.front_back_flag) {
           saveDoc.push(sendDate?.document_data[i]?.documents)
@@ -661,6 +653,7 @@ export class AddEditDsaComponent {
         } else {
           if(sendDate[i]){
             data.append(i, sendDate[i])
+            console.log(i, sendDate[i])
           }
           // data.append(i, sendDate[i])
         }
