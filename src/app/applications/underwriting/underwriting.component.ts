@@ -98,6 +98,10 @@ export class UnderwritingComponent implements OnInit {
   isMoveToDoc: boolean;
   checkOptionsOne: any;
   document_remark: string;
+  selectedType: any;
+  loading: boolean;
+  employmentType: any;
+  application_id: any;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -207,7 +211,8 @@ export class UnderwritingComponent implements OnInit {
     this.api_calling_loader["listLoader"] = true;
     this.loanApplicationData = [];
     var data;
-
+    this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     if (this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C') {
       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3', 'source': 'Onboarding' }
     } else if (this.selectedTabFilter == 'B2B') {
@@ -215,22 +220,6 @@ export class UnderwritingComponent implements OnInit {
     } else if (this.selectedTabFilter == 'D2C') {
       data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=3&app_prod_type=D2C', 'source': 'Onboarding' }
     }
-
-    // data = {
-    //   datapoint: "loan_application",
-    //   endpoint: "LoanApplication?stage_id=3",
-    //   source: "Onboarding",
-    // };
-
-    // if (tableFilter) {
-    //   this.page = tableFilter?.pageIndex;
-    //   this.globalPageSize = tableFilter?.pageSize;
-    //   data["page"] = tableFilter?.pageIndex;
-    //   data["limit"] = tableFilter?.pageSize;
-    // } else {
-    //   data["page"] = this.page;
-    //   data["limit"] = this.globalPageSize;
-    // }
     data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
     data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
     data['flag'] = this.selectedTabFilter
@@ -400,12 +389,10 @@ export class UnderwritingComponent implements OnInit {
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean, index?): void {
     if (checked) {
+      this.expandSet.clear()
+      this._currentId = id
       this.expandSet.add(id);
-      this.getIdWiseData(
-        (this._currentId = id),
-        (this.currentDropDownId = index)
-      );
-      // console.log();
+      this.https.expnadList.next(this.expandSet)
     } else {
       this.expandSet.delete(id);
       console.log("Deleted array of active ids", this._activeLoans);
@@ -544,6 +531,7 @@ export class UnderwritingComponent implements OnInit {
     this.isAttendanceVisible = false
     this.expand_application_id = ''
     this.isMoveToDoc = false
+    this.isChangeProductType = false
   }
 
   handleOk(type?) {
@@ -997,6 +985,68 @@ export class UnderwritingComponent implements OnInit {
         element.label = element.name
         element.checked = false
       });
+    })
+  }
+  ngOnDestroy(): void {
+    this.https.expnadList.next()
+  }
+
+  isChangeProductType = false
+  company_id;
+  company_name;
+  emp_code;
+  emp_type;
+
+  IsClickOnChnageType(data) {
+    this.fetchEmploymentType()
+    this.onFocusMethod('partner')
+    this.isChangeProductType = true
+    this.selectedType = data?.type == 'B2B' ? 'D2C'  : 'B2B'
+    this.emp_type = data?.employment_type_id
+    this.application_id = data?.id
+  }
+
+  changeProductTypeAPICall() {
+    this.loading = true;
+    let data = {};
+    if (this.selectedType) {
+      data['product_type'] = this.selectedType
+    }
+    if (this.company_id && this.selectedType == 'B2B') {
+      data['company_id'] = this.company_id
+    }
+    if (this.company_name && this.selectedType == 'D2C') {
+      data['company_name'] = this.company_name
+    }
+    if (this.emp_code && this.selectedType == 'B2B') {
+      data['employee_code'] = this.emp_code
+    }
+    if (this.emp_type) {
+      data['employment_type'] = this.emp_type
+    }
+    data['application'] = this.application_id
+    this.https.changeProductTypeAPICall(data).subscribe(res => {
+      this.loading = false;
+      if (res['success']) {
+        this.isChangeProductType = false
+        this.message.success(res['message'])
+        this.getFormLoanData()
+      } else {
+        this.message.error(res['message'])
+      }
+    })
+  }
+  fetchEmploymentType() {
+    let data;
+    this.https.fetchEmploymentType(data).subscribe((res: any) => {
+      console.log(res);
+      if (res?.success) {
+        this.employmentType = res?.data?.results
+      } else {
+        this.message.error(res?.message);
+      }
+    }, error => {
+
     })
   }
 }

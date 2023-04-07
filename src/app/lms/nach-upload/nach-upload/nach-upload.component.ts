@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -20,9 +21,9 @@ export class NachUploadComponent implements OnInit {
     Today: [new Date(), new Date()],
     'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
     'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
-    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
     'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
     // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
@@ -31,7 +32,7 @@ export class NachUploadComponent implements OnInit {
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, new Date()) > 0;
-  globalPageSize = 30
+  globalPageSize = 100
   api_calling_loader: boolean;
   listOfData;
   date = ''
@@ -45,17 +46,23 @@ export class NachUploadComponent implements OnInit {
   is_upload_loading: boolean;
   uploadSuccessfully: boolean;
   constructor(public http: HttpService, private message: NzMessageService,
-    private router: Router,
+    private router: Router, private modal: NzModalService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getManualTransactionList()
   }
 
-  downloadSampleFile() {
+  downloadSampleFile(type?, res?) {
     var link = document.createElement('a');
-    link.href = 'assets/static files/Bulk Enach Upload Sample.xlsx';
-    link.download = 'Bulk Enach Upload Sample.xlsx';
+    if (type) {
+      link.href = res;
+      let date = new Date();
+      link.download = type + '.xlsx'
+    } else {
+      link.href = 'assets/static files/SAMPLE_BULK_NACH_FILE.xlsx';
+      link.download = 'Bulk Enach Upload Sample.xlsx';
+    }
     link.click();
   }
 
@@ -154,6 +161,48 @@ export class NachUploadComponent implements OnInit {
       this.isFail = true
       this.isPreviewBeforeUpload = false;
     }
+  }
+
+  updateStatus(id, type) {
+    let data = { id: id, status_of_file: type }
+    this.http.updateNachStatus(data).subscribe((res: any) => {
+      if (res.success) {
+        this.message.success(res.message);
+        this.getManualTransactionList();
+      }
+    })
+  }
+
+
+  verifyNachPending(ide) {
+    let data = {
+      id: ide,
+      'status_of_file': 'APPROVED'
+    }
+    this.http.updateNachStatus(data).subscribe((res: any) => {
+      if (res.success) {
+        this.message.success(res.message);
+        this.getManualTransactionList();
+      } else {
+        this.message.error(res.message);
+      }
+    }, error => {
+      this.message.error(error);
+
+    })
+  }
+
+  doubleConfirmApprove(id) {
+    this.modal.confirm({
+      nzTitle: 'Are you sure ',  /*+ this.party_name + '?'*/
+      nzContent: 'You want to verify this file',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.verifyNachPending(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
 }

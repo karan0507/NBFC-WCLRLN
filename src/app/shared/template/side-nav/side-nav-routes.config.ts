@@ -355,25 +355,43 @@ export const ROUTES: SideNavInterface[] = [
                     },
                 ]
             },
-            // {
-            //     path: '',
-            //     title: 'Customer Actions',
-            //     iconType: '',
-            //     icon: '',
-            //     iconTheme: '',
-            //     permission: [''],
-            //     submenu: [
-            //         {
-            //             path: '',
-            //             title: 'ECM Underwriting',
-            //             iconType: '',
-            //             icon: '',
-            //             iconTheme: '',
-            //             permission: [''],
-            //             submenu: []
-            //         },
-            //     ]
-            // },
+            {
+                path: 'emi',
+                title: 'EMI',
+                iconType: '',
+                iconTheme: '',
+                permission: ['view_borrowers', 'view_change_bill_date', 'view_transaction', 'view_manual_transaction', 'view_athorization_policy', 'view_borrowers', 'view_change_credit_line', 'view_lender_management'],
+                icon: '',
+                submenu: [
+                    {
+                        path: 'emi/offline-emi',
+                        title: 'Offline EMI',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/emi/emi-borrowers',
+                        title: 'EMI Borrowers',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/emi/emi-eligibility',
+                        title: 'EMI Eligibility',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: [''],
+                        submenu: []
+                    },
+                ]
+            },
             {
                 path: '',
                 title: 'ECM Actions',
@@ -455,6 +473,15 @@ export const ROUTES: SideNavInterface[] = [
                         submenu: []
                     },
                     {
+                        path: 'lms/cli',
+                        title: 'CLI',
+                        iconType: '',
+                        icon: '',
+                        permission: [''],
+                        iconTheme: '',
+                        submenu: []
+                    },
+                    {
                         path: 'lms/transaction-remarks',
                         title: 'Transaction remarks',
                         iconType: '',
@@ -521,6 +548,15 @@ export const ROUTES: SideNavInterface[] = [
                     {
                         path: 'lms/deductions',
                         title: 'Deduction Approvals',
+                        iconType: '',
+                        icon: '',
+                        iconTheme: '',
+                        permission: ['view_deduction approval'],
+                        submenu: []
+                    },
+                    {
+                        path: 'lms/transaction-action',
+                        title: 'Transaction Action',
                         iconType: '',
                         icon: '',
                         iconTheme: '',

@@ -15,11 +15,11 @@ export class ProductDetailsComponent implements OnInit {
   createEditForm: FormGroup;
   nbfcsList: any;
   tenureList = [
-    {name: 'Days', value: 'Days'},
-    {name: 'Months', value: 'Months'},
-    {name: 'Years', value: 'Years'},
+    { name: 'Days', value: 'Days' },
+    { name: 'Months', value: 'Months' },
+    { name: 'Years', value: 'Years' },
   ]
-  
+
   product_id: any;
   @Input() isLoading: any;
   productDetails: any;
@@ -27,27 +27,29 @@ export class ProductDetailsComponent implements OnInit {
   indexOfLatestNach: any;
 
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute,) {
-      this.route.queryParams.subscribe(params => {
-        if(params['id']){
-          this.product_id = params['id']
-        } else {
-          this.product_id = null
-        }
-      });
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.product_id = params['id']
+      } else {
+        this.product_id = null
+      }
+    });
     http.globalProductData.subscribe(res => {
       this.isLoading = true
       this.productDetails = res
+      console.log(this.productDetails);
+
       if (this.productDetails) {
         this.createEditFormFuction();
         this.productDetails.tenures?.forEach(element => {
-          this.addTenure(element)
+          // this.addTenure(element)
         });
       }
       this.isLoading = false
     })
-   }
+  }
 
   ngOnInit(): void {
     for (let i = 0; i < 31; i++) {
@@ -60,18 +62,19 @@ export class ProductDetailsComponent implements OnInit {
   }
   createEditFormFuction() {
     this.createEditForm = this.fb.group({
-      version_name: [ this.productDetails ? this.productDetails.version_name : ''],
-      name: [ this.productDetails ? this.productDetails.name : '', [Validators.required]],
-      expiry: [ this.productDetails ? this.productDetails.expiry : '', [Validators.required]],
-      product_master: [ this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
-      activation_date: [ this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
-      inactivation_date: [ this.productDetails ? this.productDetails.inactivation_date : ''],
-      bill_day: [ this.productDetails ? this.productDetails.bill_day : ''],
-      due_days: [ this.productDetails ? this.productDetails.due_days : ''],
-      product_type: [ this.productDetails ? this.productDetails.product_type : '' , [Validators.required]],
+      version_name: [this.productDetails ? this.productDetails.version_name : ''],
+      name: [this.productDetails ? this.productDetails.name : '', [Validators.required]],
+      expiry: [this.productDetails ? this.productDetails.expiry : '', [Validators.required]],
+      product_master: [this.productDetails ? this.productDetails.product_master.id.toString() : '1', [Validators.required]],
+      activation_date: [this.productDetails ? this.productDetails.activation_date : '', [Validators.required]],
+      inactivation_date: [this.productDetails ? this.productDetails.inactivation_date : ''],
+      bill_day: [this.productDetails ? this.productDetails.bill_day : ''],
+      due_days: [this.productDetails ? this.productDetails.due_days : ''],
+      emi_source: [this.productDetails ? this.productDetails.emi_source : 'FILE'],
+      product_type: [this.productDetails ? this.productDetails.product_type : '', [Validators.required]],
       tenures: this.fb.array([]),
       nach_date_time_mappings: this.fb.array([]),
-      })
+    })
     if (this.productDetails) {
       this.fetchNBFCdata()
       this.setFormDataForNach(this.productDetails)
@@ -106,7 +109,7 @@ export class ProductDetailsComponent implements OnInit {
       form.controls.nach_date_time_mappings.controls?.length;
     return form.controls.nach_date_time_mappings.controls;
   }
-  
+
   addNach(data?) {
     this.nach.push(this.newNach(data));
   }
@@ -119,11 +122,11 @@ export class ProductDetailsComponent implements OnInit {
     });
     // moment(data?.time_of_day).format('yyyy-mm ,HH:mm:ss')
   }
-  
+
   get nach(): FormArray {
     return this.createEditForm.get("nach_date_time_mappings") as FormArray;
   }
-  
+
   deleteNachByKey(i) {
     this.nach.removeAt(i);
   }
@@ -133,19 +136,20 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addTenure(data?) {
-    this.tenures.push(this.addSlabControlsTenure(data))
+    // this.tenures.push(this.addSlabControlsTenure(data))
   }
   public addSlabControlsTenure(data): FormGroup {
     if (data) {
       return this.fb.group({
         id: [data.id],
-        tenure_unit: [ data ? data.tenure_unit : 'Months', [Validators.required]],
-        tenure: [ data ? data.tenure : ''],
-        no_of_emis: [ data ? data.no_of_emis : ''],
-        rate_of_interest: [ data ? data.rate_of_interest : '', [Validators.required]],
-        emi_details: [ data ? data.emi_details : ''],
-        advance_emi: [ data ? data.advance_emi : ''],
-        emi_type: [ data ? data.emi_type : 'Single'],
+        tenure_unit: [data ? data.tenure_unit : 'Months', [Validators.required]],
+        tenure: [data ? data.tenure : ''],
+        no_of_emis: [data ? data.no_of_emis : ''],
+        rate_of_interest: [data ? data.rate_of_interest : '', [Validators.required]],
+        emi_details: [data ? data.emi_details : ''],
+        advance_emi: [data ? data.advance_emi : ''],
+        emi_type: [data ? data.emi_type : 'Single'],
+
       });
     } else {
       return this.fb.group({
@@ -168,67 +172,69 @@ export class ProductDetailsComponent implements OnInit {
     this.http.fetchNBFCdata().subscribe(res => {
       this.nbfcsList = res.data.results
     });
-    
+
   }
 
   submitForm() {
-    if ((!this.createEditForm.touched || this.createEditForm.touched) && this.createEditForm.pristine) {
-      this.message.warning('data saved already')
-      return false
-    }
+    // if ((this.createEditForm.touched) && this.createEditForm.pristine) {
+    //   this.message.warning('data saved already')
+    //   return false
+    // }
     let data;
-    
+
     for (var i in this.createEditForm.value.nach_date_time_mappings) {
-      if(this.createEditForm.value.nach_date_time_mappings.length == 0){
+      if (this.createEditForm.value.nach_date_time_mappings.length == 0) {
         this.createEditForm.value.nach_date_time_mappings = null;
       } else {
-      if (
-        this.createEditForm.value.nach_date_time_mappings[i].time_of_day &&
-        this.createEditForm.value.nach_date_time_mappings[i].day_of_month
-      ) {
-        this.createEditForm.value.nach_date_time_mappings[i].time_of_day = moment(
-          this.createEditForm.value.nach_date_time_mappings[i]?.time_of_day
-        ).format("HH:mm:ss");
-      } else {
-        delete this.createEditForm.value.nach_date_time_mappings[i];
-        this.deleteNachByKey(i);
+        if (
+          this.createEditForm.value.nach_date_time_mappings[i].time_of_day &&
+          this.createEditForm.value.nach_date_time_mappings[i].day_of_month
+        ) {
+          this.createEditForm.value.nach_date_time_mappings[i].time_of_day = moment(
+            this.createEditForm.value.nach_date_time_mappings[i]?.time_of_day
+          ).format("HH:mm:ss");
+        } else {
+          delete this.createEditForm.value.nach_date_time_mappings[i];
+          this.deleteNachByKey(i);
+        }
       }
-    }
     }
     if (this.createEditForm.value.tenures[0]) {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
-        version_name : this.createEditForm.value.version_name,
+        version_name: this.createEditForm.value.version_name,
         expiry: this.createEditForm.value.expiry,
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,
         tenures: this.createEditForm.value.tenures,
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
-        product_type: this.createEditForm.value.product_type
-      }          
+        product_type: this.createEditForm.value.product_type,
+        emi_source: this.createEditForm.value.emi_source
+      }
     } else {
       data = {
         activation_date: moment(this.createEditForm.get('activation_date').value).format("YYYY-MM-DD"),
         inactivation_date: this.createEditForm.get('inactivation_date').value ? moment(this.createEditForm.get('inactivation_date').value).format("YYYY-MM-DD") : '',
         name: this.createEditForm.value.name,
-        version_name : this.createEditForm.value.version_name,
+        version_name: this.createEditForm.value.version_name,
         expiry: this.createEditForm.value.expiry,
         product_master: this.createEditForm.value.product_master,
         bill_day: this.createEditForm.value.bill_day,
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
-        product_type: this.createEditForm.value.product_type
-      }        
+        product_type: this.createEditForm.value.product_type,
+        emi_source: this.createEditForm.value.emi_source
+      }
     }
     if (this.product_id) {
       this.editProductDetail(data);
     } else {
       this.createProductDetail(data);
     }
-    
+
   }
   removeSlab(control, slab_index) {
     control = <FormArray>this.createEditForm.get('tenures');
@@ -247,13 +253,14 @@ export class ProductDetailsComponent implements OnInit {
       this.isLoading = false
       this.product_id = res['data'].product_id
       this.router.navigate([], {
-      relativeTo: this.route, queryParams: {id: this.product_id}});
+        relativeTo: this.route, queryParams: { id: this.product_id }
+      });
       this.message.success(res['message'])
-    }, (err)=> {
+    }, (err) => {
       this.isLoading = false
     })
   }
-  
+
   editProductDetail(data) {
     this.isLoading = true
     this.http.editProductDetail(data, this.product_id).subscribe(res => {
@@ -262,13 +269,13 @@ export class ProductDetailsComponent implements OnInit {
       // this.router.navigate([], {
       // relativeTo: this.route, queryParams: {id: this.product_id}});
       this.message.success(res['message'])
-    }, (err)=> {
+    }, (err) => {
       this.isLoading = false
     })
   }
 
   changeProductMaster(e) {
-    if (e==2) {
+    if (e == 2) {
       this.addTenure()
     } else {
       this.removeTenure()
@@ -284,4 +291,12 @@ export class ProductDetailsComponent implements OnInit {
     this.createEditForm.controls.tenures['controls'][index].controls.no_of_emis.setValue(this.createEditForm.controls.tenures['controls'][index].controls.tenure.value)
   }
 
+
+  testData() {
+    for (let i in this.createEditForm.controls) {
+      if (this.createEditForm.controls[i].invalid) {
+        console.log(this.createEditForm.controls[i].value);
+      }
+    }
+  }
 }

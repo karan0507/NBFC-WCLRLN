@@ -54,6 +54,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../lms/borrowers/borrowers.module').then(m => m.BorrowersModule),
     },
     {
+        path: 'lms/emi',
+        loadChildren: () => import('../../lms/emi-borrowers/emi-borrowers.module').then(m => m.EmiBorrowersModule),
+    },
+    {
         path: 'lms/change-bill-date',
         loadChildren: () => import('../../lms/change-bill-date/change-bill-date.module').then(m => m.ChangeBillDateModule),
     },
@@ -168,5 +172,9 @@ export const CommonLayout_ROUTES: Routes = [
     {
         path: 'downloads',
         loadChildren: () => import('../../downloads/downloads.module').then(m => m.DownloadsModule),
+    },
+    {
+        path: 'emi/offline-emi',
+        loadChildren: () => import('../../lms/offline-emi/offline-emi.module').then(m => m.OfflineEmiModule),
     },
 ];

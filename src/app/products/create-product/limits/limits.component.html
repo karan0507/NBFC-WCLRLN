@@ -25,12 +25,12 @@
                             >Global Limit</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24"
                             nzErrorTip="Please input Global Limit!">
-                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt1">
                                     <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="global_txn_limit"
                                 placeholder="Please input Global Limit!" />
                                 </nz-input-group>
                                 
-                                <ng-template #addOnAfterTemplateforamt>
+                                <ng-template #addOnAfterTemplateforamt1>
                                     <span>₹</span>
                                 </ng-template>
                         </nz-form-control>

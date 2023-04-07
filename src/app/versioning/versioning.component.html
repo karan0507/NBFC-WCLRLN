@@ -12,13 +12,14 @@
                     </nz-form-item>
                 </div>
                 <label nz-checkbox formControlName="is_optional" class="ml-3">Optional</label>
+                <label nz-checkbox formControlName="system_status" class="ml-3">System Status</label>
                 <div class="col-md-12" style="text-align-last: right;">
                     <button nz-button nzType="primary" [nzLoading]="apiLoader['onUpdate']" (click)="onClickUpdateVersion()">Update Version</button>   
                 </div>
             </div>
         </form>
         <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
-            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzShowSizeChanger]="true" [nzTotal]="total_count"
             (nzQueryParams)="listOfData[0] ? fetchVersionList($event) : ''" [nzData]="listOfData">
             <thead>
                 <tr>
@@ -26,6 +27,7 @@
                     <th>Version name</th>
                     <th>is Optional</th>
                     <th>Created at</th>
+                    <th>System Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +40,7 @@
                         <i *ngIf="!data?.is_optional" nz-icon nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
                     </td>
                     <td>{{ data?.created_at ? (data?.created_at | date: 'medium') : 0 }}</td>
+                    <td>{{ data?.is_system_active }}</td>
                 </tr>
             </tbody>
         </nz-table>

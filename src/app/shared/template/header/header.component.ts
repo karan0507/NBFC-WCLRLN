@@ -32,7 +32,7 @@ export class HeaderComponent{
     ngOnInit(): void {
         this.getFormLoanData();
         this.globalFunction.globalUserData.subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.userDetails = res;
         })
         // this.getFormLoanData();
@@ -67,7 +67,7 @@ export class HeaderComponent{
         // this.api_calling_loader['listLoader'] = true
         // this.loanApplicationData = [];
         // source=Onboarding&datapoint=loan_application_global_search&keyword=9167937459
-        var data = { 'datapoint': 'loan_application_global_search', 'source': 'Onboarding', 'page': 1, 'limit': 30,'keyword': this.searchValue ? this.searchValue : ''}
+        var data = { 'datapoint': 'loan_application_global_search', 'source': 'Onboarding', 'page': 1, 'limit': 100,'keyword': this.searchValue ? this.searchValue : ''}
 
         if (this.searchValue) {
             //   data['page'] = 1
@@ -76,7 +76,7 @@ export class HeaderComponent{
         this.loanApplicationData = [];
         this.https.fetchLoanApplicationList(data).subscribe(res => {
               if (res?.success) {
-                  console.log(res);
+                //   console.log(res);
                   this.isLoading = false;
                     //   this.loanApplicationData = [];
                     // if(this._activeLoans){
@@ -95,7 +95,7 @@ export class HeaderComponent{
                             this.loanApplicationData.push(data);
                         })
                     }
-                    console.log(this.loanApplicationData);
+                    // console.log(this.loanApplicationData);
                     // this.loanApplicationData = res?.data?.results;
               } else {
                 this.isLoading = false;
@@ -121,8 +121,8 @@ export class HeaderComponent{
     }
 
   onClickRedirectToSpecificComponent(e){
-    console.log(e)
-    console.log(this.selectedApplication);
+    // console.log(e)
+    // console.log(this.selectedApplication);
     // this.globaldata.selectedGlobalApplicationLoan(e?.application_code);
     if(!e){
         return null;

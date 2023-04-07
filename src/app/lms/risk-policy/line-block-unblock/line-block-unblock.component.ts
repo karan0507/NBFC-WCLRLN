@@ -27,11 +27,12 @@ export class LineBlockUnblockComponent implements OnInit {
   corporateList: any;
   debounce: any;
   isbtnLoading: boolean;
+  admin_entered_remarks: any;
   constructor(public http: HttpService, private message: NzMessageService,
     private router : Router,
     private route: ActivatedRoute) {
       this.page = 1;
-      this.globalPageSize = 30
+      this.globalPageSize = 100
       http.refreshBorrower.subscribe(res => {
         this.fetchBorrowerList()
       })
@@ -53,7 +54,7 @@ export class LineBlockUnblockComponent implements OnInit {
   fetchBorrowerList(tabelFilter?) {
     // if (tabelFilter) {
       this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -94,7 +95,8 @@ export class LineBlockUnblockComponent implements OnInit {
       toggle_type: 'LINE',
       toggle_value: value,
       accepted_loan_application: this.accepted_loan_application,
-      remarks : this.remarks ?this.remarks : ''
+      remarks : this.remarks ?this.remarks : '',
+      admin_entered_remarks: this.admin_entered_remarks ? this.admin_entered_remarks : ''
     }
     this.isbtnLoading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {

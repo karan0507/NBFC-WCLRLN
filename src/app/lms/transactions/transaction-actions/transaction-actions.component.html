@@ -1,0 +1,98 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <!-- <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchTransactionActions()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchTransactionActions()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                   
+                </div>
+            </div> -->
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="actionData" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzLoading]="api_calling_loader['card']" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                (nzQueryParams)="actionData ? fetchTransactionActions($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Action Taker</th>
+                        <th>Action Status</th>
+                        <th>Action Type</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of actionData; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{data?.action_taker}}</td>
+                        <td>{{data?.action_status}}</td>
+                        <td>{{data?.action_type}}</td>
+                        <td>{{data?.created_at ? (data?.created_at | date:'medium') : '-'}}</td>
+                        <td> <button nz-button nz-dropdown nzType="link" nzSize="small" class="ml-auto"
+                                (click)="_currentId = data.id; getDetailsAction()">Details</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+
+
+<section *ngIf="isModalVisible">
+    <nz-modal [(nzVisible)]="isModalVisible" [nzTitle]="null" (nzOnCancel)="isModalVisible = false; detailActionData = []"
+        (nzOnOk)="null">
+        <ng-container *nzModalContent>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <nz-table #basicTable [nzFrontPagination]="false" [nzData]="detailActionData" [nzPageIndex]="det_page"
+                    [nzShowSizeChanger]="true" [nzTotal]="det_total_count" [nzPageSize]="det_globalPageSize"
+                    [nzLoading]="api_calling_loader['modal']" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                    (nzQueryParams)="detailActionData ? fetchTransactionActions($event) : ''">
+                    <thead>
+                        <tr>
+                            <th nzWidth="3rem">#</th>
+                            <th>Transaction Unique Id</th>
+                            <th>Loan Unique Id</th>
+                            <th>Transaction Amount</th>
+                            <th>Transaction Type</th>
+                            <th>Status</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of detailActionData; index as i">
+                            <td *ngIf="det_page === 1">{{i+1}}</td>
+                            <td *ngIf="det_page > 1">{{((det_page-1)*det_globalPageSize)+(i+1)}}</td>
+                            <td>{{data?.transaction_unique_id ? data?.transaction_unique_id : '-'}}</td>
+                            <td>{{data?.loan_unique_id ? data?.loan_unique_id : '-'}}</td>
+                            <td>₹{{data?.transaction_amount ? data?.transaction_amount : '0'}}</td>
+                            <td>{{data?.transaction_type ? data?.transaction_type : '-'}}</td>
+                            <td>{{data?.transaction_status ? data?.transaction_status : '-'}}</td>
+                            <td> {{data.response_recieved ? data?.response_recieved?.message : '-'}}
+                            </td>
+    
+                        </tr>
+                    </tbody>
+                </nz-table>
+
+                <div class="total_count_text" *ngIf="det_total_count">
+                    <b>Total Count : </b>{{det_total_count}}
+                </div>
+                </div>
+            </div>
+        </ng-container>
+    </nz-modal>
+</section>

@@ -32,6 +32,7 @@ export class HttpService {
       refreshCreditLine = new ReplaySubject<any>();
       globalUserPermissionsData = new ReplaySubject<any>();
       limitCollapse = new ReplaySubject<any>();
+      expnadList = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
       }
 
@@ -145,6 +146,17 @@ export class HttpService {
             return this._http.get((this.url + `/product/v1/get-all-product-versions/` + id));
       }
 
+      public fetchDocumentListProductWise() {
+            return this._http.get((this.url + `/product/v1/document-list/`));
+      }
+
+      public getProductsDocumentDetails(id) {
+            return this._http.get((this.url + `/product/v1/add-edit-product-document/` + id));
+      }
+
+      public updateProductDocuments(id,data) {
+            return this._http.post((this.url + `/product/v1/add-edit-product-document/` + id), data);
+      }
       
       /**
        * updateProductVersion
@@ -153,6 +165,16 @@ export class HttpService {
             return this._http.post((this.url + `/product/v1/product-version`), data);
       }
 
+     
+      public exportPincodesType(id,type?) {
+            let data={}
+            return this._http.get((this.url + `/product/v1/export-pincodes/`+id+`/`+type), { params: data,responseType: 'blob' });
+      }
+
+      public uploadPincodes(data) {
+            return this._http.post((this.url + `/product/v1/upload-pincode-file`), data);
+      }
+      
       /**
        * fetchEscrowStatementList
        */
@@ -487,6 +509,29 @@ export class HttpService {
             return this._http.get((this.url + `/loan-application/v1/borrowers-list`), { params: data });
       }
 
+      public fetchEmiBorrowersList(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list`), { params: data });
+      }
+      
+      public fetchEmiBorrowersDetails(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-details`), { params: data });
+      }
+
+ 
+      public fetchEMIEligibilityList(data) {
+            return this._http.get((this.url + `/platform_central/v1/emi-eligibility/list-file`), { params: data });
+      }
+
+      public viewEMIEligibilityList(id,data) {
+            return this._http.get((this.url + `/platform_central/v1/emi-eligibility/view-file/`+ id),{params:data});
+      }
+
+      public uploadEMIEligibilityData(data) {
+            return this._http.post((this.url + `/platform_central/v1/emi-eligibility/upload-file`), data);
+      }
+
+      
+
       /**
        * fetchTransactionList
        */
@@ -537,7 +582,7 @@ export class HttpService {
       }
 
       public activeInactive(id) {
-            return this._http.put((this.url + `/partner/v1/toggle-corporate-status/` + id), null);
+            return this._http.put((this.url + `/partner/v1/corporate-block-all-employees/` + id), null);
       }
 
       /**
@@ -1295,4 +1340,103 @@ export class HttpService {
       moveToDocumentPending(data) {
             return this._http.post((this.url + `/loan-application/v1/move-to-document-pending`), data);
       }
+      getLmhConfig(product_id) {
+            return this._http.get((this.url + `/product/v1/get-product-lmh-configurations/` + product_id));
+      }
+
+      getLmhRule(product_id) {
+            return this._http.get((this.url + `/product/v1/fetch-product-lms-rules/` + product_id));
+      }
+
+      createConfiguration(data) {
+            return this._http.post((this.url + `/product/v1/save-product-lmh-configurations`), data);
+      }
+      createConfigurationRule(data) {
+            return this._http.post((this.url + `/product/v1/save-product-lmh-rules`), data);
+      }
+
+      public getPersonalDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-personal-details/`+ id));
+      }
+
+      public getBankDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-offer-details/` + id));
+      }
+      public getKycDetails(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-loan-application-kyc-details/` + id));
+      }
+      public fetchGlobalProductView(id) {
+            return this._http.get((this.url + `/product/v1/global-product-view/` + id));
+      }
+      public fetchProductEMI(id) {
+            return this._http.get((this.url + `/product/v1/get-product-emi/` + id));
+      }
+      public fetchMasterData(master) {
+            return this._http.get((this.url + `/master/fetch-master-data/` + master));
+      }
+      public createEmiConfiguration(data, id) {
+            return this._http.post((this.url + `/product/v1/add-edit-product-emi/`+ id), data);
+      }
+
+      public fetchLoanApplicationEMIData(data) {
+            return this._http.get((this.url + `/nbfc/v1/fetch-user-loan-application-details`), {params: data});
+      }
+
+      public createOfflineEMI(data) {
+            return this._http.post((this.url + `/loan-application/v1/create-entries-offline-emi`), data);
+      }
+
+      public changeProductTypeAPICall(data) {
+            return this._http.post((this.url + `/loan-application/v1/change-application-product`), data);
+      }
+
+      public getLMSCliList(data) {
+            return this._http.get((this.url + `/platform_central/v1/admin-cli-section`), {params: data});
+      }
+
+      public getMasterDepartment() {
+            return this._http.get((this.url + `/master/fetch-master-data/Departement`));
+      }
+
+      public getMasterDesignation() {
+            return this._http.get((this.url + `/master/fetch-master-data/Desigination`));
+      }
+
+      public createRefund(data) {
+            return this._http.post((this.url + `/central-api/v1/call-api`), data);
+      }
+      
+      public updateTransactionDataStatus(data) {
+            return this._http.post((this.url + `/platform_central/v1/bulk-transaction-action`), data);
+      }
+
+      public getTransactionActionList(data) {
+            return this._http.get((this.url + `/platform_central/v1/bulk-transaction-action-list`),{params:data});
+      }
+
+      public getDetailTransactionAction(data,id) {
+            return this._http.get((this.url + ` /platform_central/v1/show-bulk-transaction-action-content/`+id),{params:data});
+      }
+
+      public updateNachStatus(data) {
+            return this._http.post((this.url + `/platform_central/v1/verify-bulk-enach-file`), data);
+      }
+      
+      public changeSubStage(data) {
+            return this._http.post((this.url + `/loan-application/v1/change-application-substage`), data);
+      }
+      
+      public mapDSAtoProduct(data) {
+            return this._http.post((this.url + `/product/v1/assign-product-to-dsa`), data);
+      }
+
+      public uploadCommissionDsa(data) {
+            return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
+      }
+      
+      public fetchBorrowersPaymentLinks(data,id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-payment-links/`+id),{params:data});
+      }
+      
+      
 }

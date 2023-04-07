@@ -93,7 +93,7 @@ export class AddEditPartnersComponent implements OnInit {
   getListOfMasterPartner(action?) {
     let data = {
       page: 1,
-      limit: 30,
+      limit: 100,
     };
     this.http.fetchMasterPartner(data).subscribe(
       (res: any) => {
@@ -442,8 +442,9 @@ export class AddEditPartnersComponent implements OnInit {
       bill_days: [data ? data?.bill_days : null],
       due_days: [data ? data?.due_days : null],
       api_check_flag: [data ? data?.api_check_flag : null],
-
-
+      allow_individual_attendance : [data ? data?.corporate_attendance_config?.allow_individual_attendance : null],
+      allow_team_attendance: [data ? data?.corporate_attendance_config?.allow_team_attendance : null],
+      corporate_login_mode : [data?.corporate_login_mode ? data?.corporate_login_mode : '',[Validators.required]],
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
       salary_date: [data ? data?.salary_date : null],
@@ -502,6 +503,7 @@ export class AddEditPartnersComponent implements OnInit {
       no_data_flag:[data ? data?.no_data_flag : false],
       salary_deduction_flag:[data ? data?.salary_deduction_flag : false],
       initial_amount:[data ? data?.initial_amount : ''],
+      initial_amount_type: [data ? data?.initial_amount_type : ''],
       // logo:[data ? data?.logo : '', [Validators.required]],
       flag:[data ? data?.corporate_limit_settings?.flag : 'Card', [Validators.required]],
       relationship_manager_name:[data ? data?.relationship_manager_name : null, [Validators.required]],
@@ -1137,7 +1139,8 @@ export class AddEditPartnersComponent implements OnInit {
       // initial_amount: this.addEditProductForm.value?.initial_amount,
       this.addEditProductForm.patchValue({
         corporate_limit_settings: JSON.stringify(corporate_limit_settings),
-        initial_amount: null
+        initial_amount: null,
+        initial_amount_type: ''
       })
     } else {
       corporate_limit_settings = {
@@ -1145,6 +1148,7 @@ export class AddEditPartnersComponent implements OnInit {
         ewa_percent: this.addEditProductForm.value?.ewa_percent ? this.addEditProductForm.value?.ewa_percent : null,
         max_salary_percent: this.addEditProductForm.value?.max_salary_percent ? this.addEditProductForm.value?.max_salary_percent : null,
         initial_amount: this.addEditProductForm.value?.initial_amount,
+        initial_amount_type: this.addEditProductForm.value?.initial_amount_type,
         // initial_amount
       }
       this.addEditProductForm.patchValue({

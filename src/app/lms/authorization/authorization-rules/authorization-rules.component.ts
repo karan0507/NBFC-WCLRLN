@@ -111,7 +111,7 @@ export class AuthorizationRulesComponent implements OnInit {
       'endpoint':'AuthorizationRules',
       // 'keyword': this.searchValue,
       'page': 1,
-      'size': 30
+      'size': 100
     }
     // this.listOfData;
     this.http.getLMSAuthorizationList(data).subscribe((res)=> {

@@ -114,6 +114,8 @@ customRanges = {
   getFormLoanData(tableFilter?) {
       this.api_calling_loader['listLoader'] = true
       this.loanApplicationData = [];
+      this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+      this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
       var data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication', 'source': 'Onboarding' }
       data['page'] = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1
       data['limit'] = tableFilter?.pageSize ? tableFilter?.pageSize : this.globalPageSize
@@ -195,8 +197,10 @@ customRanges = {
   onExpandChange(id: number, checked: boolean, index?): void {
 
         if (checked) {
-              this.expandSet.add(id);
-              this.getIdWiseData(this._currentId = id, index);
+            this.expandSet.clear()
+            this._currentId = id
+            this.expandSet.add(id);
+            this.https.expnadList.next(this.expandSet)
         } else {
               this.expandSet.delete(id);
               console.log('Deleted array of active ids', this._activeLoans);
@@ -320,4 +324,7 @@ customRanges = {
         
   }
 
+      ngOnDestroy(): void {
+            this.https.expnadList.next()
+      }
 }

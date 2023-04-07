@@ -174,6 +174,8 @@ export class DisbursementComponent implements OnInit {
             this.api_calling_loader['listLoader'] = true
             this.loanApplicationData = [];
             var data;
+            this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
+            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
             // data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
             if(this.selectedTabFilter !== 'B2B' && this.selectedTabFilter !== 'D2C'){
                   data = { 'datapoint': 'loan_application', 'endpoint': 'LoanApplication?stage_id=7', 'source': 'Onboarding' }
@@ -262,9 +264,10 @@ export class DisbursementComponent implements OnInit {
       expandSet = new Set<number>();
       onExpandChange(id: number, checked: boolean, index?): void {
             if (checked) {
+                  this.expandSet.clear()
+                  this._currentId = id
                   this.expandSet.add(id);
-                  this.getIdWiseData(this._currentId = id, this.currentDropDownId = index);
-                  // console.log();
+                  this.https.expnadList.next(this.expandSet)
 
             } else {
                   this.expandSet.delete(id);
@@ -658,5 +661,8 @@ export class DisbursementComponent implements OnInit {
                   this.generateloading = false
                   console.log(error);
             })
+      }
+      ngOnDestroy(): void {
+            this.https.expnadList.next()
       }
 }

@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>Email</nz-form-label>
+                                    <nz-form-label>Email</nz-form-label>
                                     <nz-form-control nzErrorTip="Please check your Email!">
                                           <input nz-input ui-mask="****" type="email" formControlName="email"
                                                 placeholder="Enter your Email" />
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>D.O.B</nz-form-label>
+                                    <nz-form-label>D.O.B</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Date Of Birth!">
                                           <nz-date-picker formControlName="date_of_birth" nzFormat="yyyy-MM-dd"
                                                 [nzDisabledDate]="disabledDate" (ngModelChange)="onChange($event)">
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>Monthly Income</nz-form-label>
+                                    <nz-form-label>Monthly Income</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select your Monthly Income!">
                                           <!-- (nzFocus)="fetchMasterIncomeRange()"  -->
                                           <nz-select class="w-100" style=" width: 8rem;" formControlName="income"
@@ -103,17 +103,31 @@
                   <div class="row">
                         <div class="col-12">
                               <div class="row">
-                              <div class="col-md-4" *ngIf="!isCorporate">
-                                    <nz-form-item *ngIf="!isCorporate">
-                                          <nz-form-label nzRequired>Company Name</nz-form-label>
+
+                        <div class="col-md-4">
+                              <nz-form-item>
+                                    <nz-form-label>Product type:</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please check your product type">
+                                          <nz-radio-group formControlName="type">
+                                                <label nz-radio nzValue="B2B">B2B</label>
+                                                <label nz-radio nzValue="D2C">D2C</label>
+                                          </nz-radio-group>
+                                    </nz-form-control>
+                              </nz-form-item>
+                        </div>
+                              <div class="col-md-4" *ngIf="employementDetails.value.type == 'D2C'">
+                                    <nz-form-item *ngIf="employementDetails.value.type == 'D2C'">
+                                          <nz-form-label>Company Name</nz-form-label>
                                           <nz-form-control nzErrorTip="Please check your Company name!">
-                                                      <label>{{ifCorporateNotMapped}}</label>
+                                                      <!-- <label>{{ifCorporateNotMapped}}</label> -->
+
+                                                <input nz-input placeholder="Enter your Company name" formControlName="company_name_text" [(ngModel)]="ifCorporateNotMapped">
                                           </nz-form-control>                                   
                                     </nz-form-item>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4" *ngIf="employementDetails.value.type == 'B2B'">
                                     <nz-form-item>
-                                          <nz-form-label nzRequired>Company Name</nz-form-label>
+                                          <nz-form-label>Company Name</nz-form-label>
                                           <nz-form-control nzErrorTip="Please select your Company Name!">
                                                 <nz-select class="w-100" style=" width: 8rem;" formControlName="company_name"
                                                       nzAllowClear nzPlaceHolder="Company Name"
@@ -124,9 +138,9 @@
                                           </nz-form-control>
                                     </nz-form-item>
                               </div>
-                              <div class="col-md-8" *ngIf="isCorporate">
+                              <div class="col-md-8" *ngIf="isCorporate && employementDetails.value.type == 'B2B'">
                                     <nz-form-item>
-                                          <nz-form-label nzRequired>Address</nz-form-label>
+                                          <nz-form-label>Address</nz-form-label>
                                           <nz-form-control nzErrorTip="Please check your company name for address">
                                                 <input readonly="readonly" nz-input placeholder="Enter your Company Address"
                                                       formControlName="address" nzFormat="yyyy-MM-dd">
@@ -135,9 +149,9 @@
                               </div>
                               </div>
                               <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" *ngIf="employementDetails.value.type == 'B2B'">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Employee Code
+                                          <nz-form-label nzFor="emp_code" class="text-left">Employee Code
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid Code">
                                                 <!-- <nz-select formControlName="employment_type_id" nzPlaceHolder="Enter EMP Code">
@@ -150,7 +164,7 @@
                                     </div>
                                     <div class="col-md-6">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                          <nz-form-label nzFor="employment_type_id" class="text-left">Employment Type
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please select Valid Type">
                                                 <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
@@ -164,7 +178,7 @@
                               <div class="row">
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Address 1
+                                          <nz-form-label nzFor="emp_code" class="text-left">Address 1
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid Address">
                                                 <input nz-input type="text" formControlName="address_1" placeholder="Address 1"/>
@@ -173,7 +187,7 @@
                                     </div>
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="emp_code" class="text-left" nzRequired>Address 2
+                                          <nz-form-label nzFor="emp_code" class="text-left">Address 2
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid Address">
                                                 <input nz-input type="text" formControlName="address_2" placeholder="Address 2"/>
@@ -182,7 +196,7 @@
                                     </div>
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="city" class="text-left" nzRequired>City
+                                          <nz-form-label nzFor="city" class="text-left">City
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid City">
                                                 <input nz-input type="text" formControlName="city" placeholder="City"/>
@@ -191,7 +205,7 @@
                                     </div>
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="landmark" class="text-left" nzRequired>Landmark
+                                          <nz-form-label nzFor="landmark" class="text-left">Landmark
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid Landmark">
                                                 <input nz-input type="text" formControlName="landmark" placeholder="Landmark"/>
@@ -200,7 +214,7 @@
                                     </div>
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="pincode" class="text-left" nzRequired>Pincode
+                                          <nz-form-label nzFor="pincode" class="text-left">Pincode
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid Pincode">
                                                 <input nz-input type="number" formControlName="pincode" placeholder="Pincode"/>
@@ -209,7 +223,7 @@
                                     </div>
                                     <div class="col-md-3">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="state" class="text-left" nzRequired>State
+                                          <nz-form-label nzFor="state" class="text-left">State
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please Add Valid State">
                                                 <input nz-input type="text" formControlName="state" placeholder="State"/>
@@ -218,7 +232,7 @@
                                     </div>
                                     <!-- <div class="col-md-6">
                                           <nz-form-item>
-                                          <nz-form-label nzFor="employment_type_id" class="text-left" nzRequired>Employment Type
+                                          <nz-form-label nzFor="employment_type_id" class="text-left">Employment Type
                                           </nz-form-label>
                                           <nz-form-control nzErrorTip="Please select Valid Type">
                                                 <nz-select formControlName="employment_type_id" nzPlaceHolder="Select Type">
@@ -301,7 +315,7 @@
                   <div class="row">
                         <div class="col-md-4">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>Product Name</nz-form-label>
+                                    <nz-form-label>Product Name</nz-form-label>
                                     <nz-form-control nzErrorTip="Please select Product Name!">
                                           <nz-select class="mx-1 w-100" nzAllowClear formControlName="product_name"
                                                 (ngModelChange)="onFocusMethod($event)" nzPlaceHolder="Product">
@@ -314,7 +328,7 @@
                         </div>
                         <div class="col-md-8">
                               <nz-form-item>
-                                    <nz-form-label nzRequired>Limit Proposed</nz-form-label>
+                                    <nz-form-label>Limit Proposed</nz-form-label>
                                     <nz-form-control nzErrorTip="Please enter the valid limit proposed">
                                           <input nz-input type="text" pattern="\d{1,6}" maxlength="7"
                                                 formControlName="limitProcessed"

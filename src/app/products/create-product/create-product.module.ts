@@ -1,6 +1,6 @@
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CreateProductRoutingModule } from './create-product-routing.module';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { MasterPartnersComponent } from './master-partners/master-partners.component';
@@ -23,6 +23,10 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TransactionConfigComponent } from './transaction-config/transaction-config.component';
+import { LmhComponent } from './lmh/lmh.component';
+import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
+import { EmiConfigurationComponent } from './emi-configuration/emi-configuration.component';
+import { ProductDocumentComponent } from './product-document/product-document.component';
 
 
 @NgModule({
@@ -37,17 +41,19 @@ import { TransactionConfigComponent } from './transaction-config/transaction-con
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent, ProductDocumentComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,
     NzCardModule,
-    FormsModule, ReactiveFormsModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    Ng2SearchPipeModule,
     NzFormModule,
     DemoNgZorroAntdModule,
     NzTagModule,
     SharedModule,
-    NgxPermissionsModule.forChild()
+    NgxPermissionsModule.forChild(),
   ],
   providers:[
     // HttpService

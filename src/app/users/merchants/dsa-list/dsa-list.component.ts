@@ -25,7 +25,7 @@ export class DsaListComponent implements OnInit {
     list: false,
     detailList: false,
   };
-  globalPageSize = 30;
+  globalPageSize = 100;
   page;
   isVisible = false;
   total_count: any;
@@ -50,8 +50,10 @@ export class DsaListComponent implements OnInit {
   storeDetailId: number;
   statusOfSelectedLender: any;
   selectedIndexOfExpand: any;
-  
-  
+
+  dsaProductForm: FormGroup;
+  _currentDsaId: any;
+  isMapDsaModal = { isVisible: false, type: null, loader: false };
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -60,14 +62,14 @@ export class DsaListComponent implements OnInit {
     }
   }
 
-  constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder ) { }
+  constructor(private http: HttpService, private message: NzMessageService, private sanitized: DomSanitizer, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.createResetPasswordForm();
     this.selectedTab = 'all'
     this.page = 1
     this.getPartnerDSAList();
-    
+
   }
 
   passwordForAdmin = {
@@ -80,7 +82,7 @@ export class DsaListComponent implements OnInit {
 
   resetPasswordForm: FormGroup;
 
-  createResetPasswordForm(){
+  createResetPasswordForm() {
     this.resetPasswordForm = this.fb.group({
       corporate_admin_id: [null, [Validators.required]],
       new_password: [null, [Validators.required]],
@@ -88,14 +90,14 @@ export class DsaListComponent implements OnInit {
       send_email: [false],
     })
   }
-  
-  onClickGetPassword(action, data){
+
+  onClickGetPassword(action, data) {
     this.selectedUserId = data?.id;
-    if(action == 'show'){
+    if (action == 'show') {
       this.passwordForAdmin['apiLoader'] = true;
       this.passwordForAdmin['isVisibleModal'] = true;
       this.passwordForAdmin['toggleShoePasswordField'] = true;
-      this.http.showPasswordOfCorporateAdmin(data?.id).subscribe((res: any)=>{
+      this.http.showPasswordOfCorporateAdmin(data?.id).subscribe((res: any) => {
         console.log(res);
         this.passwordForAdmin['apiLoader'] = false;
         this.passwordForAdmin['password'] = res?.data;
@@ -110,12 +112,12 @@ export class DsaListComponent implements OnInit {
 
   }
 
-  onClickResetPassword(){
+  onClickResetPassword() {
     for (const i in this.resetPasswordForm.controls) {
       this.resetPasswordForm.controls[i].markAsDirty();
       this.resetPasswordForm.controls[i].updateValueAndValidity();
-    } 
-    if(this.resetPasswordForm.value.send_email == true){
+    }
+    if (this.resetPasswordForm.value.send_email == true) {
       this.resetPasswordForm.patchValue({
         'send_email': 0
       })
@@ -124,65 +126,65 @@ export class DsaListComponent implements OnInit {
         'send_email': 1
       })
     }
-    console.log(this.resetPasswordForm.value); 
-    if(this.resetPasswordForm.valid){
-      if(this.resetPasswordForm.value.new_password != this.resetPasswordForm.value.retype_password){
+    console.log(this.resetPasswordForm.value);
+    if (this.resetPasswordForm.valid) {
+      if (this.resetPasswordForm.value.new_password != this.resetPasswordForm.value.retype_password) {
         this.message.error('Plz Make sure to match New Password & Confirm Password');
         return;
       }
-      this.passwordForAdmin['apiLoaderOnClick']= true;
+      this.passwordForAdmin['apiLoaderOnClick'] = true;
       const sendDate = this.resetPasswordForm.value;
       let data = new FormData();
       for (var i in sendDate) {
-          // if (sendDate[i]) {
-            data.append(i, sendDate[i]);
-          // }
+        // if (sendDate[i]) {
+        data.append(i, sendDate[i]);
+        // }
         // }
         // data.append('corporate_limit_settings', JSON.stringify(corporate_limit_settings));
       }
-      this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any)=>{
-        this.passwordForAdmin['isVisibleModal'] = false; 
+      this.http.resetPasswordForCorporateAdmin(data).subscribe((res: any) => {
+        this.passwordForAdmin['isVisibleModal'] = false;
         console.log(res)
-        if(res?.success){
+        if (res?.success) {
 
           this.message.success(res?.message);
-          this.passwordForAdmin['apiLoaderOnClick']= true;
+          this.passwordForAdmin['apiLoaderOnClick'] = true;
           this.passwordForAdmin['isVisibleModal'] = false;
         } else {
           this.message.error(res?.message);
           this.passwordForAdmin['isVisibleModal'] = false;
-          this.passwordForAdmin['apiLoaderOnClick']= true;
+          this.passwordForAdmin['apiLoaderOnClick'] = true;
         }
       })
     }
   }
 
 
-  onClickChangeTab(e){
+  onClickChangeTab(e) {
     this.selectedTab = e;
     this.getPartnerDSAList();
   }
 
-  getResultBasedOnSearch(){
+  getResultBasedOnSearch() {
     this.page = 1;
     this.getPartnerDSAList();
   }
 
-  cancel(){
+  cancel() {
   }
 
-  onClickVerifyDoc(id){
+  onClickVerifyDoc(id) {
     let data
-    this.http.verifyUploadedKycDocumentForMasterAndPartner(id,data).subscribe((res: any)=> {
-    this.message.success(res?.message);
+    this.http.verifyUploadedKycDocumentForMasterAndPartner(id, data).subscribe((res: any) => {
+      this.message.success(res?.message);
       this.getMerchantDetail(this.storeDetailId, this.selectedIndexOfExpand)
       console.log(res);
     })
   }
 
-  getMerchantDetail(id, i?){
+  getMerchantDetail(id, i?) {
     this._apiLoader["detailList"] = true;
-    this.http.getPartnerDSAListById(id).subscribe((res: any)=> {
+    this.http.getPartnerDSAListById(id).subscribe((res: any) => {
       // this.merchantDetailList = res?.data;
       this.resetPasswordForm.reset();
       this.merchantDetailList.push(res?.data);
@@ -192,22 +194,22 @@ export class DsaListComponent implements OnInit {
     }, err => {
       console.log(err);
       this._apiLoader["detailList"] = false;
-      
+
     })
   }
 
-  resetFilter(){
+  resetFilter() {
     this.page = 1;
     this.searchValue = ''
     this.getPartnerDSAList();
   }
 
-  getPartnerDSAList(e?){
+  getPartnerDSAList(e?) {
     if (this._apiLoader["list"]) { return; }
-    if(e){
+    if (e) {
       this.page = e?.pageIndex;
       this.globalPageSize = e?.pageSize
-    } 
+    }
     let data = {
       // 'user_type_id' : 2
       'page': this.page,
@@ -220,7 +222,7 @@ export class DsaListComponent implements OnInit {
     //   data['']
     // }
     this._apiLoader["list"] = true;
-    this.http.getPartnerDSAList(data).subscribe((res: any)=> {
+    this.http.getPartnerDSAList(data).subscribe((res: any) => {
       console.log(res);
       this.merchantList = res?.data?.results
       this.total_count = res?.data?.total_count
@@ -241,36 +243,36 @@ export class DsaListComponent implements OnInit {
     }
   }
 
-  handleCancel(){
+  handleCancel() {
     this.isDelete = false;
     this.pdf_viewer_object_values['boolean'] = false
     this.pdf_viewer_object_values['url'] = ''
   }
 
   confirmationTrigger(value: any) {
-      this.http.deleteUserByUserId(this.selectedUserId).subscribe((res :any)=> {
-        if(res?.success){
-          this.message.success(res?.message)
-        } else {
-          this.message.error(res?.message?.[0])
-        }
-        this.getPartnerDSAList();
-        this.isDelete = false
-      }, err=>{
-        this.isDelete = false
-      })
+    this.http.deleteUserByUserId(this.selectedUserId).subscribe((res: any) => {
+      if (res?.success) {
+        this.message.success(res?.message)
+      } else {
+        this.message.error(res?.message?.[0])
+      }
+      this.getPartnerDSAList();
+      this.isDelete = false
+    }, err => {
+      this.isDelete = false
+    })
   }
 
-  deleteUserByUserId(id, action){
+  deleteUserByUserId(id, action) {
     this.statusOfSelectedLender = action;
     this.selectedUserId = id
     this.isDelete = true;
   }
 
-  onClickChangePassword(e){
+  onClickChangePassword(e) {
     console.log('event to execute')
     console.log(e)
-    this.http.changePasswordByAdmin(e).subscribe((res)=>{
+    this.http.changePasswordByAdmin(e).subscribe((res) => {
       this.message.success('Password Updated Successfully');
       this.toggleChangePassword = false;
     }, err => {
@@ -278,12 +280,12 @@ export class DsaListComponent implements OnInit {
     })
   }
 
-  changePassword(data){
+  changePassword(data) {
     this.selectedUserData = [];
     const selectedData = {
       id: data?.user?.id,
       email: data?.contact_person_email,
-      phone:data?.contact_person_phone,
+      phone: data?.contact_person_phone,
       name: data?.name
     }
     this.selectedUserData.push(selectedData)
@@ -292,7 +294,7 @@ export class DsaListComponent implements OnInit {
     this.toggleChangePassword = true
   }
 
- 
+
   selectedIdForAgreement: any;
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -311,49 +313,49 @@ export class DsaListComponent implements OnInit {
     return this.sanitized.bypassSecurityTrustResourceUrl(value);
   }
 
-  storeSelectedId(id, action, type?){
+  storeSelectedId(id, action, type?) {
     this.selectedIdForAgreement = id;
-    if(action === 'get'){
+    if (action === 'get') {
       this.uploadAndShowAgreement('get');
-    }  else if(action === 'submitted'){
-      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId; 
+    } else if (action === 'submitted') {
+      const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
       this.pdf_viewer_object_values['title'] = 'Show ' + id?.document_master?.name
-      if(type== 'single'){
+      if (type == 'single') {
         this.pdf_viewer_object_values['url'] = id?.document_file
-      } else if(type == 'front'){
+      } else if (type == 'front') {
         this.pdf_viewer_object_values['url'] = id?.document_file_front
-      } else if(type == 'back'){
+      } else if (type == 'back') {
         this.pdf_viewer_object_values['url'] = id?.document_file_back
       }
-          this.pdf_viewer_object_values['boolean'] = true
-          this.message.remove(generateloader);
+      this.pdf_viewer_object_values['boolean'] = true
+      this.message.remove(generateloader);
     }
   }
 
-  onClickDownloadSelectedDocument(e, action?){
-    if(action== 'front'){
+  onClickDownloadSelectedDocument(e, action?) {
+    if (action == 'front') {
       var data = new Blob([e?.document_file_front], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data,  `Front_Doc`);
-    } else if(action == 'back'){
+      FileSaver.saveAs(data, `Front_Doc`);
+    } else if (action == 'back') {
       var data = new Blob([e?.document_file_back], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data,  `Back_Doc`);
-    } else if(action == 'single'){
+      FileSaver.saveAs(data, `Back_Doc`);
+    } else if (action == 'single') {
       var data = new Blob([e?.document_file], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data,  `Document_Preview`);
+      FileSaver.saveAs(data, `Document_Preview`);
     }
   }
 
 
 
-  uploadAndShowAgreement(action?){
+  uploadAndShowAgreement(action?) {
     let data = new FormData();
-    let endPoint =  'partner' 
+    let endPoint = 'partner'
     data.append('file', this.uploaded_file);
-    if(action === 'post' ){
+    if (action === 'post') {
       const generateloader = this.message.loading('Uplaoding Document..', { nzDuration: 0 }).messageId;
-      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res: any)=> {
+      this.http.uploadAndShowAgreement(endPoint, 'post', this.selectedIdForAgreement, data).subscribe((res: any) => {
         console.log(res);
-        if(res?.success){
+        if (res?.success) {
           this.message.remove(generateloader);
           this.message.success(res?.message)
         } else {
@@ -366,18 +368,18 @@ export class DsaListComponent implements OnInit {
       })
     } else {
       const generateloader = this.message.loading('Generating Report..', { nzDuration: 0 }).messageId;
-      this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any)=> {
+      this.http.uploadAndShowAgreement(endPoint, 'get', this.selectedIdForAgreement).subscribe((res: any) => {
         console.log(res);
         // pdfViewerAndDownload(){
-          if(res.success){
-            this.pdf_viewer_object_values['title'] = 'Show Agreement'
-            this.pdf_viewer_object_values['url'] = res?.data.agreement
-            this.pdf_viewer_object_values['boolean'] = true
-            this.message.remove(generateloader);
-          } else {
-            this.message.remove(generateloader);
-            this.message.error('No Reports To Generate..');
-          }
+        if (res.success) {
+          this.pdf_viewer_object_values['title'] = 'Show Agreement'
+          this.pdf_viewer_object_values['url'] = res?.data.agreement
+          this.pdf_viewer_object_values['boolean'] = true
+          this.message.remove(generateloader);
+        } else {
+          this.message.remove(generateloader);
+          this.message.error('No Reports To Generate..');
+        }
         // }
       }, error => {
         this.message.remove(generateloader);
@@ -387,4 +389,92 @@ export class DsaListComponent implements OnInit {
     }
   }
 
+  productList: any = []
+  getProducts() {
+    this.http.getProducts().subscribe((res: any) => {
+      if (res.success) {
+        this.productList = res.data
+      }
+    })
+  }
+
+  createMapForm() {
+    this.dsaProductForm = this.fb.group({
+      product_ids: [[], [Validators.required]]
+    })
+    this.getProducts();
+    this.isMapDsaModal.type = 'dsa_product'
+    this.isMapDsaModal.isVisible = true;
+  }
+
+
+  handlecancel() {
+    this.isMapDsaModal.isVisible = false;
+    this.isMapDsaModal.type = null;
+    this._currentFileName = null;
+    this._currentDsaId = null;
+    this.dsaProductForm.reset()
+  }
+
+  handleok() {
+    if (this.isMapDsaModal.isVisible) {
+      if (this.isMapDsaModal.type == 'dsa_product') {
+        this.isMapDsaModal.loader = true
+        let data = { 'product_ids': this.dsaProductForm.get('product_ids').value, 'dsa_id': this._currentDsaId };
+        this.http.mapDSAtoProduct(data).subscribe((res: any) => {
+          if (res.success) {
+            this.message.success(res.message);
+            this.getPartnerDSAList()
+            this.isMapDsaModal.loader = false
+            this.handlecancel();
+          } else {
+            this.isMapDsaModal.loader = false;
+            this.handlecancel();
+          }
+        }, error => {
+          this.message.error(error)
+          this.isMapDsaModal.loader = false;
+          this.handlecancel();
+        })
+
+      } else if (this.isMapDsaModal.type == 'importFile') {
+        this.isMapDsaModal.loader = true
+        let formData = new FormData();
+        formData.append('file', this._currentFileName);
+        this.http.uploadCommissionDsa(formData).subscribe((res: any) => {
+          if (res.success) {
+            this.message.success(res.message);
+            this.getPartnerDSAList()
+            this.isMapDsaModal.loader = false;
+            this.handlecancel();
+          } else {
+            this.isMapDsaModal.loader = false;
+            this.handlecancel();
+          }
+        }, error => {
+          this.message.error(error)
+          this.isMapDsaModal.loader = false;
+          this.handlecancel();
+        })
+      }
+    }
+  }
+
+  fileList: any = [];
+  _currentFileName: any;
+  beforeUploadName = (file) => {
+    this.fileList = [];
+    this.fileList = this.fileList.concat(file);
+    this._currentFileName = this.fileList[0];
+    console.log(this._currentFileName, file);
+    // this.generateBase64View(file)
+    return false;
+  };
+
+  downloadSampleFile() {
+    var link = document.createElement('a');
+    link.href = 'assets/static files/sample_file_commission.xlsx';
+    link.download = 'sample_file_commission.xlsx';
+    link.click();
+  }
 }

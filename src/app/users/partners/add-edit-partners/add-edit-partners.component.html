@@ -720,11 +720,23 @@
                 </div>
                 <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount Type
                         </nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Initial Amount">
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Initial Amount Type">
                             <input nz-input type="number" formControlName="initial_amount"
-                                placeholder="Initial Amount." />
+                                placeholder="Initial Amount Type." />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount Type
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Initial Amount Type">
+                            <nz-select formControlName="initial_amount_type" nzPlaceHolder="Initial Amount Type">
+                                <nz-option nzValue="FLAT" nzLabel="FLAT"></nz-option>
+                                <nz-option nzValue="VARIABLE" nzLabel="VARIABLE"></nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -800,6 +812,58 @@
                     </nz-form-item>
                 </div>
             </div>
+
+<!-- Attendance Section -->
+<div class="mt-2">
+    <h5>
+        Attendance Configuration
+    </h5>
+</div>
+<div class="row border-bottom">
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_individual_attendance" class="text-left">Allow Individual Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_individual_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_team_attendance" class="text-left">Allow Team Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_team_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left">Corporate Login Mode
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <!-- <label nz-checkbox formControlName="no_data_flag"></label> -->
+                <nz-radio-group formControlName='corporate_login_mode'>
+                    <label nz-radio nzValue="MOBILE">MOBILE</label>
+                    <label nz-radio nzValue="CODE">CODE</label>
+                    <label nz-radio nzValue="BOTH">BOTH</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</div>
+
+
+
             <div class="mt-2">
                 <h5>
                     Relationship Manager Details

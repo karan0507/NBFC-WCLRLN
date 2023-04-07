@@ -37,7 +37,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { CommonCibilSmsComponent } from './common-cibil-sms/common-cibil-sms.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { KycDocumentActionComponent } from './kyc-document-action/kyc-document-action.component';
-import { CommonDocumentActionsComponent } from './common-document-actions/common-document-actions.component';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ClosedComponent } from './closed/closed.component';
 // import { HttpService } from '../services/http.service';
@@ -51,7 +50,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { DocumentPendingComponent } from './document-pending/document-pending.component';
 
 @NgModule({
-  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, CommonDocumentActionsComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent],
+  declarations: [FormFillingComponent, DocumentUploadComponent, UnderwritingComponent, OfferProposedComponent, OfferAcceptanceComponent, VerificationComponent, ENachSigningComponent, DisbursementComponent, StageTriggersComponent, EditFormComponent, TrackStatusComponent, PerApprovedComponent, NbfcApprovalComponent, CommonCibilSmsComponent, KycDocumentActionComponent, ClosedComponent, AllApplicantsComponent, CorporateStageComponent, DocumentPendingComponent],
   imports: [
     CommonModule,
     ApplicationsRoutingModule,

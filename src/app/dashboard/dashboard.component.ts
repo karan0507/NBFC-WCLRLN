@@ -551,10 +551,9 @@ export class DashboardComponent implements OnInit {
       if(this.partner){
         data['partner'] = this.partner
       }
+              // return;
               this.http.fetchXMLData(data).subscribe((res)=>{
-                console.log('AJmal');
                 this.designGraph(res?.data?.spend_graph_data);
-                console.log(res);
               })
     }
 

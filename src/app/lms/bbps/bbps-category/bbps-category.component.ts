@@ -14,7 +14,7 @@ export class BbpsCategoryComponent implements OnInit {
   dataList: any;
   total_count: any;
   api_calling_loader: boolean;
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
   page: any = 1;
   search_params: any;
   category_id: any;
@@ -31,7 +31,7 @@ export class BbpsCategoryComponent implements OnInit {
 
   getCategoryList(tabelFilter?) {
     this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       page: this.page,

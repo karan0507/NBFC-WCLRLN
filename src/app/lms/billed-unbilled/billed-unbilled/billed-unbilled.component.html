@@ -74,7 +74,7 @@
     </div>
     <nz-card>
         <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
-            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+            [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
             (nzQueryParams)="listOfData ? fetchBilledData($event) : ''" [nzData]="listOfData" [nzScroll]="{ x: '2500px'}">
             <thead>
                 <tr>

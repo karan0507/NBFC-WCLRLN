@@ -28,6 +28,15 @@
                 </div>
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="display_name" class="text-left" nzRequired>Display
+                            Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Display Name!">
+                            <input nz-input type="text" formControlName="display_name" placeholder="Display Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_1" class="text-left" nzRequired>
                             Address Line 1</nz-form-label>
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Address!">
@@ -44,15 +53,7 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <div class="col-md-12">
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="display_name" class="text-left" nzRequired>Display
-                            Name</nz-form-label>
-                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Display Name!">
-                            <input nz-input type="text" formControlName="display_name" placeholder="Display Name" />
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
+          
                 <!-- <div class="col-md-12">
                   <nz-form-item>
                       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique Code</nz-form-label>
@@ -103,6 +104,34 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="designation_id" class="text-left" nzRequired>Designation
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please input Designation!">
+                            <nz-select nzAllowClear formControlName="designation_id" nzPlaceHolder="Please select Designation"
+                                (nzFocus)="fetachMasters('designation')">
+                                <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="department_id" class="text-left" nzRequired>Department
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please input Designation!">
+                            <nz-select nzAllowClear formControlName="department_id" nzPlaceHolder="Please select Department"
+                                (nzFocus)="fetachMasters('department')">
+                                <nz-option *ngFor="let item of departmentData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
                 <div class="col-md-12">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left">Referred By

@@ -23,7 +23,7 @@ export class MerchantsListComponent implements OnInit {
     list: false,
     detailList: false,
   };
-  globalPageSize = 30;
+  globalPageSize = 100;
   page;
   isVisible = false;
   isDelete = false;
