@@ -182,9 +182,8 @@ export class BorrowersDetailsComponent implements OnInit {
     this.api_calling_loader9 = true
     this.http.fetchBorrowersPaymentLinks(data,this.borrower_id).subscribe((res :any) => {
       this.api_calling_loader9 = false
-      this.paymentList = res['data'][0]
-      this.EMandateRegistrationLink();
-      this.total_count_payment = res.total_count
+      this.paymentList = res.data.results
+      this.total_count_payment = res.data.total_count
       // this.message.success(res['message'])
     }, (err) => {
       this.api_calling_loader9 = false
