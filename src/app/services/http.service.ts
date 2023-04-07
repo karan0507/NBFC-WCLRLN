@@ -1434,6 +1434,9 @@ export class HttpService {
             return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
       }
       
+      public fetchBorrowersPaymentLinks(data,id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-payment-links/`+id),{params:data});
+      }
       
       
 }
