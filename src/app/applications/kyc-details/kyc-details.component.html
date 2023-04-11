@@ -196,6 +196,38 @@
                     </div>
                 </ng-template>
             </div>
+
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="cibilMobile">
+                </nz-page-header>
+                <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
+                    <nz-table [nzFrontPagination]="false" [nzLoading]="api_calling_loader"
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="false" [nzData]="data?.cibil_pulled_mobiles">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" nzWidth="40px">#</th>
+                                <th>Number</th>
+                                <th>Reported Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of data?.cibil_pulled_mobiles;index as i">
+                                <tr>
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ item?.number }}</td>
+                                    <td>{{ item?.reported_date }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </nz-table>
+                </nz-card>
+                <ng-template #cibilMobile>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">Cibil Pulled Mobiles</h6>
+                    </div>
+                </ng-template>
+            </div>
+
             <div class="my-3">
                 <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="response">
                 </nz-page-header>
