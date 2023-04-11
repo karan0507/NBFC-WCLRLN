@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { differenceInCalendarDays } from 'date-fns';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-emi-borrower-details',
@@ -456,4 +457,9 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     })
   }
 
+  downloadAgreement(data){
+    FileSaver.saveAs(data,'Agreement')
+    // const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    // this.http.exportMasterSectionModule(data, 'gst_invoice_list', 'pdf', generateloader)
+  }
 }
