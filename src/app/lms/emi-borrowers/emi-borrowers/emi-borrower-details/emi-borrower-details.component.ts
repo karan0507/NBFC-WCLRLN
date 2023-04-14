@@ -150,7 +150,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       txn_status: this.selectedStatus2 ? this.selectedStatus2 : '',
       start_date: this.date1[0] ? moment(this.date1[0]).format("YYYY-MM-DD") : '',
       end_date: this.date1[1] ? moment(this.date1[1]).format("YYYY-MM-DD") : '',
-      search_param: this.searchValue2,
+      search_param: this.searchValue2 ? this.searchValue2 : '',
       transaction_type: 'transactions_and_repayments',
       txn_type: this.selectedType2 ? this.selectedType2 : '',
     }
@@ -457,9 +457,15 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     })
   }
 
+  exportEmiBill(){
+    let data = {}
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.getEmiBillReport(data).subscribe((res:any)=>{
+      this.http.exportMasterSectionModule(res, 'export', 'xlsx', generateloader)
+    })
+  }
+
   downloadAgreement(data){
-    FileSaver.saveAs(data,'Agreement')
-    // const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
-    // this.http.exportMasterSectionModule(data, 'gst_invoice_list', 'pdf', generateloader)
+    FileSaver.saveAs(data,'Agreement');
   }
 }

@@ -1,3 +1,7 @@
+<div class="d-flex justify-content-end">
+    <button nz-button nzType="primary" (click)="exportEmiBill()">Export</button>
+</div>
+
 <nz-card [nzLoading]="cardLoading">
     <section>
         <div class="row">
@@ -55,6 +59,18 @@
                                 <span class="font-weight-normal">₹{{_currEMIBorrowerDetail?.excess_wallet_amount ?
                                     _currEMIBorrowerDetail?.excess_wallet_amount : '0'}}</span></label></div>
                     </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">DPD Bucket:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.dpd_data?.dpd_bucket ?
+                                    _currEMIBorrowerDetail?.dpd_data?.dpd_bucket : '0'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">DPD Number:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.dpd_data?.dpd_number ?
+                                    _currEMIBorrowerDetail?.dpd_data?.dpd_number : '0'}}</span></label></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -84,6 +100,18 @@
                                 Day:
                                 <span class="font-weight-normal">{{_currEMIBorrowerDetail?.due_day ?
                                     _currEMIBorrowerDetail?.due_day : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Outstanding:
+                                <span class="font-weight-normal">₹{{_currEMIBorrowerDetail?.total_amounts?.outstanding_amount ?
+                                    _currEMIBorrowerDetail?.total_amounts?.outstanding_amount : '0'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Principal Outstanding:
+                                <span class="font-weight-normal">₹{{_currEMIBorrowerDetail?.total_amounts?.principal_outstanding ?
+                                    _currEMIBorrowerDetail?.total_amounts?.principal_outstanding : '0'}}</span></label></div>
                     </div>
                 </div>
             </div>
@@ -557,7 +585,9 @@
 
 <!-- pdf viewer and download -->
 
-<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" nzKeyboard="true"
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" 
+[nzStyle]="{ top: '20px'}" [nzBodyStyle]="{height:'85vh'}"
+nzKeyboard="true"
     [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
     <ng-container *nzModalContent>
         <div class="pdf_viewer_container">

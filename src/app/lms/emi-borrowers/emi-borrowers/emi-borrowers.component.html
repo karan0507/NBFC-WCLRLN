@@ -18,28 +18,30 @@
                     </button>
                 </div>
                 <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
-                    <nz-date-picker [(ngModel)]="_currDate" (ngModelChange)="fetchEmiBorrowersList()" class="mb-3 mr-2"></nz-date-picker>
-                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem" class="my-md-0 mb-3"
-                    (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchEmiBorrowersList()" nzAllowClear [nzMaxTagCount]="1"
-                    [nzSize]="'small'" nzPlaceHolder="Select Partner">
-                    <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
-                    </nz-option>
-                  </nz-select>
+                    <nz-date-picker [(ngModel)]="_currDate" (ngModelChange)="fetchEmiBorrowersList()"
+                        class="mb-3 mr-2"></nz-date-picker>
+                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem"
+                        class="my-md-0 mb-3" (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchEmiBorrowersList()"
+                        nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
                 </div>
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="emiBorrowersList" [nzPageIndex]="page"
                 [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-                [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader"
+                [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 (nzQueryParams)="emiBorrowersList ? fetchEmiBorrowersList($event) : ''">
                 <!-- , y: '45vh'     -->
                 <thead>
                     <tr>
-                        <!-- <th nzWidth="2rem"></th> -->
+                        <th nzWidth="2rem"></th>
                         <th nzWidth="3rem">#</th>
                         <th nzWidth="15rem">User Details</th>
                         <th>Loan ID</th>
                         <th>Product Tenure</th>
-                        
+
                         <th>Application Nature</th>
                         <th>Auto Debit</th>
                         <th>Due Day</th>
@@ -62,9 +64,9 @@
                 <tbody>
                     <ng-container *ngFor="let data of emiBorrowersList; index as i">
                         <tr>
-                            <!-- <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)" (nzExpandChange)="
-                    onExpandChange(data?.loan_application_id, $event, i)
-                  "></td> -->
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)" (nzExpandChange)="
+                            onExpandChange(data?.loan_application_id, $event, i)
+                          "></td>
                             <td *ngIf="page === 1">{{ i + 1 }}</td>
                             <td *ngIf="page > 1">
                                 {{ (page - 1) * globalPageSize + (i + 1) }}
@@ -103,13 +105,22 @@
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
-                                        <li nz-menu-item [routerLink]="['/lms/emi/emi-borrowers/details']" [queryParams]="{ id: data.id }">
+                                        <li nz-menu-item [routerLink]="['/lms/emi/emi-borrowers/details']"
+                                            [queryParams]="{ id: data.id }">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">View Details</span>
                                         </li>
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>
+                        </tr>
+
+                        <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
+                            <div class="row">
+                                <div class="col-md-12" *ngIf="data.loan_application_id === _currentId">
+                                    <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
+                                </div>
+                            </div>
                         </tr>
                     </ng-container>
                 </tbody>
