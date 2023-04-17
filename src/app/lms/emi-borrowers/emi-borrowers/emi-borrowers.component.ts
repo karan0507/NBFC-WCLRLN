@@ -35,6 +35,8 @@ export class EmiBorrowersComponent implements OnInit {
   api_calling_loader: boolean = false;
   corporateList : any = [];
   selectedCorporate : any;
+
+  expandSet = new Set<number>();
   constructor(private http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
@@ -96,4 +98,16 @@ export class EmiBorrowersComponent implements OnInit {
     this.globalPageSize = '30';
     this.fetchEmiBorrowersList()
    }
+   _currentId : any;
+  onExpandChange(id: number, checked: boolean, index?): void {
+   
+    if (checked) {
+      this.expandSet.clear()
+      this._currentId = id
+      this.expandSet.add(id);
+      this.http.expnadList.next(this.expandSet)
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
 }

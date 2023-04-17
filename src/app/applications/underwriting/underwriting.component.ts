@@ -102,6 +102,9 @@ export class UnderwritingComponent implements OnInit {
   loading: boolean;
   employmentType: any;
   application_id: any;
+
+  // Manual EMI
+  isManualEmi: boolean = false;
   constructor(
     public https: HttpService,
     public message: NzMessageService,
@@ -280,12 +283,12 @@ export class UnderwritingComponent implements OnInit {
       'application': id
     }
     this.api_calling_loader["listLoader"] = true;
-    this.https.generateOfferForCorrespondingApplication(data).subscribe((res: any)=>{
-      if(res?.success){
+    this.https.generateOfferForCorrespondingApplication(data).subscribe((res: any) => {
+      if (res?.success) {
         this.api_calling_loader["listLoader"] = false;
         this.message.success(res?.message)
         this.getFormLoanData();
-      } else {this.message.error(res?.message); this.api_calling_loader["listLoader"] = false;}
+      } else { this.message.error(res?.message); this.api_calling_loader["listLoader"] = false; }
     })
     // this.api_calling_loader['offerButton'] = true
     //   let form_data = { 
@@ -1001,7 +1004,7 @@ export class UnderwritingComponent implements OnInit {
     this.fetchEmploymentType()
     this.onFocusMethod('partner')
     this.isChangeProductType = true
-    this.selectedType = data?.type == 'B2B' ? 'D2C'  : 'B2B'
+    this.selectedType = data?.type == 'B2B' ? 'D2C' : 'B2B'
     this.emp_type = data?.employment_type_id
     this.application_id = data?.id
   }
@@ -1047,6 +1050,58 @@ export class UnderwritingComponent implements OnInit {
       }
     }, error => {
 
+    })
+  }
+
+  openManualModal(id) {
+    this._currApplicationId = id;
+    this.isManualEmi = true;
+    this.emiManualForm = this.fb.group({
+      "application_id": [id],
+      "tenure": ['', [Validators.required]],
+      "interest_rate": ['', [Validators.required]],
+      "max_amount": ['', [Validators.required]]
+    });
+    this.getProductTenureFromApplication()
+  }
+
+  _currApplicationId: any
+  manualLoading: boolean = false
+  emiManualForm: FormGroup;
+  handleCancelManual() {
+    this.isManualEmi = false;
+    this._currApplicationId = ''
+    this.emiManualForm.reset();
+  }
+
+  productTenureList: any = []
+  getProductTenureFromApplication() {
+    this.https.getProductTenureFromApplication(this._currApplicationId).subscribe((res: any) => {
+      if (res.success) {
+        this.productTenureList = res.data
+      }
+    })
+  }
+  handleManualSubmit() {
+   
+//     for(let el in this.emiManualForm.controls) {
+//       if (this.emiManualForm.controls[el].errors) {
+//         console.log(el)
+//       }
+//  }   
+    this.manualLoading = true;
+    this.https.updateEmiManualOffer(this.emiManualForm.value).subscribe((res: any) => {
+      if (res.success) {
+        this.message.success(res.message);
+        this.manualLoading = false;
+        this.handleCancelManual();
+      }else{
+        this.message.error(res.message);
+        this.manualLoading = false;
+      }
+    },error=>{
+      this.manualLoading = false;
+      this.handleCancelManual();
     })
   }
 }

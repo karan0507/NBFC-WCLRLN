@@ -53,6 +53,8 @@ export class AddEditDsaComponent {
 
   ngOnInit(): void {
     this.getListOfMasterPartner();
+    this.fetachMasters('designation');
+    this.fetachMasters('department');
     this.createMasterProductForm();
     
     this.route.queryParams.subscribe(params => {
@@ -355,6 +357,7 @@ export class AddEditDsaComponent {
 
   
   createMasterProductForm(data?) {
+   
     this.addEditProductForm = this.fb.group({
       name: [data ? data?.name : null, [Validators.required]],
       address_line_1: [data ? data?.address_line_1 : null, [Validators.required]],
@@ -363,8 +366,8 @@ export class AddEditDsaComponent {
       state: [data ? data?.state?.id : null, [Validators.required]],
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('([0-9]{8}|[0-9]{10})')]],
-      designation_id : [data?.role?.id],
-      department_id : [data?.associated_team],
+      designation_id : [data?.designation?.id ? data?.designation?.id : ''],
+      department_id : [data?.department?.id ? data?.department?.id : ''],
       // ^[6-9][0-9]{9}$
 
       bank_name: [data ? data?.bank_name : null],
