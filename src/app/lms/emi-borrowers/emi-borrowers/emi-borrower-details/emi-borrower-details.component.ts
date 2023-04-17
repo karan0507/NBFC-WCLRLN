@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { differenceInCalendarDays } from 'date-fns';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as FileSaver from 'file-saver';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-emi-borrower-details',
@@ -16,6 +17,12 @@ export class EmiBorrowerDetailsComponent implements OnInit {
   gridStyle = {
     width: '100%',
   };
+
+  // new Refund 
+  isRefundActive : any;
+  _currLoanId : any
+  
+  
   _currBorrowerId: any;
   refundId: any;
   waiveOffId: any;
@@ -86,7 +93,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
   invoiceList: any;
   api_calling_loader = { 'transactionLoad': false, 'invoice': false, 'fees': false }
   constructor(private http: HttpService, private message: NzMessageService, private acRoute: ActivatedRoute, private router: Router,
-    private sanitized: DomSanitizer) { }
+    private sanitized: DomSanitizer, private fb:FormBuilder) { }
 
   ngOnInit(): void {
     this.page = 1;
@@ -98,10 +105,18 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     this.acRoute.queryParams.subscribe((param) => {
       if (param['id']) {
         this._currBorrowerId = param['id'];
-        this.getDetailsEmiBorrowers()
+        // this.getDetailsEmiBorrowers()
+      }
+      if(param['loan_application_id']){
+        this._currLoanId  = param['loan_application_id']
       }
     })
+    this.multipleApiCall();
+   
+  }
 
+  multipleApiCall(){
+    this.getDetailsEmiBorrowers()
     this.fetchTransactionTxnList();
     this.fetchTransactionFessList();
     this.fetchInvoiceList();
@@ -226,10 +241,13 @@ export class EmiBorrowerDetailsComponent implements OnInit {
           this.isReverseCharges = true
         } else if (this.refundId) {
           this.isRefundTransaction = true
+          this.fetchTransactionTxnList();
         } else if (this.waiveOffId) {
           this.isWaiveOff = true
         }
         this.final_reverse_amount = res.data.amount
+        this.message.success(res.message)
+
       } else {
         this.message.warning("You don't have amount for reverse transaction.")
       }
@@ -459,6 +477,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
 
   exportEmiBill(){
     let data = {}
+    data['offer_id'] =  this._currBorrowerId
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.getEmiBillReport(data).subscribe((res:any)=>{
       this.http.exportMasterSectionModule(res, 'export', 'xlsx', generateloader)
@@ -467,5 +486,66 @@ export class EmiBorrowerDetailsComponent implements OnInit {
 
   downloadAgreement(data){
     FileSaver.saveAs(data,'Agreement');
+  }
+
+  _currRefundId:any;
+  buttonLoader : boolean = false;
+  excessRefund(id){
+    this._currRefundId = id;
+    this.isRefundActive = true
+  }
+
+  _currOfferId : any;
+  openRefundModal(id) {
+    this._currOfferId = id;
+    this.http.getBankDetails(this._currLoanId).subscribe((res: any) => {
+      if (res.success) {
+        this.createRefundForm(res.data.bank_details, id)
+        this.isRefundActive = true
+      } else {
+        this.message.error(res.message)
+      }
+    })
+  }
+
+  refundForm: FormGroup;
+  createRefundForm(data, id) {
+    this.refundForm = this.fb.group({
+      amount: ['', [Validators.required, Validators.min(1)]],
+      ifsc_code: [data ? data?.ifsc_code : '', [Validators.required, Validators.pattern("^[A-Z]{4}0[A-Z0-9]{6}$")]],
+      account_number: [data ? data?.account_no : '', [Validators.required]],
+      account_holder_name: [data ? data?.account_holder_name : '', [Validators.required]],
+
+    })
+  }
+
+  onRefundInititate() {
+    this.buttonLoader = true;
+    let form = new FormData();
+    form.append('offer_id', this._currRefundId)
+    form.append('txn_type', 'Refund')
+    form.append('source', 'Onboarding')
+    form.append('datapoint', 'disburse_or_refund_payments')
+    form.append('amount', this.refundForm.value.amount)
+    form.append('ifsc_code', this.refundForm.value.ifsc_code)
+    form.append('account_number', this.refundForm.value.account_number)
+    form.append('account_holder_name', this.refundForm.value.account_holder_name)
+
+    this.http.createRefund(form).subscribe((res: any) => {
+      if (res.success) {
+        this.buttonLoader = false;
+        this.message.success(res.message);
+        this.isRefundActive = false;
+        this.refundForm.reset();
+        this.expandSet.clear()
+        this.fetchBorrowerList()
+      } else {
+        this.buttonLoader = false;
+      }
+    }, error => {
+      this.buttonLoader = false;
+      this.isRefundActive = false;
+      this.refundForm.reset();
+    })
   }
 }

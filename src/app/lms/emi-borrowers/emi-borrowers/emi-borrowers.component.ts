@@ -100,7 +100,7 @@ export class EmiBorrowersComponent implements OnInit {
    }
    _currentId : any;
   onExpandChange(id: number, checked: boolean, index?): void {
-
+   
     if (checked) {
       this.expandSet.clear()
       this._currentId = id

@@ -106,7 +106,7 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <li nz-menu-item [routerLink]="['/lms/emi/emi-borrowers/details']"
-                                            [queryParams]="{ id: data.id }">
+                                            [queryParams]="{ id: data.id, loan_application_id : data?.loan_application_id }">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">View Details</span>
                                         </li>
@@ -117,8 +117,8 @@
 
                         <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
                             <div class="row">
-                                <div class="col-md-12" *ngIf="data.loan_application_id === _currentId">
-                                    <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
+                               <div class="col-md-12" *ngIf="data.loan_application_id === _currentId">
+                                   <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
                                 </div>
                             </div>
                         </tr>

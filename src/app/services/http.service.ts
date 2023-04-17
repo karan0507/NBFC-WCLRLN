@@ -519,7 +519,7 @@ export class HttpService {
       }
 
       public getEmiBillReport(data) {
-            return this._http.get((this.url + `/loan-application/v1/generate-emi-bill-report`), { params: data });
+            return this._http.get((this.url + `/loan-application/v1/generate-emi-bill-report`), { params: data ,responseType:'blob'});
       }
 
  
