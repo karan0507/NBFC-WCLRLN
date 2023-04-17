@@ -522,7 +522,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
   onRefundInititate() {
     this.buttonLoader = true;
     let form = new FormData();
-    form.append('offer_id', this._currRefundId)
+    form.append('offer_id', this._currBorrowerId)
     form.append('txn_type', 'Refund')
     form.append('source', 'Onboarding')
     form.append('datapoint', 'disburse_or_refund_payments')
