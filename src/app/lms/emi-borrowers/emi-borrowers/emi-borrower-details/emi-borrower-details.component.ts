@@ -552,4 +552,23 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       this.refundForm.reset();
     })
   }
+
+  reverse_sub_title: string;
+  reverse_type;
+  setTypeandAmt() {
+    if (!this.reverse_type) {
+      this.message.error('Please select reverse type')
+      return false
+    }
+    if (!this.reverse_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.reverse_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to ' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount + '<br/> Are you sure about performing this action?'
+  }
 }
