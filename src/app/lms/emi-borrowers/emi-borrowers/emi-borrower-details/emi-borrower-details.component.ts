@@ -220,6 +220,8 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     // this.isReverseCharges = true
     this.reverseId = id
     this.getTnxAmount(id)
+    console.log(id);
+    
   }
 
   refundChargesToggle(id) {

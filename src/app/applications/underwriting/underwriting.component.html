@@ -221,9 +221,8 @@
                       ">
                       <span class="m-l-5">Generate Offer</span>
                     </li>
-                    <li nz-menu-item *ngxPermissionsOnly="['manual_offer_underwriting']"
-                      (click)="generateOffer(data?.id)">
-                      <span class="m-l-5">Manual offer</span>
+                    <li nz-menu-item  *ngIf="data?.product_master_id == 1" (click)="generateOffer(data?.id)">
+                      <span class="m-l-5">Manual offer  Card</span>
                     </li>
                     <li nz-menu-item (click)="IsClickOnChnageType(data)">
                       <span class="m-l-5">Change product type</span>
