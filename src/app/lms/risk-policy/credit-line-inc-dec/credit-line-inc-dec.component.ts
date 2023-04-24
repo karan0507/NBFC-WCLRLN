@@ -42,7 +42,7 @@ export class CreditLineIncDecComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.createIncLineFunction()
     this.fetchLoanApplicationList()
   }
@@ -57,7 +57,7 @@ export class CreditLineIncDecComponent implements OnInit {
   fetchLoanApplicationList(tabelFilter?) {
     // if (tabelFilter) {
       this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',

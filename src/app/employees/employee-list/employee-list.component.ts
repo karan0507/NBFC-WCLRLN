@@ -65,7 +65,7 @@ export class EmployeeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.fetchEmployeeList()
     this.createEditFormFunction()
   }
@@ -113,7 +113,7 @@ export class EmployeeListComponent implements OnInit {
   fetchEmployeeList(tabelFilter?) {
     // if (tabelFilter) {
     this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       page: this.page,

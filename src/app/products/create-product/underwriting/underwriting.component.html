@@ -23,18 +23,21 @@
                                         nzShape="circle" (click)="handleInputConfirm('negative')">
                                         <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
                                     </button>
-                                    <button nz-button nzType="default" nzTooltipTitle="View Assigned Pincodes" class="mx-3 align-self-center bold"
+                                    <button nz-button nzType="default" nzTooltipTitle="View Assigned Pincodes"
+                                        class="mx-3 align-self-center bold"
                                         [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
                                         nzShape="circle" (click)="type = 'blackListed';isPincodeVisible = true;">
                                         <span nz-icon nzType="eye" nzTheme="outline"></span>
                                     </button>
-                                    <button nz-button nzType="default" nzTooltipTitle="Export Blacklisted Pincodes" class="mx-3 align-self-center bold"
-                                         nzShape="circle" (click)="exportPincodes('blacklisted_on_')">
+                                    <button nz-button nzType="default" nzTooltipTitle="Export Blacklisted Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="exportPincodes('blacklisted_on_')">
                                         <span nz-icon nzType="download" nzTheme="outline"></span>
                                     </button>
-                                    <button nz-button nzType="default" nzTooltipTitle="Import Blacklisted Pincodes" class="mx-3 align-self-center bold"
-                                         nzShape="circle" (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'BlackListed'">
-                                         <span nz-icon nzType="upload" nzTheme="outline"></span>
+                                    <button nz-button nzType="default" nzTooltipTitle="Import Blacklisted Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'BlackListed'">
+                                        <span nz-icon nzType="upload" nzTheme="outline"></span>
                                     </button>
 
 
@@ -74,10 +77,11 @@
                                         nzShape="circle" (click)="exportPincodes('servicable_on_')">
                                         <span nz-icon nzType="download" nzTheme="outline"></span>
                                     </button>
-                                    <button nz-button nzType="default" nzTooltipTitle="Import Servicable Pincodes" class="mx-3 align-self-center bold"
-                                    nzShape="circle" (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'Servicable'">
-                                    <span nz-icon nzType="upload" nzTheme="outline"></span>
-                               </button>
+                                    <button nz-button nzType="default" nzTooltipTitle="Import Servicable Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'Servicable'">
+                                        <span nz-icon nzType="upload" nzTheme="outline"></span>
+                                    </button>
                                 </div>
                                 <!-- <div>
                                     <nz-tag class="my-3" *ngFor="let tag of servicePincodes; let i = index"
@@ -179,12 +183,13 @@
 </section>
 
 <nz-modal [(nzVisible)]="isPincodeVisible"
-    [nzTitle]="isUploadPincodes ? (type == 'BlackListed' ? 'Upload BlackListed Pincodes' : 'Upload Servicable Pincodes') : (type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes')" [nzFooter]="isUploadPincodes ? footerTemp : null"
-    (nzOnCancel)="handleCancel()">
+    [nzTitle]="isUploadPincodes ? (type == 'BlackListed' ? 'Upload BlackListed Pincodes' : 'Upload Servicable Pincodes') : (type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes')"
+    [nzFooter]="isUploadPincodes ? footerTemp : null" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <div class="d-flex justify-content-start mb-3"  *ngIf="!isUploadPincodes">
+        <div class="d-flex justify-content-start mb-3" *ngIf="!isUploadPincodes">
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input type="text" nz-input placeholder="Search text" [(ngModel)]="searchValue" (keydown)="searchInternal($event)" />
+                <input type="text" nz-input placeholder="Search text" [(ngModel)]="searchValue"
+                    (keydown)="searchInternal($event)" />
             </nz-input-group>
         </div>
         <section *ngIf="type == 'blackListed' && !isUploadPincodes">
@@ -228,8 +233,8 @@
         </section>
 
         <section *ngIf="isUploadPincodes">
-            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx'"
-                [nzBeforeUpload]="beforeUploadName" [nzMultiple]="false" [(nzFileList)]="fileList">
+            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUploadName"
+                [nzMultiple]="false" [(nzFileList)]="fileList">
                 <p class="ant-upload-text">Drag and Drop file here</p>
                 <p class="ant-upload-text">or</p>
                 <button class="mt-md-4" nz-button nzType="primary">Browse</button>
@@ -239,6 +244,6 @@
 </nz-modal>
 <ng-template #footerTemp>
     <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" [nzLoading]="api_calling_loader" [disabled]="fileList.length < 1 ? true : false" class="mx-2"
-        (click)="handleOk()">Submit</button>
+    <button nz-button nzType="primary" [nzLoading]="api_calling_loader" [disabled]="fileList.length < 1 ? true : false"
+        class="mx-2" (click)="handleOk()">Submit</button>
 </ng-template>

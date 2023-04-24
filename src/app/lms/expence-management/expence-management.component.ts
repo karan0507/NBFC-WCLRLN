@@ -75,7 +75,7 @@ export class ExpenceManagementComponent implements OnInit {
       txn_status: any;
       constructor(public http: HttpService, public message: NzMessageService) {
             this.page = 1;
-            this.globalPageSize = 30;
+            this.globalPageSize = 100;
 
 
       }

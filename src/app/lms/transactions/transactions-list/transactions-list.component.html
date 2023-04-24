@@ -120,7 +120,7 @@
             </div>
             <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
                 [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
-                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''"
+                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData"
                 [nzScroll]="{ x: '2000px' }">
                 <thead>

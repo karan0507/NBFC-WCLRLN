@@ -33,7 +33,7 @@
             </div>
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page"
                 [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-                [nzScroll]="{ x: '3500px' }" [nzLoading]="api_calling_loader"
+                [nzScroll]="{ x: '3500px' }" [nzLoading]="api_calling_loader" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 (nzQueryParams)="list_data ? fetchInsuranceData($event) : ''">
                 <thead>
                     <tr>

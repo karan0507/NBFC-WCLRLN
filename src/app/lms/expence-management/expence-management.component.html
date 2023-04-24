@@ -76,7 +76,7 @@
             <nz-card>
                   <div class="totalCount">
                         <nz-table #rowSelectionTable [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true"
-                              [nzShowTotal]="botTotalCount" [nzData]="expenseDataList"
+                              [nzShowTotal]="botTotalCount" [nzData]="expenseDataList" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                               (nzQueryParams)="expenseDataList[0] ? getExpenseManagementList($event) : null"
                               [nzLoading]="api_calling_loader['listLoader']">
                               <thead>

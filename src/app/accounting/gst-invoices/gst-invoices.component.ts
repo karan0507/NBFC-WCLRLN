@@ -14,7 +14,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class GstInvoicesComponent implements OnInit {
 
   page = 1;
-  globalPageSize = 30
+  globalPageSize = 100
   api_calling_loader: boolean;
   total_count: any;
   list_data: any;
@@ -54,7 +54,7 @@ export class GstInvoicesComponent implements OnInit {
 
   fetchGSTInvoiceList(tableFilter?) {
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       page: this.page,
       search_param: this.search_params,

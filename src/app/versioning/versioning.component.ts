@@ -26,7 +26,7 @@ export class VersioningComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30;
+    this.globalPageSize = 100;
     this.createVersionForm();
     this.getVersion();
     this.fetchVersionList();
@@ -79,7 +79,7 @@ export class VersioningComponent implements OnInit {
   fetchVersionList(tableFilter?) {
     var data;
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     data = {
       page: this.page,
       limit: this.globalPageSize,

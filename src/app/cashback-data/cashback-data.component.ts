@@ -17,7 +17,7 @@ export class CashbackDataComponent implements OnInit {
   }
   listData: any[];
   page = 1
-  globalPageSize = 30
+  globalPageSize = 100
   total_count: any;
   date = ''
   disabledDate = (current: Date): boolean =>

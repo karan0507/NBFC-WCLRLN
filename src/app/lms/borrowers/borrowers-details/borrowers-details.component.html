@@ -257,7 +257,7 @@
             <nz-table [nzLoading]="api_calling_loader2" [nzFrontPagination]="false" [nzPageIndex]="page2"
                   [nzPageSize]="globalPageSize2" [nzShowSizeChanger]="true" [nzTotal]="total_count2"
                   (nzQueryParams)="transaction_repayment_list ? fetchTransactionTxnList($event) : ''"
-                  [nzData]="transaction_repayment_list" [nzScroll]="{ x: '1500px' }">
+                  [nzData]="transaction_repayment_list" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '1500px' }">
                   <thead>
                         <tr>
                               <th nzWidth="5rem">#</th>
@@ -381,7 +381,7 @@
             <nz-table [nzLoading]="api_calling_loader1" [nzFrontPagination]="false" [nzPageIndex]="page1"
                   [nzPageSize]="globalPageSize1" [nzShowSizeChanger]="true" [nzTotal]="total_count1"
                   (nzQueryParams)="fees_charges_list ? fetchTransactionFessList($event) : ''"
-                  [nzData]="fees_charges_list" [nzScroll]="{ x: '1700px' }">
+                  [nzData]="fees_charges_list" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '1700px' }">
                   <thead>
                         <tr>
                               <th nzWidth="5rem">#</th>
@@ -572,7 +572,7 @@
       
       <nz-card nzTitle="Emandate Registration Link">
             <nz-table [nzLoading]="api_calling_loader8" [nzFrontPagination]="false" [nzPageIndex]="page8"
-            [nzPageSize]="globalPageSize8" [nzShowSizeChanger]="true" [nzTotal]="total_count8"
+            [nzPageSize]="globalPageSize8" [nzShowSizeChanger]="true" [nzTotal]="total_count8" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
             (nzQueryParams)="emandate_link_list ? EMandateRegistrationLink($event) : ''"
             [nzData]="emandate_link_list">
                   <thead>
@@ -600,6 +600,40 @@
                   </tbody>
             </nz-table>
       </nz-card>
+
+      <nz-card nzTitle="Payment Links">
+            <nz-table [nzLoading]="api_calling_loader9" [nzFrontPagination]="false" [nzPageIndex]="payment_page"
+            [nzPageSize]="payment_globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count_payment" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+            (nzQueryParams)="paymentList ? fetchPaymentLinks($event) : ''"
+            [nzData]="paymentList">
+                  <thead>
+                        <tr>
+                              <th>#</th>
+                              <th>Admin Name</th>
+                              <th>Admin Mobile</th>
+                              <th>Admin Email</th>
+                              <th>Amount</th>
+                              <th>URL</th>
+                              <th>Link Validity</th>
+                              <th>Created At</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let data of paymentList; index as i">
+                              <td *ngIf="payment_page === 1">{{i+1}}</td>
+                              <td *ngIf="payment_page > 1">{{((payment_page-1)*payment_globalPageSize)+(i+1)}}</td>
+                              <td>{{data?.admin_name ? data?.admin_name : '-'}}</td>
+                              <td>{{data?.admin_mobile ? data?.admin_mobile : '-'}}</td>
+                              <td>{{data?.admin_email ? data?.admin_email : '-'}}</td>
+                              <td>{{data?.amount ? data?.amount : '-'}}</td>
+                              <td><a href="{{data?.short_url}}">{{data?.short_url ? data?.short_url : '-'}}</a></td>
+                              <td>{{data?.link_valid_till ? (data?.link_valid_till  | date: "medium") : '-'}}</td>
+                              <td>{{data?.created_at ? (data?.created_at | date: "medium" ) : '-'}}</td>
+                        </tr>
+                  </tbody>
+            </nz-table>
+      </nz-card>
+
       <nz-card *ngIf="selectedTab == '3'">
             <app-app-downloads></app-app-downloads>
       </nz-card>

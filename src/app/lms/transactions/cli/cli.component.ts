@@ -19,7 +19,7 @@ export class CliComponent implements OnInit {
   api_calling_loader: boolean = false;
   page = 1
   total_count: any;
-  globalPageSize = 30
+  globalPageSize = 100
   constructor(private http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class CliComponent implements OnInit {
     this.cliListData = [];
     this.api_calling_loader = true;
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       search_param: this.search_params ? this.search_params : "",
       page: this.page,
@@ -61,7 +61,7 @@ export class CliComponent implements OnInit {
     this.user_approval_status = ''
     this.corporate = '';
     this.page =1 ;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.fetchCliList()
   }
 

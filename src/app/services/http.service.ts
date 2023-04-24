@@ -505,6 +505,7 @@ export class HttpService {
       /**
        * fetchBorrowerList
        */
+      // 
       public fetchBorrowerList(data) {
             return this._http.get((this.url + `/loan-application/v1/borrowers-list`), { params: data });
       }
@@ -515,6 +516,10 @@ export class HttpService {
       
       public fetchEmiBorrowersDetails(data) {
             return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-details`), { params: data });
+      }
+
+      public getEmiBillReport(data) {
+            return this._http.get((this.url + `/loan-application/v1/generate-emi-bill-report`), { params: data ,responseType:'blob'});
       }
 
  
@@ -1422,6 +1427,29 @@ export class HttpService {
             return this._http.post((this.url + `/platform_central/v1/verify-bulk-enach-file`), data);
       }
       
-     
+      public changeSubStage(data) {
+            return this._http.post((this.url + `/loan-application/v1/change-application-substage`), data);
+      }
+      
+      public mapDSAtoProduct(data) {
+            return this._http.post((this.url + `/product/v1/assign-product-to-dsa`), data);
+      }
+
+      public uploadCommissionDsa(data) {
+            return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
+      }
+      
+      public fetchBorrowersPaymentLinks(data,id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-payment-links/`+id),{params:data});
+      }
+      public getProductTenureFromApplication(id) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-product-tenures/`+id));
+      }
+          
+      public updateEmiManualOffer(data) {
+            return this._http.post((this.url + `/loan-application/v1/emi-manual-offer`), data);
+      }
+      
+      
       
 }

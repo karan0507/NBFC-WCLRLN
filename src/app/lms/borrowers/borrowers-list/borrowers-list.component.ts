@@ -120,7 +120,7 @@ export class BorrowersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
   }
 
   setBorrowersSubCount() {
@@ -136,7 +136,7 @@ export class BorrowersListComponent implements OnInit {
   fetchBorrowerList(tabelFilter?) {
     // if (tabelFilter) {
     this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',

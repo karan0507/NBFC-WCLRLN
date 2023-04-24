@@ -3,7 +3,7 @@
         <nz-card class="w-100">
 
             <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzData]="listData"
-                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count"
+                [nzLoading]="api_calling_loader" [nzPageIndex]="page" [nzTotal]="total_count" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 [nzPageSize]="globalPageSize" (nzQueryParams)="listData[0] ? fetchDownloads($event) : ''"
                 [nzScroll]="{ y: '' }">
                 <thead>

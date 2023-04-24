@@ -12,7 +12,7 @@ export class TrackStatusComponent implements OnInit {
       currentLoanId: any;
       loanStatusTrackData: any;
       page = 1;
-      globalPageSize = 30
+      globalPageSize = 100
       total_count: any;
       api_calling_loader: boolean;
       constructor(public https: HttpService, public route: ActivatedRoute) { }
@@ -40,7 +40,7 @@ export class TrackStatusComponent implements OnInit {
 
       getLoanApplicationTrackData(tableFilter?) {
             this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+            this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
             let data = { 
                   source: 'Onboarding',
                   datapoint : 'loan_application',

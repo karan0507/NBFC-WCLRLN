@@ -74,7 +74,7 @@ export class FailedTransactionsComponent implements OnInit {
 
   total_count;
   failedTransactionList: any;
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
 
   constructor(private http: HttpService) { }
 

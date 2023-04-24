@@ -20,7 +20,7 @@ export class DeductionsListComponent implements OnInit {
   
   selectedTab = 'PENDING'
   page = 1;
-  globalPageSize = 30
+  globalPageSize = 100
   total_count: any;
   list_data: any;
   date = ''
@@ -58,7 +58,7 @@ export class DeductionsListComponent implements OnInit {
 
   fetchDeductionList(tableFilter?) {
     this.page = tableFilter?.pageIndex ? tableFilter?.pageIndex : 1;
-    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 30;
+    this.globalPageSize = tableFilter?.pageSize ? tableFilter?.pageSize : 100;
     let data = {
       page: this.page,
       search_param: this.search_params ? this.search_params : '',

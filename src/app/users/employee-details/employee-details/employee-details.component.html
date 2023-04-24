@@ -144,7 +144,7 @@
           <div class="col-12">
             <!-- <div class="totalCount"> -->
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page"
-              [nzLoading]="apiLoader['list']" [nzPageSize]="size" (nzQueryParams)="getListOfAllEmployees($event)"
+              [nzLoading]="apiLoader['list']" [nzPageSize]="size" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="getListOfAllEmployees($event)"
               [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
               <thead>
                 <tr>
@@ -313,7 +313,7 @@
           <div class="col-12">
             <!-- <div class="totalCount"> -->
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page"
-              [nzLoading]="apiLoader['list']" [nzPageSize]="size"
+              [nzLoading]="apiLoader['list']" [nzPageSize]="size" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
               (nzQueryParams)="getEmployeeDetailWithEmployeeAttendance($event)" [nzShowSizeChanger]="true"
               [nzData]="listOfEmployee">
               <thead>
@@ -465,8 +465,8 @@
             <!-- <div class="totalCount"> -->
             <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page"
               [nzLoading]="apiLoader['list']" [nzPageSize]="size" nzScroll=true (nzQueryParams)="
-                getEmployeeDetailWithEmployeeTypeAndCorporateId($event)
-              " [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
+                getEmployeeDetailWithEmployeeTypeAndCorporateId($event) 
+              " [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
               <thead>
                 <tr>
                   <th rowspan="2">#</th>
@@ -684,7 +684,7 @@
           Total Error Count:-&nbsp; {{totalErrorCount ? totalErrorCount : 0}}
         </div>
         <nz-table [nzLoading]="apiLoader['previewList']" [nzFrontPagination]="false" [nzShowSizeChanger]="true"
-          [nzScroll]=" {x: returnPixel('', retrievedFileResponseKey), y: '55vh'}" [nzData]="retrievedFileResponse">
+          [nzScroll]=" {x: returnPixel('', retrievedFileResponseKey), y: '55vh'}"  [nzData]="retrievedFileResponse">
           <!-- [nzScroll]="{x: '9200px', y: '55vh'}" -->
           <!-- <thead> 
                             <tr>
@@ -828,7 +828,8 @@
     <nz-card class="w-100">
       <div class="row">
         <div class="col-md-12 mb-3 text-right">
-          <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-auto" nzGhost>Export</button>
+          <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-auto"
+            nzGhost>Export</button>
         </div>
       </div>
       <div class="row">
@@ -856,8 +857,9 @@
               <div *ngIf="item.name">{{ item?.name }}</div>
             </nz-option>
           </nz-select>
-          <nz-date-picker class="mx-1" [(ngModel)]="month" nzAllowClear="true" (ngModelChange)="getMonthWiseCorporateData()"
-              nzMode="month" [nzSize]="size" nzFormat="MMMM"></nz-date-picker>
+          <nz-date-picker class="mx-1" [(ngModel)]="month" nzAllowClear="true"
+            (ngModelChange)="getMonthWiseCorporateData()" nzMode="month" [nzSize]="size"
+            nzFormat="MMMM"></nz-date-picker>
         </div>
       </div>
 
@@ -865,7 +867,7 @@
         <div class="col-12">
           <!-- <div class="totalCount"> -->
           <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzPageIndex]="page"
-            [nzLoading]="apiLoader['list']" [nzPageSize]="size" (nzQueryParams)="getMonthWiseCorporateData($event)"
+            [nzLoading]="apiLoader['list']" [nzPageSize]="size" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="getMonthWiseCorporateData($event)"
             [nzShowSizeChanger]="true" [nzData]="listOfEmployee">
             <thead>
               <tr>
@@ -899,8 +901,10 @@
                   {{ data?.employee_user ? data?.employee_user?.emp_id : ' - '}}
                 </td>
                 <td>
-                  <i *ngIf="data?.employee_user?.is_active" nz-icon nzType="check-circle" nzTheme="fill" class="text-success"></i>
-                  <i *ngIf="!data?.employee_user?.is_active" nz-icon nzType="close-circle" nzTheme="fill" class="text-danger"></i>
+                  <i *ngIf="data?.employee_user?.is_active" nz-icon nzType="check-circle" nzTheme="fill"
+                    class="text-success"></i>
+                  <i *ngIf="!data?.employee_user?.is_active" nz-icon nzType="close-circle" nzTheme="fill"
+                    class="text-danger"></i>
                 </td>
                 <!-- app_status -->
                 <td>

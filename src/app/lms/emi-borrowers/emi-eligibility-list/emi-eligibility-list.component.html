@@ -36,7 +36,7 @@
             </div>
             <nz-table [nzData]="emiEligibilityData" [nzTotal]="total_count" [nzFrontPagination]="false"
                 [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize"
-                (nzQueryParams)="emiEligibilityData[0] ? getEmiEligibility($event) : ''"
+                (nzQueryParams)="emiEligibilityData[0] ? getEmiEligibility($event) : ''" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%', y: '45vh' }">
                 <thead>
                     <tr>
@@ -106,7 +106,7 @@
               </div>
             <nz-table [nzData]="viewEmiEligibilityData.data" [nzTotal]="view_total_count" [nzFrontPagination]="false"
                 [nzShowSizeChanger]="true" [nzPageIndex]="view_page" [nzPageSize]="view_global_page_limit"
-                (nzQueryParams)="viewEmiEligibilityData.data ? viewEligibleData(current_id,$event) : ''"
+                (nzQueryParams)="viewEmiEligibilityData.data ? viewEligibleData(current_id,$event) : ''" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 [nzLoading]="view_api_calling_loader" [nzScroll]="{ x: '1500px', y: '45vh' }">
                 <thead>
                     <tr *ngIf="viewEmiEligibilityData?.data">

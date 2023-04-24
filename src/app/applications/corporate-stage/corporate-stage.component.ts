@@ -10,7 +10,7 @@ import { HttpService } from "src/app/services/http.service";
 })
 export class CorporateStageComponent implements OnInit {
   page = 1;
-  size = 30;
+  size = 100;
   listOfEmployee: any;
   apiLoader = {
     list: false,

@@ -32,7 +32,7 @@ export class LineBlockUnblockComponent implements OnInit {
     private router : Router,
     private route: ActivatedRoute) {
       this.page = 1;
-      this.globalPageSize = 30
+      this.globalPageSize = 100
       http.refreshBorrower.subscribe(res => {
         this.fetchBorrowerList()
       })
@@ -54,7 +54,7 @@ export class LineBlockUnblockComponent implements OnInit {
   fetchBorrowerList(tabelFilter?) {
     // if (tabelFilter) {
       this.page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+      this.globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',

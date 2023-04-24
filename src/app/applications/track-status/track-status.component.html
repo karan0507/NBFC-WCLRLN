@@ -97,7 +97,7 @@
 <section>
       <nz-card [nzTitle]="title1">
             <nz-table #basicTable [nzFrontPagination]="false" [nzData]="loanStatusTrackData" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
-            [nzLoading]="api_calling_loader" (nzQueryParams)="loanStatusTrackData ? getLoanApplicationTrackData($event) : ''">
+            [nzLoading]="api_calling_loader" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="loanStatusTrackData ? getLoanApplicationTrackData($event) : ''">
                 <thead>
                     <tr>
                         <th nzWidth="3rem">#</th>

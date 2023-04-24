@@ -85,7 +85,7 @@ export class AuthorizationPinCodeComponent implements OnInit {
   isVisible: boolean;
   oldDetail: any;
   updatePINDetails: FormGroup;
-  globalPageSize: any = 30;
+  globalPageSize: any = 100;
 
   constructor(private fb: FormBuilder,public http: HttpService, private message: NzMessageService) { }
 

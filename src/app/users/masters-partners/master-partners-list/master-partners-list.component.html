@@ -50,7 +50,7 @@
             </div>
             <div class="accordianLoanApp">
                 <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
-                [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize"
+                [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                 [nzPageIndex]="page" (nzQueryParams)="getMasterPartner($event)" [nzShowSizeChanger]="true" [nzData]="masterPartner"
                 [nzScroll]="{ x: '1300px', y: '' }">
                     <thead>

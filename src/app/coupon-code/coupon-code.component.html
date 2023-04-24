@@ -37,7 +37,7 @@
             <div class="accordianLoanApp totalCount">
                   <nz-table #rowSelectionTable [nzData]="couponCodeListData" [nzTotal]="total_count"
                         [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
-                        [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
+                        [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
                         (nzQueryParams)="couponCodeListData[0] ? getCouponCodeList($event) : null"
                         [nzLoading]="api_calling_loader['listLoader']">
                         <thead>

@@ -6,7 +6,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/services/http.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-borrowers-details',
@@ -75,19 +75,19 @@ export class BorrowersDetailsComponent implements OnInit {
   waive_off_type: any;
   waive_off_amount: any;
   waive_off_sub_title: string;
-  
+
   customRanges = {
     Today: [new Date(), new Date()],
     'Last 7 days': [new Date().setDate(new Date().getDate() - 7), new Date()],
     'This Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1), new Date()],
-    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
-    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1,30,31)],
+    'Last Month': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 1), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 3 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 3), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
+    'Last 6 Months': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 6), new Date(new Date().getFullYear(), new Date().getMonth(), -1, 30, 31)],
     'This Year': [new Date(new Date().getFullYear(), 0, 1), new Date()],
     // 'Last Year': [new Date(new Date().getFullYear(), new Date().getMonth(), 1).setMonth(new Date().getMonth() - 12), new Date(new Date().getFullYear(), new Date().getMonth(), 1)],
     'Last Year': [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear() - 1, 11, 31)],
     // d.setMonth(d.getMonth() - 3);
-};
+  };
   api_calling_loader2: boolean;
   api_calling_loader1: boolean;
   billStatementList: any;
@@ -124,10 +124,16 @@ export class BorrowersDetailsComponent implements OnInit {
   page8: any;
   globalPageSize8: any;
   emandate_link_list: any;
+
+  api_calling_loader9: boolean = false;
+  payment_page: any
+  payment_globalPageSize: any
+  total_count_payment: any;
+  paymentList : any;
   constructor(private fb: FormBuilder, public http: HttpService, private message: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitized: DomSanitizer,public location: Location) {
+    private sanitized: DomSanitizer, public location: Location) {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.borrower_id = params['id']
@@ -137,19 +143,51 @@ export class BorrowersDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.page = 1;
-    this.globalPageSize = 30
+    this.globalPageSize = 100
     this.page1 = 1;
     this.globalPageSize1 = 10
     this.page8 = 1;
     this.globalPageSize8 = 10
     this.page2 = 1;
     this.globalPageSize2 = 10
+    this.payment_page = 1;
+    this.payment_globalPageSize = 10
+  
+
     this.fetchBorrowerList();
     this.fetchTransactionTxnList();
     this.fetchTransactionFessList();
     this.createAddPaymentOrChargeFormFunction()
     this.fetchBillStatementList();
     this.fetchInvoiceList();
+    this.fetchPaymentLinks();
+  }
+
+  fetchPaymentLinks(tabelFilter?){
+    if (tabelFilter) {
+      this.payment_page = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : this.payment_page;
+      this.payment_globalPageSize = tabelFilter?.pageSize ? tabelFilter?.pageSize : this.payment_globalPageSize;
+    }
+    let data = {
+      // datapoint: 'loan_service',
+      // endpoint: 'LoanApplicationAcceptedProduct',
+      // source: 'LMS',
+      page: this.payment_page,
+      limit: this.payment_globalPageSize,
+      // product_id: this.master_product_id,
+      // is_blocked: this.is_blocked,
+      // search_param: this.search_params,
+      // id: this.borrower_id
+    }
+    this.api_calling_loader9 = true
+    this.http.fetchBorrowersPaymentLinks(data,this.borrower_id).subscribe((res :any) => {
+      this.api_calling_loader9 = false
+      this.paymentList = res.data.results
+      this.total_count_payment = res.data.total_count
+      // this.message.success(res['message'])
+    }, (err) => {
+      this.api_calling_loader9 = false
+    })
   }
 
   createAddPaymentOrChargeFormFunction() {
@@ -278,7 +316,7 @@ export class BorrowersDetailsComponent implements OnInit {
   fetchBillStatementList(tabelFilter?) {
     // if (tabelFilter) {
     this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize4 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -305,7 +343,7 @@ export class BorrowersDetailsComponent implements OnInit {
   fetchInvoiceList(tabelFilter?) {
     // if (tabelFilter) {
     this.page5 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
-    this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 30;
+    this.globalPageSize5 = tabelFilter?.pageSize ? tabelFilter?.pageSize : 100;
     // }
     let data = {
       datapoint: 'loan_service',
@@ -468,7 +506,7 @@ export class BorrowersDetailsComponent implements OnInit {
       return false
     }
     this.is_set_amt = true
-    this.reverse_sub_title = 'Amount to be reversed - ₹'  + this.reverse_amount+ '<br/> Are you sure about performing this action?'
+    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount + '<br/> Are you sure about performing this action?'
   }
 
   waiveOffToggle(id) {
@@ -540,7 +578,7 @@ export class BorrowersDetailsComponent implements OnInit {
       return false
     }
     this.is_set_amt = true
-    this.refund_sub_title = 'Amount to be refund - ₹' + this.refund_amount+ '<br/> Are you sure about performing this action?'
+    this.refund_sub_title = 'Amount to be refund - ₹' + this.refund_amount + '<br/> Are you sure about performing this action?'
   }
   setTypeandAmtWaiveoff() {
     if (!this.waive_off_type) {
@@ -556,14 +594,14 @@ export class BorrowersDetailsComponent implements OnInit {
       return false
     }
     this.is_set_amt = true
-    this.waive_off_sub_title = 'Amount to be waive off - ₹ ' + this.waive_off_amount+ '<br/> Are you sure about performing this action?'
+    this.waive_off_sub_title = 'Amount to be waive off - ₹ ' + this.waive_off_amount + '<br/> Are you sure about performing this action?'
   }
-  
+
   refundChargesFunction() {
     let data = new FormData()
     data.append('source', 'LMS'),
-    data.append('datapoint', 'refund_transaction'),
-    data.append('endpoint', this.refundId)
+      data.append('datapoint', 'refund_transaction'),
+      data.append('endpoint', this.refundId)
     data.append('amount', this.refund_amount)
     this.is_refund_loading = true
     this.http.fetchLoanApplicationUpload(data).subscribe(res => {
@@ -603,7 +641,7 @@ export class BorrowersDetailsComponent implements OnInit {
     // data.append('source', 'LMS'),
     // data.append('datapoint', 'create_mandate_registration_link'),
     data.append('auth_type', type),
-    data.append('accepted_offer_id', id)
+      data.append('accepted_offer_id', id)
     const generateloader = this.message.loading('Sending link..', { nzDuration: 0 }).messageId;
     this.http.sendEmandateLink(data).subscribe(res => {
       this.message.remove(generateloader);
