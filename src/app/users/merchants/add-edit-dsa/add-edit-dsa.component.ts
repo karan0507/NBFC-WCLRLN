@@ -82,7 +82,15 @@ export class AddEditDsaComponent {
     let data;
     if(type == 'designation'){
       this.http.getMasterDesignation().subscribe(res => {
-        this.roleData = res['data'].results
+        let temp = res['data'].results
+        temp = temp.filter(element => element.name == 'Superuser');
+        console.log(temp);
+        // temp.forEach(element => {
+        //   temp = temp.filter(element => element.name == 'Superuser')
+        //   console.log(res['data'].results, element);
+          
+        // }); 
+        this.roleData = temp
         // this.message.success(res['message'])
       })
     }else if(type == 'department'){
