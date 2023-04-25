@@ -234,6 +234,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       datapoint: 'get_transaction_amount',
       endpoint: id,
       source: 'LMS',
+      // transaction:id
     }
     
     this.http.fetchLoanApplicationList(data).subscribe(res => {
@@ -280,9 +281,11 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     }
     this.api_call_loading['fees'] = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
-      this.api_call_loading['fees'] = false
-      this.fees_charges_list = res['data']
+      
+      this.fees_charges_list = res['data'];
+      console.log(this.fees_charges_list)
       this.total_count1 = res.total_count
+      this.api_call_loading['fees'] = false
       // this.message.success(res['message'])
     }, (err) => {
       this.api_call_loading['fees'] = false
@@ -525,6 +528,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     let form = new FormData();
     form.append('offer_id', this._currBorrowerId)
     form.append('txn_type', 'Refund')
+    form.append('transaction', this._currOfferId)
     form.append('source', 'Onboarding')
     form.append('datapoint', 'disburse_or_refund_payments')
     form.append('amount', this.refundForm.value.amount)
