@@ -1450,6 +1450,8 @@ export class HttpService {
             return this._http.post((this.url + `/loan-application/v1/emi-manual-offer`), data);
       }
       
-      
+      public getOutstandingBifurcation(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-product-tenures/`),{params:data});
+      }
       
 }

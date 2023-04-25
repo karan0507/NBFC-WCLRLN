@@ -79,6 +79,9 @@
                                           <li nz-menu-item (click)="pdfViewerAndDownload('Agreement', 6)" *ngxPermissionsOnly="['view_agreement']">
                                                 <a>View Agreement</a>
                                           </li>
+                                          <li nz-menu-item (click)="viewbifurcation()" *ngxPermissionsOnly="['view_agreement']">
+                                                <a>Outstanding Bifurcation</a>
+                                          </li> 
                                     </ul>
                               </nz-dropdown-menu>
                         </div>
@@ -945,5 +948,20 @@
       [nzOkDisabled]="!send_payment_amount">
       <ng-container *nzModalContent>
             <input (keyup.enter)="sendPaymentLink()" [(ngModel)]="send_payment_amount" type="number" nz-input placeholder="Enter amount" />
+      </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isbifurcationModal" [nzTitle]="'Outstanding Bifurcation'" (nzOnCancel)="isbifurcationModal = false"
+      (nzOnOk)="sendPaymentLink()" nzOkText="Send Link"
+      [nzOkDisabled]="!send_payment_amount">
+      <ng-container *nzModalContent>
+            <div class="row">
+                  <div class="col-md-4"><label class="">Principal Amount:</label>   </div>
+                  <div class="col-md-8"><h6>{{_currbifurcaton?.principal_amount ? _currbifurcaton?.principal_amount : '-'}}</h6></div>
+                  <div class="col-md-4"><label class="">Fees Amount:</label>   </div>
+                  <div class="col-md-8"><h6>{{_currbifurcaton?.fees_amount ? _currbifurcaton?.fees_amount : '-'}}</h6></div>
+                  <div class="col-md-4"><label class="">Convenience Fees:</label>   </div>
+                  <div class="col-md-8"><h6>{{_currbifurcaton?.convienance_fees  ? _currbifurcaton?.convienance_fees   : '-'   }}</h6></div>
+            </div>
       </ng-container>
 </nz-modal>

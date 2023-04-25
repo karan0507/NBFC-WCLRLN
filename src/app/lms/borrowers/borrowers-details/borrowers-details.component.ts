@@ -687,4 +687,15 @@ export class BorrowersDetailsComponent implements OnInit {
       this.message.remove(generateloader);
     })
   }
+
+  isbifurcationModal: boolean = false;
+  _currbifurcaton:any;
+  viewbifurcation(){
+    let data = { 'offer_id': this.borrower_id, }
+    this.http.getOutstandingBifurcation(data).subscribe((res:any)=>{
+      if(res.success){
+        this._currbifurcaton = res.data
+      }
+    })
+  }
 }

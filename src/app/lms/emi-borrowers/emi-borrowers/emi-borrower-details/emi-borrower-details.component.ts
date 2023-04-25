@@ -220,8 +220,6 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     // this.isReverseCharges = true
     this.reverseId = id
     this.getTnxAmount(id)
-    console.log(id);
-    
   }
 
   refundChargesToggle(id) {
@@ -237,7 +235,6 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       endpoint: id,
       source: 'LMS',
     }
-    console.log(id);
     
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       if (res.data.amount > 0) {
