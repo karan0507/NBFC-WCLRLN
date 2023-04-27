@@ -10,6 +10,7 @@ export class DeatilsComponent implements OnInit {
 
   @Input() uploadPermission: any;
   @Input() _currentId: any;
+  @Input() _currStage : any;
   seviceCall: any;
   constructor(public https: HttpService) { }
 

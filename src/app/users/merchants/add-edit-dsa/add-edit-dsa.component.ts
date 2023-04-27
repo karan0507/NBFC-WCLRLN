@@ -84,7 +84,6 @@ export class AddEditDsaComponent {
       this.http.getMasterDesignation().subscribe(res => {
         let temp = res['data'].results
         temp = temp.filter(element => element.name == 'Superuser');
-        console.log(temp);
         // temp.forEach(element => {
         //   temp = temp.filter(element => element.name == 'Superuser')
         //   console.log(res['data'].results, element);
