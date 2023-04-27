@@ -222,6 +222,7 @@
             <th nzWidth="8rem">Summary Check Status</th>
             <th nzWidth="8rem">Corporate Nach Step's</th>
             <th nzWidth="8rem">Nach Status</th>
+            <th nzWidth="8rem">Physical Verification Status</th>
             <th nzWidth="8rem">Offer Expiry Date</th>
             <th nzWidth="8rem">Remarks</th>
             <th nzRight [nzWidth]="'5rem'">Action</th>
@@ -300,6 +301,7 @@
                 : "-"
                 }}
               </td>
+              <td>{{data?.physical_verification_status ? data?.physical_verification_status :'-'}}</td>
               <td>
                 {{
                 data?.summary_checked_date
@@ -438,7 +440,7 @@
             <tr [nzExpand]="expandSet.has(data.id)">
               <div class="row">
                 <div class="col-md-12" *ngIf="data.id === _currentId">
-                  <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
+                  <app-deatils [uploadPermission]="''" [_currentId]="_currentId" [_currStage]="'eNach'"></app-deatils>
                 </div>
               </div>
             </tr>
