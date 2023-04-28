@@ -1449,6 +1449,15 @@ export class HttpService {
       public updateEmiManualOffer(data) {
             return this._http.post((this.url + `/loan-application/v1/emi-manual-offer`), data);
       }
+
+
+      public fetchSuperAppUserData(data): any {
+            return this._http.get((this.url + `/loan-application/v1/fetch-super-app-users-list`),  { params: data });
+      }
+
+      public fetchSuperAppUserDetails(id):any{
+            return this._http.get((this.url + `/loan-application/v1/fetch-super-app-user-details/`+id));
+      }
       
       
       

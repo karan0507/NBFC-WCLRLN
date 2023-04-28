@@ -46,6 +46,10 @@ export const CommonLayout_ROUTES: Routes = [
         loadChildren: () => import('../../employees/employees.module').then(m => m.EmployeesModule),
     },
     {
+        path: 'super-app-user',
+        loadChildren: () => import('../../super-app-user/super-app-user.module').then(m => m.SuperAppUserModule),
+    },
+    {
         path: 'applications',
         loadChildren: () => import('../../applications/applications.module').then(m => m.ApplicationsModule),
     },
