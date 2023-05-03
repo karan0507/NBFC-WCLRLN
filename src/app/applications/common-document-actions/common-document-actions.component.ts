@@ -152,16 +152,16 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
         // console.log(this.documentData?.document_master?.name + ' Testing Is In progress');
         // return;
         // "Other Document" this.documentData?.document_master?.name == "Selfie" ||
-        if (this.documentData?.document_master?.name == "Other Document" || this.documentData?.document_master?.name == "Selfie") {
+        // if (this.documentData?.document_master?.name == "Other Document" || this.documentData?.document_master?.name == "Selfie") {
           let uploadDocForOtherDoc = new FormData()
           console.log(uploadDoc);
           // delete uploadDoc['kyc_document_id'];
           // uploadDocForOtherDoc.append('application_id', this.documentData?.application);
-          if (this.documentData?.document_master?.name == "Other Document") {
+          // if (this.documentData?.document_master?.name == "Other Document") {
             uploadDocForOtherDoc.append('document_id', this.documentData?.document_master?.id);
             uploadDocForOtherDoc.append('application_id', this.documentData?.application);
             uploadDocForOtherDoc.append('file', this._currentFileName);
-          }
+          // }
           if (this.documentData?.document_master?.name == "Selfie") {
             // uploadDocForOtherDoc.append('endpoint', this.documentData?.application);
             uploadDocForOtherDoc.append('endpoint', this.userApplicationData?.user_info?.id);
@@ -171,6 +171,8 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           uploadDocForOtherDoc.append('source', 'Onboarding');
           uploadDocForOtherDoc.append('datapoint', this.documentData?.document_master?.name == "Selfie" ? 'upload_selfie_appuser' : 'upload_kyc_doc');
           const httpURL = this.documentData?.document_master?.name == "Selfie" ? this.https.uploadLoanSelfieDocument(uploadDocForOtherDoc) : this.https.uploadLoanDocument(uploadDocForOtherDoc)
+          console.log(httpURL,'API');
+          
           httpURL.subscribe((res: any) => {
             if (res?.success) {
               this.api_calling_loader['button'] = false;
@@ -191,7 +193,7 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             this.api_calling_loader['button'] = false;
             this.message.error(err)
           })
-        }
+        // }
         // uploadOtherDocument
         // if ( this.documentData?.document_master?.name == "Other Document"){
         //   this.https.uploadLoanDocument(uploadDoc).subscribe((res: any) => {
