@@ -1455,6 +1455,8 @@ export class HttpService {
       }
 
       public uploadPhysicalVerificationDocument(data){
+            console.log(data, 'In Http');
+            
             return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
       }
 
