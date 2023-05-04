@@ -20,6 +20,114 @@ export class PartnersListComponent implements OnInit {
   selectedTab = 'all'
   listOfData : any;
 
+  listOfColumn = [
+    {
+      "priority": 1,
+      "column_name": "name",
+      "object_child_name": null,
+      "display_column_name": "Corporate Details",
+      "is_display": true
+    },
+    {
+      "priority": 2,
+      "column_name": "created_at",
+      "object_child_name": null,
+      "display_column_name": "Regd. On",
+      "is_display": true
+    },
+    {
+      "priority": 3,
+      "column_name": "unique_code",
+      "object_child_name": null,
+      "display_column_name": "Partner Id",
+      "is_display": true
+    },
+    {
+      "priority": 4,
+      "column_name": "registered",
+      "object_child_name": null,
+      "display_column_name": "Registered(KYC)",
+      "is_display": false
+    },
+    {
+      "priority": 5,
+      "column_name": "borrowers_detail",
+      "object_child_name": "total_credit_line_assigned",
+      "display_column_name": "Total Line Assigned",
+      "is_display": false
+    },
+    {
+      "priority": 6,
+      "column_name": "borrowers_detail",
+      "object_child_name": "total_credit_line_utilized",
+      "display_column_name": "Total Line Utilized",
+      "is_display": false
+    },
+    {
+      "priority": 7,
+      "column_name": "borrowers_detail",
+      "object_child_name": "total_active_users",
+      "display_column_name": "Total Active User",
+      "is_display": false
+    },
+    {
+      "priority": 8,
+      "column_name": "borrowers_detail",
+      "object_child_name": "remaining_user_count",
+      "display_column_name": "Unenrolled User",
+      "is_display": false
+    },
+    {
+      "priority": 9,
+      "column_name": "is_deleted",
+      "object_child_name": null,
+      "display_column_name": "System Status",
+      "is_display": false
+    },
+    {
+      "priority": 12,
+      "column_name": "bill_date",
+      "object_child_name": null,
+      "display_column_name": "Bill Date",
+      "is_display": false
+    },
+    {
+      "priority": 13,
+      "column_name": "master_partner",
+      "object_child_name": null,
+      "display_column_name": "Master Partner",
+      "is_display": false
+    },
+    {
+      "priority": 14,
+      "column_name": "source_id",
+      "object_child_name": null,
+      "display_column_name": "Source ID",
+      "is_display": false
+    },
+    {
+      "priority": 15,
+      "column_name": "refer_id",
+      "object_child_name": null,
+      "display_column_name": "Refer ID",
+      "is_display": false
+    },
+    {
+      "priority": 10,
+      "column_name": "updated_by",
+      "object_child_name": "name",
+      "display_column_name": "Updated By",
+      "is_display": true
+    },
+    {
+      "priority": 11,
+      "column_name": "created_by",
+      "object_child_name": "name",
+      "display_column_name": "Created By",
+      "is_display": true
+    }
+  ]
+  listOfSelectedColumn;
   passwordForAdmin = {
     'isVisibleModal': false,
     'toggleShoePasswordField': false,
@@ -94,6 +202,12 @@ customRanges = {
   constructor(private http: HttpService, private message: NzMessageService,private sanitized: DomSanitizer, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.listOfSelectedColumn = []
+    this.listOfColumn.forEach(element => {
+      if (element.is_display) {
+        this.listOfSelectedColumn.push(element.display_column_name)
+      }
+    });
     this.createResetPasswordForm();
     this.selectedTab = 'all';
     this.page = 1
@@ -536,7 +650,17 @@ customRanges = {
       this.getPartnerList()
     })
   }
-
+  provinceChange(e){
+    console.log(e)
+    this.listOfColumn.forEach(element => {
+      element.is_display = false
+      e.forEach(sub_element => {
+        if (element.display_column_name == sub_element) {          
+          element.is_display = true
+        }
+      });
+    });
+  }
 }
 
 

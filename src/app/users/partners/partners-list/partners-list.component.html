@@ -34,12 +34,15 @@
                         <i nz-icon nzType="undo"></i>
                     </button>
                 </div>
-                <!-- <div class="col-md-8 mb-3 d-flex justify-content-md-end">
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
                         class="mr-2" (click)="resetFilter()">
                         <i nz-icon nzType="undo"></i>
-                    </button>
-                </div> -->
+                    </button> -->
+                    <nz-select nzMode="multiple" nzPlaceHolder="Please select" style="width: 20rem;" [nzMaxTagCount]="3" [(ngModel)]="listOfSelectedColumn" (ngModelChange)="provinceChange($event)">
+                        <nz-option *ngFor="let item of listOfColumn" [nzValue]="item.display_column_name" [nzLabel]="item.display_column_name"></nz-option>
+                    </nz-select>
+                </div>
             </div>
             <div class="accordianLoanApp">
                 <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="_apiLoader['list']"
@@ -49,9 +52,11 @@
                     <thead>
                         <tr>
                             <th rowspan="2" nzWidth="100px">#</th>
-                            <th>Corporate Details</th>
-                            <!-- <th>DOB</th>
-                            <th>Type</th> -->
+                            <ng-container *ngFor="let sub_column of listOfColumn">
+                                <th *ngIf="sub_column.is_display">{{sub_column.display_column_name}}</th>
+                            </ng-container>
+                            
+                            <!-- <th>Corporate Details</th>
                             <th>Regd. On</th>
                             <th>Partner Id</th>
                             <th>Registered(KYC)</th>
@@ -59,14 +64,13 @@
                             <th>Total Line Utilized</th>
                             <th>Total Active User</th>
                             <th>Unenrolled User </th>
-                            <!-- <th>Transaction Status</th> -->
                             <th>System Status</th>
                             <th> Updated By</th>
                             <th>Created By</th>
                             <th>Bill Date</th>
                             <th> Master Partner</th>
                             <th>Source ID</th>
-                            <th>Refer ID</th>
+                            <th>Refer ID</th> -->
                             <th class="pr-0" nzWidth="5rem" nzRight>Action</th>
                         </tr>
                         <!-- <tr>
@@ -87,9 +91,13 @@
                                     <td *ngIf="page > 1" [nzExpand]="expandSet.has(data.id)"
                                     (nzExpandChange)="onExpandChange(data.id, $event, i)">
                                     {{ ((page-1)*globalPageSize)+(i+1)}}</td>
-                                <td>{{ data?.name }}</td>
-                                <!-- <td>{{ data?.dob }}</td>
-                                <td>{{ data?.type }}</td> -->
+                                <ng-container *ngFor="let sub_column of listOfColumn">
+                                    <td *ngIf="sub_column.is_display">
+                                        {{sub_column.object_child_name ? (data[sub_column.column_name] ? data[sub_column.column_name][sub_column.object_child_name] : '-') : data[sub_column.column_name]}}
+                                    </td>
+                                </ng-container>
+                                
+                                <!-- <td>{{ data?.name }}</td>
                                 <td>{{ data?.created_at | date: 'dd MMM yyyy' }}
                                 <td>{{data?.unique_code}}</td>
                                 <td *ngIf="data?.registered">
@@ -98,7 +106,6 @@
                                 <td *ngIf="!data?.registered">
                                     <a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
                                 </td>
-                                <!-- <td>{{data?.transaction_status}}</td> -->
                                 <td>{{ data?.borrowers_detail?.total_credit_line_assigned ? data?.borrowers_detail?.total_credit_line_assigned : '0' }}</td>
                                 <td>{{ data?.borrowers_detail?.total_credit_line_utilized ? data?.borrowers_detail?.total_credit_line_utilized : '0' }}</td>
                                 <td>{{ data?.borrowers_detail?.total_active_users ? data?.borrowers_detail?.total_active_users : 0 }}</td>
@@ -110,8 +117,7 @@
                                 <td>{{ data?.bill_date ? data?.bill_date : ' - ' }}</td>
                                 <td>{{ data?.master_partner ? data?.master_partner : ' - ' }}</td>
                                 <td>{{ data?.source_id ? data?.source_id : ' - ' }}</td>
-                                <td>{{ data?.refer_id ? data?.refer_id : ' -' }}</td>
-                                <!-- <td>{{ data.no_of_partner }}</td> -->
+                                <td>{{ data?.refer_id ? data?.refer_id : ' -' }}</td> -->
                                 <td nzRight class="pr-0">
                                     <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
                                         [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"

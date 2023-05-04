@@ -27,6 +27,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { ReferralCodeComponent } from './referral-code/referral-code.component';
 import { CashbackComponent } from './cashback/cashback.component';
+import { DemoNgZorroAntdModule } from 'src/app/ng-zorro-antd.module';
 
 @NgModule({
   declarations: [PartnersListComponent, AddEditPartnersComponent, ReferralCodeComponent, CashbackComponent],
@@ -54,7 +55,8 @@ import { CashbackComponent } from './cashback/cashback.component';
     SharedModule,
     NzPopconfirmModule,
     NzTimePickerModule,
-    NgxPermissionsModule.forChild()
+    NgxPermissionsModule.forChild(),
+    DemoNgZorroAntdModule
   ]
 })
 export class PartnersModule { }
