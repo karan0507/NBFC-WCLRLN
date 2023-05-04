@@ -134,14 +134,15 @@
         <tr>
           <th nzWidth="2rem"></th>          
           <th nzWidth="60px">#</th>          
-          <th  nzWidth="8rem">User Details</th>
-          <th  nzWidth="8rem">Unique Code</th>
-          <th  nzWidth="8rem">Company</th>
-          <th  nzWidth="8rem">Type</th>
+          <th nzWidth="8rem">User Details</th>
+          <th nzWidth="8rem">Unique Code</th>
+          <th nzWidth="8rem">Company</th>
+          <th nzWidth="8rem">Type</th>
           <th nzWidth="8rem">Name Status</th>
           <th nzWidth="8rem">Company Status</th>
           <th nzWidth="8rem">Selfie Status</th>
-          <th nzWidth="8rem">Apply Date & Time</th>        
+          <th nzWidth="8rem">Apply Date & Time</th> 
+          <th nzWidth="8rem">Actions</th>          
         </tr>
         </thead>
         <tbody>
@@ -179,6 +180,20 @@
                 </td>
                 <td>
                   {{data?.created_at | date : "medium"}}
+                </td>
+                <td>
+                  <a *ngIf="data?.status != 'Exit'" style="cursor: pointer;" class="text-dark font-size-20 p-l-5 p-r-5" id="bg" nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                </a>
+                  <div>
+                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item  (click)=" showModal(data.id)">
+                                <span class="m-l-5"  #approve>Change Step</span>
+                            </li>                          
+                           </ul>
+                    </nz-dropdown-menu>
+                </div>
                 </td>
               </tr>
               <tr [nzExpand]="expandSet.has(data.id)">
@@ -311,3 +326,24 @@
   [documentData]="_currentModalData" (close)=" _isUpload = false; getKycDetails()">
 </app-common-document-actions>
 </section>
+
+<nz-modal [(nzVisible)]="isVisible" [nzFooter]="submit" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <div class="row justify-content-center">
+      <!-- <div>
+        Select Step :
+      </div> -->
+      <div>
+      <nz-select style=" width: 12rem;" nzAllowClear [(ngModel)]="changeStep"
+        nzPlaceHolder="Select Step">     
+      <nz-option [nzValue]="'NAME'" nzLabel="Name"></nz-option>
+      <nz-option [nzValue]="'COMPANY'" nzLabel="Company"></nz-option>
+      <nz-option [nzValue]="'SELFIE'" nzLabel="Selfie"></nz-option>                   
+      </nz-select>
+    </div>
+  </div> 
+  </ng-container>
+</nz-modal>
+<ng-template #submit>
+  <button nz-button [nzType]="'primary'" (click)="changeStepAction();handleOk()"><span>Submit</span></button>
+</ng-template>

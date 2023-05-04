@@ -4,6 +4,7 @@ import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { differenceInCalendarDays } from 'date-fns';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-super-app-user',
   templateUrl: './super-app-user.component.html',
@@ -19,6 +20,7 @@ export class SuperAppUserComponent implements OnInit {
   userPersonalDetails:any;
   userEmpDetails:any;
   selfie:any;
+  changeStep:any;
   partner:any;
   step:any;
   page = 1;
@@ -30,12 +32,14 @@ export class SuperAppUserComponent implements OnInit {
   _currentModalData: any;
   _isViewDocument: boolean = false
   _isUpload: boolean = false;
+  isVisible = false;
+  userId:any;
   api_calling_loader = {
     'listLoader': false,
     'accordian': false,
     'button': false
 };
-  constructor(public https: HttpService, public global: GlobalservicesService) { }
+  constructor(public https: HttpService, public global: GlobalservicesService,private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.page = 1
@@ -168,4 +172,30 @@ getUserDetails(id?){
   })
 }
 
+showModal(id): void {
+  this.isVisible = true;
+  console.log(id);
+  this.userId=id;
+}
+
+handleOk(): void {
+  console.log('Button ok clicked!');
+  this.isVisible = false;
+}
+
+handleCancel(): void {
+  console.log('Button cancel clicked!');
+  this.isVisible = false;
+}
+
+changeStepAction(){
+  let data={
+    user_id:this.userId,
+    step:this.changeStep,
+  };
+  this.https.changeStep(data).subscribe(res=>{
+  console.log(res);
+  this.message.success(res['message']);
+})
+}
 }

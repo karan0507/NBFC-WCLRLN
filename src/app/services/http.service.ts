@@ -1458,6 +1458,10 @@ export class HttpService {
       public fetchSuperAppUserDetails(id):any{
             return this._http.get((this.url + `/loan-application/v1/fetch-super-app-user-details/`+id));
       }
+
+      public changeStep(data){
+            return this._http.post((this.url + `/loan-application/v1/change-super-app-user-step`), data);
+      }
       
       
       
