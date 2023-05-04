@@ -110,4 +110,14 @@ export class EmiBorrowersComponent implements OnInit {
       this.expandSet.delete(id);
     }
   }
+
+  exportEmiBill(){
+    let data = {}
+    // data['offer_id'] =  this._currBorrowerId
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.getEmiBillReport(data).subscribe((res:any)=>{
+      this.http.exportMasterSectionModule(res, 'export', 'xlsx', generateloader)
+    })
+  }
+
 }

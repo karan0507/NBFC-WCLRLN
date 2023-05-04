@@ -1,6 +1,6 @@
-<div class="d-flex justify-content-end mb-2">
+<!-- <div class="d-flex justify-content-end mb-2">
     <button nz-button nzType="primary" (click)="exportEmiBill()">Export</button>
-</div>
+</div> -->
 
 <nz-card [nzLoading]="cardLoading">
     <section>
@@ -370,7 +370,7 @@
                                         </li>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
+                                        *ngIf="data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
                                         <!-- <li nz-menu-item (click)="refundChargesToggle(data?.id);"
                                             *ngxPermissionsOnly="['refund_transaction']">
                                             <span class="m-l-5">Refund Transaction</span>
@@ -503,8 +503,8 @@
                                         </li>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="!data?.is_manually_entered && data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
-                                        <li nz-menu-item (click)="refundChargesToggle(data?.id);"
+                                        *ngIf="data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
+                                        <li nz-menu-item (click)="refundChargesToggle(data?.id);refundId = data.id"
                                             *ngxPermissionsOnly="['refund_transaction']">
                                             <span class="m-l-5">Refund Transaction</span>
                                         </li>

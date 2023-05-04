@@ -1463,6 +1463,24 @@ export class HttpService {
             return this._http.post((this.url + `/loan-application/v1/change-super-app-user-step`), data);
       }
       
+      public getOutstandingBifurcation(data) {
+            return this._http.get((this.url + `/loan-application/v1/fetch-product-tenures/`),{params:data});
+      }
+
+      public uploadPhysicalVerificationDocument(data){
+            console.log(data, 'In Http');
+            
+            return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
+      }
+
+      public byPasPhysicalVerification(data){
+            return this._http.post((this.url + `/loan-application/v1/bypass-physical-verification`), data);
+      }
+      
+      public verifyPhysicalVerification(data){
+            return this._http.post((this.url + `/loan-application/v1/verify-physical-verification`), data);
+      }
+      
       
       
 }

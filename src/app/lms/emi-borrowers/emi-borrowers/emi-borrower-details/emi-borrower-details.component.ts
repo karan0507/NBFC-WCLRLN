@@ -234,7 +234,9 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       datapoint: 'get_transaction_amount',
       endpoint: id,
       source: 'LMS',
+      // transaction:id
     }
+    
     this.http.fetchLoanApplicationList(data).subscribe(res => {
       if (res.data.amount > 0) {
         if (this.reverseId) {
@@ -279,9 +281,11 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     }
     this.api_call_loading['fees'] = true
     this.http.fetchLoanApplicationList(data).subscribe(res => {
-      this.api_call_loading['fees'] = false
-      this.fees_charges_list = res['data']
+      
+      this.fees_charges_list = res['data'];
+      console.log(this.fees_charges_list)
       this.total_count1 = res.total_count
+      this.api_call_loading['fees'] = false
       // this.message.success(res['message'])
     }, (err) => {
       this.api_call_loading['fees'] = false
@@ -524,6 +528,7 @@ export class EmiBorrowerDetailsComponent implements OnInit {
     let form = new FormData();
     form.append('offer_id', this._currBorrowerId)
     form.append('txn_type', 'Refund')
+    form.append('transaction', this._currOfferId)
     form.append('source', 'Onboarding')
     form.append('datapoint', 'disburse_or_refund_payments')
     form.append('amount', this.refundForm.value.amount)
@@ -547,5 +552,24 @@ export class EmiBorrowerDetailsComponent implements OnInit {
       this.isRefundActive = false;
       this.refundForm.reset();
     })
+  }
+
+  reverse_sub_title: string;
+  reverse_type;
+  setTypeandAmt() {
+    if (!this.reverse_type) {
+      this.message.error('Please select reverse type')
+      return false
+    }
+    if (!this.reverse_amount) {
+      this.message.error('Please enter amount')
+      return false
+    }
+    if (this.reverse_amount > this.final_reverse_amount) {
+      this.message.error('Amount should be less than or equal to ' + this.final_reverse_amount)
+      return false
+    }
+    this.is_set_amt = true
+    this.reverse_sub_title = 'Amount to be reversed - ₹' + this.reverse_amount + '<br/> Are you sure about performing this action?'
   }
 }

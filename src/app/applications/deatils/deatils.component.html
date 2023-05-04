@@ -1,4 +1,4 @@
-<div class="card-container">
+    <div class="card-container">
     <nz-tabset nzType="card">
         <nz-tab [nzTitle]="'PERSONAL AND EMPLOYMENT DETAILS'">
             <div class="row">
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <ng-template nz-tab>
-                        <app-kyc-details [uploadPermission]="uploadPermission.toLowerCase()" [_currentId]="_currentId"></app-kyc-details>
+                        <app-kyc-details [uploadPermission]="uploadPermission.toLowerCase()" [_currentId]="_currentId" [_currStage]="_currStage"></app-kyc-details>
                     </ng-template>
                 </div>
             </div>

@@ -189,7 +189,8 @@
                                                     <td>{{ i + 1 }}</td>
                                                     <td>{{ data.cibil_score }}</td>
                                                     <td>{{data?.created_at | date : "medium"}}</td>
-                                                    <td><button nz-button nzType="link" nzSize="small" (click)="downloadCibilPdf(data?.credit_pdf)">Download </button></td>
+                                                    <td><button *ngIf="data?.credit_pdf else noTemplate" nz-button nzType="link" nzSize="small" (click)="downloadCibilPdf(data?.credit_pdf)">Download </button></td>
+                                               <ng-template #noTemplate>No File</ng-template>
                                                 </tr>
                                             </tbody>
                                         </nz-table>
