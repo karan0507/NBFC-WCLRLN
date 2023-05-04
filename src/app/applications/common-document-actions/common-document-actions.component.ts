@@ -173,26 +173,6 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
           const httpURL = this.documentData?.document_master?.name == "Selfie" ? this.https.uploadLoanSelfieDocument(uploadDocForOtherDoc) : this.https.uploadLoanDocument(uploadDocForOtherDoc)
           console.log(httpURL,'API');
           
-          httpURL.subscribe((res: any) => {
-            if (res?.success) {
-              this.api_calling_loader['button'] = false;
-              this.fileList = [];
-              this.message.success(res?.message)
-            } else {
-              this.api_calling_loader['button'] = false;
-              this.fileList = [];
-              this.message.error(res?.message)
-            }
-            if (this.documentData?.document_master?.name != "Aadhar Card" ||
-              this.documentData?.document_master?.name != "Pan" ||
-              this.documentData?.document_master?.name != "Voter ID" ||
-              this.documentData?.document_master?.name != "Driving License") {
-              this.handleCancel();
-            }
-          }, err => {
-            this.api_calling_loader['button'] = false;
-            this.message.error(err)
-          })
         // }
         // uploadOtherDocument
         // if ( this.documentData?.document_master?.name == "Other Document"){
@@ -232,6 +212,27 @@ export class CommonDocumentActionsComponent implements OnInit, OnDestroy {
             }
           }, err => {
             this.handleCancel();
+          })
+        }  else {
+          httpURL.subscribe((res: any) => {
+            if (res?.success) {
+              this.api_calling_loader['button'] = false;
+              this.fileList = [];
+              this.message.success(res?.message)
+            } else {
+              this.api_calling_loader['button'] = false;
+              this.fileList = [];
+              this.message.error(res?.message)
+            }
+            if (this.documentData?.document_master?.name != "Aadhar Card" ||
+              this.documentData?.document_master?.name != "Pan" ||
+              this.documentData?.document_master?.name != "Voter ID" ||
+              this.documentData?.document_master?.name != "Driving License") {
+              this.handleCancel();
+            }
+          }, err => {
+            this.api_calling_loader['button'] = false;
+            this.message.error(err)
           })
         }
 
