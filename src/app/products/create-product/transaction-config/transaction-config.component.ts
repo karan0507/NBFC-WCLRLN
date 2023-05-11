@@ -44,6 +44,7 @@ export class TransactionConfigComponent implements OnInit {
       allow_repayment: [data ? data.allow_repayment : false],
       allow_imps: [data ? data.allow_imps : false],
       allow_neft: [data ? data.allow_neft : false],
+      allow_bbps: [data ? data.allow_bbps : false],
     })
 
   }
@@ -80,6 +81,7 @@ export class TransactionConfigComponent implements OnInit {
       allow_repayment : this.createEditForm.get('allow_repayment').value,
       allow_imps : this.createEditForm.get('allow_imps').value,
       allow_neft : this.createEditForm.get('allow_neft').value,
+      allow_bbps : this.createEditForm.get('allow_bbps').value,
     }
     console.log(data)
     // return;

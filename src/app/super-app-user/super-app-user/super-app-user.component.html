@@ -1,0 +1,349 @@
+<div class="header_breadcrumb_section">
+    <div class="d-flex justify-content-md-center flex-wrap w-100">
+      <div></div>
+      <div class="font-size-20">
+        <i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users :
+        {{ total_count ? total_count : "0" }}
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <section>
+    <nz-card class="w-100">
+      <div class="row mb-md-3">
+        <div class="col-md-8 mb-md-0">
+            <div class="d-flex">
+              <span>
+                <nz-radio-group
+                [(ngModel)]="selectedTabFilter"
+                (ngModelChange)="onClickChangeTabFilter($event)"
+              >
+              <label
+              nz-radio-button
+              class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+              nzValue="all">All</label>
+                <label
+                  nz-radio-button
+                  class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                  nzValue="B2B"
+                  >B2B</label>
+                <label
+                  nz-radio-button
+                  class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                  nzValue="D2C"
+                  >D2C</label>
+                </nz-radio-group>
+                </span>
+                <span>
+                    <nz-input-group
+                      nzSearch
+                      [nzAddOnAfter]="suffixIconButton"
+                      class="mb-2"
+                      style="width: 19rem"
+                    >
+                      <input
+                        type="text"
+                        [(ngModel)]="searchValue"
+                        (keyup.enter)="getUsersData()"
+                        nz-input
+                        placeholder="Search text"
+                      />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button
+                          nz-button
+                          nzType="secondary"
+                          (click)="getUsersData()"
+                          nzSearch
+                        >
+                          <i nz-icon nzType="search"></i>
+                        </button>
+                    </ng-template>
+                </span>
+            </div>
+        </div>
+      
+        </div>
+        <div class="row">
+        <div>
+            <nz-select class="mx-1 mb-2" style=" width: 12rem;" nzAllowClear [(ngModel)]="product" (ngModelChange)="getUsersData()"
+            nzPlaceHolder="Select Product">     
+            <nz-option [nzValue]="'1'" nzLabel="FatakPay"></nz-option>
+            <nz-option [nzValue]="'2'" nzLabel="Fatak EMI"></nz-option>                 
+            </nz-select>
+        </div>
+        <div>
+            <!-- <nz-select class="mx-1 mb-2" style=" width: 12rem;" nzAllowClear [(ngModel)]="select_stage" (ngModelChange)="getPrartnerList()"
+            nzPlaceHolder="Select Partner">     
+            <nz-option ngFor="let data of partnerList" [nzValue]="data?.id" nzLabel="{{data?.name}}"></nz-option>          
+            </nz-select> -->
+            <nz-select
+            [(ngModel)]="partner"
+            nzMode="multiple"
+            style="width: 15rem"
+            class="mx-1 my-md-0 mb-3"
+            (nzFocus)="onFocusMethod('partner')"
+            (ngModelChange)="getUsersData()"
+            nzAllowClear
+            [nzMaxTagCount]="1"
+            [nzSize]="'small'"
+            nzPlaceHolder="Select Partner"
+          >
+            <nz-option
+              *ngFor="let item of partnerList"
+              [nzValue]="item.pk"
+              [nzLabel]="item.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+        <div>
+            <nz-select class="mx-1 mb-2" style=" width: 12rem;" nzAllowClear [(ngModel)]="step" (ngModelChange)="getUsersData()"
+            nzPlaceHolder="Select Step">     
+            <nz-option [nzValue]="'name'" nzLabel="Name"></nz-option>
+            <nz-option [nzValue]="'company'" nzLabel="Company"></nz-option>  
+            <nz-option [nzValue]="'selfie'" nzLabel="Selfie"></nz-option>
+            <nz-option [nzValue]="'dashboard'" nzLabel="Dashboard"></nz-option>      
+            </nz-select>
+        </div>
+    </div>
+    <div class="row">
+        <nz-range-picker   class="mx-1 mb-2"
+        style="width: 18rem"
+        [(ngModel)]="date"
+        [nzDisabledDate]="disabledDate"
+        (ngModelChange)="getUsersData()"
+        [nzRanges]="customRanges"></nz-range-picker>
+    </div>
+    <div>
+        <nz-table
+        #rowSelectionTable
+        [nzData]="superuserList"
+        [nzTotal]="total_count"
+        [nzFrontPagination]="false"
+        [nzShowSizeChanger]="true"
+        [nzPageIndex]="page"
+        [nzPageSize]="globalPageSize"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+        (nzQueryParams)="
+        superuserList[0] ? getUsersData($event) : null"
+        [nzScroll]="{ x: '1500px', y: '' }"   
+        [nzLoading]="api_calling_loader['listLoader']"     
+      >
+      <thead>
+        <tr>
+          <th nzWidth="2rem"></th>          
+          <th nzWidth="60px">#</th>          
+          <th nzWidth="8rem">User Details</th>
+          <th nzWidth="8rem">Unique Code</th>
+          <th nzWidth="8rem">Company</th>
+          <th nzWidth="8rem">Type</th>
+          <th nzWidth="8rem">Name Status</th>
+          <th nzWidth="8rem">Company Status</th>
+          <th nzWidth="8rem">Selfie Status</th>
+          <th nzWidth="8rem">Apply Date & Time</th> 
+          <th nzWidth="8rem">Actions</th>          
+        </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of superuserList; index as i">
+            <tr>
+              <td
+                nzWidth="1rem"
+                [nzExpand]="expandSet.has(data.id)"
+                (nzExpandChange)="onExpandChange(data.id, $event, i)"
+                (click)="getUserDetails(data.id)"
+              ></td>
+              <td *ngIf="page == 1">{{ i + 1 }}</td>
+              <td *ngIf="page > 1">
+                {{ (page - 1) * globalPageSize + (i + 1) }}
+              </td>             
+              <td>
+                {{ data?.first_name ? data?.first_name  :'-'}} {{ data?.last_name ? data?.last_name  :' '}}<br>{{ data?.mobile ? data?.mobile :' ' }}</td>
+                <td>
+                  {{data?.unique_code ? data?.unique_code :'-'}}
+                </td>
+                <td>
+                  {{data?.company ? data?.company:'-'}}
+                </td>
+                <td>
+                  {{data?.app_user_nature ? data?.app_user_nature:'-'}}
+                </td>
+                <td> <i *ngIf="data?.name_flag" nz-icon nzType="check-circle" nzTheme="fill" class="text-success"></i>
+                  <i *ngIf="!data?.name_flag" nz-icon nzType="close-circle" nzTheme="fill" class="text-danger"></i>
+                </td>
+                <td> <i *ngIf="data?.company_flag" nz-icon nzType="check-circle" nzTheme="fill" class="text-success"></i>
+                  <i *ngIf="!data?.company_flag" nz-icon nzType="close-circle" nzTheme="fill" class="text-danger"></i>
+                </td>
+                <td> <i *ngIf="data?.selfie_flag" nz-icon nzType="check-circle" nzTheme="fill" class="text-success"></i>
+                  <i *ngIf="!data?.selfie_flag" nz-icon nzType="close-circle" nzTheme="fill" class="text-danger"></i>
+                </td>
+                <td>
+                  {{data?.created_at | date : "medium"}}
+                </td>
+                <td>
+                  <a *ngIf="data?.status != 'Exit'" style="cursor: pointer;" class="text-dark font-size-20 p-l-5 p-r-5" id="bg" nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                </a>
+                  <div>
+                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item  (click)=" showModal(data.id)">
+                                <span class="m-l-5"  #approve>Change Step</span>
+                            </li>                          
+                           </ul>
+                    </nz-dropdown-menu>
+                </div>
+                </td>
+              </tr>
+              <tr [nzExpand]="expandSet.has(data.id)">
+                 <div class="justify-content-center">
+                  <nz-page-header class="acc-bg-light mb-2 m-l-0" [nzTitle]="basicDetail">
+                  </nz-page-header>
+                  <nz-card class="mb-md-5">
+                      <div class="row">
+                          <div class="col-md-4 mb-3">
+                              <div class="d-flex flex-column">
+                                  <h6 class="text-gray">
+                                      Name
+                                  </h6>
+                                  <div>
+                                      {{userPersonalDetails?.first_name ? userPersonalDetails?.first_name  :
+                                      '-'}} {{userPersonalDetails?.last_name ? userPersonalDetails?.last_name  :
+                                        ' '}}
+                                  </div>
+                              </div>
+                          </div>                       
+                      </div>
+                  </nz-card>
+              </div> 
+
+              <div class="justify-content-center">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="empDetail">
+                </nz-page-header>
+                <nz-card class="mb-md-5">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex flex-column">
+                                <h6 class="text-gray">
+                                  Company Name
+                                </h6>
+                                <div>
+                                    {{userEmpDetails?.company_name ? userEmpDetails?.company_name  :
+                                    '-'}}
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-md-4 mb-3">
+                          <div class="d-flex flex-column">
+                              <h6 class="text-gray">
+                                Employee Code
+                              </h6>
+                              <div>
+                                  {{userEmpDetails?.employee_code ? userEmpDetails?.employee_code  :
+                                  '-'}}
+                              </div>
+                          </div>
+                      </div>                      
+                    </div>
+                </nz-card>
+            </div> 
+            <div class="justify-content-center">
+              <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="uploadDoc">
+              </nz-page-header>
+              <nz-card class="mb-md-5">
+                  <div class="row">
+                      <div class="col-md-4 mb-3">
+                          <div class="d-flex flex-column">
+                            <div class="d-flex flex-wrap justify-content-between">
+                            <h6 class="text-gray">
+                               Selfie Status
+                              </h6>
+                              <div class="mr-5">
+                                <a class="text-primary mr-3"
+                                nzTooltipTitle="View Document" *ngIf="selfie" (click)="
+                                _currentModalData = selfie; _isViewDocument = true;
+                                ">
+                                    <i nz-icon nzType="eye" nzTheme="outline"></i></a>
+                                <a class="text-primary mr-3" nzTooltipTitle="Verify Document" *ngIf="selfie" (click)="
+                                _isVerify = true; _currentModalData = selfie">
+                                    <i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                                <a class="text-primary mr-3" *ngIf="selfie" nzTooltipTitle="Download Document" href="{{ selfie['file_url']  }}" download
+                                target="_blank">
+                                    <i nz-icon nzType="download" nzTheme="outline"></i></a>
+                                <a class="text-primary" *ngIf="selfie" nzTooltipTitle="Upload Document" (click)="
+                                _isUpload = true; _currentModalData = selfie" >
+                                    <i nz-icon nzType="upload" nzTheme="outline"></i>
+                                </a>
+                            </div>
+                          </div>
+                          </div>
+                      </div>                                          
+                  </div>
+              </nz-card>
+          </div> 
+              </tr>
+          </ng-container>
+          </tbody>
+      </nz-table>
+    </div>
+    </nz-card>
+</section>
+
+<ng-template #basicDetail>
+  <div class="d-flex">
+      <i nz-icon nzType="user" nzTheme="outline"></i>
+      <h6 class="mb-0 ml-2">Personal Details</h6>
+  </div>
+</ng-template>
+
+<ng-template #empDetail>
+  <div class="d-flex">
+      <i nz-icon nzType="user" nzTheme="outline"></i>
+      <h6 class="mb-0 ml-2">Employement Details</h6>
+  </div>
+</ng-template>
+
+<ng-template #uploadDoc>
+  <div class="d-flex">
+      <i nz-icon nzType="user" nzTheme="outline"></i>
+      <h6 class="mb-0 ml-2">Document Details</h6>
+  </div>
+</ng-template>
+
+<section *ngIf="_isViewDocument">
+  <app-common-document-actions [action]="'viewDocument'" [_isOpenModal]="_isViewDocument ? true : false"
+      [documentData]="_currentModalData" (close)="_isViewDocument = false; _currentModalData = null"></app-common-document-actions>
+</section>
+<section *ngIf="_isVerify">
+  <app-common-document-actions [action]="'verifyDocument'" [_isOpenModal]="_isVerify ? true : false"
+      [documentData]="_currentModalData" (close)=" _isVerify = false; getKycDetails()">
+  </app-common-document-actions>
+</section>
+<section *ngIf="_isUpload">
+<app-common-document-actions
+  [action]="'uploadDocument'"  [_isOpenModal]="_isUpload ? true : false"
+  [documentData]="_currentModalData" (close)=" _isUpload = false; getKycDetails()">
+</app-common-document-actions>
+</section>
+
+<nz-modal [(nzVisible)]="isVisible" [nzFooter]="submit" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <div class="row justify-content-center">
+      <!-- <div>
+        Select Step :
+      </div> -->
+      <div>
+      <nz-select style=" width: 12rem;" nzAllowClear [(ngModel)]="changeStep"
+        nzPlaceHolder="Select Step">     
+      <nz-option [nzValue]="'NAME'" nzLabel="Name"></nz-option>
+      <nz-option [nzValue]="'COMPANY'" nzLabel="Company"></nz-option>
+      <nz-option [nzValue]="'SELFIE'" nzLabel="Selfie"></nz-option>                   
+      </nz-select>
+    </div>
+  </div> 
+  </ng-container>
+</nz-modal>
+<ng-template #submit>
+  <button nz-button [nzType]="'primary'" (click)="changeStepAction();handleOk()"><span>Submit</span></button>
+</ng-template>
