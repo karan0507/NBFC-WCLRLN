@@ -31,7 +31,8 @@
                             [routerLinkActive]="subItem.submenu.length > 0 ? 'ant-menu-submenu-open' : 'ant-menu-item-selected'"
                             [routerLinkActiveOptions]="{exact: false}" *ngxPermissionsOnly="subItem?.permission">
                             <a href="javascript:void(0);" class="ant-menu-submenu-title p-l-50"
-                                *ngIf="subItem.submenu.length > 0">
+                                *ngIf="subItem.submenu.length > 0 && subItem.globalToggleValue">
+                                
                                 <i *ngIf="subItem.iconType == 'nzIcon'" nz-icon [nzType]="subItem.icon"
                                     [theme]="subItem.iconTheme"></i>
                                 <i *ngIf="subItem.iconType == 'fontawesome'" class="m-r-10"

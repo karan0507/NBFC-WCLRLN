@@ -21,7 +21,7 @@ export class HeaderComponent{
     isLoading: boolean = false
     debounce;
     currentRoute: any;
-    
+    _currToggleValue: boolean = false;
     constructor( private themeService: ThemeConstantService, private globalFunction :GlobalservicesService, private https: HttpService, private message: NzMessageService, private route: Router
         ,private globaldata: GlobalservicesService) {
             // console.log(this.route.url);
@@ -30,6 +30,12 @@ export class HeaderComponent{
         }
 
     ngOnInit(): void {
+        let temp = localStorage.getItem('globalToggleValue').toString();
+        if(temp == '1'){
+            this._currToggleValue = false
+        }else if(
+            this._currToggleValue = true
+        )
         this.getFormLoanData();
         this.globalFunction.globalUserData.subscribe(res => {
             // console.log(res);
@@ -226,4 +232,13 @@ export class HeaderComponent{
             color: 'ant-avatar-' + 'gold'
         }
     ];
+
+    switchToggle(){
+        if(this._currToggleValue){
+            localStorage.setItem('globalToggleValue','1')
+        }else{
+            localStorage.setItem('globalToggleValue','2')
+        }
+        window.location.reload();
+    }
 }

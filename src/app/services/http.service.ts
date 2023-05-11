@@ -1247,7 +1247,7 @@ export class HttpService {
             return this._http.get(this.url + (`/loan-application/v1/get-lms-staging-list`), {params : data})
       }
       fetchVersionList( data){
-            return this._http.get(this.url + `/loan-application/v1/get-app-version-list`, {params: data});
+            return this._http.get(this.url + `/loan-application/v1/get-app-version-list/`, {params: data});
       }
       public fetchDeductionList(data?): Observable<any> {
             return this._http.get((this.url + `/hrms-api/quesscorp-deduction`), { params: data});
@@ -1455,8 +1455,6 @@ export class HttpService {
       }
 
       public uploadPhysicalVerificationDocument(data){
-            console.log(data, 'In Http');
-            
             return this._http.post((this.url + `/partner/v1/commission/upload-file`), data);
       }
 

@@ -82,11 +82,11 @@
               (click)="resetFilters()">
               <i nz-icon nzType="undo"></i>
         </button> -->
-          <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem"
+          <!-- <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="productFilters" style="width: 12rem"
             (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Product">
             <nz-option *ngFor="let item of productList" [nzValue]="item.id" [nzLabel]="item.name">
             </nz-option>
-          </nz-select>
+          </nz-select> -->
           <nz-select class="mx-1 mb-2" nzAllowClear [(ngModel)]="stageFilters" style="width: 12rem"
             (nzFocus)="onFocusMethod('product')" (ngModelChange)="getFormLoanData()" nzPlaceHolder="Select Stage">
             <nz-option *ngFor="let item of stageList" [nzValue]="item?.name" [nzLabel]="item.name">

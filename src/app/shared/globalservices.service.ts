@@ -1,76 +1,81 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { HttpService } from '../services/http.service';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
+import { HttpService } from "../services/http.service";
 
 @Injectable({
-      providedIn: 'root'
+      providedIn: "root",
 })
 export class GlobalservicesService {
       public globalPageSize = 100;
       public applicationStageCount = new ReplaySubject<any>();
       public globalUserData = new ReplaySubject<any>();
       public globalApplicationLoan = new ReplaySubject<any>();
+      public globalToggleValue = new ReplaySubject<any>();
 
-      
       public borrowersStageCount = new ReplaySubject<any>();
       public borrowersSubStageCount = new ReplaySubject<any>();
 
       constructor(public http: HttpService) { }
 
-     setApplicationCount() {
-      let param = { 'source': 'Onboarding', 'datapoint': 'stage-wise-application-count' }
-      this.http.getApplicationStageCount(param).subscribe((res: any) => {
-            // this.setApplicationCount(res?.data)
-            this.applicationStageCount.next(res?.data)
-      });
-     
+      setApplicationCount() {
+            let param = {
+                  source: "Onboarding",
+                  datapoint: "stage-wise-application-count",
+            };
+            this.http.getApplicationStageCount(param).subscribe((res: any) => {
+                  // this.setApplicationCount(res?.data)
+                  this.applicationStageCount.next(res?.data);
+            });
       }
 
       setBorrowersSubCount() {
-            let param = { 'stage_type': 'SUB', 'stage_master': '1' }
+            let param = { stage_type: "SUB", stage_master: "1" };
             this.http.getBorrowersStageCount(param).subscribe((res: any) => {
-                  this.borrowersSubStageCount.next(res?.data)
+                  this.borrowersSubStageCount.next(res?.data);
             });
       }
 
       setBorrowersStageCount() {
-            let param = { 'stage_type': '', 'stage_master': '1' }
+            let param = { stage_type: "", stage_master: "1" };
             this.http.getBorrowersStageCount(param).subscribe((res: any) => {
-                  this.borrowersStageCount.next(res?.data)
+                  this.borrowersStageCount.next(res?.data);
             });
       }
 
-      selectedGlobalApplicationLoan(data:any){
+      selectedGlobalApplicationLoan(data: any) {
             this.globalApplicationLoan.next(data);
-          }
+      }
 
       amountFromatterFinction(value) {
-            var val: any
-            val = Math.abs(value)
+            var val: any;
+            val = Math.abs(value);
             if (val >= 10000000) {
-                  val = (val / 10000000) + ' Cr';
+                  val = val / 10000000 + " Cr";
             } else if (val >= 100000) {
-                  val = (val / 100000) + ' Lacs';
+                  val = val / 100000 + " Lacs";
             } else if (val >= 1000) {
-                  val = (val / 1000) + ' Thousand';
+                  val = val / 1000 + " Thousand";
             }
-            if (typeof val == 'string') {
+            if (typeof val == "string") {
             } else {
-                  val = val
+                  val = val;
             }
             return val;
       }
 
-      sendUserData(data:any){
+      sendUserData(data: any) {
             this.globalUserData.next(data);
-          }
-      
-      maskedValue(data, type){
-            if(data && type == 'pan'){
-             return data[data.length-1]['pan_no']
-            }else if(data && type == 'aadhar'){
-             return data[data.length-1]['aadhar_no']
+      }
+
+      setGlobalToggleValue(data: any) {
+            this.globalToggleValue.next(data);
+      }
+
+      maskedValue(data, type) {
+            if (data && type == "pan") {
+                  return data[data.length - 1]["pan_no"];
+            } else if (data && type == "aadhar") {
+                  return data[data.length - 1]["aadhar_no"];
             }
-       }
-       
+      }
 }

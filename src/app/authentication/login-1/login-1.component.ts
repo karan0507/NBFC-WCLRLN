@@ -100,6 +100,7 @@ export class Login1Component {
                                         });
                                     // this.HttpService.setPermissionValue(res.data.data.permissions_slug_list)
                                     this.message.success('Welcome to Fatak Pay');
+                                    localStorage.setItem('globalToggleValue','1')
                                     this.router.navigate(['/dashboard/home']);
 
                               }

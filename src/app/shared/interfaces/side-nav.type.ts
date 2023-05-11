@@ -5,5 +5,6 @@ export interface SideNavInterface {
     iconType: "" | "nzIcon" | "fontawesome";
     iconTheme: "" | "fab" | "far" | "fas" | "fill" | "outline" | "twotone";
     icon: string,
+    globalToggleValue : boolean;
     submenu : SideNavInterface[];
 }
