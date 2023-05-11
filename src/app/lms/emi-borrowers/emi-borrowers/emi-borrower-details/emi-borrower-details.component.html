@@ -158,9 +158,9 @@
                         <td>₹ {{ data?.emi_principle_component ? data?.emi_principle_component : "0" }}</td>
                         <td>₹{{ data?.fees_charges_outstanding ? data.fees_charges_outstanding : "0" }}</td>
                         <td>
-                            <i *ngIf="data.nach_fire" nz-icon nzType="check-circle" nzTheme="fill"
+                            <i *ngIf="data.is_nach_trigger" nz-icon nzType="check-circle" nzTheme="fill"
                                 class="text-success"></i>
-                            <i *ngIf="!data.nach_fire" nz-icon nzType="close-circle" nzTheme="fill"
+                            <i *ngIf="!data.is_nach_trigger" nz-icon nzType="close-circle" nzTheme="fill"
                                 class="text-danger"></i>
                         </td>
                         <td>₹{{data.repayments ? data.repayments : '0'}}</td>
