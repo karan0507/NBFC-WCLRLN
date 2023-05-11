@@ -93,6 +93,7 @@ export class QuickViewComponent {
           this.message.success(res?.message);
           this.modal.closeAll()
           sessionStorage.removeItem("fatakpay_user_data");
+          localStorage.removeItem("globalToggleValue");
           this.router.navigate(['/authentication/login']);
         }
       })
