@@ -339,7 +339,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             {
                 path: 'lms/borrowers',
-                globalToggleValue: (localStorage.getItem('globalToggleValue') == '1' )?  true : false,
+                globalToggleValue: (localStorage.getItem('globalToggleValue')) == '1' ?  true : false,
                 title: 'Borrowers',
                 iconType: '',
                 icon: '',
@@ -410,7 +410,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'emi',
-                globalToggleValue:(localStorage.getItem('globalToggleValue') == '1' )?  false : true,
+                globalToggleValue:(localStorage.getItem('globalToggleValue') == '1' ) ?  false : true,
                 title: 'EMI',
                 iconType: '',
                 iconTheme: '',
