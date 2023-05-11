@@ -1,7 +1,12 @@
 import { SideNavInterface } from '../../interfaces/side-nav.type';
+// export const g= {};
+
+console.log();
+// globalToggleValue : any = true
 export const ROUTES: SideNavInterface[] = [
     {
         path: '/dashboard/home',
+        globalToggleValue: true,
         permission: ['view_dashboard'],
         title: 'Dashboard',
         iconType: 'nzIcon',
@@ -11,6 +16,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'product-list',
+        globalToggleValue:true,
         permission: ['view_product'],
         title: 'Products',
         iconType: 'nzIcon',
@@ -19,6 +25,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             // { 
             //     path: 'product-list',
+            // globalToggleValue:this.globalToggleValue,
             //     title: 'View Products', 
             //     iconType: '', 
             //     icon: '',
@@ -27,6 +34,7 @@ export const ROUTES: SideNavInterface[] = [
             // },
             // { 
             //     path: 'product/create-product',
+            // globalToggleValue:this.globalToggleValue,
             //     title: 'Create New Product', 
             //     iconType: '', 
             //     icon: '',
@@ -37,6 +45,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'users',
+        globalToggleValue:true,
         title: 'Users',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -46,6 +55,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             {
                 path: 'lenders',
+                globalToggleValue:true,
                 title: 'Lenders',
                 iconType: '',
                 icon: '',
@@ -55,6 +65,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'masters-partners',
+                globalToggleValue:true,
                 title: 'Master Partners',
                 iconType: '',
                 icon: '',
@@ -64,6 +75,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'partners',
+                globalToggleValue:true,
                 title: 'Corporate',
                 iconType: '',
                 icon: '',
@@ -73,6 +85,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'employeeDetail',
+                globalToggleValue:true,
                 title: 'User Employee Details',
                 iconType: '',
                 icon: '',
@@ -82,6 +95,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'merchants',
+                globalToggleValue:true,
                 title: 'Merchants',
                 iconType: '',
                 icon: '',
@@ -90,6 +104,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     {
                         path: 'merchants/list',
+                        globalToggleValue:true,
                         title: 'Merchants',
                         iconType: '',
                         icon: '',
@@ -99,6 +114,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'merchants/DSA',
+                        globalToggleValue:true,
                         title: 'Partner DSA',
                         iconType: '',
                         icon: '',
@@ -112,6 +128,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'employees',
+        globalToggleValue:true,
         title: 'Employees',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -121,6 +138,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'applications',
+        globalToggleValue:true,
         title: 'Application',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -129,6 +147,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             // {
     //     path: 'otp-list',
+    // globalToggleValue:true,
     //     title: 'OTP List',
     //     iconType: 'nzIcon',
     //     iconTheme: 'outline',
@@ -138,6 +157,7 @@ export const ROUTES: SideNavInterface[] = [
     // },
             {
                 path: 'otp-list',
+                globalToggleValue:true,
                 title: 'UNREGISTERED',
                 iconType: '',
                 icon: '',
@@ -147,6 +167,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/all-application',
+                globalToggleValue:true,
                 title: 'All Applicants',
                 iconType: '',
                 icon: '',
@@ -156,6 +177,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/corporate-stage',
+                globalToggleValue:true,
                 title: 'Employee List',
                 iconType: '',
                 icon: '',
@@ -165,6 +187,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/form-filling',
+                globalToggleValue:true,
                 title: 'Form Filling',
                 iconType: '',
                 icon: '',
@@ -174,6 +197,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/document-upload',
+                globalToggleValue:true,
                 title: 'Document Upload',
                 iconType: '',
                 icon: '',
@@ -183,6 +207,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/document-pending',
+                globalToggleValue:true,
                 title: 'Document Pending',
                 iconType: '',
                 icon: '',
@@ -192,6 +217,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/pre-approved',
+                globalToggleValue:true,
                 title: 'Document verification',
                 iconType: '',
                 icon: '',
@@ -201,6 +227,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/underwriting',
+                globalToggleValue:true,
                 title: 'Underwriting',
                 iconType: '',
                 icon: '',
@@ -210,6 +237,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/nbfc-approval',
+                globalToggleValue:true,
                 title: 'NBFC Approval',
                 iconType: '',
                 icon: '',
@@ -219,6 +247,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/offer-proposed',
+                globalToggleValue:true,
                 title: 'Offer Proposed',
                 iconType: '',
                 icon: '',
@@ -228,6 +257,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/offer-acceptance',
+                globalToggleValue:true,
                 title: 'Offer Acceptance',
                 iconType: '',
                 icon: '',
@@ -237,6 +267,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/e-signing',
+                globalToggleValue:true,
                 title: 'E-Nach/Signing',
                 iconType: '',
                 icon: '',
@@ -246,6 +277,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/disbursement',
+                globalToggleValue:true,
                 title: 'Disbursement',
                 iconType: '',
                 icon: '',
@@ -255,6 +287,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'applications/rejected',
+                globalToggleValue:true,
                 title: 'Rejected',
                 iconType: '',
                 icon: '',
@@ -264,6 +297,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             // {
             //     path: 'applications/dormant',
+            // globalToggleValue:true,
             //     title: 'Dormant',
             //     iconType: '',
             //     icon: '',
@@ -274,6 +308,7 @@ export const ROUTES: SideNavInterface[] = [
             // },
             {
                 path: 'applications/closed',
+                globalToggleValue:true,
                 title: 'Closed',
                 iconType: '',
                 icon: '',
@@ -285,6 +320,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'lms',
+        globalToggleValue:true,
         title: 'LMS',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -293,6 +329,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             {
                 path: 'lms/borrowers',
+                globalToggleValue: (localStorage.getItem('globalToggleValue') == '1' )?  true : false,
                 title: 'Borrowers',
                 iconType: '',
                 icon: '',
@@ -301,6 +338,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     {
                         path: 'lms/borrowers/all',
+                        globalToggleValue:true,
                         title: 'All',
                         iconType: '',
                         icon: '',
@@ -310,6 +348,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     // {
                     //     path: 'lms/borrowers/activation',
+                    // globalToggleValue:true,
                     //     title: 'Activation',
                     //     iconType: '',
                     //     icon: '',
@@ -319,6 +358,7 @@ export const ROUTES: SideNavInterface[] = [
                     // },
                     {
                         path: 'lms/borrowers/active',
+                        globalToggleValue:true,
                         title: 'Active',
                         iconType: '',
                         icon: '',
@@ -328,6 +368,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/borrowers/inactive',
+                        globalToggleValue:true,
                         title: 'Inactive',
                         iconType: '',
                         icon: '',
@@ -337,6 +378,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     // {
                     //     path: 'lms/borrowers/delinquent',
+                    // globalToggleValue:true,
                     //     title: 'Deliquent',
                     //     iconType: '',
                     //     icon: '',
@@ -346,6 +388,7 @@ export const ROUTES: SideNavInterface[] = [
                     // },
                     {
                         path: 'lms/borrowers/close',
+                        globalToggleValue:true,
                         title: 'Close',
                         iconType: '',
                         icon: '',
@@ -357,6 +400,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'emi',
+                globalToggleValue:(localStorage.getItem('globalToggleValue') == '1' )?  false : true,
                 title: 'EMI',
                 iconType: '',
                 iconTheme: '',
@@ -365,6 +409,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     {
                         path: 'emi/offline-emi',
+                        globalToggleValue:true,
                         title: 'Offline EMI',
                         iconType: '',
                         icon: '',
@@ -374,6 +419,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/emi/emi-borrowers',
+                        globalToggleValue:true,
                         title: 'EMI Borrowers',
                         iconType: '',
                         icon: '',
@@ -383,6 +429,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/emi/emi-eligibility',
+                        globalToggleValue:true,
                         title: 'EMI Eligibility',
                         iconType: '',
                         icon: '',
@@ -394,6 +441,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: '',
+                globalToggleValue:true,
                 title: 'ECM Actions',
                 iconType: '',
                 icon: '',
@@ -402,6 +450,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     // {
                     //     path: '',
+                    // globalToggleValue:true,
                     //     title: 'Restructuring',
                     //     iconType: '',
                     //     icon: '',
@@ -411,6 +460,7 @@ export const ROUTES: SideNavInterface[] = [
                     // },
                     {
                         path: 'lms/change-bill-date',
+                        globalToggleValue:true,
                         title: 'Change Bill date',
                         iconType: '',
                         icon: '',
@@ -420,6 +470,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/change-credit-line',
+                        globalToggleValue:true,
                         title: 'Change Credit Line',
                         iconType: '',
                         icon: '',
@@ -429,6 +480,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/authorization-policy',
+                        globalToggleValue:true,
                         title: 'Authorization Policy',
                         iconType: '',
                         icon: '',
@@ -438,6 +490,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/send-payment-link',
+                        globalToggleValue:true,
                         title: 'Send Payment Link',
                         iconType: '',
                         icon: '',
@@ -447,6 +500,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/mandate-triggers',
+                        globalToggleValue:true,
                         title: 'Mandate triggers',
                         iconType: '',
                         icon: '',
@@ -456,6 +510,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/risk-policy',
+                        globalToggleValue:true,
                         title: 'Risk Policy',
                         iconType: '',
                         icon: '',
@@ -465,6 +520,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/nach-upload',
+                        globalToggleValue:true,
                         title: 'Nach upload',
                         iconType: '',
                         icon: '',
@@ -474,6 +530,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/cli',
+                        globalToggleValue:true,
                         title: 'CLI',
                         iconType: '',
                         icon: '',
@@ -483,6 +540,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/transaction-remarks',
+                        globalToggleValue:true,
                         title: 'Transaction remarks',
                         iconType: '',
                         icon: '',
@@ -494,6 +552,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: '',
+                globalToggleValue:true,
                 title: 'Transactions',
                 iconType: '',
                 icon: '',
@@ -502,6 +561,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     {
                         path: 'lms/transactions',
+                        globalToggleValue:true,
                         title: 'Transactions Data',
                         iconType: '',
                         icon: '',
@@ -511,6 +571,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     // {
                     //     path: '',
+                    // globalToggleValue:true,
                     //     title: 'Repayments',
                     //     iconType: '',
                     //     icon: '',
@@ -520,6 +581,7 @@ export const ROUTES: SideNavInterface[] = [
                     // },
                     {
                         path: 'lms/manual-transaction',
+                        globalToggleValue:true,
                         title: 'Manual Transactions',
                         iconType: '',
                         permission: ['view_manual_transaction'],
@@ -529,6 +591,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'accounting/escrow-statement',
+                        globalToggleValue:true,
                         title: 'Escrow Statement',
                         permission: ['view_escrow_statement'],
                         iconType: '',
@@ -538,6 +601,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/expense-management',
+                        globalToggleValue:true,
                         title: 'Corporate Expense',
                         iconType: '',
                         icon: '',
@@ -547,6 +611,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/deductions',
+                        globalToggleValue:true,
                         title: 'Deduction Approvals',
                         iconType: '',
                         icon: '',
@@ -556,6 +621,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/transaction-action',
+                        globalToggleValue:true,
                         title: 'Transaction Action',
                         iconType: '',
                         icon: '',
@@ -565,6 +631,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: '',
+                        globalToggleValue:true,
                         title: 'BBPS',
                         iconType: '',
                         icon: '',
@@ -573,6 +640,7 @@ export const ROUTES: SideNavInterface[] = [
                         submenu: [
                             {
                                 path: 'lms/bbps/category',
+                                globalToggleValue:true,
                                 title: 'Category data',
                                 iconType: '',
                                 icon: '',
@@ -582,6 +650,7 @@ export const ROUTES: SideNavInterface[] = [
                             },
                             {
                                 path: 'lms/bbps/billers',
+                                globalToggleValue:true,
                                 title: 'Billers data',
                                 iconType: '',
                                 icon: '',
@@ -596,6 +665,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: '',
+                globalToggleValue:true,
                 title: 'Metrics',
                 iconType: '',
                 icon: '',
@@ -604,6 +674,7 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [
                     {
                         path: 'lms/dpd-days',
+                        globalToggleValue:true,
                         title: 'DPD Days',
                         iconType: '',
                         icon: '',
@@ -613,6 +684,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/billed-unbilled-data',
+                        globalToggleValue:true,
                         title: 'Billed data',
                         iconType: '',
                         icon: '',
@@ -622,6 +694,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/refunds',
+                        globalToggleValue:true,
                         title: 'Refunds',
                         iconType: '',
                         icon: '',
@@ -631,6 +704,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/bill-summarization',
+                        globalToggleValue:true,
                         title: 'Bill summarization',
                         iconType: '',
                         icon: '',
@@ -640,6 +714,7 @@ export const ROUTES: SideNavInterface[] = [
                     },
                     {
                         path: 'lms/insurance',
+                        globalToggleValue:true,
                         title: 'Insurance',
                         iconType: '',
                         icon: '',
@@ -651,6 +726,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: 'lms/lender-management',
+                globalToggleValue:true,
                 title: 'Lender Management',
                 permission: ['view_lender_management'],
                 iconType: '',
@@ -662,6 +738,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: '/accounting',
+        globalToggleValue:true,
         title: 'Accounting',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -670,6 +747,7 @@ export const ROUTES: SideNavInterface[] = [
         submenu: [
             {
                 path: 'accounting/gst-invoices',
+                globalToggleValue:true,
                 title: 'GST invoice',
                 permission: ['view_gst_invoice'],
                 iconType: '',
@@ -679,6 +757,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             // {
             //     path: 'accounting/escrow-statement',
+            // globalToggleValue:this.globalToggleValue,
             //     title: 'Escrow Statement',
             //     permission: ['view_escrow_statement'],
             //     iconType: '',
@@ -690,6 +769,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: '/black-box',
+        globalToggleValue:true,
         title: 'Black box testing',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -699,6 +779,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: '/dormant',
+        globalToggleValue:true,
         title: 'Application Stage Trigger',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -708,6 +789,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'cashback-program',
+        globalToggleValue:true,
         title: 'Cashback Program Statistics',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -717,6 +799,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'coupon-code',
+        globalToggleValue:true,
         title: 'Coupon Code',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -726,6 +809,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'edit-employee-permission',
+        globalToggleValue:true,
         title: 'Access control',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -735,6 +819,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'third-party-api-call',
+        globalToggleValue:true,
         title: 'API buckets Statistics',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -744,6 +829,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     // {
     //     path: 'otp-list',
+    // globalToggleValue:this.globalToggleValue,
     //     title: 'OTP List',
     //     iconType: 'nzIcon',
     //     iconTheme: 'outline',
@@ -753,6 +839,7 @@ export const ROUTES: SideNavInterface[] = [
     // },
     {
         path: 'version',
+        globalToggleValue:true,
         title: 'Version',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -763,6 +850,7 @@ export const ROUTES: SideNavInterface[] = [
     // <i nz-icon nzType="snippets" nzTheme="outline"></i>
     {
         path: 'reports',
+        globalToggleValue:true,
         title: 'Reports',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -772,6 +860,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: 'downloads',
+        globalToggleValue:true,
         title: 'Downloads',
         iconType: 'nzIcon',
         iconTheme: 'outline',
@@ -781,6 +870,7 @@ export const ROUTES: SideNavInterface[] = [
     },
     // {
     //     path: 'transactions',
+    // globalToggleValue:this.globalToggleValue,
     //     title: 'Transactions',
     //     iconType: 'nzIcon',
     //     iconTheme: 'outline',
@@ -792,6 +882,7 @@ export const ROUTES: SideNavInterface[] = [
 
 // {
 //     path: 'lms',
+// globalToggleValue:this.globalToggleValue,
 //     title: 'LMS',
 //     iconType: 'nzIcon',
 //     iconTheme: 'outline',
@@ -800,6 +891,7 @@ export const ROUTES: SideNavInterface[] = [
 //     submenu: [
 //         {
 //             path: 'lms/lender-management',
+// globalToggleValue:this.globalToggleValue,
 //             title: 'Lender Management',
 //             permission: ['view_lender_management'],
 //             iconType: '',

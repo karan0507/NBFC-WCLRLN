@@ -37,8 +37,7 @@
 
                     <div class="col-md-12">
                         <div nz-card-grid [ngStyle]="gridStyle"><label
-                                class="font-weight-semibold text-dark mr-3">Amount
-                                Provided: <span class="font-weight-normal">₹
+                                class="font-weight-semibold text-dark mr-3">Loan Amount: <span class="font-weight-normal">₹
                                     {{_currEMIBorrowerDetail?.loan_amount_provided
                                     ? _currEMIBorrowerDetail?.loan_amount_provided :'0' }}</span></label></div>
                     </div>
@@ -77,9 +76,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div nz-card-grid [ngStyle]="gridStyle"><label
-                                class="font-weight-semibold text-dark mr-3">Activation Date: <span
-                                    class="font-weight-normal">{{_currEMIBorrowerDetail?.activation_date ?
-                                    (_currEMIBorrowerDetail?.activation_date | date:'medium') : ''}}</span></label>
+                                class="font-weight-semibold text-dark mr-3">Disbursement Date: <span
+                                    class="font-weight-normal">{{_currEMIBorrowerDetail?.disbursement_date ?
+                                    (_currEMIBorrowerDetail?.disbursement_date | date:'medium') : '-'}}</span></label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -139,7 +138,7 @@
                     <th>Interest</th>
                     <th>Principal</th>
                     <th>Outstanding Fees Charges</th>
-                    <th>Is Nach Fire</th>
+                    <th>Is Nach Trigger</th>
                     <th>Repayments</th>
                     <th>Paid On</th>
                     <th>Paid Status</th>

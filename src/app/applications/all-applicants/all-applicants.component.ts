@@ -132,10 +132,10 @@ customRanges = {
             // data['page'] = 1
             data['status'] = this.filters
       }
-      if (this.productFilters) {
+      // if (this.productFilters) {
             // data['page'] = 1
-            data['product_master'] = this.productFilters
-      }
+            data['product_master'] = localStorage.getItem('globalToggleValue')
+      // }
       if(this.stageFilters){
             // data['page'] = 1
             data['step'] = this.stageFilters

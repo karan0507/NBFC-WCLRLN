@@ -223,10 +223,11 @@ export class OfferAcceptanceComponent implements OnInit {
                   // data['page'] = 1
                   data['step'] = this.stageFilters
             }
-            if (this.productFilters) {
-                  // data['page'] = 1
-                  data['product_master'] = this.productFilters
-            }
+            // if (this.productFilters) {
+            //       // data['page'] = 1
+            //       data['product_master'] = this.productFilters
+            // }
+            data['product_master'] = localStorage.getItem('globalToggleValue')
             if (this.searchValue) {
                   // data['page'] = 1
                   data['name'] = this.searchValue

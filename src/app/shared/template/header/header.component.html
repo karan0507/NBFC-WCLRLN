@@ -38,6 +38,11 @@
             </nz-select>
         </span>
         <ul class="nav-right">
+            <div class="d-flex align-items-center">
+                FatakPay
+                <nz-switch [ngModel]="_currToggleValue" class="mx-3" (ngModelChange)="switchToggle()"></nz-switch>
+                Fatak EMI
+            </div>
             <img src="assets/images/Icons/notification.png" class="px-3" style="cursor: pointer;">
             <nz-divider class="h-80" nzType="vertical"></nz-divider>
             <div class="align-self-center d-none d-md-block mr-md-3 px-md-0">
