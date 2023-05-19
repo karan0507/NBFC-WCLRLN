@@ -1,0 +1,39 @@
+<section>
+      <nz-card>
+            <nz-table [nzLoading]="api_calling_loader['table']" [nzFrontPagination]="false" [nzPageIndex]="pageIdex"
+                  [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_size"
+                  [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+                  (nzQueryParams)="bannerList ? getBannersList($event) : ''" [nzData]="bannerList">
+                  <thead>
+                        <tr>
+                              <th>#</th>
+                              <th nzWidth="3rem" [nzChecked]="bannerList[0] ? checked : false"
+                              [nzIndeterminate]="bannerList[0] ? indeterminate : false" (nzCheckedChange)="
+                                bannerList[0] ? onAllChecked($event) : false
+                              "></th>
+                              <th>Banner Name</th>
+                              <th>Banner Name</th>
+                              <!-- <th>Open In</th> -->
+                              <!-- <th>Redirect URL</th>
+                          <th>Action</th> -->
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let data of bannerList; index as i">
+                              <td *ngIf="pageIdex === 1">{{i+1}}</td>
+                              <td *ngIf="pageIdex > 1">{{((pageIdex-1)*globalPageSize)+(i+1)}}</td>
+                              <td nzWidth="1rem" [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                    (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                              <td>{{data?.name ? data?.name : '-'}}</td>
+                              <!-- <td>{{data?.open_in ? data?.open_in : '-'}}</td>
+                              <td>{{data?.redirect_url ? data?.redirect_url : '-'}}</td>
+                              <td><button nz-button type="primary" (click)="openModal(data?.banner)">View</button></td> -->
+                        </tr>
+                  </tbody>
+            </nz-table>
+
+            <div class="d-flex justify-content-end my-3">
+                  <button nz-button nzType="primary" (click)="onSubmitBanners()" disabled="setOfCheckedId.size > 0 ? true : false " [nzLoading]="bannerBtnLoader">Save</button>
+            </div>
+      </nz-card>
+</section>

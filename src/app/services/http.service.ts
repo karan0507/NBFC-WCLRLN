@@ -1479,6 +1479,16 @@ export class HttpService {
             return this._http.post((this.url + `/loan-application/v1/verify-physical-verification`), data);
       }
       
-      
+      public getMobileBannersOfProducts(data) {
+            return this._http.get((this.url + `/product/v1/get-offer-banners`),{params:data});
+      }
+
+      public addMobileBannersOfProducts(data){
+            return this._http.post((this.url + `/product/v1/add-offer-banner`), data);
+      }
+
+      public updateActiveBanners(data){
+            return this._http.post((this.url + `/product/v1/add-offer-banner`), data);
+      }
       
 }
