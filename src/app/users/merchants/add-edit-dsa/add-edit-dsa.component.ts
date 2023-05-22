@@ -123,12 +123,22 @@ export class AddEditDsaComponent {
       if(i == 'partner_master' || i == 'state'){
         data[i] = data[i]?.id;
       }
+      if(i == 'department_id'){
+        data[i] = data.department.id
+      }
+      if(i == 'designation_id'){
+        data[i] = data.designation.id
+      }
+
+      
       if(i != 'document_data'){
         if(data[i]){
-          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false});
+          this.addEditProductForm.controls[i].setValue(data[i], {emitEvent: false}); 
         }
       }
     }
+    
+    
     this.setFormData(data)
   }
 
@@ -362,7 +372,7 @@ export class AddEditDsaComponent {
     }
   }
 
-  
+  card = {'main':false}
   createMasterProductForm(data?) {
    
     this.addEditProductForm = this.fb.group({
@@ -404,9 +414,12 @@ export class AddEditDsaComponent {
       partner_master:[data ? data?.master_partner?.id : null],
       
     });
+    console.log(this.addEditProductForm.value)
     if(data){
+      
       this.setFormData(data);
     }
+    
   }
 
   deleteDocumentByDocumentId(i) {

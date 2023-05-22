@@ -79,12 +79,14 @@ refreshCheckedStatus(): void {
   }
 
   getBannersList(tabelFilter?){
-    let data = {}
-    
-    this.http.getMobileBannersOfProducts(data).subscribe((res:any)=>{
-      if(res.data.succes){
-    console.log('banners working', res)
+    this.http.getMobileBannersOfProducts( this._currOfferId).subscribe((res:any)=>{
+      if(res.success){
         this.bannerList = res.data.offer_banner_data;
+        this.bannerList.forEach(element => {
+          if(element.checked){
+            this.updateCheckedSet(element.id,element.checked)
+          }          
+        });
       }
     })
   }
@@ -103,8 +105,9 @@ refreshCheckedStatus(): void {
 
   bannerBtnLoader:any
   onSubmitBanners(){
-    this.bannerBtnLoader = true
-    let data={id:this.setOfCheckedId}
+    // this.bannerBtnLoader = true
+    let data={product_id:this._currOfferId,banner_id_list:Array.from(this.setOfCheckedId)}
+    console.log(data);
     this.http.updateActiveBanners(data).subscribe((res:any)=>{
       if(res.success){
         this.message.success(res.message)

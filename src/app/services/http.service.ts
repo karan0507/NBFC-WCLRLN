@@ -1480,7 +1480,7 @@ export class HttpService {
       }
       
       public getMobileBannersOfProducts(data) {
-            return this._http.get((this.url + `/product/v1/get-offer-banners`),{params:data});
+            return this._http.get((this.url + `/product/v1/get-offer-banners/`+data));
       }
 
       public addMobileBannersOfProducts(data){

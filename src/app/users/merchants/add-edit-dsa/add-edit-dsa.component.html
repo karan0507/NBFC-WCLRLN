@@ -111,7 +111,7 @@
                         <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please input Designation!">
                             <nz-select nzAllowClear formControlName="designation_id" nzPlaceHolder="Please select Designation"
                                 (nzFocus)="fetachMasters('designation')">
-                                <nz-option *ngFor="let item of roleData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                <nz-option *ngFor="let item of roleData" [nzLabel]="item.name" [nzValue]="item.pk" >
                                 </nz-option>
                             </nz-select>
                         </nz-form-control>
