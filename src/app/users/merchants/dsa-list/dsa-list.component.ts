@@ -389,6 +389,27 @@ export class DsaListComponent implements OnInit {
     }
   }
 
+  // productList: any = []
+  getMappedProducts(id?) {
+    // let data = {}
+    console.log('Get Mapped');
+    
+    this.http.getMappedProducts(id).subscribe((res: any) => {
+      if (res.success) {
+        if(res.data?.length > 0){
+          let tempProducts = [];
+          res.data.forEach(element => {
+            tempProducts.push(element.product.id)
+          });
+          this.createMapForm(tempProducts);
+        }else{
+          this. createMapForm()
+        }
+      }
+    })
+  }
+
+
   productList: any = []
   getProducts() {
     this.http.getProducts().subscribe((res: any) => {
@@ -396,15 +417,18 @@ export class DsaListComponent implements OnInit {
         this.productList = res.data
       }
     })
+    console.log(this.dsaProductForm.value);
+    
   }
 
-  createMapForm() {
+  createMapForm(data?) {
     this.dsaProductForm = this.fb.group({
-      product_ids: [[], [Validators.required]]
+      product_ids: [data ? data : [], [Validators.required]]
     })
+    
     this.getProducts();
     this.isMapDsaModal.type = 'dsa_product'
-    this.isMapDsaModal.isVisible = true;
+    this.isMapDsaModal.isVisible = true;    
   }
 
 

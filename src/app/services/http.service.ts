@@ -1490,5 +1490,10 @@ export class HttpService {
       public updateActiveBanners(data){
             return this._http.post((this.url + `/product/v1/add-offer-banner`), data);
       }
+
+      public getMappedProducts(data) {
+            return this._http.get((this.url + `/product/v1/get-dsa-product-mapping/`+data));
+      }
+      
       
 }
