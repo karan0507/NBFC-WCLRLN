@@ -497,7 +497,7 @@ export class DsaListComponent implements OnInit {
 
   downloadSampleFile() {
     var link = document.createElement('a');
-    link.href = 'assets/static files/unregister_customer.xlsx';
+    link.href = 'assets/static files/sample_file_commission.xlsx';
     link.download = 'sample_file_commission.xlsx';
     link.click();
   }
