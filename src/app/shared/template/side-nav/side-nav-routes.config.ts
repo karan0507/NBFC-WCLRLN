@@ -137,6 +137,16 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
+        path: 'insurance',
+        globalToggleValue:true,
+        title: 'Insurance',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: ['view_employee'],
+        icon: 'usergroup-add',
+        submenu: []
+    },
+    {
         path: 'super-app-user',
         globalToggleValue:true,
         title: 'Super App Users',
