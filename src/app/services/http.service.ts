@@ -1478,6 +1478,10 @@ export class HttpService {
       public verifyPhysicalVerification(data){
             return this._http.post((this.url + `/loan-application/v1/verify-physical-verification`), data);
       }
+
+      public getInsuranceList(data){
+            return this._http.get((this.url + `/loan-application/v1/insurance-list`),{params:data});
+      }
       
       public getMobileBannersOfProducts(data) {
             return this._http.get((this.url + `/product/v1/get-offer-banners/`+data));
