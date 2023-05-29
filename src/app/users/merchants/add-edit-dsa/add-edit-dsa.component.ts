@@ -123,9 +123,9 @@ export class AddEditDsaComponent {
       if(i == 'partner_master' || i == 'state'){
         data[i] = data[i]?.id;
       }
-      if(i == 'department_id'){
-        data[i] = data.department.id
-      }
+      // if(i == 'department_id'){
+      //   data[i] = data.department.id
+      // }
       if(i == 'designation_id'){
         data[i] = data.designation.id
       }
@@ -384,7 +384,7 @@ export class AddEditDsaComponent {
       pincode: [data ? data?.pincode : null, [Validators.required, Validators.pattern('^[1-9][0-9]{5}$')]],
       phone: [data ? data?.phone : null, [Validators.required, Validators.pattern('([0-9]{8}|[0-9]{10})')]],
       designation_id : [data?.designation?.id ? data?.designation?.id : ''],
-      department_id : [data?.department?.id ? data?.department?.id : ''],
+      // department_id : [data?.department?.id ? data?.department?.id : ''],
       // ^[6-9][0-9]{9}$
 
       bank_name: [data ? data?.bank_name : null],
