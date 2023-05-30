@@ -367,8 +367,7 @@
                                             <span class="m-l-5">Waive off Charges</span>
                                         </li>
                                     </ng-container>
-                                    <ng-container
-                                        *ngIf="data?.txn_type == 'Repayment' && data?.txn_status == 'Success' && data?.is_reversible">
+                                    <ng-container>
                                         <!-- <li nz-menu-item (click)="refundChargesToggle(data?.id);"
                                             *ngxPermissionsOnly="['refund_transaction']">
                                             <span class="m-l-5">Refund Transaction</span>
