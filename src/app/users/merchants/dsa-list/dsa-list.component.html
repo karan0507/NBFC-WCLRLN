@@ -147,7 +147,7 @@
                                                 *ngxPermissionsOnly="['show_agreement_partner_dsa']">
                                                 <span class="m-l-5">Show Agreement</span>
                                             </li>
-                                            <li nz-menu-item (click)="_currentDsaId = data?.id; createMapForm()"
+                                            <li nz-menu-item (click)="_currentDsaId = data?.id; getMappedProducts(data?.id)"
                                                 *ngxPermissionsOnly="['show_agreement_partner_dsa']">
                                                 <span class="m-l-5">Product Map</span>
                                             </li>

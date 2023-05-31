@@ -1483,6 +1483,21 @@ export class HttpService {
             return this._http.get((this.url + `/loan-application/v1/insurance-list`),{params:data});
       }
       
+      public getMobileBannersOfProducts(data) {
+            return this._http.get((this.url + `/product/v1/get-offer-banners/`+data));
+      }
+
+      public addMobileBannersOfProducts(data){
+            return this._http.post((this.url + `/product/v1/add-offer-banner`), data);
+      }
+
+      public updateActiveBanners(data){
+            return this._http.post((this.url + `/product/v1/add-offer-banner`), data);
+      }
+
+      public getMappedProducts(data) {
+            return this._http.get((this.url + `/product/v1/get-dsa-product-mapping/`+data));
+      }
       
       
 }

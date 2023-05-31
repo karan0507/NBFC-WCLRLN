@@ -27,6 +27,7 @@ import { LmhComponent } from './lmh/lmh.component';
 import { LmhRulesComponent } from './lmh-rules/lmh-rules.component';
 import { EmiConfigurationComponent } from './emi-configuration/emi-configuration.component';
 import { ProductDocumentComponent } from './product-document/product-document.component';
+import { MobileBannerComponent } from './mobile-banner/mobile-banner.component';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { ProductDocumentComponent } from './product-document/product-document.co
     UnderwritingComponent, 
     OnboardingComponent, 
     FeesComponent, 
-    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent, ProductDocumentComponent],
+    LoanAgreementComponent, ViewProductComponent, TransactionConfigComponent, LmhComponent, LmhRulesComponent, EmiConfigurationComponent, ProductDocumentComponent, MobileBannerComponent],
   imports: [
     CommonModule,
     CreateProductRoutingModule,
