@@ -72,7 +72,7 @@ export class ProductDetailsComponent implements OnInit {
       due_days: [this.productDetails ? this.productDetails.due_days : ''],
       emi_source: [this.productDetails ? this.productDetails.emi_source : 'FILE'],
       product_type: [this.productDetails ? this.productDetails.product_type : '', [Validators.required]],
-      is_product_dsa: [this.productDetails ? this.productDetails.is_product_dsa : false, [Validators.required]],
+      is_dsa_product: [this.productDetails ? this.productDetails.is_dsa_product : false, [Validators.required]],
       tenures: this.fb.array([]),
       nach_date_time_mappings: this.fb.array([]),
     })
@@ -213,7 +213,7 @@ export class ProductDetailsComponent implements OnInit {
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
         product_type: this.createEditForm.value.product_type,
-        is_product_dsa : this.createEditForm.value.is_product_dsa,
+        is_dsa_product : this.createEditForm.value.is_dsa_product,
         emi_source: this.createEditForm.value.emi_source
       }
     } else {
@@ -227,7 +227,7 @@ export class ProductDetailsComponent implements OnInit {
         bill_day: this.createEditForm.value.bill_day,
         due_days: this.createEditForm.value.due_days,
         nach_date_time_mappings: this.createEditForm.value.nach_date_time_mappings,
-        is_product_dsa : this.createEditForm.value.is_product_dsa,
+        is_dsa_product : this.createEditForm.value.is_dsa_product,
         product_type: this.createEditForm.value.product_type,
         emi_source: this.createEditForm.value.emi_source
       }
