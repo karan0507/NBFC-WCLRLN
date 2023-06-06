@@ -79,7 +79,8 @@ refreshCheckedStatus(): void {
   }
 
   getBannersList(tabelFilter?){
-    this.http.getMobileBannersOfProducts( this._currOfferId).subscribe((res:any)=>{
+    if(!this._currOfferId){return}
+    this.http.getMobileBannersOfProducts(this._currOfferId).subscribe((res:any)=>{
       if(res.success){
         this.bannerList = res.data.offer_banner_data;
         this.bannerList.forEach(element => {

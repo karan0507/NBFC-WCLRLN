@@ -47,6 +47,18 @@
 
                 <div class="col-md-12">
                     <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_type" class="text-left" nzRequired>Is
+                            Product
+                            DSA</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Product type!">
+                            <label class="d-flex mr-3 align-self-center" nz-checkbox
+                                formControlName="is_product_dsa"></label>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-12">
+                    <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="product_master" class="text-left" nzRequired>Master
                             Product</nz-form-label>
                         <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please select Master Product!">
