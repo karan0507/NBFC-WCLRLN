@@ -298,7 +298,7 @@ export class ProductDetailsComponent implements OnInit {
   testData() {
     for (let i in this.createEditForm.controls) {
       if (this.createEditForm.controls[i].invalid) {
-        console.log(this.createEditForm.controls[i].value);
+        // console.log(this.createEditForm.controls[i].value);
       }
     }
   }
