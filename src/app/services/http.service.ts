@@ -8,20 +8,25 @@ import { map } from 'rxjs/operators';
       providedIn: 'root'
 })
 export class HttpService {
-      url = this.valueFunction();
-
+       url='';
+       captcha_url='';
       valueFunction(){
-      var dynamic_url;
-
+     
+      
       if (location.origin == 'https://admin.fatakpay.com' || location.origin == 'http://admin.fatakpay.com') {
-            dynamic_url = 'https://adminapi.fatakpay.com'
+            this.url = 'https://adminapi.fatakpay.com';
+            this.captcha_url='https://tppapi.fatakpay.com';
+
       } else if(location.origin == 'https://uatadmin.fatakpay.com' || location.origin == 'http://uatadmin.fatakpay.com'){
-            dynamic_url = 'https://uatadminapi.fatakpay.com'
-      } else {
-            dynamic_url = 'https://devadminapi.fatakpay.com'
+            this.url = 'https://uatadminapi.fatakpay.com';
+            this.captcha_url='https://uattppapi.fatakpay.com';
+      } 
+      else {
+            this.url = 'https://devadminapi.fatakpay.com';
+            this.captcha_url = 'https://devtppapi.fatakpay.com';
             // dynamic_url = 'https://adminapi.fatakpay.com'
       }
-      return dynamic_url
+      // return dynamic_url
       }
       // url1 = 'https://devonboardingapi.fatakpay.com'
 
@@ -34,6 +39,7 @@ export class HttpService {
       limitCollapse = new ReplaySubject<any>();
       expnadList = new ReplaySubject<any>();
       constructor(private _http: HttpClient, private message: NzMessageService) {
+            this.valueFunction();
       }
 
       public UserLogin(data): any {
@@ -63,6 +69,11 @@ export class HttpService {
       /// Send Otp
       public sendOtp(data): any {
             return this._http.post((this.url + `/user/forgot-password/`), data);
+      }
+
+      public fetchCaptch(): any{
+            // captcha-image
+            return this._http.get(this.captcha_url+`/dsa/captcha-image`);
       }
 
       public generateOfferForCorrespondingApplication(data): any {

@@ -41,14 +41,17 @@ export class Login1Component {
       }
 
       ngOnInit(): void {
+            this.fetchCaptch();
             this.loginForm = this.fb.group({
                   mobile: [null, [Validators.required]],
                   password: [null, [Validators.required]],
-                  recaptcha: [null, [Validators.required]]
+                  // recaptcha: [null, [Validators.required]],
+                  captcha:[ null, [Validators.required]]
             });
             this.forgetForm = this.fb.group({
                   email: ['', [Validators.required]],
-                  recaptcha: ['', [Validators.required]]
+                  // recaptcha: ['', [Validators.required]]
+                  // captcha:[ null, [Validators.required]]
             });
       }
       submitForm(form): void {
@@ -82,7 +85,8 @@ export class Login1Component {
                         // data.append('password', form.value.password)
                         let data = {
                               username: form.value.mobile,
-                              password: form.value.password
+                              password: form.value.password,
+                              captcha_key:form.value.captcha
                         }
                         this.api_calling_loader = true
                         this.http.UserLogin(data).subscribe((res) => {
@@ -106,6 +110,7 @@ export class Login1Component {
                               }
                               else {
                                     this.message.error(res.message);
+                                    this.fetchCaptch()
                               }
 
                         }, (err) => {
@@ -166,6 +171,16 @@ export class Login1Component {
       }
  
       handleSuccess(event) {
-            this.loginForm.get('recaptcha').setValue(event);
+            this.loginForm.get('captcha').setValue(event);
+      }
+
+      captchaImage: any
+      fetchCaptch(){
+        this.http.fetchCaptch().subscribe((res: any)=>{
+              console.log(res)
+              this.captchaImage = res?.captcha_image
+        }, error=>{
+              this.message.error(error?.msg)
+        })
       }
 }    
