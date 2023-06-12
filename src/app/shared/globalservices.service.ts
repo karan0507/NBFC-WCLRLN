@@ -18,9 +18,12 @@ export class GlobalservicesService {
       constructor(public http: HttpService) { }
 
       setApplicationCount() {
+            let temp = localStorage.getItem('globalToggleValue') == '1' ? 'card' :'emi';
             let param = {
                   source: "Onboarding",
                   datapoint: "stage-wise-application-count",
+                  offer_type: temp
+                  
             };
             this.http.getApplicationStageCount(param).subscribe((res: any) => {
                   // this.setApplicationCount(res?.data)
