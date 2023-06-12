@@ -848,6 +848,19 @@
     </div>
     <div class="col-md-6 mt-4">
         <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_selfie_attendance" class="text-left">Allow Selfie Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_selfie_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left">Corporate Login Mode
             </nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">

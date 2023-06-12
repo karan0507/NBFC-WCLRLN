@@ -592,7 +592,7 @@
                         <div class="col-md-4">
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-column">
-                                    <span class="text-muted">FOIR (Total Debt/Monthly Salary))
+                                    <span class="text-muted">FOIR (Total Debt/Monthly Salary)
                                     </span>
                                 </div>
                                 <div>
@@ -604,6 +604,39 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">FOIR Amount
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.foir
+                                    ? data?.cibil_based_variables?.foir_amount
+                                    : 0
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-column">
+                                    <span class="text-muted">FOIR Income
+                                    </span>
+                                </div>
+                                <div>
+                                    {{
+                                    data?.cibil_based_variables?.foir
+                                    ? data?.cibil_based_variables?.foir_income
+                                    : 0
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </nz-card>
                 <ng-template #underWriting>
