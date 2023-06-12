@@ -432,6 +432,7 @@ export class AddEditPartnersComponent implements OnInit {
         data ? data?.address_line_2 : null,
         [Validators.required],
       ],
+      // allow_selfie_attendance
       city: [data ? data?.city : null, [Validators.required]],
       show_transactions_history_section: [data ? data?.show_transactions_history_section : false],
       show_expense_management_section: [data ? data?.show_expense_management_section : false],
@@ -444,6 +445,7 @@ export class AddEditPartnersComponent implements OnInit {
       api_check_flag: [data ? data?.api_check_flag : null],
       allow_individual_attendance : [data ? data?.corporate_attendance_config?.allow_individual_attendance : null],
       allow_team_attendance: [data ? data?.corporate_attendance_config?.allow_team_attendance : null],
+      allow_selfie_attendance:[data ? data?.corporate_attendance_config?.allow_selfie_attendance : null],
       corporate_login_mode : [data?.corporate_login_mode ? data?.corporate_login_mode : '',[Validators.required]],
       logo: [data ? data?.logo : null],
       state: [data ? data?.state?.id : null, [Validators.required]],
