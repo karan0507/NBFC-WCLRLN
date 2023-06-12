@@ -204,7 +204,8 @@
 
 
         </tr>
-        <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">
+        <!-- Pre Clousre -->
+        <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">  
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.full_payment : ''}}</td>
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.is_pre_closure : ''}}</td>
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_fees : ''}}</td>
