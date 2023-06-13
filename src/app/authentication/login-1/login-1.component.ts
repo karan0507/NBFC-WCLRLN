@@ -114,7 +114,8 @@ export class Login1Component {
                               }
 
                         }, (err) => {
-                              this.api_calling_loader = false
+                              this.api_calling_loader = false;
+                              this.fetchCaptch()
                               console.log(err)
                         })
                   }
@@ -180,7 +181,8 @@ export class Login1Component {
               console.log(res)
               this.captchaImage = res?.captcha_image
         }, error=>{
-              this.message.error(error?.msg)
+              this.message.error(error?.msg);
+              this.fetchCaptch()
         })
       }
 }    
