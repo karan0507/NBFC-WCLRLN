@@ -1,0 +1,7 @@
+:host ::ng-deep .ant-checkbox-wrapper > span > span {
+    margin-bottom: 0 !important;
+}
+:host ::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #27C24C;
+    border-color: #27C24C;
+}

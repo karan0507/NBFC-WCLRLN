@@ -1418,6 +1418,14 @@ export class HttpService {
             return this._http.get((this.url + `/master/fetch-master-data/Desigination`));
       }
 
+      public getMasterNotificationType(data) {
+            return this._http.get((this.url + `/master/fetch-master-data/NotificationType`));
+      }
+
+      public changeNotificationFlag(data) {
+            return this._http.post((this.url + `/master/change-notification-flags`), data);
+      }
+
       public createRefund(data) {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }

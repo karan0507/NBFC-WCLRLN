@@ -185,4 +185,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'emi/offline-emi',
         loadChildren: () => import('../../lms/offline-emi/offline-emi.module').then(m => m.OfflineEmiModule),
     },
+    {
+        path: 'sms-services',
+        loadChildren: () => import('../../sms-services/sms-services.module').then(m => m.SmsServicesModule),
+    },
 ];

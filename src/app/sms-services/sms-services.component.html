@@ -1,0 +1,70 @@
+<!-- <div class="header_breadcrumb_section">
+    <button nz-button nzType="default" class="mx-1">Download Sample</button>
+    <button nz-button nzType="default" class="ml-1">Import Excel</button>
+</div> -->
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            <!-- [(ngModel)]="selectedTab" (ngModelChange)="getManualTransactionList()" -->
+            <nz-radio-group [(ngModel)]="selectedTab">
+                <label nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="sms">SMS</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" [nzDisabled]="true" nzValue="approved">WharsApp</label>
+                <label nz-radio-button class=" px-5 mb-md-0 mb-3 border-radius-2" [nzDisabled]="true" nzValue="rejected">Email</label>
+            </nz-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row mb-md-3">
+        <div class="col-md-12 mb-md-0">
+            
+            <nz-table #rowSelectionTable [nzData]="notificationTypeListData" [nzTotal]="total_count" [nzFrontPagination]="false"
+            [nzShowSizeChanger]="true" [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount"
+            [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+            (nzQueryParams)="notificationTypeListData[0] ? getMasterNotificationType($event) : null"
+            [nzLoading]="api_calling_loader['listLoader']">
+                <thead>
+                    <tr>
+                        <th [nzWidth]="'4rem'">#</th>
+                        <th>Name</th>
+                        <th>Template</th>
+                        <th [nzWidth]="'8rem'">Gupshup flag</th>
+                        <th [nzWidth]="'8rem'">ICS flag</th>
+                        <th [nzWidth]="'8rem'">Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of notificationTypeListData; index as i">
+                        <tr>
+                            <td *ngIf="page == 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{ data?.name ? data?.name : '--'}}</td>
+                            <td>
+                                <div [innerHTML]="replace(data?.template)"></div>
+                            </td>
+                            <td>
+                                <label nz-checkbox (ngModelChange)="changeServices(i, 1)" [(ngModel)]="data.gupshup_flag"></label>
+                            </td>
+                            <td>
+                                <label nz-checkbox (ngModelChange)="changeServices(i, 2)" [(ngModel)]="data.ics_flag"></label>
+                            </td>
+                            <td>
+                                {{data.is_deleted ? 'Inactive' : 'Active'}}
+                            </td>
+                            <td>
+                                <button nz-button nzType="link" (click)="changeServices(i, 3)">change status</button>
+                            </td>
+            
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+            <ng-template #botTotalCount>
+                <div *ngIf="total_count && notificationTypeListData[0]" class="font-weight-semibold text-body-color">Total Count:
+                    {{total_count}} </div>
+            </ng-template>
+        </div>
+    </div>
+</section>
+

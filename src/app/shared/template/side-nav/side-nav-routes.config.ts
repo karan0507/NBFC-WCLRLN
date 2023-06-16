@@ -838,14 +838,35 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
-        path: 'third-party-api-call',
+        path: '',
         globalToggleValue:true,
-        title: 'API buckets Statistics',
+        title: 'Third party Api',
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_api_statistics'],
         icon: 'file',
-        submenu: []
+        submenu: [
+            {
+                path: 'third-party-api-call',
+                globalToggleValue: true,
+                title: 'API buckets Statistics',
+                iconType: 'nzIcon',
+                iconTheme: 'outline',
+                permission: ['view_api_statistics'],
+                icon: '',
+                submenu: []
+            },
+            {
+                path: 'sms-services',
+                globalToggleValue: true,
+                title: 'SMS Enablers',
+                iconType: 'nzIcon',
+                iconTheme: 'outline',
+                icon: '',
+                submenu: [],
+                permission: []
+            }
+        ]
     },
     // {
     //     path: 'otp-list',
@@ -888,15 +909,6 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'snippets',
         submenu: []
     },
-    // {
-    //     path: 'transactions',
-    // globalToggleValue:this.globalToggleValue,
-    //     title: 'Transactions',
-    //     iconType: 'nzIcon',
-    //     iconTheme: 'outline',
-    //     icon: 'ng-zorro:indian_rupee',
-    //     submenu: []
-    // }
 ]    
 
 
