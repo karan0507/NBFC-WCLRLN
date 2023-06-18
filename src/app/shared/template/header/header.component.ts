@@ -240,7 +240,7 @@ export class HeaderComponent{
     ];
 
     switchToggle(){
-        if(this._currToggleValue){
+        if(!this._currToggleValue){
             localStorage.setItem('globalToggleValue','1')
         }else{
             localStorage.setItem('globalToggleValue','2')
