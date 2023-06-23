@@ -30,12 +30,15 @@ export class HeaderComponent{
         }
 
     ngOnInit(): void {
+        console.log(this._currToggleValue);
         let temp = localStorage.getItem('globalToggleValue').toString();
         if(temp == '1'){
             this._currToggleValue = false
         }else if(
             this._currToggleValue = true
         )
+        console.log(this._currToggleValue);
+        
         this.getFormLoanData();
         this.globalFunction.globalUserData.subscribe(res => {
             // console.log(res);
@@ -239,12 +242,13 @@ export class HeaderComponent{
         }
     ];
 
+    
     switchToggle(){
-        if(!this._currToggleValue){
-            localStorage.setItem('globalToggleValue','1')
-        }else{
-            localStorage.setItem('globalToggleValue','2')
-        }
-        window.location.reload();
+        this._currToggleValue = !this._currToggleValue;
+        !this._currToggleValue ? localStorage.setItem('globalToggleValue','1') : localStorage.setItem('globalToggleValue','2')
+     
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
     }
 }
