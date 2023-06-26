@@ -152,7 +152,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Super App Users',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: ['view_employee'],
+        permission: [],
         icon: 'usergroup-add',
         submenu: []
     },
