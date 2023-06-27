@@ -152,7 +152,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Super App Users',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        permission: [],
+        permission: ['view_superapp_user'],
         icon: 'usergroup-add',
         submenu: []
     },
@@ -182,7 +182,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                permission: [''],
+                permission: ['view_unregistered'],
                 submenu: []
             },
             {
@@ -202,7 +202,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
-                permission: [''],
+                permission: ['view_emp_list'],
                 submenu: []
             },
             {
@@ -231,7 +231,7 @@ export const ROUTES: SideNavInterface[] = [
                 title: 'Document Pending',
                 iconType: '',
                 icon: '',
-                permission: [''],
+                permission: ['view_document_pending'],
                 iconTheme: '',
                 submenu: []
             },
@@ -444,7 +444,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: [''],
+                        permission: ['view_emi_borrowers'],
                         submenu: []
                     },
                     {
@@ -454,7 +454,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: [''],
+                        permission: ['view_emi_eligibility'],
                         submenu: []
                     },
                 ]
@@ -485,7 +485,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: ['view_change_bill_date'],
+                        permission: ['view_change_bill_date','preview_change_bill_date','download_change_bill_date','approve_change_bill_date','reject_change_bill_date'],
                         submenu: []
                     },
                     {
@@ -494,7 +494,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Change Credit Line',
                         iconType: '',
                         icon: '',
-                        permission: ['view_change_credit_line'],
+                        permission: ['view_change_credit_line','preview_change_credit_line','download__change_credit_line','approve_change_credit_line','reject_change_credit_line'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -504,7 +504,10 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Authorization Policy',
                         iconType: '',
                         icon: '',
-                        permission: ['view_athorization_policy'],
+                        permission: ['view_athorization_policy','upload_athorization_policy','toggle_athorization_policy','upi_id_edit_athorization_policy','upi_id_active_athorization_policy',
+                                    'upi_id_inactive_athorization_policy','mcc_code_edit_athorization_policy','mcc_code_active_athorization_policy','mcc_code_inactive_athorization_policy',
+                                    'pin_code_edit_athorization_policy','pin_code_active_athorization_policy','pin_code_inactive_athorization_policy','authorization_rules_edit_athorization_policy'
+                    ],
                         iconTheme: '',
                         submenu: []
                     },
@@ -524,7 +527,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Mandate triggers',
                         iconType: '',
                         icon: '',
-                        permission: ['view_mandate trigger '],
+                        permission: ['view_mandate trigger'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -554,7 +557,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'CLI',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_cli'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -564,7 +567,7 @@ export const ROUTES: SideNavInterface[] = [
                         title: 'Transaction remarks',
                         iconType: '',
                         icon: '',
-                        permission: [''],
+                        permission: ['view_transaction_remarks','preview_transaction_remarks','download_transaction_remarks','approve_transaction_remarks','reject_transaction_remarks'],
                         iconTheme: '',
                         submenu: []
                     },
@@ -613,7 +616,7 @@ export const ROUTES: SideNavInterface[] = [
                         path: 'accounting/escrow-statement',
                         globalToggleValue:true,
                         title: 'Escrow Statement',
-                        permission: ['view_escrow_statement'],
+                        permission: [],
                         iconType: '',
                         icon: '',
                         iconTheme: '',
@@ -626,7 +629,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
-                        permission: ['view _corporate expense'],
+                        permission: ['view_corporate expense'],
                         submenu: []
                     },
                     {
