@@ -148,6 +148,17 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" class="text-left" nzRequired>Is
+                           CLI Nach Option</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please check cli nach option!">
+                            <label class="d-flex mr-3 align-self-center" nz-checkbox
+                                formControlName="is_cli_nach_optional"></label>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
                 <div class="col-md-12" *ngIf="addEditProductForm.get('dsa_type').value == 'Individual'">
                     <nz-form-item>
                         <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="contact_person_email" class="text-left" nzRequired>Email Id</nz-form-label>

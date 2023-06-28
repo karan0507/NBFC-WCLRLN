@@ -86,7 +86,7 @@
                     <tr>
                         <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
                             (nzCheckedChange)="onAllChecked($event)"></th>
-                        <th nzWidth="3rem">#</th>
+                        <th nzWidth="6rem">#</th>
                         <th>Loan reference no</th>
                         <th>Employee code</th>
                         <th>Amount</th>
@@ -104,8 +104,8 @@
                     <tr *ngFor="let data of list_data; index as i">
                         <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
                             (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                        <td *ngIf="page === 1">{{i+1}}</td>
-                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td nzWidth="6rem" *ngIf="page === 1">{{i+1}}</td>
+                        <td nzWidth="6rem" *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                         <td>{{ data['Loan_Reference_no'] ? data['Loan_Reference_no']: '-' }}</td>
                         <td>{{ data['employee_code'] ? data['employee_code']: '-' }}</td>
                         <td>{{ data['amount'] ? data['amount']: '-' }}</td>

@@ -412,6 +412,7 @@ export class AddEditDsaComponent {
       document_data:  this.fb.array([]),
       partner_nature: ['DSA', [Validators.required]],
       partner_master:[data ? data?.master_partner?.id : null],
+      is_cli_nach_optional:[data ? data?.is_cli_nach_optional : false],
       
     });
     console.log(this.addEditProductForm.value)
