@@ -50,7 +50,7 @@
                         <th>Due Day</th>
                         <th>Interest(%)</th>
                         <th>Loan Amount Provided</th>
-                        <th>Transaction Status</th>
+                        <!-- <th>Transaction Status</th> -->
                         <th>Activated Date</th>
                         <th nzRight>Action</th>
 
@@ -67,20 +67,20 @@
                 <tbody>
                     <ng-container *ngFor="let data of emiBorrowersList; index as i">
                         <tr>
-                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)" (nzExpandChange)="
-                            onExpandChange(data?.loan_application_id, $event, i)
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_product?.loan_application_id)" (nzExpandChange)="
+                            onExpandChange(data?.loan_application_product?.loan_application_id, $event, i)
                           "></td>
                             <td *ngIf="page === 1">{{ i + 1 }}</td>
                             <td *ngIf="page > 1">
                                 {{ (page - 1) * globalPageSize + (i + 1) }}
                             </td>
                             <td>
-                                <h5 class="mb-2">{{ data.user_details?.full_name ? data.user_details.full_name : "-" }}
+                                <h5 class="mb-2">{{ data.loan_application_product?.user?.full_name ? data.loan_application_product?.user?.full_name : "-" }}
                                 </h5>
-                                <span *ngIf="data.user_details?.mobile">Contact No: {{ data.user_details ?
-                                    data.user_details.mobile : "-" }}</span>
-                                <p *ngIf="data.user_details?.email">
-                                    {{ data.user_details ? data.user_details.email : "-" }}
+                                <span *ngIf="data.loan_application_product?.user?.mobile">Contact No: {{ data.loan_application_product?.user ?
+                                    data.loan_application_product?.user.mobile : "-" }}</span>
+                                <p *ngIf="data.loan_application_product?.user?.email">
+                                    {{ data.loan_application_product?.user ? data.loan_application_product?.user.email : "-" }}
                                 </p>
                             </td>
                             <td>{{ data?.loan_unique_id ? data?.loan_unique_id : "-" }}</td>
@@ -92,7 +92,7 @@
                             <td>{{data.due_day ? data.due_day : '-'}}</td>
                             <td>{{data.interest_rate ? data?.interest_rate : '0'}} %</td>
                             <td>₹ {{ data.loan_amount_provided }}</td>
-                            <td>{{data?.transaction_status ? data?.transaction_status : '-'}}</td>
+                            <!-- <td>{{data?.transaction_status ? data?.transaction_status : '-'}}</td> -->
                             <td>
                                 {{
                                 data.activation_date
@@ -109,7 +109,7 @@
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
                                     <ul nz-menu>
                                         <li nz-menu-item [routerLink]="['/lms/emi/emi-borrowers/details']"
-                                            [queryParams]="{ id: data.id, loan_application_id : data?.loan_application_id }">
+                                            [queryParams]="{ id: data.id, loan_application_id : data?.loan_application_product?.loan_application_id }">
                                             <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
                                             <span class="m-l-5">View Details</span>
                                         </li>
@@ -118,9 +118,9 @@
                             </td>
                         </tr>
 
-                        <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
+                        <tr [nzExpand]="expandSet.has(data?.loan_application_product?.loan_application_id)">
                             <div class="row">
-                               <div class="col-md-12" *ngIf="data.loan_application_id === _currentId">
+                               <div class="col-md-12" *ngIf="data.loan_application_product?.loan_application_id === _currentId">
                                    <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
                                 </div>
                             </div>
