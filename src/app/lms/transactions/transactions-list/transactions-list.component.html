@@ -155,8 +155,8 @@
                             <td *ngIf="page === 1">{{i+1}}</td>
                             <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
-                                <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
-                                <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
+                                <h5>{{data.loan_application_product?.loan_application_product?.user?.full_name ? data.loan_application_product?.loan_application_product?.user.full_name : '-'}}</h5>
+                                <span>Contact No: {{data.loan_application_product?.loan_application_product?.user?.mobile ? data.loan_application_product?.loan_application_product?.user.mobile : '-'}}</span>
                             </td>
                             <td>{{ data?.corporate ? data?.corporate : '-'}}</td>
                             <td>{{ data?.txn_unique_id }}</td>
@@ -167,13 +167,13 @@
                                         nzTheme="outline"></i></a></td>
                             <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle"
                                         nzTheme="outline"></i></a></td>
-                            <td>{{ data?.details }}</td>
-                            <td>{{ data?.transaction_datetime | date: "medium" }}</td>
-                            <td>{{ data?.txn_amount }}</td>
+                            <td>{{ data?.details ? data?.details :'-'}}</td>
+                            <td>{{ data?.transaction_datetime  | date : 'medium' }}</td>
+                            <td>{{ data?.txn_amount ? data?.txn_amount :'-'}}</td>
                             <!-- <td>{{ 'NA' }}</td>
                             <td>{{ 'NA' }}</td> -->
                             <td>{{ data?.reason ? data?.reason : ' N/A' }}</td>
-                            <td>{{ data?.txn_status }}</td>
+                            <td>{{ data?.txn_status ? data?.txn_status :'-'}}</td>
                             <td nzRight
                                 *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
                                 <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"

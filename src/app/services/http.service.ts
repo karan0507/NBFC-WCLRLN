@@ -522,7 +522,7 @@ export class HttpService {
       }
 
       public fetchEmiBorrowersList(data) {
-            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list`), { params: data });
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list-elk`), { params: data });
       }
       
       public fetchEmiBorrowersDetails(data) {
@@ -669,6 +669,9 @@ export class HttpService {
 
       public fetchLoanApplicationList(data): Observable<any> {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
+      public fetchTransactionsList(data): Observable<any> {
+            return this._http.get((this.url + `/loan-application/v1/fetch-transaction-list-elk`), { params: data });
       }
       public fetchLoanApplicationUpload(data): Observable<any> {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
