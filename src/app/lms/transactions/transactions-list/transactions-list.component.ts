@@ -104,7 +104,7 @@ export class TransactionsListComponent implements OnInit {
       app_prod_type: this.app_prod_type ? this.app_prod_type : ''
     }
     this.api_calling_loader = true
-    this.http.fetchTransactionsList(data).subscribe(res => {
+    this.http.fetchTransactionList(data).subscribe((res : any) => {
       this.api_calling_loader = false
       this.listOfData = res['data']
       this.total_count = res.total_count
