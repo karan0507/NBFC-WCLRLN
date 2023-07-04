@@ -517,6 +517,12 @@ export class HttpService {
        * fetchBorrowerList
        */
       // 
+      public exportMandateToken(data) {
+            return this._http.get((this.url + `/loan-application/v1/generate-emi-token-report`), { params: data, responseType:'blob' });
+      }
+
+      t
+
       public fetchBorrowerList(data) {
             return this._http.get((this.url + `/loan-application/v1/borrowers-list`), { params: data });
       }
