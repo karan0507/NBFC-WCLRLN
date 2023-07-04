@@ -670,6 +670,11 @@ export class HttpService {
       public fetchLoanApplicationList(data): Observable<any> {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
+
+      public fetchLoanApplicationELKList(data): Observable<any> {
+            return this._http.get((this.url + `/loan-application/v1/fetch-bill-statement-list-elk`), { params: data });
+      }
+
       public fetchLoanApplicationUpload(data): Observable<any> {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }
