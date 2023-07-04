@@ -313,6 +313,9 @@ export class BorrowersDetailsComponent implements OnInit {
     })
   }
 
+
+  
+
   fetchBillStatementList(tabelFilter?) {
     // if (tabelFilter) {
     this.page4 = tabelFilter?.pageIndex ? tabelFilter?.pageIndex : 1;
@@ -330,7 +333,7 @@ export class BorrowersDetailsComponent implements OnInit {
       // id: this.borrower_id
     }
     this.api_calling_loader3 = true
-    this.http.fetchLoanApplicationList(data).subscribe(res => {
+    this.http.fetchLoanApplicationELKList(data).subscribe(res => {
       this.api_calling_loader3 = false
       this.billStatementList = res['data']
       this.total_count4 = res.total_count

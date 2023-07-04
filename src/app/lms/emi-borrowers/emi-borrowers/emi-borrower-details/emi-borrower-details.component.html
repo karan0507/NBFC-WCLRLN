@@ -171,6 +171,22 @@
                                 data?.paid_status : '-' }}</label> </td>
 
                     </tr>
+                    <tr *ngIf="i ==(schedulerDetails.length -1)">
+           
+                        
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td nzWidth="100" class="font-weight-bold">Repayment : </td>
+                        <td></td>
+                        <td nzWidth="100" class="font-weight-bold">{{data?.repayments}} </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
                     <tr [nzExpand]="expandSet.has(data.id)">
 
 
@@ -204,6 +220,7 @@
 
 
         </tr>
+        
         <!-- Pre Clousre -->
         <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">  
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.full_payment : ''}}</td>
@@ -212,6 +229,7 @@
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_interest : ''}}</td>
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_principal : ''}}</td>
         </tr>
+        
         </ng-container>
         </tbody>
         </nz-table>
