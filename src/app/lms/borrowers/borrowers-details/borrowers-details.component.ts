@@ -333,7 +333,8 @@ export class BorrowersDetailsComponent implements OnInit {
       // id: this.borrower_id
     }
     this.api_calling_loader3 = true
-    this.http.fetchLoanApplicationELKList(data).subscribe(res => {
+    // fetchLoanApplicationELKList
+    this.http.fetchLoanApplicationList(data).subscribe(res => {
       this.api_calling_loader3 = false
       this.billStatementList = res['data']
       this.total_count4 = res.total_count
