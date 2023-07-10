@@ -441,14 +441,14 @@ export class DashboardComponent implements OnInit {
     //     console.log(res)
     // })
     this.getMandateData();
-    this.getAuthorizationList();
+    // this.getAuthorizationList();
     this.getNBFCList();    
-    this.getDelinquentList();   
+    // this.getDelinquentList();   
     this.getExistingList();
     this.getCorporateList();
-    this.getRepaymentList();
+    // this.getRepaymentList();
     this.getAcquisitionList();
-    this.fetchBorrowersGraph();
+    // this.fetchBorrowersGraph();
      }
 
     getAuthorizationList(){
@@ -475,10 +475,10 @@ export class DashboardComponent implements OnInit {
             this.getNBFCList();
         } else if(action == 'delinquent'){
             this.selectedTab['delinquent'] = e;
-            this.getDelinquentList();
+            // this.getDelinquentList();
         } else if (action == 'authorization'){
             this.selectedTab['authorization'] = e;
-            this.getAuthorizationList();
+            // this.getAuthorizationList();
         } else if (action == 'existing'){
             this.selectedTab['existing'] = e;
             this.getExistingList();
@@ -493,7 +493,7 @@ export class DashboardComponent implements OnInit {
             this.getCorporateList();
         } else if (action == 'repayment'){
             this.selectedTab['repayment'] = e;
-            this.getRepaymentList();
+            // this.getRepaymentList();
         } 
         // 'acquisition': false,
         // 'existing': false,
@@ -631,15 +631,15 @@ export class DashboardComponent implements OnInit {
 
     onSelectFetchCorrespondingData(){
         // this.resetFilters();
-        this.fetchBorrowersGraph();
-        this.getDelinquentList();
+        // this.fetchBorrowersGraph();
+        // this.getDelinquentList();
         this.getNBFCList();
-        this.getAuthorizationList();
+        // this.getAuthorizationList();
         this.getExistingList();
         this.getAcquisitionList();
         this.getMandateData();
         this.getCorporateList();
-        this.getRepaymentList();
+        // this.getRepaymentList();
     }
     
     getCorporateList(){
@@ -800,15 +800,15 @@ export class DashboardComponent implements OnInit {
             'corporate': 'this month',
             'repayment': 'today'
         } 
-        this.getDelinquentList();
+        // this.getDelinquentList();
         this.getNBFCList();
-        this.getAuthorizationList();
+        // this.getAuthorizationList();
         this.getExistingList();
         this.getAcquisitionList();
         this.getMandateData();
         this.getCorporateList();
-        this.getRepaymentList();
-        this.fetchBorrowersGraph();
+        // this.getRepaymentList();
+        // this.fetchBorrowersGraph();
         
     }
 }

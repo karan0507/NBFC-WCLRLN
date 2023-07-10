@@ -651,7 +651,7 @@
               </div>  
 
             </div>
-            <div class="row pt-2" style="justify-content:Center">
+            <!-- <div class="row pt-2" style="justify-content:Center">
               <span class="row m-5">
                 <h5 style="margin-left:15px;color: black;">Total Spends (MoM) </h5>
               </span>
@@ -662,7 +662,7 @@
                 [legend]="barChartLegend" [chartType]="barChartType"></canvas>
                  
              </div>
-            </div>
+            </div> -->
           </nz-card>
           <ng-template #existing>
             <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
@@ -853,7 +853,7 @@
       </ng-template>
     </div> -->
 
-    <div class="col-md-6 mb-md-3">
+    <div class="col-md-6 mb-md-3 d-none">
       <nz-card
         [nzTitle]="authorisation"
         [nzExtra]="authorizationTemplate"
@@ -1051,7 +1051,7 @@
     </div>
     <!-- <div class="col-6">
       <div class="row"> -->
-        <div class="col-md-6 mb-md-3">
+        <div class="col-md-6 mb-md-3 d-none">
           <nz-card
             [nzTitle]="repayment"
             [nzLoading]="isLoading['repayment']"
@@ -1158,7 +1158,7 @@
             Repayments
           </ng-template>
         </div>
-        <div class="col-md-6 mb-md-3">
+        <div class="col-md-6 mb-md-3 d-none">
           <nz-card
             [nzTitle]="delinquent"
             [nzExtra]="delinquentTemplate"
