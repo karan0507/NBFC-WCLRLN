@@ -528,7 +528,8 @@ export class HttpService {
       }
 
       public fetchEmiBorrowersList(data) {
-            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list-elk`), { params: data });
+            return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list`), { params: data });
+            // return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list-elk`), { params: data });
       }
       
       public fetchEmiBorrowersDetails(data) {
