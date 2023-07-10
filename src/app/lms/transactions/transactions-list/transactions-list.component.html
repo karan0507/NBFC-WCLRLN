@@ -100,6 +100,7 @@
                             nzLabel="Emandate Authorization Transaction"></nz-option>
                         <nz-option nzValue="BBPS"
                             nzLabel="BBPS"></nz-option>
+
                     </nz-select>
                     <ng-container *ngIf="selectedTab != 'credit inprogress' && selectedTab != 'debit inprogress'">
                         <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="selectedStatus"
@@ -115,6 +116,7 @@
                         <nz-option *ngFor="let item of feeTypeData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
+                    
                     <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date"
                         [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"
                         [nzRanges]="customRanges"></nz-range-picker>
