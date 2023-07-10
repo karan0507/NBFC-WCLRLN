@@ -121,11 +121,11 @@
                         [nzRanges]="customRanges"></nz-range-picker>
                 </div>
             </div>
-            <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false"
-                [nzPageIndex]="page" [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
-                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
-                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData"
-                [nzScroll]="{ x: '2000px' }">
+            <nz-table [nzTotal]="total_count" [nzLoading]="api_calling_loader" [nzFrontPagination]="false" [nzPageIndex]="page"
+                [nzPageSize]="globalPageSize" [nzShowSizeChanger]="true" [nzTotal]="total_count"
+                (nzQueryParams)="listOfData[0] ? fetchTransactionList($event) : ''"
+                [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+                [nzData]="listOfData" [nzScroll]="{ x: '2000px' }">
                 <thead>
                     <tr>
                         <th nzWidth="2rem" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
@@ -142,7 +142,7 @@
                         <th>Date & Time</th>
                         <th>Amount (₹)</th>
                         <!-- <th>GST Amount</th>
-                        <th>Total Amount (₹)</th> -->
+                                    <th>Total Amount (₹)</th> -->
                         <th>Reason</th>
                         <th>Status</th>
                         <th nzWidth="5.5rem" nzRight
@@ -158,30 +158,29 @@
                             <td *ngIf="page === 1">{{i+1}}</td>
                             <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
                             <td>
-                                <h5>{{data.loan_application_product?.loan_application_product?.user?.full_name ? data.loan_application_product?.loan_application_product?.user.full_name : '-'}}</h5>
-                                <span>Contact No: {{data.loan_application_product?.loan_application_product?.user?.mobile ? data.loan_application_product?.loan_application_product?.user.mobile : '-'}}</span>
+                                <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                                <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
                             </td>
                             <td>{{ data?.corporate ? data?.corporate : '-'}}</td>
                             <td>{{ data?.txn_unique_id }}</td>
                             <td>{{ data?.txn_name }}</td>
                             <td>{{ data?.txn_type }}</td>
                             <td>{{data?.product_type ? data?.product_type?.name : '-'}}</td>
-                            <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle"
-                                        nzTheme="outline"></i></a></td>
-                            <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle"
-                                        nzTheme="outline"></i></a></td>
-                            <td>{{ data?.details ? data?.details :'-'}}</td>
-                            <td>{{ data?.transaction_datetime  | date : 'medium' }}</td>
-                            <td>{{ data?.txn_amount ? data?.txn_amount :'-'}}</td>
+                            <td *ngIf="data?.is_manually_entered"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+                            </td>
+                            <td *ngIf="!data?.is_manually_entered"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
+                            </td>
+                            <td>{{ data?.details }}</td>
+                            <td>{{ data?.transaction_datetime | date: "medium" }}</td>
+                            <td>{{ data?.txn_amount }}</td>
                             <!-- <td>{{ 'NA' }}</td>
-                            <td>{{ 'NA' }}</td> -->
+                                        <td>{{ 'NA' }}</td> -->
                             <td>{{ data?.reason ? data?.reason : ' N/A' }}</td>
-                            <td>{{ data?.txn_status ? data?.txn_status :'-'}}</td>
+                            <td>{{ data?.txn_status }}</td>
                             <td nzRight
                                 *ngxPermissionsOnly="['waive_off_transaction', 'view_details_transaction', 'refund_transaction', 'reverse_transaction']">
-                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
-                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
-                                    [nzDropdownMenu]="latestUploadDropDown">
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
                                     <img src="assets/images/ellipsis.png" alt="" width="30">
                                 </a>
                                 <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
@@ -211,7 +210,7 @@
                                                 <span class="m-l-5">Reverse Transaction</span>
                                             </li>
                                         </ng-container>
-
+            
                                     </ul>
                                 </nz-dropdown-menu>
                             </td>
