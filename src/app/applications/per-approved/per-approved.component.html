@@ -10,10 +10,10 @@
         [disabled]="checkDisabledStatus()" class="ml-auto" (click)="updateStatus('status')" [routerLink]="">
         Update Status ({{ _checkedLoanList ? _checkedLoanList?.length : "0" }})
       </button>
-      <button nz-button nzType="link" (click)="exportData('xlsx')" class="ml-3 border" [routerLink]=""
+      <!--  ---**---  <button nz-button nzType="link" (click)="exportData('xlsx')" class="ml-3 border" [routerLink]=""
         *ngxPermissionsOnly="['export_pre_approved_application']">
         Export
-      </button>
+      </button> -->
     </div>
   </div>
 </div>

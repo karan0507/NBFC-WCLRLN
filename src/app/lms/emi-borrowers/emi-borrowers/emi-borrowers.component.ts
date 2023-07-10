@@ -83,7 +83,6 @@ export class EmiBorrowersComponent implements OnInit {
         this.emiBorrowersList = res.data;
         this.api_calling_loader = false;
         this.total_count = res.total_count
-        // console.log(res);
         
       }else{
         this.api_calling_loader = false;

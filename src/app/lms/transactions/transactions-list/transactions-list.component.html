@@ -1,7 +1,7 @@
 <div class="header_breadcrumb_section" *ngxPermissionsOnly="['export_transaction']">
     <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
-    <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost
-        *ngxPermissionsOnly="['export_transaction']">Export</button>
+    <!-- ---**---  <button nz-button nz-dropdown [nzDropdownMenu]="fileFormate" nzType="primary" class="ml-1" nzGhost
+        *ngxPermissionsOnly="['export_transaction']">Export</button> -->
 </div>
 
 <nz-dropdown-menu #fileFormate="nzDropdownMenu">
@@ -115,6 +115,7 @@
                         <nz-option *ngFor="let item of feeTypeData" [nzValue]="item.pk" [nzLabel]="item.name">
                         </nz-option>
                     </nz-select>
+                    
                     <nz-range-picker style="width: 20rem;" class="mx-1" [(ngModel)]="date"
                         [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()"
                         [nzRanges]="customRanges"></nz-range-picker>
