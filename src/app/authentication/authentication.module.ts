@@ -22,6 +22,7 @@ import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 const antdModule= [
     NzFormModule,
@@ -41,7 +42,8 @@ const antdModule= [
         AuthenticationRoutingModule,
         FormsModule,
         ...antdModule,
-        NgxPermissionsModule.forChild()
+        NgxPermissionsModule.forChild(),
+        NgOtpInputModule
     ],
     declarations: [
         Login1Component,

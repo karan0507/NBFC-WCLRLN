@@ -14,7 +14,7 @@ export class Login1Component {
       loginForm: FormGroup;
       forgetForm: FormGroup;
       api_calling_loader: boolean;
-      captchaSiteKey = '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z';
+      // captchaSiteKey = '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z';
       // captchaSiteKey = location.origin == 'http://localhost:4200' ? '6LfuMccUAAAAAKTA7nzlRVaqT0ZGtEvXNTmt5V7Z' : '6LdJhCEgAAAAAIDh0nvmJOoq4V52Vpopp3reNWho';
       carousel_data = [
             "assets/images/image (3).png",
@@ -22,12 +22,15 @@ export class Login1Component {
             "assets/images/image (2).png",
       ]
       is_forget: boolean = false;
+      is_send_otp: boolean = false;
       is_link_send: boolean;
       otp = '';
       new_password = '';
       retype_password = '';
       isView: boolean = false;
-      UserPermissionDataSubscription : any
+      UserPermissionDataSubscription: any
+      otpBoxValue: any;
+      OTPmessage: any;
 
       constructor(
             private fb: FormBuilder,
@@ -35,18 +38,20 @@ export class Login1Component {
             private message: NzMessageService,
             private router: Router,
             private permissionsService: NgxPermissionsService) {
-                  if (JSON.parse(sessionStorage.getItem('fatakpay_user_data'))?.token) {
-                        this.router.navigate(['/dashboard/home']);
-                  }
+            if (JSON.parse(sessionStorage.getItem('fatakpay_user_data'))?.token) {
+                  this.router.navigate(['/dashboard/home']);
+            }
       }
 
       ngOnInit(): void {
-            this.fetchCaptch();
+            // this.fetchCaptch();
             this.loginForm = this.fb.group({
                   mobile: [null, [Validators.required]],
                   password: [null, [Validators.required]],
+                  // otp :[null,[Validators.required]]
                   // recaptcha: [null, [Validators.required]],
-                  captcha:[ null, [Validators.required]]
+                  // captcha:[ null, [Validators.required]]
+                  // captcha: [null, []]
             });
             this.forgetForm = this.fb.group({
                   email: ['', [Validators.required]],
@@ -80,42 +85,47 @@ export class Login1Component {
                         return;
                   }
                   else {
+                        if(this.otpBoxValue.length != 6){
+                              this.message.error("Please Enter OTP")
+                              return;
+                        }
                         // let data = new FormData();
                         // data.append('username', form.value.mobile)
                         // data.append('password', form.value.password)
                         let data = {
-                              username: form.value.mobile,
-                              password: form.value.password,
-                              captcha_key:form.value.captcha
+                              username: this.loginForm.value.mobile,
+                              password: this.loginForm.value.password,
+                              otp: this.otpBoxValue
+                              // captcha_key:form.value.captcha
                         }
                         this.api_calling_loader = true
                         this.http.UserLogin(data).subscribe((res) => {
                               this.api_calling_loader = false
                               if (res.success) {
                                     sessionStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
-                                    if(sessionStorage.getItem('fatakpay_user_data')){
+                                    if (sessionStorage.getItem('fatakpay_user_data')) {
                                           var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions;
                                           check_token_exists.push('')
                                           this.permissionsService.loadPermissions(check_token_exists);
-                                        }
-                                        this.UserPermissionDataSubscription = this.http.globalUserPermissionsData.subscribe((value) => {
+                                    }
+                                    this.UserPermissionDataSubscription = this.http.globalUserPermissionsData.subscribe((value) => {
                                           value.push('')
                                           this.permissionsService.loadPermissions(value);
-                                        });
+                                    });
                                     // this.HttpService.setPermissionValue(res.data.data.permissions_slug_list)
                                     this.message.success('Welcome to Fatak Pay');
-                                    localStorage.setItem('globalToggleValue','1')
+                                    localStorage.setItem('globalToggleValue', '1')
                                     this.router.navigate(['/dashboard/home']);
 
                               }
                               else {
                                     this.message.error(res.message);
-                                    this.fetchCaptch()
+                                    // this.fetchCaptch()
                               }
 
                         }, (err) => {
                               this.api_calling_loader = false;
-                              this.fetchCaptch()
+                              // this.fetchCaptch()
                               console.log(err)
                         })
                   }
@@ -170,19 +180,49 @@ export class Login1Component {
             }
 
       }
- 
-      handleSuccess(event) {
-            this.loginForm.get('captcha').setValue(event);
+
+      onOtpChange(e) {
+            this.otpBoxValue = e
+          }
+
+      sendOTPAPIFunction() {
+            let data = { 'username': this.loginForm.value.mobile, password: this.loginForm.value.password }
+            console.log(data);
+
+            this.api_calling_loader = true,
+                  this.http.loginOtp(data).subscribe((res) => {
+                        this.is_send_otp = true
+                        this.OTPmessage = res?.message;
+                        console.log(res);
+
+                        this.api_calling_loader = false
+                        if (res.success) {
+                              // this.is_link_send = true;
+                              this.message.success(res.message);
+                        }
+                        else {
+                              this.message.error(res.message);
+                        }
+                  }, (err) => {
+                        this.api_calling_loader = false
+                        console.log(err)
+                  })
       }
 
-      captchaImage: any
-      fetchCaptch(){
-        this.http.fetchCaptch().subscribe((res: any)=>{
-              console.log(res)
-              this.captchaImage = res?.captcha_image
-        }, error=>{
-              this.message.error(error?.msg);
-              this.fetchCaptch()
-        })
-      }
+
+
+      // handleSuccess(event) {
+      //       this.loginForm.get('captcha').setValue(event);
+      // }
+
+      // captchaImage: any
+      // fetchCaptch(){
+      //   this.http.fetchCaptch().subscribe((res: any)=>{
+      //         console.log(res)
+      //         this.captchaImage = res?.captcha_image
+      //   }, error=>{
+      //         this.message.error(error?.msg);
+      //         this.fetchCaptch()
+      //   })
+      // }
 }    
