@@ -52,7 +52,7 @@
                 </nz-option>
             </nz-select> -->
             <nz-date-picker class="mx-1" nzMode="month" style=" width: 15rem;" [nzFormat]="'MMMM yyyy'" [(ngModel)]="month" (ngModelChange)="fetchBilledData()"></nz-date-picker>
-            <!-- ---**---  <button nz-button  class="mx-1" (click)="exportGlobalFunction('xlsx')" *ngxPermissionsOnly="['export_billed_data']">Export</button> -->
+            <button nz-button  class="mx-1" (click)="exportGlobalFunction('xlsx')" *ngxPermissionsOnly="['export_billed_data']">Export</button>
 
             <!-- <nz-range-picker [(ngModel)]="date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchTransactionList()" [nzRanges]="customRanges"></nz-range-picker>
             <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType" (ngModelChange)="fetchTransactionList()"
