@@ -4,20 +4,25 @@
             <div class="d-flex bg-white w-100 p-h-40 p-v-15 flex-column justify-content-between align-items-center">
                 <nz-carousel nzAutoPlay>
                     <div nz-carousel-content *ngFor="let img of carousel_data">
-                      <img [src]="img" alt="" class="mx-auto pt-md-5 mt-md-5">
+                        <img [src]="img" alt="" class="mx-auto pt-md-5 mt-md-5">
                     </div>
-                  </nz-carousel>
+                </nz-carousel>
             </div>
         </div>
-        <div class="col-lg-5 bg-light">
-            <div class="container h-100">
-                <img src="assets/images/Icon.svg" alt="close" class="pointer mt-md-5 ml-md-4" *ngIf="is_forget" (click)="is_forget = false; is_link_send = false">
-                <div class="row no-gutters h-100 align-items-center ">
+        <div class="col-lg-5 bg-light">            
+            <div class="container h-100">                                
+                <div class="row no-gutters h-100 ">   
+                    <div class="col-12">
+                        <img src="assets/images/Icon.svg" alt="close" class="pointer mt-md-5 ml-md-4" *ngIf="is_forget || is_send_otp"
+                    (click)="is_forget = false; is_link_send = false ;is_send_otp = false">
+                    </div>                              
                     <div class="col-md-9 col-lg-9 col-xl-8 mx-auto">
                         <img src="assets/images/logo/logo.png" alt="" class="w-50 mb-5">
-                        <div class="my-md-5" *ngIf="is_forget"></div>
-                        <h2>{{is_forget ? ( is_link_send ? 'OTP has been sent on your email id.' : 'Forgot Password?') : 'Lets Get Started'}}</h2>
-                        <form *ngIf="!is_forget" nz-form [formGroup]="loginForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm(loginForm)">
+                        <div class="my-md-5" *ngIf="is_forget || is_send_otp"></div>
+                        <h2 *ngIf="!is_send_otp">{{is_forget ? ( is_link_send ? 'OTP has been sent on your email id.' : 'Forgot Password?') :
+                            'Lets Get Started'}}</h2>
+                        <form *ngIf="!is_forget && !is_send_otp" nz-form [formGroup]="loginForm" nzLayout="vertical"
+                            class="login-form" (ngSubmit)="sendOTPAPIFunction(loginForm)">
                             <nz-form-item>
                                 <nz-form-label nzRequired nzFor="mobile">Username</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your username!">
@@ -30,15 +35,19 @@
                                 <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your Password!">
                                     <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
-                                        <input [type]="isView ? 'text' : 'password'" type="password" nz-input formControlName="password" placeholder="Password"  autocomplete="new-password">
+                                        <input [type]="isView ? 'text' : 'password'" type="password" nz-input
+                                            formControlName="password" placeholder="Password"
+                                            autocomplete="new-password">
                                     </nz-input-group>
                                     <ng-template #viewPassword>
-                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
-                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
-                                      </ng-template>
+                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()"
+                                            nzTheme="outline" style="cursor: pointer;"></i>
+                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()"
+                                            nzTheme="outline" style="cursor: pointer;"></i>
+                                    </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
-                            <nz-form-item>
+                            <!-- <nz-form-item> -->
                                 <!-- <div class="my-3">
                                     <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" formControlName="recaptcha"
                                     (success)="handleSuccess($event)">
@@ -47,7 +56,7 @@
 
                                     </button>
                                 </div> -->
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col">
                                         <nz-form-item>
                                             <nz-form-control nzErrorTip="Enter Security Code!">
@@ -66,20 +75,26 @@
                                         </nz-form-item>
                                             
                                     </div>
-                                </div>
-                              </nz-form-item>
+                                </div> -->
+                            <!-- </nz-form-item> -->
                             <div>
                                 <div class="font-size-13 p-t-10 text-right w-100">
                                     <a (click)="is_forget = true; is_link_send = false">Forget
                                         Password?</a>
                                 </div>
-                                <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader" [nzType]="'primary'" [disabled]="loginForm.get('captcha').invalid">Login</button>
+                                <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader"
+                                    [nzType]="'primary'"
+                                    [disabled]="loginForm.invalid">Send OTP</button>
+
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <a class="font-size-13" href="https://fatakpay.com/privacy-policy" >Privacy policy</a>
+                                    <a class="font-size-13" href="https://fatakpay.com/privacy-policy">Privacy
+                                        policy</a>
                                 </div>
                             </div>
                         </form>
-                        <p *ngIf="is_forget">{{ is_link_send ? 'Please check your Inbox and click in the received link to reset your password.' : 'Enter your registered email id below to receive ‘reset password’ link.'}}</p>
+                        <p *ngIf="is_forget">{{ is_link_send ? 'Please check your Inbox and click in the received link
+                            to reset your password.' : 'Enter your registered email id below to receive ‘reset password’
+                            link.'}}</p>
                         <form *ngIf="is_forget" nz-form [formGroup]="forgetForm" nzLayout="vertical" class="login-form">
                             <nz-form-item *ngIf="!is_link_send">
                                 <nz-form-label nzRequired nzFor="email">Email-ID/ Mobile no.</nz-form-label>
@@ -89,7 +104,7 @@
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
-                            <nz-form-item>
+                            <!-- <nz-form-item> -->
                                 <!-- <div class="my-3">
                                     <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" formControlName="recaptcha"
                                     (success)="handleSuccess($event)">
@@ -98,37 +113,45 @@
 
                                     </button>
                                 </div> -->
-                              </nz-form-item>
-                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="!is_link_send" (click)="submitForm(forgetForm)" [nzLoading]="api_calling_loader" [nzType]="'primary'" [disabled]="forgetForm.invalid">Send</button>
+                            <!-- </nz-form-item> -->
+                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="!is_link_send"
+                                (click)="submitForm(forgetForm)" [nzLoading]="api_calling_loader" [nzType]="'primary'"
+                                [disabled]="forgetForm.invalid">Send</button>
                         </form>
                         <form *ngIf="is_link_send" nz-form nzLayout="vertical" class="login-form">
                             <nz-form-item *ngIf="is_link_send">
                                 <nz-form-label nzRequired>OTP</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your OTP!">
                                     <nz-input-group [nzPrefix]="prefixLock">
-                                        <input type="number" nz-input [(ngModel)]="otp" name="otp" placeholder="OTP" autocomplete="cc-number">
+                                        <input type="number" nz-input [(ngModel)]="otp" name="otp" placeholder="OTP"
+                                            autocomplete="cc-number">
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
-                        
+
                             <nz-form-item *ngIf="is_link_send">
                                 <nz-form-label nzRequired>New Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your New Password!">
                                     <nz-input-group [nzPrefix]="prefixLock" [nzAddOnAfter]="viewPassword">
-                                        <input [type]="isView ? 'text' : 'password'" nz-input [(ngModel)]="new_password" name="new_password" autocomplete="new-password" placeholder="New Password">
+                                        <input [type]="isView ? 'text' : 'password'" nz-input [(ngModel)]="new_password"
+                                            name="new_password" autocomplete="new-password" placeholder="New Password">
                                     </nz-input-group>
                                     <ng-template #viewPassword>
-                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
-                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()" nzTheme="outline" style="cursor: pointer;"></i>
-                                      </ng-template>
+                                        <i nz-icon *ngIf="!isView" nzType="eye" (click)="hidePassword()"
+                                            nzTheme="outline" style="cursor: pointer;"></i>
+                                        <i nz-icon *ngIf="isView" nzType="eye-invisible" (click)="hidePassword()"
+                                            nzTheme="outline" style="cursor: pointer;"></i>
+                                    </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
-                        
+
                             <nz-form-item *ngIf="is_link_send">
                                 <nz-form-label nzRequired>Re-type new Password</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your Re-type new Password!">
                                     <nz-input-group [nzPrefix]="prefixLock">
-                                        <input [type]="isView ? 'text' : 'password'" nz-input [(ngModel)]="retype_password" autocomplete="new-password" name="retype_password" placeholder="Re-type new Password">
+                                        <input [type]="isView ? 'text' : 'password'" nz-input
+                                            [(ngModel)]="retype_password" autocomplete="new-password"
+                                            name="retype_password" placeholder="Re-type new Password">
                                     </nz-input-group>
                                 </nz-form-control>
                             </nz-form-item>
@@ -136,13 +159,38 @@
                                 <span class="text-warning" (click)="submitForm(forgetForm)">Didn’t receive OTP? <span
                                         class="text-primary">Resend</span></span>
                             </div>
-                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="is_forget && is_link_send" (click)="VerifyOtp()"
-                                [nzLoading]="api_calling_loader" [nzType]="'primary'">Change password</button>
+                            <button nz-button class="w-100 mb-5 mt-3" *ngIf="is_forget && is_link_send"
+                                (click)="VerifyOtp()" [nzLoading]="api_calling_loader" [nzType]="'primary'">Change
+                                password</button>
+                        </form>
+                        
+                        <p class="mb-3">{{OTPmessage}}</p>
+                        <form *ngIf="is_send_otp" nz-form nzLayout="vertical" class="login-form mb-5">
+                            <nz-form-item>
+                                <div class="">
+                                    <span class="my-3 d-flex flex-column ">
+                                        <nz-form-label [nzSm]="16" [nzXs]="24" class="text-left mb-3">
+                                            <h2>Enter OTP</h2>
+                                        </nz-form-label>
+                                        
+                                        <ng-otp-input (onInputChange)="onOtpChange($event)"
+                                            [config]="{length:6, btnClass : 'hide_otp_btn', allowNumbersOnly : true }">
+                                        </ng-otp-input>
+                                        <div class="text-left pointer mt-3 ml-2">
+                                            <span class="text-muted" (click)="sendOTPAPIFunction('otp')">Didn’t receive OTP? <span
+                                                    class="text-primary" [nzLoading]="api_calling_loader">Resend</span></span>
+                                        </div>
+                                        <button nz-button nzType="primary" nzShape="round" class="mt-5"
+                                            (click)="submitForm(loginform)" [nzLoading]="api_calling_loader">Verify
+                                            OTP</button>
+                                    </span>
+                                </div>
+                            </nz-form-item>
                         </form>
                         <ng-template #prefixUser><i nz-icon nzType="user"></i></ng-template>
                         <ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>

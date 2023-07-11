@@ -71,6 +71,10 @@ export class HttpService {
             return this._http.post((this.url + `/user/forgot-password/`), data);
       }
 
+      public loginOtp(data): any {
+            return this._http.post((this.url + `/user/send-email-otp`), data);
+      }
+
       public fetchCaptch(): any{
             // captcha-image
             return this._http.get(this.captcha_url+`/dsa/captcha-image`);

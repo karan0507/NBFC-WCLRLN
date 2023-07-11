@@ -30,6 +30,7 @@
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
     "ng-chartjs": "^0.2.8",
+    "ng-otp-input": "^1.8.1",
     "ng-zorro-antd": "^11.0.1",
     "ng2-search-filter": "^0.4.7",
     "ngx-captcha": "^10.0.0",
