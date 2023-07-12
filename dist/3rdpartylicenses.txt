@@ -261,6 +261,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 ng-chartjs
 MIT
 
+ng-otp-input
+MIT
+
 ng-zorro-antd
 MIT
 
