@@ -11,7 +11,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Dashboard',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        icon: 'appstore',
+        icon: 'assets/images/Icons/Dashboard.svg',
         submenu: []
     },
     {
@@ -21,7 +21,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Products',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        icon: 'shopping',
+        icon: 'assets/images/Icons/Product.svg',
         submenu: [
             // { 
             //     path: 'product-list',
@@ -49,7 +49,7 @@ export const ROUTES: SideNavInterface[] = [
         title: 'Users',
         iconType: 'nzIcon',
         iconTheme: 'outline',
-        icon: 'user',
+        icon: 'assets/images/Icons/Users.svg',
         permission: ['view_lender', 'view_master_partner', 'view_partner', 'view_new_joinee', 'view_merchant', 'view_partner_dsa', 
     'view_corporate_employee_details', 'view_attendance','view_exit_employee','view_notice_period','view_action_performed','view_employee_list'],
         submenu: [
@@ -133,7 +133,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_employee'],
-        icon: 'user',
+        icon: 'assets/images/Icons/Employees.svg',
         submenu: []
     },
     {
@@ -143,7 +143,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_employee'],
-        icon: 'usergroup-add',
+        icon: 'assets/images/Icons/Insurance.svg',
         submenu: []
     },
     {
@@ -153,7 +153,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_employee'],
-        icon: 'usergroup-add',
+        icon: 'assets/images/Icons/SuperApp Users.svg',
         submenu: []
     },
     {
@@ -163,7 +163,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_form_filling_application', 'view_pre_approved_application', 'view_document_upload_application', 'view_underwriting_application', 'view_applicants','view_nbfc_approval_application', 'view_offer_proposed_application', 'view_offer_acceptance_application', 'view_e_sining_application', 'view_disbursement_application', 'view_dormant_application', 'view_closed_application'],
-        icon: 'picture',
+        icon: 'assets/images/Icons/CurrencyInr.svg',
         submenu: [
             // {
     //     path: 'otp-list',
@@ -345,7 +345,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_borrowers', 'view_change_bill_date', 'view_transaction', 'view_manual_transaction', 'view_athorization_policy', 'view_borrowers', 'view_change_credit_line', 'view_lender_management'],
-        icon: 'file',
+        icon: 'assets/images/Icons/LMS.svg',
         submenu: [
             {
                 path: 'lms/borrowers',
@@ -763,7 +763,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_gst_invoice','view_escrow_statement'],
-        icon: 'file',
+        icon: 'assets/images/Icons/Accounting.svg',
         submenu: [
             {
                 path: 'accounting/gst-invoices',
@@ -794,7 +794,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_black_box'],
-        icon: 'file',
+        icon: 'assets/images/Icons/Black Box Texting.svg',
         submenu: []
     },
     {
@@ -804,7 +804,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['update_dormant_stage'],
-        icon: 'file',
+        icon: 'assets/images/Icons/Application Stage Trigger.svg',
         submenu: []
     },
     {
@@ -814,7 +814,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_corporate_cashback_program'],
-        icon: 'tags',
+        icon: 'assets/images/Icons/Cashback program statistics.svg',
         submenu: []
     },
     {
@@ -824,7 +824,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_coupon_code'],
-        icon: 'tags',
+        icon: 'assets/images/Icons/Coupon code.svg',
         submenu: []
     },
     {
@@ -834,7 +834,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_employee_permission', 'view_role', 'add_role', 'edit_role', 'delete_role'],
-        icon: 'key',
+        icon: 'assets/images/Icons/Access control.svg',
         submenu: []
     },
     {
@@ -844,7 +844,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_api_statistics'],
-        icon: 'file',
+        icon: 'assets/images/Icons/third Party API.svg',
         submenu: [
             {
                 path: 'third-party-api-call',
@@ -885,7 +885,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_version'],
-        icon: 'key',
+        icon: 'assets/images/Icons/Version.svg',
         submenu: []
     },
     // <i nz-icon nzType="snippets" nzTheme="outline"></i>
@@ -896,7 +896,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_reports'],
-        icon: 'snippets',
+        icon: 'assets/images/Icons/Reports.svg',
         submenu: []
     },
     {
@@ -906,7 +906,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: [''],
-        icon: 'snippets',
+        icon: 'assets/images/Icons/Downloads.svg',
         submenu: []
     },
 ]    

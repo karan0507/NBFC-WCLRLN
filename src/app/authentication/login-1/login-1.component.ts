@@ -93,7 +93,7 @@ export class Login1Component {
                         // data.append('username', form.value.mobile)
                         // data.append('password', form.value.password)
                         let data = {
-                              username: this.loginForm.value.mobile,
+                              username: this.loginForm.value.mobile.trim(),
                               password: this.loginForm.value.password,
                               otp: this.otpBoxValue
                               // captcha_key:form.value.captcha
@@ -186,17 +186,17 @@ export class Login1Component {
           }
 
       sendOTPAPIFunction() {
-            let data = { 'username': this.loginForm.value.mobile, password: this.loginForm.value.password }
+            let data = { 'username': this.loginForm.value.mobile.trim(), password: this.loginForm.value.password }
             console.log(data);
 
             this.api_calling_loader = true,
                   this.http.loginOtp(data).subscribe((res) => {
-                        this.is_send_otp = true
-                        this.OTPmessage = res?.message;
                         console.log(res);
 
                         this.api_calling_loader = false
                         if (res.success) {
+                              this.is_send_otp = true
+                              this.OTPmessage = res?.message;
                               // this.is_link_send = true;
                               this.message.success(res.message);
                         }

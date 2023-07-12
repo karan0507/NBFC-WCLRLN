@@ -136,3 +136,15 @@ input[type=number] {
   .pointer {
     cursor: pointer !important;
   }
+
+  .slick-list{
+    height: 100% !important;
+  }
+
+  .slick-track{
+    height: 100% !important;
+  }
+  .ant-carousel .slick-list .slick-slide{
+    height: 100% !important;
+
+  }

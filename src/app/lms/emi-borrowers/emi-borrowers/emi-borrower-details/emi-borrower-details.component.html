@@ -171,22 +171,7 @@
                                 data?.paid_status : '-' }}</label> </td>
 
                     </tr>
-                    <tr *ngIf="_currEMIBorrowerDetail?.pre_closure?.is_pre_closure">
-                        <td class="font-weight-bold">Full Payment:</td>
-                        <td>_currEMIBorrowerDetail?.pre_closure?.full_payment</td>
-                        
-                        <td></td>
-                        <td class="font-weight-bold">Total Fees : </td>
-                        <td>_currEMIBorrowerDetail?.pre_closure?.full_payment</td>
-                        <td></td>
-                       
-                        <td></td>
-                        <td class="font-weight-bold">Total Interest</td>
-                        <td>_currEMIBorrowerDetail?.pre_closure?.total_interest</td>
-                        <td></td>
-                        <td class="font-weight-bold">Total Principal</td>
-                        <td>_currEMIBorrowerDetail?.pre_closure?.total_principal</td>
-                    </tr>
+                    
                     <tr [nzExpand]="expandSet.has(data.id)">
 
 
@@ -222,7 +207,7 @@
         </tr>
 
         <!-- Pre Clousre -->
-        <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">
+        <!-- <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.full_payment :
                 ''}}</td>
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.is_pre_closure
@@ -233,9 +218,25 @@
                 : ''}}</td>
             <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_principal
                 : ''}}</td>
-        </tr>
+        </tr> -->
 
         </ng-container>
+        <tr *ngIf="_currEMIBorrowerDetail?.pre_closure?.is_pre_closure">
+            <td [colSpan]="3" class="font-weight-bold">Full Payment:</td>
+            <td>{{_currEMIBorrowerDetail?.pre_closure?.full_payment}}</td>
+        
+            <!-- <td></td> -->
+            <td class="font-weight-bold">Total Fees : </td>
+            <td>{{_currEMIBorrowerDetail?.pre_closure?.full_payment}}</td>
+            <!-- <td></td> -->
+        
+            <!-- <td></td> -->
+            <td [colSpan]="2" class="font-weight-bold">Total Interest</td>
+            <td>{{_currEMIBorrowerDetail?.pre_closure?.total_interest}}</td>
+            <!-- <td></td> -->
+            <td [colSpan]="2" class="font-weight-bold">Total Principal</td>
+            <td>{{_currEMIBorrowerDetail?.pre_closure?.total_principal}}</td>
+        </tr>
         </tbody>
         </nz-table>
         <div class="total_count_text" *ngIf="total_count">
