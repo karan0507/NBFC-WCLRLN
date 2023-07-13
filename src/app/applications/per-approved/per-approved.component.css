@@ -6,3 +6,13 @@
 /* :host ::ng-deep .ant-table-body {
       max-height: calc(100vh - 455px) !important;
   } */
+
+  ::ng-deep .ant-checkbox-wrapper{
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+
+  ::ng-deep .ant-checkbox-wrapper span span{
+    margin-bottom: 0rem !important;
+  }
