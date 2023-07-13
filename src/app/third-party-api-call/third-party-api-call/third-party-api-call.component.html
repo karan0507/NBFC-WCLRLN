@@ -31,61 +31,72 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <nz-card nzTitle="Aadhar captcha API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate1">
+                    <nz-card nzTitle="Aadhar captcha API count" [nzLoading]="api_calling_loader"
+                        [nzExtra]="extraTemplate1">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
-                                <h4>{{ApiStatsData?.aadhar_captcha_api_count ? ApiStatsData?.aadhar_captcha_api_count : '0'}}</h4>
+                                <h4>{{ApiStatsData?.aadhar_captcha_api_count ? ApiStatsData?.aadhar_captcha_api_count :
+                                    '0'}}</h4>
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_captcha_api_count_success ? ApiStatsData?.success_response?.aadhar_captcha_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">
+                                    {{ApiStatsData?.success_response?.aadhar_captcha_api_count_success ?
+                                    ApiStatsData?.success_response?.aadhar_captcha_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_captcha_api_count_success ? ApiStatsData?.fail_response?.aadhar_captcha_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_captcha_api_count_success ?
+                                    ApiStatsData?.fail_response?.aadhar_captcha_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Aadhar OTP API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate2">
+                    <nz-card nzTitle="Aadhar OTP API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate2">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
-                                <h4>{{ApiStatsData?.aadhar_otp_api_count ? ApiStatsData?.aadhar_otp_api_count : '0'}}</h4>
+                                <h4>{{ApiStatsData?.aadhar_otp_api_count ? ApiStatsData?.aadhar_otp_api_count : '0'}}
+                                </h4>
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_otp_api_count_success ? ApiStatsData?.success_response?.aadhar_otp_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_otp_api_count_success ?
+                                    ApiStatsData?.success_response?.aadhar_otp_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_otp_api_count_success ? ApiStatsData?.fail_response?.aadhar_otp_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_otp_api_count_success ?
+                                    ApiStatsData?.fail_response?.aadhar_otp_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Aadhar OCR API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate3">
+                    <nz-card nzTitle="Aadhar OCR API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate3">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
-                                <h4>{{ApiStatsData?.aadhar_ocr_api_count ? ApiStatsData?.aadhar_ocr_api_count : '0'}}</h4>
+                                <h4>{{ApiStatsData?.aadhar_ocr_api_count ? ApiStatsData?.aadhar_ocr_api_count : '0'}}
+                                </h4>
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_ocr_api_count_success ? ApiStatsData?.success_response?.aadhar_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.aadhar_ocr_api_count_success ?
+                                    ApiStatsData?.success_response?.aadhar_ocr_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_ocr_api_count_success ? ApiStatsData?.fail_response?.aadhar_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.aadhar_ocr_api_count_success ?
+                                    ApiStatsData?.fail_response?.aadhar_ocr_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Pan API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate4">
+                    <nz-card nzTitle="Pan API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate4">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -93,17 +104,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_api_count_success ? ApiStatsData?.success_response?.pan_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_api_count_success ?
+                                    ApiStatsData?.success_response?.pan_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_api_count_success ? ApiStatsData?.fail_response?.pan_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_api_count_success ?
+                                    ApiStatsData?.fail_response?.pan_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Pan OCR API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate5">
+                    <nz-card nzTitle="Pan OCR API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate5">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -111,17 +124,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_ocr_api_count_success ? ApiStatsData?.success_response?.pan_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.pan_ocr_api_count_success ?
+                                    ApiStatsData?.success_response?.pan_ocr_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_ocr_api_count_success ? ApiStatsData?.fail_response?.pan_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.pan_ocr_api_count_success ?
+                                    ApiStatsData?.fail_response?.pan_ocr_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="DL OCR API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate6">
+                    <nz-card nzTitle="DL OCR API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate6">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -129,17 +144,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.dl_ocr_api_count_success ? ApiStatsData?.success_response?.dl_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.dl_ocr_api_count_success ?
+                                    ApiStatsData?.success_response?.dl_ocr_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.dl_ocr_api_count_success ? ApiStatsData?.fail_response?.dl_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.dl_ocr_api_count_success ?
+                                    ApiStatsData?.fail_response?.dl_ocr_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Voter API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate7">
+                    <nz-card nzTitle="Voter API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate7">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -147,17 +164,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_api_count_success ? ApiStatsData?.success_response?.voter_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_api_count_success ?
+                                    ApiStatsData?.success_response?.voter_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_api_count_success ? ApiStatsData?.fail_response?.voter_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_api_count_success ?
+                                    ApiStatsData?.fail_response?.voter_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Voter OCR API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate8">
+                    <nz-card nzTitle="Voter OCR API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate8">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -165,17 +184,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_ocr_api_count_success ? ApiStatsData?.success_response?.voter_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.voter_ocr_api_count_success ?
+                                    ApiStatsData?.success_response?.voter_ocr_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_ocr_api_count_success ? ApiStatsData?.fail_response?.voter_ocr_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.voter_ocr_api_count_success ?
+                                    ApiStatsData?.fail_response?.voter_ocr_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Cibil API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate9">
+                    <nz-card nzTitle="Cibil API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate9">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -183,17 +204,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.cibil_api_count_success ? ApiStatsData?.success_response?.cibil_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.cibil_api_count_success ?
+                                    ApiStatsData?.success_response?.cibil_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.cibil_api_count_success ? ApiStatsData?.fail_response?.cibil_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.cibil_api_count_success ?
+                                    ApiStatsData?.fail_response?.cibil_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="Selfie API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate10">
+                    <nz-card nzTitle="Selfie API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate10">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -201,18 +224,20 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.selfie_api_count_success ? ApiStatsData?.success_response?.selfie_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.selfie_api_count_success ?
+                                    ApiStatsData?.success_response?.selfie_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.selfie_api_count_success ? ApiStatsData?.fail_response?.selfie_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.selfie_api_count_success ?
+                                    ApiStatsData?.fail_response?.selfie_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
 
                 <div class="col-md-4">
-                    <nz-card nzTitle="Algo 360 API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate11">
+                    <nz-card nzTitle="Algo 360 API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate11">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -220,17 +245,19 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.algo_api_count_success ? ApiStatsData?.success_response?.algo_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.algo_api_count_success ?
+                                    ApiStatsData?.success_response?.algo_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.algo_api_count_success ? ApiStatsData?.fail_response?.algo_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.algo_api_count_success ?
+                                    ApiStatsData?.fail_response?.algo_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
                 </div>
                 <div class="col-md-4">
-                    <nz-card nzTitle="NACH API count" [nzLoading]="api_calling_loader"  [nzExtra]="extraTemplate12">
+                    <nz-card nzTitle="NACH API count" [nzLoading]="api_calling_loader" [nzExtra]="extraTemplate12">
                         <div class="row">
                             <div class="col">
                                 <span>Total count</span>
@@ -238,11 +265,13 @@
                             </div>
                             <div class="col text-green">
                                 <span>Success count</span>
-                                <h4 class="text-green">{{ApiStatsData?.success_response?.nach_api_count_success ? ApiStatsData?.success_response?.nach_api_count_success : '0'}}</h4>
+                                <h4 class="text-green">{{ApiStatsData?.success_response?.nach_api_count_success ?
+                                    ApiStatsData?.success_response?.nach_api_count_success : '0'}}</h4>
                             </div>
                             <div class="col text-red">
                                 <span>Failed count</span>
-                                <h4 class="text-red">{{ApiStatsData?.fail_response?.nach_api_count_success ? ApiStatsData?.fail_response?.nach_api_count_success : '0'}}</h4>
+                                <h4 class="text-red">{{ApiStatsData?.fail_response?.nach_api_count_success ?
+                                    ApiStatsData?.fail_response?.nach_api_count_success : '0'}}</h4>
                             </div>
                         </div>
                     </nz-card>
@@ -250,63 +279,66 @@
             </div>
         </nz-card>
     </div>
-<ng-template #extraTemplate1>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'captcha')" nzType="primary" nzGhost>Export 
-        <!-- captcha -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate2>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'otp')" nzType="primary" nzGhost>Export 
-        <!-- otp -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate3>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'aadhar')" nzType="primary" nzGhost>Export 
+
+    <!-- ---**---  -->
+    <ng-template #extraTemplate1>
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'captcha')" nzType="primary" nzGhost>Export 
+      </button>
+    </ng-template>
+    <ng-template #extraTemplate2>
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'otp')" nzType="primary" nzGhost>Export 
+       </button>
+    </ng-template>
+    <ng-template #extraTemplate3>
         <!-- aadhar -->
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'aadhar')" nzType="primary" nzGhost>Export 
     </button>
-</ng-template>
-<ng-template #extraTemplate4>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'pan')" nzType="primary" nzGhost>Export 
+    </ng-template>
+    <ng-template #extraTemplate4>
         <!-- pan -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate5>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'pan_ocr')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'pan')" nzType="primary" nzGhost>Export 
+       </button>
+    </ng-template>
+    <ng-template #extraTemplate5>
         <!-- pan_ocr -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate6>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'dl_ocr')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'pan_ocr')" nzType="primary" nzGhost>Export 
+       </button>
+    </ng-template>
+    <ng-template #extraTemplate6>
         <!-- dl_ocr -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate7>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'voter')" nzType="primary" nzGhost>Export 
+
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'dl_ocr')" nzType="primary" nzGhost>Export
+        </button>
+    </ng-template>
+    <ng-template #extraTemplate7>
         <!-- voter -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate8>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'voter_ocr')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'voter')" nzType="primary" nzGhost>Export
+          </button>
+    </ng-template>
+    <ng-template #extraTemplate8>
         <!-- voter_ocr -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate9>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'cibil')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'voter_ocr')" nzType="primary" nzGhost>Export
+           
+        </button>
+    </ng-template>
+    <ng-template #extraTemplate9>
         <!-- cibil -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate10>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'selfie')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'cibil')" nzType="primary" nzGhost>Export
+           
+        </button>
+    </ng-template>
+    <ng-template #extraTemplate10>
         <!-- selfie -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate11>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'algo')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'selfie')" nzType="primary" nzGhost>Export
+        </button>
+    </ng-template>
+    <ng-template #extraTemplate11>
         <!-- algo -->
-    </button>
-</ng-template>
-<ng-template #extraTemplate12>
-    <button nz-button (click)="exportGlobalFunction('xlsx', 'nach')" nzType="primary" nzGhost>Export 
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'algo')" nzType="primary" nzGhost>Export
+        </button>
+    </ng-template>
+    <ng-template #extraTemplate12>
         <!-- nach -->
-    </button>
-</ng-template>
+        <button nz-button (click)="exportGlobalFunction('xlsx', 'nach')" nzType="primary" nzGhost>Export
+        </button>
+    </ng-template>

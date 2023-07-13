@@ -71,6 +71,10 @@ export class HttpService {
             return this._http.post((this.url + `/user/forgot-password/`), data);
       }
 
+      public loginOtp(data): any {
+            return this._http.post((this.url + `/user/send-email-otp`), data);
+      }
+
       public fetchCaptch(): any{
             // captcha-image
             return this._http.get(this.captcha_url+`/dsa/captcha-image`);
@@ -517,12 +521,19 @@ export class HttpService {
        * fetchBorrowerList
        */
       // 
+      public exportMandateToken(data) {
+            return this._http.get((this.url + `/loan-application/v1/generate-emi-token-report`), { params: data, responseType:'blob' });
+      }
+
+      t
+
       public fetchBorrowerList(data) {
             return this._http.get((this.url + `/loan-application/v1/borrowers-list`), { params: data });
       }
 
       public fetchEmiBorrowersList(data) {
             return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list`), { params: data });
+            // return this._http.get((this.url + `/loan-application/v1/fetch-emi-borrowers-list-elk`), { params: data });
       }
       
       public fetchEmiBorrowersDetails(data) {
@@ -670,6 +681,11 @@ export class HttpService {
       public fetchLoanApplicationList(data): Observable<any> {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
+
+      public fetchLoanApplicationELKList(data): Observable<any> {
+            return this._http.get((this.url + `/loan-application/v1/fetch-bill-statement-list-elk`), { params: data });
+      }
+
       public fetchLoanApplicationUpload(data): Observable<any> {
             return this._http.post((this.url + `/central-api/v1/call-api`), data);
       }

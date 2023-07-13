@@ -83,6 +83,7 @@ export class EmiBorrowersComponent implements OnInit {
         this.emiBorrowersList = res.data;
         this.api_calling_loader = false;
         this.total_count = res.total_count
+        
       }else{
         this.api_calling_loader = false;
       }
@@ -117,6 +118,20 @@ export class EmiBorrowersComponent implements OnInit {
     const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
     this.http.getEmiBillReport(data).subscribe((res:any)=>{
       this.http.exportMasterSectionModule(res, 'export', 'xlsx', generateloader)
+    })
+  }
+  
+  exportMandateToekn(){
+    let data ={}
+    const generateloader = this.message.loading('Generating File..', { nzDuration: 0 }).messageId;
+    this.http.exportMandateToken(data).subscribe((res:any)=>{
+      if(res){
+        this.http.exportMasterSectionModule(res, 'Mandate Token', 'xlsx', generateloader)
+      }else{
+        this.message.remove(generateloader);
+      }
+    },error=>{
+      this.message.remove(generateloader);
     })
   }
 

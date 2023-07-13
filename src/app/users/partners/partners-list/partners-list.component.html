@@ -130,16 +130,15 @@
                                                 <span class="m-l-5">Edit</span>
                                             </li>
                                             <!-- *ngxPermissionsOnly="['edit_partner']" -->
-                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'excel')" >
+                                              <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'excel')" >
                                                 <span class="m-l-5">Export Excel Data</span>
-                                            </li>
-                                            <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
+                                            </li> 
+                                              <li nz-menu-item (click)="onClickExportExcelData(data?.id, 'appData')" >
                                                 <span class="m-l-5">Export App Data</span>
-                                            </li>
-                                            <li nz-menu-item (click)="isModalVisibleForInvoicePDF = true;selectedDataForInvoicePDF = data">
+                                            </li>  
+                                              <li nz-menu-item (click)="isModalVisibleForInvoicePDF = true;selectedDataForInvoicePDF = data">
                                                 <span class="m-l-5">Export Invoice PDF</span>
-                                                <!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Export Invoice PDF</span></button> ; onClickExportExcelData(data, 'invoicePDF')"-->
-                                            </li>
+                                              </li>  
                                             <li nz-menu-item [routerLink]="['../employeeDetail']" *ngxPermissionsOnly="['view_employee_details']"
                                                 [queryParams]="{id: data.id}">
                                                 <!-- <i nz-icon nzType="login" nzTheme="outline"></i> -->
@@ -801,6 +800,6 @@
       <p>Content three</p> -->
       <span style="font-weight: bold;"> Select Date to Export Invoice </span>
       <nz-range-picker class="mx-1 my-2" [(ngModel)]="date" [nzDisabledDate]="disabledDate"  [nzRanges]="customRanges"></nz-range-picker>
-      <!-- <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Export Invoice PDF</span></button> ; onClickExportExcelData(data, 'invoicePDF')"-->
+      <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Export Invoice PDF</span></button> ; onClickExportExcelData(data, 'invoicePDF')"
     </ng-container>
 </nz-modal>

@@ -104,11 +104,12 @@ export class TransactionsListComponent implements OnInit {
       app_prod_type: this.app_prod_type ? this.app_prod_type : ''
     }
     this.api_calling_loader = true
-    this.http.fetchLoanApplicationList(data).subscribe(res => {
+    // fetchTransactionList
+    this.http.fetchLoanApplicationList(data).subscribe((res : any) => {
       this.api_calling_loader = false
       this.listOfData = res['data']
       this.total_count = res.total_count
-      // this.message.success(res['message'])
+      // this.message.success(res['message'])      
     }, (err) => {
       this.api_calling_loader = false
     })
