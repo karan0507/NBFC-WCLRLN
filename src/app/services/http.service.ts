@@ -558,7 +558,7 @@ export class HttpService {
        * fetchTransactionList
        */
       public fetchTransactionList(data) {
-            return this._http.get((this.url + `/loan-application/v1/transactions-list`), { params: data });
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
       }
 
       /**
