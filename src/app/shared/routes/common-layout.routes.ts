@@ -189,4 +189,8 @@ export const CommonLayout_ROUTES: Routes = [
         path: 'sms-services',
         loadChildren: () => import('../../sms-services/sms-services.module').then(m => m.SmsServicesModule),
     },
+    {
+        path:'borrower-location',
+        loadChildren: () => import('../../borrower-location/borrower-location.module').then(m => m.BorrowerLocationModule)
+    }
 ];

@@ -163,7 +163,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_form_filling_application', 'view_pre_approved_application', 'view_document_upload_application', 'view_underwriting_application', 'view_applicants','view_nbfc_approval_application', 'view_offer_proposed_application', 'view_offer_acceptance_application', 'view_e_sining_application', 'view_disbursement_application', 'view_dormant_application', 'view_closed_application'],
-        icon: 'assets/images/Icons/CurrencyInr.svg',
+        icon: 'assets/images/Icons/Application.svg',
         submenu: [
             // {
     //     path: 'otp-list',
@@ -824,7 +824,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         permission: ['view_coupon_code'],
-        icon: 'assets/images/Icons/Coupon code.svg',
+        icon: 'assets/images/Icons/Coupon COde.svg',
         submenu: []
     },
     {
@@ -909,6 +909,16 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'assets/images/Icons/Downloads.svg',
         submenu: []
     },
+    {
+        path :'borrower-location',
+        globalToggleValue:true,
+        title:"Map",
+        iconType:'',
+        iconTheme:'',
+        permission:[''],
+        icon:'assets/images/Icons/Downloads.svg',
+        submenu:[]
+    }
 ]    
 
 

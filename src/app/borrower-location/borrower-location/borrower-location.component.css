@@ -1,0 +1,12 @@
+.sebm-google-map-container{
+    height: 550px;
+    width: 100%;
+}
+
+.custom-flag-marker {
+    width: 20px;
+    height: 20px;
+    background-color: #22bb03; /* Replace with your desired color */
+    border-radius: 50%;
+    border: 2px solid #ffffff; /* Replace with your desired border color */
+  }

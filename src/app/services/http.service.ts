@@ -1531,7 +1531,11 @@ export class HttpService {
       }
 
       public getMappedProducts(data) {
-            return this._http.get((this.url + `/product/v1/get-dsa-product-mapping/`+data));
+            return this._http.get((this.url + `/product/v1/get-dsa-product-mapping/`+ data));
+      }
+
+      public getBorrowerLocation(data) {
+            return this._http.get((this.url + `/loan-application/get-all-locations`),{params:data});
       }
       
       
