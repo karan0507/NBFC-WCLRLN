@@ -50,8 +50,8 @@ export class BulkNomineeUploadComponent implements OnInit {
       // keyword: this.searchValue,
       page: this.page,
       limit: this.globalPageSize,
-      start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
-      end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
+      // start_date: this.date[0] ? moment(this.date[0]).format("YYYY-MM-DD") : '',
+      // end_date: this.date[1] ? moment(this.date[1]).format("YYYY-MM-DD") : '',
     }
     console.log("data",data);
     
