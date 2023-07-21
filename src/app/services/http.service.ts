@@ -1537,6 +1537,20 @@ export class HttpService {
       public getBorrowerLocation(data) {
             return this._http.get((this.url + `/loan-application/get-all-locations`),{params:data});
       }
-      
-      
+
+      public getNomineeDataList(data) {
+            return this._http.get((this.url + `/platform_central/v1/nominee-bulk-upload/get-files`),{params:data});
+      }
+
+      public getNomineeFileContent(id) {
+            return this._http.get((this.url + `/platform_central/v1/nominee-bulk-upload/view-file`),{params:id});
+      }
+            
+      public uploadNomineeData(data) {
+            return this._http.post((this.url + `/platform_central/v1/nominee-bulk-upload/upload-file`), data);
+      }
+
+      public sampleNomineeFile(data?) {
+            return this._http.get((this.url + `/platform_central/v1/get-sample-file`) ,{ responseType: 'blob' , params:data});
+      }
 }

@@ -192,5 +192,9 @@ export const CommonLayout_ROUTES: Routes = [
     {
         path:'borrower-location',
         loadChildren: () => import('../../borrower-location/borrower-location.module').then(m => m.BorrowerLocationModule)
-    }
+    },
+    {
+        path:'nominee-upload',
+        loadChildren: () => import('../../nominee-upload/nominee-upload.module').then(m => m.NomineeUploadModule)
+    },
 ];

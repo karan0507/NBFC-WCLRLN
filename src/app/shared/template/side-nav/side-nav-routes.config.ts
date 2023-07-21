@@ -157,6 +157,16 @@ export const ROUTES: SideNavInterface[] = [
         submenu: []
     },
     {
+        path: 'nominee-upload',
+        globalToggleValue:true,
+        title: 'Nominee Upload',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        permission: ['view_employee'],
+        icon: 'assets/images/Icons/SuperApp Users.svg',
+        submenu: []
+    },
+    {
         path: 'applications',
         globalToggleValue:true,
         title: 'Application',
