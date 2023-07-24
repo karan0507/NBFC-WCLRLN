@@ -122,6 +122,7 @@
             <th nzWidth="14rem">User Details</th>
             <th nzWidth="8rem">UTM Source Code</th>
             <th nzWidth="8rem">Source</th>
+            <th nzWidth="8rem">DSA Name</th>
             <th nzWidth="8rem">Type</th>
             <th nzWidth="8rem">Apply Date & Time</th>
             <th nzWidth="8rem">Master Partner</th>
@@ -164,6 +165,7 @@
               </td>
               <td>{{data?.user?.utm_source_code ? data?.user?.utm_source_code : '-' }} </td>
               <td>{{ data?.user?.source }}</td>
+              <td>{{ data?.dsa_name ? data?.dsa_name : '-' }}</td>
               <td>{{ data?.type ? data?.type : '-' }}</td>
               <td>
                 <div class="d-flex flex-column">
