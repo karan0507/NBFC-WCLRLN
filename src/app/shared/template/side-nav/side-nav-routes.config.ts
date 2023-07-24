@@ -919,16 +919,16 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'assets/images/Icons/Downloads.svg',
         submenu: []
     },
-    {
-        path :'borrower-location',
-        globalToggleValue:true,
-        title:"Map",
-        iconType:'',
-        iconTheme:'',
-        permission:[''],
-        icon:'assets/images/Icons/Downloads.svg',
-        submenu:[]
-    }
+    // {
+    //     path :'borrower-location',
+    //     globalToggleValue:true,
+    //     title:"Map",
+    //     iconType:'',
+    //     iconTheme:'',
+    //     permission:[''],
+    //     icon:'assets/images/Icons/Downloads.svg',
+    //     submenu:[]
+    // }
 ]    
 
 
