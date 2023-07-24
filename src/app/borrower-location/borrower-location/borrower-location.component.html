@@ -5,7 +5,7 @@
             <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
                 <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
               </agm-map> -->
-              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+              <agm-map [zoom]="zoom">
                 <agm-marker *ngFor="let location of locations" [latitude]="location.latitude" [longitude]="location.longitude">
                   <agm-info-window>
                     <div>Latitude : {{ location.latitude }}</div>
