@@ -645,6 +645,49 @@
                     </div>
                 </ng-template>
             </div>
+            <div class="mt-3">
+                <nz-page-header class="site-page-header acc-bg-light" [nzTitle]="REQ_loan_amount">
+                </nz-page-header>
+                <nz-card class="mb-md-0" [nzLoading]="api_calling_loader">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <h6>
+                                    <div class="d-flex">
+                                        <label class="text-muted">Emi Amount :{{
+                                            data?.dsa_entered_data ? data?.dsa_entered_data?.emi_amount: ""
+                                            }}
+                                        </label>
+                                        <div class="mx-3 text-muted">
+                                        </div>
+                                    </div>
+                                </h6>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column">
+                                <h6>
+                                    <div class="d-flex">
+                                        <label class="text-muted"> Tenure:{{
+                                            data?.dsa_entered_data ? data?.dsa_entered_data?.tenure: ""
+                                            }}
+                                        </label>
+                                        <div class="mx-3 text-muted">
+                                        </div>
+                                    </div>
+                                </h6>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </nz-card>
+                <ng-template #REQ_loan_amount>
+                    <div class="ml-md-2">
+                        <h6 class="mb-0">REQ. Loan Amount</h6>
+                    </div>
+                </ng-template>
+            </div>
         </div>
     </div>
 </section>

@@ -1,0 +1,19 @@
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            
+            <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+              </agm-map> -->
+              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                <agm-marker *ngFor="let location of locations" [latitude]="location.latitude" [longitude]="location.longitude">
+                  <agm-info-window>
+                    <div>Latitude : {{ location.latitude }}</div>
+                    <div>Longitude : {{ location.longitude }}</div>
+                    <div>Date : {{ location.created_at | date:'M/d/yy, h:mm a'   }}</div>
+                  </agm-info-window>
+                </agm-marker>               
+              </agm-map>
+        </div>
+    </div>
+</section>
