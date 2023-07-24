@@ -59,7 +59,7 @@ export class Login1Component {
                   // captcha:[ null, [Validators.required]]
             });
       }
-      submitForm(form): void {
+      submitForm(form, skip_otp?): void {
             if (this.is_forget) {
                   if (this.forgetForm.invalid) {
                         return;
@@ -85,9 +85,11 @@ export class Login1Component {
                         return;
                   }
                   else {
-                        if(this.otpBoxValue.length != 6){
-                              this.message.error("Please Enter OTP")
-                              return;
+                        if (!skip_otp) {
+                              if (this.otpBoxValue.length != 6) {
+                                    this.message.error("Please Enter OTP")
+                                    return;
+                              }
                         }
                         // let data = new FormData();
                         // data.append('username', form.value.mobile)
@@ -95,7 +97,8 @@ export class Login1Component {
                         let data = {
                               username: this.loginForm.value.mobile.trim(),
                               password: this.loginForm.value.password,
-                              otp: this.otpBoxValue
+                              otp: this.otpBoxValue,
+                              skip_otp: skip_otp
                               // captcha_key:form.value.captcha
                         }
                         this.api_calling_loader = true

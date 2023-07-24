@@ -22,7 +22,7 @@
                         <h2 *ngIf="!is_send_otp">{{is_forget ? ( is_link_send ? 'OTP has been sent on your email id.' : 'Forgot Password?') :
                             'Lets Get Started'}}</h2>
                         <form *ngIf="!is_forget && !is_send_otp" nz-form [formGroup]="loginForm" nzLayout="vertical"
-                            class="login-form" (ngSubmit)="sendOTPAPIFunction(loginForm)">
+                            class="login-form">
                             <nz-form-item>
                                 <nz-form-label nzRequired nzFor="mobile">Username</nz-form-label>
                                 <nz-form-control nzErrorTip="Please input your username!">
@@ -82,9 +82,13 @@
                                     <a (click)="is_forget = true; is_link_send = false">Forget
                                         Password?</a>
                                 </div>
-                                <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader"
+                                <!-- <button nz-button class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader"
                                     [nzType]="'primary'"
-                                    [disabled]="loginForm.invalid">Send OTP</button>
+                                    [disabled]="loginForm.invalid" (click)="sendOTPAPIFunction(loginForm)">Send OTP</button> -->
+
+                                <!-- for direct login -->
+                                <button nz-button nzType="primary" nzShape="round" (click)="submitForm(loginform, true)"
+                                    class="w-100 mb-5 mt-3" [nzLoading]="api_calling_loader">Login</button>
 
                                 <div class="d-flex align-items-center justify-content-between">
                                     <a class="font-size-13" href="https://fatakpay.com/privacy-policy">Privacy
