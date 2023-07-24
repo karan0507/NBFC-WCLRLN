@@ -22,6 +22,8 @@ import { KycDetailsComponent } from '../applications/kyc-details/kyc-details.com
 import { PersonalDetailsComponent } from '../applications/personal-details/personal-details.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CommonDocumentActionsComponent } from '../applications/common-document-actions/common-document-actions.component';
+import { BankStatementComponent } from './template/bank-statement/bank-statement.component';
+import { CibilStatementComponent } from './template/cibil-statement/cibil-statement.component';
 
 @NgModule({
     exports: [
@@ -35,6 +37,8 @@ import { CommonDocumentActionsComponent } from '../applications/common-document-
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
         AuditHistoryComponent,
+        BankStatementComponent,
+        CibilStatementComponent,
         NgxJsonViewerModule,
         DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent, CommonDocumentActionsComponent
     ],
@@ -57,7 +61,8 @@ import { CommonDocumentActionsComponent } from '../applications/common-document-
         DoubleConfirmationPopupComponent,
         ChangePasswordComponent,
         AuditHistoryComponent,
-        DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent, CommonDocumentActionsComponent
+        DeatilsComponent, PersonalDetailsComponent, BankDetailsComponent, KycDetailsComponent, CommonDocumentActionsComponent,
+        BankStatementComponent,CibilStatementComponent
     ],
     providers: [
         ThemeConstantService
