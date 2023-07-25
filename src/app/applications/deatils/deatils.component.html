@@ -36,5 +36,23 @@
                 </div>
             </div>
         </nz-tab>
+        <nz-tab [nzTitle]="'BANK STATEMENT'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-bank-statement [endpoint]="'Onboarding'" [endpoint_id]="_currentId"></app-bank-statement>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
+        <nz-tab [nzTitle]="'CIBIL STATEMENT'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-cibil-statement [endpoint]="'Onboarding'" [endpoint_id]="_currentId"></app-cibil-statement>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
     </nz-tabset>
 </div>

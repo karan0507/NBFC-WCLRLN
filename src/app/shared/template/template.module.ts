@@ -28,6 +28,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuditHistoryComponent } from './audit-history/audit-history.component';
+import { BankStatementComponent } from './bank-statement/bank-statement.component';
+import { CibilStatementComponent } from './cibil-statement/cibil-statement.component';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 const antdModule = [
     NzAvatarModule,
@@ -40,7 +43,8 @@ const antdModule = [
     NzSwitchModule,
     NzInputModule,
     NzButtonModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
+    NzDescriptionsModule
 ]
 
 @NgModule({
@@ -55,6 +59,8 @@ const antdModule = [
         SideNavDirective,
         FooterComponent,
         AuditHistoryComponent,
+        BankStatementComponent,
+        CibilStatementComponent,
     ],
     imports: [
         RouterModule,
@@ -72,6 +78,8 @@ const antdModule = [
         SideNavComponent,
         SideNavDirective,
         FooterComponent,
+        // BankStatementComponent,
+        // CibilStatementComponent,
         // AuditHistoryComponent,
     ],
     providers: [ 

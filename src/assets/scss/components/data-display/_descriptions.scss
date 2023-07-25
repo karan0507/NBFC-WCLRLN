@@ -3,15 +3,18 @@
     font-weight: $font-weight-semibold;
     font-size: 16px;
     line-height: $line-height-base;
+    border: inherit;
 }
 
 .ant-descriptions-item-label {
     color: $gray-dark;
     font-size: $font-size-base;
+    border: inherit;
 }
 
 .ant-descriptions-item-content, 
 .ant-divider {
+    border: inherit;
     color:$gray-light;
     font-size: $font-size-base;
 }

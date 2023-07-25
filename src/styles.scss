@@ -14,6 +14,11 @@
     align-items: center !important;
 }
 
+tr.ant-table-expanded-row .ant-descriptions-view table {
+  width: 100% !important;
+  /* width: 100%; */
+}
+
 .slick-dots {
     li {
         background-color: #B9B9B9;
