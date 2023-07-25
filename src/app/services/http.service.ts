@@ -686,6 +686,9 @@ export class HttpService {
             return this._http.get((this.url + `/loan-application/v1/bank_statement/`), { params: data });
       }
 
+      public fetchCibilList(data): Observable<any> {
+            return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });
+      }
 
       public fetchCibilStatements(data): Observable<any> {
             return this._http.get((this.url + `/central-api/v1/call-api`), { params: data });

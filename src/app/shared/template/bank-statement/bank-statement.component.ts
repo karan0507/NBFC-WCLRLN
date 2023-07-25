@@ -403,6 +403,7 @@ export class BankStatementComponent implements OnInit {
             setTimeout(() => {
                 this.loading = false;
             }, 400);
+            return;
             this.https.fetchBankStatements(data).subscribe( res => {
               if (res?.success) {
                 this.history_data = res.data

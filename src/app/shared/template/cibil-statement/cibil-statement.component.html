@@ -1,1 +1,147 @@
-<p>cibil-statement works!</p>
+<nz-card>
+    <!-- User Info -->
+    <div>
+        <nz-descriptions nzTitle="User Info" [nzBordered]="true" [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="Name">{{history_data?.name ? history_data?.name :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="PAN">{{history_data?.pan ? history_data?.pan : '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="DOB">{{history_data?.dob ? history_data?.dob :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Age">{{history_data?.age ? history_data?.age :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Gender">{{history_data?.gender ? history_data?.gender :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Mobile">{{history_data?.mobile ? history_data?.mobile :
+                '--'}}</nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="Email">{{history_data?.email ? history_data?.email :
+                '--'}}</nz-descriptions-item>
+        </nz-descriptions>
+    </div>
+
+    <!-- Other Details -->
+    <div class="row">
+        <div class="col-md-12">
+            <nz-table [nzData]="history_data?.cibiladdressinfo_set" nzShowPagination="false">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Address</th>
+                        <th>Mobile</th>
+                        <th>State</th>
+                        <th>Postal</th>
+                        <th>Date Reported</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <ng-container > -->
+                    <tr *ngFor="let item of history_data?.cibiladdressinfo_set ;let i as index">
+                        <td>{{item?.type}}</td>
+                        <td>{{item?.address}}</td>
+                        <td>{{item?.mobile}}</td>
+                        <td>{{item?.state}}</td>
+                        <td>{{item?.pincode}}</td>
+                        <td>{{item?.reported_date}}</td>
+                    </tr>
+
+                    <!-- </ng-container> -->
+                </tbody>
+            </nz-table>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzSize="small">
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Cibil Score">{{history_data?.cibil_score ?
+                    history_data?.cibil_score
+                    : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="Age Of Oldest Trade (months)">{{history_data?.age_of_oldest_trade ?
+                    history_data?.age_of_oldest_trade : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="No. of Total Trade lines:">{{history_data?.no_of_total_trade_lines
+                    ? history_data?.no_of_total_trade_lines : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="No. of Active Trade lines:">{{history_data?.no_of_active_trade_lines ?
+                    history_data?.no_of_active_trade_lines : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Total Sanction Amount">{{history_data?.total_sanction_amount
+                    ?
+                    history_data?.total_sanction_amount : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Total Balance Amount">{{history_data?.total_balance_amount ?
+                    history_data?.total_balance_amount : '--'}}</nz-descriptions-item>
+
+            </nz-descriptions>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzSize="small">
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="No. of inquiries in last 30 days:">{{history_data?.no_of_inqueries_in_last_30_days ?
+                    history_data?.no_of_inqueries_in_last_30_days
+                    : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="No. of inquiries in last 12 Months:">{{history_data?.no_of_inqueries_in_last_12_months ?
+                    history_data?.no_of_inqueries_in_last_12_months : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="Number Of PastDue Accounts">{{history_data?.no_of_past_due_accounts
+                    ? history_data?.no_of_past_due_accounts : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="Number Of WrittenOff Accounts">{{history_data?.no_of_written_off_accounts ?
+                    history_data?.no_of_written_off_accounts : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="Total Monthly Payment Amount: ">{{history_data?.total_monthly_payment_amount ?
+                    history_data?.total_monthly_payment_amount : '--'}}</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                    nzTitle="Most Severe Status < 24 Months">{{history_data?.most_severe_status_last_24_months ?
+                    history_data?.most_severe_status_last_24_months : '--'}}</nz-descriptions-item>
+
+            </nz-descriptions>
+        </div>
+
+        <div class="col-md-12">
+            <nz-table [nzData]="history_data?.cibilretailaccountdetails_set" nzShowPagination="false">
+                <thead>
+                    <tr>
+
+
+                        <th>Sr.No</th>
+                        <th>Loan Acc. No.</th>
+                        <th>Loan Type</th>
+                        <th>Ownership Type</th>
+                        <th>Loan sanction amount</th>
+                        <th>Loan Balance</th>
+
+                        <th>Loan open date</th>
+                        <th>Reported Date</th>
+                        <th>Last Payment Date</th>
+                        <th>Account Status</th>
+                        <th>Payment History</th>
+                        <th>Current Payment Status</th>
+                        <th>EMI Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <ng-container > -->
+                    <tr *ngFor="let item of history_data?.cibilretailaccountdetails_set ;let i as index">
+                        <td>{{i}}</td>
+                        <td>{{item?.account_number}}</td>
+                        <td>{{item?.account_type}}</td>
+                        <td>{{item?.ownership_type}}</td>
+                        <td>{{item?.sanction_amount}}</td>
+                        <td>{{item?.balance}}</td>
+                        <td>{{item?.date_opened}}</td>
+                        <td>{{item?.date_reported}}</td>
+
+                        <td>{{item?.last_payment_date}}</td>
+                        <td>{{item?.account_status}}</td>
+                        <td>{{item?.source}}</td>
+                        <td>{{item?.open}}</td>
+                        <td>{{item?.sanction_amount}}</td>
+                    </tr>
+
+                    <!-- </ng-container> -->
+                </tbody>
+            </nz-table>
+        </div>
+
+    </div>
+</nz-card>

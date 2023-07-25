@@ -1,55 +1,57 @@
 <nz-card>
     <!-- User Info -->
-    <nz-descriptions nzTitle="User Info" [nzBordered]="true">
-        <nz-descriptions-item nzTitle="Account Number">{{history_data?.account_number ? history_data?.account_number :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Account Holder Name">{{history_data?.account_name ? history_data?.account_name :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="IFSC Code">{{history_data?.ifsc_code ? history_data?.ifsc_code :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Bank Name">{{history_data?.bank_full_name ? history_data?.bank_full_name :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Account Type">{{history_data?.account_type ? history_data?.account_type :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Period Start">{{history_data?.period_start ? history_data?.period_start :
-            '--'}}</nz-descriptions-item>
-
-        <nz-descriptions-item nzTitle="Period End">{{history_data?.period_end ? history_data?.period_end :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Email">{{history_data?.email ? history_data?.email : '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="PAN Number">{{history_data?.pan_number ? history_data?.pan_number :
-            '--'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Address">{{history_data?.address ? history_data?.address : '--'}}</nz-descriptions-item>
-    </nz-descriptions>
+    <div>
+        <nz-descriptions nzTitle="User Info" [nzBordered]="true" [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="Account Number">{{history_data?.account_number ? history_data?.account_number :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Account Holder Name">{{history_data?.account_name ? history_data?.account_name :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="IFSC Code">{{history_data?.ifsc_code ? history_data?.ifsc_code :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Bank Name">{{history_data?.bank_full_name ? history_data?.bank_full_name :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Account Type">{{history_data?.account_type ? history_data?.account_type :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Period Start">{{history_data?.period_start ? history_data?.period_start :
+                '--'}}</nz-descriptions-item>
+    
+            <nz-descriptions-item nzTitle="Period End">{{history_data?.period_end ? history_data?.period_end :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Email">{{history_data?.email ? history_data?.email : '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="PAN Number">{{history_data?.pan_number ? history_data?.pan_number :
+                '--'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Address">{{history_data?.address ? history_data?.address : '--'}}</nz-descriptions-item>
+        </nz-descriptions>
+    </div>
 
 
     <!-- Other Details -->
     <div class="row my-3">
         <div class="col-md-6 col-12">
-            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzLayout="vertical">
-                <nz-descriptions-item class="w-100" nzTitle="Average Balance">{{history_data?.average_balance ? history_data?.average_balance
+            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzSize="small">
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Average Balance">{{history_data?.average_balance ? history_data?.average_balance
                     : '--'}}</nz-descriptions-item>
-                <nz-descriptions-item class="w-100" nzTitle="Average Balance(5,15,25)">{{history_data?.custom_average_balance ?
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Average Balance(5,15,25)">{{history_data?.custom_average_balance ?
                     history_data?.custom_average_balance : '--'}}</nz-descriptions-item>
-                <nz-descriptions-item class="w-100" nzTitle="Average Balance(Last 6 Month)">{{history_data?.average_balance_last_six_month
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Average Balance(Last 6 Month)">{{history_data?.average_balance_last_six_month
                     ? history_data?.average_balance_last_six_month : '--'}}</nz-descriptions-item>
                 <nz-descriptions-item
-                    class="w-100" nzTitle="Average Balance(Last 12 Month)">{{history_data?.average_balance_last_twelve_month ?
+                    [nzSpan]="3" nzTitle="Average Balance(Last 12 Month)">{{history_data?.average_balance_last_twelve_month ?
                     history_data?.average_balance_last_twelve_month : '--'}}</nz-descriptions-item>
 
             </nz-descriptions>
         </div>
         <div class="col-md-6 col-12">
-            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzLayout="vertical">
-                <nz-descriptions-item nzTitle=" I/W Return">{{history_data?.inward_return_amount ?
+            <nz-descriptions [nzTitle]="null" [nzBordered]="true" nzSize="small">
+                <nz-descriptions-item [nzSpan]="3" nzTitle=" I/W Return">{{history_data?.inward_return_amount ?
                     history_data?.inward_return_amount : '--'}} | {{history_data?.inward_return_count ?
                     history_data?.inward_return_count : '--'}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="O/W Return">{{history_data?.outward_return_amount ?
+                <nz-descriptions-item [nzSpan]="3" nzTitle="O/W Return">{{history_data?.outward_return_amount ?
                     history_data?.outward_return_amount : '--'}} | {{history_data?.outward_return_count ?
                     history_data?.outward_return_count : '--'}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Average Receipt(6 months)">{{history_data?.average_receipt_last_six_month ?
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Average Receipt(6 months)">{{history_data?.average_receipt_last_six_month ?
                     history_data?.average_receipt_last_six_month : '--'}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Average Receipt(12 Month)">{{history_data?.average_receipt_last_twelve_month
+                <nz-descriptions-item [nzSpan]="3" nzTitle="Average Receipt(12 Month)">{{history_data?.average_receipt_last_twelve_month
                     ? history_data?.average_receipt_last_twelve_month : '--'}}</nz-descriptions-item>
             </nz-descriptions>
         </div>
@@ -61,7 +63,7 @@
 <nz-card>
     <div class="row">
         <div class="col-md-12">
-            <nz-table [nzData]="history_data?.bankstatementcamanalysismonthly_set " class="col-md-12">
+            <nz-table [nzData]="history_data?.bankstatementcamanalysismonthly_set" nzShowPagination="false">
                 <thead>
                     <tr>
                         <th>Month Year</th>
@@ -79,8 +81,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <ng-container *ngFor="let data of history_data?.bankstatementcamanalysismonthly_set ;index as i"> -->
-                        <tr *ngFor="let item of history_data?.bankstatementcamanalysismonthly_set ;index as i">
+                    <!-- <ng-container > -->
+                        <tr *ngFor="let item of history_data?.bankstatementcamanalysismonthly_set ;let i as index">
                             <td>{{item?.month}}</td>
                             <td>{{item?.no_of_net_credit}}</td>
                             <td>{{item?.net_credit_amount}}</td>
@@ -94,12 +96,13 @@
                             <td>{{item?.outward_return}}</td>
                             <td>{{item?.loan_disbursal}}</td>
                         </tr>
+                        
                     <!-- </ng-container> -->
                 </tbody>
             </nz-table>
         </div>
         <div class="col-md-12">
-            <nz-table [nzData]="history_data?.bankstatementtransactions_set">
+            <nz-table [nzData]="history_data?.bankstatementtransactions_set" nzShowPagination="false">
                 <thead>
                     <tr>
                         <th>Date</th>
