@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from '../shared/shared.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -18,22 +18,30 @@ import { SignUp2Component } from './sign-up-2/sign-up-2.component';
 import { SignUp3Component } from './sign-up-3/sign-up-3.component';
 import { Error1Component } from './error-1/error-1.component';
 import { Error2Component } from './error-2/error-2.component';
+import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 const antdModule= [
     NzFormModule,
     NzInputModule,
     NzButtonModule,
     NzCardModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    DemoNgZorroAntdModule
 ]
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        NgxCaptchaModule,
         ReactiveFormsModule,
         AuthenticationRoutingModule,
-        ...antdModule
+        FormsModule,
+        ...antdModule,
+        NgxPermissionsModule.forChild()
     ],
     declarations: [
         Login1Component,

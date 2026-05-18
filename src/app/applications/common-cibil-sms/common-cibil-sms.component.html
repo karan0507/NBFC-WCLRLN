@@ -1,0 +1,29 @@
+<nz-card class="p-0 border-0" [nzLoading]="api_calling_loader['cardData']">
+      <section *ngIf="cibilData && !toggleForceFullyPull">
+            <!-- <pre>
+                        {{ cibilData ? (cibilData | json ) : ''}}
+            </pre> -->
+            <ngx-json-viewer [json]="cibilData" [expanded]="false"></ngx-json-viewer>
+      </section>
+      <section *ngIf="!cibilData && !toggleForceFullyPull">
+           <h6> No Data Found</h6>
+      </section>
+      <section *ngIf="toggleForceFullyPull">
+            <h6>
+                  {{erroMessage}}
+            </h6>
+            <div class="mt-3">
+                  <span class="mr-5">
+                        Still You want to pull latest cibil data ?
+                  </span>
+                  <span>
+                        <button class="mx-3" nzSize="small" nz-button nzType="primary" (click)="getForceFullyData()">Pull Data</button>
+                  </span>
+                  <span>
+                        <button class="mx-3" nzSize="small" nz-button nzType="primary" (click)="toggleForceFullyPull = false">Show Stored Data</button>
+                  </span>
+            </div>
+            <!-- this.erroMessage = res?.message;
+                                    this.toggleForceFullyPull = true;  -->
+      </section>
+</nz-card>

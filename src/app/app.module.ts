@@ -18,13 +18,24 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 import { NgChartjsModule } from 'ng-chartjs';
 import { ThemeConstantService } from './shared/services/theme-constant.service';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { CustomHttpInterceptor } from './services/custom-http-interceptor';
+import { ArrayFilterPipe } from './shared/pipes/arrayFilter.pipe';
+import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { HttpService } from './services/http.service';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgxCaptchaModule } from 'ngx-captcha';
+
+
 registerLocaleData(en);
 
 @NgModule({
     declarations: [
         AppComponent,
         CommonLayoutComponent,
-        FullLayoutComponent
+        FullLayoutComponent,
     ],
     imports: [
         BrowserModule,
@@ -33,7 +44,11 @@ registerLocaleData(en);
         NzBreadCrumbModule,
         TemplateModule,
         SharedModule,
-        NgChartjsModule
+        NgChartjsModule,
+        DemoNgZorroAntdModule,
+        NgxCaptchaModule,
+        NgxJsonViewerModule,
+        NgxPermissionsModule.forRoot()
     ],
     providers: [
         { 
@@ -44,7 +59,13 @@ registerLocaleData(en);
             provide: LocationStrategy, 
             useClass: PathLocationStrategy
         },
-        ThemeConstantService
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: CustomHttpInterceptor,
+            multi: true
+        },
+        ThemeConstantService,
+        HttpService
     ],
     bootstrap: [AppComponent]
 })

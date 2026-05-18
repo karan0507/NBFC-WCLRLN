@@ -1,0 +1,109 @@
+<nz-card [nzTitle]="rules" class="h-100">
+    <ng-template #rules>
+        <!-- <div class="d-flex align-items-center  w-100"> -->
+          <!-- <div class="card-title-border-design primary"></div> -->
+          <div class="row  justify-content-between">
+              <div class="col-5 align-self-center">
+                <h5 class="mb-0"><i class="pr-2" nz-icon nzType="file-text"
+                    nzTheme="outline"></i>Authorization Rules Defined</h5>
+              </div>
+              <div class="col-5 text-right">
+                <!-- <button nz-button [nzSize]="'small'" nzType="link">Edit</button> -->
+            </div>
+          </div>
+        <!-- </div> -->
+    </ng-template>
+    <div *ngFor="let data of authorizationRulesList" class="row border-bottom my-2 justify-content-between pb-2">
+        <div class="col-5">
+            {{ data?.rule_text}}
+        </div>
+        <div class="col-5 text-right" *ngxPermissionsOnly="['authorization_rules_edit_authorization_policy']">
+            {{data?.value}}
+            <a class="text-dark font-size-20 mx-3" nz-dropdown [nzClickHide]="false"
+            [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+            [nzDropdownMenu]="latestUploadDropDown">
+            <img src="assets/images/ellipsis.png" alt="" width="30">
+        </a>
+        <!-- -->
+        <nz-container>
+            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                <ul nz-menu >
+                    <li nz-menu-item (click)="onClickEditForm(data)">
+                        <span class="m-l-5">Edit</span>
+                    </li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-container>
+        </div>
+        <!-- <div class="col-2">
+            
+        </div> -->
+    </div>
+    <!-- <div class="row border-bottom my-2 justify-content-between pb-2">
+        <div class="col-5">
+            No. Of Transactions per month
+        </div>
+        <div class="col-5 text-right">
+            250
+        </div>
+    </div>
+    <div class="row border-bottom my-2 justify-content-between pb-2">
+        <div class="col-5">
+            minimum Amount of per transaction
+        </div>
+        <div class="col-5 text-right">
+            500
+        </div>
+    </div>
+    <div class="row border-bottom my-2 justify-content-between pb-2">
+        <div class="col-5">
+            Maximum Amount of per transaction
+        </div>
+        <div class="col-5 text-right">
+            1000
+        </div>
+    </div>
+    <div class="row border-bottom my-2 justify-content-between pb-2">
+        <div class="col-5">
+            Transaction Amount limit (per day)
+        </div>
+        <div class="col-5 text-right">
+            1000
+        </div>
+    </div> -->
+</nz-card>
+
+<nz-modal nzTitle="Edit" [nzOkLoading]="apiLoader['onOk']"  (nzOnCancel)="isVisible = false"[nzWidth]="800" [(nzVisible)]="isVisible" (nzOnOk)="onClickUpdateDetails()" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <!-- <div  class="row mb-4">
+            <div class="col-6">
+                <span class="h6 my-0 text-bold ml-1 mr-5">
+                    Old UPI ID :-
+                </span>
+                <span class="h6 my-0 pl-2">
+                    {{oldDetail?.upi_id ? oldDetail?.upi_id : ' -- '}}
+                </span>
+            </div>
+        </div> -->
+        <form [formGroup]="updateRuleDetails">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="value" class="text-left" nzRequired>{{updateRuleDetails.get('rules').value}}</nz-form-label>
+                    <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please add valid Value!">
+                        <input nz-input formControlName="value" type="number"  placeholder="Value"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <!-- <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label  [nzSm]="5" [nzXs]="24" nzFor="remarks" class="text-left" nzRequired>Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="19" [nzXs]="24" nzErrorTip="Please input Remarks!">
+                        <input nz-input formControlName="remarks" type="text"  placeholder="Remarks"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div> -->
+        </div>
+    </form>
+    </ng-container>
+</nz-modal>

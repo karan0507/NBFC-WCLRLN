@@ -1,0 +1,249 @@
+<section>
+    <nz-card [nzActions]="[actionSubmit]">
+        <div class="row mb-md-3">
+            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid">
+                <label nz-radio-button class="mr-md-2 mr-2 px-4 mb-md-0 mb-3 border-radius-2"
+                    *ngFor="let item of employmentTypeData" [nzValue]="item.pk">{{item.name}}</label>
+            </nz-radio-group>
+        </div>
+        <form nz-form [formGroup]="createEditForm">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="blacklist_pincodes" class="text-left">
+                            Negative Pincodes</nz-form-label>
+
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please check Negative Pincodes!">
+                            <div class="d-flex flex-column justify-content-start">
+                                <div class="d-flex">
+                                    <input nz-input formControlName="inputValue" nzSize="small" type="text"
+                                        (keyup.enter)="handleInputConfirm('negative')" />
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="handleInputConfirm('negative')">
+                                        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+                                    </button>
+                                    <button nz-button nzType="default" nzTooltipTitle="View Assigned Pincodes"
+                                        class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="type = 'blackListed';isPincodeVisible = true;">
+                                        <span nz-icon nzType="eye" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" nzTooltipTitle="Export Blacklisted Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="exportPincodes('blacklisted_on_')">
+                                        <span nz-icon nzType="download" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" nzTooltipTitle="Import Blacklisted Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'BlackListed'">
+                                        <span nz-icon nzType="upload" nzTheme="outline"></span>
+                                    </button>
+
+
+                                </div>
+                                <!-- <div>
+                                    <nz-tag class="my-3" *ngFor="let tag of pincodes; let i = index"
+                                        [nzMode]="'closeable'" (nzOnClose)="handleClose(i,'negative')">
+                                    {{ tag }}
+                                    </nz-tag>
+                                </div> -->
+                            </div>
+                        </nz-form-control>
+
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="servicable_pincodes" class="text-left">Serviceable
+                            Pincodes</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please check Serviceable Pincodes!">
+                            <div class="d-flex flex-column justify-content-start">
+                                <div class="d-flex">
+                                    <input nz-input formControlName="servicable_pincodes" nzSize="small" type="text"
+                                        (keyup.enter)="handleInputConfirm('service')" />
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['servicable_pincodes'].invalid) ? false : true"
+                                        nzShape="circle" (click)="handleInputConfirm('service')">
+                                        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+                                    </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="type = 'serviceable';isPincodeVisible = true;">
+                                        <span nz-icon nzType="eye" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" class="mx-3 align-self-center bold"
+                                        [disabled]="!(createEditForm.controls['inputValue'].invalid) ? false : true"
+                                        nzShape="circle" (click)="exportPincodes('servicable_on_')">
+                                        <span nz-icon nzType="download" nzTheme="outline"></span>
+                                    </button>
+                                    <button nz-button nzType="default" nzTooltipTitle="Import Servicable Pincodes"
+                                        class="mx-3 align-self-center bold" nzShape="circle"
+                                        (click)="isPincodeVisible = true; isUploadPincodes = true; type = 'Servicable'">
+                                        <span nz-icon nzType="upload" nzTheme="outline"></span>
+                                    </button>
+                                </div>
+                                <!-- <div>
+                                    <nz-tag class="my-3" *ngFor="let tag of servicePincodes; let i = index"
+                                        [nzMode]="'closeable'" (nzOnClose)="handleClose(i,'service')">
+                                        {{ tag }}
+                                    </nz-tag>
+                                </div> -->
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <ng-container *ngFor="let item of get_underwritingArr(createEditForm); let k = index;"
+                    formArrayName="range_entities">
+                    <nz-divider></nz-divider>
+                    <nz-form-label class="text-left" nzNoColon>{{item.controls.name.value?.toString().toUpperCase()}}
+                    </nz-form-label>
+                    <div class="col-md-12" [formGroupName]="k">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="min"
+                                        class="text-left text-overflow-break pr-md-2 text-capitalize" nzRequired>
+                                        {{item.controls.min_label.value}}</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24"
+                                        nzErrorTip="Please input {{item.controls.min_label.value}}!">
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                            formControlName="min"
+                                            placeholder="Please input {{item.controls.min_label.value}}!" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="col-md-6">
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="max"
+                                        class="text-left text-overflow-break pr-md-2 text-capitalize" nzRequired>
+                                        {{item.controls.max_label.value}}</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24"
+                                        nzErrorTip="Please input {{item.controls.max_label.value}}!">
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                            formControlName="max"
+                                            placeholder="Please input {{item.controls.max_label.value}}!" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- <nz-divider></nz-divider>
+                <nz-form-label class="text-left w-100">Validation Required for</nz-form-label>
+                <ng-container *ngFor="let item of get_underwritingvalidation_entitiesArr(createEditForm); let k = index;"
+                    formArrayName="validation_entities">
+                    <div class="col-md-12" [formGroupName]="k">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="value" class="text-left text-overflow-break pr-md-2 text-capitalize"
+                                nzRequired>
+                                {{item.controls.name.value}}</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input {{item.controls.name.value}}!">                            
+                                <nz-radio-group formControlName="value">
+                                    <label nz-radio [nzValue]="'Yes'">Yes</label>
+                                    <label nz-radio [nzValue]="'No'">No</label>
+                                </nz-radio-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </ng-container> -->
+                <nz-divider></nz-divider>
+                <ng-container
+                    *ngFor="let item of get_underwritingcomparison_entitiesArr(createEditForm); let k = index;"
+                    formArrayName="comparison_entities">
+                    <div class="col-md-6" [formGroupName]="k">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="value"
+                                class="text-left text-overflow-break pr-md-2 text-capitalize" nzRequired>
+                                {{item.controls.name.value}}</nz-form-label>
+                            <nz-form-control [nzSm]="10" [nzXs]="24"
+                                nzErrorTip="Please input {{item.controls.name.value}}!">
+                                <nz-input-group nzAddOnBefore="{{item.controls.comparison_operator.value}}">
+                                    <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                        formControlName="value"
+                                        placeholder="Please input {{item.controls.name.value}}!" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+    </nz-card>
+
+    <ng-template #actionSubmit>
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+            <div class="col-12 d-flex justify-content-end px-4">
+                <!-- <button nz-button nzType="link" (click)="isVisible = true">+Add another Rule</button> -->
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading"
+                    (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</section>
+
+<nz-modal [(nzVisible)]="isPincodeVisible"
+    [nzTitle]="isUploadPincodes ? (type == 'BlackListed' ? 'Upload BlackListed Pincodes' : 'Upload Servicable Pincodes') : (type == 'serviceable' ? 'Serviceable Pincodes' : 'Black Listed Pincodes')"
+    [nzFooter]="isUploadPincodes ? footerTemp : null" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+        <div class="d-flex justify-content-start mb-3" *ngIf="!isUploadPincodes">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search text" [(ngModel)]="searchValue"
+                    (keydown)="searchInternal($event)" />
+            </nz-input-group>
+        </div>
+        <section *ngIf="type == 'blackListed' && !isUploadPincodes">
+            <nz-table [nzData]="pincodes" [nzScroll]="{y:'30vh'}" [nzLoading]="apiLoader" [nzFrontPagination]="false">
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Pincode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of pincodes | filter:searchValue; index as i">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{data}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </section>
+        <section *ngIf="type == 'serviceable' && !isUploadPincodes">
+            <nz-table [nzData]="servicePincodes" [nzScroll]="{y:'30vh'}" [nzLoading]="apiLoader"
+                [nzFrontPagination]="false">
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Pincode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of (servicePincodes); let i = index">
+                        <tr>
+                            <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
+                            <td>{{i+1}}</td>
+                            <td>{{data}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </section>
+
+        <section *ngIf="isUploadPincodes">
+            <nz-upload nzListType="picture" nzType="drag" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUploadName"
+                [nzMultiple]="false" [(nzFileList)]="fileList">
+                <p class="ant-upload-text">Drag and Drop file here</p>
+                <p class="ant-upload-text">or</p>
+                <button class="mt-md-4" nz-button nzType="primary">Browse</button>
+            </nz-upload>
+        </section>
+    </ng-container>
+</nz-modal>
+<ng-template #footerTemp>
+    <button nz-button nzType="link" class="border" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" [nzLoading]="api_calling_loader" [disabled]="fileList.length < 1 ? true : false"
+        class="mx-2" (click)="handleOk()">Submit</button>
+</ng-template>

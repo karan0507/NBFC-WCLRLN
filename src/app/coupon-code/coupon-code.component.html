@@ -1,0 +1,87 @@
+<section>
+      <nz-card class="w-100">
+            <div class="row">
+                  <div class="col-md-4 mb-3 d-flex">
+                        <!-- (key.up)="getFormLoanData()" -->
+                        <nz-input-group nzSearch (keyup.enter)="getCouponCodeList()" [nzAddOnAfter]="suffixIconButton">
+                              <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Search text" />
+                        </nz-input-group>
+                        <ng-template #suffixIconButton>
+                              <button nz-button (click)="getCouponCodeList()" nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template>
+                  </div>
+                  <div class="col-md-2">
+                        <!-- <div>
+                              <nz-select class="mx-1 w-auto" [(ngModel)]="productFilters" nzAllowClear
+                                    nzPlaceHolder="FatakPay">
+                                    <nz-option nzValue="fpay1" nzLabel="Coupon Status"></nz-option>
+                              </nz-select>
+                        </div> -->
+                  </div>
+                  <div class="col-md-6 mb-3 d-flex justify-content-md-end">
+                        <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                              (click)="resetFilters()" class="mr-2">
+                              <i nz-icon nzType="undo"></i>
+                        </button>
+                        <nz-select class="mx-1 w-auto w-auto" [(ngModel)]="filters" nzAllowClear
+                              (ngModelChange)="getCouponCodeList()" nzPlaceHolder="Select Status">
+                              <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                              <nz-option [nzValue]="2" nzLabel="Inactive"></nz-option>
+
+                        </nz-select>
+                        <button nz-button nzType="primary" class="ml-md-3" [routerLink]="['add-coupon-code']" *ngxPermissionsOnly="['add_coupon_code']">Add New
+                              Code +</button>
+                  </div>
+            </div>
+            <!-- [nzTotal]="total_count" -->
+            <div class="accordianLoanApp totalCount">
+                  <nz-table #rowSelectionTable [nzData]="couponCodeListData" [nzTotal]="total_count"
+                        [nzFrontPagination]="false" [nzShowSizeChanger]="true" [nzPageIndex]="page"
+                        [nzPageSize]="globalPageSize" [nzShowTotal]="botTotalCount" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                        (nzQueryParams)="couponCodeListData[0] ? getCouponCodeList($event) : null"
+                        [nzLoading]="api_calling_loader['listLoader']">
+                        <thead>
+                              <tr>
+                                    <th [nzWidth]="'4rem'">#</th>
+                                    <th>Coupon Code</th>
+                                    <th>Coupon Type</th>
+                                    <th>Remaining Coupons</th>
+                                    <th>Value</th>
+                                    <th *ngxPermissionsOnly="['toggle_coupon_code']">Status</th>
+                                    <th *ngxPermissionsOnly="['edit_coupon_code']">Actions</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <ng-container *ngFor="let data of couponCodeListData; index as i">
+                                    <tr>
+                                          <td *ngIf="page == 1">{{i+1}}</td>
+                                          <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                                          <td>{{ data?.coupon_code ? data?.coupon_code : '--'}}</td>
+                                          <td>{{ data?.coupon_type ? data?.coupon_type : '--'}}</td>
+                                          <td>{{ data?.remaining_coupons ? data?.remaining_coupons : '--'}}</td>
+                                          <td>{{ data?.value ? (data?.coupon_calculation_type == 'Variable' ? '% ' :  '₹ ' ) + data?.value : '--'}}</td>
+                                          <td *ngxPermissionsOnly="['toggle_coupon_code']" >
+                                                <div class="d-flex">
+                                                      <label class="font-size-14">Inactive</label>
+                                                      <nz-switch class="px-3" [(ngModel)]="data.is_active"
+                                                            (click)="couponSwitch(data)">
+                                                      </nz-switch>
+                                                      <label class="font-size-14">Active</label>
+                                                </div>
+                                          </td>
+                                          <td *ngxPermissionsOnly="['edit_coupon_code']"> <button nz-button nzType="link" class="border"
+                                                      [routerLink]="['edit-coupon-code']"
+                                                      [queryParams]="{id: data?.id}">Edit</button>
+                                          </td>
+                                        
+                                    </tr>
+                              </ng-container>
+                        </tbody>
+                  </nz-table>
+                  <ng-template #botTotalCount>
+                        <div *ngIf="total_count && couponCodeListData[0]"
+                              class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+                  </ng-template>
+            </div>
+      </nz-card>
+</section>

@@ -1,0 +1,144 @@
+<nz-card [nzLoading]="isEdit ? api_calling_loader['listLoader'] : null">
+      <form nz-form [formGroup]="couponForm" nzLayout="vertical">
+            <div class="row">
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Code</nz-form-label>
+                              <nz-form-control nzErrorTip="Please check coupon code">
+                                    <input nz-input formControlName="coupon_code" placeholder="Enter Coupon Code" />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Value</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Value cannot be empty">
+                                    <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                                          <input nz-input type="number" min="0" placeholder="Enter value for coupon"
+                                                formControlName="value">
+                                    </nz-input-group>
+                                    <ng-template #addOnAfterTemplate>
+                                          <nz-select formControlName="coupon_calculation_type">
+                                                <nz-option nzLabel="%" [nzValue]="1"></nz-option>
+                                                <nz-option nzLabel="₹" [nzValue]="2"></nz-option>
+                                          </nz-select>
+                                    </ng-template>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <!-- <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Calculation Type</nz-form-label>
+                              <nz-form-control nzErrorTip="Coupon Code cannot be empty">
+                                    <nz-radio-group formControlName="coupon_calculation_type">
+                                          <label nz-radio [nzValue]="1">Variable (%)</label>
+                                          <label nz-radio [nzValue]="2">Flat (₹)</label>
+                                    </nz-radio-group>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div> -->
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Type</nz-form-label>
+                              <nz-form-control nzErrorTip="Please select Coupon Type">
+                                    <nz-radio-group formControlName="coupon_type">
+                                          <label nz-radio [nzValue]="1">Fees waiver</label>
+                                          <label nz-radio [nzValue]="2">Promotional</label>
+                                    </nz-radio-group>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Coupon Expiry Date</nz-form-label>
+                              <nz-form-control nzErrorTip="Please check the expiry date">
+                                    <nz-date-picker [nzDisabledDate]="disabledDate" formControlName="coupon_expiry" class="w-100"
+                                          [nzFormat]="'yyyy-MM-dd'">
+                                    </nz-date-picker>
+                                    <br />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label nzRequired>Total Coupons</nz-form-label>
+                              <nz-form-control nzErrorTip="Please check total coupons">
+                                    <input nz-input type="number" formControlName="total_coupons" placeholder="Enter total coupons" />
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Product</nz-form-label>
+                              <nz-form-control nzErrorTip="Check selected products">
+                                    <nz-select  formControlName="product" (nzFocus)="onFocusMethod('product')"
+                                          nzAllowClear nzPlaceHolder="Select Product">
+                                          <nz-option *ngFor="let item of productList" [nzValue]="item?.id" [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <!-- Optional Params -->
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Partner</nz-form-label>
+                              <nz-form-control nzErrorTip="Check partner selected">
+                                    <nz-select formControlName="partner" [nzDisabled]="couponForm.get('isAllPartner').value ? true : false" nzAllowClear    (nzFocus)="onFocusMethod('partner')" nzPlaceHolder="Select Partner">
+                                          <nz-option *ngFor="let item of partnerList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label> <label nz-checkbox formControlName="isAllPartner"
+                                   (ngModelChange)="checkIfAll('partner')" class="align-items-center">All
+                                    Partner</label></nz-form-label>
+                        </nz-form-item>
+                       
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Product Fees</nz-form-label>
+                              <nz-form-control nzErrorTip="Check product fees">
+                                    <nz-select (nzFocus)="onFocusMethod('product-fees')"
+                                          [nzDisabled]="couponForm.get('product').value ? false : true"
+                                          formControlName="product_fees" nzPlaceHolder="Select Product Fees"
+                                          nzAllowClear>
+                                          <nz-option *ngFor="let item of productFeesList" [nzValue]="item?.id"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <nz-form-item>
+                              <nz-form-label>Select Master</nz-form-label>
+                              <nz-form-control nzErrorTip="Check selected master">
+                                    <nz-select (nzFocus)="onFocusMethod('master')"
+                                          formControlName="master" nzAllowClear [nzDisabled]="couponForm.get('isAllMaster').value ? true : false" nzPlaceHolder="Select Master">
+                                          <nz-option *ngFor="let item of masterList" [nzValue]="item?.pk"
+                                                [nzLabel]="item?.name "></nz-option>
+                                    </nz-select>
+                              </nz-form-control>
+                        </nz-form-item>
+                  </div>
+                  <div class="col-md-4">
+                        <label nz-checkbox formControlName="isAllMaster"
+                        class="align-items-center my-2" (ngModelChange)="checkIfAll('master')">All
+                        Master</label>
+                  </div> 
+
+            </div>
+      </form>
+      <div class="d-flex justify-content-md-end">
+            <!-- <button nz-button nzType="link" (click)="couponForm.reset()" class="border mx-3">Reset</button> -->
+            <button nz-button nzType="primary" [disabled]="couponForm.valid ? false : true"
+                  (click)="saveFormData()">Submit</button>
+
+      </div>
+</nz-card>

@@ -1,0 +1,127 @@
+<!-- <nz-page-header class="site-page-header bg-gray-lightest mb-3" [nzTitle]="title">
+</nz-page-header>
+<ng-template #title>
+      <span class="font-weight-normal">User Status Track</span>
+</ng-template>
+<section>
+      <nz-card>
+            <div class="row">
+                  <div class="col-md-12" *ngIf="!loanStatusData">No Status Update</div>
+                  <div class="col-md-12" *ngIf="loanStatusData">
+                        <div class="d-flex justify-content-between flex-wrap">
+                              <div class="d-flex flex-column align-middle">
+                                    <h5>Status</h5>
+                                    <div>
+                                          <nz-steps *ngFor="let item of loanStatusData" [nzCurrent]="loanStatusData.length" nzProgressDot
+                                                nzDirection="vertical">
+                                                <nz-step [nzTitle]="item?.status">
+                                                </nz-step>
+                                          </nz-steps>
+                                    </div>
+                              </div>
+                              <div class="d-flex flex-column text-center">
+                                    <h5>Date</h5>
+                                    <div *ngFor="let item of loanStatusData" class="mb-3"> 
+                                          {{ loanStatusData ?
+                                                item?.date : '--'}}
+                                    </div>
+                              </div>
+                              <div class="d-flex flex-column text-center" >
+                                    <h5>Time</h5>
+                                    <div *ngFor="let item of loanStatusData" class="mb-3">
+                                          {{ loanStatusData ? item?.time : '--'}}
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </nz-card>
+</section> -->
+
+
+<ng-template #title>
+      <span class="font-weight-normal">Stage Track</span>
+</ng-template>
+<section>
+      <nz-card [nzTitle]="title">
+            <div class="row">
+                  <div class="col-md-12" *ngIf="!loanStatusData">No Stage Update</div>
+                  <div class="col-md-12 d-flex flex-wrap" *ngIf="loanStatusData">
+                        <div class="col-md-6">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Status</h5>
+                                    </div>
+                                    <div>
+                                          <nz-steps  [nzCurrent]="loanStatusData.length" nzProgressDot nzDirection="vertical">
+                                                <nz-step *ngFor="let item of loanStatusData" [nzTitle]="item?.status"></nz-step>
+                                          </nz-steps>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Date</h5>
+                                    </div>
+                                    <div>
+                                          <ul nz-menu>
+                                                <li class="m-0 p-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                      {{ loanStatusData ? item?.date : '--'}} </li>
+                                          </ul>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                              <div class="d-flex flex-column">
+                                    <div>
+                                          <h5 class="mb-4">Time</h5>
+                                    </div>
+                                    <div>
+                                          <ul nz-menu>
+      
+                                                <li class="m-0 p-0" *ngFor="let item of loanStatusData" nz-menu-item>
+                                                      {{ loanStatusData ? item?.time : '--'}}
+                                                </li>
+                                          </ul>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </nz-card>
+</section>
+<ng-template #title1>
+      <span class="font-weight-normal">Status Track</span>
+</ng-template>
+<section>
+      <nz-card [nzTitle]="title1">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="loanStatusTrackData" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzLoading]="api_calling_loader" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" (nzQueryParams)="loanStatusTrackData ? getLoanApplicationTrackData($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Stage</th>
+                        <th>Previous stage</th>
+                        <th>Moved by</th>
+                        <th>Moved on</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of loanStatusTrackData; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['stage'] ? data['stage']: '-' }}</td>
+                        <td>{{ data['previous_stage'] ? data['previous_stage']: '-' }}</td>
+                        <td>{{ data['moved_by_name'] ? data['moved_by_name']: '-' }}</td>
+                        <td>{{ data['created_at'] ? (data['created_at'] | date : 'medium'): '-' }}</td>
+                        <td>{{ data['remarks'] ? data['remarks']: '-' }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+      </nz-card>
+</section>

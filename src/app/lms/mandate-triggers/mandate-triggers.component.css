@@ -1,0 +1,40 @@
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+    justify-content: end;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+.badge-info{
+    color: #fff;
+    background-color: #5BC0DE;
+}
+.badge-success {
+    color: #fff;
+    background-color: #27C24C;
+}
+.badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.badge-gray {
+    color: #fff;
+    background-color: #8E8E8E;
+}

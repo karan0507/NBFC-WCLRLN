@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgxPermissionsService } from 'ngx-permissions';
 import { Observable } from "rxjs";
 import { distinctUntilChanged, filter, map, startWith } from "rxjs/operators";
+import { HttpService } from 'src/app/services/http.service';
+import { GlobalservicesService } from 'src/app/shared/globalservices.service';
 import { IBreadcrumb } from "../../shared/interfaces/breadcrumb.type";
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
 
@@ -18,8 +22,13 @@ export class CommonLayoutComponent  {
     isSideNavDark : boolean;
     isExpand: boolean;
     selectedHeaderColor: string;
+    hideTitle: boolean;
+    UserPermissionDataSubscription : any
+    showBreadCrumb: any;
 
-    constructor(private router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService) {
+    constructor(public router: Router,  private activatedRoute: ActivatedRoute, private themeService: ThemeConstantService,private http: HttpService,
+        private message: NzMessageService, private globaldata: GlobalservicesService,
+        private permissionsService: NgxPermissionsService) {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
             map(() => {
@@ -38,9 +47,25 @@ export class CommonLayoutComponent  {
         ).subscribe( (data: any) => {
             this.contentHeaderDisplay = data;
         });
+        // window.onbeforeunload = function (e) {
+        //     window.onunload = function () {
+        //             window.sessionStorage.clear()
+        //     }
+        //     return undefined;
+        // };
     }
 
     ngOnInit() {
+        if(sessionStorage.getItem('fatakpay_user_data')){
+            var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).token;
+            if(check_token_exists){
+              this.VerifyUserFunction()
+            }
+          }
+          else{
+            this.router.navigate(['/authentication/login']);
+            this.message.error('Authorization Details Not Found, Kindly Login again');
+          }
         this.breadcrumbs$ = this.router.events.pipe(
             startWith(new NavigationEnd(0, '/', '/')),
             filter(event => event instanceof NavigationEnd),distinctUntilChanged(),
@@ -53,21 +78,31 @@ export class CommonLayoutComponent  {
     }
 
     private buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
-        let label = '', path = '/', display = null;
+        let label = '', path = '/', display = null, title, params = '';
 
         if (route.routeConfig) {
             if (route.routeConfig.data) {
+                // console.log(route.routeConfig.path)
                 label = route.routeConfig.data['title'];
-                path += route.routeConfig.path;
+                if (route.routeConfig.data['custom_url']) {
+                    path += route.routeConfig.data['custom_url'];
+                } else {
+                    path += route.routeConfig.path;
+                }
+                if (route.routeConfig.data['params']) {
+                    params = route.routeConfig.data['params']
+                }
+                this.showBreadCrumb = route.routeConfig.data['parent'];
             }
-        } else {
-            label = 'Dashboard';
-            path += 'dashboard';
         }
+        // else {
+        //     label = 'Dashboard';
+        //     path += 'dashboard';
+        // }
 
         const nextUrl = path && path !== '/dashboard' ? `${url}${path}` : url;
         const breadcrumb = <IBreadcrumb>{
-            label: label, url: nextUrl
+            label: label, url: nextUrl, title: title
         };
 
         const newBreadcrumbs = label ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];
@@ -76,4 +111,35 @@ export class CommonLayoutComponent  {
         }
         return newBreadcrumbs;
     }
+
+    VerifyUserFunction(){
+        this.http.VerifyUser().subscribe((res) => {
+          if(res.success){
+            // this.http.setPermissionValue(res.data.data.permissions_slug_list)
+            sessionStorage.setItem('fatakpay_user_data', JSON.stringify(res.data));
+            this.globaldata.sendUserData(res?.data);
+            if(sessionStorage.getItem('fatakpay_user_data')){
+                var check_token_exists = JSON.parse(sessionStorage.getItem('fatakpay_user_data')).permissions;
+                check_token_exists.push('')
+                this.permissionsService.loadPermissions(check_token_exists);
+              }
+              this.UserPermissionDataSubscription = this.http.globalUserPermissionsData.subscribe((value) => {
+                value.push('')
+                this.permissionsService.loadPermissions(value);
+              });
+            // if(res.data.data.icon){
+            // //   this.http.setBrandLogoValueOnChange(res.data.data.icon)
+            // }
+          }
+          else{
+            this.router.navigate(['/authentication/login']);
+            this.message.error(res.message);
+            sessionStorage.removeItem('fatakpay_user_data')
+          }
+        }, (err) => {
+          this.router.navigate(['/authentication/login']);
+          this.message.error('Oops! something went wrong, Kindly Login again');
+          sessionStorage.removeItem('fatakpay_user_data')
+        })
+      }
 }

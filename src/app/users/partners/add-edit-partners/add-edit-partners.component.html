@@ -1,0 +1,965 @@
+<section>
+    <nz-card>
+        <form nz-form [formGroup]="addEditProductForm">
+            <div class="row border-bottom">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Corporate Name
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Corporate Name!">
+                            <input nz-input type="text" formControlName="name" placeholder="Corporate Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_1" class="text-left" nzRequired>
+                            Address Line 1</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Address!">
+                            <input nz-input type="text" formControlName="address_line_1" placeholder="Address Line 1" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_2" class="text-left" nzRequired>
+                            Address line 2</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Address line 2!">
+                            <input nz-input type="text" formControlName="address_line_2" placeholder="Address Line 2" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="display_name" class="text-left" nzRequired>Display
+                            Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Display Name!">
+                            <input nz-input type="text" formControlName="display_name" placeholder="Display Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid City!">
+                            <input nz-input type="text" formControlName="city" placeholder="City"
+                                (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Sate">
+                            <nz-select formControlName="state" nzPlaceHolder="Select State"
+                                (nzFocus)="getListOfStates()" nzShowSearch nzAllowClear
+                                (nzOnSearch)="onSearchGetList($event, 'state')">
+                                <nz-option *ngFor="let item of stateArr" [nzValue]="item.id" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <!-- <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State/Region</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid State!">
+                            <input nz-input type="text" formControlName="state"  placeholder="State"/>
+                        </nz-form-control>
+                    </nz-form-item> -->
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="pincode" class="text-left" nzRequired>Pin Code
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Pincode!">
+                            <input nz-input type="number" formControlName="pincode" placeholder="Pincode" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="phone" class="text-left" nzRequired>Phone No
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Phone No.!">
+                            <input nz-input type="number" formControlName="phone" placeholder="Phone No." />
+                        </nz-form-control>
+                        <!-- item.controls.label_name.value -->
+                        <!-- <p *ngIf="addEditProductForm.get('phone').hasError('required') && !addEditProductForm.get('phone').pristine">
+                            Firstname is required
+                        </p> -->
+                    </nz-form-item>
+                </div>
+                <!-- (nzFocus)="searchStaticDataGlobalFunction('employee', 1)" -->
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="partner_master" class="text-left">Referred By
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
+                            <nz-select nzAllowClear nzShowSearch class="mr-2 width" nzAllowClear="true"
+                                nzPlaceHolder="Select Master Partner"
+                                (keyup)="getListOfMasterPartner($event?.target.value)" formControlName="partner_master">
+                                <ng-container *ngFor="let item of listOfMasterPartner" nzCustomContent>
+                                    <nz-option *ngIf="item?.name" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                                    </nz-option>
+                                </ng-container>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="logo" class="text-left">Corporate Logo
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Master Partner!">
+                        <div class="d-flex" style="align-items: center;">
+                            <nz-upload
+                            [nzMultiple]="'false'"
+                            [nzAccept]="'.png, .jpg'"
+                            [nzCustomRequest]="customUpload"
+                            (nzChange)="onUploadLogo($event)"
+                            >
+                            <!-- (nzChange)="onUpload($event, k)" (click)="onClickShowUploadedDocument(item, 'documents')" -->
+                            <button nz-button type="button">
+                                <i nz-icon nzType="upload"></i
+                                >{{
+                                    addEditProductForm.get("logo").value
+                                    ? "Re Upload"
+                                    : "  Upload "
+                                }}
+                            </button>
+                            </nz-upload>
+                            <i class=" text-primary ml-4" (click)="onClickShowLogo()"
+                                    *ngIf="addEditProductForm.get('logo').value" nz-icon nzType="eye" nzTheme="outline"
+                                    style="font-size: 1rem; cursor: pointer;"></i>
+                        </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!-- <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="unique_code" class="text-left" nzRequired>Unique Code</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Unique Code!">
+                            <input nz-input type="text" formControlName="unique_code"  placeholder="Unique Code."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div> -->
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Remuneration Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-6">
+                    <!-- <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_name" class="text-left" nzRequired>Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Name!">
+                            <input nz-input type="text" formControlName="contact_person_name"  placeholder="Person Name" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item> -->
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="salary_date" class="text-left">Salary Date
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                            <nz-select formControlName="salary_date" nzPlaceHolder="Select Date">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="due_date" class="text-left">Due Date
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                            <nz-select formControlName="due_date" nzPlaceHolder="Select Due Date">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bill_date" class="text-left">Bill Date
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                            <nz-select formControlName="bill_date" nzPlaceHolder="Select Bill Date">
+                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id" [nzLabel]="item.id">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-12">
+                    <ng-container *ngFor="let item of get_nachArr(addEditProductForm); let k = index;">
+                        <div formArrayName="nach_date_time_mappings">
+                            <div class="row" [formGroupName]="k">
+                                <div class="col-md-6">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="day_of_month" class="text-left">Day
+                                            Of Months
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Date">
+                                            <nz-select formControlName="day_of_month" nzPlaceHolder="Select Valid Day">
+                                                <nz-option *ngFor="let item of dateTillEnd" [nzValue]="item.id"
+                                                    [nzLabel]="item.id">
+                                                </nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-4">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date_time" class="text-left">
+                                            Nach Time</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24"
+                                            nzErrorTip="Please Select Valid Date & Time!">
+                                            <nz-time-picker (ngModelChange)="onOk(k,$event)"
+                                                [nzDefaultOpenValue]="defaultOpenValue" formControlName="time_of_day">
+                                            </nz-time-picker>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-2 pl-0 mt-2">
+                                    <i (click)='deleteNachByKey(k)' nz-icon nzType="delete" nzTheme="outline"
+                                        style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="row no-gutters">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button nz-button nzType="link" class="mb-2"
+                                *ngIf="addEditProductForm.get('nach_date_time_mappings')?.controls.length != 0"
+                                [disabled]="!addEditProductForm.get('nach_date_time_mappings')?.controls[indexOfLatestNach - 1]?.controls?.day_of_month.value || !addEditProductForm.controls.nach_date_time_mappings?.controls[indexOfLatestNach - 1]?.controls?.time_of_day.value"
+                                (click)="addNach()">+Add Nach</button>
+                            <button nz-button nzType="link" class="mb-2"
+                                *ngIf="addEditProductForm.get('nach_date_time_mappings')?.controls.length == 0"
+                                (click)="addNach()">+Add
+                                Nach</button>
+                            <!-- <button nz-button nzType="link" *ngIf="addEditProductForm.controls.nach_date_time_mappings?.controls.length == 0"
+                                    class="pl-0" (click)="addNach()">+Add Nach</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Contact Personal Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_name" class="text-left" nzRequired>
+                            Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Name!">
+                            <input nz-input type="text" formControlName="contact_person_name" placeholder="Person Name"
+                                (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_phone" class="text-left" nzRequired>
+                            Phone No.</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Phone No!">
+                            <input nz-input type="number" formControlName="contact_person_phone"
+                                placeholder="person Phone No." />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="contact_person_email" class="text-left" nzRequired>
+                            Email Id</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Email!">
+                            <input nz-input type="text" formControlName="contact_person_email"
+                                placeholder="Person Email" style="text-transform:lowercase" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-12">
+                    <div class="mt-2">
+                        <h6>
+                            Banking Details
+                        </h6>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left">Bank Name
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
+                            <input nz-input type="text" formControlName="bank_name" placeholder="Bank Name"
+                                (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
+                            <input nz-input type="number" formControlName="account_no" placeholder="Account No." />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left">IFSC Code</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid IFSC!">
+                            <input nz-input type="text" formControlName="ifsc" placeholder="IFSC" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left">Branch</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
+                            <input nz-input type="text" formControlName="branch" placeholder="Branch"
+                                (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+            </div>
+            <div class="mt-2">
+                <h5>
+                    KYC Documents
+                </h5>
+            </div>
+            <ng-container *ngFor="let item of get_underwritingArr(addEditProductForm); let k = index;"
+                formArrayName="document_data">
+                <!-- <div class="col-md-12" [formGroupName]="k">
+                    <div class="row">
+                        <div class="col-md-5 pl-0">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="min" class="text-left" nzRequired>
+                                    {{item.controls.label_name.value}}</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                    <div class="d-flex">
+                                        <nz-upload
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                        [nzCustomRequest]="customUpload"
+                                        (nzChange)="onUpload($event, k, 'upload')">
+                                        <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                        </nz-upload>
+                                        <label class="ml-3 align-self-center" formControlName="is_verified" [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-2 pl-0 mt-2" >
+                            <i (click)='deleteDocumentByDocumentId(k)' *ngIf="item.controls.label_name.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-md-12" [formGroupName]="k">
+                    <div class="d-flex flex-row bd-highlight mb-3">
+                        <div class="px-2" style="min-width: 25%;">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="13" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                    {{item.controls.display_name.value}}</nz-form-label>
+                                <nz-form-control [nzSm]="7" [nzXs]="24"
+                                    nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                    <div class="d-flex">
+                                        <nz-upload [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                            [nzCustomRequest]="customUpload" (nzChange)="onUpload($event, k, 'name')">
+                                            <button nz-button type="button"><i nz-icon
+                                                    nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' : ' Upload ' }}</button>
+                                        </nz-upload>
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="px-2">
+                            <label class="ml-3 align-self-center" formControlName="is_verified"
+                                [nzDisabled]="item.controls.document_name.value ? false : true"
+                                nz-checkbox>Verify</label>
+                        </div>
+                        <div class="px-2">
+                            <i class="mx-3" (click)='deleteDocumentByDocumentId(k)'
+                                *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline"
+                                style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                        </div>
+                        <div class="px-2">
+                            <i class=" text-primary" (click)="onClickShowUploadedDocument(item, 'documents')"
+                                *ngIf="item.controls.document_name.value" nz-icon nzType="eye" nzTheme="outline"
+                                style="font-size: 1rem; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-12" *ngIf="!item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row mt-2" >
+                                        <div class="col-1">
+                                            <span>
+                                                <i class=" text-primary"  (click)="onClickShowUploadedDocument(item, 'documents')" *ngIf="item.controls.document_name.value" 
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="item.controls.front_back_flag.value">
+                            <div class="row  mt-2">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_front.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_front')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name_front.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name_front.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row mt-2">
+                                        <div class="col-1">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_front')" *ngIf="item.controls.document_name_front.value"
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i  class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_back.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_back')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.documents_back.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_back')" *ngIf="item.controls.documents_back.value"
+                                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-md-4"  *ngIf="item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_front.value">
+                                    <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_front.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                            </div>
+                        </div> -->
+                    <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                            <div class="row">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                            </div>
+                        </div> -->
+                    <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="!item.controls.front_back_flag.value">
+                            <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" 
+                            nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 49px;"></i>
+                        </div> -->
+                </div>
+            </ng-container>
+            <div class="row no-gutters">
+                <div class="col-12 d-flex justify-content-between">
+                    <button nz-button nzType="link" class="" (click)="onClickOpenPopUp($event)">+Add Document</button>
+                </div>
+            </div>
+
+            <div class="row border-top border-bottom mt-2">
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="corporation_category" class="text-left" nzRequired>
+                            Corp Category</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Corporation Category">
+                            <nz-select formControlName="corporation_category"
+                                nzPlaceHolder="Select Corporation Category" (nzFocus)="getListOfCorp()" nzShowSearch
+                                nzAllowClear (nzOnSearch)="onSearchGetList($event, 'corp')">
+                                <nz-option *ngFor="let item of corpArr" [nzValue]="item.id"
+                                    [nzLabel]="item.category_name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Expense Management" class="text-left" nzRequired>Show Expense Management
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='show_expense_management_section'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left" nzRequired>Show Transactions History
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='show_transactions_history_section'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_bank_transfer" class="text-left" nzRequired>Allow Bank Transfer
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='allow_bank_transfer'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_scan_and_pay" class="text-left" nzRequired>Allow Scan And Pay
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='allow_scan_and_pay'>
+                                <label nz-radio [nzValue]='true'>Yes</label>
+                                <label nz-radio [nzValue]='false'>No</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left" nzRequired>Payout
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Payout Option!">
+                            <nz-radio-group formControlName='payout'>
+                                <label nz-radio nzValue="yes">Yes</label>
+                                <label nz-radio nzValue="no">No</label>
+                                <label nz-radio nzValue="na">N/A</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nach_step" class="text-left" nzRequired>Nach Steps
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='nach_step'>
+                                <label nz-radio nzValue="OPTIONAL">Optional</label>
+                                <label nz-radio nzValue="MANDATORY">Mandatory</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="cashback_amount" class="text-left" nzRequired>Cashback
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Amount!">
+                            <input nz-input type="number" formControlName="cashback_amount" placeholder="CashBack" [disabled]="addEditProductForm.get('nach_step').value == 'MANDATORY'"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bill_days" class="text-left">Bill Day
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Day!">
+                            <input nz-input type="number" formControlName="bill_days" placeholder="Bill Days"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="due_days" class="text-left">Due Day
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Day!">
+                            <input nz-input type="number" formControlName="due_days" placeholder="Due Days"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="api_check_flag" class="text-left" nzRequired>API Check Flag
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Option!">
+                            <nz-radio-group formControlName='api_check_flag'>
+                                <label nz-radio nzValue="INTERNAL">Internal</label>
+                                <label nz-radio nzValue="EXTERNAL">External</label>
+                                <label nz-radio nzValue="BOTH">Both</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Corporate Limit Setting
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left">Salary Deduction Flag
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                            <label nz-checkbox formControlName="salary_deduction_flag"></label>
+                            <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                                <label nz-radio nzValue="Card">Card</label>
+                                <label nz-radio nzValue="EWA">EWA</label>
+                            </nz-radio-group> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left">No Data Flag
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                            <label nz-checkbox formControlName="no_data_flag"></label>
+                            <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                                <label nz-radio nzValue="Card">Card</label>
+                                <label nz-radio nzValue="EWA">EWA</label>
+                            </nz-radio-group> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="payout" class="text-left">Flag</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                            <nz-radio-group formControlName='flag'>
+                                <label nz-radio nzValue="Card">Card</label>
+                                <label nz-radio nzValue="EWA">EWA</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!-- max_salary_percent -->
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">EWA Percentage
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid EWA Percent!">
+                            <input nz-input type="number" formControlName="ewa_percent" placeholder="EWA Percentage." />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount 
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Initial Amount">
+                            <input nz-input type="number" formControlName="initial_amount"
+                                placeholder="Initial Amount." />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'EWA'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Initial Amount Type
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Select Valid Initial Amount Type">
+                            <nz-select formControlName="initial_amount_type" nzPlaceHolder="Initial Amount Type">
+                                <nz-option nzValue="FLAT" nzLabel="FLAT"></nz-option>
+                                <nz-option nzValue="VARIABLE" nzLabel="VARIABLE"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="ewa_percent" class="text-left">Max Salary Percent.
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid  Percent!">
+                            <input nz-input type="number" formControlName="max_salary_percent"
+                                placeholder="Max Salary Percentage" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_max" class="text-left">Corporate
+                            Permanent Max Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Limit!">
+                            <input nz-input type="number" formControlName="permanent_max"
+                                placeholder="Permanent Max Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_min" class="text-left">Corporate
+                            Permanent Min Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Min Limit!">
+                            <input nz-input type="number" formControlName="permanent_min"
+                                placeholder="Permanent Min Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_max" class="text-left">Corporate
+                            Contractual Max Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Max Limit!">
+                            <input nz-input type="number" formControlName="contractual_max"
+                                placeholder="Contractual Max Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_min" class="text-left">Corporate
+                            Contractual Min Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Min!">
+                            <input nz-input type="number" formControlName="contractual_min"
+                                placeholder="Contractual Min Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contractual_agreed" class="text-left">Corporate
+                            Contractual Agreed Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Contractual Agreed Limit!">
+                            <input nz-input type="number" formControlName="contractual_agreed"
+                                placeholder="Contractual Agreed Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" *ngIf="addEditProductForm.get('flag').value == 'Card'">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="permanent_agreed" class="text-left">Corporate
+                            Permanent Agreed Limit</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Permanent Agreed Limit!">
+                            <input nz-input type="number" formControlName="permanent_agreed"
+                                placeholder="Permanent Agreed Limit" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+<!-- Attendance Section -->
+<div class="mt-2">
+    <h5>
+        Attendance Configuration
+    </h5>
+</div>
+<div class="row border-bottom">
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_individual_attendance" class="text-left">Allow Individual Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_individual_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_team_attendance" class="text-left">Allow Team Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_team_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="allow_selfie_attendance" class="text-left">Allow Selfie Attendance
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <label nz-checkbox formControlName="allow_selfie_attendance"></label>
+                <!-- <nz-radio-group formControlName='salary_deduction_flag'>
+                    <label nz-radio nzValue="Card">Card</label>
+                    <label nz-radio nzValue="EWA">EWA</label>
+                </nz-radio-group> -->
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div class="col-md-6 mt-4">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="payout" class="text-left">Corporate Login Mode
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Valid Flag Option!">
+                <!-- <label nz-checkbox formControlName="no_data_flag"></label> -->
+                <nz-radio-group formControlName='corporate_login_mode'>
+                    <label nz-radio nzValue="MOBILE">MOBILE</label>
+                    <label nz-radio nzValue="CODE">CODE</label>
+                    <label nz-radio nzValue="BOTH">BOTH</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</div>
+
+
+
+            <div class="mt-2">
+                <h5>
+                    Relationship Manager Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-12 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_name" class="text-left"
+                            nzRequired>Relationship Manager Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Name">
+                            <input nz-input type="text" formControlName="relationship_manager_name"
+                                placeholder="Relationship Manager Name" (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_email" class="text-left"
+                            nzRequired>Relationship Manager Email</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Email">
+                            <input nz-input type="text" formControlName="relationship_manager_email"
+                                placeholder="Relationship Manager Email" style="text-transform:lowercase" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_contact" class="text-left"
+                            nzRequired>Relationship Manager Contact No</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Number">
+                            <input nz-input type="number" formControlName="relationship_manager_contact"
+                                placeholder="Relationship Manager Number" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+
+        </form>
+    </nz-card>
+    <div class="row my-3 justify-content-between">
+        <div class="col-3">
+            <button nzType="primary" *ngIf="!isEdit" nz-button type="submit" [nzLoading]="apiLoader['saveAddNew']"
+                [disabled]="apiLoader['formSave']" (click)="onClickSaveExistingForm($event)">Save & Add New</button>
+        </div>
+        <div class="col-3 text-right">
+            <button type="submit" (click)="onClickSubmitForm()" [nzLoading]="apiLoader['formSave']"
+                [disabled]="apiLoader['saveAddNew']" nz-button nzType="primary">Save</button>
+        </div>
+
+    </div>
+    <section *ngxPermissionsOnly="['refer_earn_lsit']">
+        <app-referral-code *ngIf="isEdit"></app-referral-code>
+    </section>
+    <section *ngxPermissionsOnly="['cashback_list']">
+        <app-cashback *ngIf="isEdit"></app-cashback>
+    </section>
+</section>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzWidth]="'580px'"
+    [nzOkDisabled]="!selectedDocument" (nzOnOk)="addRule()">
+    <ng-container *nzModalContent>
+        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
+        <nz-select class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Document"
+            style="min-width: 13rem;">
+            <ng-container *ngFor="let item of documentArray; index as i" (ngModelChange)="checkItem($event)">
+                <nz-option [nzValue]="item" [nzLabel]="item.name" *ngIf="!documentFlagArray.includes(item)">
+                </nz-option>
+            </ng-container>
+        </nz-select>
+    </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
+</nz-modal>

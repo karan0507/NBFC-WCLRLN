@@ -1,0 +1,250 @@
+<div class="header_breadcrumb_section">
+  <div class="d-flex justify-content-md-center flex-wrap w-100">          <div></div>
+        <div class="font-size-20"><i nz-icon class="mr-2" nzType="user" nzTheme="outline"></i> Users
+              : {{total_count ? total_count : '0'}}</div>
+          <div> 
+          </div>
+  </div>
+</div>
+<section>
+    <div class="row">
+      <nz-card class="w-100">
+        <div class="row">
+          <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                (keyup.enter)="getResultBasedOnSearch()"
+                [(ngModel)]="searchValue"
+                type="text"
+                nz-input
+                placeholder="Search text"
+              />
+            </nz-input-group>
+            <!-- <ng-template #suffixIconButton>
+                            <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                        </ng-template> -->
+            <ng-template #suffixIconButton>
+              <button
+                (click)="getResultBasedOnSearch()"
+                nz-button
+                nzType="secondary"
+                nzSearch
+              >
+                <i nz-icon nzType="search"></i>
+              </button>
+            </ng-template>
+            <button
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Reset Filter"
+              class="mx-3"
+              (click)="resetFilter()"
+            >
+              <i nz-icon nzType="undo"></i>
+            </button>
+          </div>
+
+          <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <!-- <nz-select nzAllowClear (nzOnSearch)="getResultWithSelectedFilter($event)" class="mx-1" style="width: 15rem;" [(ngModel)]="selectedCorporate"
+                        (ngModelChange)="getResultWithSelectedFilter($event)" nzPlaceHolder="Filter By Corporate">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.id" [nzLabel]="item.name">
+                        </nz-option>
+                        <nz-option nzValue="All" nzLabel="all">
+                        </nz-option>
+                    </nz-select> (nzOnSearch)="OnTypeSearchList($event)" -->
+              <nz-select *ngIf="selectedTab == 'corporate'"
+                  class="mx-1"
+                  [(ngModel)]="selectedSection"
+                  nzAllowClear nzShowSearch
+                  nzPlaceHolder="Select Section"
+                  style="min-width: 13rem"
+                  (ngModelChange)="getResultWithSelectedFilter($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of sectionList | keyvalue"
+                    [nzValue]="item?.value"
+                    [nzLabel]="item?.value"
+                  >
+                    <!-- <div *ngIf="item.name">{{ item?.name }}</div> -->
+                  </nz-option>
+            </nz-select>
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedCorporate"
+              nzAllowClear nzShowSearch
+              nzPlaceHolder="Select Corporate"
+              (nzOnSearch)="OnTypeSearchList($event)"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of corporateList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+            <nz-select
+              class="mx-1"
+              [(ngModel)]="selectedAppStatus"
+              nzAllowClear nzShowSearch
+              nzPlaceHolder="Select App Status"
+              style="min-width: 13rem"
+              (ngModelChange)="getResultWithSelectedFilter($event)"
+            >
+              <nz-option
+                *ngFor="let item of appStatusList"
+                [nzValue]="item?.pk"
+                [nzLabel]="item?.name"
+              >
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+            <!-- (nzOnSearch)="OnTypeSearchList($event)" 
+            (ngModelChange)="getResultWithSelectedFilter($event)"-->
+            <nz-range-picker
+              class="'ml-3"
+              [(ngModel)]="date"
+              [nzDisabledDate]="disabledDate"
+              nzAllowClear="false"
+              (ngModelChange)="onChange($event)"
+             [nzRanges]="customRanges"></nz-range-picker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <!-- <div class="totalCount"> -->
+            <nz-table
+              [nzTotal]="total_count" [nzFrontPagination]="false"
+              [nzPageIndex]="page"
+              [nzLoading]="apiLoader['list']"
+              [nzPageSize]="size"
+              (nzQueryParams)="getListOfAllEmployees($event)"
+              [nzShowSizeChanger]="true"
+              [nzData]="listOfEmployee"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <!-- <th>Partner Name</th> -->
+                  <th>Display Name</th>
+                  <th>Employee Name</th>
+                  <th>Employee Code</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">App Status</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">App Last Used On</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Mobile No</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Salary Date</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Employee Added</th>
+                  <th *ngIf="selectedTab === 'allEmployee'">Employee Status</th>
+                  <!-- <th  *ngIf="selectedTab !== 'corporate'" nzWidth="13rem">Remarks</th>
+                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Section</th>
+                  <th  *ngIf="selectedTab == 'corporate'" nzWidth="13rem">Verify</th> -->
+                  <!-- <th *ngIf="selectedTab == 'recommendation'"  nzRight>Actions</th> -->
+                  <!-- <th *ngIf="selectedTab == 'allEmployee'"  nzRight>Actions</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of listOfEmployee; index as i">
+                  <!-- <td>{{ i + 1 }}</td> -->
+                  <td *ngIf="page === 1">{{ i + 1 }}</td>
+                  <td *ngIf="page > 1">{{((page-1)*size)+(i+1)}}</td>
+                  <!-- <td>
+                    {{ data?.partner ? data?.partner : ' - '}}
+                  </td> -->
+                  <td>
+                    {{ data?.display_name ? data?.display_name : ' - '}}
+                  </td>
+                  <td>
+                    <div>
+                      {{
+                        data?.first_name  + ' ' + (data?.middle_name ? data?.middle_name : '' )  + ' ' +  data?.last_name
+                      }}
+                    </div>
+                  </td>
+                  <td>
+                    {{ data?.emp_code ? data?.emp_code : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    <!-- {{ data?.app_status ? data?.app_status?.status : ' - '}} -->
+                    <span *ngIf="!data?.app_status?.status">Not Using</span>
+                    <span *ngIf="data?.app_status?.status">Using</span>
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    {{ data?.app_status?.last_used ? data?.app_status?.last_used : ' - '}}
+                  </td>
+                  <!-- app_status -->
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    {{ data?.mobile ? data?.mobile : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    {{ data?.salary_date ? data?.salary_date : ' - '}}
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    <!-- {{ data?.employee_added }} -->
+                    <i
+                            *ngIf="data?.employee_added"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!data?.employee_added"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                  </td>
+                  <td *ngIf="selectedTab === 'allEmployee'">
+                    <!-- {{ data?.employee_added }} -->
+                    <i
+                            *ngIf="data?.is_active"
+                            nz-icon
+                            nzType="check-circle"
+                            nzTheme="fill"
+                            class="text-success"
+                          ></i>
+                          <i
+                            *ngIf="!data?.is_active"
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="fill"
+                            class="text-danger"
+                          ></i>
+                  </td>
+                  <!-- <td nzRight class="pr-0" *ngIf="selectedTab == 'allEmployee'">
+                    <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                        [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                        [nzDropdownMenu]="latestUploadDropDown">
+                        <img src="assets/images/ellipsis.png" alt="" width="30">
+                    </a>
+                    <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item *ngxPermissionsOnly="['']">
+                              <a nz-button nzType="link" [nzLoading]="apiLoader['empStatus']"nz-popconfirm style="height: auto;"
+                              nzPopconfirmTitle="Are you sure abt this Action?"
+                              nzPopconfirmPlacement="bottom"
+                              (nzOnConfirm)="deactiveEmployeeStatus(data?.id)">Deactive Employee</a>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </td> -->
+                </tr>
+              </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+              <b>Total Count : </b>{{total_count}}
+            </div>
+            <!-- <ng-template #botTotalCount>
+              <div *ngIf="total_count && listOfEmployee[0]" class="font-weight-semibold text-body-color">Total Count: {{total_count}} </div>
+            </ng-template> -->
+          <!-- </div> -->
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </section>

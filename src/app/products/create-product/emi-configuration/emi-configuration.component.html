@@ -1,0 +1,103 @@
+<section>
+    <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="interest_rate" class="text-left text-wrap">Interest</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Interest!">
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplateforamt">
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="interest_rate" placeholder="Please input Interest!" />
+                            </nz-input-group>
+            
+                            <ng-template #addOnAfterTemplateforamt>
+                                <span>%</span>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="minimum_amount" class="text-left text-wrap">Minimum amount</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Minimum amount!">
+                            <nz-input-group [nzAddOnBefore]="addOnAfterTemplateforamt1">
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="minimum_amount" placeholder="Please input Minimum amount!" />
+                            </nz-input-group>
+            
+                            <ng-template #addOnAfterTemplateforamt1>
+                                <span>₹</span>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="maximum_amount" class="text-left text-wrap">Maximum amount</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Maximum amount!">
+                            <nz-input-group [nzAddOnBefore]="addOnAfterTemplateforamt1">
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="maximum_amount" placeholder="Please input Maximum amount!" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="tenure" class="text-left text-wrap">Tenure</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Tenure!">
+                            <nz-select formControlName="tenure" nzPlaceHolder="Select Tenure!" nzMode="multiple"
+                                (nzFocus)="fetchMasterData('TenureMaster')" nzShowSearch nzAllowClear>
+                                <nz-option *ngFor="let item of tenureData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="priodicity" class="text-left text-wrap">Priodicity</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Priodicity!">
+                            <nz-select formControlName="priodicity" nzPlaceHolder="Select Priodicity!" nzMode="multiple"
+                                (nzFocus)="fetchMasterData('EMIPriodicityMaster')" nzShowSearch nzAllowClear>
+                                <nz-option *ngFor="let item of priodicityData" [nzValue]="item.pk" [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="buffer_range" class="text-left text-wrap">Buffer range</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Buffer range!">
+                            <nz-input-group>
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="buffer_range" placeholder="Please input Buffer range!" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="pre_emi_days" class="text-left text-wrap">Pre EMI days</nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input Pre EMI days!">
+                            <nz-input-group>
+                                <input nz-input type="number" (keydown)="http.restrictType($event)" min="0"
+                                    formControlName="pre_emi_days" placeholder="Please input Pre EMI days!" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
+    </nz-card>
+    <ng-template #actionSubmit>
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+            <div class="col-12 d-flex justify-content-end px-4">
+                <button nz-button nzType="primary" [disabled]="createEditForm.invalid" [nzLoading]="loading"
+                    (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</section>

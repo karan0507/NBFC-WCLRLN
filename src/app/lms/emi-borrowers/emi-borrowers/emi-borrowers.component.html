@@ -1,0 +1,137 @@
+<section>
+    <div class="d-flex justify-content-end mb-2">
+        <button nz-button nzType="primary" class="mr-2 mb-2" (click)="exportMandateToekn()">Export Mandate Token</button>
+        <button nz-button nzType="primary" class="mr-2 mb-2" (click)="exportEmiBill()">Export</button>
+    </div>
+    <div class="row">
+        <nz-card class="w-100 accordianLoanApp">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchEmiBorrowersList()" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchEmiBorrowersList()">
+                            <i nz-icon nzType="search"></i>
+                        </button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-date-picker [(ngModel)]="_currDate" (ngModelChange)="fetchEmiBorrowersList()"
+                        class="mb-3 mr-2"></nz-date-picker>
+                    <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem"
+                        class="my-md-0 mb-3" (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchEmiBorrowersList()"
+                        nzAllowClear [nzMaxTagCount]="1" [nzSize]="'small'" nzPlaceHolder="Select Partner">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+                        </nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="emiBorrowersList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzScroll]="{ x: '1500px' }" [nzLoading]="api_calling_loader"
+                [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                (nzQueryParams)="emiBorrowersList ? fetchEmiBorrowersList($event) : ''">
+                <!-- , y: '45vh'     -->
+                <thead>
+                    <tr>
+                        <th nzWidth="2rem"></th>
+                        <th nzWidth="3rem">#</th>
+                        <th nzWidth="15rem">User Details</th>
+                        <th>Loan ID</th>
+                        <th>Product Tenure</th>
+
+                        <th>Application Nature</th>
+                        <th>Auto Debit</th>
+                        <th>Due Day</th>
+                        <th>Interest(%)</th>
+                        <th>Loan Amount Provided</th>
+                        <!-- <th>Transaction Status</th> -->
+                        <th>Activated Date</th>
+                        <th nzRight>Action</th>
+
+                        <!--               
+              <th>EMI Date/Refund Date</th>
+              <th>Amount Tenure(Month/Day)</th>
+              <th>Interest(%)</th>
+              <th>EMI</th>
+              <th>Fees</th>
+              <th>Added on</th> -->
+                        <!-- <th nzWidth="5rem" nzRight>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of emiBorrowersList; index as i">
+                        <tr>
+                            <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_product?.loan_application_id)" (nzExpandChange)="
+                            onExpandChange(data?.loan_application_product?.loan_application_id, $event, i)
+                          "></td>
+                            <td *ngIf="page === 1">{{ i + 1 }}</td>
+                            <td *ngIf="page > 1">
+                                {{ (page - 1) * globalPageSize + (i + 1) }}
+                            </td>
+                            <td>
+                                <h5 class="mb-2">{{ data.loan_application_product?.user?.full_name ? data.loan_application_product?.user?.full_name : "-" }}
+                                </h5>
+                                <span *ngIf="data.loan_application_product?.user?.mobile">Contact No: {{ data.loan_application_product?.user ?
+                                    data.loan_application_product?.user.mobile : "-" }}</span>
+                                <p *ngIf="data.loan_application_product?.user?.email">
+                                    {{ data.loan_application_product?.user ? data.loan_application_product?.user.email : "-" }}
+                                </p>
+                            </td>
+                            <td>{{ data?.loan_unique_id ? data?.loan_unique_id : "-" }}</td>
+                            <td>
+                                {{ data?.product_tenure ? data?.product_tenure : "-" }}
+                            </td>
+                            <td>{{ data.application_nature ? data.application_nature : "-" }}</td>
+                            <td>{{ data.auto_debit ? data.auto_debit : "-" }}</td>
+                            <td>{{data.due_day ? data.due_day : '-'}}</td>
+                            <td>{{data.interest_rate ? data?.interest_rate : '0'}} %</td>
+                            <td>₹ {{ data.loan_amount_provided }}</td>
+                            <!-- <td>{{data?.transaction_status ? data?.transaction_status : '-'}}</td> -->
+                            <td>
+                                {{
+                                data.activation_date
+                                ? (data.activation_date | date : "MMM dd, yyyy")
+                                : "-"
+                                }}
+                            </td>
+                            <td nzRight>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
+                                    <img src="assets/images/ellipsis.png" alt="" width="30" />
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item [routerLink]="['/lms/emi/emi-borrowers/details']"
+                                            [queryParams]="{ id: data.id, loan_application_id : data?.loan_application_product?.loan_application_id }">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">View Details</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </td>
+                        </tr>
+
+                        <tr [nzExpand]="expandSet.has(data?.loan_application_product?.loan_application_id)">
+                            <div class="row">
+                               <div class="col-md-12" *ngIf="data.loan_application_product?.loan_application_id === _currentId">
+                                   <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
+                                </div>
+                            </div>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{ total_count }}
+            </div>
+        </nz-card>
+    </div>
+</section>

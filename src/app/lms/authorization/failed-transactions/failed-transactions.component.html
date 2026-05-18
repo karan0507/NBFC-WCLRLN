@@ -1,0 +1,63 @@
+<section>
+    <div class="row mb-md-3">
+        <span>{{total_count ? (total_count + '  Results Found') : (0 + '  Results Found')}}</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input placeholder="Search text" />
+                      </nz-input-group>
+                    <!-- <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template> -->
+                    <ng-template #suffixIconButton>
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                      </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                      </button>
+                </div>
+            </div>
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+            [nzPageIndex]="page" (nzQueryParams)="getAuthorizationList($event)" [nzShowSizeChanger]="true" [nzData]="failedTransactionList" [nzScroll]="{ x: '1500px' }">
+                <thead>
+                    <tr>
+                    <th rowspan="2" nzWidth="100px">#</th>
+                    <th >User Details</th>
+                    <th >Loan ID</th>
+                    <th >Transaction ID</th>
+                    <th >Transaction Type</th>
+                    <th> Details</th>
+                    <th> Date & Time</th>
+                    <th> Total Amount ()</th>
+                    <th> Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of failedTransactionList; index as i">
+                        <tr>
+                            <td *ngIf="page === 1">{{i+1}}</td>
+                            <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                            <td>{{ data?.user?.full_name }}</td>
+                            <td>{{ data?.loan_id }}</td>
+                            <td>{{ data?.txn_unique_id  }}</td>
+                            <td>{{ data?.txn_type  }}</td>
+                            <td>{{ data?.details  }}</td>
+                            <td>{{ data?.created_at | date:"mediumDate"}} {{data.created_at |date:"shortTime"}}</td>
+                            <td>{{ data?.txn_amount  }}</td>
+                            <td>{{ data?.reason  }}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+                <b>Total Count : </b>{{total_count}}
+              </div>
+        </nz-card>
+    </div>
+</section>

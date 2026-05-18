@@ -1,13 +1,13 @@
 <div class="header">
-    <div class="logo logo-dark">
-        <a href="">
-            <img src="assets/images/logo/logo.png" alt="Logo">
-            <img class="logo-fold" src="assets/images/logo/logo-fold.png" alt="Logo">
+    <div class="logo logo-dark d-flex align-items-center">
+        <a href="" class="w-100">
+            <img class="w-50" src="assets/images/logo/logo.png" alt="Logo">
+            <img class="logo-fold w-100" src="assets/images/logo/logo-fold.svg" alt="Logo">
         </a>
     </div>
     <div class="logo logo-white">
         <a href="">
-            <img src="assets/images/logo/logo-white.png" alt="Logo">
+            <img class="w-50" src="assets/images/logo/logo.png" alt="Logo">
             <img class="logo-fold" src="assets/images/logo/logo-fold-white.png" alt="Logo">
         </a>
     </div>
@@ -24,12 +24,46 @@
                 </a>
             </li>
         </ul>
+        <span style="align-self: center;min-width: 26%;">
+            <!-- *ngIf="currentRoute != '/dashboard/home'" -->
+            <nz-select (nzOnSearch)="onSearchGetList($event)" 
+            [(ngModel)]="selectedApplication" 
+                       (ngModelChange)="onClickRedirectToSpecificComponent($event)"
+                       nzPlaceHolder="Select Application" 
+                       style="width: 100%;" nzAllowClear nzShowSearch [nzLoading]="isLoading">
+                       <!-- (nzFocus)="getFormLoanData()"  -->
+                <nz-option *ngFor="let item of loanApplicationData" [nzValue]="item" [nzLabel]="item?.product_type + ' ' + item?.full_name  + ' '  + item?.mobile + ' ' + item?.application_code + ' ' "  [nzLoading]="isLoading">
+                    <!-- + ' ' + item?.application_code -->
+                </nz-option>
+            </nz-select>
+        </span>
         <ul class="nav-right">
+            <div class="d-flex align-items-center">
+                FatakPay
+                <nz-switch [ngModel]="_currToggleValue" class="mx-3" (ngModelChange)="switchToggle()"></nz-switch>
+                Fatak EMI
+            </div>
+            <img src="assets/images/Icons/notification.png" class="px-3" style="cursor: pointer;">
+            <nz-divider class="h-80" nzType="vertical"></nz-divider>
+            <div class="align-self-center d-none d-md-block mr-md-3 px-md-0">
+                <div class="m-l-10">
+                    <p class="m-b-0 text-dark font-weight-semibold">{{userDetails?.user?.first_name + ' ' + userDetails?.user?.last_name }}</p>
+                    <p class="m-b-0 opacity-07 font-size-12">{{userDetails?.user?.role?.role_name}}</p>
+                    <!-- *ngIf="contact_person_name && contact_person_name != 'nan'" <p *ngIf="userId" class="m-b-0 opacity-07 font-size-12">{{userId}} </p> -->
+                </div>
+            </div>
             <li>
-                <a (click)="quickViewToggle()">
-                    <i nz-icon nzType="appstore" theme="outline"></i>
+                <a (click)="quickViewToggle()" style="border-radius: 50%;">
+                    <i nz-icon nzType="user" nzTheme="outline"></i>
                 </a>
-                <nz-drawer [nzWidth]="280" nzTitle="Quick View" [nzClosable]="false" [nzVisible]="quickViewVisible" nzPlacement="right" (nzOnClose)="quickViewToggle()">
+                <nz-drawer [nzWidth]="480" nzTitle="" [nzClosable]="false" [nzVisible]="quickViewVisible" nzPlacement="right"
+                    (nzOnClose)="quickViewToggle()">
+                    <div class="row">
+                        <div class="d-flex align-items-center pointer" (click)="quickViewToggle()">
+                            <i nz-icon nzType="arrow-left" class="mr-3" nzTheme="outline"></i>
+                            <h5 class="h5 mb-0">Back</h5>
+                        </div>
+                    </div>
                     <app-quick-view></app-quick-view>
                 </nz-drawer>
             </li>

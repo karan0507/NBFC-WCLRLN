@@ -1,0 +1,236 @@
+<section>
+    <nz-card>
+        <form nz-form>
+            <div class="row border-bottom">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                            Name</nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input Master Partner Name!">
+                            <input nz-input type="text" placeholder="Master Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>No. of Partners
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input No Of Partner!">
+                            <input nz-input type="text" placeholder="Master Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Amt.per Partner
+                            <div style="display: block;">(at acquisition)</div>
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please input valid amt per partner!">
+                            <input nz-input type="text" placeholder="Master Name" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-12 mt-3">
+                    <h5>
+                        At the time of acquisition of partners :
+                    </h5>
+                </div>
+                <div class="col-12 mt-2">
+                    <div>
+                        Commission based on Transaction Amount :
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <h5>
+                        Slab 1
+                    </h5>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Minimum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Minimum Amount" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Maximum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Maximum Amount" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Commission %
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Commission!">
+                                    <input nz-input type="text" placeholder="In Percentage" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <h5 class="my-0">
+                        At the time of Activation of partners :
+                    </h5>
+                </div>
+                <div class="col-md-12 mt-2">
+                        <div class="row">
+                            <div class="col-4">
+                                <!-- <nz-form-label nzFor="name" class="text-left" nzRequired>Time Period -->
+                                    <!-- <div>(post acquisition)</div> -->
+                                <!-- </nz-form-label> -->
+                                <div> Time Period (post acquisition)</div>
+                            </div>
+                            <div class="col-4">
+                                <nz-form-item class="mb-0">
+                                    <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                        <input nz-input type="text" placeholder="Minimum Amount" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-12">
+                    <h5 class="my-0">
+                        Slab 1
+                    </h5>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Minimum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Minimum Amount" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Maximum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Maximum Amount" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Commission %
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Commission!">
+                                    <input nz-input type="text" placeholder="In Percentage" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <h5>
+                        At the time of acquisition of customer :
+                    </h5>
+                </div>
+                <div class="col-12 mt-2">
+                    <div>
+                        Commission based on User Onboarded :
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <h5>
+                        Slab 1
+                    </h5>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Minimum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Minimum Amount" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Maximum Amount (₹)
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Amount!">
+                                    <input nz-input type="text" placeholder="Maximum Amount" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="mb-2">
+                                Commission %
+                            </div>
+                            <nz-form-item>
+                                <!-- <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name" class="text-left" nzRequired>Master Partner’s
+                                    Name</nz-form-label> -->
+                                <!-- <div> -->
+                                <nz-form-control [nzSm]="18" [nzXs]="36" nzErrorTip="Please input Valid  Commission!">
+                                    <input nz-input type="text" placeholder="In Percentage" />
+                                </nz-form-control>
+                                <!-- </div> -->
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </nz-card>
+</section>

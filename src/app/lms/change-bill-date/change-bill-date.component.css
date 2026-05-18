@@ -1,0 +1,9 @@
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+    justify-content: end;
+}
+:host ::ng-deep .ant-table-body {
+    max-height: calc(100vh - 530px) !important;
+}

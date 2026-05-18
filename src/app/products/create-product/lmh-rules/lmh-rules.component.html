@@ -1,0 +1,41 @@
+<section *ngIf="!loading">
+    <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <ng-container *ngFor="let item of get_metrics_arr(createEditForm); let k = index;" formArrayName="metrics_arr">
+                <div class="row mb-3" [formGroupName]="k">
+                    <div class="col-md-12">
+                        <nz-collapse>
+                            <nz-collapse-panel [nzHeader]="item.controls.rule_name.value">
+                                <ng-container *ngFor="let slab_item of get_category_array(item); let i = index;" formArrayName="actions">
+                                    <div class="col-md-12 mb-3" [formGroupName]="i">
+                                        <div class="row mx-0">
+                                            <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left mr-3">{{slab_item.controls.name.value}}
+                                            </nz-form-label>
+                                            <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input value!" class="mr-3" *ngIf="slab_item.controls.is_value_dynamic.value">
+                                                <input nz-input type="text" formControlName="value" placeholder="Please input value" />
+                                            </nz-form-control>
+                                            <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input value!" *ngIf="!slab_item.controls.is_value_dynamic.value">
+                                                <nz-select formControlName="value" nzPlaceHolder="Select value!" nzShowSearch nzAllowClear>
+                                                    <nz-option *ngFor="let sub of slab_item.controls.supported_values.value" [nzValue]="sub" [nzLabel]="sub"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </div>
+                            
+                                    </div>
+                                </ng-container>
+                            </nz-collapse-panel>
+                        </nz-collapse>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+    </nz-card>
+    <ng-template #actionSubmit>
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+            <div class="col-12 d-flex justify-content-end px-4">
+                <button nz-button nzType="primary" [disabled]="(createEditForm.invalid)" [nzLoading]="isloading"
+                    (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</section>

@@ -1,0 +1,62 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100 accordianLoanApp">
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="dataList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+                [nzLoading]="api_calling_loader" (nzQueryParams)="dataList ? getCategoryList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Logo</th>
+                        <th>Category name</th>
+                        <th>Group name</th>
+                        <th>Status</th>
+                        <!-- <th>Corporate</th> -->
+                        <th nzWidth="6rem" nzRight>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of dataList; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>
+                            <img [src]="data.logo" alt="logo" width="50" class="m-2">
+                        </td>
+                        <td>{{ data['name'] ? data['name']: '-' }}</td>
+                        <td>{{ data['group_name'] ? data['group_name']: '-' }}</td>
+                        <td>
+                            <span style="color: #27C24C;" *ngIf="data?.is_active"><i nz-icon nzType="check-circle"
+                                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                                &nbsp; Active</span>
+                            <span style="color: #dc3545;" *ngIf="!data?.is_active"><i nz-icon nzType="close-circle"
+                                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                                &nbsp; Inactive</span>
+                        </td>
+                        <!-- <td>{{ data['corporate'] ? data['corporate']: '-' }}</td> -->
+                        <td nzRight>
+                            <div>
+                                <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown123">
+                                    <i nz-icon nzType="ellipsis" theme="outline"></i>
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown123="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item nz-popconfirm
+                                            [nzPopconfirmTitle]="'Are you sure to '+ (data?.is_active ? 'inactive': 'active') +' category?'"
+                                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="toggleStatus(data.id)">
+                                            <span class="m-l-5">toggle status</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>

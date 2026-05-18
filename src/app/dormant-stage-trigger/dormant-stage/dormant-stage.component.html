@@ -1,0 +1,33 @@
+<section>
+    <nz-card [nzLoading]="apiLoader['getLoader']">
+        <!-- <form [formGroup]="versionForm"> -->
+            <div class="row">
+                <div class="col-md-5">
+                    <nz-form-item>
+                        <nz-form-label  nzFor="name" class="text-left" nzRequired>Dormant Stage
+                        </nz-form-label>
+                        <nz-form-control nzErrorTip="Please Add Valid Version!">
+                            <nz-select class="w-100" nzAllowClear [(ngModel)]="selectedStageFilters" style="width: 12rem;" (ngModelChange)="getSelectedDormantStage($event)"
+                              nzPlaceHolder="Select Stage">
+                              <nz-option *ngFor="let item of dormantList" [nzValue]="item" [nzLabel]="item.name">
+                              </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-5">
+                    <nz-form-item>
+                        <nz-form-label  nzFor="name" class="text-left" nzRequired>No Of Days
+                        </nz-form-label>
+                        <nz-form-control nzErrorTip="Please Add Valid Version!">
+                            <input nz-input type="text" placeholder="App Version" [(ngModel)]="selectedDaysOfDormantStage"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12" style="text-align-last: right;" *ngxPermissionsOnly="['update_dormant_stage']">
+                    <button nz-button nzType="primary" [nzLoading]="apiLoader['onUpdate']" (click)="onClickUpdateDormantStage()" [disabled]="!selectedDaysOfDormantStage">Update Version</button>   
+                </div>
+            </div>
+        <!-- </form> -->
+    </nz-card>
+</section>

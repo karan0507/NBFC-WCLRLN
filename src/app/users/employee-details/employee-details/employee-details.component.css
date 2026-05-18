@@ -1,0 +1,17 @@
+::ng-deep .ant-upload-list-text-container{
+    display: none !important;
+}
+
+:host ::ng-deep .ant-table-body {
+    max-height: calc(100vh - 527px) !important;
+}
+
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+}
+
+:host ::ng-deep .ant-checkbox-inner {
+    border: 1px solid darkblue;
+}

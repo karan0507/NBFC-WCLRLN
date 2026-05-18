@@ -1,0 +1,209 @@
+<section>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+                            (keyup.enter)="fetchLoanApplicationList()" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" (click)="fetchLoanApplicationList()" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        (click)="resetFilters()" class="ml-2">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <nz-select class="mx-1 mb-2" style=" width: 15rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="master_product_id" (ngModelChange)="fetchLoanApplicationList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_blocked" (ngModelChange)="fetchLoanApplicationList()"
+                        nzPlaceHolder="Filter By Card Status">
+                        <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+                    </nz-select>
+                    <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        [(ngModel)]="is_active" (ngModelChange)="fetchLoanApplicationList()"
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
+                        <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
+                        <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
+                        <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
+                        <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
+                        <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
+                        <nz-option [nzValue]="'Voluntary Closure Restructuring'"
+                            nzLabel="Voluntary Closure Restructuring"></nz-option>
+                        <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
+                        <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>
+                    </nz-select>
+                    <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select> -->
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
+                [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+                [nzScroll]="{ x: '1800px' }" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzLoading]="api_calling_loader"
+                (nzQueryParams)="borrowertList ? fetchLoanApplicationList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>User Name</th>
+                        <th>Product type</th>
+                        <th>Loan ID</th>
+                        <th>Applied on</th>
+                        <th>Previous Credit Line Assigned</th>
+                        <th>Change of Amount</th>
+                        <th>New Credit Line Assigned</th>
+                        <th>Activation Date</th>
+                        <!-- <th nzWidth="5rem" nzRight>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of borrowertList; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{data.user ? data.user.full_name : '-'}}</td>
+                        <td>{{ data?.product_type ? data?.product_type.name : '-'}}</td>
+                        <td>{{data.loan_unique_id ? data.loan_unique_id : '-'}}</td>
+                        <td>{{data.created_at | date: "medium"}}</td>
+                        <td>{{data.loan_amount_provided ? data.loan_amount_provided : 0}}</td>
+                        <td>{{data.creditline_data?.length > 0 ? (data.creditline_data[0]?.change_type == '+' ?
+                            (convertToFloat(data.creditline_data[0]?.amount_change) -
+                            convertToFloat(data.loan_amount_provided)) :
+                            (convertToFloat(data.creditline_data[0]?.amount_change) -
+                            convertToFloat(data.loan_amount_provided))) : 0}}</td>
+                        <td>{{data.creditline_data?.length > 0 ?.amount_change ? data.creditline_data[0]?.amount_change
+                            : 0}}</td>
+                        <td>{{data.created_at | date: "medium"}}</td>
+                        <!-- <td nzRight>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false"
+                                    [nzTrigger]="'click'" [nzPlacement]="'bottomRight'"
+                                    [nzDropdownMenu]="latestUploadDropDown">
+                                    <img src="assets/images/ellipsis.png" alt="" width="30">
+                                </a>
+                                <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="openChangeCreditModal(data)">
+                                            <span class="m-l-5">Change Credit Line</span>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+<nz-modal [(nzVisible)]="isIncLine" nzTitle="Change Credit Line" (nzOnCancel)="isIncLine = false" nzOkText="Save"
+    (nzOnOk)="changeCreditLineFunction()" [nzOkDisabled]="createIncLine.invalid">
+    <ng-container *nzModalContent>
+        <form [formGroup]="createIncLine">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="mr-md-5">Name : {{selectedLine.user ? selectedLine.user.full_name : '-'}}</span>
+                    <span>Loan ID - {{selectedLine.loan_unique_id ? selectedLine.loan_unique_id : '-'}}</span>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="amount" class="text-left">Previous Credit
+                            Line</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount!">
+                            {{selectedLine.loan_amount_provided }}
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="incBy" class="text-left" nzRequired>Change Credit
+                            by</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Change Credit by!">
+                            <input nz-input type="number" min="0" formControlName="incBy"
+                                placeholder="Please input Change Credit by" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>New Credit
+                            Line</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input New Credit Line!">
+                            <!-- <input nz-input type="number" min="0" placeholder="Please input New Credit Line"/> -->
+                            {{convertToFloat(selectedLine.loan_amount_provided) +
+                            convertToFloat(createIncLine.get('incBy').value ? createIncLine.get('incBy').value : 0)}}
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="activation_from" class="text-left"
+                            nzRequired>Activate from
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Activate from!">
+                            <nz-date-picker formControlName="activation_from" [nzDisabledDate]="disabledDate"
+                                [nzFormat]="'YYYY-MM-dd'" nzPlaceHolder="Please input Activate from!"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</nz-modal>
+<!-- <nz-modal [(nzVisible)]="isDescLine" nzTitle="Decrease Credit Line" (nzOnCancel)="isDescLine = false" nzOkText="Save" (nzOnOk)="isDescLine = false">
+    <ng-container *nzModalContent>
+        <form [formGroup]="createDescLine">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="mr-md-5">Name : Akshay Tomar</span>
+                    <span>Loan ID - #F-EMI4567</span>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="amount" class="text-left">Previous Credit Line</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Amount!">
+                            10000
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="incBy" class="text-left" nzRequired>Decrease Credit by</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Decrease Credit by!">
+                            <input nz-input type="number" min="0" formControlName="incBy" placeholder="Please input Decrease Credit by"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="newCred" class="text-left" nzRequired>New Credit Line</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input New Credit Line!">
+                            <input nz-input type="number" min="0" formControlName="newCred" placeholder="Please input New Credit Line"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="activation_from" class="text-left" nzRequired>Activate from
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Activate from!">
+                            <nz-date-picker formControlName="activation_from" [nzFormat]="'YYYY-MM-dd'" nzPlaceHolder="Please input Activate from!"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</nz-modal> -->

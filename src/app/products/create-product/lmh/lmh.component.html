@@ -1,0 +1,51 @@
+<section *ngIf="!loading">
+    <nz-card [nzActions]="[actionSubmit]">
+        <form nz-form [formGroup]="createEditForm">
+            <ng-container *ngFor="let item of get_metrics_arr(createEditForm); let k = index;"
+                formArrayName="metrics_arr">
+                <div class="row mb-3" [formGroupName]="k">
+                    <nz-divider *ngIf="k > 0"></nz-divider>
+                    <nz-form-label class="w-100 text-left">{{item.controls.metric_name.value}} </nz-form-label>
+                    <div class="col-md-12">
+                        <ng-container *ngFor="let slab_item of get_category_array(item); let i = index;"
+                            formArrayName="config">
+                            <div class="col-md-12 px-0 mb-3" [formGroupName]="i">
+                                <div class="row">
+                                    <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left mr-3">{{slab_item.controls.category.value}}
+                                    </nz-form-label>
+                                    <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input value!" class="mr-3">
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="min_val"
+                                            placeholder="Please input min value" />
+                                    </nz-form-control>
+                                    <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please input value!">
+                                        <input nz-input type="number" (keydown)="http.restrictType($event)" min="0" formControlName="max_val"
+                                            placeholder="Please input max value" />
+                                    </nz-form-control>
+                                </div>
+
+                            </div>
+                        </ng-container>
+                    <div class="row">
+                        <nz-form-label [nzSm]="5" [nzXs]="24" class="mr-3 text-left">Missing data category </nz-form-label>
+                        <nz-form-control [nzSm]="5" [nzXs]="24" nzErrorTip="Please select!">
+                            <nz-select formControlName="missing_data_category" nzPlaceHolder="Select category!" nzShowSearch nzAllowClear>
+                                <nz-option [nzValue]="'HIGH'" [nzLabel]="'HIGH'"></nz-option>
+                                <nz-option [nzValue]="'MEDIUM'" [nzLabel]="'MEDIUM'"></nz-option>
+                                <nz-option [nzValue]="'LOW'" [nzLabel]="'LOW'"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+    </nz-card>
+    <ng-template #actionSubmit>
+        <div class="row no-gutters" *ngIf="!router.url.includes('view-product')">
+            <div class="col-12 d-flex justify-content-end px-4">
+                <button nz-button nzType="primary" [disabled]="(createEditForm.invalid)" [nzLoading]="isloading"
+                    (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</section>

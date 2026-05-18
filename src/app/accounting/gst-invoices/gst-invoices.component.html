@@ -1,0 +1,80 @@
+<div class="header_breadcrumb_section">
+    <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
+    <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+</div>
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchGSTInvoiceList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchGSTInvoiceList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-1" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="fetchGSTInvoiceList()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select>
+                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchGSTInvoiceList()" [nzRanges]="customRanges"></nz-range-picker>
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzLoading]="api_calling_loader" (nzQueryParams)="list_data ? fetchGSTInvoiceList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <!-- <th>Invoice file name</th> -->
+                        <th>Loan id</th>  
+                        <th>Transaction type</th>
+                        <th>Transaction id</th>  
+                        <th>Corporate</th>  
+                        <th>Invoice date</th>
+                        <th>IGST</th>
+                        <th>Total</th>  
+                        <th>Actions</th>                
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <!-- <td>{{ data['invoice_file'] ? data['invoice_file']: '-' }}</td> -->
+                        <td>{{ data['transaction'].loan_unique_id ? data['transaction'].loan_unique_id: '-' }}</td>
+                        <td>{{ data['transaction'].txn_name ? data['transaction'].txn_name: '-' }}</td>
+                        <td>{{ data['transaction'].txn_unique_id ? data['transaction'].txn_unique_id: '-' }}</td>
+                        <td>{{ data['corporate'].display_name ? data['corporate'].display_name: '-' }}</td>
+                        <td>{{ data['invoice_date'] ? (data['invoice_date'] | date: 'medium'): '-' }}</td>
+                        <td>{{ data['igst_total'] ? data['igst_total']: '-' }}</td>
+                        <td>{{ data['total'] ? data['total']: '-' }}</td>
+                        <td><a (click)="viewDownloadPdf(data['invoice_file'], data['transaction'].txn_name)">View invoice</a></td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="pdf_viewer_object_values['url']" width="100%" height="100%" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
+</nz-modal>

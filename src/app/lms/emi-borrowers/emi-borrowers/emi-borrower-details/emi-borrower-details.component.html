@@ -1,0 +1,756 @@
+<!-- <div class="d-flex justify-content-end mb-2">
+    <button nz-button nzType="primary" (click)="exportEmiBill()">Export</button>
+</div> -->
+
+<nz-card [nzLoading]="cardLoading">
+    <section>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Name:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                    _currEMIBorrowerDetail?.user_details.full_name : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Mobile:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                    _currEMIBorrowerDetail?.user_details.mobile : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Email:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.user_details ?
+                                    _currEMIBorrowerDetail?.user_details.email : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Loan
+                                ID:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.loan_unique_id ?
+                                    _currEMIBorrowerDetail?.loan_unique_id : '-'}}</span></label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Loan
+                                Amount: <span class="font-weight-normal">₹
+                                    {{_currEMIBorrowerDetail?.loan_amount_provided
+                                    ? _currEMIBorrowerDetail?.loan_amount_provided :'0' }}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Interest
+                                Rate: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.interest_rate ?
+                                    _currEMIBorrowerDetail?.interest_rate : '0'}}%</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Auto
+                                Debit: <span class="font-weight-normal">{{_currEMIBorrowerDetail?.auto_debit ?
+                                    _currEMIBorrowerDetail?.auto_debit : ''}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Excess Wallet Amount:
+                                <span class="font-weight-normal">₹{{_currEMIBorrowerDetail?.excess_wallet_amount ?
+                                    _currEMIBorrowerDetail?.excess_wallet_amount : '0'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">DPD
+                                Bucket:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.dpd_data?.dpd_bucket ?
+                                    _currEMIBorrowerDetail?.dpd_data?.dpd_bucket : '0'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">DPD
+                                Number:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.dpd_data?.dpd_number ?
+                                    _currEMIBorrowerDetail?.dpd_data?.dpd_number : '0'}}</span></label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Disbursement Date: <span
+                                    class="font-weight-normal">{{_currEMIBorrowerDetail?.disbursement_date ?
+                                    (_currEMIBorrowerDetail?.disbursement_date | date:'medium') : '-'}}</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Product
+                                Tenure:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.product_tenure ?
+                                    _currEMIBorrowerDetail?.product_tenure : '-' }}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Application Nature:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.application_nature ?
+                                    _currEMIBorrowerDetail?.application_nature : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label class="font-weight-semibold text-dark mr-3">Due
+                                Day:
+                                <span class="font-weight-normal">{{_currEMIBorrowerDetail?.due_day ?
+                                    _currEMIBorrowerDetail?.due_day : '-'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Outstanding:
+                                <span
+                                    class="font-weight-normal">₹{{_currEMIBorrowerDetail?.total_amounts?.outstanding_amount
+                                    ?
+                                    (_currEMIBorrowerDetail?.total_amounts?.outstanding_amount | number :'1.2-2') :
+                                    '0'}}</span></label></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div nz-card-grid [ngStyle]="gridStyle"><label
+                                class="font-weight-semibold text-dark mr-3">Principal Outstanding:
+                                <span
+                                    class="font-weight-normal">₹{{_currEMIBorrowerDetail?.total_amounts?.principal_outstanding
+                                    ?
+                                    (_currEMIBorrowerDetail?.total_amounts?.principal_outstanding | number :'1.2-2'):
+                                    '0'}}</span></label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-5">
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="schedulerDetails" [nzPageIndex]="page"
+            [nzShowSizeChanger]="true" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzTotal]="total_count"
+            [nzPageSize]="globalPageSize" [nzScroll]="{ x: '1500px' }">
+            <!-- , y: '45vh'     -->
+            <thead>
+                <tr>
+                    <th nzWidth="2rem"></th>
+                    <th nzWidth="3rem">#</th>
+                    <th>Narration</th>
+                    <th>EMI Date</th>
+                    <th>EMI</th>
+                    <th>Interest</th>
+                    <th>Principal</th>
+                    <th>Outstanding Fees Charges</th>
+                    <th>Is Nach Trigger</th>
+                    <th>Repayments</th>
+                    <th>Paid On</th>
+                    <th>Paid Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of schedulerDetails; index as i">
+                    <tr>
+                        <td nzWidth="3rem" [nzExpand]="expandSet.has(data.id)"
+                            (nzExpandChange)="onExpandChange(data.id, $event, i,data)"></td>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{data?.narration ? data?.narration : '-'}}
+                        </td>
+                        <td>{{ data?.emi_date ? data?.emi_date : "-" }}</td>
+                        <td>₹{{data?.emi ? data?.emi : '-'}}</td>
+                        <td>₹{{data.emi_interest_component ? data?.emi_interest_component : '0'}}</td>
+                        <td>₹ {{ data?.emi_principle_component ? data?.emi_principle_component : "0" }}</td>
+                        <td>₹{{ data?.fees_charges_outstanding ? data.fees_charges_outstanding : "0" }}</td>
+                        <td>
+                            <i *ngIf="data.is_nach_trigger" nz-icon nzType="check-circle" nzTheme="fill"
+                                class="text-success"></i>
+                            <i *ngIf="!data.is_nach_trigger" nz-icon nzType="close-circle" nzTheme="fill"
+                                class="text-danger"></i>
+                        </td>
+                        <td>₹{{data.repayments ? data.repayments : '0'}}</td>
+                        <td> {{ data.paid_on ? (data?.paid_on | date:'medium') : '-' }}</td>
+                        <td><label
+                                [ngClass]="data?.paid_status == 'Paid' ? 'text-success' : (data?.paid_status == 'Unpaid' ? 'text-danger' : '')">{{
+                                data?.paid_status ?
+                                data?.paid_status : '-' }}</label> </td>
+
+                    </tr>
+                    <tr *ngIf="_currEMIBorrowerDetail?.pre_closure?.is_pre_closure">
+                        <td class="font-weight-bold">Full Payment:</td>
+                        <td>_currEMIBorrowerDetail?.pre_closure?.full_payment</td>
+                        
+                        <td></td>
+                        <td class="font-weight-bold">Total Fees : </td>
+                        <td>_currEMIBorrowerDetail?.pre_closure?.full_payment</td>
+                        <td></td>
+                       
+                        <td></td>
+                        <td class="font-weight-bold">Total Interest</td>
+                        <td>_currEMIBorrowerDetail?.pre_closure?.total_interest</td>
+                        <td></td>
+                        <td class="font-weight-bold">Total Principal</td>
+                        <td>_currEMIBorrowerDetail?.pre_closure?.total_principal</td>
+                    </tr>
+                    <tr [nzExpand]="expandSet.has(data.id)">
+
+
+                        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="data.allocation_data"
+                            [nzShowSizeChanger]="false" [nzScroll]="{ x: '1500px' }">
+                            <thead>
+                                <tr>
+                                    <th nzWidth="3rem">#</th>
+                                    <th>Fees Charges Payment</th>
+                                    <th>Interest Payment</th>
+                                    <th>Principal Payment</th>
+                                    <th>Total Amount</th>
+                                    <th>Payment Date</th>
+
+                                </tr>
+                            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of data.allocation_data; index as j">
+                    <tr>
+                        <td>{{ j + 1 }}</td>
+                        <td>{{item?.fees_charges_payment ? item?.fees_charges_payment : '-'}}
+                        </td>
+                        <td>₹{{ item?.interest_payment ? item?.interest_payment : "0" }}</td>
+                        <td>₹{{ item?.principal_payment ? item?.principal_payment : "0" }}</td>
+                        <td>₹{{ item?.total_amount ? item?.total_amount : "0" }}</td>
+                        <td> {{ item.payment_date ? (item?.payment_date | date:'medium') : '-' }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </nz-table>
+
+
+        </tr>
+
+        <!-- Pre Clousre -->
+        <tr *ngIf="data?._currEMIBorrowerDetail?.pre_closure">
+            <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.full_payment :
+                ''}}</td>
+            <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.is_pre_closure
+                : ''}}</td>
+            <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_fees :
+                ''}}</td>
+            <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_interest
+                : ''}}</td>
+            <td>{{data?._currEMIBorrowerDetail?.pre_closure ? data?._currEMIBorrowerDetail?.pre_closure?.total_principal
+                : ''}}</td>
+        </tr>
+
+        </ng-container>
+        </tbody>
+        </nz-table>
+        <div class="total_count_text" *ngIf="total_count">
+            <b>Total Count : </b>{{ total_count }}
+        </div>
+    </section>
+</nz-card>
+
+
+
+<nz-card [nzTitle]="agrTitle">
+    <nz-table [nzLoading]="api_calling_loader['transactionLoad']" [nzFrontPagination]="false" [nzPageIndex]="page2"
+        [nzPageSize]="globalPageSize2" [nzShowSizeChanger]="true" [nzTotal]="total_count2"
+        (nzQueryParams)="_currEMIBorrowerDetail?.agreements ? fetchTransactionTxnList($event) : ''"
+        [nzData]="_currEMIBorrowerDetail?.agreements" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+        [nzScroll]="{ x: '1500px' }">
+        <thead>
+            <tr>
+                <th nzWidth="5rem">#</th>
+                <th nzWidth="15rem">Agreement Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of _currEMIBorrowerDetail?.agreements; index as i">
+                <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{ data?.agreement_type ? data?.agreement_type : '-' }}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button nz-button nzType="link" nzSize="small" class="mr-3"
+                                (click)="pdf_viewer_object_values['boolean'] = true; pdf_viewer_object_values['title'] = 'View Agreement'; sanatizeUrlToSafe(data?.agreement)">View</button>
+                            <button nz-button nzType="primary" nzSize="small"
+                                (click)="downloadAgreement(data?.agreement)">Download</button>
+                        </div>
+                    </td>
+
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</nz-card>
+<ng-template #agrTitle>
+    Agreements
+</ng-template>
+
+<nz-card [nzTitle]="txntitle" [nzExtra]="extraTemplate">
+    <ng-template #extraTemplate>
+        Spend Status : {{borrowertList?.account_status}}
+    </ng-template>
+    <div class="row">
+        <ng-template #txntitle>
+            <img src="../../../../assets/images/rupees.svg" alt=""> &nbsp;Transactions & Repayments
+        </ng-template>
+
+        <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input (keyup.enter)="fetchTransactionTxnList()" [(ngModel)]="searchValue2" type="text" nz-input
+                    placeholder="Search text" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button (click)="fetchTransactionTxnList()" nz-button nzType="secondary" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </div>
+        <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="mr-2"
+                (click)="resetFilter2()">
+                <i nz-icon nzType="undo"></i>
+            </button>
+            <nz-range-picker [(ngModel)]="date1" [nzDisabledDate]="disabledDate"
+                (ngModelChange)="fetchTransactionTxnList()" [nzRanges]="customRanges">
+            </nz-range-picker>
+            <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType2" (ngModelChange)="fetchTransactionTxnList()" nzAllowClear
+            nzPlaceHolder="Filter By Type">
+            <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>
+            <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
+            <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+        </nz-select> -->
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus2"
+                (ngModelChange)="fetchTransactionTxnList()" nzAllowClear nzPlaceHolder="Filter By Status">
+                <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+            </nz-select>
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType2"
+                (ngModelChange)="fetchTransactionTxnList()" nzPlaceHolder="Filter By Type">
+                <!-- <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option> -->
+                <!-- <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option> -->
+                <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+                <nz-option nzValue="Reverse" nzLabel="Reverse"></nz-option>
+                <nz-option nzValue="Expense Spend" nzLabel="Expense Spend"></nz-option>
+                <nz-option nzValue="Cashback" nzLabel="Cashback"></nz-option>
+                <nz-option nzValue="Bank Transfer" nzLabel="Bank Transfer"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+    <nz-table [nzLoading]="api_calling_loader['transactionLoad']" [nzFrontPagination]="false" [nzPageIndex]="page2"
+        [nzPageSize]="globalPageSize2" [nzShowSizeChanger]="true" [nzTotal]="total_count2"
+        (nzQueryParams)="transaction_repayment_list ? fetchTransactionTxnList($event) : ''"
+        [nzData]="transaction_repayment_list" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]"
+        [nzScroll]="{ x: '1500px' }">
+        <thead>
+            <tr>
+                <th nzWidth="5rem">#</th>
+                <th nzWidth="15rem">User Details</th>
+                <th>Transaction name</th>
+                <th>Transaction ID</th>
+                <!-- <th>User Code</th> -->
+                <!-- <th>Transaction ID</th> -->
+                <th>Transaction Type</th>
+                <th>Details</th>
+                <th>Payment method</th>
+                <th>Date & Time</th>
+                <th>Amount (₹)</th>
+                <!-- <th>GST Amount</th>
+                      <th>Total Amount (₹)</th> -->
+                <th>Status</th>
+                <th nzWidth="5rem" nzRight>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of transaction_repayment_list; index as i">
+                <tr>
+                    <td *ngIf="page2 === 1">{{i+1}}</td>
+                    <td *ngIf="page2 > 1">{{((page2-1)*globalPageSize2)+(i+1)}}</td>
+                    <td>
+                        <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                        <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
+                    </td>
+                    <td>{{ data?.txn_name }}</td>
+                    <td>{{ data?.txn_unique_id }}</td>
+                    <!-- <td>{{ data?.pan }}</td> -->
+                    <!-- <td>{{ data?.txn_unique_id }}</td> -->
+                    <td>{{ data?.txn_type }}</td>
+                    <td>{{ data?.details }}</td>
+                    <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
+                    <td>{{ data?.created_at | date: "medium" }}</td>
+                    <td>₹ {{data?.symbol}} {{ data?.txn_amount }}</td>
+                    <!-- <td>{{ data?.pan }}</td>
+                            <td>{{ data?.pan }}</td> -->
+                    <td>{{ data?.txn_status }}</td>
+                    <td nzRight>
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item [routerLink]="['/lms/transactions/details']"
+                                        [queryParams]="{id: data.id}"
+                                        *ngxPermissionsOnly="['view_details_transaction']">
+                                        <span class="m-l-5">View details</span>
+                                    </li>
+                                    <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
+                                        <li nz-menu-item (click)="waiveOffToggle(data?.id)"
+                                            *ngxPermissionsOnly="['waive_off_transaction']">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Waive off Charges</span>
+                                        </li>
+                                    </ng-container>
+                                    <ng-container>
+                                        <!-- <li nz-menu-item (click)="refundChargesToggle(data?.id);"
+                                            *ngxPermissionsOnly="['refund_transaction']">
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li> -->
+                                        <li nz-menu-item (click)="openRefundModal(data.id)"
+                                            *ngIf="data?.txn_type == 'Repayment' || data?.txn_type == 'EMI Payment'">
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li>
+                                    </ng-container>
+                                    <ng-container *ngIf="data?.is_reversible">
+                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);"
+                                            *ngxPermissionsOnly="['reverse_transaction']">
+                                            <span class="m-l-5">Reverse Transaction</span>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+    <div class="total_count_text" *ngIf="total_count2">
+        <b>Total Count : </b>{{total_count2}}
+    </div>
+</nz-card>
+
+
+<nz-card [nzTitle]="feestitle">
+    <ng-template #feestitle>
+        <img src="../../../../assets/images/rupees.svg" alt=""> &nbsp;Fees and Charges
+    </ng-template>
+    <div class="row">
+        <div class="col-md-4 mb-3 d-flex">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input (keyup.enter)="fetchTransactionFessList()" [(ngModel)]="searchValue1" type="text" nz-input
+                    placeholder="Search text" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button (click)="fetchTransactionFessList()" nz-button nzType="secondary" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </div>
+        <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter" class="mr-2"
+                (click)="resetFilter1()">
+                <i nz-icon nzType="undo"></i>
+            </button>
+            <nz-range-picker [(ngModel)]="date2" [nzDisabledDate]="disabledDate"
+                (ngModelChange)="fetchTransactionFessList()" [nzRanges]="customRanges">
+            </nz-range-picker>
+            <!-- <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedType1" (ngModelChange)="fetchTransactionFessList()" nzAllowClear
+            nzPlaceHolder="Filter By Type">
+            <nz-option nzValue="Borrower Funded" nzLabel="Borrower Funded"></nz-option>
+            <nz-option nzValue="Fees Charge" nzLabel="Fees Charge"></nz-option>
+            <nz-option nzValue="Repayment" nzLabel="Repayment"></nz-option>
+        </nz-select> -->
+            <nz-select class="mx-1" style=" width: 10rem;" [(ngModel)]="selectedStatus1"
+                (ngModelChange)="fetchTransactionFessList()" nzAllowClear nzPlaceHolder="Filter By Status">
+                <nz-option nzValue="Success" nzLabel="Success"></nz-option>
+                <nz-option nzValue="Fail" nzLabel="Fail"></nz-option>
+                <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+    <nz-table [nzLoading]="api_call_loading['fees']" [nzFrontPagination]="false" [nzPageIndex]="page1"
+        [nzPageSize]="globalPageSize1" [nzShowSizeChanger]="true" [nzTotal]="total_count1"
+        (nzQueryParams)="fees_charges_list ? fetchTransactionFessList($event) : ''" [nzData]="fees_charges_list"
+        [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '1700px' }">
+        <thead>
+            <tr>
+                <th nzWidth="5rem">#</th>
+                <th nzWidth="15rem">User Details</th>
+                <th>Transaction name</th>
+                <th>Transaction ID</th>
+                <!-- <th>User Code</th> -->
+                <!-- <th>Transaction ID</th> -->
+                <th>Transaction Type</th>
+                <th>Details</th>
+                <th>Payment method</th>
+                <th>Date & Time</th>
+                <th>Amount (₹)</th>
+                <th>Is waive off</th>
+                <th>Waive off transaction id</th>
+                <th>Status</th>
+                <th nzWidth="5rem" nzRight>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of fees_charges_list; index as i">
+                <tr>
+                    <td *ngIf="page1 === 1">{{i+1}}</td>
+                    <td *ngIf="page1 > 1">{{((page1-1)*globalPageSize1)+(i+1)}}</td>
+                    <td>
+                        <h5>{{data.user?.full_name ? data.user.full_name : '-'}}</h5>
+                        <span>Contact No: {{data.user?.mobile ? data.user.mobile : '-'}}</span>
+                    </td>
+                    <td>{{ data?.txn_name }}</td>
+                    <td>{{ data?.txn_unique_id }}</td>
+                    <!-- <td>{{ data?.pan }}</td> -->
+                    <!-- <td>{{ data?.txn_unique_id }}</td> -->
+                    <td>{{ data?.txn_type }}</td>
+                    <td>{{ data?.details }}</td>
+                    <td>{{ data?.mode_of_payment ? data?.mode_of_payment : '-' }}</td>
+                    <td>{{ data?.transaction_datetime | date: "medium" }}</td>
+                    <td>₹{{ data?.txn_amount }}</td>
+                    <td *ngIf="data?.is_waived_off"><a><i nz-icon nzType="check-circle" nzTheme="outline"></i></a></td>
+                    <td *ngIf="!data?.is_waived_off"><a><i nz-icon nzType="close-circle" nzTheme="outline"></i></a></td>
+                    <td>{{ data?.waived_off_transaction_id ? data?.waived_off_transaction_id : '-' }}</td>
+                    <td>{{ data?.txn_status }}</td>
+                    <td nzRight>
+                        <div>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item [routerLink]="['/lms/transactions/details']"
+                                        [queryParams]="{id: data.id}"
+                                        *ngxPermissionsOnly="['view_details_transaction']">
+                                        <span class="m-l-5">View details</span>
+                                    </li>
+                                    <ng-container *ngIf="data?.txn_type == 'Fees Charge'">
+                                        <li nz-menu-item (click)="waiveOffToggle(data?.id)"
+                                            *ngxPermissionsOnly="['waive_off_transaction']">
+                                            <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                                            <span class="m-l-5">Waive off Charges</span>
+                                        </li>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="data?.txn_type == 'Repayment' && data?.txn_status == 'Success'">
+                                        <li nz-menu-item (click)="refundChargesToggle(data?.id);refundId = data.id"
+                                            *ngxPermissionsOnly="['refund_transaction']">
+                                            <span class="m-l-5">Refund Transaction</span>
+                                        </li>
+                                    </ng-container>
+                                    <ng-container *ngIf="data?.is_reversible">
+                                        <li nz-menu-item (click)="reverseChargesToggle(data?.id);"
+                                            *ngxPermissionsOnly="['reverse_transaction']">
+                                            <span class="m-l-5">Reverse Transaction</span>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+    <div class="total_count_text" *ngIf="total_count1">
+        <b>Total Count : </b>{{total_count1}}
+    </div>
+</nz-card>
+<nz-card nzTitle="Invoices">
+    <nz-table #basicTable [nzData]="invoiceList" [nzFrontPagination]="false" [nzShowPagination]="false">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Term</th>
+                <th>Total Amount</th>
+                <th>Invoice date</th>
+                <th nzWidth="5rem" nzRight *ngxPermissionsOnly="['view_invoice']">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of invoiceList; index as i">
+                <td *ngIf="page5 === 1">{{i+1}}</td>
+                <td *ngIf="page5 > 1">{{((page5-1)*globalPageSize5)+(i+1)}}</td>
+                <td>{{data.terms ? data.terms : '-'}}</td>
+                <td>{{data.total ? data.total : '-'}}</td>
+                <td>{{data.invoice_date ? data.invoice_date : '-'}}</td>
+                <td nzRight *ngxPermissionsOnly="['view_invoice']">
+                    <a (click)="viewInvoice(data.invoice_file, 'Invoice')">view</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+<nz-modal [nzWidth]="500" [(nzVisible)]="isWaiveOff" [nzFooter]="!is_set_amt ? modalFooter1234 : null"
+    (nzOnCancel)="isWaiveOff = false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup *ngIf="is_set_amt"
+            [title]="'Are you sure you want to waive off ₹' +   waive_off_amount "
+            [subTitle]="'This action will wave off requested amount the permanently. <br/> Are You Sure?'"
+            [icon]="'assets/images/waiveoff.png'" (onOkCall)="fetchBorrowerDelete()" (onCencelCall)="isWaiveOff = false"
+            [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'" [isbtnLoading]="isdeleteloader">
+        </app-double-confirmation-popup>
+        <div class="row" *ngIf="!is_set_amt">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select type
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
+                        <nz-select nzAllowClear [(ngModel)]="waive_off_type" nzPlaceHolder="Please Select type"
+                            (ngModelChange)="waive_off_type == 2 ? waive_off_amount = final_reverse_amount : waive_off_amount = '' ">
+                            <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
+                            <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
+                        <input [(ngModel)]="waive_off_amount" type="number" nz-input
+                            placeholder="Please Enter amount" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #modalFooter1234>
+        <button nz-button (click)="isWaiveOff = false; is_set_amt = false">Close</button>
+        <button nz-button nzType="primary" (click)="setTypeandAmtWaiveoff()">Submit</button>
+    </ng-template>
+</nz-modal>
+
+<!-- pdf viewer and download -->
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzWidth="60vw" [nzStyle]="{ top: '20px'}"
+    [nzBodyStyle]="{height:'85vh'}" nzKeyboard="true" [nzTitle]="pdf_viewer_object_values['title']"
+    (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container h-100">
+            <embed [src]="pdf_viewer_object_values['url']" width="100%" height="100%" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
+</nz-modal>
+
+<!-- select date for trasaction -->
+<nz-modal [(nzVisible)]="isSelectDate" [nzTitle]="'Select date range'" (nzOnCancel)="isSelectDate = false"
+    (nzOnOk)="pdfViewerAndDownload('Transaction Statement', 1)" nzOkText="Download"
+    [nzOkDisabled]="!selectedDateforStatement">
+    <ng-container *nzModalContent>
+        <nz-range-picker [(ngModel)]="selectedDateforStatement" [nzDisabledDate]="disabledDate"></nz-range-picker>
+    </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="send_payment_amount_popup" [nzTitle]="'Enter amount'"
+    (nzOnCancel)="send_payment_amount_popup = false" (nzOnOk)="sendPaymentLink()" nzOkText="Send Link"
+    [nzOkDisabled]="!send_payment_amount">
+    <ng-container *nzModalContent>
+        <input (keyup.enter)="sendPaymentLink()" [(ngModel)]="send_payment_amount" type="number" nz-input
+            placeholder="Enter amount" />
+    </ng-container>
+</nz-modal>
+
+<nz-modal [nzWidth]="500" [(nzVisible)]="isReverseCharges" [nzFooter]="!is_set_amt ? modalFooter101 : null"
+    (nzOnCancel)="isReverseCharges = false; is_set_amt = false">
+    <ng-container *nzModalContent>
+        <app-double-confirmation-popup *ngIf="is_set_amt" [title]="'Do you want to reverse the applied charges?'"
+            [subTitle]="reverse_sub_title" [icon]="'assets/images/reverse.png'" (onOkCall)="reverseChargesFunction()"
+            [isbtnLoading]="is_revese_loading" (onCencelCall)="isReverseCharges = false; is_set_amt = false"
+            [cancelBtnTxt]="'Cancel'" [submitBtnTxt]="'OK'">
+        </app-double-confirmation-popup>
+        <div class="row" *ngIf="!is_set_amt">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select type
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select type!">
+                        <nz-select nzAllowClear [(ngModel)]="reverse_type" nzPlaceHolder="Please Select type"
+                            (ngModelChange)="reverse_type == 2 ? reverse_amount = final_reverse_amount : reverse_amount = '' ">
+                            <nz-option [nzValue]="1" nzLabel="Partial"></nz-option>
+                            <nz-option [nzValue]="2" nzLabel="Complete"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter amount
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter amount!">
+                        <input [(ngModel)]="reverse_amount" [disabled]="reverse_type == 2" type="number" nz-input
+                            placeholder="Please Enter amount" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #modalFooter101>
+        <button nz-button (click)="isReverseCharges = false; is_set_amt = false">Close</button>
+        <button nz-button nzType="primary" (click)="setTypeandAmt()">Submit</button>
+    </ng-template>
+</nz-modal>
+
+
+<section *ngIf="isRefundActive">
+    <nz-modal [(nzVisible)]="isRefundActive" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
+        [nzTitle]="'Refund Process'" (nzOnCancel)="isRefundActive = false; refundForm.reset()"
+        [nzFooter]="refundFooter">
+        <ng-container *nzModalContent>
+            <form nz-form [formGroup]="refundForm">
+
+                <nz-form-item>
+                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="account_holder_name" class="text-left" nzRequired>Acc.
+                        Holder
+                        Name
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check Acc. holder name">
+                        <input nz-input type="text" formControlName="account_holder_name"
+                            placeholder="Acc. Holder Name" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="account_number" class="text-left" nzRequired>Acc.
+                        Number
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check Acc. Number">
+                        <input nz-input type="text" formControlName="account_number" placeholder="Acc. Number" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="ifsc_code" class="text-left" nzRequired>IFSC Code
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please enter valid IFSC Code">
+                        <input nz-input type="text" formControlName="ifsc_code" placeholder="IFSC Code" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check refund amount">
+                        <input nz-input type="text" formControlName="amount" placeholder="Refund Amount" />
+                    </nz-form-control>
+                </nz-form-item>
+
+            </form>
+        </ng-container>
+    </nz-modal>
+    <ng-template #refundFooter>
+        <button nz-button nzType="link" class="border" (click)="isRefundActive = false; refundForm.reset()">
+            Cancel
+        </button>
+        <button nz-button nzType="primary" class="mx-2" [disabled]="refundForm.invalid ? true : false"
+            (click)="onRefundInititate()" [nzLoading]="buttonLoader">
+            Submit
+        </button>
+    </ng-template>
+
+</section>

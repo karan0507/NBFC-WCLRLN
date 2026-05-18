@@ -1,0 +1,126 @@
+<section>
+    <div class="row mb-md-3">
+        <span>{{total_count ? (total_count + '  Results Found') : (0 + '  Results Found')}}</span>
+    </div>
+    <div class="row">
+        <nz-card class="w-100">
+            <div class="row">
+                <div class="col-md-4 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input (keyup.enter)="getResultBasedOnSearch()" [(ngModel)]="searchValue" type="text" nz-input
+                            placeholder="Search text" />
+                    </nz-input-group>
+                    <!-- <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template> -->
+                    <ng-template #suffixIconButton>
+                        <button (click)="getResultBasedOnSearch()" nz-button nzType="secondary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-8 mb-3 d-flex justify-content-md-end">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+                        class="mr-2" (click)="resetFilter()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-container *ngxPermissionsOnly="['upload_file_authorization_policy']" >
+                        <nz-upload style="cursor: pointer;" [nzMultiple]="false" [nzAccept]="'.xls, .xlsx'" [nzBeforeUpload]="beforeUpload"
+                        class="d-flex align-items-center mx-4" nzSize="large">
+                        {{uploaded_file ? 'Re Upload'  : 'Upload File' }}
+                        <i *ngIf="!uploaded_file" class="pl-2 text-primary" nz-icon nzTheme="outline" nzType="edit"></i>
+                        </nz-upload>
+                    </nz-container>
+                    <button nz-button nzType="primary" class="ml-3" (click)="http.sampleDownloadGlobalFunction('UPI_UPLOAD')">Sample File Download<i nz-icon nzType="cloud-download" nzTheme="outline"></i></button>
+                </div>
+            </div>
+            <nz-table [nzTotal]="total_count" [nzFrontPagination]="false" [nzLoading]="apiLoader['list']"
+                [nzShowSizeChanger]="true" [nzFrontPagination]="false" [nzPageIndex]="page"  [nzPageSize]="globalPageSize"
+                (nzQueryParams)="getAuthorizationList($event)" [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzShowSizeChanger]="true" [nzData]="UPIList">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>UPI ID</th>
+                        <th>Remarks</th>
+                        <th>Status</th>
+                        <th> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of UPIList; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data?.upi_id }}</td>
+                        <td>{{ data?.remarks }}</td>
+                        <td>{{ data?.status }}</td>
+                        <td>
+                            <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                                [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                                <i nz-icon nzType="ellipsis" theme="outline"></i>
+                            </a>
+                            <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <ng-container *ngxPermissionsOnly="['edit_upi_id_authorization_policy']">
+                                        <li nz-menu-item (click)="changeDetail(data)">
+                                        <span class="m-l-5">Edit</span>
+                                    </li>
+                                    </ng-container>
+                                    
+                                    <ng-container *ngxPermissionsOnly="['toggle_upi_id_authorization_policy']">
+                                        <li nz-menu-item *ngIf="data?.status == 'Blocked'">
+                                        <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'active')">Active</span>
+                                    </li>
+                                    </ng-container>
+                                    
+                                    <ng-container *ngxPermissionsOnly="['toggle_upi_id_authorization_policy']">
+                                        <li nz-menu-item *ngIf="data?.status == 'Active'">
+                                        <span class="m-l-5" (click)="toggleStatusBasedOnAction(data?.id, 'inactive')">Inactive</span>
+                                    </li>
+                                    </ng-container>
+                                    
+                                </ul>
+                            </nz-dropdown-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count && !apiLoader['list']">
+                <b>Total Count : </b>{{total_count}}
+              </div>
+        </nz-card>
+    </div>
+</section>
+
+<nz-modal nzTitle="Edit" [nzOkLoading]="apiLoader['onOk']"  (nzOnCancel)="isVisible = false"[nzWidth]="800" [(nzVisible)]="isVisible" (nzOnOk)="onClickUpdateDetails()" [nzClosable]="true" >
+    <ng-container *nzModalContent>
+        <div  class="row mb-4">
+            <div class="col-6">
+                <span class="h6 my-0 text-bold ml-1 mr-5">
+                    Old UPI ID :-
+                </span>
+                <span class="h6 my-0 pl-2">
+                    {{oldDetail?.upi_id ? oldDetail?.upi_id : ' -- '}}
+                </span>
+            </div>
+        </div>
+        <form [formGroup]="updateUPIDetails">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="upi_id" class="text-left" nzRequired>New UPI ID</nz-form-label>
+                    <nz-form-control [nzSm]="19" [nzXs]="24" nzErrorTip="Please add valid UPI ID!">
+                        <input nz-input formControlName="upi_id" type="text"  placeholder="UPI ID"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label  [nzSm]="5" [nzXs]="24" nzFor="remarks" class="text-left" nzRequired>Remarks</nz-form-label>
+                    <nz-form-control [nzSm]="19" [nzXs]="24" nzErrorTip="Please input Remarks!">
+                        <input nz-input formControlName="remarks" type="text"  placeholder="Remarks"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+    </ng-container>
+</nz-modal>

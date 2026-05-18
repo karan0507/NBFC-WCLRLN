@@ -1,4 +1,138 @@
 @import url('./assets/lib/hljs/styles/atom-one-light.css');
 @import url('../node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css');
 @import url('../node_modules/@fortawesome/fontawesome-free/css/all.min.css');
-@import './assets/scss/app.scss'
+@import './assets/scss/app.scss';
+
+.common-layout .page-container .main-content {
+    min-height: unset !important;
+}
+.total_count_text {
+    width: fit-content;
+    margin-top: -3em;
+}
+.ant-pagination {
+    align-items: center !important;
+}
+
+.slick-dots {
+    li {
+        background-color: #B9B9B9;
+        border-radius: 50%;
+        width: 0.5rem !important;
+        height: 0.5rem !important;
+        button {
+            background-color: #B9B9B9;
+            border-radius: 50%;
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+        }
+    }
+    .slick-active {
+        background-color: #0E0E0E !important;
+        border-radius: 35% !important;
+        width: 1.5rem !important;
+        button {
+            background-color: #0E0E0E !important;
+            border-radius: 35% !important;
+            width: 1.5rem !important;
+        }
+    }
+}
+.dashboard-badge {
+    .ant-badge-status-default {
+        height: 100%;
+        border-radius: 0;
+        width: 50%;
+    }
+}
+.header_breadcrumb_section{
+	padding-bottom: 2em;
+    margin-top: -5em;
+    display: flex;
+}
+.ant-modal-footer {
+    .ant-btn {
+        border-color: #55268E !important;
+    }
+}
+
+.bg-light{
+    background: #F9F9F9;
+}
+.accordianLoanApp{
+// .ant-checkbox-input{
+//     border-block-color: revert;
+// }
+        tr.ant-table-expanded-row:hover>td, tr.ant-table-expanded-row>td {
+            background: #FFFAEC;
+        }
+        .acc-bg-light {
+            background-color: #ffeab2 !important;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            width: 25%;
+            padding: 0.5rem;
+        }
+        .ant-card-body{
+              padding: 1rem;
+        }
+}
+
+.bg-light-orange{
+      background: #FFFAEC;
+}
+.ant-radio-disabled+span, .ant-picker-input>input-disabled, .ant-picker-input>input[disabled] {
+    color: #000;
+}
+input:disabled, .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.totalCount {
+      .ant-pagination-total-text {
+        margin-inline-end: auto;
+      }
+    }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #55268E !important; 
+    border-radius: 10px !important;
+  }
+
+  /* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(214, 214, 214) !important; 
+    border-radius: 10px !important;
+  }
+  .ant-picker-ranges .ant-picker-preset>.ant-tag-blue {
+    color: #55268E;
+    background: rgba(85, 38, 142, 0.1);
+    border-color: transparent;
+  }
+  .ant-card-extra {
+      z-index: 9 !important;
+  }
+  .pointer {
+    cursor: pointer !important;
+  }

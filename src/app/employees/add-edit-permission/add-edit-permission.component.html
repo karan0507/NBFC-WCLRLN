@@ -1,0 +1,226 @@
+<section>
+  <nz-tabset class="pb-2" (nzSelectChange)="onTabChange($event)" [nzSelectedIndex]="currentTabIndex">
+    <nz-tab nzTitle="Permission" *ngxPermissionsOnly="['view_employee_permission']">
+      <nz-card [nzLoading]="apiLoader['list']">
+        <div class="row">
+            <div class="col-12">
+              <nz-form-item>
+                  <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="bill_date" class="text-left">Select Preferred  Role</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Role">
+                      <nz-select nzShowSearch nzPlaceHolder="Select Role" (ngModelChange)="onChange($event)" [(ngModel)]="selectedRole">
+                          <nz-option *ngFor="let item of fetchedRole" [nzValue]="item.pk"
+                          [nzLabel]="item.name">
+                          </nz-option>
+                        </nz-select>
+                  </nz-form-control>
+                  </nz-form-item>
+            </div>
+  
+        </div>
+        <ng-container *ngIf="selectedRole"></ng-container>
+        <div class="row" *ngFor="let data of permissionList| keyvalue: returnZero"  style="border: 1px solid gainsboro;">
+          <div class="col-4" style="border-right: 1px solid gainsboro;">
+            <div class="row">
+              <div class="col-12 pt-4">
+                <h4 class="ml-5">
+                  <ul>
+                    <li *ngIf="data?.key != 'null'">
+                      {{ data?.key }}
+                    </li>
+                  </ul>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row" *ngFor="let item of permissionList[data.key]; let even = even; let odd = odd;let index=i;">
+              <!-- <ng-container [style.backgound-color]="getColor(i)" > -->
+                <div class="col-5 pt-4">
+                  <h5 class="my-0 ml-3">
+                    {{ item?.display_name }}
+                  </h5>
+                </div>
+                <div class="col-7 pt-4" style="border-left: 1px solid whitesmoke;">
+                  <div class="row " *ngFor="let subItem of item?.slugs_list | keyvalue : returnZero; let index = index">
+                    <ng-container *ngIf="checkBoolean(subItem)">
+                    <h5 class="mt-0 mx-3">{{subItem?.key}}</h5>
+                    <label
+                        class="d-flex mr-3 align-self-center"
+                        nz-checkbox
+                        (ngModelChange)="onCLickSelectAll($event, item?.slugs_list[subItem?.key])" 
+                        [ngModel]="slugListMaxCheckBoxSelection(item?.slugs_list[subItem?.key])"
+                    ></label>
+                    <div class="col-12 my-2" *ngFor="let slug of item?.slugs_list[subItem?.key]">
+                      <label
+                        class="d-flex" (ngModelChange)="ngModelChange($event, slug, 'slugs')" [(ngModel)]="slug.flag"
+                        nz-checkbox>
+                        <h6 class="my-0 ml-3 text-muted">{{ slug?.display_name }}</h6> 
+                        </label>
+                    </div>
+                  </ng-container>
+                  </div>
+                </div>
+              <!-- </ng-container> -->
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
+          <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
+            <ng-template #basicDetai>
+            <div class="row">
+              <div class="col-12 d-flex">
+                <label
+                      class="d-flex mr-3 align-self-center"
+                      nz-checkbox
+                      (ngModelChange)="onCLickSelectAll($event, data)" 
+                      [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
+                      ></label>
+                      <h4 class="my-0">{{ data?.display_name }}</h4>
+              </div>
+            </div>
+          </ng-template>
+          </nz-page-header>
+          <div class="row mt-4">
+            <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
+              <div class="d-flex">
+                  <h5 style="min-width: 14px;" class="mx-3">{{i + 1}}</h5>
+                  <h5 class=""><label
+                      class="d-flex"
+                      nz-checkbox
+                      (ngModelChange)="ngModelChange($event, slugs, 'slugs')" [(ngModel)]="slugs.flag"> 
+                      {{ slugs?.display_name }}</label></h5>
+              </div>
+            </div>
+          </div>
+          <ng-template #basicDetail>
+            <h4 class="my-0">{{ data?.display_name }}</h4>
+          </ng-template>
+        </div> -->
+        <div  class="total-section d-flex align-items-center justify-content-end">
+          <!-- &#x20B9; {{cart_total}} ({{cart_Qty}} Units)  -->
+          <h5 class="p-3 mb-0"> {{totalPayableAmount}}</h5>
+          <!-- <button class="mr-4" nz-button nzType="default" nzDanger>Pay Now</button> -->
+          <!-- <button *ngxPermissionsOnly="['add_payment']" nz-button nzType="primary" class="px-5 mx-4 float-right" [nzLoading]="api_call_loader['button']" [disabled]="checkedEnrollerList.length == 0" (click)="onClickShowCommissionTotal()">Pay Now</button> -->
+          <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+      </div>
+        <!-- <div class="col-12 bg-light-orange mt-4 text-right">
+          <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+        </div> -->
+      <!-- </div> -->
+    </nz-card>
+    </nz-tab>
+    <nz-tab *ngxPermissionsOnly="['view_role']" nzTitle="Role Management">
+      <nz-card>
+        <div class="row text-right">
+          <div class="col-12">
+            <button nz-button nzType="primary" class="border" (click)="addEditRole('add')" *ngxPermissionsOnly="['add_role']">Add Role</button>
+          </div>
+        </div>
+        <nz-table [nzFrontPagination]="false" [nzShowSizeChanger]="false" [nzData]="updatedRole" [nzLoading]="roleManagementLoader['fetchRole']">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <!-- <th>Role Id</th> -->
+                        <th>Role Name</th>
+                        <th *ngxPermissionsOnly="['edit_role','delete_role']">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of updatedRole; index as i">
+                        <td>{{i + 1}}</td>
+                        <!-- <td>{{ data.pk ? data.pk : '-' }}</td> -->
+                        <td>{{ data.name ? data.name : '-' }}</td>
+                        <td  *ngxPermissionsOnly="['edit_role','delete_role']"> <button nz-button nzType="link" class="border" (click)="addEditRole('edit', data)" class="mr-4 px-3" *ngxPermissionsOnly="['edit_role']"
+                          >Edit</button>
+                          <!-- (click)="onCLickDeleteRole('edit', data)" -->
+                          <button nz-button nzType="link" class="border" class="" *ngxPermissionsOnly="['delete_role']"
+                          ><i nz-icon nzType="delete" nzTheme="outline"  nz-popconfirm
+                          nzPopconfirmTitle="Are you sure delete this Role?"
+                          nzPopconfirmPlacement="bottom"
+                          (nzOnConfirm)="onCLickDeleteRole('edit', data)"
+                          ></i></button>
+                          <!-- [routerLink]="['edit-coupon-code']" [queryParams]="{id: data?.id}" -->
+              </td>
+                    </tr>
+                </tbody>
+        </nz-table>
+      </nz-card>
+    </nz-tab>
+  </nz-tabset>
+</section>
+
+<nz-modal [nzTitle]="roleManagementLoader['addRole'] ? 'Add Role' : 'Edit Role'" [nzWidth]="500" [(nzVisible)]="roleManagementLoader['isVisible']" (nzOnOk)="onClickAddEditRole()" [nzOkLoading]="roleManagementLoader['onUpdate']" 
+           [nzClosable]="true" (nzOnCancel)="roleManagementLoader['isVisible']=false;addEditRoleForm.reset()">
+    <!-- <ng-container *nzModalContent> -->
+        <!-- <nz-card> -->
+            <div class="row">
+                <form nz-form [formGroup]="addEditRoleForm">
+                    <div class="col-md-12">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="10" nzFor="name" class="text-left" nzRequired>Role Name</nz-form-label>
+                                <nz-form-control [nzSm]="20" nzErrorTip="Please Add Valid Role!">
+                                    <input nz-input type="text" formControlName="name"  placeholder="Role"/>
+                                </nz-form-control>
+                            </nz-form-item>
+                    </div>
+                </form>
+            </div>
+        <!-- </nz-card> -->
+    <!-- </ng-container> -->
+</nz-modal>
+
+
+<!-- <nz-card [nzLoading]="apiLoader['list']">
+  <div class="row">
+      <div class="col-12">
+        <nz-form-item>
+            <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="bill_date" class="text-left">Select Preferred  Role</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select Role">
+                <nz-select nzShowSearch nzPlaceHolder="Select Role" (ngModelChange)="onChange($event)" [(ngModel)]="selectedRole">
+                    <nz-option *ngFor="let item of fetchedRole" [nzValue]="item.pk"
+                    [nzLabel]="item.name">
+                    </nz-option>
+                  </nz-select>
+            </nz-form-control>
+            </nz-form-item>
+      </div>
+
+  </div>
+<div class="row accordianLoanApp" *ngIf="selectedRole">
+  <div class="col-md-4 col-sm-6 col-12 mb-3" *ngFor="let data of permissionList">
+    <nz-page-header class="acc-bg-light w-100" [nzTitle]="basicDetai">
+      <ng-template #basicDetai>
+      <div class="row">
+        <div class="col-12 d-flex">
+          <label
+                class="d-flex mr-3 align-self-center"
+                nz-checkbox
+                (ngModelChange)="onCLickSelectAll($event, data)" 
+                [ngModel]="slugListMaxCheckBoxSelection(data?.slugs_list)"
+                ></label>
+                <h4 class="my-0">{{ data?.display_name }}</h4>
+        </div>
+      </div>
+    </ng-template>
+    </nz-page-header>
+    <div class="row mt-4">
+      <div class="col-12" *ngFor="let slugs of data?.slugs_list; index as i">
+        <div class="d-flex">
+            <h5 style="min-width: 14px;" class="mx-3">{{i + 1}}</h5>
+            <h5 class=""><label
+                class="d-flex"
+                nz-checkbox
+                (ngModelChange)="ngModelChange($event, slugs, 'slugs')" [(ngModel)]="slugs.flag"> 
+                {{ slugs?.display_name }}</label></h5>
+        </div>
+      </div>
+    </div>
+    <ng-template #basicDetail>
+      <h4 class="my-0">{{ data?.display_name }}</h4>
+    </ng-template>
+  </div>
+  <div class="col-12 bg-light-orange mt-4 text-right">
+    <button [nzLoading]="apiLoader['onOk']" [disabled]="slugList.length < 1 || !selectedRole"  (click)="updatePermissionBasedOnType()" nz-button nzType="primary">Update Permission</button>          
+  </div>
+</div>
+</nz-card> -->

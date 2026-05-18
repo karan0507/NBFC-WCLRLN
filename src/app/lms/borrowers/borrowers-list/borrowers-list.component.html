@@ -1,0 +1,614 @@
+<div class="header_breadcrumb_section">
+  <button nz-button (click)="isVisible = true" nzType="primary" class="ml-1" nzGhost>
+    Export Outstanding
+  </button>
+  <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>
+    Export
+  </button>
+</div>
+
+<section>
+  <div class="row mb-md-3">
+    <div class="col-md-12 mb-md-0">
+      <nz-radio-group [(ngModel)]="sub_stage" (ngModelChange)="setBorrowersSubCount()">
+        <label *ngIf="main_stage" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2" nzValue="">All ({{ all_count
+          }})</label>
+        <label *ngFor="let item of borrowersSubStageCount" nz-radio-button class="px-5 mb-md-0 mb-3 border-radius-2"
+          [nzValue]="item.pk">{{ item.name }} ({{ item.count }})</label>
+      </nz-radio-group>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="row">
+    <nz-card class="w-100 accordianLoanApp">
+      <div class="row">
+        <div class="col-md-3 mb-3 d-flex">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input placeholder="Search text" [(ngModel)]="search_params"
+              (keyup.enter)="fetchBorrowerList()" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="secondary" nzSearch (click)="fetchBorrowerList()">
+              <i nz-icon nzType="search"></i>
+            </button>
+          </ng-template>
+          <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"
+            (click)="resetFilters()" class="ml-2">
+            <i nz-icon nzType="undo"></i>
+          </button>
+        </div>
+        <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+          <!-- <nz-select class="mx-1 mb-2" [(ngModel)]="selectedCorporate" nzAllowClear nzShowSearch nzPlaceHolder="Select Corporate"
+                        (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+                        (ngModelChange)="fetchBorrowerList()" (nzFocus)="fetchPartnerList()">
+                        <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                            <div *ngIf="item.name">{{ item?.name }}</div>
+                        </nz-option>
+                    </nz-select> -->
+          <nz-select class="mx-1 mb-2" style="min-width: 10rem" nzAllowClear [(ngModel)]="app_prod_type"
+            (ngModelChange)="fetchBorrowerList()" nzPlaceHolder="Filter By Product type">
+            <nz-option [nzValue]="''" nzLabel="All"></nz-option>
+            <nz-option [nzValue]="'D2C'" nzLabel="D2C"></nz-option>
+            <nz-option [nzValue]="'B2B'" nzLabel="B2B"></nz-option>
+          </nz-select>
+          <nz-select [(ngModel)]="selectedCorporate" nzMode="multiple" style="width: 15rem" class="mx-1 my-md-0 mb-3"
+            (nzFocus)="fetchPartnerList()" (ngModelChange)="fetchBorrowerList()" nzAllowClear [nzMaxTagCount]="1"
+            [nzSize]="'small'" nzPlaceHolder="Select Partner">
+            <nz-option *ngFor="let item of corporateList" [nzValue]="item.pk" [nzLabel]="item.name">
+            </nz-option>
+          </nz-select>
+          <nz-select class="mx-1 mb-3" style="width: 12rem" ngModel="filters" nzAllowClear
+            [(ngModel)]="master_product_id" (ngModelChange)="fetchBorrowerList()"
+            nzPlaceHolder="Filter By Product Master">
+            <nz-option [nzValue]="1" nzLabel="FatakPay"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Fatak EMI"></nz-option>
+          </nz-select>
+          <nz-select class="mx-1" style="width: 12rem" ngModel="filters" nzAllowClear [(ngModel)]="is_blocked"
+            (ngModelChange)="fetchBorrowerList()" nzPlaceHolder="Filter By Card Status">
+            <nz-option [nzValue]="1" nzLabel="Active"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Blocked"></nz-option>
+          </nz-select>
+          <nz-select class="mx-1" style="width: 12rem" ngModel="filters" nzAllowClear [(ngModel)]="is_spend"
+            (ngModelChange)="fetchBorrowerList()" nzPlaceHolder="Filter By spend">
+            <nz-option [nzValue]="'Yes'" nzLabel="Spend"></nz-option>
+            <nz-option [nzValue]="'No'" nzLabel="Not spend"></nz-option>
+          </nz-select>
+          <nz-select class="mx-1" style="width: 12rem" ngModel="filters" nzAllowClear [(ngModel)]="is_active"
+            (ngModelChange)="fetchBorrowerList()" nzPlaceHolder="Filter By A/C Status">
+            <nz-option [nzValue]="'Active'" nzLabel="Active"></nz-option>
+            <nz-option [nzValue]="'Dormant'" nzLabel="Dormant"></nz-option>
+            <nz-option [nzValue]="'Delinquent'" nzLabel="Delinquent"></nz-option>
+            <nz-option [nzValue]="'Disbursement'" nzLabel="Disbursement"></nz-option>
+            <nz-option [nzValue]="'Write Off'" nzLabel="Write Off"></nz-option>
+            <nz-option [nzValue]="'Involuntary Closure'" nzLabel="Involuntary Closure"></nz-option>
+            <nz-option [nzValue]="'Voluntary Closure Restructuring'"
+              nzLabel="Voluntary Closure Restructuring"></nz-option>
+            <nz-option [nzValue]="'Offer Acceptance'" nzLabel="Offer Acceptance"></nz-option>
+            <nz-option [nzValue]="'Rejected'" nzLabel="Rejected"></nz-option>Disbursement
+          </nz-select>
+          <nz-range-picker style="width: 20rem" class="mx-1" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+            (ngModelChange)="fetchBorrowerList()" [nzRanges]="customRanges">
+          </nz-range-picker>
+          <nz-range-picker style="width: 20rem" class="mx-1" [nzPlaceHolder]="[
+              'Start disbursement date',
+              'End disbursement date'
+            ]" [(ngModel)]="disbursement_date" [nzDisabledDate]="disabledDate" (ngModelChange)="fetchBorrowerList()"
+            [nzRanges]="customRanges"></nz-range-picker>
+          <!-- <nz-select class="mx-1" style=" width: 12rem;" ngModel="filters" nzAllowClear
+                        nzPlaceHolder="Filter By A/C Status">
+                        <nz-option nzValue="1" nzLabel="Fatak Pay"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Fatak Pay EMI"></nz-option>
+                    </nz-select> -->
+        </div>
+      </div>
+      <nz-table #basicTable [nzFrontPagination]="false" [nzData]="borrowertList" [nzPageIndex]="page"
+        [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+        [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzScroll]="{ x: '3500px' }"
+        [nzLoading]="api_calling_loader" (nzQueryParams)="borrowertList ? fetchBorrowerList($event) : ''">
+        <!-- , y: '45vh'     -->
+        <thead>
+          <tr>
+            <th nzWidth="2rem"></th>
+            <th nzWidth="3rem">#</th>
+            <th nzWidth="15rem">User Name</th>
+            <th>UTM Source Code</th>
+            <th>Product type</th>
+            <th>Corporate</th>
+            <th>Loan ID</th>
+            <th>Employee code</th>
+            <th>Employee status</th>
+            <th>Token status</th>
+            <th>Corporate Nach status</th>
+            <th>Nach status</th>
+            <th>Applied on</th>
+            <th>Disbursement date</th>
+            <th>First transaction limit</th>
+            <th>Available limit</th>
+            <th>Credit Line Assigned</th>
+            <th>Credit Utilized</th>
+            <th>Enach Trigger</th>
+            <th>DPD bucket</th>
+            <th>DPD days</th>
+            <th>DPS days</th>
+            <th>MoB</th>
+            <th>Outstanding</th>
+            <th>Fees/Charges</th>
+            <th>Is using app</th>
+            <th>Card Status</th>
+            <th>A/c Status</th>
+            <th>User Status</th>
+            <th nzWidth="5rem" nzRight>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of borrowertList; index as i">
+            <tr>
+              <td nzWidth="1rem" [nzExpand]="expandSet.has(data?.loan_application_id)" (nzExpandChange)="
+                  onExpandChange(data?.loan_application_id, $event, i)
+                "></td>
+              <td *ngIf="page === 1">{{ i + 1 }}</td>
+              <td *ngIf="page > 1">
+                {{ (page - 1) * globalPageSize + (i + 1) }}
+              </td>
+              <td>
+                <h5>{{ data.user?.full_name ? data.user.full_name : "-" }}</h5>
+                <span *ngIf="data.user?.mobile">Contact No: {{ data.user ? data.user.mobile : "-" }}</span>
+                <p *ngIf="data.user?.email">
+                  {{ data.user ? data.user.email : "-" }}
+                </p>
+              </td>
+              <td>{{ data?.user ? data?.user.utm_source_code : "-" }}</td>
+              <td>{{ data?.product_type ? data?.product_type.name : "-" }}</td>
+              <td>
+                {{ data?.corporate ? data?.corporate.display_name : "-" }}
+              </td>
+              <td>{{ data.loan_unique_id ? data.loan_unique_id : "-" }}</td>
+              <td>{{ data.emp_code?.emp_id ? data.emp_code?.emp_id : "-" }}</td>
+              <td>
+                <span style="color: #27c24c" *ngIf="data.emp_code?.status === 'Active'"><i nz-icon nzType="check-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                  &nbsp; {{ data.emp_code?.status }}</span>
+                <span style="color: #dc3545" *ngIf="data.emp_code?.status === 'Inactive'"><i nz-icon
+                    nzType="close-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                  &nbsp; {{ data.emp_code?.status }}</span>
+                <span style="color: #dc3545" *ngIf="data.emp_code?.status === 'Exited'"><i nz-icon nzType="close-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                  &nbsp; {{ data.emp_code?.status }}</span>
+                <span *ngIf="data.emp_code?.status === '-'">{{
+                  data.emp_code?.status
+                  }}</span>
+              </td>
+              <td>
+                {{
+                data.latest_token_status
+                ? (data.latest_token_status | titlecase)
+                : "-"
+                }}
+              </td>
+              <td>
+                {{
+                data.corporate_nach_status
+                ? (data.corporate_nach_status)
+                : "-"
+                }}
+              </td>
+              <td>
+                {{
+                data.nach_step_status
+                ? (data.nach_step_status)
+                : "-"
+                }}
+              </td>
+              <td>{{ data.activation_date | date : "medium" }}</td>
+              <td>
+                {{
+                data.disbursement_date
+                ? (data.disbursement_date | date : "MMM dd, yyyy")
+                : "-"
+                }}
+              </td>
+              <td>₹ {{ data.first_transaction_limit ? data.first_transaction_limit : '0' }}</td>
+              <td>₹ {{ data.closing_credit_balance }}</td>
+              <td>₹ {{ data.loan_amount_provided }}</td>
+              <td>₹ {{ data.credit_utilization_amount }}</td>
+              <td>
+                <span *ngIf="!data.ignore_enach_trigger" style="text-transform: capitalize !important"
+                  class="badge badge-pill badge-success">Enabled</span>
+                <span *ngIf="data.ignore_enach_trigger" style="text-transform: capitalize !important"
+                  class="badge badge-pill badge-danger">Disabled</span>
+              </td>
+              <td>
+                {{
+                data?.dpd_details?.dpd_bucket
+                ? data?.dpd_details?.dpd_bucket
+                : 0
+                }}
+              </td>
+              <td>
+                {{
+                data?.dpd_details?.dpd_days ? data?.dpd_details?.dpd_days : 0
+                }}
+              </td>
+              <td>
+                {{
+                data?.dpd_details?.dps_days ? data?.dpd_details?.dps_days : 0
+                }}
+              </td>
+              <td>
+                {{
+                data?.dpd_details?.mob_number
+                ? data?.dpd_details?.mob_number
+                : 0
+                }}
+              </td>
+              <td>₹ {{ data.outstanding_amount }}</td>
+              <td>₹ {{ data.fees_or_charges_amount }}</td>
+              <td>{{ data.is_using_app ? "Yes" : "No" }}</td>
+              <td>
+                <span style="color: #27c24c" *ngIf="!data?.is_blocked"><i nz-icon nzType="check-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                  &nbsp; Active</span>
+                <span style="color: #dc3545" *ngIf="data?.is_blocked"><i nz-icon nzType="close-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                  &nbsp; Block</span>
+              </td>
+              <td>
+                {{ data?.account_status }}
+                <!-- <nz-tag nzColor="green" *ngIf="data?.account_status == 'Active'">
+                                                        <i nz-icon nzType="check-circle"></i>
+                                                        <span>Active</span>
+                                                      </nz-tag>
+                                                      <nz-tag nzColor="orange" *ngIf="data?.account_status != 'Active'">
+                                                        <i nz-icon nzType="close-circle"></i>
+                                                        <span>{{data?.account_status}}</span>
+                                                      </nz-tag> -->
+              </td>
+              <td>
+                <span style="color: #27c24c" *ngIf="!data?.is_user_blocked"><i nz-icon nzType="check-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#27C24C'"></i>
+                  &nbsp; Active</span>
+                <span style="color: #dc3545" *ngIf="data?.is_user_blocked"><i nz-icon nzType="close-circle"
+                    [nzTheme]="'twotone'" [nzTwotoneColor]="'#dc3545'"></i>
+                  &nbsp; Block</span>
+              </td>
+              <td nzRight>
+                <div>
+                  <a class="text-dark font-size-20" nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                    [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown">
+                    <img src="assets/images/ellipsis.png" alt="" width="30" />
+                  </a>
+                  <nz-dropdown-menu #latestUploadDropDown="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item [routerLink]="['../details']" [queryParams]="{ id: data.id }"
+                        *ngxPermissionsOnly="['view_borrowers']">
+                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                        <span class="m-l-5">View Details</span>
+                      </li>
+                      <li nz-menu-item (click)="exportGlobalFunctionTnx('xlsx', data)">
+                        <span class="m-l-5">Export transaction</span>
+                      </li>
+                      <li nz-menu-item (click)="
+                                          holdIgnoreMandateTrigger(
+                                            data.id,
+                                            data.ignore_enach_trigger
+                                          )
+                                        ">
+                        <span class="m-l-5">Hold/ Ignore Mandate trigger</span>
+                      </li>
+                      <li nz-menu-item *ngxPermissionsOnly="['']" (click)="fetchCibilPDF(data?.loan_application_id)">
+                        <!-- <i nz-icon nzType="edit" theme="outline"></i> -->
+                        <span class="m-l-5">Fetch Cibil PDF</span>
+                      </li>
+
+                      <ng-container *ngIf="data?.latest_token_status != 'confirmed'">
+                        <li nz-menu-item nz-dropdown [nzClickHide]="false" [nzTrigger]="'click'"
+                          [nzPlacement]="'bottomRight'" [nzDropdownMenu]="latestUploadDropDown1234">
+                          <span class="m-l-5">Send Enach Reg Link</span>
+                        </li>
+                      </ng-container>
+
+                      <li nz-menu-item [routerLink]="['/lms/borrowers/track-status']"
+                        *ngxPermissionsOnly="['borrower_track_status']"
+                        [queryParams]="{ id: data?.loan_application_id }">
+                        <span class="m-l-5">Track Status</span>
+                      </li>
+
+                      <li nz-menu-item *ngIf="data.is_blocked" (click)="getBlockReason(data.id)">
+                        <span class="m-l-5">Block reason</span>
+                      </li>
+                      <li nz-menu-item (click)="
+                                          pdfViewerAndDownload(
+                                            'KFS document',
+                                            1,
+                                            data.loan_application_id
+                                          )
+                                        ">
+                        <span class="m-l-5">KFS document</span>
+                      </li>
+                      <li nz-menu-item (click)="
+                                          pdfViewerAndDownload(
+                                            'Loan agreement',
+                                            4,
+                                            data.loan_application_id
+                                          )
+                                        ">
+                        <span class="m-l-5">Loan agreement</span>
+                      </li>
+                      <li nz-menu-item (click)="
+                                          pdfViewerAndDownload(
+                                            'Sanction letter',
+                                            2,
+                                            data.loan_application_id
+                                          )
+                                        ">
+                        <span class="m-l-5">Sanction letter</span>
+                      </li>
+                      <li nz-menu-item (click)="
+                                          pdfViewerAndDownload(
+                                            'Salary agreement',
+                                            3,
+                                            data.loan_application_id
+                                          )
+                                        ">
+                        <span class="m-l-5">Salary agreement</span>
+                      </li>
+                      <li nz-menu-item (click)="openRefundModal(data.loan_application_id,data.id)">
+                        <span class="m-l-5">Refund</span>
+                      </li>
+                      <nz-dropdown-menu #latestUploadDropDown1234="nzDropdownMenu">
+                        <ul nz-menu>
+                          <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="sendEnachLink(data?.id, 'upi')">
+                            <span class="m-l-5">UPI</span>
+                          </li>
+                          <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="
+                                              sendEnachLink(data?.id, 'netbanking')
+                                            ">
+                            <span class="m-l-5">Net banking</span>
+                          </li>
+                          <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="sendEnachLink(data?.id, 'aadhaar')">
+                            <span class="m-l-5">Aadhar card</span>
+                          </li>
+                          <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure Send Enach Reg Link?"
+                            nzPopconfirmPlacement="topLeft" (nzOnConfirm)="sendEnachLink(data?.id, 'debitcard')">
+                            <span class="m-l-5">Debit card</span>
+                          </li>
+                        </ul>
+                      </nz-dropdown-menu>
+
+                      <!-- <li nz-menu-item *ngxPermissionsOnly="['delete_ipd']" nz-popconfirm
+                                                                                    nzPopconfirmTitle="Are you sure delete this IPD Admission?"
+                                                                                    (nzOnConfirm)="deleteIPDAdmission(data.id)" nzPopconfirmPlacement="topLeft">
+                                                                                    <i nz-icon nzType="delete" theme="outline"></i>
+                                                                                    <span class="m-l-5">Delete</span>
+                                                                                </li> -->
+
+                      <li nz-menu-item *ngIf="main_stage !== '7'" (click)="setValuetoSettlement(data?.id)">
+                        <span class="m-l-5">Settlement</span>
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </td>
+            </tr>
+
+            <tr [nzExpand]="expandSet.has(data?.loan_application_id)">
+              <div class="row">
+                <div class="col-md-12" *ngIf="data.loan_application_id === _currentId">
+                  <app-deatils [uploadPermission]="''" [_currentId]="_currentId"></app-deatils>
+                </div>
+              </div>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+      <div class="total_count_text" *ngIf="total_count">
+        <b>Total Count : </b>{{ total_count }}
+      </div>
+    </nz-card>
+  </div>
+</section>
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="isVisible = false" (nzOnOk)="exportOutstandingGlobalFunction('xlsx')"
+  nzOkText="Export" [nzOkDisabled]="!(corporate_Id && start_month)">
+  <ng-container *nzModalContent>
+    <div class="row">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Select corporate
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Select corporate!">
+            <nz-select nzAllowClear [(ngModel)]="corporate_Id" nzPlaceHolder="Please Select corporate"
+              (nzOnSearch)="OnTypeSearchList($event)" style="min-width: 13rem"
+              (ngModelChange)="getCorporateWithBillDate()" (nzFocus)="fetchPartnerList()">
+              <nz-option *ngFor="let item of corporateList" [nzValue]="item?.pk" [nzLabel]="item?.name">
+                <div *ngIf="item.name">{{ item?.name }}</div>
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="10" [nzXs]="24" class="text-left" nzRequired>Enter bill date
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Enter bill date!">
+            <input [(ngModel)]="month" type="number" nz-input placeholder="Please Enter bill date" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="start_month" class="text-left" nzRequired>Select from
+          </nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input select from!">
+            <nz-date-picker nzMode="month" [(ngModel)]="start_month" nzFormat="MM-YYYY"
+              [nzDisabledDate]="disabledDate"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true"
+  [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+  <ng-container *nzModalContent>
+    <div class="pdf_viewer_container" *ngIf="pdfData">
+      <embed [src]="pdfData" width="100%" style="height: 37rem" />
+    </div>
+    <div class="pdf_viewer_container" *ngIf="pdf_viewer_object_values['url']">
+      <embed [src]="pdf_viewer_object_values['url']" width="100%" style="height: 37rem" />
+    </div>
+    <div *ngIf="!pdf_viewer_object_values['url'] && !pdfData">
+      <h4>No PDF Found</h4>
+    </div>
+  </ng-container>
+</nz-modal>
+<ng-template #modalFooter>
+  <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+</ng-template>
+
+<nz-modal [(nzVisible)]="isVisibleThirdPartyResp" [nzWidth]="'600'" nzTitle="Fetched Third Party Response"
+  [nzFooter]="thirdPartyFooter" (nzOnCancel)="isVisibleThirdPartyResp = false">
+  <ng-container *nzModalContent>
+    <nz-card [nzLoading]="xmlLoader">
+      <span *ngIf="thirdPartyDataResponse">
+        <ngx-json-viewer [json]="thirdPartyDataResponse" [expanded]="true"></ngx-json-viewer>
+      </span>
+      <span *ngIf="!thirdPartyDataResponse" style="font-weight: bolder">
+        No data Found
+      </span>
+    </nz-card>
+  </ng-container>
+  <ng-template #thirdPartyFooter>
+    <button nz-button nzType="link" class="border" (click)="isVisibleThirdPartyResp = false">
+      Cancel
+    </button>
+  </ng-template>
+</nz-modal>
+<section>
+  <nz-modal [nzWidth]="isFetchCibilSms ? 800 : 500" [(nzVisible)]="_isUpdateStatus" [nzTitle]="modalTitle"
+    (nzOnCancel)="handleCancel()" [nzFooter]="footerModal">
+    <section *ngIf="isFetchCibilSms">
+      <app-common-cibil-sms [_currentLoanDetails]="_currentLoanDetails" [isFetch]="isFetchCibilSms ? true : false"
+        [isCibil]="_isCibil ? true : false">
+      </app-common-cibil-sms>
+    </section>
+  </nz-modal>
+</section>
+<ng-template #modalTitle>
+  <label *ngIf="_isStatus">Update Status</label>
+  <label *ngIf="_isEditOffer">Edit Offer</label>
+  <label *ngIf="isRejectModal">Reject</label>
+  <label *ngIf="_isEditOffer">Edit Offer</label>
+  <label *ngIf="_isPullData">
+    <span *ngIf="_isCibil">Third Party Cibil Data</span><span *ngIf="!_isCibil">Third Party SMS Data</span></label>
+  <label *ngIf="isFetchCibilSms">
+    <span *ngIf="_isCibil">Fetch Cibil Data</span><span *ngIf="!_isCibil">Fetch SMS Data</span></label>
+</ng-template>
+
+<ng-template #footerModal>
+  <button nz-button *ngIf="_isEditOffer" nzType="link" class="border" (click)="handleCancel()">
+    Reset
+  </button>
+  <button nz-button *ngIf="isRejectModal" nzType="link" class="border" (click)="handleCancel()">
+    Cancel
+  </button>
+  <button nz-button *ngIf="!isRejectModal && !_isEditOffer" nzType="link" class="border" (click)="handleCancel()">
+    Cancel
+  </button>
+  <button *ngIf="_isStatus" nz-button nzType="primary" class="mx-2" [nzLoading]="api_calling_loader['button']"
+    [disabled]="!_currentStageStatus || !remarksDescription ? true : false" (click)="handleOk('status')">
+    Submit
+  </button>
+  <button *ngIf="_isEditOffer" nz-button nzType="primary" class="mx-2" (click)="handleOk('offer')">
+    Update
+  </button>
+  <button *ngIf="isRejectModal" nz-button nzType="primary" class="mx-2" (click)="handleOk('reject')">
+    Submit
+  </button>
+</ng-template>
+
+<nz-modal [(nzVisible)]="showReason" (nzOnCancel)="handleCancel()" [nzFooter]="null">
+  <ng-container *nzModalContent>
+    <h5 style="color: #dc3545" *ngFor="let item of reason">
+      {{ item.reason }}
+    </h5>
+    <!-- <h5>{{error_description}}</h5> -->
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isSettlementVisible" (nzOnCancel)="handleCancel()" [nzFooter]="footerModal4">
+  <ng-container *nzModalContent>
+    <h5>Remarks:</h5>
+    <nz-textarea-count [nzMaxCharacterCount]="100">
+      <textarea rows="4" class="border" nz-input [(ngModel)]="settleRemarks"></textarea>
+    </nz-textarea-count>
+  </ng-container>
+  <ng-template #footerModal4>
+    <button nz-button nzType="link" class="border" (click)="handleCancel()">
+      Cancel
+    </button>
+    <button nz-button nzType="primary" class="mx-2" (click)="dpdSettlement()" [nzLoading]="settleloading"
+      [disabled]="!settleRemarks ? true : false">
+      Submit
+    </button>
+  </ng-template>
+</nz-modal>
+
+<section *ngIf="isRefundActive">
+  <nz-modal [(nzVisible)]="isRefundActive" nzHeight="60vw" nzWidth="80vw" nzKeyboard="true" [nzTitle]="'Refund Process'"
+    (nzOnCancel)="isRefundActive = false; refundForm.reset()" [nzFooter]="refundFooter">
+    <ng-container *nzModalContent>
+      <form nz-form [formGroup]="refundForm">
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="account_holder_name" class="text-left" nzRequired>Acc. Holder
+            Name
+          </nz-form-label>
+          <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check Acc. holder name">
+            <input nz-input type="text" formControlName="account_holder_name" placeholder="Acc. Holder Name" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="account_number" class="text-left" nzRequired>Acc. Number
+          </nz-form-label>
+          <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check Acc. Number">
+            <input nz-input type="text" formControlName="account_number" placeholder="Acc. Number" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="ifsc_code" class="text-left" nzRequired>IFSC Code
+          </nz-form-label>
+          <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please enter valid IFSC Code">
+            <input nz-input type="text" formControlName="ifsc_code" placeholder="IFSC Code" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="amount" class="text-left" nzRequired>Amount
+          </nz-form-label>
+          <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please check refund amount">
+            <input nz-input type="text" formControlName="amount" placeholder="Refund Amount" />
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+    </ng-container>
+  </nz-modal>
+  <ng-template #refundFooter>
+    <button nz-button nzType="link" class="border" (click)="isRefundActive = false; refundForm.reset()">
+      Cancel
+    </button>
+    <button nz-button nzType="primary" class="mx-2" [disabled]="refundForm.invalid ? true : false"
+      (click)="onRefundInititate()" [nzLoading]="buttonLoader">
+      Submit
+    </button>
+  </ng-template>
+
+</section>

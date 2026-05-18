@@ -1,0 +1,40 @@
+    <div class="card-container">
+    <nz-tabset nzType="card">
+        <nz-tab [nzTitle]="'PERSONAL AND EMPLOYMENT DETAILS'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-personal-details [_currentId]="_currentId"></app-personal-details>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
+        <nz-tab [nzTitle]="'KYC DETAILS AND API RESPONSE'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-kyc-details [uploadPermission]="uploadPermission.toLowerCase()" [_currentId]="_currentId" [_currStage]="_currStage"></app-kyc-details>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
+        <nz-tab [nzTitle]="'BANK DETAILS AND OFFER DETAILS SECTION'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-bank-details [_currentId]="_currentId"></app-bank-details>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
+        <nz-tab [nzTitle]="'HISTORY'">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-template nz-tab>
+                        <app-audit-history [endpoint]="'LoanApplication'" [endpoint_id]="_currentId"></app-audit-history>
+                    </ng-template>
+                </div>
+            </div>
+        </nz-tab>
+    </nz-tabset>
+</div>

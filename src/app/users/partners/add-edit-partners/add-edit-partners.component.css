@@ -1,0 +1,11 @@
+/* :host ::ng-deep  .ant-upload-list-text .ant-upload-text-icon .anticon {
+    display: none;
+} */
+
+:host ::ng-deep .ant-upload-list-text-container{
+    display: none !important;
+}
+
+:host ::ng-deep .ant-checkbox-inner {
+    border: 1px solid darkblue;
+}

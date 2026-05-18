@@ -1,0 +1,10 @@
+.text-overflow-break {
+    white-space: break-spaces !important;
+    word-break: break-word !important;
+}
+
+.ant-tag {
+    height: auto !important;
+    font-size: 16px !important;
+    padding: 0 20px !important;
+}

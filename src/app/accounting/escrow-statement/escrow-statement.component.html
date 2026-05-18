@@ -1,0 +1,67 @@
+<div class="header_breadcrumb_section">
+    <!-- <button nz-button nzType="primary" [routerLink]="['./upload']" class="mx-1">Uploaded Transition Sheet </button> -->
+    <button nz-button (click)="exportGlobalFunction('xlsx')" nzType="primary" class="ml-1" nzGhost>Export</button>
+</div>
+<section>
+    <div class="row">
+        <nz-card class="w-100 mb-0">
+            <div class="row">
+                <div class="col-md-3 mb-3 d-flex">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text"nz-input placeholder="Search text" [(ngModel)]="search_params" (keyup.enter)="fetchEscrowStatementList()"/>
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="secondary" nzSearch (click)="fetchEscrowStatementList()"><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-md-9 mb-3 d-flex justify-content-md-end flex-wrap">
+                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Reset Filter"  class="mr-2" (click)="resetFilters()">
+                        <i nz-icon nzType="undo"></i>
+                    </button>
+                    <nz-select class="mx-1" style=" width: 10rem;" nzAllowClear [(ngModel)]="type" (ngModelChange)="fetchEscrowStatementList()"
+                        nzPlaceHolder="Filter By Product Master">
+                        <nz-option [nzValue]="'CR'" nzLabel="Credit"></nz-option>
+                        <nz-option [nzValue]="'DR'" nzLabel="Debit"></nz-option>
+                    </nz-select>
+                    <nz-range-picker style="min-width: 10rem;" [(ngModel)]="date" [nzDisabledDate]="disabledDate"
+                        (ngModelChange)="fetchEscrowStatementList()" [nzRanges]="customRanges"></nz-range-picker>
+                </div>
+            </div>
+            <nz-table #basicTable [nzFrontPagination]="false" [nzData]="list_data" [nzPageIndex]="page" [nzShowSizeChanger]="true" [nzTotal]="total_count" [nzPageSize]="globalPageSize"
+            [nzPageSizeOptions]="[100,200,300,400,500,600,750,1000]" [nzLoading]="api_calling_loader" [nzScroll]="{ x: '100%' }" (nzQueryParams)="list_data ? fetchEscrowStatementList($event) : ''">
+                <thead>
+                    <tr>
+                        <th nzWidth="3rem">#</th>
+                        <th>Transaction date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Transaction id</th>
+                        <th>Loan id</th>  
+                        <th nzWidth="15rem">Remarks</th>
+                        <th>Cheque no</th>
+                        <th>Balance</th>
+                        <th>Value date</th>                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list_data; index as i">
+                        <td *ngIf="page === 1">{{i+1}}</td>
+                        <td *ngIf="page > 1">{{((page-1)*globalPageSize)+(i+1)}}</td>
+                        <td>{{ data['TXNDATE'] ? (data['TXNDATE'] | date: 'medium'): '-' }}</td>
+                        <td>{{ data['TYPE'] ? data['TYPE']: '-' }}</td>
+                        <td>{{ data['AMOUNT'] ? data['AMOUNT']: '-' }}</td>
+                        <td>{{ data['TRANSACTIONID'] ? data['TRANSACTIONID']: '-' }}</td>
+                        <td>{{ data.loan_unique_id ? data.loan_unique_id: '-' }}</td>
+                        <td>{{ data['REMARKS'] ? data['REMARKS']: '-' }}</td>
+                        <td>{{ data['CHEQUENO'] ? data['CHEQUENO']: '-' }}</td>
+                        <td>{{ data['BALANCE'] ? data['BALANCE']: '-' }}</td>
+                        <td>{{ data['VALUEDATE'] ? data['VALUEDATE']: '-' }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div class="total_count_text" *ngIf="total_count">
+                <b>Total Count : </b>{{total_count}}
+            </div>
+        </nz-card>
+    </div>
+</section>

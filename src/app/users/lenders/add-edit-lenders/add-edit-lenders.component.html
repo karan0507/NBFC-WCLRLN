@@ -1,0 +1,457 @@
+<section>
+    <nz-card>
+        <form nz-form [formGroup]="addEditProductForm">
+            <div class="row border-bottom">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="name" class="text-left" nzRequired>NBFC’s Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid NBFC’s Name!">
+                            <input nz-input type="text" formControlName="name"  placeholder="NBFC Name"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_1" class="text-left" nzRequired>Address Line 1</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Address!">
+                            <input nz-input type="text" formControlName="address_line_1" placeholder="Address Line 1"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="address_line_2" class="text-left" nzRequired>Address line 2</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Address line 2!">
+                            <input nz-input type="text" formControlName="address_line_2"  placeholder="Address Line 2"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="display_name" class="text-left" nzRequired>Display Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add valid Display Name!">
+                            <input nz-input type="text" formControlName="display_name"  placeholder="Display Name"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="city" class="text-left" nzRequired>City</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid  City!">
+                            <input nz-input type="text" formControlName="city"  placeholder="City" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="state" class="text-left" nzRequired>State</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please select Valid Sate">
+                            <nz-select formControlName="state" nzPlaceHolder="Select State"
+                                (nzFocus)="getListOfStates()" nzShowSearch nzAllowClear
+                                (nzOnSearch)="onSearchGetList($event, 'state')">
+                                <nz-option *ngFor="let item of stateArr" [nzValue]="item.id"
+                                    [nzLabel]="item.name">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="pincode" class="text-left" nzRequired>Pin Code</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Pincode!">
+                            <input nz-input type="number" formControlName="pincode"  placeholder="Pincode"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="phone" class="text-left" nzRequired>Phone No</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Phone No.!">
+                            <input nz-input type="number" formControlName="phone"  placeholder="Phone No."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h5>
+                    Contact Personal Details
+                </h5>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_name" class="text-left" nzRequired>Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Contact Person Name!">
+                            <input nz-input type="text" formControlName="nbfc_user_name"  placeholder="Person Name" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_mobile" class="text-left" nzRequired>Phone No.</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Contact person Mobile No.!">
+                            <input nz-input type="number" formControlName="nbfc_user_mobile"  placeholder="person Phone No."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nbfc_user_email" class="text-left" nzRequired>Email Id</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Person Email!">
+                            <input nz-input type="text" formControlName="nbfc_user_email"  placeholder="Person Email" style="text-transform:lowercase"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-12">
+                    <div class="mt-2">
+                        <h6>
+                            Banking Details (Optional)
+                        </h6>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="bank_name" class="text-left">Bank Name</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Bank Name!">
+                            <input nz-input type="text" formControlName="bank_name"  placeholder="Bank Name" (keypress)="omit_special_char($event)"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="account_no" class="text-left">A/c No.</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Account No.!">
+                            <input nz-input type="number" formControlName="account_no"  placeholder="Account No."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="ifsc" class="text-left">IFSC Code</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid IFSC!">
+                            <input nz-input type="text" formControlName="ifsc"  placeholder="IFSC" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="branch" class="text-left">Branch</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Branch!">
+                            <input nz-input type="text" formControlName="branch"  placeholder="Branch" (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+            </div>
+            <div class="mt-2 d-flex">
+                <h5 class="mr-2">
+                    KYC Documents 
+                </h5>
+            </div>
+            <ng-container *ngFor="let item of get_documentArr(addEditProductForm); let k = index;"
+                formArrayName="document_data">
+                <!-- <nz-form-label class="text-left" nzNoColon>{{item.controls.label_name.value?.toString().toUpperCase()}}
+                </nz-form-label> -->
+                <div class="col-md-12" [formGroupName]="k">
+                    <div class="d-flex flex-row bd-highlight mb-3">
+                        <div class="px-2" style="min-width: 25%;"> 
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="13" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                    {{item.controls.display_name.value}}</nz-form-label>
+                                <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                    <div class="d-flex">
+                                        <nz-upload
+                                        [nzMultiple]="'false'" [nzAccept]="'.png, .jpg, .pdf'"
+                                        [nzCustomRequest]="customUpload"
+                                        (nzChange)="onUpload($event, k, 'name')"
+                                        >
+                                        <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                        </nz-upload>
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="px-2">
+                            <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
+                        </div>
+                        <div class="px-2">
+                            <i class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                        </div>
+                        <div class="px-2">
+                            <i class=" text-primary"  (click)="onClickShowUploadedDocument(item, 'documents')" *ngIf="item.controls.document_name.value" 
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    <!-- <div class="row">
+                        <div class="col-md-12" *ngIf="!item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row mt-2">
+                                        <div class="col-1">
+                                            <span>
+                                                <i class=" text-primary"  (click)="onClickShowUploadedDocument(item, 'documents')" *ngIf="item.controls.document_name.value" 
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_front.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_front')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.document_name_front.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                                <label class="ml-3 align-self-center" formControlName="is_verified"  [nzDisabled]="item.controls.document_name_front.value ? false : true"  nz-checkbox >Verify</label> 
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row mt-2">
+                                        <div class="col-1">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_front')" *ngIf="item.controls.document_name_front.value"
+                                                nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>
+                                                <i  class="mx-3" (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="documents" class="text-left" nzRequired>
+                                            {{item.controls.display_name_back.value}}</nz-form-label>
+                                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add {{item.controls.label_name.value}}!">
+                                            <div class="d-flex">
+                                                <nz-upload
+                                                [nzMultiple]="'false'" [nzAccept]="'.png, .jpg'"
+                                                [nzCustomRequest]="customUpload"
+                                                (nzChange)="onUpload($event, k, 'name_back')"
+                                                >
+                                                <button nz-button type="button"><i nz-icon nzType="upload"></i>{{item.controls.documents_back.value ? 'Re Upload' :    '  Upload ' }}</button>
+                                                </nz-upload>
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row mt-2">
+                                        <div class="col-1">
+                                            <span>
+                                                <i class="text-primary" (click)="onClickShowUploadedDocument(item, 'documents_back')" *ngIf="item.controls.documents_back.value"
+                                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-md-4"  *ngIf="item.controls.front_back_flag.value">
+                            <div class="row">
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_front.value">
+                                    <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_front.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                                <div class="col-md-12"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="item.controls.front_back_flag.value && item.controls.display_name_back.value">
+                            <div class="row">
+                                    <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name_back.value"
+                                    nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 33px;"></i>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4 pl-0 mt-2"  *ngIf="!item.controls.front_back_flag.value">
+                            <i (click)='deleteDocumentByDocumentId(k)' *ngIf="!item.controls.isdelete.value" nz-icon nzType="delete" nzTheme="outline" style="font-size: 1rem; cursor: pointer; color: red;"></i>
+                            <i class="mx-3 text-primary" (click)='onClickShowUploadedDocument(item)' *ngIf="item.controls.document_name.value" 
+                            nz-icon nzType="eye" nzTheme="outline" style="font-size: 1rem; cursor: pointer; padding-left: 49px;"></i>
+                        </div> -->
+                </div>
+            </ng-container>
+            <div class="row no-gutters">
+                <div class="col-12 d-flex justify-content-between">
+                    <button nz-button nzType="link" class="" (click)="onClickOpenPopUp($event)">+Add Document</button>
+                </div>
+            </div>
+
+            <div class="row border-top mt-2">
+                <div class="col-12">
+                    <div class="mt-2">
+                        <h5>
+                            Other Details (to be filled through admin)
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="total_commitment" class="text-left">Total Commitment</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid Commitment!">
+                            <input nz-input type="number" formControlName="total_commitment"  placeholder="Total Commitment."/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="fldg" class="text-left">FLDG</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid FLDG!">
+                            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                            <input nz-input type="text" formControlName="fldg"  placeholder="FLDG" />
+                        </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <ng-template #addOnAfterTemplate>
+                        <nz-select formControlName="fldg_calculation_type">
+                            <nz-option [nzLabel]="'₹'" [nzValue]="'Flat'"></nz-option>
+                            <nz-option [nzLabel]="'%'" [nzValue]="'Variable'"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi_utilized_fund" class="text-left">ROI Utilized Fund</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI Utilized Fund!">
+                            <input nz-input type="number" formControlName="roi_utilized_fund"  placeholder="ROI Utilized Fund" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="roi_unutilized_fund" class="text-left">ROI Unutilized Fund</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please Add Valid ROI Unutilized Fund!">
+                            <input nz-input type="number" formControlName="roi_unutilized_fund"  placeholder="ROI Unutilized Fund" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div class="mt-2 border-top">
+                <h5>
+                    Relationship Manager Details
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_name" class="text-left"
+                            nzRequired>Relationship Manager Name</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Name">
+                            <input nz-input type="text" formControlName="relationship_manager_name"
+                                placeholder="Relationship Manager Name" (keypress)="omit_special_char($event)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_email" class="text-left"
+                            nzRequired>Relationship Manager Email</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Add Valid Email">
+                            <input nz-input type="text" formControlName="relationship_manager_email"
+                                placeholder="Relationship Manager Email" style="text-transform:lowercase" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="relationship_manager_contact" class="text-left"
+                            nzRequired>Relationship Manager Contact No</nz-form-label>
+                        <nz-form-control [nzSm]="7" [nzXs]="24" nzErrorTip="Please Enter Valid Number">
+                            <input nz-input type="number" formControlName="relationship_manager_contact"
+                                placeholder="Relationship Manager Number" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
+    </nz-card>
+    <div class="row my-3 justify-content-between">
+        <div class="col-3">
+            <button nzType="primary" *ngIf="!isEdit" nz-button type="submit" [nzLoading]="apiLoader['saveAddNew']" [disabled]="apiLoader['formSave']" (click)="onClickSaveExistingForm($event)">Save & Add New</button>
+        </div>
+        <div class="col-3 text-right">
+            <button type="submit" (click)="onClickSubmitForm()" [nzLoading]="apiLoader['formSave']" [disabled]="apiLoader['saveAddNew']" nz-button nzType="primary">Save</button>
+        </div>
+    </div>
+</section>
+
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New Document" (nzOnCancel)="handleCancel()" [nzOkDisabled]="!selectedDocument" (nzOnOk)="addRule()" [nzWidth]="'580px'">
+    <ng-container *nzModalContent>
+        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired>Select Document</nz-form-label>
+        <nz-select class='ml-4' [(ngModel)]="selectedDocument" nzPlaceHolder="Select Document" style="min-width: 13rem;">
+             <ng-container *ngFor="let item of documentArray; index as i"  (ngModelChange)="checkItem($event)">
+                <nz-option [nzValue]="item" [nzLabel]="item.name" *ngIf="!documentFlagArray.includes(item)">
+                </nz-option>
+             </ng-container>
+            <!-- <ng-container *ngFor="let item of documentArray; index as i"  (ngModelChange)="checkItem($event)">
+                <ng-container *ngFor="let data of item['label_list']"  >
+                    <nz-option [nzValue]="data" [nzLabel]="data" *ngIf="!documentFlagArray.includes(data)">
+                    </nz-option>
+                </ng-container>
+            </ng-container> -->
+            
+        </nz-select>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="pdf_viewer_object_values['boolean']" nzHeight="50vw" nzWidth="60vw" nzKeyboard="true"
+    [nzTitle]="pdf_viewer_object_values['title']" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <div class="pdf_viewer_container">
+            <embed [src]="sanatizeUrlToSafe" width="100%" style="height: 35rem;" />
+        </div>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" (click)="handleCancel()">Close</button>
+    </ng-template>
+</nz-modal>

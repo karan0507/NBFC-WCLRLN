@@ -1,0 +1,54 @@
+
+<section>
+    <div class="row">
+        <nz-table [nzFrontPagination]="false" [nzData]="listOfData" [nzScroll]="{ x: '1400px' }">
+            <thead>
+                <tr>
+                    <th nzWidth="3rem">#</th>
+                    <th>Loan Unique Id</th>
+                    <th>Amount (₹)</th>
+                    <th>Transaction Type</th>
+                    <th>Entry Type</th>
+                    <th>Details</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Time</th>
+                    <th>MCC Code</th>
+                    <th>Remarks</th>
+                    <th>Transaction ID</th>
+                    <th *ngIf="!file_upload_success">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of listOfData; index as i">
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ data?.Loan_unique_Id}}</td>
+                        <td>{{ data?.Amount}}</td>
+                        <td>{{ data?.Transaction_Type}}</td>
+                        <td>{{ data?.Entry_Type}}</td>
+                        <td>{{ data?.Details}}</td>
+                        <td>{{ data?.Transaction_Date}}</td>
+                        <td>{{ data?.Transaction_Time}}</td>
+                        <td>{{ data?.MCC_Code}}</td>
+                        <td>{{ data?.Remarks}}</td>
+                        <td>{{ data?.Transaction_ID}}</td>
+                        <td *ngIf="!file_upload_success">
+                            <span *ngIf="data.line_status == 'Error'" class="text-danger">Error &nbsp;
+                                <i nz-icon nzType="info-circle" nzTheme="outline"
+                                nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top"></i>
+                            </span>
+                            <span *ngIf="data.line_status == 'Success'" class="text-success">Success</span>
+                            <ng-template #contentTemplate>
+                                <div class="px-3">
+                                    <ul *ngFor="let item of data.message">
+                                        <li class="text-danger">{{item}}</li>
+                                    </ul>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </nz-table>
+    </div>
+</section>
